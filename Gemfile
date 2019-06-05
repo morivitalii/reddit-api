@@ -63,7 +63,7 @@ end
 group :test do
   gem "factory_bot_rails", "~> 5"
   gem "capybara", "~> 3.9"
-  gem "selenium-webdriver", "~> 3.14"
+  gem "selenium-webdriver", "~> 3.142"
   gem "webmock", "~> 3.6"
 end
 
