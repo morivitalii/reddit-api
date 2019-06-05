@@ -1,0 +1,13 @@
+<div class="entry row pt-2 pb-2">
+  <div class="col-12">
+    <%= link_to(report.user.username, report.user) %> <%= datetime_tag(report.created_at, :ago) %>
+
+    <div class="float-right">
+      <span class="toggleDetails ml-1"><%= t('details') %></span>
+    </div>
+  </div>
+
+  <div class="details col-12 pt-2 d-none">
+    <%= report.text %>
+  </div>
+</div>

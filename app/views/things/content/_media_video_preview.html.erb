@@ -1,0 +1,7 @@
+<div class="content col-12 mt-2 mb-2 pl-0 pr-0">
+  <div class="mx-auto" style="width: <%= thing.file[:desktop].width %>px; height: <%= thing.file[:desktop].height %>px;">
+    <video preload="none" poster="<%= thing.file_url(:desktop) %>" data-plyr-config='<%= VideoPlayerSettings.video(thing.file[:original].duration) %>'>
+      <source src="<%= thing.file_url(:original) %>" type="video/mp4">
+    </video>
+  </div>
+</div>

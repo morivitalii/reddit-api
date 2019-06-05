@@ -1,0 +1,37 @@
+<% content_for(:meta_title, "#{@sub.title}: #{t(params[:thing_sort])}") %>
+
+<% content_for(:second_top_menu) do %>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= thing_sort_filter_options[params[:thing_sort]] %>
+    </a>
+
+    <div class="dropdown-menu">
+      <% thing_sort_filter_options.each do |k, v| %>
+        <%= link_to(v, sub_path(@sub, thing_sort: k), class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= thing_date_filter_options[params[:thing_date]] %>
+    </a>
+
+    <div class="dropdown-menu">
+      <% thing_date_filter_options.each do |k, v| %>
+        <%= link_to(v, sub_path(@sub, thing_sort: params[:thing_sort], thing_date: k), class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+
+  <% if @sub.pages_count.positive? %>
+    <li class="nav-item">
+      <%= link_to(t("pages"), sub_pages_path(@sub), class: "nav-link") %>
+    </li>
+  <% end %>
+<% end %>
+
+<%= render "subs/sidebar" %>
+<%= render partial: "things/thing", collection: @records, cached: true %>
+<%= render 'shared/pagination', after: @after_record %>

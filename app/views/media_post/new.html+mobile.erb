@@ -1,0 +1,31 @@
+<% content_for(:meta_title, t("media")) %>
+
+<%= render 'subs/sidebar' %>
+
+<div class="row">
+  <div class="col-12 p-0">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <%= link_to(t('text'), text_post_new_path(@sub, :text), class: 'nav-link h6 border-bottom rounded-0 p-3') %>
+      </li>
+
+      <li class="nav-item">
+        <%= link_to(t('link'), link_post_new_path(@sub, :link), class: 'nav-link h6 border-bottom border-left border-right rounded-0 p-3') %>
+      </li>
+
+      <li class="nav-item">
+        <%= link_to(t('media'), media_post_new_path(@sub, :media), class: 'nav-link active h6 border-bottom rounded-0 p-3') %>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-12 mt-2 mb-3">
+    <%= form_with(model: @form, url: media_post_create_path(@sub), multipart: true, class: 'createPostForm') do |f| %>
+      <%= f.text_area :title, rows: 3 %>
+      <%= f.file_field :file %>
+      <%= f.check_box :explicit %>
+      <%= f.check_box :spoiler %>
+      <%= f.submit t('create') %>
+    <% end %>
+  </div>
+</div>

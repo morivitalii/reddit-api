@@ -1,0 +1,56 @@
+<% if item[:thing].deleted? %>
+  <div class="thing comment col-12 mt-2 pr-0">
+    <div class="row pr-3">
+      <div class="content deletedComment col-12">
+        <% if item[:thing].deletion_reason.present? %>
+          <%= t("deleted_thing_with_reason_html", username: link_to(item[:thing].deleted_by.username, user_path(item[:thing].deleted_by)), deleted_at: datetime_tag(item[:thing].deleted_at, :ago), reason: item[:thing].deletion_reason) %>
+        <% else %>
+          <%= t("deleted_thing_without_reason_html", username: link_to(item[:thing].deleted_by.username, user_path(item[:thing].deleted_by)), deleted_at: datetime_tag(item[:thing].deleted_at, :ago)) %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-12 pr-3">
+      <%= render partial: "things/nested", locals: { item: item } %>
+    </div>
+  </div>
+<% else %>
+  <div data-id="<%= item[:thing].id %>" class="thing comment col-12 mt-2 pr-0">
+    <div class="row pr-3">
+      <div class="info col-12 pt-1">
+        <span class="comment__expand"><%= fa_icon("plus-square") %></span>
+        <%= link_to(item[:thing].user.username, user_path(item[:thing].user), class: "author") %>
+        <%= datetime_tag(item[:thing].created_at, :ago) %>
+
+        <% if item[:thing].edited? %>
+          <%= t('edited_html', edited_at: datetime_tag(item[:thing].edited_at, :ago)) %>
+        <% end %>
+
+        <span class="comment__children-info">(<span class="comment__children-num"></span> дочерних)</span>
+      </div>
+
+      <div class="content col-12 mt-1">
+        <%= item[:thing].text_html.html_safe %>
+      </div>
+
+      <div class="actions col-12 mt-1">
+        <span class="vote">
+          <%= link_to(fa_icon("arrow-up"), thing_vote_path(item[:thing].sub, item[:thing]), data: { params: "thing_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
+          <%= item[:thing].presenter.score %>
+          <%= link_to(fa_icon("arrow-down"), thing_vote_path(item[:thing].sub, item[:thing]), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
+        </span>
+
+        <%= link_to(t("reply").downcase, thing_comment_new_path(item[:thing].sub, item[:thing]), remote: true, class: "reply") %>
+      </div>
+    </div>
+
+    <div class="col-12 pr-3">
+      <% # This condition is unnecessary but prevents idle rendering %>
+      <% if item[:nested].present? %>
+        <%= render partial: "things/nested", locals: { item: item } %>
+      <% else %>
+        <div class="comments row"></div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

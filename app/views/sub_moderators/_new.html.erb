@@ -1,0 +1,13 @@
+<%= render 'shared/modal', title: t('create') do %>
+  <%= form_with(model: @form, url: sub_moderator_create_path(@sub)) do |f| %>
+    <div class="modal-body">
+      <%= f.text_field :username %>
+      <%= f.check_box :master %>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-dismiss="modal"><%= t('cancel') %></button>
+      <%= f.submit t('create') %>
+    </div>
+  <% end %>
+<% end %>

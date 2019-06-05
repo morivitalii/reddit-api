@@ -1,0 +1,7 @@
+<% if after.present? %>
+  <div class="row mt-3 mb-3">
+    <div class="col-12">
+      <%= link_to(t('forward'), params.permit(:type, :date, :after).merge(after: after.to_param), class: 'btn btn-sm btn-primary') %>
+    </div>
+  </div>
+<% end %>

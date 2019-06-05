@@ -1,0 +1,31 @@
+<% content_for(:meta_title, t(params[:thing_sort])) %>
+
+<% content_for(:second_top_menu) do %>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= thing_sort_filter_options[params[:thing_sort]] %>
+    </a>
+
+    <div class="dropdown-menu">
+      <% thing_sort_filter_options.each do |k, v| %>
+        <%= link_to(v, home_path(k), class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= thing_date_filter_options[params[:thing_date]] %>
+    </a>
+
+    <div class="dropdown-menu">
+      <% thing_date_filter_options.each do |k, v| %>
+        <%= link_to(v, home_path(params[:thing_sort], k), class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+<% end %>
+
+<%= render "home/sidebar" %>
+<%= render partial: "things/thing", collection: @records, cached: true %>
+<%= render "shared/pagination", after: @after_record %>

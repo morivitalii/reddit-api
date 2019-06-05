@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+class Moderator < ApplicationRecord
+  belongs_to :sub, touch: :moderators_updated_at
+  belongs_to :user, touch: :moderators_updated_at
+  belongs_to :invited_by, class_name: "User", foreign_key: "invited_by_id"
+
+  before_create :delete_user_as_contributor_on_create
+
+  def self.search(query)
+    joins(:user).where("lower(users.username) = ?", query)
+  end
+
+  private
+
+  def delete_user_as_contributor_on_create
+    user.contributors.where(sub: sub).destroy_all
+  end
+end

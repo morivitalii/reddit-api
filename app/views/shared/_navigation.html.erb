@@ -1,0 +1,15 @@
+<select id="navigation" class="selectpicker" data-live-search="true" data-size="10" title="<%= @navigation_title %>">
+  <% @navigation.each do |_, group| %>
+    <% if group.dig(:title).present? %>
+      <optgroup label="<%= group[:title] %>">
+        <% group[:items].each do |item| %>
+          <option data-href="<%= item[:href] %>"><%= item[:title] %></option>
+        <% end %>
+      </optgroup>
+    <% else %>
+      <% group[:items].each do |item| %>
+        <option data-href="<%= item[:href] %>"><%= item[:title] %></option>
+      <% end %>
+    <% end %>
+  <% end %>
+</select>

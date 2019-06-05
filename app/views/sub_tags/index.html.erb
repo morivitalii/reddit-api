@@ -1,0 +1,24 @@
+<% content_for(:meta_title, t("tags")) %>
+
+<%= render 'subs/second_top_menu' %>
+<%= render 'subs/sidebar' %>
+
+<div id="tags" class="entries row">
+  <div class="head col-12">
+    <div class="title">
+      <%= link_to(t('tags'), sub_tags_path(@sub)) %>
+    </div>
+
+    <div class="actions">
+      <%= link_to(t('create'), sub_tag_new_path(@sub), remote: true, class: 'create') %>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="body col-12">
+      <%= render partial: "tag", collection: @records, cached: true %>
+    </div>
+  </div>
+</div>
+
+<%= render 'shared/pagination', after: @after_record %>

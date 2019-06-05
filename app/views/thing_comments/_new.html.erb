@@ -1,0 +1,6 @@
+<%= form_with(model: @form, url: thing_comment_create_path(@thing.sub, @thing), class: 'replyCommentForm col-12 pl-0 ml-3 mt-2') do |f| %>
+  <%= f.text_area :text, label: false %>
+
+  <%= f.submit t('reply'), class: 'btn-sm' %>
+  <button type="button" class="replyCommentCancel btn btn-sm btn-primary"><%= t('cancel') %></button>
+<% end %>

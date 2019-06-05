@@ -1,0 +1,31 @@
+<% content_for(:meta_title, "#{@user.username}: #{t("bookmarks")}") %>
+
+<% content_for(:second_top_menu) do %>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= t('bookmarks') %>
+    </a>
+
+    <div class="dropdown-menu">
+      <% user_profile_menu(@user).each do |title, path| %>
+        <%= link_to(title, path, class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= thing_type_filter_options[params[:thing_type]] %>
+    </a>
+
+    <div class="dropdown-menu">
+      <% thing_type_filter_options.each do |k, v| %>
+        <%= link_to(v, bookmarks_path(@user, k), class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+<% end %>
+
+<%= render "users/sidebar" %>
+<%= render partial: "things/thing", collection: @records, cached: true %>
+<%= render 'shared/pagination', after: @after_record %>

@@ -1,0 +1,303 @@
+ru:
+  attributes:
+    username: Имя пользователя
+    email: Email
+    password: Пароль
+    password_current: Текущий пароль
+    title: Название
+    description: Описание
+    text: Текст
+    url: Ссылка
+    file: Файл
+    explicit: 18+
+    spoiler: Спойлер
+    ignore_reports: Игнорировать жалобы
+    tag: Тег
+    reason: Причина
+    deletion_reason: Причина удаления
+    master: Мастер
+    days: Количество дней
+    permanent: Перманентно
+    approved: Одобренно
+    deleted: Удалено
+    domain: Домен
+  errors:
+    messages:
+      invalid_username_format: от 2 до 16 символов. только английские буквы, цифры и символ подчёркивания
+      invalid_username: пользователь с таким именем не зарегистрирован
+      invalid_credentials: неправильное имя пользователя или пароль
+      invalid_current_password: неправильный текущий пароль. если вы не помните его, воспользуйтесь функцией восстановления пароля
+      username_taken: имя пользователя занято
+      email_taken: email занят
+      invalid_reset_password_link: вы перешли по устаревшей ссылке на изменение пароля. повторите процедуру восстановления пароля чтобы получить на email новую ссылку
+      user_staff: пользователь администратор
+      user_moderator: пользователь модератор
+      user_contributor: пользователь контрибутор
+      user_banned: пользователь забанен
+      invalid_file_format: 'допустимые форматы файла: %{whitelist}'
+      invalid_file_size: максимальный вес png jpg jpeg 20 мб, gif 100 мб, mp4 30 мб
+      tags_limit: можно создать не больше 100 тегов
+      rules_limit: можно создать не больше 15 правил
+      deletion_reasons_limit: можно создать не больше 50 причин удаления
+      beyond_rate_limits: вы выполняете это действие слишком часто. подождите немного и попробуйте еще раз
+      blacklisted_domain: сайт в черном списке
+  activemodel:
+    attributes:
+      sign_up:
+        email: Email (необязательно)
+      create_thing_comment:
+        text: Комментарий
+      new_password:
+        password: Новый пароль
+      update_user_settings:
+        email: Email (необязательно)
+        password: Пароль (оставьте пустым если не хотите изменять)
+  app_name: Reedma.ru
+  home: Главная
+  create: Добавить
+  edit: Редактировать
+  update: Сохранить
+  delete: Удалить
+  confirm: Подтвердить
+  cancel: Отменить
+  close: Закрыть
+  search: Поиск
+  reset: Сбросить
+  confirmation: Подтверждение
+  details: Подробности
+  all: Все
+  best: Лучшее
+  hot: Горячее
+  new: Новое
+  top: Топ
+  controversy: Спорное
+  old: Старое
+  all_time: Все время
+  day: Сутки
+  week: Неделя
+  month: Месяц
+  posts_and_comments: Посты и комментарии
+  posts: Посты
+  post: пост
+  comments: Комментарии
+  comment: комментарий
+  notifications: Уведомления
+  text: Текст
+  link: Ссылка
+  media: Медиа
+  sign_up: Регистрация
+  sign_in: Войти
+  sign_out: Выйти
+  forgot_password: Восстановить пароль
+  new_password: Новый пароль
+  login_or_sign_up: Что думаете? Войдите или зарегистрируйтесь
+  create_post: Добавить пост
+  create_post_in: "Добавить пост в:"
+  settings: Настройки
+  moderators: Модераторы
+  contributors: Контрибуторы
+  blacklisted_domains: Черный список доменов
+  bans: Баны
+  rules: Правила
+  deletion_reasons: Причины удаления
+  tags: Теги
+  logs: Логи
+  pages: Вики
+  mod_queue: Модерация контента
+  reports: Жалобы
+  trash: Удаленное
+  bookmarks: Закладки
+  profile: Профиль
+  subscribe: Подписаться
+  unsubscribe: Отписаться
+  username: Имя пользователя
+  invited_by: Добавил
+  banned_by: Забанил
+  approved_by: Утвердил
+  reply: Ответить
+  approve: Одобрить
+  report: Пожаловаться
+  rules_violation: Нарушение правил сообщества
+  other_violation: Другие причины
+  custom_report: Произвольная жалоба
+  banned_until_html: 'Вы забанены в этом сабе до %{until}'
+  banned_permanent: Вы забанены в этом сабе перманентно
+  forward: вперед
+  permanent: перманентно
+  until: до
+  reason: по причине
+  master_access: Полный доступ
+  default_access: Стандартный доступ
+  restricted_access: У вас нету доступа к этой странице
+  not_xhr_request: Эта страница недоступна по прямому запросу
+  tag_select: Выберите тег
+  deletion_reason_select: Выбрать причину удаления
+  approved_details: 'Одобренно %{username} %{approved_at}'
+  deletion_confirmation: 'Подтвердить удаление?'
+  deleted_details: 'Удалено %{username} %{deleted_at}. Причина: %{reason}'
+  deletion_reason_not_specified: 'Не указана'
+  bookmark: Сохранить
+  delete_bookmark: Убрать из сохраненного
+  tag: Изменить тег
+  explicit: 18+
+  receive_notifications: Получать уведомления
+  spoiler: Спойлер
+  ignore_reports: Игнорировать жалобы
+  to: к
+  in: в
+  to_branch: 'Перейти в ветку (%{comments})'
+  load_more: 'Загрузить больше (%{comments})'
+  deleted: Удалено
+  deleted_thing_without_reason_html: 'Удалено %{username} %{deleted_at}'
+  deleted_thing_with_reason_html: 'Удалено %{username} %{deleted_at} по причине "%{reason}"'
+  edited_html: '(отредактировано %{edited_at})'
+  comment_page_html: 'Это ветка одного комментария. <a href="%{url}">Посмотреть все комментарии</a>'
+  for_posts: за посты
+  for_comments: за комментарии
+  signed_up_at: Дата регистрации
+  content_processing: После завершения обработки файл станет доступен для просмотра, а пост появится в ленте.
+  home_sidebar_welcoming_text: Добро пожаловать на readmaru!
+  page_not_found: Страница не существует
+  sub_not_found: Комьюнити не существует
+  wiki_page_not_found: Страница вики не существует
+  user_not_found: Пользователь не существует
+  thing_not_found: Топик не существует
+  other_communities: Другие комьюнити
+  follows: Подписки
+  other: Другое
+  view_full: смотреть полностью
+  domain: Домен
+  sub: Комьюнити
+  subs: Комьюнити
+  votes: Голоса
+  ups_and_downs: За и против
+  ups: За
+  downs: Против
+  log:
+    update_sub_settings: обновил настройки
+    create_sub_moderator: добавил модератора
+    update_sub_moderator: изменил права модератора
+    delete_sub_moderator: удалил модератора
+    create_sub_ban: забанил
+    update_sub_ban: изменил условия или причину бана
+    delete_sub_ban: разбанил
+    create_sub_contributor: одобрил контрибутора
+    delete_sub_contributor: удалил контрибутора
+    create_sub_rule: добавил правило
+    update_sub_rule: изменил правило
+    delete_sub_rule: удалил правило
+    create_sub_deletion_reason: добавил причину удаления контента
+    update_sub_deletion_reason: изменил причину удаления контента
+    delete_sub_deletion_reason: удалил причину удаления контента
+    create_sub_tag: добавил тег
+    update_sub_tag: изменил тег
+    delete_sub_tag: удалил тег
+    mark_thing_as_approved: одобрил
+    mark_thing_as_deleted: удалил
+    update_thing_tag: изменил тег у
+    mark_thing_as_explicit: отметил как 18+
+    mark_thing_as_not_explicit: снял отметку 18+
+    mark_thing_as_spoiler: отметил как спойлер
+    mark_thing_as_not_spoiler: снял отметку спойлер
+    create_sub_page: добавил страницу
+    update_sub_page: изменил страницу
+    delete_sub_page: удалил страницу
+    create_sub_blacklisted_domain: добавил в черный список домен
+    delete_sub_blacklisted_domain: удалил из черного списка домен
+    create_global_blacklisted_domain: добавил в черный список домен
+    delete_global_blacklisted_domain: удалил из черного списка домен
+    create_global_rule: добавил правило
+    update_global_rule: изменил правило
+    delete_global_rule: удалил правило
+    create_global_deletion_reason: добавил причину удаления контента
+    update_global_deletion_reason: изменил причину удаления контента
+    delete_global_deletion_reason: удалил причину удаления контента
+    create_global_page: добавил страницу
+    update_global_page: изменил страницу
+    delete_global_page: удалил страницу
+    create_global_ban: забанил
+    update_global_ban: изменил условия или причину бана
+    delete_global_ban: разбанил
+    ignore_thing_reports: добавил отметку игнорировать жалобы
+    do_not_ignore_thing_reports: снял отметку игнорировать жалобы
+  follows_count:
+    few: подписчика
+    many: подписчиков
+    one: подписчик
+    other: подписчиков
+  comments_count:
+    few: комментария
+    many: комментариев
+    one: комментарий
+    other: комментариев
+  points_count:
+    few: поинта
+    many: поинтов
+    one: поинт
+    other: поинта
+  forgot_password_mailer:
+    subject: Восстановление пароля
+    body_html: 'Для восстановления пароля проследуйте по <a href="%{url}">этой ссылке</a>'
+  formatting: Форматирование
+  formatting_body_html: |
+      <span>
+        <table class="table table-sm mb-0">
+          <thead class="thead-dark">
+            <tr>
+              <th>вводите:</th>
+              <th>получаете:</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>*курсив*</td>
+              <td><i>курсив</i></td>
+            </tr>
+
+            <tr>
+              <td>**жирный**</td>
+              <td><b>жирный</b></td>
+            </tr>
+
+            <tr>
+              <td>[example](http://example.com)</td>
+              <td><a href="http://example.com">example</a></td>
+            </tr>
+
+            <tr>
+              <td>
+                * пункт 1<br>
+                * пункт 2<br>
+                * пункт 3<br>
+              </td>
+
+              <td>
+                <ul>
+                  <li>пункт 1</li>
+                  <li>пункт 2</li>
+                  <li>пункт 3</li>
+                </ul>
+              </td>
+            </tr>
+
+            <tr>
+              <td>> цитата</td>
+              <td><blockquote>цитата</blockquote></td>
+            </tr>
+
+            <tr>
+              <td>~~зачеркнутый~~</td>
+              <td><del>зачеркнутый</del></td>
+            </tr>
+
+            <tr>
+              <td>верхний^индекс</td>
+              <td>верхний<sup>индекс</sup></td>
+            </tr>
+          </tbody>
+        </table>
+      </span>
+  recaptcha:
+    errors:
+      verification_failed: Ошибка капчи. Повторите попытку

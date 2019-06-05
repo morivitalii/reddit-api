@@ -1,0 +1,13 @@
+<%= render 'shared/modal', title: t('create') do %>
+  <%= form_with(model: @form, url: global_deletion_reason_create_path) do |f| %>
+    <div class="modal-body">
+      <%= f.text_field :title %>
+      <%= f.text_area :description %>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-dismiss="modal"><%= t('cancel') %></button>
+      <%= f.submit t('create') %>
+    </div>
+  <% end %>
+<% end %>

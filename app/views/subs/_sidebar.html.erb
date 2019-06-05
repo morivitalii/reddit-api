@@ -1,0 +1,109 @@
+<% content_for(:sidebar) do %>
+  <div class="sidebar row bg-white border rounded mb-3 pb-3">
+    <div class="col-12 rounded-top bg-dark text-white pt-2 pb-2">
+      <%= t('sub') %>
+
+      <% if Current.user&.staff? || Current.user&.moderator?(@sub) %>
+        <span class="dropdown-toggle float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <%= fa_icon(:cog) %>
+        </span>
+
+        <div class="dropdown-menu dropdown-menu-right">
+          <% sub_mod_menu(@sub).each do |title, path| %>
+            <%= link_to(title, path, class: 'dropdown-item') %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-12 mt-2">
+      <%= link_to(@sub.title, sub_path(@sub), class: 'font-weight-bold') %>
+    </div>
+
+    <div class="col-12 mt-2">
+      <%= number_with_delimiter(@sub.follows_count) %> <%= t('follows_count', count: @sub.follows_count) %>
+    </div>
+
+    <div class="col-12 mt-2">
+      <%= @sub.description %>
+    </div>
+
+    <div class="col-12 mt-2">
+      <% if Current.user&.follower?(@sub) %>
+        <%= link_to(t('unsubscribe'), sub_follow_delete_path(@sub), class: 'follow btn btn-primary btn-block', remote: true, method: :delete) %>
+      <% else %>
+        <%= link_to(t('subscribe'), sub_follow_create_path(@sub), class: 'follow btn btn-primary btn-block', remote: true, method: :post) %>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <%= link_to(t('create_post'), text_post_new_path(@sub, :text), class: 'btn btn-primary btn-block') %>
+      <% else %>
+        <%= link_to(t('create_post'), sign_in_new_path, remote: true, class: 'signIn btn btn-primary btn-block') %>
+      <% end %>
+    </div>
+  </div>
+
+  <% ban = Current.user&.banned?(@sub) %>
+  <% if ban.present? %>
+    <div class="row bg-white text-danger border rounded mt-3 mb-3 pt-2 pb-2">
+      <div class="col-12">
+        <% if ban.permanent? %>
+          <%= t('banned_permanent') %>
+        <% else %>
+          <%= t('banned_until_html', until: datetime_tag(ban.end_at, :short)) %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% cache("sub-sidebar-rules-#{@sub.id}-#{@sub.rules_updated_at}", expires_in: 24.hours) do %>
+    <% if @sub.rules.present? %>
+      <div class="row bg-white border rounded mt-3 mb-3 pb-2">
+        <div class="col-12 rounded-top bg-dark text-white pt-2 pb-2">
+          <%= t('rules') %>
+        </div>
+
+        <div class="col-12 mt-2">
+          <div class="row">
+            <% @sub.rules.each do |rule| %>
+              <% if rule.description.present? %>
+                <div class="sidebarRule col-12 mt-1" data-toggle="collapse" data-target="#sidebarRule<%= rule.to_param %>" aria-expanded="false">
+                  <%= rule.title %> <%= fa_icon('caret-down', class: 'float-right') %>
+                </div>
+
+                <div class="col-12 collapse mt-1" id="sidebarRule<%= rule.to_param %>">
+                  <%= rule.description %>
+                </div>
+              <% else %>
+                <div class="col-12 mt-1">
+                  <%= rule.title %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% cache("sub-sidebar-moderators-#{@sub.id}-#{@sub.moderators_updated_at}", expires_in: 24.hours) do %>
+    <% moderators = @sub.moderators.includes(:user).order(id: :asc).limit(10).all %>
+    <% if moderators.present? %>
+      <div class="row bg-white border rounded mt-3 mb-3 pb-2">
+        <div class="col-12 rounded-top bg-dark text-white pt-2 pb-2">
+          <%= t('moderators') %>
+        </div>
+
+        <div class="col-12 mt-2">
+          <div class="row">
+            <% moderators.each do |moderator| %>
+              <div class="col-12">
+                <%= link_to(moderator.user.username, user_path(moderator.user)) %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

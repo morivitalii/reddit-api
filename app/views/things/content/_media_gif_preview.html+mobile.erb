@@ -1,0 +1,7 @@
+<div class="content col-12 mt-2 mb-2 pl-0 pr-0">
+  <div class="mx-auto" style="max-width: <%= thing.file[:mobile].width %>px; max-height: <%= thing.file[:mobile].height %>px;">
+    <video preload="none" poster="<%= thing.file_url(:mobile) %>" data-plyr-config='<%= VideoPlayerSettings.gif(thing.file[:original].duration) %>'>
+      <source src="<%= thing.file_url(:original) %>" type="video/mp4">
+    </video>
+  </div>
+</div>

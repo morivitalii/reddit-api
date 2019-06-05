@@ -1,0 +1,108 @@
+<div data-id="<%= thing.id %>" class="actions col-12">
+  <span class="vote">
+    <% if thing.vote&.up? %>
+      <%= link_to(fa_icon("arrow-up"), thing_vote_path(thing.sub, thing), data: { params: "thing_vote[type]=meh" }, remote: true, method: :post, class: "text-success mr-1") %>
+    <% else %>
+      <%= link_to(fa_icon("arrow-up"), thing_vote_path(thing.sub, thing), data: { params: "thing_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
+    <% end %>
+
+    <%= thing.presenter.score %>
+
+    <% if thing.vote&.down? %>
+      <%= link_to(fa_icon("arrow-down"), thing_vote_path(thing.sub, thing), data: { params: "thing_vote[type]=meh" }, remote: true, method: :post, class: "text-danger ml-1") %>
+    <% else %>
+      <%= link_to(fa_icon("arrow-down"), thing_vote_path(thing.sub, thing), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
+    <% end %>
+  </span>
+
+  <%= link_to(thing.presenter.comments_count, thing_path(thing.sub, thing, anchor: 'comments'), class: "comments_count") %>
+
+  <% if thing.bookmark.present? %>
+    <%= link_to(fa_icon('bookmark'), thing_bookmark_create_path(thing.sub, thing), remote: true, method: :delete, class: "bookmark", data: { toggle: :tooltip }, title: t('delete_bookmark')) %>
+  <% else %>
+    <%= link_to(fa_icon('bookmark-o'), thing_bookmark_delete_path(thing.sub, thing), remote: true, method: :post, class: "bookmark" , data: { toggle: :tooltip }, title: t('bookmark')) %>
+  <% end %>
+
+  <% if ThingApprovePolicy.authorize(:create, thing) %>
+    <% if thing.approved? %>
+      <%= link_to(fa_icon('check'), thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve text-success', data: { toggle: :tooltip }, title: t('approved_details', username: thing.approved_by.username, approved_at: l(thing.approved_at))) %>
+    <% else %>
+      <%= link_to(fa_icon('check'), thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve', data: { toggle: :tooltip }, title: t('approve')) %>
+    <% end %>
+  <% end %>
+
+  <% if ThingDeletePolicy.authorize(:create, thing) %>
+    <% if thing.deleted? %>
+      <% title = t(
+          "deleted_details",
+          username: thing.deleted_by.username,
+          deleted_at: l(thing.deleted_at),
+          reason: thing.deletion_reason.present? ? thing.deletion_reason : t("deletion_reason_not_specified")
+      ) %>
+    <% else %>
+      <% title = t("delete") %>
+    <% end %>
+
+    <%= link_to(fa_icon("trash"), thing_delete_new_path(thing.sub, thing), remote: true, method: :get, class: "delete #{ "text-danger" if thing.deleted? }", data: { toggle: :tooltip }, title: title) %>
+  <% end %>
+
+  <span class="menu dropdown">
+    <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= fa_icon("ellipsis-h") %>
+    </span>
+
+    <div class="dropdown-menu">
+      <%= link_to(t('report'), thing_report_new_path(thing.sub, thing), remote: true, class: 'report dropdown-item') %>
+
+      <% if !thing.approved? && thing.reports_count.positive? && ThingReportsPolicy.authorize(:index, thing.sub) %>
+        <%= link_to(t('reports'), thing_reports_path(thing.sub, thing), remote: true, class: 'reports dropdown-item') %>
+      <% end %>
+
+      <% if thing.comment? && ThingCommentsPolicy.authorize(:update, thing) %>
+        <%= link_to(t("edit"), thing_comment_edit_path(thing.sub, thing), remote: true, class: "update dropdown-item") %>
+      <% end %>
+
+      <% if thing.post? %>
+        <% if thing.text? && TextPostPolicy.authorize(:update, thing) %>
+          <%= link_to(t('edit'), text_post_edit_path(thing.sub, thing), class: 'dropdown-item') %>
+        <% end %>
+
+        <% if ThingTagPolicy.authorize(:update, thing) %>
+          <%= link_to(t('tag'), thing_tag_edit_path(thing.sub, thing), remote: true, class: 'tag dropdown-item') %>
+        <% end %>
+
+        <% if ThingExplicitPolicy.authorize(:create, thing) %>
+          <% if thing.explicit? %>
+            <%= link_to(fa_icon('check-square-o', text: t('explicit')), thing_explicit_delete_path(thing.sub, thing), remote: true, method: :delete, class: 'explicit dropdown-item') %>
+          <% else %>
+            <%= link_to(fa_icon('square-o', text: t('explicit')), thing_explicit_create_path(thing.sub, thing), remote: true, method: :post, class: 'explicit dropdown-item') %>
+          <% end %>
+        <% end %>
+
+        <% if ThingSpoilerPolicy.authorize(:create, thing) %>
+          <% if thing.spoiler? %>
+            <%= link_to(fa_icon('check-square-o', text: t('spoiler')), thing_spoiler_delete_path(thing.sub, thing), remote: true, method: :delete, class: 'spoiler dropdown-item') %>
+          <% else %>
+            <%= link_to(fa_icon('square-o', text: t('spoiler')), thing_spoiler_create_path(thing.sub, thing), remote: true, method: :post, class: 'spoiler dropdown-item') %>
+          <% end %>
+        <% end %>
+
+        <% if ThingIgnoreReportsPolicy.authorize(:create, thing) %>
+          <% if thing.ignore_reports? %>
+            <%= link_to(fa_icon('check-square-o', text: t('ignore_reports')), thing_ignore_reports_create_path(thing.sub, thing), remote: true, method: :delete, class: 'ignore_reports dropdown-item') %>
+          <% else %>
+            <%= link_to(fa_icon('square-o', text: t('ignore_reports')), thing_ignore_reports_delete_path(thing.sub, thing), remote: true, method: :post, class: 'ignore_reports dropdown-item') %>
+          <% end %>
+        <% end %>
+
+        <% if ThingNotificationsPolicy.authorize(:create, thing) %>
+          <% if thing.receive_notifications? %>
+            <%= link_to(fa_icon('check-square-o', text: t('receive_notifications')), thing_notifications_delete_path(thing.sub, thing), remote: true, method: :delete, class: 'notifications dropdown-item') %>
+          <% else %>
+            <%= link_to(fa_icon('square-o', text: t('receive_notifications')), thing_notifications_create_path(thing.sub, thing), remote: true, method: :post, class: 'notifications dropdown-item') %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </span>
+</div>

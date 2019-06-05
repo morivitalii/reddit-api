@@ -1,0 +1,42 @@
+<% content_for(:sidebar) do %>
+  <div class="sidebar row bg-white border rounded mb-3 pb-3">
+    <div class="col-12 mt-3">
+      <% if user_signed_in? %>
+        <%= link_to(t('create_post'), post_new_path, class: 'btn btn-primary btn-block') %>
+      <% else %>
+        <%= link_to(t('create_post'), sign_in_new_path, remote: true, class: 'signIn btn btn-primary btn-block') %>
+      <% end %>
+    </div>
+  </div>
+
+  <% cache("global-sidebar-rules-#{Current.settings.global_rules_updated_at}", expires_in: 24.hours) do %>
+    <% rules = Rule.global.all %>
+    <% if rules.present? %>
+      <div class="row bg-white border rounded mt-3 mb-3 pb-2">
+        <div class="col-12 rounded-top bg-dark text-white pt-2 pb-2">
+          <%= t('rules') %>
+        </div>
+
+        <div class="col-12 mt-2">
+          <div class="row">
+            <% rules.each do |rule| %>
+              <% if rule.description.present? %>
+                <div class="sidebarRule col-12 mt-1" data-toggle="collapse" data-target="#sidebarRule<%= rule.to_param %>" aria-expanded="false">
+                  <%= rule.title %> <%= fa_icon('caret-down', class: 'float-right') %>
+                </div>
+
+                <div class="col-12 collapse mt-1" id="sidebarRule<%= rule.to_param %>">
+                  <%= rule.description %>
+                </div>
+              <% else %>
+                <div class="col-12 mt-1">
+                  <%= rule.title %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

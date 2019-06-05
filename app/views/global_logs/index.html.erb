@@ -1,0 +1,17 @@
+<% content_for(:meta_title, t("logs")) %>
+
+<div id="logs" class="entries row">
+  <div class="head col-12">
+    <div class="title">
+      <%= link_to(t('logs'), global_logs_path) %>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="body col-12">
+      <%= render partial: "log", collection: @records, cached: true %>
+    </div>
+  </div>
+</div>
+
+<%= render 'shared/pagination', after: @after_record %>

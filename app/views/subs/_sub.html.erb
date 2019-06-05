@@ -1,0 +1,16 @@
+<div class="col-4 mb-2">
+  <div class="col-12 bg-white border rounded pt-2 pb-2">
+    <a href="<%= sub_path(sub) %>" style="text-decoration: none;">
+      <div class="row">
+        <div class="col-12">
+          <b><%= sub.title %></b>
+        </div>
+
+        <div class="col-12">
+          <%= number_with_delimiter(sub.follows_count) %> <%= t('follows_count', count: sub.follows_count) %>
+        </div>
+      </div>
+    </a>
+  </div>
+
+</div>

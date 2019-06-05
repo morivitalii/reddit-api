@@ -1,0 +1,14 @@
+<% content_for(:meta_title, @page.title) %>
+
+<%= render 'subs/second_top_menu' %>
+<%= render 'subs/sidebar' %>
+
+<div class="page row mt-3">
+  <div class="col-12 h5 mb-3">
+    <%= link_to(@page.title, sub_page_path(@page.sub, @page)) %>
+  </div>
+
+  <div class="content col-12">
+    <%= @page.text_html.html_safe %>
+  </div>
+</div>

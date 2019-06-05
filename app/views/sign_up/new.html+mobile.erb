@@ -1,0 +1,22 @@
+<% content_for(:meta_title, t("sign_up")) %>
+
+<div class="col-12">
+  <%= form_with(model: @form, url: sign_up_path, class: 'signUpForm') do |f| %>
+    <%= f.text_field :username %>
+    <%= f.password_field :password %>
+    <%= f.text_field :email %>
+
+    <div class="form-group">
+      <%= recaptcha_tags %>
+    </div>
+
+    <%= f.submit t('sign_up'), class: 'mr-auto' %>
+
+    <div class="row">
+      <div class="col-12 mt-3">
+        <%= link_to(t('sign_in'), sign_in_new_path) %>
+        <%= link_to(t('forgot_password'), forgot_password_new_path) %>
+      </div>
+    </div>
+  <% end %>
+</div>

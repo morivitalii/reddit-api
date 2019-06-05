@@ -1,0 +1,15 @@
+<% if yield(:second_top_menu).present? %>
+  <div class="container p-0 border-bottom">
+    <div class="row">
+      <div class="col-12">
+        <nav class="second-top-menu navbar navbar-expand">
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+              <%= yield(:second_top_menu) %>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+<% end %>

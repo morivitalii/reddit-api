@@ -1,0 +1,25 @@
+<div class="entry row">
+  <div class="title col-12">
+    <%= link_to(ban.user.username, ban.user) %>
+
+    <div class="actions">
+      <%= link_to(fa_icon('pencil'), global_ban_edit_path(ban), remote: true, class: 'update') %>
+      <%= link_to(fa_icon('trash'), global_ban_delete_confirm_path(ban), remote: true, class: 'delete') %>
+      <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>
+    </div>
+  </div>
+
+  <div class="details col-12 d-none">
+    <%= t('banned_by') %> <%= link_to(ban.banned_by.username, ban.banned_by) %> <%= datetime_tag(ban.created_at, :short) %>
+
+    <% if ban.permanent? %>
+      <%= t('permanent') %>
+    <% else %>
+      <%= t('until') %> <%= datetime_tag(ban.end_at, :short) %>
+    <% end %>
+
+    <% if ban.reason.present? %>
+      <%= t('reason') %>: <%= ban.reason %>
+    <% end %>
+  </div>
+</div>

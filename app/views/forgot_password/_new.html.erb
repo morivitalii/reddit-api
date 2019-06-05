@@ -1,0 +1,23 @@
+<%= render 'shared/modal', title: t('forgot_password') do %>
+  <%= form_with(model: @form, url: forgot_password_path, class: 'forgotPasswordForm') do |f| %>
+    <div class="modal-body">
+      <%= f.text_field :email %>
+
+      <div class="form-group">
+        <%= recaptcha_tags %>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <%= f.submit t('forgot_password') %>
+        </div>
+
+        <div class="col-12 mt-3">
+          <%= link_to(t('sign_in'), sign_in_new_path, remote: true, class: 'signIn') %>
+          <br>
+          <%= link_to(t('sign_up'), sign_up_new_path, remote: true, class: 'signUp') %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

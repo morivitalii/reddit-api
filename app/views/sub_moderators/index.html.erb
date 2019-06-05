@@ -1,0 +1,35 @@
+<% content_for(:meta_title, t("moderators")) %>
+
+<%= render 'subs/second_top_menu' %>
+<%= render 'subs/sidebar' %>
+
+<div id="moderators" class="entries row">
+  <div class="head col-12">
+    <div class="title">
+      <%= link_to(t('moderators'), sub_moderators_path(@sub)) %>
+    </div>
+
+    <% if SubModeratorsPolicy.authorize(:create, @sub) %>
+      <div class="actions">
+        <%= link_to(t('create'), sub_moderator_new_path(@sub), remote: true, class: 'create') %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="search col-12">
+    <%= form_with(url: sub_moderators_search_path(@sub), local: true, class: "form-inline") do |f| %>
+      <%= f.text_field :query, value: params[:query], placeholder: t("username") %>
+      <%= f.submit t("search") %>
+      <%= link_to(t("reset"), sub_moderators_path(@sub), class: "btn btn-primary") %>
+    <% end %>
+  </div>
+
+  <div class="col-12">
+    <div class="body col-12">
+      <% cache_variant = SubModeratorsPolicy.authorize(:update, @sub) %>
+      <%= render partial: "moderator", collection: @records, cached: ->(moderator) { [moderator, cache_variant] } %>
+    </div>
+  </div>
+</div>
+
+<%= render 'shared/pagination', after: @after_record %>

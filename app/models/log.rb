@@ -1,0 +1,193 @@
+# frozen_string_literal: true
+
+class Log < ApplicationRecord
+  belongs_to :sub, optional: true
+  belongs_to :user
+  belongs_to :loggable, polymorphic: true, optional: true
+
+  scope :global, -> { where(sub: nil) }
+
+  enum action: {
+    update_sub_settings: 1,
+    create_sub_moderator: 2,
+    update_sub_moderator: 3,
+    delete_sub_moderator: 4,
+    create_sub_ban: 5,
+    update_sub_ban: 6,
+    delete_sub_ban: 7,
+    create_sub_contributor: 8,
+    delete_sub_contributor: 9,
+    create_sub_rule: 10,
+    update_sub_rule: 11,
+    delete_sub_rule: 12,
+    create_sub_deletion_reason: 13,
+    update_sub_deletion_reason: 14,
+    delete_sub_deletion_reason: 15,
+    create_sub_tag: 16,
+    update_sub_tag: 17,
+    delete_sub_tag: 18,
+    mark_thing_as_approved: 19,
+    mark_thing_as_deleted: 20,
+    update_thing_tag: 21,
+    mark_thing_as_explicit: 22,
+    mark_thing_as_not_explicit: 23,
+    mark_thing_as_spoiler: 24,
+    mark_thing_as_not_spoiler: 25,
+    create_sub_page: 26,
+    update_sub_page: 27,
+    delete_sub_page: 28,
+    create_sub_blacklisted_domain: 29,
+    delete_sub_blacklisted_domain: 30,
+    create_global_blacklisted_domain: 31,
+    delete_global_blacklisted_domain: 32,
+    create_global_rule: 33,
+    update_global_rule: 34,
+    delete_global_rule: 35,
+    create_global_deletion_reason: 36,
+    update_global_deletion_reason: 37,
+    delete_global_deletion_reason: 38,
+    create_global_page: 39,
+    update_global_page: 40,
+    delete_global_page: 41,
+    create_global_ban: 42,
+    update_global_ban: 43,
+    delete_global_ban: 44,
+    ignore_thing_reports: 45,
+    do_not_ignore_thing_reports: 46
+  }
+
+  before_create :details_to_html
+
+  def self.model_changes(model, action)
+    changes = {}
+
+    attributes = case action
+                 when :update_sub_settings
+                   [:title, :description]
+                 when :create_sub_moderator
+                   [:master]
+                 when :update_sub_moderator
+                   [:master]
+                 when :delete_sub_moderator
+                   [:master]
+                 when :create_sub_ban
+                   [:reason, :days, :permanent]
+                 when :update_sub_ban
+                   [:reason, :days, :permanent]
+                 when :delete_sub_ban
+                   [:reason, :days, :permanent]
+                 when :create_sub_contributor
+                   []
+                 when :delete_sub_contributor
+                   []
+                 when :create_sub_rule
+                   [:title, :description]
+                 when :update_sub_rule
+                   [:title, :description]
+                 when :delete_sub_rule
+                   [:title, :description]
+                 when :create_sub_deletion_reason
+                   [:title, :description]
+                 when :update_sub_deletion_reason
+                   [:title, :description]
+                 when :delete_sub_deletion_reason
+                   [:title, :description]
+                 when :create_sub_tag
+                   [:title]
+                 when :update_sub_tag
+                   [:title]
+                 when :delete_sub_tag
+                   [:title]
+                 when :mark_thing_as_approved
+                   [:approved, :deleted, :deletion_reason, :text]
+                 when :mark_thing_as_deleted
+                   [:deleted, :deletion_reason, :approved, :text]
+                 when :update_thing_tag
+                   [:tag]
+                 when :mark_thing_as_explicit
+                   [:explicit]
+                 when :mark_thing_as_not_explicit
+                   [:explicit]
+                 when :mark_thing_as_spoiler
+                   [:spoiler]
+                 when :mark_thing_as_not_spoiler
+                   [:spoiler]
+                 when :create_sub_page
+                   [:title, :text]
+                 when :update_sub_page
+                   [:title, :text]
+                 when :delete_sub_page
+                   [:title, :text]
+                 when :create_sub_blacklisted_domain
+                   [:domain]
+                 when :delete_sub_blacklisted_domain
+                   [:domain]
+                 when :create_global_blacklisted_domain
+                   [:domain]
+                 when :delete_global_blacklisted_domain
+                   [:domain]
+                 when :create_global_rule
+                   [:title, :description]
+                 when :update_global_rule
+                   [:title, :description]
+                 when :delete_global_rule
+                   [:title, :description]
+                 when :create_global_deletion_reason
+                   [:title, :description]
+                 when :update_global_deletion_reason
+                   [:title, :description]
+                 when :delete_global_deletion_reason
+                   [:title, :description]
+                 when :create_global_page
+                   [:title, :text]
+                 when :update_global_page
+                   [:title, :text]
+                 when :delete_global_page
+                   [:title, :text]
+                 when :create_global_ban
+                   [:reason, :days, :permanent]
+                 when :update_global_ban
+                   [:reason, :days, :permanent]
+                 when :delete_global_ban
+                   [:reason, :days, :permanent]
+                 when :ignore_thing_reports
+                   [:ignore_reports]
+                 when :do_not_ignore_thing_reports
+                   [:ignore_reports]
+                 end
+
+    if model.destroyed?
+      attributes.each do |attribute|
+        changes[attribute] = [model[attribute], nil]
+      end
+    else
+      attributes.each do |attribute|
+        if model.previous_changes.has_key?(attribute.to_s)
+          changes[attribute] = model.previous_changes[attribute]
+        else
+          changes[attribute] = [model[attribute], model[attribute]]
+        end
+      end
+    end
+
+    changes
+  end
+
+  private
+
+  def details_to_html
+    html = ""
+    helpers = ApplicationController.helpers
+
+    details.each do |attribute, (from, to)|
+      if (from.present? || to.present?) && from != to
+        html += helpers.content_tag("div",
+          helpers.content_tag("div", ActiveRecord::Base.human_attribute_name(attribute), class: "col-12") +
+          helpers.content_tag("div", Diffy::Diff.new(from, to).to_s(:html).html_safe, class: "col-12 mt-2 mb-2"),
+        class: "row")
+      end
+    end
+
+    self.details_html = html
+  end
+end

@@ -1,0 +1,17 @@
+<% content_for(:sidebar) do %>
+  <div class="sidebar row bg-white border rounded mb-3 pt-2 pb-3">
+    <div class="col-12">
+      <%= link_to(@user.username, user_path(@user), class: 'font-weight-bold') %>
+    </div>
+
+    <div class="col-12 mt-2">
+      <%= t('signed_up_at') %><br>
+      <%= datetime_tag(@user.created_at, :short) %>
+    </div>
+
+    <div class="col-12 mt-2">
+      <%= number_with_delimiter(@user.posts_points) %> <%= t('points_count', count: @user.posts_points) %> <%= t('for_posts') %><br>
+      <%= number_with_delimiter(@user.comments_points) %> <%= t('points_count', count: @user.comments_points) %> <%= t('for_comments') %>
+    </div>
+  </div>
+<% end %>
