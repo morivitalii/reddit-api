@@ -64,7 +64,7 @@ group :test do
   gem "factory_bot_rails", "~> 5"
   gem "capybara", "~> 3.9"
   gem "selenium-webdriver", "~> 3.14"
-  gem "webmock", "~> 3.5"
+  gem "webmock", "~> 3.6"
 end
 
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
