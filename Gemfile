@@ -29,7 +29,7 @@ gem "font-awesome-rails", "~> 4.7"
 gem "browser", "~> 2.5"
 gem "recaptcha", "~> 4.13"
 gem "diffy", "~> 3.3"
-gem "whenever", "0.10", require: false
+gem "whenever", "0.11.0", require: false
 
 group :development, :test do
   gem "rubocop", "~> 0.60.0", require: false
