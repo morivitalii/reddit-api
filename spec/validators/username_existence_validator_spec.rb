@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe UsernameExistenceValidator do
+RSpec.describe UsernameExistenceValidator do
   let(:user) { create(:user) }
   let(:model) { User.new }
   subject { described_class.new(attributes: [:username]) }

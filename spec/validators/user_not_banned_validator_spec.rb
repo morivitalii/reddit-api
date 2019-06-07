@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe UserNotBannedValidator do
+RSpec.describe UserNotBannedValidator do
   let(:sub) { create(:sub) }
   let(:ban) { create(:ban, sub: sub) }
   let(:model) { Sub::CreateBan.new(sub: sub) }

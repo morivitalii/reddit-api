@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe UsernameFormatValidator do
+RSpec.describe UsernameFormatValidator do
   let(:model) { User.new }
   subject { described_class.new(attributes: [:username]) }
 
