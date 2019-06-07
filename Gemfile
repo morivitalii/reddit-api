@@ -38,10 +38,6 @@ group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
 end
 
-# Fix for deploy
-gem "ed25519", ">= 1.2", "< 2.0"
-gem "bcrypt_pbkdf", ">= 1.0", "< 2.0"
-
 group :development do
   gem "web-console", ">= 3.3.0"
   gem "listen", ">= 3.0.5", "< 3.2"
@@ -51,13 +47,6 @@ group :development do
   # For rubymine
   gem "debase"
   gem "ruby-debug-ide"
-
-  # Deployment
-  gem "capistrano", "~> 3.11", require: false
-  gem "capistrano-rails", "~> 1.3", require: false
-  gem "capistrano-rvm", git: "git://github.com/capistrano/rvm"
-  gem "capistrano-passenger", git: "git://github.com/capistrano/passenger"
-  gem "capistrano-sidekiq", git: "git://github.com/seuros/capistrano-sidekiq"
 end
 
 group :test do
