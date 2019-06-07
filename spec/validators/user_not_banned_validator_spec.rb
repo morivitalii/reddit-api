@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rails_helper"
+
 describe UserNotBannedValidator do
   let(:sub) { create(:sub) }
   let(:ban) { create(:ban, sub: sub) }

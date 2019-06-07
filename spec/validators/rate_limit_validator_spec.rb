@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rails_helper"
+
 describe RateLimitValidator do
   let(:user) {  }
   let(:sub) { create(:sub) }

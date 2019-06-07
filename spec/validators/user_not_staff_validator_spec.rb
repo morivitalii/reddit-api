@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rails_helper"
+
 describe UserNotStaffValidator do
   let(:staff) { create(:staff) }
   let(:model) { User.new }
