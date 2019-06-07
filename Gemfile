@@ -19,7 +19,7 @@ gem "mini_magick", "~> 4.8"
 gem "warden", "~> 1.2"
 gem "addressable", "~> 2.5"
 gem "shrine", "~> 2.16"
-gem "aws-sdk-s3", "~> 1.30"
+gem "aws-sdk-s3", "~> 1.42"
 gem "image_processing", "~> 1.7"
 gem "image_optim", "~> 0.26"
 gem "image_optim_pack"
@@ -27,12 +27,12 @@ gem "streamio-ffmpeg", "~> 3"
 gem "redcarpet", "~> 3.4"
 gem "font-awesome-rails", "~> 4.7"
 gem "browser", "~> 2.5"
-gem "recaptcha", "~> 4.13"
+gem "recaptcha", "~> 5.0"
 gem "diffy", "~> 3.3"
 gem "whenever", "0.11.0", require: false
 
 group :development, :test do
-  gem "rubocop", "~> 0.60.0", require: false
+  gem "rubocop", "~> 0.71.0", require: false
   gem "rspec-rails", "~> 3.8"
   gem "puma", "~> 3.11"
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
@@ -51,7 +51,7 @@ end
 
 group :test do
   gem "factory_bot_rails", "~> 5"
-  gem "capybara", "~> 3.9"
+  gem "capybara", "~> 3.22"
   gem "selenium-webdriver", "~> 3.142"
   gem "webmock", "~> 3.6"
 end
