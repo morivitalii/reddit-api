@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rails_helper"
+
 describe UsernameUniquenessValidator do
   let(:user) { create(:user) }
   let(:model) { User.new }

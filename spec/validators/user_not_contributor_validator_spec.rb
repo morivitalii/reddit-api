@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rails_helper"
+
 describe UserNotContributorValidator do
   let(:sub) { create(:sub) }
   let(:contributor) { create(:contributor, sub: sub) }

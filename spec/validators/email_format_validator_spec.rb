@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rails_helper"
+
 describe EmailFormatValidator do
   let(:model) { User.new }
   subject { described_class.new(attributes: [:email]) }

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rails_helper"
+
 describe UserNotModeratorValidator do
   let(:sub) { create(:sub) }
   let(:moderator) { create(:moderator, sub: sub) }
