@@ -743,7 +743,7 @@ ALTER SEQUENCE public.topics_id_seq OWNED BY public.topics.id;
 CREATE TABLE public.users (
     id bigint NOT NULL,
     username character varying NOT NULL,
-    email character varying NOT NULL,
+    email character varying,
     password_digest character varying NOT NULL,
     forgot_password_token character varying NOT NULL,
     posts_points integer DEFAULT 0 NOT NULL,
@@ -1975,6 +1975,7 @@ ALTER TABLE ONLY public.pages
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
-('20190604150812');
+('20190604150812'),
+('20190607040618');
 
 
