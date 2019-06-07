@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe RateLimitValidator do
+RSpec.describe RateLimitValidator do
   let(:user) {  }
   let(:sub) { create(:sub) }
   let(:model) { CreateTextPost.new(current_user: user, sub: sub) }

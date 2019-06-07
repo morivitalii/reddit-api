@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe EmailUniquenessValidator do
+RSpec.describe EmailUniquenessValidator do
   let(:user) { create(:user) }
   let(:model) { User.new }
   subject { described_class.new(attributes: [:email]) }

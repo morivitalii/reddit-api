@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe UserNotContributorValidator do
+RSpec.describe UserNotContributorValidator do
   let(:sub) { create(:sub) }
   let(:contributor) { create(:contributor, sub: sub) }
   let(:model) { CreateSubContributor.new(sub: sub) }

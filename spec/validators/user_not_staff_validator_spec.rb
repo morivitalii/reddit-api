@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe UserNotStaffValidator do
+RSpec.describe UserNotStaffValidator do
   let(:staff) { create(:staff) }
   let(:model) { User.new }
   subject { described_class.new(attributes: [:username]) }

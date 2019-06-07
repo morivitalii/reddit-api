@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe UsernameUniquenessValidator do
+RSpec.describe UsernameUniquenessValidator do
   let(:user) { create(:user) }
   let(:model) { User.new }
   subject { described_class.new(attributes: [:username]) }

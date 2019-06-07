@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe UserNotModeratorValidator do
+RSpec.describe UserNotModeratorValidator do
   let(:sub) { create(:sub) }
   let(:moderator) { create(:moderator, sub: sub) }
   let(:model) { CreateSubModerator.new(sub: sub) }
