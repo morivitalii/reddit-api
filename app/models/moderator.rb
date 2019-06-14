@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Moderator < ApplicationRecord
-  belongs_to :sub, touch: :moderators_updated_at
+  belongs_to :sub
   belongs_to :user, touch: :moderators_updated_at
   belongs_to :invited_by, class_name: "User", foreign_key: "invited_by_id"
 
