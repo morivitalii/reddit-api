@@ -555,7 +555,6 @@ CREATE TABLE public.subs (
     created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     moderators_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    rules_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     tags_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     deletion_reasons_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
 );
@@ -1925,6 +1924,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('20190604150812'),
 ('20190607040618'),
-('20190614145100');
+('20190614145100'),
+('20190614152509');
 
 
