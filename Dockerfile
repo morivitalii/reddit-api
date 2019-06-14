@@ -33,6 +33,7 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
     && ./autogen.sh \
     && make \
     && make install \
-    && cd ..
+    && cd .. \
+    && gem install bundler:2
 
 RUN bundle install
