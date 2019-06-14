@@ -2,17 +2,15 @@
   <%= form_with(model: @form, url: thing_delete_path(@thing.sub, @thing), class: 'deleteForm') do |f| %>
     <div class="modal-body">
       <% if Current.user.staff? || Current.user.moderator?(@sub) %>
-        <% cache("thing-deletion-sub-deletion-reasons-#{Current.settings.global_deletion_reasons_updated_at}-#{@sub.id}-#{@sub.deletion_reasons_updated_at}", expires_in: 24.hours) do %>
-          <div class="form-group">
-            <select class="removalReasons form-control">
-              <option value=""><% t('deletion_reason_select') %></option>
+        <div class="form-group">
+          <select class="removalReasons form-control">
+            <option value=""><% t('deletion_reason_select') %></option>
 
-              <% DeletionReason.global.or(DeletionReason.where(sub: @sub)).all.each do |deletion_reason| %>
-                <option value="<%= deletion_reason.description %>"><%= deletion_reason.title %></option>
-              <% end %>
-            </select>
-          </div>
-        <% end %>
+            <% DeletionReason.global.or(DeletionReason.where(sub: @sub)).all.each do |deletion_reason| %>
+              <option value="<%= deletion_reason.description %>"><%= deletion_reason.title %></option>
+            <% end %>
+          </select>
+        </div>
 
         <%= f.text_area :deletion_reason %>
       <% else %>
