@@ -9,9 +9,6 @@ class DeletionReason < ApplicationRecord
   validates :description, presence: true, length: { maximum: 5_000 }
   validate :validate_limits, on: :create, if: ->(r) { r.errors.blank? }
 
-  after_save :touch_global_deletion_reasons_updated_at
-  after_destroy :touch_global_deletion_reasons_updated_at
-
   def title=(value)
     super(value.squish)
   end
@@ -34,11 +31,5 @@ class DeletionReason < ApplicationRecord
         errors.add(:title, :deletion_reasons_limit)
       end
     end
-  end
-
-  def touch_global_deletion_reasons_updated_at
-    return unless sub.blank?
-
-    Setting.where(key: :global_deletion_reasons_updated_at).update_all(value: Time.current)
   end
 end

@@ -9,9 +9,6 @@ class Rule < ApplicationRecord
   validates :description, allow_blank: true, length: { maximum: 500 }
   validate :validate_limits, on: :create, if: ->(r) { r.errors.blank? }
 
-  after_save :touch_global_rules_updated_at
-  after_destroy :touch_global_rules_updated_at
-
   def title=(value)
     super(value.squish)
   end
@@ -34,11 +31,5 @@ class Rule < ApplicationRecord
         errors.add(:title, :rules_limit)
       end
     end
-  end
-
-  def touch_global_rules_updated_at
-    return unless sub.blank?
-
-    Setting.where(key: :global_rules_updated_at).update_all(value: Time.current)
   end
 end
