@@ -507,36 +507,6 @@ CREATE TABLE public.schema_migrations (
 
 
 --
--- Name: settings; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.settings (
-    id bigint NOT NULL,
-    key character varying NOT NULL,
-    value character varying NOT NULL
-);
-
-
---
--- Name: settings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.settings_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.settings_id_seq OWNED BY public.settings.id;
-
-
---
 -- Name: staffs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -912,13 +882,6 @@ ALTER TABLE ONLY public.rules ALTER COLUMN id SET DEFAULT nextval('public.rules_
 
 
 --
--- Name: settings id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.settings ALTER COLUMN id SET DEFAULT nextval('public.settings_id_seq'::regclass);
-
-
---
 -- Name: staffs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1093,14 +1056,6 @@ ALTER TABLE ONLY public.rules
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
-
-
---
--- Name: settings settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.settings
-    ADD CONSTRAINT settings_pkey PRIMARY KEY (id);
 
 
 --
@@ -1458,13 +1413,6 @@ CREATE UNIQUE INDEX index_reports_on_user_id_and_thing_id ON public.reports USIN
 --
 
 CREATE INDEX index_rules_on_sub_id ON public.rules USING btree (sub_id);
-
-
---
--- Name: index_settings_on_lower_key; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_settings_on_lower_key ON public.settings USING btree (lower((key)::text));
 
 
 --
@@ -1976,6 +1924,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20190604150812'),
-('20190607040618');
+('20190607040618'),
+('20190614145100');
 
 
