@@ -35,13 +35,11 @@
       </div>
 
       <div class="pt-2 collapse" id="other-reasons">
-        <% cache("thing-report-global-deletion-reasons-#{Current.settings.global_deletion_reasons_updated_at}", expires_in: 24.hours) do %>
-          <% DeletionReason.global.all.each_with_index do |deletion_reason, index| %>
-            <div class="custom-control custom-radio">
-              <input id="other-rule-<%= index %>" type="radio" value="<%= deletion_reason.title %>" class="report-rule custom-control-input">
-              <label class="custom-control-label" for="other-rule-<%= index %>"><%= deletion_reason.title %></label>
-            </div>
-          <% end %>
+        <% DeletionReason.global.all.each_with_index do |deletion_reason, index| %>
+          <div class="custom-control custom-radio">
+            <input id="other-rule-<%= index %>" type="radio" value="<%= deletion_reason.title %>" class="report-rule custom-control-input">
+            <label class="custom-control-label" for="other-rule-<%= index %>"><%= deletion_reason.title %></label>
+          </div>
         <% end %>
       </div>
 
