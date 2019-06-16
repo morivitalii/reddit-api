@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Tag < ApplicationRecord
-  belongs_to :sub, counter_cache: true, touch: :tags_updated_at
+  belongs_to :sub, counter_cache: true
 
   validates :title, presence: true, length: { maximum: 30 }
 
