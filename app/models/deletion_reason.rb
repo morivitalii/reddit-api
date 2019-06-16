@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DeletionReason < ApplicationRecord
-  belongs_to :sub, optional: true, counter_cache: true, touch: :deletion_reasons_updated_at
+  belongs_to :sub, optional: true, counter_cache: true
 
   scope :global, -> { where(sub: nil) }
 
