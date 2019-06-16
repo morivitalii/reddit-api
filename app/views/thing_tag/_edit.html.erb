@@ -3,26 +3,24 @@
     <div class="modal-body">
       <%= f.text_field :tag %>
 
-      <% cache("thing-tag-sub-tags-#{@sub.id}-#{@sub.tags_updated_at}", expires_in: 24.hours) do %>
-        <% if @sub.tags.present? %>
-          <div class="form-group">
-            <input class="search form-control" placeholder="<%= t('tag_select') %>">
-          </div>
+      <% if @sub.tags.present? %>
+        <div class="form-group">
+          <input class="search form-control" placeholder="<%= t('tag_select') %>">
+        </div>
 
-          <div class="form-group">
-            <div class="list col-12 pl-0">
-              <% @sub.tags.each do |tag| %>
-                <div class="tag row">
-                  <div class="col-12">
+        <div class="form-group">
+          <div class="list col-12 pl-0">
+            <% @sub.tags.each do |tag| %>
+              <div class="tag row">
+                <div class="col-12">
                     <span class="p-1">
                       <%= tag.title %>
                     </span>
-                  </div>
                 </div>
-              <% end %>
-            </div>
+              </div>
+            <% end %>
           </div>
-        <% end %>
+        </div>
       <% end %>
     </div>
 
