@@ -80,12 +80,4 @@ class SubPagesController < BaseSubController
   def update_params
     params.require(:update_sub_page).permit(:title, :text)
   end
-
-  def page_not_found
-    if request.xhr?
-      head :not_found
-    else
-      render "sub/pages/page_not_found", status: :not_found
-    end
-  end
 end
