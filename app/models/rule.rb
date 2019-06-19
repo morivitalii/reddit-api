@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Rule < ApplicationRecord
-  belongs_to :sub, optional: true, counter_cache: true
+  belongs_to :sub, optional: true
 
   scope :global, -> { where(sub: nil) }
 
@@ -23,7 +23,7 @@ class Rule < ApplicationRecord
 
   def validate_limits
     if sub.present?
-      if sub.rules_count >= Limits.sub_rules
+      if sub.rules.count >= Limits.sub_rules
         errors.add(:title, :rules_limit)
       end
     else
