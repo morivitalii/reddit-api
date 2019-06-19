@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Tag < ApplicationRecord
-  belongs_to :sub, counter_cache: true
+  belongs_to :sub
 
   validates :title, presence: true, length: { maximum: 30 }
 
@@ -29,7 +29,7 @@ class Tag < ApplicationRecord
   end
 
   def validate_limits
-    if sub.tags_count >= Limits.sub_tags
+    if sub.tags.count >= Limits.sub_tags
       errors.add(:title, :tags_limit)
     end
   end
