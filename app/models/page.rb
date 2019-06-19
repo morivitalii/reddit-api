@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Page < ApplicationRecord
-  belongs_to :sub, optional: true, counter_cache: true
+  belongs_to :sub, optional: true
   belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id"
 
   scope :global, -> { where(sub: nil) }
