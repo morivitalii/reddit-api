@@ -548,7 +548,6 @@ CREATE TABLE public.subs (
     follows_count integer DEFAULT 0 NOT NULL,
     description character varying,
     title character varying NOT NULL,
-    deletion_reasons_count integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
 );
@@ -1923,12 +1922,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190614153421'),
 ('20190614153836'),
 ('20190614154235'),
-<<<<<<< HEAD
 ('20190616102128'),
 ('20190616104344'),
-('20190616105241');
-=======
-('20190616102128');
->>>>>>> d8f1ac12df16b32b79b5110f07ed8da7150bfbed
+('20190616105241'),
+('20190619151146');
 
 
