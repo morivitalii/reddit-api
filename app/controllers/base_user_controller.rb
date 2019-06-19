@@ -13,12 +13,4 @@ class BaseUserController < ApplicationController
   def set_navigation_title
     @navigation_title = @user.username
   end
-
-  def page_not_found
-    if request.xhr?
-      head :not_found
-    else
-      render "users/page_not_found", status: :not_found
-    end
-  end
 end
