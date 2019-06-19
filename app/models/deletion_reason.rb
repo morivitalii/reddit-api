@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DeletionReason < ApplicationRecord
-  belongs_to :sub, optional: true, counter_cache: true
+  belongs_to :sub, optional: true
 
   scope :global, -> { where(sub: nil) }
 
@@ -23,7 +23,7 @@ class DeletionReason < ApplicationRecord
 
   def validate_limits
     if sub.present?
-      if sub.deletion_reasons_count >= Limits.sub_deletion_reasons
+      if sub.deletion_reasons.count >= Limits.sub_deletion_reasons
         errors.add(:title, :deletion_reasons_limit)
       end
     else
