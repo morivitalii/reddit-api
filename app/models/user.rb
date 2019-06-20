@@ -23,9 +23,7 @@ class User < ApplicationRecord
   before_save :nullify_email_on_save
 
   def self.auto_moderator
-    Rails.cache.fetch("user-auto-moderator") do
-      self.where("lower(users.username) = ?", "AutoModerator".downcase).take!
-    end
+    self.where("lower(users.username) = ?", "AutoModerator".downcase).take!
   end
 
   def to_param
