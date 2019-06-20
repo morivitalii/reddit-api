@@ -63,6 +63,7 @@ class Thing < ApplicationRecord
   after_create :create_topic_on_create
   after_create :insert_to_topic_on_create
   after_create :create_up_vote_on_create
+  after_create :create_notification_on_create
   after_update :update_post_counter_cache_on_approving_or_deletion
   after_update :update_comment_counter_cache_on_approving_or_deletion
   after_update :create_mod_queue_on_edit
@@ -178,18 +179,6 @@ class Thing < ApplicationRecord
     else
       [file[variant].width, file[variant].height]
     end
-  end
-
-  def replied_to_yourself?
-    return false unless comment?
-
-    user_id == replied_to.user_id
-  end
-
-  def replied_to
-    return false unless comment?
-
-    comment.presence || post
   end
 
   def reset_approval_attributes
@@ -348,6 +337,28 @@ class Thing < ApplicationRecord
 
   def create_up_vote_on_create
     votes.create!(vote_type: :up, user: user)
+  end
+
+  def create_notification_on_create
+    return unless send_notification?
+
+    create_notification(user: replied_to.user)
+  end
+
+  def send_notification?
+    comment? && !replied_to_yourself? && replied_to.receive_notifications?
+  end
+
+  def replied_to
+    return false unless comment?
+
+    comment.presence || post
+  end
+
+  def replied_to_yourself?
+    return false unless comment?
+
+    user_id == replied_to.user_id
   end
 
   def create_mod_queue_on_edit
