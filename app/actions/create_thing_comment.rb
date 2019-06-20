@@ -19,7 +19,5 @@ class CreateThingComment
     errors.merge!(invalid.record.errors)
 
     raise ActiveModel::ValidationError.new(self)
-  else
-    CreateNotification.new(thing: @comment).call_later
   end
 end
