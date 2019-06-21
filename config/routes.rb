@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   mod_queue_type_regex = /new|reports/
 
   concern :searchable do
-    get "search", on: :collection
+    post "search", on: :collection
+  end
+
+  concern :confirmable do
+    get 'confirm', on: :member
   end
 
   scope format: false do
