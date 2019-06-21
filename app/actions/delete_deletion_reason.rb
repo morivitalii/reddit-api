@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeleteGlobalDeletionReason
+class DeleteDeletionReason
   def initialize(deletion_reason:, current_user:)
     @deletion_reason = deletion_reason
     @current_user = current_user

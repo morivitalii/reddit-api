@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-class CreateGlobalDeletionReason
+class UpdateDeletionReason
   include ActiveModel::Model
 
-  attr_accessor :current_user, :title, :description
-  attr_reader :deletion_reason
+  attr_accessor :deletion_reason, :current_user, :title, :description
 
   def save
-    @deletion_reason = DeletionReason.create!(
+    @deletion_reason.update!(
       title: @title,
       description: @description
     )
@@ -18,7 +17,7 @@ class CreateGlobalDeletionReason
   else
     CreateLogJob.perform_later(
       current_user: @current_user,
-      action: "create_global_deletion_reason",
+      action: "update_global_deletion_reason",
       model: @deletion_reason
     )
   end

@@ -2,7 +2,7 @@
 
 class Limits
   class << self
-    def global_deletion_reasons
+    def deletion_reasons
       50
     end
 
