@@ -1,26 +1,26 @@
 # frozen_string_literal: true
 
-class GlobalBlacklistedDomainsController < ApplicationController
+class BlacklistedDomainsController < ApplicationController
   before_action :set_blacklisted_domain, only: [:confirm, :destroy]
 
   def index
-    GlobalBlacklistedDomainsPolicy.authorize!(:index)
+    BlacklistedDomainsPolicy.authorize!(:index)
 
     @records = BlacklistedDomain.include(ReverseChronologicalOrder)
                    .global
                    .sort_records_reverse_chronologically
                    .records_after(params[:after].present? ? BlacklistedDomain.global.find_by_id(params[:after]) : nil)
-                   .limit(PaginationLimits.global_blacklisted_domains + 1)
+                   .limit(PaginationLimits.blacklisted_domains + 1)
                    .to_a
 
-    if @records.size > PaginationLimits.global_blacklisted_domains
+    if @records.size > PaginationLimits.blacklisted_domains
       @records.delete_at(-1)
       @after_record = @records.last
     end
   end
 
   def search
-    GlobalBlacklistedDomainsPolicy.authorize!(:index)
+    BlacklistedDomainsPolicy.authorize!(:index)
 
     @records = BlacklistedDomain.global.search(params[:query]).all
 
@@ -28,35 +28,35 @@ class GlobalBlacklistedDomainsController < ApplicationController
   end
 
   def new
-    GlobalBlacklistedDomainsPolicy.authorize!(:create)
+    BlacklistedDomainsPolicy.authorize!(:create)
 
-    @form = CreateGlobalBlacklistedDomain.new
+    @form = CreateBlacklistedDomain.new
 
     render partial: "new"
   end
 
   def create
-    GlobalBlacklistedDomainsPolicy.authorize!(:create)
+    BlacklistedDomainsPolicy.authorize!(:create)
 
-    @form = CreateGlobalBlacklistedDomain.new(create_params.merge(current_user: Current.user))
+    @form = CreateBlacklistedDomain.new(create_params.merge(current_user: Current.user))
 
     if @form.save
-      head :no_content, location: global_blacklisted_domains_path
+      head :no_content, location: blacklisted_domains_path
     else
       render json: @form.errors, status: :unprocessable_entity
     end
   end
 
   def confirm
-    GlobalBlacklistedDomainsPolicy.authorize!(:destroy)
+    BlacklistedDomainsPolicy.authorize!(:destroy)
 
     render partial: "confirm"
   end
 
   def destroy
-    GlobalBlacklistedDomainsPolicy.authorize!(:destroy)
+    BlacklistedDomainsPolicy.authorize!(:destroy)
 
-    DeleteGlobalBlacklistedDomain.new(blacklisted_domain: @blacklisted_domain, current_user: Current.user).call
+    DeleteBlacklistedDomain.new(blacklisted_domain: @blacklisted_domain, current_user: Current.user).call
 
     head :no_content
   end
@@ -68,6 +68,6 @@ class GlobalBlacklistedDomainsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_global_blacklisted_domain).permit(:domain)
+    params.require(:create_blacklisted_domain).permit(:domain)
   end
 end

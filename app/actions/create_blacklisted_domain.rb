@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateGlobalBlacklistedDomain
+class CreateBlacklistedDomain
   include ActiveModel::Model
 
   attr_accessor :current_user, :domain

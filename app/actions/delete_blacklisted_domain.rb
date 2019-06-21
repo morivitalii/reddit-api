@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeleteGlobalBlacklistedDomain
+class DeleteBlacklistedDomain
   def initialize(blacklisted_domain:, current_user:)
     @blacklisted_domain = blacklisted_domain
     @current_user = current_user
