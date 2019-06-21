@@ -14,7 +14,7 @@ class PaginationLimits
       50
     end
 
-    def global_logs
+    def logs
       50
     end
 
