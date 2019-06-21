@@ -5,7 +5,7 @@ class UpdateGlobalPage
 
   attr_accessor :page, :current_user, :title, :text
 
-  def save!
+  def save
     @page.update!(
       title: @title,
       text: @text,
@@ -14,7 +14,7 @@ class UpdateGlobalPage
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
         current_user: @current_user,

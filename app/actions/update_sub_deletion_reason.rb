@@ -5,7 +5,7 @@ class UpdateSubDeletionReason
 
   attr_accessor :deletion_reason, :current_user, :title, :description
 
-  def save!
+  def save
     @deletion_reason.update!(
       title: @title,
       description: @description
@@ -13,7 +13,7 @@ class UpdateSubDeletionReason
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
       sub: @deletion_reason.sub,

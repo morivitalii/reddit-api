@@ -40,18 +40,24 @@ class GlobalPagesController < ApplicationController
     GlobalPagesPolicy.authorize!(:create)
 
     @form = CreateGlobalPage.new(create_params.merge(current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: global_page_path(@form.page)
+    if @form.save
+      head :no_content, location: global_page_path(@form.page)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     GlobalPagesPolicy.authorize!(:update)
 
     @form = UpdateGlobalPage.new(update_params.merge(page: @page, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: global_page_path(@form.page)
+    if @form.save
+      head :no_content, location: global_page_path(@form.page)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm

@@ -39,18 +39,24 @@ class SubPagesController < BaseSubController
     SubPagesPolicy.authorize!(:create, @sub)
 
     @form = CreateSubPage.new(create_params.merge(sub: @sub, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: sub_page_path(@sub, @form.page)
+    if @form.save
+      head :no_content, location: sub_page_path(@sub, @form.page)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     SubPagesPolicy.authorize!(:update, @sub)
 
     @form = UpdateSubPage.new(update_params.merge(page: @page, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: sub_page_path(@sub, @form.page)
+    if @form.save
+      head :no_content, location: sub_page_path(@sub, @form.page)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm

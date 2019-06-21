@@ -5,12 +5,12 @@ class UpdateSubModerator
 
   attr_accessor :moderator, :current_user, :master
 
-  def save!
+  def save
     @moderator.update!(master: @master)
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
       sub: @moderator.sub,

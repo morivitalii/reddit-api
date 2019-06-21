@@ -14,9 +14,12 @@ class UserSettingsController < ApplicationController
     UserSettingsPolicy.authorize!(:update)
 
     @form = UpdateUserSettings.new(update_params.merge(user: @user))
-    @form.save!
 
-    head :no_content, location: user_settings_edit_path
+    if @form.save
+      head :no_content, location: user_settings_edit_path
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   private

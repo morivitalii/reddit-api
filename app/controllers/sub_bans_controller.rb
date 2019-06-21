@@ -52,18 +52,24 @@ class SubBansController < BaseSubController
     SubBansPolicy.authorize!(:create, @sub)
 
     @form = CreateSubBan.new(create_params.merge(sub: @sub, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: sub_bans_path(@sub)
+    if @form.save
+      head :no_content, location: sub_bans_path(@sub)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     SubBansPolicy.authorize!(:update, @sub)
 
     @form = UpdateSubBan.new(update_params.merge(ban: @ban, current_user: Current.user))
-    @form.save!
 
-    render partial: "ban", object: @form.ban
+    if @form.save
+      render partial: "ban", object: @form.ban
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm

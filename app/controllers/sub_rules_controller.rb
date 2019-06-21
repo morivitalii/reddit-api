@@ -42,18 +42,24 @@ class SubRulesController < BaseSubController
     SubRulesPolicy.authorize!(:create, @sub)
 
     @form = CreateSubRule.new(create_params.merge(sub: @sub, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: sub_rules_path(@sub)
+    if @form.save
+      head :no_content, location: sub_rules_path(@sub)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     SubRulesPolicy.authorize!(:update, @sub)
 
     @form = UpdateSubRule.new(update_params.merge(rule: @rule, current_user: Current.user))
-    @form.save!
 
-    render partial: "sub_rules/rule", object: @form.rule
+    if @form.save
+      render partial: "sub_rules/rule", object: @form.rule
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm

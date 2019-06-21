@@ -15,8 +15,8 @@ class SignUp
     validates :email, email_uniqueness: true, unless: ->(r) { r.email.blank? }
   end
 
-  def save!
-    validate!
+  def save
+    return false if invalid?
 
     @user = User.create!(username: @username, email: @email, password: @password)
   end

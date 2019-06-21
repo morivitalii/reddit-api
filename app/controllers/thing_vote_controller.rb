@@ -5,9 +5,12 @@ class ThingVoteController < BaseThingController
     ThingVotePolicy.authorize!(:create)
 
     @form = CreateThingVote.new(vote_params.merge(thing: @thing, current_user: Current.user))
-    @form.save!
 
-    head :no_content
+    if @form.save
+      head :no_content
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   private

@@ -11,9 +11,12 @@ class MediaPostController < BaseSubController
     MediaPostPolicy.authorize!(:create, @sub)
 
     @form = CreateMediaPost.new(create_params.merge(sub: @sub, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: thing_path(@sub, @form.post)
+    if @form.save
+      head :no_content, location: thing_path(@sub, @form.post)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   private

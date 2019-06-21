@@ -5,7 +5,7 @@ class MarkThingAsDeleted
 
   attr_accessor :thing, :current_user, :deletion_reason
 
-  def save!
+  def save
     @thing.update!(
       deleted: true,
       deleted_by: @current_user,
@@ -15,7 +15,7 @@ class MarkThingAsDeleted
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
       sub: @thing.sub,

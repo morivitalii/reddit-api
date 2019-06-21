@@ -6,7 +6,7 @@ class CreateSubPage
   attr_accessor :sub, :current_user, :title, :text
   attr_reader :page
 
-  def save!
+  def save
     @page = @sub.pages.create!(
       title: @title,
       text: @text,
@@ -15,7 +15,7 @@ class CreateSubPage
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
       sub: @sub,

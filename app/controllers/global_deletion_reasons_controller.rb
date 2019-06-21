@@ -42,18 +42,24 @@ class GlobalDeletionReasonsController < ApplicationController
     GlobalDeletionReasonsPolicy.authorize!(:create)
 
     @form = CreateGlobalDeletionReason.new(create_params.merge(current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: global_deletion_reasons_path
+    if @form.save
+      head :no_content, location: global_deletion_reasons_path
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     GlobalDeletionReasonsPolicy.authorize!(:update)
 
     @form = UpdateGlobalDeletionReason.new(update_params.merge(deletion_reason: @deletion_reason, current_user: Current.user))
-    @form.save!
 
-    render partial: "global_deletion_reasons/deletion_reason", object: @form.deletion_reason
+    if @form.save
+      render partial: "global_deletion_reasons/deletion_reason", object: @form.deletion_reason
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm

@@ -44,18 +44,24 @@ class SubModeratorsController < BaseSubController
     SubModeratorsPolicy.authorize!(:create, @sub)
 
     @form = CreateSubModerator.new(create_params.merge(sub: @sub, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: sub_moderators_path(@sub)
+    if @form.save
+      head :no_content, location: sub_moderators_path(@sub)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     SubModeratorsPolicy.authorize!(:update, @sub)
 
     @form = UpdateSubModerator.new(update_params.merge(moderator: @moderator, current_user: Current.user))
-    @form.save!
 
-    render partial: "moderator", object: @form.moderator
+    if @form.save
+      render partial: "moderator", object: @form.moderator
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm

@@ -21,9 +21,12 @@ class ThingReportsController < BaseThingController
     ThingReportsPolicy.authorize!(:create)
 
     @form = CreateThingReport.new(create_params.merge(thing: @thing, current_user: Current.user))
-    @form.save!
 
-    head :no_content
+    if @form.save
+      head :no_content
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   private

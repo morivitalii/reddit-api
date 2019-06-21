@@ -6,7 +6,7 @@ class CreateLinkPost
   attr_accessor :sub, :current_user, :title, :url, :explicit, :spoiler
   attr_reader :post
 
-  def save!
+  def save
     @post = @sub.things.create!(
       thing_type: :post,
       content_type: :link,
@@ -19,6 +19,6 @@ class CreateLinkPost
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   end
 end

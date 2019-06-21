@@ -6,7 +6,7 @@ class CreateTextPost
   attr_accessor :sub, :current_user, :title, :text, :explicit, :spoiler
   attr_reader :post
 
-  def save!
+  def save
     @post = @sub.things.create!(
       thing_type: :post,
       content_type: :text,
@@ -19,6 +19,6 @@ class CreateTextPost
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   end
 end

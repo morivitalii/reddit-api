@@ -50,9 +50,12 @@ class SubsController < BaseSubController
     SubsPolicy.authorize!(:update, @sub)
 
     @form = UpdateSub.new(update_params.merge(sub: @sub, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: sub_edit_path(@sub)
+    if @form.save
+      head :no_content, location: sub_edit_path(@sub)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   private

@@ -7,8 +7,8 @@ class ForgotPassword
 
   validates :email, presence: true, email_format: true
 
-  def save!
-    validate!
+  def save
+    return false if invalid?
 
     user = User.where("lower(email) = ?", @email.downcase).take
 

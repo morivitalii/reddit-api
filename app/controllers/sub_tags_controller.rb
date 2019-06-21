@@ -39,18 +39,24 @@ class SubTagsController < BaseSubController
     SubTagsPolicy.authorize!(:create, @sub)
 
     @form = CreateSubTag.new(create_params.merge(sub: @sub, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: sub_tags_path(@sub)
+    if @form.save
+      head :no_content, location: sub_tags_path(@sub)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     SubTagsPolicy.authorize!(:update, @sub)
 
     @form = UpdateSubTag.new(update_params.merge(tag: @tag, current_user: Current.user))
-    @form.save!
 
-    render partial: "sub_tags/tag", object: @form.tag
+    if @form.save
+      render partial: "sub_tags/tag", object: @form.tag
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm

@@ -5,7 +5,7 @@ class UpdateGlobalBan
 
   attr_accessor :ban, :current_user, :reason, :days, :permanent
 
-  def save!
+  def save
     @ban.update!(
       reason: @reason,
       days: @days,
@@ -14,7 +14,7 @@ class UpdateGlobalBan
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
       current_user: @current_user,

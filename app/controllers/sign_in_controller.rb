@@ -14,13 +14,11 @@ class SignInController < ApplicationController
   def create
     @form = SignIn.new
 
-    unless verify_recaptcha(model: @form, attribute: :username)
-      raise ActiveModel::ValidationError.new(@form)
+    if verify_recaptcha(model: @form, attribute: :username) && request.env["warden"].authenticate!(:password)
+      head :no_content, location: root_path
+    else
+      render json: @form.errors, status: :unprocessable_entity
     end
-
-    request.env["warden"].authenticate!(:password)
-
-    head :no_content, location: root_path
   end
 
   def unauthenticated

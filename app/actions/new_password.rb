@@ -10,8 +10,8 @@ class NewPassword
   validates :password, presence: true, length: { minimum: 6, maximum: 16 }
   validate :exists?, if: ->(record) { record.errors.blank? }
 
-  def save!
-    validate!
+  def save
+    return false if invalid?
 
     @user = User.where(forgot_password_token: @token).take!
 

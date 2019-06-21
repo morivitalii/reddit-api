@@ -42,18 +42,24 @@ class GlobalRulesController < ApplicationController
     GlobalRulesPolicy.authorize!(:create)
 
     @form = CreateGlobalRule.new(create_params.merge(current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: global_rules_path
+    if @form.save
+      head :no_content, location: global_rules_path
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     GlobalRulesPolicy.authorize!(:update)
 
     @form = UpdateGlobalRule.new(update_params.merge(rule: @rule, current_user: Current.user))
-    @form.save!
 
-    render partial: "global_rules/rule", object: @form.rule
+    if @form.save
+      render partial: "global_rules/rule", object: @form.rule
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm
