@@ -3,19 +3,19 @@
 <div id="blacklisted_domains" class="entries row">
   <div class="head col-12">
     <div class="title">
-      <%= link_to(t('blacklisted_domains'), global_blacklisted_domains_path) %>
+      <%= link_to(t('blacklisted_domains'), blacklisted_domains_path) %>
     </div>
 
     <div class="actions">
-      <%= link_to(t('create'), global_blacklisted_domain_new_path, remote: true, class: 'create') %>
+      <%= link_to(t('create'), new_blacklisted_domain_path, remote: true, class: 'create') %>
     </div>
   </div>
 
   <div class="search col-12">
-    <%= form_with(url: global_blacklisted_domains_search_path, local: true, class: "form-inline") do |f| %>
+    <%= form_with(url: search_blacklisted_domains_path, local: true, class: "form-inline") do |f| %>
       <%= f.text_field :query, value: params[:query], placeholder: t("domain") %>
       <%= f.submit t("search") %>
-      <%= link_to(t("reset"), global_blacklisted_domains_path, class: "btn btn-primary") %>
+      <%= link_to(t("reset"), blacklisted_domains_path, class: "btn btn-primary") %>
     <% end %>
   </div>
 

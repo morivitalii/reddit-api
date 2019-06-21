@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class GlobalBlacklistedDomainsPolicy < ApplicationPolicy
+class BlacklistedDomainsPolicy < ApplicationPolicy
   def index?
     staff?
   end

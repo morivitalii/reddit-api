@@ -163,13 +163,7 @@ Rails.application.routes.draw do
     get "/c/:sub/:id/comments/edit", to: "thing_comments#edit", as: :thing_comment_edit
     put "/c/:sub/:id/comments", to: "thing_comments#update", as: :thing_comment_update
 
-    get "/blacklisted_domains", to: "global_blacklisted_domains#index", as: :global_blacklisted_domains
-    post "/blacklisted_domains/search", to: "global_blacklisted_domains#search", as: :global_blacklisted_domains_search
-    get "/blacklisted_domains/new", to: "global_blacklisted_domains#new", as: :global_blacklisted_domain_new
-    post "/blacklisted_domains", to: "global_blacklisted_domains#create", as: :global_blacklisted_domain_create
-    get "/blacklisted_domains/:id/delete/confirm", to: "global_blacklisted_domains#confirm", as: :global_blacklisted_domain_delete_confirm
-    delete "/blacklisted_domains/:id", to: "global_blacklisted_domains#destroy", as: :global_blacklisted_domain_delete
-
+    resources :blacklisted_domains, concerns: [:searchable, :confirmable]
     resources :rules, concerns: [:confirmable]
     resources :deletion_reasons, concerns: [:confirmable]
     resources :pages, concerns: [:confirmable]

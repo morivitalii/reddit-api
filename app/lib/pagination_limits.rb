@@ -6,7 +6,7 @@ class PaginationLimits
       50
     end
 
-    def global_blacklisted_domains
+    def blacklisted_domains
       50
     end
 
