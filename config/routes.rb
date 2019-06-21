@@ -186,15 +186,7 @@ Rails.application.routes.draw do
     get "/deletion_reasons/:id/delete/confirm", to: "global_deletion_reasons#confirm", as: :global_deletion_reason_delete_confirm
     delete "/deletion_reasons/:id", to: "global_deletion_reasons#destroy", as: :global_deletion_reason_delete
 
-    get "/pages", to: "global_pages#index", as: :global_pages
-    get "/pages/new", to: "global_pages#new", as: :global_page_new
-    get "/pages/:id/edit", to: "global_pages#edit", as: :global_page_edit
-    get "/pages/:id", to: "global_pages#show", as: :global_page
-    post "/pages", to: "global_pages#create", as: :global_page_create
-    post "/pages/:id", to: "global_pages#update", as: :global_page_update
-    get "/pages/:id/delete/confirm", to: "global_pages#confirm", as: :global_page_delete_confirm
-    delete "/pages/:id", to: "global_pages#destroy", as: :global_page_delete
-
+    resources :pages, concerns: [:searchable, :confirmable]
     resources :bans, concerns: [:searchable, :confirmable]
 
     get "/logs", to: "global_logs#index", as: :global_logs

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateGlobalPage
+class CreatePage
   include ActiveModel::Model
 
   attr_accessor :current_user, :title, :text

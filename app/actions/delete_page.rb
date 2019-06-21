@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeleteGlobalPage
+class DeletePage
   def initialize(page:, current_user:)
     @page = page
     @current_user = current_user
