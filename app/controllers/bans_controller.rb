@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
-class GlobalBansController < ApplicationController
+class BansController < ApplicationController
   before_action :set_ban, only: [:edit, :update, :confirm, :destroy]
 
   def index
-    GlobalBansPolicy.authorize!(:index)
+    BansPolicy.authorize!(:index)
 
     @records = Ban.include(ReverseChronologicalOrder)
                    .global
                    .includes(:user, :banned_by)
                    .sort_records_reverse_chronologically
                    .records_after(params[:after].present? ? Ban.global.find_by_id(params[:after]) : nil)
-                   .limit(PaginationLimits.global_bans + 1)
+                   .limit(PaginationLimits.bans + 1)
                    .to_a
 
-    if @records.size > PaginationLimits.global_bans
+    if @records.size > PaginationLimits.bans
       @records.delete_at(-1)
       @after_record = @records.last
     end
   end
 
   def search
-    GlobalBansPolicy.authorize!(:index)
+    BansPolicy.authorize!(:index)
 
     @records = Ban.global.search(params[:query]).all
 
@@ -29,17 +29,17 @@ class GlobalBansController < ApplicationController
   end
 
   def new
-    GlobalBansPolicy.authorize!(:create)
+    BansPolicy.authorize!(:create)
 
-    @form = CreateGlobalBan.new
+    @form = CreateBan.new
 
     render partial: "new"
   end
 
   def edit
-    GlobalBansPolicy.authorize!(:update)
+    BansPolicy.authorize!(:update)
 
-    @form = UpdateGlobalBan.new(
+    @form = UpdateBan.new(
       reason: @ban.reason,
       days: @ban.days,
       permanent: @ban.permanent
@@ -49,21 +49,21 @@ class GlobalBansController < ApplicationController
   end
 
   def create
-    GlobalBansPolicy.authorize!(:create)
+    BansPolicy.authorize!(:create)
 
-    @form = CreateGlobalBan.new(create_params.merge(current_user: Current.user))
+    @form = CreateBan.new(create_params.merge(current_user: Current.user))
 
     if @form.save
-      head :no_content, location: global_bans_path
+      head :no_content, location: bans_path
     else
       render json: @form.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    GlobalBansPolicy.authorize!(:update)
+    BansPolicy.authorize!(:update)
 
-    @form = UpdateGlobalBan.new(update_params.merge(ban: @ban, current_user: Current.user))
+    @form = UpdateBan.new(update_params.merge(ban: @ban, current_user: Current.user))
 
     if @form.save
       render partial: "ban", object: @form.ban
@@ -73,15 +73,15 @@ class GlobalBansController < ApplicationController
   end
 
   def confirm
-    GlobalBansPolicy.authorize!(:destroy)
+    BansPolicy.authorize!(:destroy)
 
     render partial: "confirm"
   end
 
   def destroy
-    GlobalBansPolicy.authorize!(:destroy)
+    BansPolicy.authorize!(:destroy)
 
-    DeleteGlobalBan.new(ban: @ban, current_user: Current.user).call
+    DeleteBan.new(ban: @ban, current_user: Current.user).call
 
     head :no_content
   end
@@ -93,10 +93,10 @@ class GlobalBansController < ApplicationController
   end
 
   def create_params
-    params.require(:create_global_ban).permit(:username, :reason, :days, :permanent)
+    params.require(:create_ban).permit(:username, :reason, :days, :permanent)
   end
 
   def update_params
-    params.require(:update_global_ban).permit(:reason, :days, :permanent)
+    params.require(:update_ban).permit(:reason, :days, :permanent)
   end
 end

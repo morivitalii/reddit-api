@@ -3,19 +3,19 @@
 <div id="bans" class="entries row">
   <div class="head col-12">
     <div class="title">
-      <%= link_to(t('bans'), global_bans_path) %>
+      <%= link_to(t('bans'), bans_path) %>
     </div>
 
     <div class="actions">
-      <%= link_to(t('create'), global_ban_new_path, remote: true, class: 'create') %>
+      <%= link_to(t('create'), new_ban_path, remote: true, class: 'create') %>
     </div>
   </div>
 
   <div class="search col-12">
-    <%= form_with(url: global_bans_search_path, local: true, class: "form-inline") do |f| %>
+    <%= form_with(url: search_bans_path, local: true, class: "form-inline") do |f| %>
       <%= f.text_field :query, value: params[:query], placeholder: t("username") %>
       <%= f.submit t("search") %>
-      <%= link_to(t("reset"), global_bans_path, class: "btn btn-primary") %>
+      <%= link_to(t("reset"), bans_path, class: "btn btn-primary") %>
     <% end %>
   </div>
 

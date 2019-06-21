@@ -195,14 +195,7 @@ Rails.application.routes.draw do
     get "/pages/:id/delete/confirm", to: "global_pages#confirm", as: :global_page_delete_confirm
     delete "/pages/:id", to: "global_pages#destroy", as: :global_page_delete
 
-    get "/bans", to: "global_bans#index", as: :global_bans
-    post "/bans/search", to: "global_bans#search", as: :global_bans_search
-    get "/bans/new", to: "global_bans#new", as: :global_ban_new
-    post "/bans", to: "global_bans#create", as: :global_ban_create
-    get "/bans/:id/edit", to: "global_bans#edit", as: :global_ban_edit
-    post "/bans/:id", to: "global_bans#update", as: :global_ban_update
-    get "/bans/:id/delete/confirm", to: "global_bans#confirm", as: :global_ban_delete_confirm
-    delete "/bans/:id", to: "global_bans#destroy", as: :global_ban_delete
+    resources :bans, concerns: [:searchable, :confirmable]
 
     get "/logs", to: "global_logs#index", as: :global_logs
   end
