@@ -18,7 +18,7 @@ class PaginationLimits
       50
     end
 
-    def global_pages
+    def pages
       50
     end
 

@@ -3,11 +3,11 @@
 <div class="col-12 bg-white border rounded mb-3">
   <div id="pages" class="row mt-2 mb-3">
     <div class="col-12 h5">
-      <%= link_to(t('pages'), global_pages_path) %>
+      <%= link_to(t('pages'), pages_path) %>
     </div>
 
     <div class="col-12">
-      <%= form_with(model: @form, url: global_page_update_path(@page), class: 'updateForm') do |f| %>
+      <%= form_with(model: @form, url: page_path(@page), method: :put, class: 'updateForm') do |f| %>
         <%= f.text_field :title %>
         <%= f.text_area :text %>
 
