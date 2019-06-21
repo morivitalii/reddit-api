@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeleteGlobalRule
+class DeleteRule
   def initialize(rule:, current_user:)
     @rule = rule
     @current_user = current_user

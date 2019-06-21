@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-class CreateGlobalRule
+class UpdateRule
   include ActiveModel::Model
 
-  attr_accessor :current_user, :title, :description
-  attr_reader :rule
+  attr_accessor :rule, :current_user, :title, :description
 
   def save
-    @rule = Rule.create!(
+    @rule.update!(
       title: @title,
       description: @description
     )
@@ -18,7 +17,7 @@ class CreateGlobalRule
   else
     CreateLogJob.perform_later(
       current_user: @current_user,
-      action: "create_global_rule",
+      action: "update_global_rule",
       model: @rule
     )
   end
