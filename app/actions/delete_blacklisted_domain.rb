@@ -12,7 +12,7 @@ class DeleteBlacklistedDomain
     CreateLogJob.perform_later(
       current_user: @current_user,
       action: "delete_global_blacklisted_domain",
-      loggable: @blacklisted_domain
+      model: @blacklisted_domain
     )
   end
 end

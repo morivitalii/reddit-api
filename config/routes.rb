@@ -168,8 +168,7 @@ Rails.application.routes.draw do
     resources :deletion_reasons, concerns: [:confirmable]
     resources :pages, concerns: [:confirmable]
     resources :bans, concerns: [:searchable, :confirmable]
-
-    get "/logs", to: "global_logs#index", as: :global_logs
+    resources :logs, only: [:index]
   end
 
   match "*path", via: :all, to: "page_not_found#show"
