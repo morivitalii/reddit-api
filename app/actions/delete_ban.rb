@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeleteGlobalBan
+class DeleteBan
   def initialize(ban:, current_user:)
     @ban = ban
     @current_user = current_user

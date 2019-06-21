@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateGlobalBan
+class CreateBan
   include ActiveModel::Model
 
   attr_accessor :current_user, :username, :reason, :days, :permanent

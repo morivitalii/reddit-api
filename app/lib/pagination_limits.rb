@@ -2,7 +2,7 @@
 
 class PaginationLimits
   class << self
-    def global_bans
+    def bans
       50
     end
 

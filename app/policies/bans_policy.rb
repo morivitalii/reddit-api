@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class GlobalBansPolicy < ApplicationPolicy
+class BansPolicy < ApplicationPolicy
   def index?
     staff?
   end
