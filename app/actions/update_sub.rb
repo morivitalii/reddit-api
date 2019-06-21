@@ -5,7 +5,7 @@ class UpdateSub
 
   attr_accessor :sub, :current_user, :title, :description
 
-  def save!
+  def save
     @sub.update!(
       title: @title,
       description: @description
@@ -13,7 +13,7 @@ class UpdateSub
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
       sub: @sub,

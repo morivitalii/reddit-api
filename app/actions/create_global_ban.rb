@@ -14,8 +14,8 @@ class CreateGlobalBan
     validates :username, user_not_staff: true
   end
 
-  def save!
-    validate!
+  def save
+    return false if invalid?
 
     @user = User.where("lower(username) = ?", @username.downcase).take!
 
@@ -29,7 +29,7 @@ class CreateGlobalBan
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
         current_user: @current_user,

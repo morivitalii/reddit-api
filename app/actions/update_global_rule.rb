@@ -5,7 +5,7 @@ class UpdateGlobalRule
 
   attr_accessor :rule, :current_user, :title, :description
 
-  def save!
+  def save
     @rule.update!(
       title: @title,
       description: @description
@@ -13,7 +13,7 @@ class UpdateGlobalRule
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
       current_user: @current_user,

@@ -5,12 +5,12 @@ class UpdateSubTag
 
   attr_accessor :tag, :current_user, :title
 
-  def save!
+  def save
     @tag.update!(title: @title)
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
       sub: @tag.sub,

@@ -23,18 +23,24 @@ class ThingCommentsController < BaseThingController
     ThingCommentsPolicy.authorize!(:create, @sub)
 
     @form = CreateThingComment.new(create_params.merge(thing: @thing, current_user: Current.user))
-    @form.save!
 
-    render partial: "things/comment", locals: { item: { thing: @form.comment } }
+    if @form.save
+      render partial: "things/comment", locals: { item: { thing: @form.comment } }
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     ThingCommentsPolicy.authorize!(:update, @thing)
 
     @form = UpdateThingComment.new(update_params.merge(comment: @thing))
-    @form.save!
 
-    render partial: "things/comment", locals: { item: { thing: @form.comment } }
+    if @form.save
+      render partial: "things/comment", locals: { item: { thing: @form.comment } }
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   private

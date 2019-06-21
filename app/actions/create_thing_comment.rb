@@ -6,7 +6,7 @@ class CreateThingComment
   attr_accessor :thing, :current_user, :text
   attr_reader :comment
 
-  def save!
+  def save
     @comment = @thing.sub.things.create!(
       thing_type: :comment,
       content_type: :text,
@@ -18,6 +18,6 @@ class CreateThingComment
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   end
 end

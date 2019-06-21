@@ -5,11 +5,11 @@ class UpdateThingComment
 
   attr_accessor :comment, :text
 
-  def save!
+  def save
     @comment.update!(text: @text)
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   end
 end

@@ -13,9 +13,12 @@ class ThingTagController < BaseThingController
     ThingTagPolicy.authorize!(:update, @thing)
 
     @form = UpdateThingTag.new(update_params.merge(thing: @thing, current_user: Current.user))
-    @form.save!
 
-    render json: { tag: @form.thing.tag }
+    if @form.save
+      render json: { tag: @form.thing.tag }
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   private

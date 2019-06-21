@@ -14,8 +14,8 @@ class CreateSubModerator
     validates :username, user_not_moderator: true
   end
 
-  def save!
-    validate!
+  def save
+    return false if invalid?
 
     @user = User.where("lower(username) = ?", @username.downcase).take!
 
@@ -27,7 +27,7 @@ class CreateSubModerator
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
       sub: @sub,

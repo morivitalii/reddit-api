@@ -6,7 +6,7 @@ class CreateSubRule
   attr_accessor :sub, :current_user, :title, :description
   attr_reader :rule
 
-  def save!
+  def save
     @rule = @sub.rules.create!(
       title: @title,
       description: @description
@@ -14,7 +14,7 @@ class CreateSubRule
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
       sub: @sub,

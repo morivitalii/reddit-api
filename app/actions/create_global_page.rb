@@ -6,7 +6,7 @@ class CreateGlobalPage
   attr_accessor :current_user, :title, :text
   attr_reader :page
 
-  def save!
+  def save
     @page = Page.create!(
       title: @title,
       text: @text,
@@ -15,7 +15,7 @@ class CreateGlobalPage
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
       current_user: @current_user,

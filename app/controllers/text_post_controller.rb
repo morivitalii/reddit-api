@@ -19,18 +19,24 @@ class TextPostController < BaseSubController
     TextPostPolicy.authorize!(:create, @sub)
 
     @form = CreateTextPost.new(create_params.merge(sub: @sub, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: thing_path(@sub, @form.post)
+    if @form.save
+      head :no_content, location: thing_path(@sub, @form.post)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     TextPostPolicy.authorize!(:update, @thing)
 
     @form = UpdateTextPost.new(update_params.merge(post: @thing))
-    @form.save!
 
-    head :no_content, location: thing_path(@sub, @form.post)
+    if @form.save
+      head :no_content, location: thing_path(@sub, @form.post)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   private

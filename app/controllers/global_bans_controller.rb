@@ -52,18 +52,24 @@ class GlobalBansController < ApplicationController
     GlobalBansPolicy.authorize!(:create)
 
     @form = CreateGlobalBan.new(create_params.merge(current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: global_bans_path
+    if @form.save
+      head :no_content, location: global_bans_path
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     GlobalBansPolicy.authorize!(:update)
 
     @form = UpdateGlobalBan.new(update_params.merge(ban: @ban, current_user: Current.user))
-    @form.save!
 
-    render partial: "ban", object: @form.ban
+    if @form.save
+      render partial: "ban", object: @form.ban
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm

@@ -9,11 +9,14 @@ class NewPasswordController < ApplicationController
 
   def create
     @form = NewPassword.new(create_params)
-    @form.save!
 
-    request.env["warden"].set_user(@form.user)
+    if @form.save
+      request.env["warden"].set_user(@form.user)
 
-    head :no_content, location: root_path
+      head :no_content, location: root_path
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   private

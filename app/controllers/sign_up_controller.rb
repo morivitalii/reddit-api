@@ -14,14 +14,13 @@ class SignUpController < ApplicationController
   def create
     @form = SignUp.new(create_params)
 
-    unless verify_recaptcha(model: @form, attribute: :username)
-      raise ActiveModel::ValidationError.new(@form)
+    if verify_recaptcha(model: @form, attribute: :username) && @form.save
+      request.env["warden"].set_user(@form.user)
+
+      head :no_content, location: root_path
+    else
+      render json: @form.errors, status: :unprocessable_entity
     end
-
-    @form.save!
-    request.env["warden"].set_user(@form.user)
-
-    head :no_content, location: root_path
   end
 
   private

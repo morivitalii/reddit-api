@@ -43,18 +43,24 @@ class SubDeletionReasonsController < BaseSubController
     SubDeletionReasonsPolicy.authorize!(:create, @sub)
 
     @form = CreateSubDeletionReason.new(create_params.merge(sub: @sub, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: sub_deletion_reasons_path(@sub)
+    if @form.save
+      head :no_content, location: sub_deletion_reasons_path(@sub)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     SubDeletionReasonsPolicy.authorize!(:update, @sub)
 
     @form = UpdateSubDeletionReason.new(update_params.merge(deletion_reason: @deletion_reason, current_user: Current.user))
-    @form.save!
 
-    render partial: "sub_deletion_reasons/deletion_reason", object: @form.deletion_reason
+    if @form.save
+      render partial: "sub_deletion_reasons/deletion_reason", object: @form.deletion_reason
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm

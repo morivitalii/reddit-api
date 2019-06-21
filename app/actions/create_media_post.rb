@@ -6,7 +6,7 @@ class CreateMediaPost
   attr_accessor :sub, :current_user, :title, :file, :explicit, :spoiler
   attr_reader :post
 
-  def save!
+  def save
     @post = @sub.things.create!(
       thing_type: :post,
       content_type: :media,
@@ -19,6 +19,6 @@ class CreateMediaPost
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   end
 end

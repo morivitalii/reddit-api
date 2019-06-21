@@ -4,7 +4,8 @@ class CreateThingReport
   include ActiveModel::Model
 
   attr_accessor :thing, :current_user, :text
-  def save!
+
+  def save
     return false if @thing.reports_count >= Limits.thing_reports
     return false if @thing.ignore_reports?
 
@@ -14,6 +15,6 @@ class CreateThingReport
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   end
 end

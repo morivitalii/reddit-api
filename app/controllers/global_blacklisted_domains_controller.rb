@@ -39,9 +39,12 @@ class GlobalBlacklistedDomainsController < ApplicationController
     GlobalBlacklistedDomainsPolicy.authorize!(:create)
 
     @form = CreateGlobalBlacklistedDomain.new(create_params.merge(current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: global_blacklisted_domains_path
+    if @form.save
+      head :no_content, location: global_blacklisted_domains_path
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm

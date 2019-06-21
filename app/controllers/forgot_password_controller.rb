@@ -14,13 +14,11 @@ class ForgotPasswordController < ApplicationController
   def create
     @form = ForgotPassword.new(create_params)
 
-    unless verify_recaptcha(model: @form, attribute: :email)
-      raise ActiveModel::ValidationError.new(@form)
+    if verify_recaptcha(model: @form, attribute: :email) && @form.save
+      head :no_content
+    else
+      render json: @form.errors, status: :unprocessable_entity
     end
-
-    @form.save!
-
-    head :no_content
   end
 
   private

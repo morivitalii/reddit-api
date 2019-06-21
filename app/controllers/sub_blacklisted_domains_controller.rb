@@ -39,9 +39,12 @@ class SubBlacklistedDomainsController < BaseSubController
     SubBlacklistedDomainsPolicy.authorize!(:create, @sub)
 
     @form = CreateSubBlacklistedDomain.new(create_params.merge(sub: @sub, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: sub_blacklisted_domains_path(@sub)
+    if @form.save
+      head :no_content, location: sub_blacklisted_domains_path(@sub)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm

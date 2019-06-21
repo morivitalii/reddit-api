@@ -8,8 +8,8 @@ class CreateThingVote
 
   validates :type, presence: true, inclusion: { in: %w(down meh up) }
 
-  def save!
-    validate!
+  def save
+    return false if invalid?
 
     @vote = @thing.votes.where(user: @current_user).take
 

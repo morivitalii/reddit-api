@@ -6,14 +6,14 @@ class CreateSubBlacklistedDomain
   attr_accessor :sub, :current_user, :domain
   attr_reader :blacklisted_domain
 
-  def save!
+  def save
     @blacklisted_domain = @sub.blacklisted_domains.create!(
       domain: @domain
     )
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    raise ActiveModel::ValidationError.new(self)
+    return false
   else
     CreateLogJob.perform_later(
       sub: @sub,

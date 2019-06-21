@@ -40,9 +40,12 @@ class SubContributorsController < BaseSubController
     SubContributorsPolicy.authorize!(:create, @sub)
 
     @form = CreateSubContributor.new(create_params.merge(sub: @sub, current_user: Current.user))
-    @form.save!
 
-    head :no_content, location: sub_contributors_path(@sub)
+    if @form.save
+      head :no_content, location: sub_contributors_path(@sub)
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   def confirm

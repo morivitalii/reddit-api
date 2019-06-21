@@ -14,8 +14,8 @@ class UpdateUserSettings
     validate :current_password_match?
   end
 
-  def save!
-    validate!
+  def save
+    return false if invalid?
 
     @user.email = @email
     @user.password = @password if @password.present?
