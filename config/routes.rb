@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   vote_type_regex = /ups|downs/
   mod_queue_type_regex = /new|reports/
 
+  concern :searchable do
+    get "search", on: :collection
+  end
+
   scope format: false do
     root "home#index", thing_sort: "hot", thing_date: "all"
 
