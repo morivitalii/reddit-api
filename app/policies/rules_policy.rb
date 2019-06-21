@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class GlobalRulesPolicy < ApplicationPolicy
+class RulesPolicy < ApplicationPolicy
   def index?
     staff?
   end

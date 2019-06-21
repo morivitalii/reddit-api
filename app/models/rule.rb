@@ -27,7 +27,7 @@ class Rule < ApplicationRecord
         errors.add(:title, :rules_limit)
       end
     else
-      if Rule.global.count >= Limits.global_rules
+      if Rule.global.count >= Limits.rules
         errors.add(:title, :rules_limit)
       end
     end

@@ -6,7 +6,7 @@ class Limits
       50
     end
 
-    def global_rules
+    def rules
       15
     end
 

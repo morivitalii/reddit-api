@@ -22,7 +22,7 @@ class PaginationLimits
       50
     end
 
-    def global_rules
+    def rules
       50
     end
 

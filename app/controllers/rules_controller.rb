@@ -1,36 +1,36 @@
 # frozen_string_literal: true
 
-class GlobalRulesController < ApplicationController
+class RulesController < ApplicationController
   before_action :set_rule, only: [:edit, :update, :confirm, :destroy]
 
   def index
-    GlobalRulesPolicy.authorize!(:index)
+    RulesPolicy.authorize!(:index)
 
     @records = Rule.include(ChronologicalOrder)
                    .global
                    .sort_records_chronologically
                    .records_after(params[:after].present? ? Rule.global.find_by_id(params[:after]) : nil)
-                   .limit(PaginationLimits.global_rules + 1)
+                   .limit(PaginationLimits.rules + 1)
                    .to_a
 
-    if @records.size > PaginationLimits.global_rules
+    if @records.size > PaginationLimits.rules
       @records.delete_at(-1)
       @after_record = @records.last
     end
   end
 
   def new
-    GlobalRulesPolicy.authorize!(:create)
+    RulesPolicy.authorize!(:create)
 
-    @form = CreateGlobalRule.new
+    @form = CreateRule.new
 
     render partial: "new"
   end
 
   def edit
-    GlobalRulesPolicy.authorize!(:update)
+    RulesPolicy.authorize!(:update)
 
-    @form = UpdateGlobalRule.new(
+    @form = UpdateRule.new(
       title: @rule.title,
       description: @rule.description
     )
@@ -39,39 +39,39 @@ class GlobalRulesController < ApplicationController
   end
 
   def create
-    GlobalRulesPolicy.authorize!(:create)
+    RulesPolicy.authorize!(:create)
 
-    @form = CreateGlobalRule.new(create_params.merge(current_user: Current.user))
+    @form = CreateRule.new(create_params.merge(current_user: Current.user))
 
     if @form.save
-      head :no_content, location: global_rules_path
+      head :no_content, location: rules_path
     else
       render json: @form.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    GlobalRulesPolicy.authorize!(:update)
+    RulesPolicy.authorize!(:update)
 
-    @form = UpdateGlobalRule.new(update_params.merge(rule: @rule, current_user: Current.user))
+    @form = UpdateRule.new(update_params.merge(rule: @rule, current_user: Current.user))
 
     if @form.save
-      render partial: "global_rules/rule", object: @form.rule
+      render partial: "rule", object: @form.rule
     else
       render json: @form.errors, status: :unprocessable_entity
     end
   end
 
   def confirm
-    GlobalRulesPolicy.authorize!(:destroy)
+    RulesPolicy.authorize!(:destroy)
 
     render partial: "confirm"
   end
 
   def destroy
-    GlobalRulesPolicy.authorize!(:destroy)
+    RulesPolicy.authorize!(:destroy)
 
-    DeleteGlobalRule.new(rule: @rule, current_user: Current.user).call
+    DeleteRule.new(rule: @rule, current_user: Current.user).call
 
     head :no_content
   end
@@ -83,10 +83,10 @@ class GlobalRulesController < ApplicationController
   end
 
   def create_params
-    params.require(:create_global_rule).permit(:title, :description)
+    params.require(:create_rule).permit(:title, :description)
   end
 
   def update_params
-    params.require(:update_global_rule).permit(:title, :description)
+    params.require(:update_rule).permit(:title, :description)
   end
 end
