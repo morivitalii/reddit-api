@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class GlobalDeletionReasonsPolicy < ApplicationPolicy
+class DeletionReasonsPolicy < ApplicationPolicy
   def index?
     staff?
   end

@@ -27,7 +27,7 @@ class DeletionReason < ApplicationRecord
         errors.add(:title, :deletion_reasons_limit)
       end
     else
-      if DeletionReason.global.count >= Limits.global_deletion_reasons
+      if DeletionReason.global.count >= Limits.deletion_reasons
         errors.add(:title, :deletion_reasons_limit)
       end
     end

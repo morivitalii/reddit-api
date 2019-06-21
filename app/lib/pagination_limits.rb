@@ -10,7 +10,7 @@ class PaginationLimits
       50
     end
 
-    def global_deletion_reasons
+    def deletion_reasons
       50
     end
 

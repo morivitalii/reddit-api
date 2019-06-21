@@ -3,11 +3,11 @@
 <div id="deletion_reasons" class="entries row">
   <div class="head col-12">
     <div class="title">
-      <%= link_to(t('deletion_reasons'), global_deletion_reasons_path) %>
+      <%= link_to(t('deletion_reasons'), deletion_reasons_path) %>
     </div>
 
     <div class="actions">
-      <%= link_to(t('create'), global_deletion_reason_new_path, remote: true, class: 'create') %>
+      <%= link_to(t('create'), new_deletion_reason_path, remote: true, class: 'create') %>
     </div>
   </div>
 
