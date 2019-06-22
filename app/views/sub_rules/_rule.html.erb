@@ -3,8 +3,8 @@
     <%= rule.title %>
 
     <div class="actions">
-      <%= link_to(fa_icon('pencil'), sub_rule_edit_path(@sub, rule), remote: true, class: 'update') %>
-      <%= link_to(fa_icon('trash'), sub_rule_delete_confirm_path(@sub, rule), remote: true, class: 'delete') %>
+      <%= link_to(fa_icon('pencil'), edit_sub_rule_path(@sub, rule), remote: true, class: 'update') %>
+      <%= link_to(fa_icon('trash'), confirm_sub_rule_path(@sub, rule), remote: true, class: 'delete') %>
 
       <% if rule.description.present? %>
         <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>
