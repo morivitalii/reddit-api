@@ -66,14 +66,6 @@ Rails.application.routes.draw do
   get "/c/:sub/bans/:id/delete/confirm", to: "sub_bans#confirm", as: :sub_ban_delete_confirm
   delete "/c/:sub/bans/:id", to: "sub_bans#destroy", as: :sub_ban_delete
 
-  get "/c/:sub/rules", to: "sub_rules#index", as: :sub_rules
-  get "/c/:sub/rules/new", to: "sub_rules#new", as: :sub_rule_new
-  post "/c/:sub/rules", to: "sub_rules#create", as: :sub_rule_create
-  get "/c/:sub/rules/:id/edit", to: "sub_rules#edit", as: :sub_rule_edit
-  post "/c/:sub/rules/:id", to: "sub_rules#update", as: :sub_rule_update
-  get "/c/:sub/rules/:id/delete/confirm", to: "sub_rules#confirm", as: :sub_rule_delete_confirm
-  delete "/c/:sub/rules/:id", to: "sub_rules#destroy", as: :sub_rule_delete
-
   get "/c/:sub/deletion_reasons", to: "sub_deletion_reasons#index", as: :sub_deletion_reasons
   get "/c/:sub/deletion_reasons/new", to: "sub_deletion_reasons#new", as: :sub_deletion_reason_new
   post "/c/:sub/deletion_reasons", to: "sub_deletion_reasons#create", as: :sub_deletion_reason_create
@@ -153,8 +145,8 @@ Rails.application.routes.draw do
     resources :blacklisted_domains, { except: [:show, :edit, :update], concerns: [:searchable, :confirmable] }.merge(options)
   end
 
-  concern :rules do
-    resources :rules, except: [:show], concerns: [:confirmable]
+  concern :rules do |options|
+    resources :rules, { except: [:show], concerns: [:confirmable] }.merge(options)
   end
 
   concern :deletion_reasons do
@@ -182,6 +174,7 @@ Rails.application.routes.draw do
 
   resources :subs, only: [:index, :edit, :update], path: "/r" do
     concerns :blacklisted_domains, controller: :sub_blacklisted_domains
+    concerns :rules, controller: :sub_rules
 
     get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
   end
