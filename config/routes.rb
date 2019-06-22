@@ -74,15 +74,6 @@ Rails.application.routes.draw do
   get "/c/:sub/tags/:id/delete/confirm", to: "sub_tags#confirm", as: :sub_tag_delete_confirm
   delete "/c/:sub/tags/:id", to: "sub_tags#destroy", as: :sub_tag_delete
 
-  get "/c/:sub/pages", to: "sub_pages#index", as: :sub_pages
-  get "/c/:sub/pages/new", to: "sub_pages#new", as: :sub_page_new
-  get "/c/:sub/pages/:id/edit", to: "sub_pages#edit", as: :sub_page_edit
-  get "/c/:sub/pages/:id", to: "sub_pages#show", as: :sub_page
-  post "/c/:sub/pages", to: "sub_pages#create", as: :sub_page_create
-  post "/c/:sub/pages/:id", to: "sub_pages#update", as: :sub_page_update
-  get "/c/:sub/pages/:id/delete/confirm", to: "sub_pages#confirm", as: :sub_page_delete_confirm
-  delete "/c/:sub/pages/:id", to: "sub_pages#destroy", as: :sub_page_delete
-
   get "/post/new", to: "post#new", as: :post_new
 
   get "/c/:sub/text/new", to: "text_post#new", as: :text_post_new
@@ -145,8 +136,8 @@ Rails.application.routes.draw do
     resources :deletion_reasons, { except: [:show], concerns: [:confirmable] }.merge(options)
   end
 
-  concern :pages do
-    resources :pages, concerns: [:confirmable]
+  concern :pages do |options|
+    resources :pages, { concerns: [:confirmable] }.merge(options)
   end
 
   concern :bans do
@@ -167,7 +158,8 @@ Rails.application.routes.draw do
   resources :subs, only: [:index, :edit, :update], path: "/r" do
     concerns :blacklisted_domains, controller: :sub_blacklisted_domains
     concerns :rules, controller: :sub_rules
-    concerns :deletion_reasons
+    concerns :deletion_reasons, controller: :sub_deletion_reasons
+    concerns :pages, controller: :sub_pages
 
     get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
   end

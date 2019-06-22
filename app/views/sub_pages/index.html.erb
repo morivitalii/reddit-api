@@ -11,7 +11,7 @@
 
     <% if SubPagesPolicy.authorize(:create, @sub) %>
       <div class="actions">
-        <%= link_to(t('create'), sub_page_new_path(@sub), class: 'create') %>
+        <%= link_to(t('create'), new_sub_page_path(@sub), class: 'create') %>
       </div>
     <% end %>
   </div>
