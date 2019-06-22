@@ -9,7 +9,7 @@
     </div>
 
     <div class="col-12">
-      <%= form_with(model: @form, url: sub_page_create_path(@sub)) do |f| %>
+      <%= form_with(model: @form, url: sub_pages_path(@sub)) do |f| %>
         <%= f.text_field :title %>
         <%= f.text_area :text %>
 

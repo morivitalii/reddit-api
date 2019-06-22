@@ -4,11 +4,11 @@
 
     <div class="actions">
       <% if SubPagesPolicy.authorize(:update, @sub) %>
-        <%= link_to(fa_icon('pencil'), sub_page_edit_path(@sub, page), class: 'update') %>
+        <%= link_to(fa_icon('pencil'), edit_sub_page_path(@sub, page), class: 'update') %>
       <% end %>
 
       <% if SubPagesPolicy.authorize(:destroy, @sub) %>
-        <%= link_to(fa_icon('trash'), sub_page_delete_confirm_path(@sub, page), remote: true, class: 'delete') %>
+        <%= link_to(fa_icon('trash'), confirm_sub_page_path(@sub, page), remote: true, class: 'delete') %>
       <% end %>
     </div>
   </div>
