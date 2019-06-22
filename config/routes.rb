@@ -160,9 +160,13 @@ Rails.application.routes.draw do
     resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   end
 
-  concerns :blacklisted_domains
+  concern :rules do
+    resources :rules, except: [:show], concerns: [:confirmable]
+  end
 
-  resources :rules, except: [:show], concerns: [:confirmable]
+  concerns :blacklisted_domains
+  concerns :rules
+
   resources :deletion_reasons, except: [:show], concerns: [:confirmable]
   resources :pages, concerns: [:confirmable]
   resources :bans, except: [:show], concerns: [:searchable, :confirmable]
