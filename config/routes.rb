@@ -167,7 +167,7 @@ Rails.application.routes.draw do
     resources :rules, except: [:show], concerns: [:confirmable]
     resources :deletion_reasons, except: [:show], concerns: [:confirmable]
     resources :pages, concerns: [:confirmable]
-    resources :bans, concerns: [:searchable, :confirmable]
+    resources :bans, except: [:show], concerns: [:searchable, :confirmable]
     resources :logs, only: [:index]
   end
 
