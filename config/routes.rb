@@ -156,7 +156,12 @@ Rails.application.routes.draw do
   get "/c/:sub/:id/comments/edit", to: "thing_comments#edit", as: :thing_comment_edit
   put "/c/:sub/:id/comments", to: "thing_comments#update", as: :thing_comment_update
 
-  resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
+  concern :blacklisted_domains do
+    resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
+  end
+
+  concerns :blacklisted_domains
+
   resources :rules, except: [:show], concerns: [:confirmable]
   resources :deletion_reasons, except: [:show], concerns: [:confirmable]
   resources :pages, concerns: [:confirmable]
