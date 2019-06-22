@@ -3,8 +3,8 @@
     <%= deletion_reason.title %>
 
     <div class="actions">
-      <%= link_to(fa_icon('pencil'), sub_deletion_reason_edit_path(@sub, deletion_reason), remote: true, class: 'update') %>
-      <%= link_to(fa_icon('trash'), sub_deletion_reason_delete_confirm_path(@sub, deletion_reason), remote: true, class: 'delete') %>
+      <%= link_to(fa_icon('pencil'), edit_sub_deletion_reason_path(@sub, deletion_reason), remote: true, class: 'update') %>
+      <%= link_to(fa_icon('trash'), confirm_sub_deletion_reason_path(@sub, deletion_reason), remote: true, class: 'delete') %>
 
       <% if deletion_reason.description.present? %>
         <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>

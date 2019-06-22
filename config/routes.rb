@@ -66,14 +66,6 @@ Rails.application.routes.draw do
   get "/c/:sub/bans/:id/delete/confirm", to: "sub_bans#confirm", as: :sub_ban_delete_confirm
   delete "/c/:sub/bans/:id", to: "sub_bans#destroy", as: :sub_ban_delete
 
-  get "/c/:sub/deletion_reasons", to: "sub_deletion_reasons#index", as: :sub_deletion_reasons
-  get "/c/:sub/deletion_reasons/new", to: "sub_deletion_reasons#new", as: :sub_deletion_reason_new
-  post "/c/:sub/deletion_reasons", to: "sub_deletion_reasons#create", as: :sub_deletion_reason_create
-  get "/c/:sub/deletion_reasons/:id/edit", to: "sub_deletion_reasons#edit", as: :sub_deletion_reason_edit
-  post "/c/:sub/deletion_reasons/:id", to: "sub_deletion_reasons#update", as: :sub_deletion_reason_update
-  get "/c/:sub/deletion_reasons/:id/delete/confirm", to: "sub_deletion_reasons#confirm", as: :sub_deletion_reason_delete_confirm
-  delete "/c/:sub/deletion_reasons/:id", to: "sub_deletion_reasons#destroy", as: :sub_deletion_reason_delete
-
   get "/c/:sub/tags", to: "sub_tags#index", as: :sub_tags
   get "/c/:sub/tags/new", to: "sub_tags#new", as: :sub_tag_new
   post "/c/:sub/tags", to: "sub_tags#create", as: :sub_tag_create
@@ -149,8 +141,8 @@ Rails.application.routes.draw do
     resources :rules, { except: [:show], concerns: [:confirmable] }.merge(options)
   end
 
-  concern :deletion_reasons do
-    resources :deletion_reasons, except: [:show], concerns: [:confirmable]
+  concern :deletion_reasons do |options|
+    resources :deletion_reasons, { except: [:show], concerns: [:confirmable] }.merge(options)
   end
 
   concern :pages do
@@ -175,6 +167,7 @@ Rails.application.routes.draw do
   resources :subs, only: [:index, :edit, :update], path: "/r" do
     concerns :blacklisted_domains, controller: :sub_blacklisted_domains
     concerns :rules, controller: :sub_rules
+    concerns :deletion_reasons
 
     get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
   end
