@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class SubsController < BaseSubController
+class SubsController < ApplicationController
   layout "narrow", only: "show"
-  skip_before_action :set_sub, only: [:index]
-  skip_before_action :set_navigation_title, only: [:index]
+  before_action :set_sub, except: [:index]
+  before_action :set_navigation_title, except: [:index]
 
   def index
     @records = Sub.include(ChronologicalOrder)
@@ -52,13 +52,21 @@ class SubsController < BaseSubController
     @form = UpdateSub.new(update_params.merge(sub: @sub, current_user: Current.user))
 
     if @form.save
-      head :no_content, location: sub_edit_path(@sub)
+      head :no_content, location: edit_sub_path(@sub)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
   end
 
   private
+
+  def set_sub
+    @sub = Sub.where("lower(url) = ?", params[:id].downcase).take!
+  end
+
+  def set_navigation_title
+    @navigation_title = @sub.title
+  end
 
   def update_params
     params.require(:update_sub).permit(:title, :description)

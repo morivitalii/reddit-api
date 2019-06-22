@@ -5,11 +5,11 @@
 
 <div class="row mt-3 mb-3">
   <div class="col-12 h5 mb-0">
-    <%= link_to(t('settings'), sub_edit_path(@sub)) %>
+    <%= link_to(t('settings'), edit_sub_path(@sub)) %>
   </div>
 
   <div class="col-12 mt-2">
-    <%= form_with(model: @form, url: sub_update_path(@sub), class: 'subSettingsForm') do |f| %>
+    <%= form_with(model: @form, url: sub_path(@sub), method: :put, class: 'subSettingsForm') do |f| %>
       <%= f.text_field :title %>
       <%= f.text_area :description %>
       <%= f.submit t('update') %>

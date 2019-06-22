@@ -36,12 +36,6 @@ Rails.application.routes.draw do
     get "/u/:username/bookmarks(/:thing_type)", to: "user_bookmarks#index", as: :bookmarks, constraints: { thing_type: thing_type_regex }, defaults: { thing_type: "all" }
     get "/u/:username/votes(/:vote_type)(/:thing_type)", to: "user_votes#index", as: :votes, constraints: { vote_type: vote_type_regex, thing_type: thing_type_regex }, defaults: { vote_type: "all", thing_type: "all" }
 
-    get "/communities", to: "subs#index", as: :subs
-    get "/c/:sub(/:thing_sort)(/:thing_date)", to: "subs#show", as: :sub, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
-    get "/c/:sub/edit", to: "subs#edit", as: :sub_edit
-
-    post "/c/:sub/edit", to: "subs#update", as: :sub_update
-
     get "/c/:sub/mod_queue(/:mod_queue_type)(/:thing_type)", to: "sub_mod_queue#index", as: :sub_mod_queue, constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
     get "/c/:sub/logs", to: "sub_logs#index", as: :sub_logs
 
@@ -169,6 +163,10 @@ Rails.application.routes.draw do
     resources :pages, concerns: [:confirmable]
     resources :bans, except: [:show], concerns: [:searchable, :confirmable]
     resources :logs, only: [:index]
+  end
+
+  resources :subs, only: [:index, :edit, :update], path: "/r" do
+    get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
   end
 
   match "*path", via: :all, to: "page_not_found#show"

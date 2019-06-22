@@ -106,7 +106,7 @@ module ApplicationHelper
     end
 
     if SubsPolicy.authorize(:update, sub)
-      menu[t("settings")] = sub_edit_path(sub)
+      menu[t("settings")] = edit_sub_path(sub)
     end
 
     menu
