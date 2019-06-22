@@ -99,13 +99,6 @@ Rails.application.routes.draw do
   get "/c/:sub/pages/:id/delete/confirm", to: "sub_pages#confirm", as: :sub_page_delete_confirm
   delete "/c/:sub/pages/:id", to: "sub_pages#destroy", as: :sub_page_delete
 
-  get "/c/:sub/blacklisted_domains", to: "sub_blacklisted_domains#index", as: :sub_blacklisted_domains
-  post "/c/:sub/blacklisted_domains/search", to: "sub_blacklisted_domains#search", as: :sub_blacklisted_domains_search
-  get "/c/:sub/blacklisted_domains/new", to: "sub_blacklisted_domains#new", as: :sub_blacklisted_domain_new
-  post "/c/:sub/blacklisted_domains", to: "sub_blacklisted_domains#create", as: :sub_blacklisted_domain_create
-  get "/c/:sub/blacklisted_domains/:id/delete/confirm", to: "sub_blacklisted_domains#confirm", as: :sub_blacklisted_domain_delete_confirm
-  delete "/c/:sub/blacklisted_domains/:id", to: "sub_blacklisted_domains#destroy", as: :sub_blacklisted_domain_delete
-
   get "/post/new", to: "post#new", as: :post_new
 
   get "/c/:sub/text/new", to: "text_post#new", as: :text_post_new
@@ -156,8 +149,8 @@ Rails.application.routes.draw do
   get "/c/:sub/:id/comments/edit", to: "thing_comments#edit", as: :thing_comment_edit
   put "/c/:sub/:id/comments", to: "thing_comments#update", as: :thing_comment_update
 
-  concern :blacklisted_domains do
-    resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
+  concern :blacklisted_domains do |options|
+    resources :blacklisted_domains, { except: [:show, :edit, :update], concerns: [:searchable, :confirmable] }.merge(options)
   end
 
   concern :rules do
@@ -188,6 +181,8 @@ Rails.application.routes.draw do
   concerns :logs
 
   resources :subs, only: [:index, :edit, :update], path: "/r" do
+    concerns :blacklisted_domains, controller: :sub_blacklisted_domains
+
     get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
   end
 

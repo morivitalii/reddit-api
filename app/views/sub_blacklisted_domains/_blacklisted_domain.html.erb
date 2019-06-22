@@ -3,7 +3,7 @@
     <%= blacklisted_domain.domain %>
 
     <div class="actions">
-      <%= link_to(fa_icon('trash'), sub_blacklisted_domain_delete_confirm_path(@sub, blacklisted_domain), remote: true, class: 'delete') %>
+      <%= link_to(fa_icon('trash'), confirm_sub_blacklisted_domain_path(@sub, blacklisted_domain), remote: true, class: 'delete') %>
     </div>
   </div>
 </div>

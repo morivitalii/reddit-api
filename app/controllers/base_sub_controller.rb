@@ -7,7 +7,7 @@ class BaseSubController < ApplicationController
   private
 
   def set_sub
-    @sub = Sub.where("lower(url) = ?", params[:sub].downcase).take!
+    @sub = Sub.where("lower(url) = ?", params[:sub_id].downcase).take!
   end
 
   def set_navigation_title
