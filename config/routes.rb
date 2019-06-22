@@ -172,12 +172,16 @@ Rails.application.routes.draw do
     resources :pages, concerns: [:confirmable]
   end
 
+  concern :bans do
+    resources :bans, except: [:show], concerns: [:searchable, :confirmable]
+  end
+
   concerns :blacklisted_domains
   concerns :rules
   concerns :deletion_reasons
   concerns :pages
+  concerns :bans
 
-  resources :bans, except: [:show], concerns: [:searchable, :confirmable]
   resources :logs, only: [:index]
 
   resources :subs, only: [:index, :edit, :update], path: "/r" do
