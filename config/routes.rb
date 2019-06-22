@@ -176,13 +176,16 @@ Rails.application.routes.draw do
     resources :bans, except: [:show], concerns: [:searchable, :confirmable]
   end
 
+  concern :logs do
+    resources :logs, only: [:index]
+  end
+
   concerns :blacklisted_domains
   concerns :rules
   concerns :deletion_reasons
   concerns :pages
   concerns :bans
-
-  resources :logs, only: [:index]
+  concerns :logs
 
   resources :subs, only: [:index, :edit, :update], path: "/r" do
     get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
