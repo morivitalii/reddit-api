@@ -168,11 +168,15 @@ Rails.application.routes.draw do
     resources :deletion_reasons, except: [:show], concerns: [:confirmable]
   end
 
+  concern :pages do
+    resources :pages, concerns: [:confirmable]
+  end
+
   concerns :blacklisted_domains
   concerns :rules
   concerns :deletion_reasons
+  concerns :pages
 
-  resources :pages, concerns: [:confirmable]
   resources :bans, except: [:show], concerns: [:searchable, :confirmable]
   resources :logs, only: [:index]
 
