@@ -36,7 +36,6 @@ Rails.application.routes.draw do
   get "/u/:username/votes(/:vote_type)(/:thing_type)", to: "user_votes#index", as: :votes, constraints: { vote_type: vote_type_regex, thing_type: thing_type_regex }, defaults: { vote_type: "all", thing_type: "all" }
 
   get "/c/:sub/mod_queue(/:mod_queue_type)(/:thing_type)", to: "sub_mod_queue#index", as: :sub_mod_queue, constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
-  get "/c/:sub/logs", to: "sub_logs#index", as: :sub_logs
 
   post "/c/:sub/follow", to: "sub_follow#create", as: :sub_follow_create
   delete "c/:sub/follow", to: "sub_follow#destroy", as: :sub_follow_delete
@@ -144,6 +143,7 @@ Rails.application.routes.draw do
     concerns :deletion_reasons, controller: :sub_deletion_reasons
     concerns :pages, controller: :sub_pages
     concerns :bans, controller: :sub_bans
+    concerns :logs, controller: :sub_logs
 
     resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
 
