@@ -10,12 +10,12 @@
     </div>
 
     <div class="actions">
-      <%= link_to(t('create'), sub_ban_new_path(@sub), remote: true, class: 'create') %>
+      <%= link_to(t('create'), new_sub_ban_path(@sub), remote: true, class: 'create') %>
     </div>
   </div>
 
   <div class="search col-12">
-    <%= form_with(url: sub_bans_search_path(@sub), local: true, class: "form-inline") do |f| %>
+    <%= form_with(url: search_sub_bans_path(@sub), local: true, class: "form-inline") do |f| %>
       <%= f.text_field :query, value: params[:query], placeholder: t("username") %>
       <%= f.submit t("search") %>
       <%= link_to(t("reset"), sub_bans_path(@sub), class: "btn btn-primary") %>
