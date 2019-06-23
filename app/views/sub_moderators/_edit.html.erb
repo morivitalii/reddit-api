@@ -1,5 +1,5 @@
 <%= render 'shared/modal', title: t('edit') do %>
-  <%= form_with(model: @form, url: sub_moderator_update_path(@sub, @moderator), class: 'updateForm') do |f| %>
+  <%= form_with(model: @form, url: sub_moderator_path(@sub, @moderator), method: :put, class: 'updateForm') do |f| %>
     <div class="modal-body">
       <%= f.check_box :master %>
     </div>

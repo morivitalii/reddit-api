@@ -1,5 +1,5 @@
 <%= render 'shared/modal', title: t('create') do %>
-  <%= form_with(model: @form, url: sub_moderator_create_path(@sub)) do |f| %>
+  <%= form_with(model: @form, url: sub_moderators_path(@sub)) do |f| %>
     <div class="modal-body">
       <%= f.text_field :username %>
       <%= f.check_box :master %>
