@@ -37,9 +37,6 @@ Rails.application.routes.draw do
 
   get "/c/:sub/mod_queue(/:mod_queue_type)(/:thing_type)", to: "sub_mod_queue#index", as: :sub_mod_queue, constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
 
-  post "/c/:sub/follow", to: "sub_follow#create", as: :sub_follow_create
-  delete "c/:sub/follow", to: "sub_follow#destroy", as: :sub_follow_delete
-
   get "/post/new", to: "post#new", as: :post_new
 
   get "/c/:sub/text/new", to: "text_post#new", as: :text_post_new
@@ -132,6 +129,7 @@ Rails.application.routes.draw do
     resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable], controller: :sub_contributors
     resources :moderators, except: [:show], concerns: [:searchable, :confirmable], controller: :sub_moderators
     resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
+    resource :follow, only: [:create, :destroy], controller: :sub_follow
 
     get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
   end
