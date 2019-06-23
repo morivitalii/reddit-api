@@ -40,13 +40,6 @@ Rails.application.routes.draw do
   post "/c/:sub/follow", to: "sub_follow#create", as: :sub_follow_create
   delete "c/:sub/follow", to: "sub_follow#destroy", as: :sub_follow_delete
 
-  get "/c/:sub/contributors", to: "sub_contributors#index", as: :sub_contributors
-  post "/c/:sub/contributors/search", to: "sub_contributors#search", as: :sub_contributors_search
-  get "/c/:sub/contributors/new", to: "sub_contributors#new", as: :sub_contributor_new
-  post "/c/:sub/contributors", to: "sub_contributors#create", as: :sub_contributor_create
-  get "/c/:sub/contributors/:id/delete/confirm", to: "sub_contributors#confirm", as: :sub_contributor_delete_confirm
-  delete "/c/:sub/contributors/:id", to: "sub_contributors#destroy", as: :sub_contributor_delete
-
   get "/post/new", to: "post#new", as: :post_new
 
   get "/c/:sub/text/new", to: "text_post#new", as: :text_post_new
@@ -136,6 +129,7 @@ Rails.application.routes.draw do
     concerns :bans, controller: :sub_bans
     concerns :logs, controller: :sub_logs
 
+    resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable], controller: :sub_contributors
     resources :moderators, except: [:show], concerns: [:searchable, :confirmable], controller: :sub_moderators
     resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
 
