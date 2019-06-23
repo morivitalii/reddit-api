@@ -66,14 +66,6 @@ Rails.application.routes.draw do
   get "/c/:sub/bans/:id/delete/confirm", to: "sub_bans#confirm", as: :sub_ban_delete_confirm
   delete "/c/:sub/bans/:id", to: "sub_bans#destroy", as: :sub_ban_delete
 
-  get "/c/:sub/tags", to: "sub_tags#index", as: :sub_tags
-  get "/c/:sub/tags/new", to: "sub_tags#new", as: :sub_tag_new
-  post "/c/:sub/tags", to: "sub_tags#create", as: :sub_tag_create
-  get "/c/:sub/tags/:id/edit", to: "sub_tags#edit", as: :sub_tag_edit
-  post "/c/:sub/tags/:id", to: "sub_tags#update", as: :sub_tag_update
-  get "/c/:sub/tags/:id/delete/confirm", to: "sub_tags#confirm", as: :sub_tag_delete_confirm
-  delete "/c/:sub/tags/:id", to: "sub_tags#destroy", as: :sub_tag_delete
-
   get "/post/new", to: "post#new", as: :post_new
 
   get "/c/:sub/text/new", to: "text_post#new", as: :text_post_new
@@ -160,6 +152,8 @@ Rails.application.routes.draw do
     concerns :rules, controller: :sub_rules
     concerns :deletion_reasons, controller: :sub_deletion_reasons
     concerns :pages, controller: :sub_pages
+
+    resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
 
     get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
   end
