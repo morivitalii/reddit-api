@@ -40,15 +40,6 @@ Rails.application.routes.draw do
   post "/c/:sub/follow", to: "sub_follow#create", as: :sub_follow_create
   delete "c/:sub/follow", to: "sub_follow#destroy", as: :sub_follow_delete
 
-  get "/c/:sub/moderators", to: "sub_moderators#index", as: :sub_moderators
-  post "/c/:sub/moderators/search", to: "sub_moderators#search", as: :sub_moderators_search
-  get "/c/:sub/moderators/new", to: "sub_moderators#new", as: :sub_moderator_new
-  post "/c/:sub/moderators", to: "sub_moderators#create", as: :sub_moderator_create
-  get "/c/:sub/moderators/:id/edit", to: "sub_moderators#edit", as: :sub_moderator_edit
-  post "/c/:sub/moderators/:id", to: "sub_moderators#update", as: :sub_moderator_update
-  get "/c/:sub/moderators/:id/delete/confirm", to: "sub_moderators#confirm", as: :sub_moderator_delete_confirm
-  delete "/c/:sub/moderators/:id", to: "sub_moderators#destroy", as: :sub_moderator_delete
-
   get "/c/:sub/contributors", to: "sub_contributors#index", as: :sub_contributors
   post "/c/:sub/contributors/search", to: "sub_contributors#search", as: :sub_contributors_search
   get "/c/:sub/contributors/new", to: "sub_contributors#new", as: :sub_contributor_new
@@ -145,6 +136,7 @@ Rails.application.routes.draw do
     concerns :bans, controller: :sub_bans
     concerns :logs, controller: :sub_logs
 
+    resources :moderators, except: [:show], concerns: [:searchable, :confirmable], controller: :sub_moderators
     resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
 
     get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
