@@ -3,8 +3,8 @@
     <%= tag.title %>
 
     <div class="actions">
-      <%= link_to(fa_icon('pencil'), sub_tag_edit_path(@sub, tag), remote: true, class: 'update') %>
-      <%= link_to(fa_icon('trash'), sub_tag_delete_confirm_path(@sub, tag), remote: true, class: 'delete') %>
+      <%= link_to(fa_icon('pencil'), edit_sub_tag_path(@sub, tag), remote: true, class: 'update') %>
+      <%= link_to(fa_icon('trash'), confirm_sub_tag_path(@sub, tag), remote: true, class: 'delete') %>
     </div>
   </div>
 </div>
