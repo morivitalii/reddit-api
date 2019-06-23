@@ -57,15 +57,6 @@ Rails.application.routes.draw do
   get "/c/:sub/contributors/:id/delete/confirm", to: "sub_contributors#confirm", as: :sub_contributor_delete_confirm
   delete "/c/:sub/contributors/:id", to: "sub_contributors#destroy", as: :sub_contributor_delete
 
-  get "/c/:sub/bans", to: "sub_bans#index", as: :sub_bans
-  post "/c/:sub/bans/search", to: "sub_bans#search", as: :sub_bans_search
-  get "/c/:sub/bans/new", to: "sub_bans#new", as: :sub_ban_new
-  post "/c/:sub/bans", to: "sub_bans#create", as: :sub_ban_create
-  get "/c/:sub/bans/:id/edit", to: "sub_bans#edit", as: :sub_ban_edit
-  post "/c/:sub/bans/:id", to: "sub_bans#update", as: :sub_ban_update
-  get "/c/:sub/bans/:id/delete/confirm", to: "sub_bans#confirm", as: :sub_ban_delete_confirm
-  delete "/c/:sub/bans/:id", to: "sub_bans#destroy", as: :sub_ban_delete
-
   get "/post/new", to: "post#new", as: :post_new
 
   get "/c/:sub/text/new", to: "text_post#new", as: :text_post_new
@@ -152,6 +143,7 @@ Rails.application.routes.draw do
     concerns :rules, controller: :sub_rules
     concerns :deletion_reasons, controller: :sub_deletion_reasons
     concerns :pages, controller: :sub_pages
+    concerns :bans, controller: :sub_bans
 
     resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
 

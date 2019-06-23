@@ -3,8 +3,8 @@
     <%= link_to(ban.user.username, ban.user) %>
 
     <div class="actions">
-      <%= link_to(fa_icon('pencil'), sub_ban_edit_path(@sub, ban), remote: true, class: 'update') %>
-      <%= link_to(fa_icon('trash'), sub_ban_delete_confirm_path(@sub, ban), remote: true, class: 'delete') %>
+      <%= link_to(fa_icon('pencil'), edit_sub_ban_path(@sub, ban), remote: true, class: 'update') %>
+      <%= link_to(fa_icon('trash'), confirm_sub_ban_path(@sub, ban), remote: true, class: 'delete') %>
       <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>
     </div>
   </div>
