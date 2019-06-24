@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class ThingTagController < BaseThingController
+class TagThingsController < BaseThingController
   def edit
-    ThingTagPolicy.authorize!(:update, @thing)
+    TagThingPolicy.authorize!(:update, @thing)
 
     @form = UpdateThingTag.new(tag: @thing.tag)
 
@@ -10,7 +10,7 @@ class ThingTagController < BaseThingController
   end
 
   def update
-    ThingTagPolicy.authorize!(:update, @thing)
+    TagThingPolicy.authorize!(:update, @thing)
 
     @form = UpdateThingTag.new(update_params.merge(thing: @thing, current_user: Current.user))
 
@@ -28,6 +28,6 @@ class ThingTagController < BaseThingController
   end
 
   def set_thing
-    @thing = @sub.things.thing_type(:post).find(params[:id])
+    @thing = @sub.things.thing_type(:post).find(params[:thing_id])
   end
 end
