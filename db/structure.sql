@@ -643,7 +643,8 @@ CREATE TABLE public.things (
     content_type integer NOT NULL,
     reports_count integer DEFAULT 0 NOT NULL,
     receive_notifications boolean DEFAULT false NOT NULL,
-    ignore_reports boolean DEFAULT false NOT NULL
+    ignore_reports boolean DEFAULT false NOT NULL,
+    deleted_by_id bigint
 );
 
 
@@ -1492,6 +1493,13 @@ CREATE INDEX index_things_on_deleted_at_id ON public.things USING btree (deleted
 
 
 --
+-- Name: index_things_on_deleted_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_things_on_deleted_by_id ON public.things USING btree (deleted_by_id);
+
+
+--
 -- Name: index_things_on_hot_score; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1765,6 +1773,14 @@ ALTER TABLE ONLY public.votes
 
 
 --
+-- Name: things fk_rails_8a69a3b738; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.things
+    ADD CONSTRAINT fk_rails_8a69a3b738 FOREIGN KEY (deleted_by_id) REFERENCES public.users(id);
+
+
+--
 -- Name: logs fk_rails_8fc980bf44; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1925,6 +1941,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190616102128'),
 ('20190616104344'),
 ('20190616105241'),
-('20190619151146');
+('20190619151146'),
+('20190624121820');
 
 
