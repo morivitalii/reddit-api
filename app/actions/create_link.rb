@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateLinkPost
+class CreateLink
   include ActiveModel::Model
 
   attr_accessor :sub, :current_user, :title, :url, :explicit, :spoiler

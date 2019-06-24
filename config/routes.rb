@@ -39,9 +39,6 @@ Rails.application.routes.draw do
 
   get "/post/new", to: "post#new", as: :post_new
 
-  get "/c/:sub/link/new", to: "link_post#new", as: :link_post_new
-  post "/c/:sub/link", to: "link_post#create", as: :link_post_create
-
   get "/c/:sub/media/new", to: "media_post#new", as: :media_post_new
   post "/c/:sub/media", to: "media_post#create", as: :media_post_create
 
@@ -115,6 +112,7 @@ Rails.application.routes.draw do
 
   resources :subs, only: [:index, :edit, :update], path: "/r" do
     resources :texts, only: [:new, :edit, :create, :update]
+    resources :links, only: [:new, :create]
 
     concerns :blacklisted_domains, controller: :sub_blacklisted_domains
     concerns :rules, controller: :sub_rules

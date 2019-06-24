@@ -11,7 +11,7 @@
         </li>
 
         <li class="nav-item">
-          <%= link_to(t('link'), link_post_new_path(@sub, :link), class: 'nav-link active h6 border-bottom border-left border-right rounded-0 p-3') %>
+          <%= link_to(t('link'), new_sub_link_path(@sub), class: 'nav-link active h6 border-bottom border-left border-right rounded-0 p-3') %>
         </li>
 
         <li class="nav-item">
@@ -21,7 +21,7 @@
     </div>
 
     <div class="col-12 mt-2 mb-3">
-      <%= form_with(model: @form, url: link_post_create_path(@sub), class: 'createPostForm') do |f| %>
+      <%= form_with(model: @form, url: sub_links_path(@sub), class: 'createPostForm') do |f| %>
         <%= f.text_area :title, rows: 3 %>
         <%= f.text_area :url, rows: 3 %>
         <%= f.check_box :explicit %>
