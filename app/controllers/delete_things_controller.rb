@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class ThingDeleteController < BaseThingController
+class DeleteThingsController < BaseThingController
   def new
-    ThingDeletePolicy.authorize!(:create, @thing)
+    DeleteThingPolicy.authorize!(:create, @thing)
 
     @form = MarkThingAsDeleted.new(deletion_reason: @thing.deletion_reason)
 
@@ -10,7 +10,7 @@ class ThingDeleteController < BaseThingController
   end
 
   def create
-    ThingDeletePolicy.authorize!(:create, @thing)
+    DeleteThingPolicy.authorize!(:create, @thing)
 
     @form = MarkThingAsDeleted.new(create_params.merge(thing: @thing, current_user: Current.user))
 

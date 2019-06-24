@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ThingDeletePolicy < ApplicationPolicy
+class DeleteThingPolicy < ApplicationPolicy
   def create?(thing)
     return false unless user?
 

@@ -21,8 +21,8 @@
         <%= link_to(t("approve"), sub_thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve dropdown-item') %>
       <% end %>
 
-      <% if !thing.deleted? && ThingDeletePolicy.authorize(:create, thing) %>
-        <%= link_to(t("delete"), thing_delete_new_path(thing.sub, thing), remote: true, method: :get, class: "delete dropdown-item") %>
+      <% if !thing.deleted? && DeleteThingPolicy.authorize(:create, thing) %>
+        <%= link_to(t("delete"), new_sub_thing_delete_path(thing.sub, thing), remote: true, method: :get, class: "delete dropdown-item") %>
       <% end %>
 
       <%= link_to(t('report'), thing_report_new_path(thing.sub, thing), remote: true, class: 'report dropdown-item') %>

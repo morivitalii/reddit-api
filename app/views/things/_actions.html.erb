@@ -31,7 +31,7 @@
     <% end %>
   <% end %>
 
-  <% if ThingDeletePolicy.authorize(:create, thing) %>
+  <% if DeleteThingPolicy.authorize(:create, thing) %>
     <% if thing.deleted? %>
       <% title = t(
           "deleted_details",
@@ -43,7 +43,7 @@
       <% title = t("delete") %>
     <% end %>
 
-    <%= link_to(fa_icon("trash"), thing_delete_new_path(thing.sub, thing), remote: true, method: :get, class: "delete #{ "text-danger" if thing.deleted? }", data: { toggle: :tooltip }, title: title) %>
+    <%= link_to(fa_icon("trash"), new_sub_thing_delete_path(thing.sub, thing), remote: true, method: :get, class: "delete #{ "text-danger" if thing.deleted? }", data: { toggle: :tooltip }, title: title) %>
   <% end %>
 
   <span class="menu dropdown">
