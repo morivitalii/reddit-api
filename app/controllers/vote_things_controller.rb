@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class ThingVoteController < BaseThingController
+class VoteThingsController < BaseThingController
   def create
-    ThingVotePolicy.authorize!(:create)
+    VoteThingPolicy.authorize!(:create)
 
     @form = CreateThingVote.new(vote_params.merge(thing: @thing, current_user: Current.user))
 
