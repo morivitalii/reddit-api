@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ThingSpoilerPolicy < ApplicationPolicy
+class SpoilerThingPolicy < ApplicationPolicy
   def create?(thing)
     staff? || moderator?(thing.sub)
   end

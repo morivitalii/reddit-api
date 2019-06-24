@@ -79,11 +79,11 @@
           <% end %>
         <% end %>
 
-        <% if ThingSpoilerPolicy.authorize(:create, thing) %>
+        <% if SpoilerThingPolicy.authorize(:create, thing) %>
           <% if thing.spoiler? %>
-            <%= link_to(fa_icon('check-square-o', text: t('spoiler')), thing_spoiler_delete_path(thing.sub, thing), remote: true, method: :delete, class: 'spoiler dropdown-item') %>
+            <%= link_to(fa_icon('check-square-o', text: t('spoiler')), sub_thing_spoiler_path(thing.sub, thing), remote: true, method: :delete, class: 'spoiler dropdown-item') %>
           <% else %>
-            <%= link_to(fa_icon('square-o', text: t('spoiler')), thing_spoiler_create_path(thing.sub, thing), remote: true, method: :post, class: 'spoiler dropdown-item') %>
+            <%= link_to(fa_icon('square-o', text: t('spoiler')), sub_thing_spoiler_path(thing.sub, thing), remote: true, method: :post, class: 'spoiler dropdown-item') %>
           <% end %>
         <% end %>
 

@@ -44,9 +44,6 @@ Rails.application.routes.draw do
   get "/c/:sub/:id/tag", to: "thing_tag#edit", as: :thing_tag_edit
   post "/c/:sub/:id/tag", to: "thing_tag#update", as: :thing_tag_update
 
-  post "/c/:sub/:id/spoiler", to: "thing_spoiler#create", as: :thing_spoiler_create
-  delete "/c/:sub/:id/spoiler", to: "thing_spoiler#destroy", as: :thing_spoiler_delete
-
   post "/c/:sub/:id/subscribe", to: "thing_notifications#create", as: :thing_notifications_create
   delete "/c/:sub/:id/subscribe", to: "thing_notifications#destroy", as: :thing_notifications_delete
 
@@ -106,6 +103,7 @@ Rails.application.routes.draw do
       resource :vote_things, only: [:create], as: :vote, path: :vote
       resource :bookmark_things, only: [:create, :destroy], as: :bookmark, path: :bookmark
       resource :specify_things, only: [:create, :destroy], as: :specify, path: :specify
+      resource :spoiler_things, only: [:create, :destroy], as: :spoiler, path: :spoiler
     end
 
     concerns :blacklisted_domains, controller: :sub_blacklisted_domains

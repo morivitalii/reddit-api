@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class ThingSpoilerController < BaseThingController
+class SpoilerThingsController < BaseThingController
   def create
-    ThingSpoilerPolicy.authorize!(:create, @thing)
+    SpoilerThingPolicy.authorize!(:create, @thing)
 
     MarkThingAsSpoiler.new(thing: @thing, current_user: Current.user).call
 
@@ -10,7 +10,7 @@ class ThingSpoilerController < BaseThingController
   end
 
   def destroy
-    ThingSpoilerPolicy.authorize!(:destroy, @thing)
+    SpoilerThingPolicy.authorize!(:destroy, @thing)
 
     MarkThingAsNotSpoiler.new(thing: @thing, current_user: Current.user).call
 
@@ -20,6 +20,6 @@ class ThingSpoilerController < BaseThingController
   private
 
   def set_thing
-    @thing = @sub.things.thing_type(:post).find(params[:id])
+    @thing = @sub.things.thing_type(:post).find(params[:thing_id])
   end
 end
