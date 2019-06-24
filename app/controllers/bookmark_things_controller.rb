@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class ThingBookmarkController < BaseThingController
+class BookmarkThingsController < BaseThingController
   def create
-    ThingBookmarksPolicy.authorize!(:create)
+    BookmarkThingPolicy.authorize!(:create)
 
     CreateThingBookmark.new(thing: @thing, current_user: Current.user).call
 
@@ -10,7 +10,7 @@ class ThingBookmarkController < BaseThingController
   end
 
   def destroy
-    ThingBookmarksPolicy.authorize!(:destroy)
+    BookmarkThingPolicy.authorize!(:destroy)
 
     DeleteThingBookmark.new(thing: @thing, current_user: Current.user).call
 

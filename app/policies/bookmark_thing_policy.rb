@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ThingBookmarksPolicy < ApplicationPolicy
+class BookmarkThingPolicy < ApplicationPolicy
   def create?
     user?
   end
