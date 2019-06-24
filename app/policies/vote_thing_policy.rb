@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ThingVotePolicy < ApplicationPolicy
+class VoteThingPolicy < ApplicationPolicy
   def create?
     user?
   end

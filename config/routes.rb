@@ -41,8 +41,6 @@ Rails.application.routes.draw do
 
   post "/things_actions", to: "things_actions#index", as: :things_actions
 
-  post "/c/:sub/:id/vote", to: "thing_vote#create", as: :thing_vote
-
   post "/c/:sub/:id/explicit", to: "thing_explicit#create", as: :thing_explicit_create
   delete "/c/:sub/:id/explicit", to: "thing_explicit#destroy", as: :thing_explicit_delete
 
@@ -108,6 +106,7 @@ Rails.application.routes.draw do
     resources :things, only: [:show], path: "/" do
       resource :approve_things, only: [:create], as: :approve, path: :approve
       resource :delete_things, only: [:new, :create], as: :delete, path: :delete
+      resource :vote_things, only: [:create], as: :vote, path: :vote
       resource :bookmark_things, only: [:create, :destroy], as: :bookmark, path: :bookmark
     end
 
