@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class ThingExplicitController < BaseThingController
+class SpecifyThingsController < BaseThingController
   def create
-    ThingExplicitPolicy.authorize!(:create, @thing)
+    SpecifyThingPolicy.authorize!(:create, @thing)
 
     MarkThingAsExplicit.new(thing: @thing, current_user: Current.user).call
 
@@ -10,7 +10,7 @@ class ThingExplicitController < BaseThingController
   end
 
   def destroy
-    ThingExplicitPolicy.authorize!(:destroy, @thing)
+    SpecifyThingPolicy.authorize!(:destroy, @thing)
 
     MarkThingAsNotExplicit.new(thing: @thing, current_user: Current.user).call
 
@@ -20,6 +20,6 @@ class ThingExplicitController < BaseThingController
   private
 
   def set_thing
-    @thing = @sub.things.thing_type(:post).find(params[:id])
+    @thing = @sub.things.thing_type(:post).find(params[:thing_id])
   end
 end
