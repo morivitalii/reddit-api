@@ -17,8 +17,8 @@
         <%= link_to(t("bookmark"), thing_bookmark_create_path(thing.sub, thing), remote: true, method: :post, class: 'bookmark dropdown-item') %>
       <% end %>
 
-      <% if !thing.approved? && ThingApprovePolicy.authorize(:create, thing) %>
-        <%= link_to(t("approve"), thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve dropdown-item') %>
+      <% if !thing.approved? && ApproveThingPolicy.authorize(:create, thing) %>
+        <%= link_to(t("approve"), sub_thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve dropdown-item') %>
       <% end %>
 
       <% if !thing.deleted? && ThingDeletePolicy.authorize(:create, thing) %>

@@ -23,11 +23,11 @@
     <%= link_to(fa_icon('bookmark-o'), thing_bookmark_delete_path(thing.sub, thing), remote: true, method: :post, class: "bookmark" , data: { toggle: :tooltip }, title: t('bookmark')) %>
   <% end %>
 
-  <% if ThingApprovePolicy.authorize(:create, thing) %>
+  <% if ApproveThingPolicy.authorize(:create, thing) %>
     <% if thing.approved? %>
-      <%= link_to(fa_icon('check'), thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve text-success', data: { toggle: :tooltip }, title: t('approved_details', username: thing.approved_by.username, approved_at: l(thing.approved_at))) %>
+      <%= link_to(fa_icon('check'), sub_thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve text-success', data: { toggle: :tooltip }, title: t('approved_details', username: thing.approved_by.username, approved_at: l(thing.approved_at))) %>
     <% else %>
-      <%= link_to(fa_icon('check'), thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve', data: { toggle: :tooltip }, title: t('approve')) %>
+      <%= link_to(fa_icon('check'), sub_thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve', data: { toggle: :tooltip }, title: t('approve')) %>
     <% end %>
   <% end %>
 

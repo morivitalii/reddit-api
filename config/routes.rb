@@ -41,8 +41,6 @@ Rails.application.routes.draw do
 
   post "/things_actions", to: "things_actions#index", as: :things_actions
 
-  post "/c/:sub/:id/approve", to: "thing_approve#create", as: :thing_approve
-
   get "/c/:sub/:id/delete", to: "thing_delete#new", as: :thing_delete_new
   post "/c/:sub/:id/delete", to: "thing_delete#create", as: :thing_delete
 
@@ -113,7 +111,9 @@ Rails.application.routes.draw do
     resources :links, only: [:new, :create]
     resources :medias, only: [:new, :create]
 
-    resources :things, only: [:show], path: "/"
+    resources :things, only: [:show], path: "/" do
+      resource :approve_things, only: [:create], as: :approve, path: :approve
+    end
 
     concerns :blacklisted_domains, controller: :sub_blacklisted_domains
     concerns :rules, controller: :sub_rules
