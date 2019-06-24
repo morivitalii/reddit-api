@@ -6,6 +6,6 @@ class BaseThingController < BaseSubController
   private
 
   def set_thing
-    @thing = @sub.things.find(params[:id])
+    @thing = @sub.things.find(params[:thing_id])
   end
 end

@@ -27,6 +27,10 @@ class ThingsController < BaseThingController
 
   private
 
+  def set_thing
+    @thing = @sub.things.find(params[:id])
+  end
+
   def set_sort_options
     @sort_options = { best: t("best"), top: t("top"), new: t("new"), controversy: t("controversy"), old: t("old") }.with_indifferent_access
   end

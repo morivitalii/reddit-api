@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class ThingApproveController < BaseThingController
+class ApproveThingsController < BaseThingController
   def create
-    ThingApprovePolicy.authorize!(:create, @thing)
+    ApproveThingPolicy.authorize!(:create, @thing)
 
     MarkThingAsApproved.new(thing: @thing, current_user: Current.user).call
 
