@@ -15,13 +15,13 @@
         </li>
 
         <li class="nav-item">
-          <%= link_to(t('media'), media_post_new_path(@sub, :media), class: 'nav-link active h6 border-bottom rounded-0 p-3') %>
+          <%= link_to(t('media'), new_sub_media_path(@sub), class: 'nav-link active h6 border-bottom rounded-0 p-3') %>
         </li>
       </ul>
     </div>
 
     <div class="col-12 mt-2 mb-3">
-      <%= form_with(model: @form, url: media_post_create_path(@sub), multipart: true, class: 'createPostForm') do |f| %>
+      <%= form_with(model: @form, url: sub_medias_path(@sub), multipart: true, class: 'createPostForm') do |f| %>
         <%= f.text_area :title, rows: 3 %>
         <%= f.file_field :file %>
         <%= f.check_box :explicit %>

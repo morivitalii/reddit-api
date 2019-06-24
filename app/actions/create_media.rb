@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateMediaPost
+class CreateMedia
   include ActiveModel::Model
 
   attr_accessor :sub, :current_user, :title, :file, :explicit, :spoiler

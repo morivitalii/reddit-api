@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class MediaPostPolicy < ApplicationPolicy
+class MediaPolicy < ApplicationPolicy
   def create?(sub)
     return false if banned?(sub)
 
