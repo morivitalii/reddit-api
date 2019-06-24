@@ -39,7 +39,6 @@ Rails.application.routes.draw do
 
   get "/post/new", to: "post#new", as: :post_new
 
-  get "/c/:sub/:id", to: "things#show", as: :thing
   post "/things_actions", to: "things_actions#index", as: :things_actions
 
   post "/c/:sub/:id/approve", to: "thing_approve#create", as: :thing_approve
@@ -108,9 +107,13 @@ Rails.application.routes.draw do
   concerns :logs
 
   resources :subs, only: [:index, :edit, :update], path: "/r" do
+    get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
+
     resources :texts, only: [:new, :edit, :create, :update]
     resources :links, only: [:new, :create]
     resources :medias, only: [:new, :create]
+
+    resources :things, only: [:show], path: "/"
 
     concerns :blacklisted_domains, controller: :sub_blacklisted_domains
     concerns :rules, controller: :sub_rules
@@ -123,8 +126,6 @@ Rails.application.routes.draw do
     resources :moderators, except: [:show], concerns: [:searchable, :confirmable], controller: :sub_moderators
     resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
     resource :follow, only: [:create, :destroy], controller: :sub_follow
-
-    get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
   end
 
   match "*path", via: :all, to: "page_not_found#show"

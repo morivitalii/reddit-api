@@ -1,5 +1,5 @@
 <div data-id="<%= thing.id %>" class="actions col-12">
-  <%= link_to(thing.presenter.comments_count, thing_path(thing.sub, thing, anchor: 'comments'), class: "comments_count") %>
+  <%= link_to(thing.presenter.comments_count, sub_thing_path(thing.sub, thing, anchor: 'comments'), class: "comments_count") %>
 
   <span class="menu dropdown">
     <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
