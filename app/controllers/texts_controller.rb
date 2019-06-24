@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
-class TextPostController < BaseSubController
+class TextsController < BaseSubController
   before_action :set_thing, only: [:edit, :update]
 
   def new
-    TextPostPolicy.authorize!(:create, @sub)
+    TextPolicy.authorize!(:create, @sub)
 
-    @form = CreateTextPost.new
+    @form = CreateText.new
   end
 
   def edit
-    TextPostPolicy.authorize!(:update, @thing)
+    TextPolicy.authorize!(:update, @thing)
 
-    @form = UpdateTextPost.new(text: @thing.text)
+    @form = UpdateText.new(text: @thing.text)
   end
 
   def create
-    TextPostPolicy.authorize!(:create, @sub)
+    TextPolicy.authorize!(:create, @sub)
 
-    @form = CreateTextPost.new(create_params.merge(sub: @sub, current_user: Current.user))
+    @form = CreateText.new(create_params.merge(sub: @sub, current_user: Current.user))
 
     if @form.save
       head :no_content, location: thing_path(@sub, @form.post)
@@ -28,9 +28,9 @@ class TextPostController < BaseSubController
   end
 
   def update
-    TextPostPolicy.authorize!(:update, @thing)
+    TextPolicy.authorize!(:update, @thing)
 
-    @form = UpdateTextPost.new(update_params.merge(post: @thing))
+    @form = UpdateText.new(update_params.merge(post: @thing))
 
     if @form.save
       head :no_content, location: thing_path(@sub, @form.post)
@@ -42,15 +42,14 @@ class TextPostController < BaseSubController
   private
 
   def set_thing
-    # No index in db for content_type column
     @thing = @sub.things.thing_type(:post).where(content_type: :text).find(params[:id])
   end
 
   def create_params
-    params.require(:create_text_post).permit(:title, :text, :explicit, :spoiler)
+    params.require(:create_text).permit(:title, :text, :explicit, :spoiler)
   end
 
   def update_params
-    params.require(:update_text_post).permit(:text)
+    params.require(:update_text).permit(:text)
   end
 end

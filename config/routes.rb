@@ -39,11 +39,6 @@ Rails.application.routes.draw do
 
   get "/post/new", to: "post#new", as: :post_new
 
-  get "/c/:sub/text/new", to: "text_post#new", as: :text_post_new
-  post "/c/:sub/text", to: "text_post#create", as: :text_post_create
-  get "/c/:sub/:id/edit", to: "text_post#edit", as: :text_post_edit
-  put "/c/:sub/:id", to: "text_post#update", as: :text_post_update
-
   get "/c/:sub/link/new", to: "link_post#new", as: :link_post_new
   post "/c/:sub/link", to: "link_post#create", as: :link_post_create
 
@@ -119,6 +114,8 @@ Rails.application.routes.draw do
   concerns :logs
 
   resources :subs, only: [:index, :edit, :update], path: "/r" do
+    resources :texts, only: [:new, :edit, :create, :update]
+
     concerns :blacklisted_domains, controller: :sub_blacklisted_domains
     concerns :rules, controller: :sub_rules
     concerns :deletion_reasons, controller: :sub_deletion_reasons

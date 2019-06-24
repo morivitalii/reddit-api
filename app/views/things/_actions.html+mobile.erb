@@ -32,8 +32,8 @@
       <% end %>
 
       <% if thing.post? %>
-        <% if thing.text? && TextPostPolicy.authorize(:update, thing) %>
-          <%= link_to(t("edit"), text_post_edit_path(thing.sub, thing), class: "dropdown-item") %>
+        <% if thing.text? && TextPolicy.authorize(:update, thing) %>
+          <%= link_to(t("edit"), edit_sub_text_path(thing.sub, thing), class: "dropdown-item") %>
         <% end %>
 
         <% if ThingTagPolicy.authorize(:update, thing) %>

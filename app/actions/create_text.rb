@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateTextPost
+class CreateText
   include ActiveModel::Model
 
   attr_accessor :sub, :current_user, :title, :text, :explicit, :spoiler

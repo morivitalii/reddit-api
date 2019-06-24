@@ -3,7 +3,7 @@
 <%= render 'subs/sidebar' %>
 
 <div class="col-12 bg-white border rounded mb-3 pt-2 pb-3">
-  <%= form_with(model: @form, url: text_post_update_path(@sub, @thing), method: :put, class: 'updatePostForm') do |f| %>
+  <%= form_with(model: @form, url: sub_text_path(@sub, @thing), method: :put, class: 'updatePostForm') do |f| %>
     <%= f.text_area :title, value: @thing.title, rows: 3, disabled: true %>
     <%= f.text_area :text %>
     <%= f.submit t('update') %>
