@@ -4,7 +4,7 @@
 
 <div class="row">
   <div class="col-12 mt-2 mb-3">
-    <%= form_with(model: @form, url: text_post_update_path(@sub, @thing), method: :put, class: 'updatePostForm') do |f| %>
+    <%= form_with(model: @form, url: sub_text_path(@sub, @thing), method: :put, class: 'updatePostForm') do |f| %>
       <%= f.text_area :title, value: @thing.title, rows: 3, disabled: true %>
       <%= f.text_area :text %>
       <%= f.submit t('update') %>

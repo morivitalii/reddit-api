@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TextPostPolicy < ApplicationPolicy
+class TextPolicy < ApplicationPolicy
   def create?(sub)
     return false if banned?(sub)
 
