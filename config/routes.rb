@@ -43,9 +43,6 @@ Rails.application.routes.draw do
 
   post "/c/:sub/:id/vote", to: "thing_vote#create", as: :thing_vote
 
-  post "/c/:sub/:id/bookmark", to: "thing_bookmark#create", as: :thing_bookmark_create
-  delete "/c/:sub/:id/bookmark", to: "thing_bookmark#destroy", as: :thing_bookmark_delete
-
   post "/c/:sub/:id/explicit", to: "thing_explicit#create", as: :thing_explicit_create
   delete "/c/:sub/:id/explicit", to: "thing_explicit#destroy", as: :thing_explicit_delete
 
@@ -111,6 +108,7 @@ Rails.application.routes.draw do
     resources :things, only: [:show], path: "/" do
       resource :approve_things, only: [:create], as: :approve, path: :approve
       resource :delete_things, only: [:new, :create], as: :delete, path: :delete
+      resource :bookmark_things, only: [:create, :destroy], as: :bookmark, path: :bookmark
     end
 
     concerns :blacklisted_domains, controller: :sub_blacklisted_domains
