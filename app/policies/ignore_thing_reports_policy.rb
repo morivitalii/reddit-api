@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ThingIgnoreReportsPolicy < ApplicationPolicy
+class IgnoreThingReportsPolicy < ApplicationPolicy
   def create?(thing)
     staff? || moderator?(thing.sub)
   end
