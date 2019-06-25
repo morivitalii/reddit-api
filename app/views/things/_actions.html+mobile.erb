@@ -7,8 +7,8 @@
     </span>
 
     <div class="dropdown-menu dropdown-menu-right">
-      <% if thing.comment? && ThingCommentsPolicy.authorize(:update, thing) %>
-        <%= link_to(t("edit"), thing_comment_edit_path(thing.sub, thing), remote: true, class: "update dropdown-item") %>
+      <% if thing.comment? && CommentsPolicy.authorize(:update, thing) %>
+        <%= link_to(t("edit"), edit_sub_thing_comment_path(thing.sub, thing), remote: true, class: "update dropdown-item") %>
       <% end %>
 
       <% if thing.bookmark.present? %>

@@ -41,11 +41,6 @@ Rails.application.routes.draw do
 
   post "/things_actions", to: "things_actions#index", as: :things_actions
 
-  get "/c/:sub/:id/comments/new", to: "thing_comments#new", as: :thing_comment_new
-  post "/c/:sub/:id/comments", to: "thing_comments#create", as: :thing_comment_create
-  get "/c/:sub/:id/comments/edit", to: "thing_comments#edit", as: :thing_comment_edit
-  put "/c/:sub/:id/comments", to: "thing_comments#update", as: :thing_comment_update
-
   concern :blacklisted_domains do |options|
     resources :blacklisted_domains, { except: [:show, :edit, :update], concerns: [:searchable, :confirmable] }.merge(options)
   end
@@ -95,6 +90,7 @@ Rails.application.routes.draw do
       resources :report_things, only: [:index, :new, :create], as: :reports, path: :reports
       resource :thing_subscriptions, only: [:create, :destroy], as: :subscription, path: :subscription
       resource :ignore_thing_reports, only: [:create, :destroy], as: :ignore_reports, path: :ignore_reports
+      resource :comments, only: [:new, :create, :edit, :update, :destroy], as: :comment, path: :comment
     end
 
     concerns :blacklisted_domains, controller: :sub_blacklisted_domains

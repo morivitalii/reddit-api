@@ -62,10 +62,10 @@
   <% unless @post.file_attacher.cached? %>
     <% if @comment.blank? %>
       <% if user_signed_in? %>
-        <% if ThingCommentsPolicy.authorize(:create, @sub) %>
+        <% if CommentsPolicy.authorize(:create, @sub) %>
           <div class="row mt-3">
             <div class="col-12">
-              <%= form_with(model: CreateThingComment.new, url: thing_comment_create_path(@post.sub, @post), class: 'createCommentForm') do |f| %>
+              <%= form_with(model: CreateComment.new, url: sub_thing_comment_path(@post.sub, @post), class: 'createCommentForm') do |f| %>
                 <%= f.text_area :text, label: false %>
                 <%= f.submit t('reply'), class: 'btn-sm' %>
 
