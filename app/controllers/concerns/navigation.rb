@@ -24,6 +24,7 @@ module Navigation
           navigation[:other][:items].push({ href: user_settings_path, title: t("settings") })
 
           if Current.variant.mobile?
+            # TODO: fix. link must be with option method: :delete
             navigation[:other][:items].push({ href: sign_out_path, title: t("sign_out") })
           end
 
