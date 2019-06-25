@@ -13,7 +13,7 @@
     <% if user_not_signed_in? %>
       <span class="float-right pt-2">
         <%= link_to(t('sign_in'), sign_in_new_path) %>
-        <%= link_to(t('sign_up'), sign_up_new_path) %>
+        <%= link_to(t('sign_up'), new_sign_up_path) %>
       </span>
     <% end %>
   <% end %>

@@ -17,8 +17,8 @@ Rails.application.routes.draw do
 
   get "/:thing_sort(/:thing_date)", to: "home#index", as: :home, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_date: "all" }
 
-  get "/sign_up", to: "sign_up#new", as: :sign_up_new
-  post "/sign_up", to: "sign_up#create", as: :sign_up
+  resource :sign_ups, only: [:new, :create], as: :sign_up, path: :sign_up
+
   get "/sign_in", to: "sign_in#new", as: :sign_in_new
   post "/sign_in", to: "sign_in#create", as: :sign_in
   get "/forgot_password", to: "forgot_password#new", as: :forgot_password_new
