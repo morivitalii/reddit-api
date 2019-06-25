@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ThingCommentsPolicy < ApplicationPolicy
+class CommentsPolicy < ApplicationPolicy
   def create?(sub)
     return false if banned?(sub)
 

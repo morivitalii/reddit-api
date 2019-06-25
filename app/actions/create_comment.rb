@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateThingComment
+class CreateComment
   include ActiveModel::Model
 
   attr_accessor :thing, :current_user, :text

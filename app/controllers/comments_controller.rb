@@ -1,28 +1,28 @@
 # frozen_string_literal: true
 
-class ThingCommentsController < BaseThingController
+class CommentsController < BaseThingController
   before_action :check_thing_type, only: [:edit, :update]
 
   def new
-    ThingCommentsPolicy.authorize!(:create, @sub)
+    CommentsPolicy.authorize!(:create, @sub)
 
-    @form = CreateThingComment.new
+    @form = CreateComment.new
 
     render partial: "new"
   end
 
   def edit
-    ThingCommentsPolicy.authorize!(:update, @thing)
+    CommentsPolicy.authorize!(:update, @thing)
 
-    @form = UpdateThingComment.new(text: @thing.text)
+    @form = UpdateComment.new(text: @thing.text)
 
     render partial: "edit"
   end
 
   def create
-    ThingCommentsPolicy.authorize!(:create, @sub)
+    CommentsPolicy.authorize!(:create, @sub)
 
-    @form = CreateThingComment.new(create_params.merge(thing: @thing, current_user: Current.user))
+    @form = CreateComment.new(create_params.merge(thing: @thing, current_user: Current.user))
 
     if @form.save
       render partial: "things/comment", locals: { item: { thing: @form.comment } }
@@ -32,9 +32,9 @@ class ThingCommentsController < BaseThingController
   end
 
   def update
-    ThingCommentsPolicy.authorize!(:update, @thing)
+    CommentsPolicy.authorize!(:update, @thing)
 
-    @form = UpdateThingComment.new(update_params.merge(comment: @thing))
+    @form = UpdateComment.new(update_params.merge(comment: @thing))
 
     if @form.save
       render partial: "things/comment", locals: { item: { thing: @form.comment } }
@@ -52,10 +52,10 @@ class ThingCommentsController < BaseThingController
   end
 
   def create_params
-    params.require(:create_thing_comment).permit(:text)
+    params.require(:create_comment).permit(:text)
   end
 
   def update_params
-    params.require(:update_thing_comment).permit(:text)
+    params.require(:update_comment).permit(:text)
   end
 end
