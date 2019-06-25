@@ -1,5 +1,5 @@
 <%= render 'shared/modal', title: t('report') do %>
-  <%= form_with(model: @form, url: thing_report_create_path(@thing.sub, @thing), class: 'reportForm') do |f| %>
+  <%= form_with(model: @form, url: sub_thing_reports_path(@thing.sub, @thing), class: 'reportForm') do |f| %>
     <div class="modal-body">
       <% if @thing.sub.rules.present? %>
         <div class="reportOptionsList pt-2" data-toggle="collapse" data-target="#sub-reasons" aria-expanded="false">

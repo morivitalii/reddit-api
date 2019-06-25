@@ -47,10 +47,6 @@ Rails.application.routes.draw do
   post "/c/:sub/:id/ignore_reports", to: "thing_ignore_reports#create", as: :thing_ignore_reports_create
   delete "/c/:sub/:id/ignore_reports", to: "thing_ignore_reports#destroy", as: :thing_ignore_reports_delete
 
-  get "/c/:sub/:id/reports", to: "thing_reports#index", as: :thing_reports
-  get "/c/:sub/:id/reports/new", to: "thing_reports#new", as: :thing_report_new
-  post "/c/:sub/:id/reports", to: "thing_reports#create", as: :thing_report_create
-
   get "/c/:sub/:id/comments/new", to: "thing_comments#new", as: :thing_comment_new
   post "/c/:sub/:id/comments", to: "thing_comments#create", as: :thing_comment_create
   get "/c/:sub/:id/comments/edit", to: "thing_comments#edit", as: :thing_comment_edit
@@ -102,6 +98,7 @@ Rails.application.routes.draw do
       resource :specify_things, only: [:create, :destroy], as: :specify, path: :specify
       resource :spoiler_things, only: [:create, :destroy], as: :spoiler, path: :spoiler
       resource :tag_things, only: [:edit, :update], as: :tag, path: :tag
+      resources :report_things, only: [:index, :new, :create], as: :reports, path: :reports
     end
 
     concerns :blacklisted_domains, controller: :sub_blacklisted_domains

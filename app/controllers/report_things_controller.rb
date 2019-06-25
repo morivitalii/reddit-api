@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class ThingReportsController < BaseThingController
+class ReportThingsController < BaseThingController
   def index
-    ThingReportsPolicy.authorize!(:index, @sub)
+    ReportThingPolicy.authorize!(:index, @sub)
 
     @reports = @thing.reports.includes(:user).order(id: :asc).all
 
@@ -10,7 +10,7 @@ class ThingReportsController < BaseThingController
   end
 
   def new
-    ThingReportsPolicy.authorize!(:create)
+    ReportThingPolicy.authorize!(:create)
 
     @form = CreateThingReport.new
 
@@ -18,7 +18,7 @@ class ThingReportsController < BaseThingController
   end
 
   def create
-    ThingReportsPolicy.authorize!(:create)
+    ReportThingPolicy.authorize!(:create)
 
     @form = CreateThingReport.new(create_params.merge(thing: @thing, current_user: Current.user))
 

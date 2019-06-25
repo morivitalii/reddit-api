@@ -25,10 +25,10 @@
         <%= link_to(t("delete"), new_sub_thing_delete_path(thing.sub, thing), remote: true, method: :get, class: "delete dropdown-item") %>
       <% end %>
 
-      <%= link_to(t('report'), thing_report_new_path(thing.sub, thing), remote: true, class: 'report dropdown-item') %>
+      <%= link_to(t('report'), new_sub_thing_report_path(thing.sub, thing), remote: true, class: 'report dropdown-item') %>
 
-      <% if !thing.approved? && thing.reports_count.positive? && ThingReportsPolicy.authorize(:index, thing.sub) %>
-        <%= link_to(t('reports'), thing_reports_path(thing.sub, thing), remote: true, class: 'reports dropdown-item') %>
+      <% if !thing.approved? && thing.reports_count.positive? && ReportThingPolicy.authorize(:index, thing.sub) %>
+        <%= link_to(t('reports'), sub_thing_reports_path(thing.sub, thing), remote: true, class: 'reports dropdown-item') %>
       <% end %>
 
       <% if thing.post? %>
