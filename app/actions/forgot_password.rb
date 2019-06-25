@@ -17,5 +17,8 @@ class ForgotPassword
 
       ForgotPasswordMailer.with(email: user.email, token: user.forgot_password_token).forgot_password.deliver_later
     end
+
+    # No matter if user with email exists or not, we always return successful result
+    true
   end
 end

@@ -19,9 +19,8 @@ Rails.application.routes.draw do
 
   resource :sign_up, only: [:new, :create], controller: :sign_up
   resource :sign_in, only: [:new, :create], controller: :sign_in
+  resource :forgot_password, only: [:new, :create], controller: :forgot_password
 
-  get "/forgot_password", to: "forgot_password#new", as: :forgot_password_new
-  post "/forgot_password", to: "forgot_password#create", as: :forgot_password
   get "/new_password", to: "new_password#new", as: :new_password_new
   post "/new_password", to: "new_password#create", as: :new_password
   get "/sign_out", to: "sign_out#destroy", as: :sign_out
