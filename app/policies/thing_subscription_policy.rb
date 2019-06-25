@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ThingNotificationsPolicy < ApplicationPolicy
+class ThingSubscriptionPolicy < ApplicationPolicy
   def create?(thing)
     return unless user?
 
