@@ -47,7 +47,7 @@ ru:
         email: Email (необязательно)
       create_thing_comment:
         text: Комментарий
-      new_password:
+      change_password:
         password: Новый пароль
       update_user_settings:
         email: Email (необязательно)
@@ -89,7 +89,7 @@ ru:
   sign_in: Войти
   sign_out: Выйти
   forgot_password: Восстановить пароль
-  new_password: Новый пароль
+  change_password: Изменить пароль
   login_or_sign_up: Что думаете? Войдите или зарегистрируйтесь
   create_post: Добавить пост
   create_post_in: "Добавить пост в:"

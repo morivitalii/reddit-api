@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class NewPassword
+class ChangePassword
   include ActiveModel::Model
 
   attr_accessor :token, :password

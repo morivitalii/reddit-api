@@ -1,7 +1,7 @@
-<% content_for(:meta_title, t("new_password")) %>
+<% content_for(:meta_title, t("change_password")) %>
 
 <div class="col-6 mx-auto">
-  <%= form_with(model: @form, url: new_password_path, class: 'newPasswordForm') do |f| %>
+  <%= form_with(model: @form, url: password_path, method: :put, class: 'changePasswordForm') do |f| %>
     <%= f.hidden_field :email %>
     <%= f.hidden_field :token %>
     <%= f.password_field :password %>
