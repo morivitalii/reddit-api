@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SignUpsController < ApplicationController
+class SignUpController < ApplicationController
   def new
     @form = SignUp.new
 
