@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class UnsubscribeFromThingNotifications
+class SubscribeToThing
   def initialize(thing)
     @thing = thing
   end
 
   def call
-    @thing.update!(receive_notifications: false)
+    @thing.update!(receive_notifications: true)
   end
 end
