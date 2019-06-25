@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-class NewPasswordController < ApplicationController
+class PasswordController < ApplicationController
   layout "blank"
 
-  def new
-    @form = NewPassword.new(link_params)
+  def edit
+    @form = ChangePassword.new(link_params)
   end
 
-  def create
-    @form = NewPassword.new(create_params)
+  def update
+    @form = ChangePassword.new(create_params)
 
     if @form.save
       request.env["warden"].set_user(@form.user)
@@ -26,6 +26,6 @@ class NewPasswordController < ApplicationController
   end
 
   def create_params
-    params.require(:new_password).permit(:token, :password)
+    params.require(:change_password).permit(:token, :password)
   end
 end
