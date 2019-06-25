@@ -56,11 +56,11 @@
           <% end %>
         <% end %>
 
-        <% if ThingIgnoreReportsPolicy.authorize(:create, thing) %>
+        <% if IgnoreThingReportsPolicy.authorize(:create, thing) %>
           <% if thing.ignore_reports? %>
-            <%= link_to(fa_icon('check-square-o', text: t('ignore_reports')), thing_ignore_reports_delete_path(thing.sub, thing), remote: true, method: :delete, class: 'ignore_reports dropdown-item') %>
+            <%= link_to(fa_icon('check-square-o', text: t('ignore_reports')), sub_thing_ignore_reports_path(thing.sub, thing), remote: true, method: :delete, class: 'ignore_reports dropdown-item') %>
           <% else %>
-            <%= link_to(fa_icon('square-o', text: t('ignore_reports')), thing_ignore_reports_create_path(thing.sub, thing), remote: true, method: :post, class: 'ignore_reports dropdown-item') %>
+            <%= link_to(fa_icon('square-o', text: t('ignore_reports')), sub_thing_ignore_reports_path(thing.sub, thing), remote: true, method: :post, class: 'ignore_reports dropdown-item') %>
           <% end %>
         <% end %>
 

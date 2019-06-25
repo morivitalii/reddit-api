@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class ThingIgnoreReportsController < BaseThingController
+class IgnoreThingReportsController < BaseThingController
   def create
-    ThingIgnoreReportsPolicy.authorize!(:create, @thing)
+    IgnoreThingReportsPolicy.authorize!(:create, @thing)
 
     IgnoreThingReports.new(thing: @thing, current_user: Current.user).call
 
@@ -10,7 +10,7 @@ class ThingIgnoreReportsController < BaseThingController
   end
 
   def destroy
-    ThingIgnoreReportsPolicy.authorize!(:destroy, @thing)
+    IgnoreThingReportsPolicy.authorize!(:destroy, @thing)
 
     DoNotIgnoreThingReports.new(thing: @thing, current_user: Current.user).call
 
