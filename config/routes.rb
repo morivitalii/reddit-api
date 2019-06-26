@@ -22,9 +22,7 @@ Rails.application.routes.draw do
   resource :forgot_password, only: [:new, :create], controller: :forgot_password
   resource :password, only: [:edit, :update], controller: :password
   resource :sign_out, only: [:destroy], controller: :sign_out
-
-  get "/settings", to: "user_settings#edit", as: :user_settings_edit
-  post "/settings", to: "user_settings#update", as: :user_settings
+  resource :user_settings, only: [:edit, :update], path: :settings
 
   get "/u/:username(/:thing_type)(/:thing_sort)(/:thing_date)", to: "users#show", as: :user, constraints: { thing_type: thing_type_regex, thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_type: "all", thing_sort: "new", thing_date: "all" }
   get "/u/:username/mod_queue(/:mod_queue_type)(/:thing_type)", to: "user_mod_queue#index", as: :user_mod_queue, constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }

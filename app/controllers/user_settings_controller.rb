@@ -16,7 +16,7 @@ class UserSettingsController < ApplicationController
     @form = UpdateUserSettings.new(update_params.merge(user: @user))
 
     if @form.save
-      head :no_content, location: user_settings_edit_path
+      head :no_content, location: edit_user_settings_path
     else
       render json: @form.errors, status: :unprocessable_entity
     end
