@@ -34,7 +34,7 @@ gem "whenever", "1.0.0", require: false
 group :development, :test do
   gem "rubocop", "~> 0.71.0", require: false
   gem "rspec-rails", "~> 3.8"
-  gem "puma", "~> 3.11"
+  gem "puma", "~> 4.0"
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
 end
 
