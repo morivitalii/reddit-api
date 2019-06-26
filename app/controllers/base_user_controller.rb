@@ -7,7 +7,7 @@ class BaseUserController < ApplicationController
   private
 
   def set_user
-    @user = User.where("lower(username) = ?", params[:username].downcase).take!
+    @user = User.where("lower(username) = ?", params[:id].downcase).take!
   end
 
   def set_navigation_title

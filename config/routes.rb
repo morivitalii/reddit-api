@@ -13,29 +13,6 @@ Rails.application.routes.draw do
     get 'confirm', on: :member
   end
 
-  root "home#index", thing_sort: "hot", thing_date: "all"
-
-  get "/:thing_sort(/:thing_date)", to: "home#index", as: :home, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_date: "all" }
-
-  resource :sign_up, only: [:new, :create], controller: :sign_up
-  resource :sign_in, only: [:new, :create], controller: :sign_in
-  resource :forgot_password, only: [:new, :create], controller: :forgot_password
-  resource :password, only: [:edit, :update], controller: :password
-  resource :sign_out, only: [:destroy], controller: :sign_out
-  resource :user_settings, only: [:edit, :update], path: :settings
-
-  get "/u/:username(/:thing_type)(/:thing_sort)(/:thing_date)", to: "users#show", as: :user, constraints: { thing_type: thing_type_regex, thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_type: "all", thing_sort: "new", thing_date: "all" }
-  get "/u/:username/mod_queue(/:mod_queue_type)(/:thing_type)", to: "user_mod_queue#index", as: :user_mod_queue, constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
-  get "/u/:username/notifications", to: "user_notifications#index", as: :notifications
-  get "/u/:username/bookmarks(/:thing_type)", to: "user_bookmarks#index", as: :bookmarks, constraints: { thing_type: thing_type_regex }, defaults: { thing_type: "all" }
-  get "/u/:username/votes(/:vote_type)(/:thing_type)", to: "user_votes#index", as: :votes, constraints: { vote_type: vote_type_regex, thing_type: thing_type_regex }, defaults: { vote_type: "all", thing_type: "all" }
-
-  get "/c/:sub/mod_queue(/:mod_queue_type)(/:thing_type)", to: "sub_mod_queue#index", as: :sub_mod_queue, constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
-
-  get "/post/new", to: "post#new", as: :post_new
-
-  post "/things_actions", to: "things_actions#index", as: :things_actions
-
   concern :blacklisted_domains do |options|
     resources :blacklisted_domains, { except: [:show, :edit, :update], concerns: [:searchable, :confirmable] }.merge(options)
   end
@@ -59,6 +36,32 @@ Rails.application.routes.draw do
   concern :logs do
     resources :logs, only: [:index]
   end
+
+  root "home#index", thing_sort: "hot", thing_date: "all"
+
+  get "/:thing_sort(/:thing_date)", to: "home#index", as: :home, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_date: "all" }
+
+  resource :sign_up, only: [:new, :create], controller: :sign_up
+  resource :sign_in, only: [:new, :create], controller: :sign_in
+  resource :forgot_password, only: [:new, :create], controller: :forgot_password
+  resource :password, only: [:edit, :update], controller: :password
+  resource :sign_out, only: [:destroy], controller: :sign_out
+  resource :user_settings, only: [:edit, :update], path: :settings
+
+  resources :users, only: [], path: "/u" do
+    get "(/:thing_type)(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_type: thing_type_regex, thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_type: "all", thing_sort: "new", thing_date: "all" }
+  end
+
+  get "/u/:username/mod_queue(/:mod_queue_type)(/:thing_type)", to: "user_mod_queue#index", as: :user_mod_queue, constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
+  get "/u/:username/notifications", to: "user_notifications#index", as: :notifications
+  get "/u/:username/bookmarks(/:thing_type)", to: "user_bookmarks#index", as: :bookmarks, constraints: { thing_type: thing_type_regex }, defaults: { thing_type: "all" }
+  get "/u/:username/votes(/:vote_type)(/:thing_type)", to: "user_votes#index", as: :votes, constraints: { vote_type: vote_type_regex, thing_type: thing_type_regex }, defaults: { vote_type: "all", thing_type: "all" }
+
+  get "/c/:sub/mod_queue(/:mod_queue_type)(/:thing_type)", to: "sub_mod_queue#index", as: :sub_mod_queue, constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
+
+  get "/post/new", to: "post#new", as: :post_new
+
+  post "/things_actions", to: "things_actions#index", as: :things_actions
 
   concerns :blacklisted_domains
   concerns :rules
