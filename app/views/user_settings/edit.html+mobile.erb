@@ -4,7 +4,7 @@
 
 <div class="row mt-3 mb-3">
   <div class="col-12 mt-2">
-    <%= form_with(model: @form, url: user_settings_path, class: 'userSettingsForm') do |f| %>
+    <%= form_with(model: @form, url: user_settings_path, method: :put, class: 'userSettingsForm') do |f| %>
       <%= f.text_field :email %>
       <%= f.password_field :password %>
       <%= f.password_field :password_current %>
