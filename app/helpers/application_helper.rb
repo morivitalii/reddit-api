@@ -120,7 +120,7 @@ module ApplicationHelper
     }
 
     if Current.user&.id == user.id
-      menu[t("notifications")] = notifications_path(user)
+      menu[t("notifications")] = user_notifications_path(user)
     end
 
     if UserBookmarksPolicy.authorize(:index, user)
