@@ -20,7 +20,7 @@ module Navigation
             navigation[:other][:items].push({ href: user_path(Current.user), title: t("profile") })
           end
 
-          navigation[:other][:items].push({ href: notifications_path(Current.user), title: t("notifications") })
+          navigation[:other][:items].push({ href: user_notifications_path(Current.user), title: t("notifications") })
           navigation[:other][:items].push({ href: edit_user_settings_path, title: t("settings") })
 
           if Current.variant.mobile?

@@ -57,10 +57,11 @@ Rails.application.routes.draw do
   resources :users, only: [], path: "/u" do
     get "(/:thing_type)(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_type: thing_type_regex, thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_type: "all", thing_sort: "new", thing_date: "all" }
 
+    resources :user_notifications, only: [:index], as: :notifications, path: :notifications
+
     concerns :mod_queue, controller: :user_mod_queue
   end
 
-  get "/u/:username/notifications", to: "user_notifications#index", as: :notifications
   get "/u/:username/bookmarks(/:thing_type)", to: "user_bookmarks#index", as: :bookmarks, constraints: { thing_type: thing_type_regex }, defaults: { thing_type: "all" }
   get "/u/:username/votes(/:vote_type)(/:thing_type)", to: "user_votes#index", as: :votes, constraints: { vote_type: vote_type_regex, thing_type: thing_type_regex }, defaults: { vote_type: "all", thing_type: "all" }
 
