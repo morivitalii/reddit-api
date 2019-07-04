@@ -19,4 +19,10 @@ class UsersController < BaseUserController
       @after_record = @records.last
     end
   end
+
+  private
+
+  def set_user
+    @user = User.where("lower(username) = ?", params[:id].downcase).take!
+  end
 end
