@@ -3,7 +3,7 @@
 class SubModQueueController < BaseSubController
   layout "narrow"
 
-  def index
+  def show
     SubModQueuePolicy.authorize!(:index, @sub)
 
     @records = ModQueue.include(ReverseChronologicalOrder)

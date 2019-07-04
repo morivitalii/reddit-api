@@ -39,7 +39,7 @@ Rails.application.routes.draw do
 
   concern :mod_queue do |options|
     resource :mod_queue, { only: [] }.merge(options) do
-      get "(/:mod_queue_type)(:/thing_type)", action: :show, as: "", constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
+      get "(/:mod_queue_type)(/:thing_type)", action: :show, as: "", constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
     end
   end
 
@@ -63,8 +63,6 @@ Rails.application.routes.draw do
   get "/u/:username/bookmarks(/:thing_type)", to: "user_bookmarks#index", as: :bookmarks, constraints: { thing_type: thing_type_regex }, defaults: { thing_type: "all" }
   get "/u/:username/votes(/:vote_type)(/:thing_type)", to: "user_votes#index", as: :votes, constraints: { vote_type: vote_type_regex, thing_type: thing_type_regex }, defaults: { vote_type: "all", thing_type: "all" }
 
-  get "/c/:sub/mod_queue(/:mod_queue_type)(/:thing_type)", to: "sub_mod_queue#index", as: :sub_mod_queue, constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
-
   get "/post/new", to: "post#new", as: :post_new
 
   post "/things_actions", to: "things_actions#index", as: :things_actions
@@ -82,6 +80,8 @@ Rails.application.routes.draw do
     resources :texts, only: [:new, :edit, :create, :update]
     resources :links, only: [:new, :create]
     resources :medias, only: [:new, :create]
+
+    concerns :mod_queue, controller: :sub_mod_queue
 
     resources :things, only: [:show], path: "/" do
       resource :approve_things, only: [:create], as: :approve, path: :approve

@@ -8,7 +8,7 @@
 
     <div class="dropdown-menu">
       <% mod_queue_filter_options.each do |k, v| %>
-        <%= link_to(v, sub_mod_queue_path(@sub, queue_type: k), class: 'dropdown-item') %>
+        <%= link_to(v, sub_mod_queue_path(@sub, mod_queue_type: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
