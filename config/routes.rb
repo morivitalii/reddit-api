@@ -37,6 +37,12 @@ Rails.application.routes.draw do
     resources :logs, only: [:index]
   end
 
+  concern :mod_queue do |options|
+    resource :mod_queue, { only: [] }.merge(options) do
+      get "(/:mod_queue_type)(:/thing_type)", action: :show, as: "", constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
+    end
+  end
+
   root "home#index", thing_sort: "hot", thing_date: "all"
 
   get "/:thing_sort(/:thing_date)", to: "home#index", as: :home, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_date: "all" }
