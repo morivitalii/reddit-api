@@ -5,7 +5,7 @@ class UserModQueueController < BaseUserController
 
   before_action :set_navigation_title
 
-  def index
+  def show
     UserModQueuePolicy.authorize!(:index, @user)
 
     @records = ModQueue.include(ReverseChronologicalOrder)
