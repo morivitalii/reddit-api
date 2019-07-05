@@ -128,7 +128,7 @@ module ApplicationHelper
     end
 
     if UserVotesPolicy.authorize(:index, user)
-      menu[t("votes")] = votes_path(user)
+      menu[t("votes")] = user_votes_path(user)
     end
 
     menu
