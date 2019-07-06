@@ -30,46 +30,6 @@ class User < ApplicationRecord
     username
   end
 
-  def cached_staff
-    return @cached_staff if defined?(@cached_staff)
-
-    @cached_staff = Rails.cache.fetch("user-staff-#{id}-#{staff_updated_at}", expires_in: 24.hours) do
-      staff
-    end
-  end
-
-  def cached_moderators
-    return @cached_moderators if defined?(@cached_moderators)
-
-    @cached_moderators = Rails.cache.fetch("user-moderators-#{id}-#{moderators_updated_at}", expires_in: 24.hours) do
-      moderators.to_a
-    end
-  end
-
-  def cached_contributors
-    return @cached_contributors if defined?(@cached_contributors)
-
-    @cached_contributors = Rails.cache.fetch("user-contributors-#{id}-#{contributors_updated_at}", expires_in: 24.hours) do
-      contributors.to_a
-    end
-  end
-
-  def cached_bans
-    return @cached_bans if defined?(@cached_bans)
-
-    @cached_bans = Rails.cache.fetch("user-bans-#{id}-#{bans_updated_at}", expires_in: 24.hours) do
-      bans.to_a
-    end
-  end
-
-  def cached_follows
-    return @cached_follows if defined?(@cached_follows)
-
-    @cached_follows = Rails.cache.fetch("user-follows-#{id}-#{follows_updated_at}", expires_in: 24.hours) do
-      follows.to_a
-    end
-  end
-
   def policy
     @policy ||= ApplicationPolicy.new
   end

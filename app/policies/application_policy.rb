@@ -17,41 +17,41 @@ class ApplicationPolicy
   def staff?
     return false unless user?
 
-    Current.user.cached_staff.present?
+    Current.user.staff.present?
   end
 
   def master?(sub)
     return false unless user?
 
-    Current.user.cached_moderators.find { |i| i.master? && i.sub_id == sub.id }.present?
+    Current.user.moderators.find { |i| i.master? && i.sub_id == sub.id }.present?
   end
 
   def moderator?(sub = nil)
     return false unless user?
 
     if sub.present?
-      Current.user.cached_moderators.find { |i| i.sub_id == sub.id }.present?
+      Current.user.moderators.find { |i| i.sub_id == sub.id }.present?
     else
-      Current.user.cached_moderators.present?
+      Current.user.moderators.present?
     end
   end
 
   def contributor?(sub)
     return false unless user?
 
-    Current.user.cached_contributors.find { |i| i.sub_id == sub.id }.present?
+    Current.user.contributors.find { |i| i.sub_id == sub.id }.present?
   end
 
   def follower?(sub)
     return false unless user?
 
-    Current.user.cached_follows.find { |i| i.sub_id == sub.id }
+    Current.user.follows.find { |i| i.sub_id == sub.id }
   end
 
   def banned?(sub)
     return false unless user?
 
-    ban = Current.user.cached_bans.find { |i| i.sub_id == sub.id }
+    ban = Current.user.bans.find { |i| i.sub_id == sub.id }
 
     return false if ban.blank?
     return ban if ban.permanent?
