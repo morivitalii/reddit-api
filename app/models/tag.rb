@@ -29,7 +29,7 @@ class Tag < ApplicationRecord
   end
 
   def validate_limits
-    if sub.tags.count >= Limits.sub_tags
+    if sub.tags.count >= 100
       errors.add(:title, :tags_limit)
     end
   end

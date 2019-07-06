@@ -6,7 +6,7 @@ class CreateThingReport
   attr_accessor :thing, :current_user, :text
 
   def save
-    return false if @thing.reports_count >= Limits.thing_reports
+    return false if @thing.reports_count >= 100
     return false if @thing.ignore_reports?
 
     report = @thing.reports.find_or_initialize_by(user: @current_user)

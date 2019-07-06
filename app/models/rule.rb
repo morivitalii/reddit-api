@@ -23,11 +23,11 @@ class Rule < ApplicationRecord
 
   def validate_limits
     if sub.present?
-      if sub.rules.count >= Limits.sub_rules
+      if sub.rules.count >= 15
         errors.add(:title, :rules_limit)
       end
     else
-      if Rule.global.count >= Limits.rules
+      if Rule.global.count >= 15
         errors.add(:title, :rules_limit)
       end
     end
