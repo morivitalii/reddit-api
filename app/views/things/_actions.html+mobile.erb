@@ -48,7 +48,7 @@
           <% end %>
         <% end %>
 
-        <% if SpoilerThingPolicy.authorize(:create, thing) %>
+        <% if SpoilerThingPolicy.new(current_user, thing).create? %>
           <% if thing.spoiler? %>
             <%= link_to(fa_icon('check-square-o', text: t('spoiler')), sub_thing_spoiler_path(thing.sub, thing), remote: true, method: :delete, class: 'spoiler dropdown-item') %>
           <% else %>

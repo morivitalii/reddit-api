@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
 class SpoilerThingsController < BaseThingController
-  def create
-    SpoilerThingPolicy.authorize!(:create, @thing)
+  before_action -> { authorize(@thing, policy_class: SpoilerThingPolicy) }
 
+  def create
     MarkThingAsSpoiler.new(thing: @thing, current_user: current_user).call
 
     head :no_content
   end
 
   def destroy
-    SpoilerThingPolicy.authorize!(:destroy, @thing)
-
     MarkThingAsNotSpoiler.new(thing: @thing, current_user: current_user).call
 
     head :no_content
