@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApproveThingPolicy < ApplicationPolicy
-  def create?(thing)
-    staff? || moderator?(thing.sub)
+  def create?
+    staff? || moderator?(record.sub)
   end
 end
