@@ -31,7 +31,7 @@ class User < ApplicationRecord
   end
 
   def policy
-    @policy ||= ApplicationPolicy.new
+    @policy ||= ApplicationPolicy.new(self, nil)
   end
 
   private
