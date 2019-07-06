@@ -30,11 +30,11 @@ Rails.application.routes.draw do
   end
 
   concern :bans do |options|
-    resources :bans, except: [:show], concerns: [:searchable, :confirmable]
+    resources :bans, { except: [:show], concerns: [:searchable, :confirmable] }.merge(options)
   end
 
-  concern :logs do
-    resources :logs, only: [:index]
+  concern :logs  do |options|
+    resources :logs, { only: [:index] }.merge(options)
   end
 
   concern :mod_queue do |options|
