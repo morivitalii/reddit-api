@@ -10,6 +10,12 @@ module Authorization
 
     private
 
+    helper_method :current_user
+
+    def current_user
+      Current.user
+    end
+
     rescue_from "ApplicationPolicy::AuthorizationError", with: :authorization_error_response
 
     def authorization_error_response

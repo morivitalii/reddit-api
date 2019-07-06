@@ -4,7 +4,7 @@ class SubFollowController < BaseSubController
   def create
     SubFollowsPolicy.authorize!(:create)
 
-    CreateSubFollow.new(sub: @sub, current_user: Current.user).call
+    CreateSubFollow.new(sub: @sub, current_user: current_user).call
 
     head :no_content
   end
@@ -12,7 +12,7 @@ class SubFollowController < BaseSubController
   def destroy
     SubFollowsPolicy.authorize!(:destroy)
 
-    DeleteSubFollow.new(sub: @sub, current_user: Current.user).call
+    DeleteSubFollow.new(sub: @sub, current_user: current_user).call
 
     head :no_content
   end

@@ -38,7 +38,7 @@ class SubPagesController < BaseSubController
   def create
     SubPagesPolicy.authorize!(:create, @sub)
 
-    @form = CreateSubPage.new(create_params.merge(sub: @sub, current_user: Current.user))
+    @form = CreateSubPage.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
       head :no_content, location: sub_page_path(@sub, @form.page)
@@ -50,7 +50,7 @@ class SubPagesController < BaseSubController
   def update
     SubPagesPolicy.authorize!(:update, @sub)
 
-    @form = UpdateSubPage.new(update_params.merge(page: @page, current_user: Current.user))
+    @form = UpdateSubPage.new(update_params.merge(page: @page, current_user: current_user))
 
     if @form.save
       head :no_content, location: sub_page_path(@sub, @form.page)
@@ -68,7 +68,7 @@ class SubPagesController < BaseSubController
   def destroy
     SubPagesPolicy.authorize!(:destroy, @sub)
 
-    DeleteSubPage.new(page: @page, current_user: Current.user).call
+    DeleteSubPage.new(page: @page, current_user: current_user).call
 
     head :no_content
   end

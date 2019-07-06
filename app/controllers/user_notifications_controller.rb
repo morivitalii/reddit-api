@@ -8,8 +8,8 @@ class UserNotificationsController < BaseUserController
   def index
     UserNotificationsPolicy.authorize!(:index, @user)
 
-    if Current.user.id == @user.id
-      ResetUserNotificationsCounter.new(current_user: Current.user).call
+    if current_user.id == @user.id
+      ResetUserNotificationsCounter.new(current_user: current_user).call
     end
 
     @records = Notification.include(ReverseChronologicalOrder)

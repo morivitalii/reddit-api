@@ -22,7 +22,7 @@ class CommentsController < BaseThingController
   def create
     CommentsPolicy.authorize!(:create, @sub)
 
-    @form = CreateComment.new(create_params.merge(thing: @thing, current_user: Current.user))
+    @form = CreateComment.new(create_params.merge(thing: @thing, current_user: current_user))
 
     if @form.save
       render partial: "things/comment", locals: { item: { thing: @form.comment } }

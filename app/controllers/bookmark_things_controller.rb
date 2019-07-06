@@ -4,7 +4,7 @@ class BookmarkThingsController < BaseThingController
   def create
     BookmarkThingPolicy.authorize!(:create)
 
-    CreateThingBookmark.new(thing: @thing, current_user: Current.user).call
+    CreateThingBookmark.new(thing: @thing, current_user: current_user).call
 
     head :no_content
   end
@@ -12,7 +12,7 @@ class BookmarkThingsController < BaseThingController
   def destroy
     BookmarkThingPolicy.authorize!(:destroy)
 
-    DeleteThingBookmark.new(thing: @thing, current_user: Current.user).call
+    DeleteThingBookmark.new(thing: @thing, current_user: current_user).call
 
     head :no_content
   end

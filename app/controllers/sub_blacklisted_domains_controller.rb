@@ -38,7 +38,7 @@ class SubBlacklistedDomainsController < BaseSubController
   def create
     SubBlacklistedDomainsPolicy.authorize!(:create, @sub)
 
-    @form = CreateSubBlacklistedDomain.new(create_params.merge(sub: @sub, current_user: Current.user))
+    @form = CreateSubBlacklistedDomain.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
       head :no_content, location: sub_blacklisted_domains_path(@sub)
@@ -56,7 +56,7 @@ class SubBlacklistedDomainsController < BaseSubController
   def destroy
     SubBlacklistedDomainsPolicy.authorize!(:destroy, @sub)
 
-    DeleteSubBlacklistedDomain.new(blacklisted_domain: @blacklisted_domain, current_user: Current.user).call
+    DeleteSubBlacklistedDomain.new(blacklisted_domain: @blacklisted_domain, current_user: current_user).call
 
     head :no_content
   end

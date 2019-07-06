@@ -12,7 +12,7 @@ class TagThingsController < BaseThingController
   def update
     TagThingPolicy.authorize!(:update, @thing)
 
-    @form = UpdateThingTag.new(update_params.merge(thing: @thing, current_user: Current.user))
+    @form = UpdateThingTag.new(update_params.merge(thing: @thing, current_user: current_user))
 
     if @form.save
       render json: { tag: @form.thing.tag }

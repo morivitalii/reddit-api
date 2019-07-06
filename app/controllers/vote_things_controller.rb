@@ -4,7 +4,7 @@ class VoteThingsController < BaseThingController
   def create
     VoteThingPolicy.authorize!(:create)
 
-    @form = CreateThingVote.new(vote_params.merge(thing: @thing, current_user: Current.user))
+    @form = CreateThingVote.new(vote_params.merge(thing: @thing, current_user: current_user))
 
     if @form.save
       head :no_content

@@ -4,7 +4,7 @@ class IgnoreThingReportsController < BaseThingController
   def create
     IgnoreThingReportsPolicy.authorize!(:create, @thing)
 
-    IgnoreThingReports.new(thing: @thing, current_user: Current.user).call
+    IgnoreThingReports.new(thing: @thing, current_user: current_user).call
 
     head :no_content
   end
@@ -12,7 +12,7 @@ class IgnoreThingReportsController < BaseThingController
   def destroy
     IgnoreThingReportsPolicy.authorize!(:destroy, @thing)
 
-    DoNotIgnoreThingReports.new(thing: @thing, current_user: Current.user).call
+    DoNotIgnoreThingReports.new(thing: @thing, current_user: current_user).call
 
     head :no_content
   end

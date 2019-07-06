@@ -41,7 +41,7 @@ class RulesController < ApplicationController
   def create
     RulesPolicy.authorize!(:create)
 
-    @form = CreateRule.new(create_params.merge(current_user: Current.user))
+    @form = CreateRule.new(create_params.merge(current_user: current_user))
 
     if @form.save
       head :no_content, location: rules_path
@@ -53,7 +53,7 @@ class RulesController < ApplicationController
   def update
     RulesPolicy.authorize!(:update)
 
-    @form = UpdateRule.new(update_params.merge(rule: @rule, current_user: Current.user))
+    @form = UpdateRule.new(update_params.merge(rule: @rule, current_user: current_user))
 
     if @form.save
       render partial: "rule", object: @form.rule
@@ -71,7 +71,7 @@ class RulesController < ApplicationController
   def destroy
     RulesPolicy.authorize!(:destroy)
 
-    DeleteRule.new(rule: @rule, current_user: Current.user).call
+    DeleteRule.new(rule: @rule, current_user: current_user).call
 
     head :no_content
   end
