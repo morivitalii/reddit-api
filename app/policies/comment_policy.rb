@@ -2,14 +2,14 @@
 
 class CommentPolicy < ApplicationPolicy
   def create?
-    return false if banned?(record)
+    return false if banned_in_sub?(record)
 
     user?
   end
 
   def update?
     return false unless user?
-    return false if banned?(record.sub)
+    return false if banned_in_sub?(record.sub)
 
     record.user_id == user.id
   end

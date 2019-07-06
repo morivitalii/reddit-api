@@ -2,6 +2,6 @@
 
 class TagThingPolicy < ApplicationPolicy
   def update?(thing)
-    staff? || moderator?(thing.sub)
+    staff? || sub_moderator?(thing.sub)
   end
 end

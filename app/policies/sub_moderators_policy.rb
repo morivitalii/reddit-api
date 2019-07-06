@@ -2,7 +2,7 @@
 
 class SubModeratorsPolicy < ApplicationPolicy
   def create?(sub)
-    staff? || master?(sub)
+    staff? || sub_master?(sub)
   end
 
   alias update? create?

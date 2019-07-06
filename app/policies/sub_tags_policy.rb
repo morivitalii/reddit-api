@@ -2,7 +2,7 @@
 
 class SubTagsPolicy < ApplicationPolicy
   def index?(sub)
-    staff? || master?(sub)
+    staff? || sub_master?(sub)
   end
 
   alias create? index?

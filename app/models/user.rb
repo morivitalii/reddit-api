@@ -18,7 +18,7 @@ class User < ApplicationRecord
   has_many :logs
   has_many :rate_limits
 
-  delegate :staff?, :master?, :moderator?, :contributor?, :follower?, :banned?, to: :policy
+  delegate :staff?, :sub_master?, :sub_moderator?, :moderator?, :sub_contributor?, :sub_follower?, :banned_in_sub?, :banned_globally?, to: :policy
 
   before_save :nullify_email_on_save
 

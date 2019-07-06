@@ -2,7 +2,7 @@
 
 class SubPagesPolicy < ApplicationPolicy
   def create?(sub)
-    staff? || moderator?(sub)
+    staff? || sub_moderator?(sub)
   end
 
   alias update? create?

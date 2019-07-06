@@ -4,7 +4,7 @@ class DeleteThingPolicy < ApplicationPolicy
   def create?
     return false unless user?
 
-    staff? || moderator?(record.sub) || record.user_id == user.id
+    staff? || sub_moderator?(record.sub) || record.user_id == user.id
   end
 
   alias new? create?

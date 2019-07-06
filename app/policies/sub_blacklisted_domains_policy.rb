@@ -2,7 +2,7 @@
 
 class SubBlacklistedDomainsPolicy < ApplicationPolicy
   def index?(sub)
-    staff? || moderator?(sub)
+    staff? || sub_moderator?(sub)
   end
 
   alias create? index?

@@ -2,6 +2,6 @@
 
 class SubLogsPolicy < ApplicationPolicy
   def index?(sub)
-    staff? || moderator?(sub)
+    staff? || sub_moderator?(sub)
   end
 end

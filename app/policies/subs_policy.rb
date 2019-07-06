@@ -2,6 +2,6 @@
 
 class SubsPolicy < ApplicationPolicy
   def update?(sub)
-    staff? || master?(sub)
+    staff? || sub_master?(sub)
   end
 end
