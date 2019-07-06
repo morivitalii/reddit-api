@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class LinkPolicy < ApplicationPolicy
-  def create?(sub)
-    return false if banned?(sub)
+  def create?
+    return false if banned?(record)
 
     user?
   end
