@@ -4,7 +4,7 @@ class SpecifyThingsController < BaseThingController
   def create
     SpecifyThingPolicy.authorize!(:create, @thing)
 
-    MarkThingAsExplicit.new(thing: @thing, current_user: Current.user).call
+    MarkThingAsExplicit.new(thing: @thing, current_user: current_user).call
 
     head :no_content
   end
@@ -12,7 +12,7 @@ class SpecifyThingsController < BaseThingController
   def destroy
     SpecifyThingPolicy.authorize!(:destroy, @thing)
 
-    MarkThingAsNotExplicit.new(thing: @thing, current_user: Current.user).call
+    MarkThingAsNotExplicit.new(thing: @thing, current_user: current_user).call
 
     head :no_content
   end

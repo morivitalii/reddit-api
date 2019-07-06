@@ -51,7 +51,7 @@ class BansController < ApplicationController
   def create
     BansPolicy.authorize!(:create)
 
-    @form = CreateBan.new(create_params.merge(current_user: Current.user))
+    @form = CreateBan.new(create_params.merge(current_user: current_user))
 
     if @form.save
       head :no_content, location: bans_path
@@ -63,7 +63,7 @@ class BansController < ApplicationController
   def update
     BansPolicy.authorize!(:update)
 
-    @form = UpdateBan.new(update_params.merge(ban: @ban, current_user: Current.user))
+    @form = UpdateBan.new(update_params.merge(ban: @ban, current_user: current_user))
 
     if @form.save
       render partial: "ban", object: @form.ban
@@ -81,7 +81,7 @@ class BansController < ApplicationController
   def destroy
     BansPolicy.authorize!(:destroy)
 
-    DeleteBan.new(ban: @ban, current_user: Current.user).call
+    DeleteBan.new(ban: @ban, current_user: current_user).call
 
     head :no_content
   end

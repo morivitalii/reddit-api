@@ -43,7 +43,7 @@ class SubModeratorsController < BaseSubController
   def create
     SubModeratorsPolicy.authorize!(:create, @sub)
 
-    @form = CreateSubModerator.new(create_params.merge(sub: @sub, current_user: Current.user))
+    @form = CreateSubModerator.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
       head :no_content, location: sub_moderators_path(@sub)
@@ -55,7 +55,7 @@ class SubModeratorsController < BaseSubController
   def update
     SubModeratorsPolicy.authorize!(:update, @sub)
 
-    @form = UpdateSubModerator.new(update_params.merge(moderator: @moderator, current_user: Current.user))
+    @form = UpdateSubModerator.new(update_params.merge(moderator: @moderator, current_user: current_user))
 
     if @form.save
       render partial: "moderator", object: @form.moderator
@@ -73,7 +73,7 @@ class SubModeratorsController < BaseSubController
   def destroy
     SubModeratorsPolicy.authorize!(:destroy, @sub)
 
-    DeleteSubModerator.new(moderator: @moderator, current_user: Current.user).call
+    DeleteSubModerator.new(moderator: @moderator, current_user: current_user).call
 
     head :no_content
   end

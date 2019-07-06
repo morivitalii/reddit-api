@@ -20,7 +20,7 @@ class ReportThingsController < BaseThingController
   def create
     ReportThingPolicy.authorize!(:create)
 
-    @form = CreateThingReport.new(create_params.merge(thing: @thing, current_user: Current.user))
+    @form = CreateThingReport.new(create_params.merge(thing: @thing, current_user: current_user))
 
     if @form.save
       head :no_content

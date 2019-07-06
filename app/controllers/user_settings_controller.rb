@@ -25,7 +25,7 @@ class UserSettingsController < ApplicationController
   private
 
   def set_user
-    @user = Current.user
+    @user = current_user
   end
 
   def set_navigation_title

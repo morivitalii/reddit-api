@@ -41,7 +41,7 @@ class DeletionReasonsController < ApplicationController
   def create
     DeletionReasonsPolicy.authorize!(:create)
 
-    @form = CreateDeletionReason.new(create_params.merge(current_user: Current.user))
+    @form = CreateDeletionReason.new(create_params.merge(current_user: current_user))
 
     if @form.save
       head :no_content, location: deletion_reasons_path
@@ -53,7 +53,7 @@ class DeletionReasonsController < ApplicationController
   def update
     DeletionReasonsPolicy.authorize!(:update)
 
-    @form = UpdateDeletionReason.new(update_params.merge(deletion_reason: @deletion_reason, current_user: Current.user))
+    @form = UpdateDeletionReason.new(update_params.merge(deletion_reason: @deletion_reason, current_user: current_user))
 
     if @form.save
       render partial: "deletion_reason", object: @form.deletion_reason
@@ -71,7 +71,7 @@ class DeletionReasonsController < ApplicationController
   def destroy
     DeletionReasonsPolicy.authorize!(:destroy)
 
-    DeleteDeletionReason.new(deletion_reason: @deletion_reason, current_user: Current.user).call
+    DeleteDeletionReason.new(deletion_reason: @deletion_reason, current_user: current_user).call
 
     head :no_content
   end

@@ -42,7 +42,7 @@ class SubDeletionReasonsController < BaseSubController
   def create
     SubDeletionReasonsPolicy.authorize!(:create, @sub)
 
-    @form = CreateSubDeletionReason.new(create_params.merge(sub: @sub, current_user: Current.user))
+    @form = CreateSubDeletionReason.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
       head :no_content, location: sub_deletion_reasons_path(@sub)
@@ -54,7 +54,7 @@ class SubDeletionReasonsController < BaseSubController
   def update
     SubDeletionReasonsPolicy.authorize!(:update, @sub)
 
-    @form = UpdateSubDeletionReason.new(update_params.merge(deletion_reason: @deletion_reason, current_user: Current.user))
+    @form = UpdateSubDeletionReason.new(update_params.merge(deletion_reason: @deletion_reason, current_user: current_user))
 
     if @form.save
       render partial: "sub_deletion_reasons/deletion_reason", object: @form.deletion_reason
@@ -72,7 +72,7 @@ class SubDeletionReasonsController < BaseSubController
   def destroy
     SubDeletionReasonsPolicy.authorize!(:destroy, @sub)
 
-    DeleteSubDeletionReason.new(deletion_reason: @deletion_reason, current_user: Current.user).call
+    DeleteSubDeletionReason.new(deletion_reason: @deletion_reason, current_user: current_user).call
 
     head :no_content
   end

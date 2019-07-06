@@ -41,7 +41,7 @@ class SubRulesController < BaseSubController
   def create
     SubRulesPolicy.authorize!(:create, @sub)
 
-    @form = CreateSubRule.new(create_params.merge(sub: @sub, current_user: Current.user))
+    @form = CreateSubRule.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
       head :no_content, location: sub_rules_path(@sub)
@@ -53,7 +53,7 @@ class SubRulesController < BaseSubController
   def update
     SubRulesPolicy.authorize!(:update, @sub)
 
-    @form = UpdateSubRule.new(update_params.merge(rule: @rule, current_user: Current.user))
+    @form = UpdateSubRule.new(update_params.merge(rule: @rule, current_user: current_user))
 
     if @form.save
       render partial: "sub_rules/rule", object: @form.rule
@@ -71,7 +71,7 @@ class SubRulesController < BaseSubController
   def destroy
     SubRulesPolicy.authorize!(:destroy, @sub)
 
-    DeleteSubRule.new(rule: @rule, current_user: Current.user).call
+    DeleteSubRule.new(rule: @rule, current_user: current_user).call
 
     head :no_content
   end

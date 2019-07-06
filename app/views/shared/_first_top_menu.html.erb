@@ -14,20 +14,20 @@
             <ul class="navbar-nav">
               <% if user_signed_in? %>
                 <li class="user-signed-in nav-item">
-                  <% if Current.user.notifications_count.zero? %>
-                    <%= link_to(fa_icon('bell-o'), user_notifications_path(Current.user), class: 'nav-link') %>
+                  <% if current_user.notifications_count.zero? %>
+                    <%= link_to(fa_icon('bell-o'), user_notifications_path(current_user), class: 'nav-link') %>
                   <% else %>
-                    <%= link_to(fa_icon('bell', text: Current.user.notifications_count), user_notifications_path(Current.user), class: 'nav-link text-danger') %>
+                    <%= link_to(fa_icon('bell', text: current_user.notifications_count), user_notifications_path(current_user), class: 'nav-link text-danger') %>
                   <% end %>
                 </li>
 
                 <li class="nav-item dropdown ml-2">
                   <span class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <%= Current.user.username %>
+                    <%= current_user.username %>
                   </span>
 
                   <div class="dropdown-menu">
-                    <%= link_to(t('profile'), user_path(Current.user), class: 'dropdown-item') %>
+                    <%= link_to(t('profile'), user_path(current_user), class: 'dropdown-item') %>
                     <%= link_to(t('settings'), edit_user_settings_path, class: 'dropdown-item') %>
                     <div class="dropdown-divider"></div>
                     <%= link_to(t('sign_out'), sign_out_path, method: :delete, class: 'dropdown-item') %>
