@@ -7,7 +7,7 @@
     </span>
 
     <div class="dropdown-menu dropdown-menu-right">
-      <% if thing.comment? && CommentsPolicy.authorize(:update, thing) %>
+      <% if thing.comment? && CommentPolicy.new(current_user, thing).update? %>
         <%= link_to(t("edit"), edit_sub_thing_comment_path(thing.sub, thing), remote: true, class: "update dropdown-item") %>
       <% end %>
 

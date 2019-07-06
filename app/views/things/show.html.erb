@@ -62,7 +62,7 @@
   <% unless @post.file_attacher.cached? %>
     <% if @comment.blank? %>
       <% if user_signed_in? %>
-        <% if CommentsPolicy.authorize(:create, @sub) %>
+        <% if CommentPolicy.new(current_user, @sub).create? %>
           <div class="row mt-3">
             <div class="col-12">
               <%= form_with(model: CreateComment.new, url: sub_thing_comment_path(@post.sub, @post), class: 'createCommentForm') do |f| %>
