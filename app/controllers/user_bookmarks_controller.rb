@@ -14,10 +14,10 @@ class UserBookmarksController < BaseUserController
                    .sort_records_reverse_chronologically
                    .records_after(params[:after].present? ? @user.bookmarks.find_by_id(params[:after]) : nil)
                    .includes(thing: [:sub, :user, :post])
-                   .limit(PaginationLimits.user_bookmarks + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.user_bookmarks
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end

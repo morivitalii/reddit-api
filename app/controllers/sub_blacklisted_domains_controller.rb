@@ -10,10 +10,10 @@ class SubBlacklistedDomainsController < BaseSubController
                    .where(sub: @sub)
                    .sort_records_reverse_chronologically
                    .records_after(params[:after].present? ? @sub.blacklisted_domains.find_by_id(params[:after]) : nil)
-                   .limit(PaginationLimits.sub_blacklisted_domains + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.sub_blacklisted_domains
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end

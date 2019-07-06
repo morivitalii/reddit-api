@@ -8,10 +8,10 @@ class PostController < ApplicationController
                    .sort_records_chronologically
                    .records_after(params[:after].present? ? Current.user.follows.find_by_id(params[:after]) : nil)
                    .includes(:sub)
-                   .limit(PaginationLimits.user_follows + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.user_follows
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end

@@ -19,10 +19,10 @@ class UserNotificationsController < BaseUserController
                    .includes(thing: [:sub, :user, :post, :comment])
                    .sort_records_reverse_chronologically
                    .records_after(params[:after].present? ? @user.notifications.find_by_id(params[:after]) : nil)
-                   .limit(PaginationLimits.user_notifications + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.user_notifications
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end

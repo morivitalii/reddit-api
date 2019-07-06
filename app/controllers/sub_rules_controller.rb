@@ -10,10 +10,10 @@ class SubRulesController < BaseSubController
                    .where(sub: @sub)
                    .sort_records_chronologically
                    .records_after(params[:after].present? ? @sub.rules.find_by_id(params[:after]) : nil)
-                   .limit(PaginationLimits.sub_rules + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.sub_rules
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end

@@ -11,10 +11,10 @@ class SubDeletionReasonsController < BaseSubController
                    .includes(:sub)
                    .sort_records_chronologically
                    .records_after(params[:after].present? ? @sub.deletion_reasons.find_by_id(params[:after]) : nil)
-                   .limit(PaginationLimits.sub_deletion_reasons + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.sub_deletion_reasons
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end

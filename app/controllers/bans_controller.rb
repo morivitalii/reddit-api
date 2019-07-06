@@ -11,10 +11,10 @@ class BansController < ApplicationController
                    .includes(:user, :banned_by)
                    .sort_records_reverse_chronologically
                    .records_after(params[:after].present? ? Ban.global.find_by_id(params[:after]) : nil)
-                   .limit(PaginationLimits.bans + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.bans
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end

@@ -10,10 +10,10 @@ class RulesController < ApplicationController
                    .global
                    .sort_records_chronologically
                    .records_after(params[:after].present? ? Rule.global.find_by_id(params[:after]) : nil)
-                   .limit(PaginationLimits.rules + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.rules
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end
