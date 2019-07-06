@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class DeleteThingPolicy < ApplicationPolicy
-  def create?(thing)
+  def create?
     return false unless user?
 
-    staff? || moderator?(thing.sub) || thing.user_id == Current.user.id
+    staff? || moderator?(record.sub) || record.user_id == user.id
   end
+
+  alias new? create?
 end

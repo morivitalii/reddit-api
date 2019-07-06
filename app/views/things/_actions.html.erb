@@ -31,7 +31,7 @@
     <% end %>
   <% end %>
 
-  <% if DeleteThingPolicy.authorize(:create, thing) %>
+  <% if DeleteThingPolicy.new(current_user, thing).create? %>
     <% if thing.deleted? %>
       <% title = t(
           "deleted_details",

@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
 class DeleteThingsController < BaseThingController
-  def new
-    DeleteThingPolicy.authorize!(:create, @thing)
+  before_action -> { authorize(@thing, policy_class: DeleteThingPolicy) }
 
+  def new
     @form = MarkThingAsDeleted.new(deletion_reason: @thing.deletion_reason)
 
     render partial: "new"
   end
 
   def create
-    DeleteThingPolicy.authorize!(:create, @thing)
-
     @form = MarkThingAsDeleted.new(create_params.merge(thing: @thing, current_user: current_user))
 
     if @form.save
