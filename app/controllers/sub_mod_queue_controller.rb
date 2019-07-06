@@ -13,10 +13,10 @@ class SubModQueueController < BaseSubController
                    .sort_records_reverse_chronologically
                    .records_after(params[:after].present? ? @sub.mod_queues.find_by_id(params[:after]) : nil)
                    .includes(thing: [:sub, :user, :post])
-                   .limit(PaginationLimits.sub_mod_queue + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.sub_mod_queue
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end

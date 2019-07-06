@@ -12,10 +12,10 @@ class HomeController < ApplicationController
                    .records_after(params[:after].present? ? Thing.find_by_id(params[:after]) : nil, helpers.thing_date_filter(params[:thing_date]))
                    .records_after_date(@date)
                    .includes(:sub, :user)
-                   .limit(PaginationLimits.home + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.home
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end

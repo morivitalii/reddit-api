@@ -11,10 +11,10 @@ class SubContributorsController < BaseSubController
                    .includes(:user, :approved_by)
                    .sort_records_reverse_chronologically
                    .records_after(params[:after].present? ? @sub.contributors.find_by_id(params[:after]) : nil)
-                   .limit(PaginationLimits.sub_contributors + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.sub_contributors
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end

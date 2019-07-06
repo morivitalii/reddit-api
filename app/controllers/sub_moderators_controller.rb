@@ -9,10 +9,10 @@ class SubModeratorsController < BaseSubController
                    .sort_records_chronologically
                    .records_after(params[:after].present? ? @sub.moderators.find_by_id(params[:after]) : nil)
                    .includes(:user, :invited_by)
-                   .limit(PaginationLimits.sub_moderators + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.sub_moderators
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end

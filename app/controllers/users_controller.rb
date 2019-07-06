@@ -11,10 +11,10 @@ class UsersController < BaseUserController
                    .records_after_date(helpers.thing_date_filter(params[:thing_date]))
                    .where(user: @user)
                    .includes(:sub, :user, :post)
-                   .limit(PaginationLimits.user_things + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.user_things
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end

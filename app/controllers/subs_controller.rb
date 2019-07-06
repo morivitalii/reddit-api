@@ -9,10 +9,10 @@ class SubsController < ApplicationController
     @records = Sub.include(ChronologicalOrder)
                    .sort_records_chronologically
                    .records_after(params[:after].present? ? Sub.find_by_id(params[:after]) : nil)
-                   .limit(PaginationLimits.subs + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.subs
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end
@@ -28,10 +28,10 @@ class SubsController < ApplicationController
                    .records_after_date(helpers.thing_date_filter(params[:thing_date]))
                    .where(sub: @sub)
                    .includes(:sub, :user)
-                   .limit(PaginationLimits.sub_things + 1)
+                   .limit(51)
                    .to_a
 
-    if @records.size > PaginationLimits.sub_things
+    if @records.size > 50
       @records.delete_at(-1)
       @after_record = @records.last
     end
