@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     resources :pages, { concerns: [:confirmable] }.merge(options)
   end
 
-  concern :bans do
+  concern :bans do |options|
     resources :bans, except: [:show], concerns: [:searchable, :confirmable]
   end
 
