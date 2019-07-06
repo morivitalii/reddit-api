@@ -2,9 +2,9 @@
 
 class PagesController < ApplicationController
   before_action :set_page, only: [:show, :edit, :update, :confirm, :destroy]
+  before_action -> { authorize(Page, policy_class: PagePolicy) }
 
   def index
-    PagesPolicy.authorize!(:index)
     @records = Page.include(ChronologicalOrder)
                    .global
                    .sort_records_chronologically
@@ -22,14 +22,10 @@ class PagesController < ApplicationController
   end
 
   def new
-    PagesPolicy.authorize!(:create)
-
     @form = CreatePage.new
   end
 
   def edit
-    PagesPolicy.authorize!(:update)
-
     @form = UpdatePage.new(
       title: @page.title,
       text: @page.text
@@ -37,8 +33,6 @@ class PagesController < ApplicationController
   end
 
   def create
-    PagesPolicy.authorize!(:create)
-
     @form = CreatePage.new(create_params.merge(current_user: current_user))
 
     if @form.save
@@ -49,8 +43,6 @@ class PagesController < ApplicationController
   end
 
   def update
-    PagesPolicy.authorize!(:update)
-
     @form = UpdatePage.new(update_params.merge(page: @page, current_user: current_user))
 
     if @form.save
@@ -61,14 +53,10 @@ class PagesController < ApplicationController
   end
 
   def confirm
-    PagesPolicy.authorize!(:destroy)
-
     render partial: "confirm"
   end
 
   def destroy
-    PagesPolicy.authorize!(:destroy)
-
     DeletePage.new(page: @page, current_user: current_user).call
 
     head :no_content
