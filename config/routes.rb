@@ -89,6 +89,17 @@ Rails.application.routes.draw do
     resources :medias, only: [:new, :create]
 
     concerns :mod_queue, controller: :sub_mod_queue
+    concerns :blacklisted_domains, controller: :sub_blacklisted_domains
+    concerns :rules, controller: :sub_rules
+    concerns :deletion_reasons, controller: :sub_deletion_reasons
+    concerns :pages, controller: :sub_pages
+    concerns :bans, controller: :sub_bans
+    concerns :logs, controller: :sub_logs
+
+    resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable], controller: :sub_contributors
+    resources :moderators, except: [:show], concerns: [:searchable, :confirmable], controller: :sub_moderators
+    resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
+    resource :follow, only: [:create, :destroy], controller: :sub_follow
 
     resources :things, only: [:show], path: "/" do
       resource :approve_things, only: [:create], as: :approve, path: :approve
@@ -103,18 +114,6 @@ Rails.application.routes.draw do
       resource :ignore_thing_reports, only: [:create, :destroy], as: :ignore_reports, path: :ignore_reports
       resource :comments, only: [:new, :create, :edit, :update, :destroy], as: :comment, path: :comment
     end
-
-    concerns :blacklisted_domains, controller: :sub_blacklisted_domains
-    concerns :rules, controller: :sub_rules
-    concerns :deletion_reasons, controller: :sub_deletion_reasons
-    concerns :pages, controller: :sub_pages
-    concerns :bans, controller: :sub_bans
-    concerns :logs, controller: :sub_logs
-
-    resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable], controller: :sub_contributors
-    resources :moderators, except: [:show], concerns: [:searchable, :confirmable], controller: :sub_moderators
-    resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
-    resource :follow, only: [:create, :destroy], controller: :sub_follow
   end
 
   match "*path", via: :all, to: "page_not_found#show"
