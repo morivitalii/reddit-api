@@ -71,7 +71,7 @@
           <%= link_to(t('tag'), edit_sub_thing_tag_path(thing.sub, thing), remote: true, class: 'tag dropdown-item') %>
         <% end %>
 
-        <% if SpecifyThingPolicy.authorize(:create, thing) %>
+        <% if SpecifyThingPolicy.new(current_user, thing).create? %>
           <% if thing.explicit? %>
             <%= link_to(fa_icon('check-square-o', text: t('explicit')), sub_thing_specify_path(thing.sub, thing), remote: true, method: :delete, class: 'explicit dropdown-item') %>
           <% else %>

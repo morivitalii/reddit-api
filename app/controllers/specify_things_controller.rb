@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
 class SpecifyThingsController < BaseThingController
-  def create
-    SpecifyThingPolicy.authorize!(:create, @thing)
+  before_action -> { authorize(@thing, policy_class: SpecifyThingPolicy) }
 
+  def create
     MarkThingAsExplicit.new(thing: @thing, current_user: current_user).call
 
     head :no_content
   end
 
   def destroy
-    SpecifyThingPolicy.authorize!(:destroy, @thing)
-
     MarkThingAsNotExplicit.new(thing: @thing, current_user: current_user).call
 
     head :no_content
