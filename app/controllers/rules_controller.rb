@@ -2,10 +2,9 @@
 
 class RulesController < ApplicationController
   before_action :set_rule, only: [:edit, :update, :confirm, :destroy]
+  before_action -> { authorize(Rule, policy_class: RulePolicy) }
 
   def index
-    RulesPolicy.authorize!(:index)
-
     @records = Rule.include(ChronologicalOrder)
                    .global
                    .sort_records_chronologically
@@ -20,16 +19,12 @@ class RulesController < ApplicationController
   end
 
   def new
-    RulesPolicy.authorize!(:create)
-
     @form = CreateRule.new
 
     render partial: "new"
   end
 
   def edit
-    RulesPolicy.authorize!(:update)
-
     @form = UpdateRule.new(
       title: @rule.title,
       description: @rule.description
@@ -39,9 +34,7 @@ class RulesController < ApplicationController
   end
 
   def create
-    RulesPolicy.authorize!(:create)
-
-    @form = CreateRule.new(create_params.merge(current_user: current_user))
+    @form = CreateRule.new(create_params)
 
     if @form.save
       head :no_content, location: rules_path
@@ -51,9 +44,7 @@ class RulesController < ApplicationController
   end
 
   def update
-    RulesPolicy.authorize!(:update)
-
-    @form = UpdateRule.new(update_params.merge(rule: @rule, current_user: current_user))
+    @form = UpdateRule.new(update_params)
 
     if @form.save
       render partial: "rule", object: @form.rule
@@ -63,14 +54,10 @@ class RulesController < ApplicationController
   end
 
   def confirm
-    RulesPolicy.authorize!(:destroy)
-
     render partial: "confirm"
   end
 
   def destroy
-    RulesPolicy.authorize!(:destroy)
-
     DeleteRule.new(rule: @rule, current_user: current_user).call
 
     head :no_content
@@ -83,10 +70,10 @@ class RulesController < ApplicationController
   end
 
   def create_params
-    params.require(:create_rule).permit(:title, :description)
+    params.require(:create_rule).permit(:title, :description).merge(current_user: current_user)
   end
 
   def update_params
-    params.require(:update_rule).permit(:title, :description)
+    params.require(:update_rule).permit(:title, :description).merge(rule: @rule, current_user: current_user)
   end
 end
