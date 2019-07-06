@@ -23,11 +23,11 @@ class DeletionReason < ApplicationRecord
 
   def validate_limits
     if sub.present?
-      if sub.deletion_reasons.count >= Limits.sub_deletion_reasons
+      if sub.deletion_reasons.count >= 50
         errors.add(:title, :deletion_reasons_limit)
       end
     else
-      if DeletionReason.global.count >= Limits.deletion_reasons
+      if DeletionReason.global.count >= 50
         errors.add(:title, :deletion_reasons_limit)
       end
     end
