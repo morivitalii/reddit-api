@@ -87,7 +87,7 @@
           <% end %>
         <% end %>
 
-        <% if IgnoreThingReportsPolicy.authorize(:create, thing) %>
+        <% if IgnoreThingReportsPolicy.new(current_user, thing).create? %>
           <% if thing.ignore_reports? %>
             <%= link_to(fa_icon('check-square-o', text: t('ignore_reports')), sub_thing_ignore_reports_path(thing.sub, thing), remote: true, method: :delete, class: 'ignore_reports dropdown-item') %>
           <% else %>

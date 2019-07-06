@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class IgnoreThingReportsPolicy < ApplicationPolicy
-  def create?(thing)
-    staff? || moderator?(thing.sub)
+  def create?
+    staff? || moderator?(record.sub)
   end
 
   alias destroy? create?
