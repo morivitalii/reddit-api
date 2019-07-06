@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class LogsPolicy < ApplicationPolicy
+class LogPolicy < ApplicationPolicy
   def index?
     staff?
   end

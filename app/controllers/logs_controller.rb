@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class LogsController < ApplicationController
-  def index
-    LogsPolicy.authorize!(:index)
+  before_action -> { authorize(Log, policy_class: LogPolicy) }
 
+  def index
     @records = Log.include(ReverseChronologicalOrder)
                    .global
                    .includes(:user, :loggable)
