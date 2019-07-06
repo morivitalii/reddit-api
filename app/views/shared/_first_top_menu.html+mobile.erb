@@ -12,10 +12,10 @@
           <ul class="navbar-nav">
             <% if user_signed_in? %>
               <li class="user-signed-in nav-item">
-                <% if Current.user.notifications_count.zero? %>
-                  <%= link_to(fa_icon('bell-o'), user_notifications_path(Current.user), class: 'nav-link') %>
+                <% if current_user.notifications_count.zero? %>
+                  <%= link_to(fa_icon('bell-o'), user_notifications_path(current_user), class: 'nav-link') %>
                 <% else %>
-                  <%= link_to(fa_icon('bell', text: Current.user.notifications_count), user_notifications_path(Current.user), class: 'nav-link text-danger') %>
+                  <%= link_to(fa_icon('bell', text: current_user.notifications_count), user_notifications_path(current_user), class: 'nav-link text-danger') %>
                 <% end %>
               </li>
             <% else %>

@@ -12,7 +12,7 @@ class DeleteThingsController < BaseThingController
   def create
     DeleteThingPolicy.authorize!(:create, @thing)
 
-    @form = MarkThingAsDeleted.new(create_params.merge(thing: @thing, current_user: Current.user))
+    @form = MarkThingAsDeleted.new(create_params.merge(thing: @thing, current_user: current_user))
 
     if @form.save
       head :no_content
@@ -24,6 +24,6 @@ class DeleteThingsController < BaseThingController
   private
 
   def create_params
-    Current.user.staff? || Current.user.moderator?(@sub) ? params.require(:mark_thing_as_deleted).permit(:deletion_reason) : {}
+    current_user.staff? || current_user.moderator?(@sub) ? params.require(:mark_thing_as_deleted).permit(:deletion_reason) : {}
   end
 end

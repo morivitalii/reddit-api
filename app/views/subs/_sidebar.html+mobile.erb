@@ -3,7 +3,7 @@
     <div class="col-12">
       <%= link_to(@sub.title, sub_path(@sub), class: 'font-weight-bold') %>
 
-      <% if Current.user&.staff? || Current.user&.moderator?(@sub) %>
+      <% if current_user&.staff? || current_user&.moderator?(@sub) %>
         <span class="dropdown-toggle float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <%= fa_icon(:cog) %>
         </span>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="col-12 mt-2">
-      <% if Current.user&.follower?(@sub) %>
+      <% if current_user&.follower?(@sub) %>
         <%= link_to(t('unsubscribe'), sub_follow_path(@sub), class: 'follow btn btn-primary', remote: true, method: :delete) %>
       <% else %>
         <%= link_to(t('subscribe'), sub_follow_path(@sub), class: 'follow btn btn-primary', remote: true, method: :post) %>
@@ -40,7 +40,7 @@
   </div>
 <% end %>
 
-<% ban = Current.user&.banned?(@sub) %>
+<% ban = current_user&.banned?(@sub) %>
 <% if ban.present? %>
   <div class="row text-center text-danger border-bottom pb-3">
     <div class="col-12 mt-3">

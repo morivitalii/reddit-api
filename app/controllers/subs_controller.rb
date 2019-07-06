@@ -49,7 +49,7 @@ class SubsController < ApplicationController
   def update
     SubsPolicy.authorize!(:update, @sub)
 
-    @form = UpdateSub.new(update_params.merge(sub: @sub, current_user: Current.user))
+    @form = UpdateSub.new(update_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
       head :no_content, location: edit_sub_path(@sub)

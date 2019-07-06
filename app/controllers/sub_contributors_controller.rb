@@ -39,7 +39,7 @@ class SubContributorsController < BaseSubController
   def create
     SubContributorsPolicy.authorize!(:create, @sub)
 
-    @form = CreateSubContributor.new(create_params.merge(sub: @sub, current_user: Current.user))
+    @form = CreateSubContributor.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
       head :no_content, location: sub_contributors_path(@sub)
@@ -57,7 +57,7 @@ class SubContributorsController < BaseSubController
   def destroy
     SubContributorsPolicy.authorize!(:destroy, @sub)
 
-    DeleteSubContributor.new(contributor: @contributor, current_user: Current.user).call
+    DeleteSubContributor.new(contributor: @contributor, current_user: current_user).call
 
     head :no_content
   end

@@ -10,7 +10,7 @@ class LinksController < BaseSubController
   def create
     LinkPolicy.authorize!(:create, @sub)
 
-    @form = CreateLink.new(create_params.merge(sub: @sub, current_user: Current.user))
+    @form = CreateLink.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
       head :no_content, location: sub_thing_path(@sub, @form.post)

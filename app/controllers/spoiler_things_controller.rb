@@ -4,7 +4,7 @@ class SpoilerThingsController < BaseThingController
   def create
     SpoilerThingPolicy.authorize!(:create, @thing)
 
-    MarkThingAsSpoiler.new(thing: @thing, current_user: Current.user).call
+    MarkThingAsSpoiler.new(thing: @thing, current_user: current_user).call
 
     head :no_content
   end
@@ -12,7 +12,7 @@ class SpoilerThingsController < BaseThingController
   def destroy
     SpoilerThingPolicy.authorize!(:destroy, @thing)
 
-    MarkThingAsNotSpoiler.new(thing: @thing, current_user: Current.user).call
+    MarkThingAsNotSpoiler.new(thing: @thing, current_user: current_user).call
 
     head :no_content
   end

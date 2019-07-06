@@ -51,7 +51,7 @@ class SubBansController < BaseSubController
   def create
     SubBansPolicy.authorize!(:create, @sub)
 
-    @form = CreateSubBan.new(create_params.merge(sub: @sub, current_user: Current.user))
+    @form = CreateSubBan.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
       head :no_content, location: sub_bans_path(@sub)
@@ -63,7 +63,7 @@ class SubBansController < BaseSubController
   def update
     SubBansPolicy.authorize!(:update, @sub)
 
-    @form = UpdateSubBan.new(update_params.merge(ban: @ban, current_user: Current.user))
+    @form = UpdateSubBan.new(update_params.merge(ban: @ban, current_user: current_user))
 
     if @form.save
       render partial: "ban", object: @form.ban
@@ -81,7 +81,7 @@ class SubBansController < BaseSubController
   def destroy
     SubBansPolicy.authorize!(:destroy, @sub)
     
-    DeleteSubBan.new(ban: @ban, current_user: Current.user).call
+    DeleteSubBan.new(ban: @ban, current_user: current_user).call
 
     head :no_content
   end

@@ -39,7 +39,7 @@ class PagesController < ApplicationController
   def create
     PagesPolicy.authorize!(:create)
 
-    @form = CreatePage.new(create_params.merge(current_user: Current.user))
+    @form = CreatePage.new(create_params.merge(current_user: current_user))
 
     if @form.save
       head :no_content, location: page_path(@form.page)
@@ -51,7 +51,7 @@ class PagesController < ApplicationController
   def update
     PagesPolicy.authorize!(:update)
 
-    @form = UpdatePage.new(update_params.merge(page: @page, current_user: Current.user))
+    @form = UpdatePage.new(update_params.merge(page: @page, current_user: current_user))
 
     if @form.save
       head :no_content, location: page_path(@form.page)
@@ -69,7 +69,7 @@ class PagesController < ApplicationController
   def destroy
     PagesPolicy.authorize!(:destroy)
 
-    DeletePage.new(page: @page, current_user: Current.user).call
+    DeletePage.new(page: @page, current_user: current_user).call
 
     head :no_content
   end
