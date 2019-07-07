@@ -29,10 +29,6 @@ Rails.application.routes.draw do
     resources :pages, { concerns: [:confirmable] }.merge(options)
   end
 
-  concern :logs  do |options|
-    resources :logs, { only: [:index] }.merge(options)
-  end
-
   concern :mod_queue do |options|
     resource :mod_queue, { only: [] }.merge(options) do
       get "(/:mod_queue_type)(/:thing_type)", action: :show, as: "", constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
@@ -75,7 +71,7 @@ Rails.application.routes.draw do
   concerns :deletion_reasons
   concerns :pages
   resources :bans, except: [:show], concerns: [:searchable, :confirmable]
-  concerns :logs
+  resources :logs, only: [:index]
 
   resources :subs, only: [:index, :edit, :update], path: "/r" do
     get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
@@ -89,7 +85,6 @@ Rails.application.routes.draw do
     concerns :rules, controller: :sub_rules
     concerns :deletion_reasons, controller: :sub_deletion_reasons
     concerns :pages, controller: :sub_pages
-    concerns :logs, controller: :sub_logs
 
     resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable], controller: :sub_contributors
     resources :moderators, except: [:show], concerns: [:searchable, :confirmable], controller: :sub_moderators

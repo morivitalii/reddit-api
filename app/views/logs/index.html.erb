@@ -1,9 +1,14 @@
 <% content_for(:meta_title, t("logs")) %>
 
+<% if @sub.present? %>
+  <%= render 'subs/second_top_menu' %>
+  <%= render 'subs/sidebar' %>
+<% end %>
+
 <div id="logs" class="entries row">
   <div class="head col-12">
     <div class="title">
-      <%= link_to(t('logs'), logs_path) %>
+      <%= link_to(t('logs'), logs_path(sub: @sub)) %>
     </div>
   </div>
 
