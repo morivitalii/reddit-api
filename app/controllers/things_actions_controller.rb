@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class ThingsActionsController < ApplicationController
-  def index
-    ThingsActions.authorize!(:index)
+  before_action -> { authorize(Thing, policy_class: ThingsActionsPolicy) }
 
+  def index
     ids = params[:ids].present? ? params[:ids].split(",").map(&:to_i).compact.uniq : []
 
     return head :no_content if ids.blank? && ids.size > 500

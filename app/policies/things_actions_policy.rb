@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ThingsActions < ApplicationPolicy
+class ThingsActionsPolicy < ApplicationPolicy
   def index?
     user?
   end
