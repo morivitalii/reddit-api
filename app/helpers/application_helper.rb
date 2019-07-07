@@ -123,7 +123,7 @@ module ApplicationHelper
       menu[t("notifications")] = user_notifications_path(user)
     end
 
-    if UserBookmarksPolicy.authorize(:index, user)
+    if UserBookmarksPolicy.new(current_user, user).index?
       menu[t("bookmarks")] = user_bookmarks_path(user)
     end
 
