@@ -4,10 +4,9 @@ class UserNotificationsController < BaseUserController
   layout "narrow"
 
   before_action :set_navigation_title
+  before_action -> { authorize(@user, policy_class: UserNotificationsPolicy) }
 
   def index
-    UserNotificationsPolicy.authorize!(:index, @user)
-
     if current_user.id == @user.id
       ResetUserNotificationsCounter.new(current_user: current_user).call
     end
