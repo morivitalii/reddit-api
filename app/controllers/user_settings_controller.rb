@@ -3,17 +3,14 @@
 class UserSettingsController < ApplicationController
   before_action :set_user
   before_action :set_navigation_title
+  before_action -> { authorize(User, policy_class: UserSettingsPolicy) }
 
   def edit
-    UserSettingsPolicy.authorize!(:update)
-
     @form = UpdateUserSettings.new(email: @user.email)
   end
 
   def update
-    UserSettingsPolicy.authorize!(:update)
-
-    @form = UpdateUserSettings.new(update_params.merge(user: @user))
+    @form = UpdateUserSettings.new(update_params)
 
     if @form.save
       head :no_content, location: edit_user_settings_path
@@ -33,6 +30,6 @@ class UserSettingsController < ApplicationController
   end
 
   def update_params
-    params.require(:update_user_settings).permit(:email, :password, :password_current)
+    params.require(:update_user_settings).permit(:email, :password, :password_current).merge(user: @user)
   end
 end
