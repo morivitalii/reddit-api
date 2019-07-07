@@ -29,10 +29,6 @@ Rails.application.routes.draw do
     resources :pages, { concerns: [:confirmable] }.merge(options)
   end
 
-  concern :bans do |options|
-    resources :bans, { except: [:show], concerns: [:searchable, :confirmable] }.merge(options)
-  end
-
   concern :logs  do |options|
     resources :logs, { only: [:index] }.merge(options)
   end
@@ -78,7 +74,7 @@ Rails.application.routes.draw do
   concerns :rules
   concerns :deletion_reasons
   concerns :pages
-  concerns :bans
+  resources :bans, except: [:show], concerns: [:searchable, :confirmable]
   concerns :logs
 
   resources :subs, only: [:index, :edit, :update], path: "/r" do
@@ -93,7 +89,6 @@ Rails.application.routes.draw do
     concerns :rules, controller: :sub_rules
     concerns :deletion_reasons, controller: :sub_deletion_reasons
     concerns :pages, controller: :sub_pages
-    concerns :bans, controller: :sub_bans
     concerns :logs, controller: :sub_logs
 
     resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable], controller: :sub_contributors

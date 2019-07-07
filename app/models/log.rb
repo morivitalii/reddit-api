@@ -12,9 +12,9 @@ class Log < ApplicationRecord
     create_sub_moderator: 2,
     update_sub_moderator: 3,
     delete_sub_moderator: 4,
-    create_sub_ban: 5,
-    update_sub_ban: 6,
-    delete_sub_ban: 7,
+    create_ban: 5,
+    update_ban: 6,
+    delete_ban: 7,
     create_sub_contributor: 8,
     delete_sub_contributor: 9,
     create_sub_rule: 10,
@@ -49,9 +49,6 @@ class Log < ApplicationRecord
     create_global_page: 39,
     update_global_page: 40,
     delete_global_page: 41,
-    create_global_ban: 42,
-    update_global_ban: 43,
-    delete_global_ban: 44,
     ignore_thing_reports: 45,
     do_not_ignore_thing_reports: 46
   }
@@ -70,11 +67,11 @@ class Log < ApplicationRecord
                    [:master]
                  when :delete_sub_moderator
                    [:master]
-                 when :create_sub_ban
+                 when :create_ban
                    [:reason, :days, :permanent]
-                 when :update_sub_ban
+                 when :update_ban
                    [:reason, :days, :permanent]
-                 when :delete_sub_ban
+                 when :delete_ban
                    [:reason, :days, :permanent]
                  when :create_sub_contributor
                    []
@@ -144,12 +141,6 @@ class Log < ApplicationRecord
                    [:title, :text]
                  when :delete_global_page
                    [:title, :text]
-                 when :create_global_ban
-                   [:reason, :days, :permanent]
-                 when :update_global_ban
-                   [:reason, :days, :permanent]
-                 when :delete_global_ban
-                   [:reason, :days, :permanent]
                  when :ignore_thing_reports
                    [:ignore_reports]
                  when :do_not_ignore_thing_reports

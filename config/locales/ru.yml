@@ -174,9 +174,9 @@ ru:
     create_sub_moderator: добавил модератора
     update_sub_moderator: изменил права модератора
     delete_sub_moderator: удалил модератора
-    create_sub_ban: забанил
-    update_sub_ban: изменил условия или причину бана
-    delete_sub_ban: разбанил
+    create_ban: забанил
+    update_ban: изменил условия или причину бана
+    delete_ban: разбанил
     create_sub_contributor: одобрил контрибутора
     delete_sub_contributor: удалил контрибутора
     create_sub_rule: добавил правило
@@ -211,9 +211,6 @@ ru:
     create_global_page: добавил страницу
     update_global_page: изменил страницу
     delete_global_page: удалил страницу
-    create_global_ban: забанил
-    update_global_ban: изменил условия или причину бана
-    delete_global_ban: разбанил
     ignore_thing_reports: добавил отметку игнорировать жалобы
     do_not_ignore_thing_reports: снял отметку игнорировать жалобы
   follows_count:

@@ -3,7 +3,7 @@
 class CreateBan
   include ActiveModel::Model
 
-  attr_accessor :current_user, :username, :reason, :days, :permanent
+  attr_accessor :current_user, :sub, :username, :reason, :days, :permanent
   attr_reader :ban
 
   validates :username, presence: true, username_format: true
@@ -14,12 +14,15 @@ class CreateBan
     validates :username, user_not_staff: true
   end
 
+  validates :username, user_not_moderator: true, if: ->(record) { record.sub.present? && record.errors.blank? }
+
   def save
     return false if invalid?
 
     @user = User.where("lower(username) = ?", @username.downcase).take!
 
     @ban = Ban.create!(
+      sub: @sub,
       banned_by: @current_user,
       user: @user,
       reason: @reason,
@@ -32,10 +35,11 @@ class CreateBan
     return false
   else
     CreateLogJob.perform_later(
-        current_user: @current_user,
-        action: "create_global_ban",
-        loggable: @user,
-        model: @ban
+      sub: @sub,
+      current_user: @current_user,
+      action: "create_ban",
+      loggable: @user,
+      model: @ban
     )
   end
 

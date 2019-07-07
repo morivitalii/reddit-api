@@ -51,7 +51,7 @@ class ApplicationPolicy
     return ban if ban.permanent?
     return ban unless ban.stale?
 
-    DeleteSubBan.new(ban: ban, current_user: User.auto_moderator).call
+    DeleteBan.new(ban: ban, current_user: User.auto_moderator).call
 
     false
   end
@@ -65,7 +65,7 @@ class ApplicationPolicy
     return ban if ban.permanent?
     return ban unless ban.stale?
 
-    DeleteSubBan.new(ban: ban, current_user: User.auto_moderator).call
+    DeleteBan.new(ban: ban, current_user: User.auto_moderator).call
 
     false
   end
