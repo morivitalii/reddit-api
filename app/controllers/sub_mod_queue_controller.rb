@@ -3,9 +3,9 @@
 class SubModQueueController < BaseSubController
   layout "narrow"
 
-  def show
-    SubModQueuePolicy.authorize!(:index, @sub)
+  before_action -> { authorize(@sub, policy_class: SubModQueuePolicy) }
 
+  def show
     @records = ModQueue.include(ReverseChronologicalOrder)
                    .where(sub: @sub)
                    .queue_type(helpers.mod_queue_filter(params[:mod_queue_type]))

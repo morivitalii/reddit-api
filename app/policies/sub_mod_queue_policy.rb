@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SubModQueuePolicy < ApplicationPolicy
-  def index?(sub)
-    staff? || sub_moderator?(sub)
+  def index?
+    staff? || sub_moderator?(record)
   end
 end
