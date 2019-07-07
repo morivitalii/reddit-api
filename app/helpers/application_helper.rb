@@ -83,7 +83,7 @@ module ApplicationHelper
       t("contributors") => sub_contributors_path(sub)
     }
 
-    if SubRulesPolicy.authorize(:index, sub)
+    if SubRulePolicy.new(current_user, sub).index?
       menu[t("rules")] = sub_rules_path(sub)
     end
 
