@@ -36,10 +36,8 @@ class Log < ApplicationRecord
     create_sub_page: 26,
     update_sub_page: 27,
     delete_sub_page: 28,
-    create_sub_blacklisted_domain: 29,
-    delete_sub_blacklisted_domain: 30,
-    create_global_blacklisted_domain: 31,
-    delete_global_blacklisted_domain: 32,
+    create_blacklisted_domain: 29,
+    delete_blacklisted_domain: 30,
     create_global_rule: 33,
     update_global_rule: 34,
     delete_global_rule: 35,
@@ -115,13 +113,9 @@ class Log < ApplicationRecord
                    [:title, :text]
                  when :delete_sub_page
                    [:title, :text]
-                 when :create_sub_blacklisted_domain
+                 when :create_blacklisted_domain
                    [:domain]
-                 when :delete_sub_blacklisted_domain
-                   [:domain]
-                 when :create_global_blacklisted_domain
-                   [:domain]
-                 when :delete_global_blacklisted_domain
+                 when :delete_blacklisted_domain
                    [:domain]
                  when :create_global_rule
                    [:title, :description]

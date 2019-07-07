@@ -1,5 +1,5 @@
 <%= render 'shared/modal', title: t('create') do %>
-  <%= form_with(model: @form, url: blacklisted_domains_path) do |f| %>
+  <%= form_with(model: @form, url: blacklisted_domains_path(sub: @sub)) do |f| %>
     <div class="modal-body">
       <%= f.text_field :domain %>
     </div>

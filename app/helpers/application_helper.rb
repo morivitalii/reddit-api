@@ -97,8 +97,8 @@ module ApplicationHelper
 
     menu[t("pages")] = sub_pages_path(sub)
 
-    if SubBlacklistedDomainPolicy.new(current_user, sub).index?
-      menu[t("blacklisted_domains")] = sub_blacklisted_domains_path(sub)
+    if BlacklistedDomainPolicy.new(current_user, sub).index?
+      menu[t("blacklisted_domains")] = blacklisted_domains_path(sub: sub)
     end
 
     if LogPolicy.new(current_user, sub).index?

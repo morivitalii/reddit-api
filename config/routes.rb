@@ -13,10 +13,6 @@ Rails.application.routes.draw do
     get 'confirm', on: :member
   end
 
-  concern :blacklisted_domains do |options|
-    resources :blacklisted_domains, { except: [:show, :edit, :update], concerns: [:searchable, :confirmable] }.merge(options)
-  end
-
   concern :rules do |options|
     resources :rules, { except: [:show], concerns: [:confirmable] }.merge(options)
   end
@@ -66,7 +62,7 @@ Rails.application.routes.draw do
 
   post "/things_actions", to: "things_actions#index", as: :things_actions
 
-  concerns :blacklisted_domains
+  resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   concerns :rules
   concerns :deletion_reasons
   concerns :pages
@@ -81,7 +77,6 @@ Rails.application.routes.draw do
     resources :medias, only: [:new, :create]
 
     concerns :mod_queue, controller: :sub_mod_queue
-    concerns :blacklisted_domains, controller: :sub_blacklisted_domains
     concerns :rules, controller: :sub_rules
     concerns :deletion_reasons, controller: :sub_deletion_reasons
     concerns :pages, controller: :sub_pages

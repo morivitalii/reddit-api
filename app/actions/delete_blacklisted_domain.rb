@@ -10,8 +10,9 @@ class DeleteBlacklistedDomain
     @blacklisted_domain.destroy!
 
     CreateLogJob.perform_later(
+      sub: @blacklisted_domain.sub,
       current_user: @current_user,
-      action: "delete_global_blacklisted_domain",
+      action: "delete_blacklisted_domain",
       model: @blacklisted_domain
     )
   end

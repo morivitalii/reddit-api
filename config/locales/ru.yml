@@ -198,10 +198,8 @@ ru:
     create_sub_page: добавил страницу
     update_sub_page: изменил страницу
     delete_sub_page: удалил страницу
-    create_sub_blacklisted_domain: добавил в черный список домен
-    delete_sub_blacklisted_domain: удалил из черного списка домен
-    create_global_blacklisted_domain: добавил в черный список домен
-    delete_global_blacklisted_domain: удалил из черного списка домен
+    create_blacklisted_domain: добавил в черный список домен
+    delete_blacklisted_domain: удалил из черного списка домен
     create_global_rule: добавил правило
     update_global_rule: изменил правило
     delete_global_rule: удалил правило
