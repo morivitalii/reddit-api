@@ -2,22 +2,18 @@
 
 class TextsController < BaseSubController
   before_action :set_thing, only: [:edit, :update]
+  before_action -> { authorize(@sub, policy_class: TextPolicy) }, only: [:new, :create]
+  before_action -> { authorize(@thing, policy_class: TextPolicy) }, only: [:edit, :update]
 
   def new
-    TextPolicy.authorize!(:create, @sub)
-
     @form = CreateText.new
   end
 
   def edit
-    TextPolicy.authorize!(:update, @thing)
-
     @form = UpdateText.new(text: @thing.text)
   end
 
   def create
-    TextPolicy.authorize!(:create, @sub)
-
     @form = CreateText.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
@@ -28,8 +24,6 @@ class TextsController < BaseSubController
   end
 
   def update
-    TextPolicy.authorize!(:update, @thing)
-
     @form = UpdateText.new(update_params.merge(post: @thing))
 
     if @form.save

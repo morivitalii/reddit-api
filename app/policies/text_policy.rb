@@ -1,16 +1,20 @@
 # frozen_string_literal: true
 
 class TextPolicy < ApplicationPolicy
-  def create?(sub)
-    return false if banned_in_sub?(sub)
+  def create?
+    return false if banned_in_sub?(record)
 
     user?
   end
 
-  def update?(thing)
-    return false unless user?
-    return false if banned_in_sub?(thing.sub)
+  alias new? create?
 
-    thing.user_id == Current.user.id
+  def update?
+    return false unless user?
+    return false if banned_in_sub?(record.sub)
+
+    record.user_id == user.id
   end
+
+  alias edit? update?
 end
