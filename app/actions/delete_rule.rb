@@ -10,8 +10,9 @@ class DeleteRule
     @rule.destroy!
 
     CreateLogJob.perform_later(
+      sub: @rule.sub,
       current_user: @current_user,
-      action: "delete_global_rule",
+      action: "delete_rule",
       model: @rule
     )
   end

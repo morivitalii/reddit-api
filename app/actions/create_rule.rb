@@ -3,11 +3,12 @@
 class CreateRule
   include ActiveModel::Model
 
-  attr_accessor :current_user, :title, :description
+  attr_accessor :current_user, :sub, :title, :description
   attr_reader :rule
 
   def save
     @rule = Rule.create!(
+      sub: @sub,
       title: @title,
       description: @description
     )
@@ -17,8 +18,9 @@ class CreateRule
     return false
   else
     CreateLogJob.perform_later(
+      sub: @sub,
       current_user: @current_user,
-      action: "create_global_rule",
+      action: "create_rule",
       model: @rule
     )
   end
