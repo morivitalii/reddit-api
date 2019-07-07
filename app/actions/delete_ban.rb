@@ -10,8 +10,9 @@ class DeleteBan
     @ban.destroy!
 
     CreateLogJob.perform_later(
+      sub: @ban.sub,
       current_user: @current_user,
-      action: "delete_global_ban",
+      action: "delete_ban",
       loggable: @ban.user,
       model: @ban
     )

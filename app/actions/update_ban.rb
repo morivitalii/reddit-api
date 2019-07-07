@@ -17,8 +17,9 @@ class UpdateBan
     return false
   else
     CreateLogJob.perform_later(
+      sub: @ban.sub,
       current_user: @current_user,
-      action: "update_global_ban",
+      action: "update_ban",
       loggable: @ban.user,
       model: @ban
     )

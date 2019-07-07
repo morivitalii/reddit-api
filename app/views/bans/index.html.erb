@@ -1,21 +1,26 @@
 <% content_for(:meta_title, t("bans")) %>
 
+<% if @sub.present? %>
+  <%= render 'subs/second_top_menu' %>
+  <%= render 'subs/sidebar' %>
+<% end %>
+
 <div id="bans" class="entries row">
   <div class="head col-12">
     <div class="title">
-      <%= link_to(t('bans'), bans_path) %>
+      <%= link_to(t('bans'), bans_path(sub: @sub)) %>
     </div>
 
     <div class="actions">
-      <%= link_to(t('create'), new_ban_path, remote: true, class: 'create') %>
+      <%= link_to(t('create'), new_ban_path(sub: @sub), remote: true, class: 'create') %>
     </div>
   </div>
 
   <div class="search col-12">
-    <%= form_with(url: search_bans_path, local: true, class: "form-inline") do |f| %>
+    <%= form_with(url: search_bans_path(sub: @sub), local: true, class: "form-inline") do |f| %>
       <%= f.text_field :query, value: params[:query], placeholder: t("username") %>
       <%= f.submit t("search") %>
-      <%= link_to(t("reset"), bans_path, class: "btn btn-primary") %>
+      <%= link_to(t("reset"), bans_path(sub: @sub), class: "btn btn-primary") %>
     <% end %>
   </div>
 

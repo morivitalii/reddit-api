@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 class BansController < ApplicationController
+  before_action :set_sub, only: [:index, :search, :new, :create]
   before_action :set_ban, only: [:edit, :update, :confirm, :destroy]
-  before_action -> { authorize(Ban) }
+  before_action -> { authorize(@sub, policy_class: BanPolicy) }, only: [:index, :search, :new, :create]
+  before_action -> { authorize(@ban.sub, policy_class: BanPolicy) }, only: [:edit, :update, :confirm, :destroy]
 
   def index
     @records = Ban.include(ReverseChronologicalOrder)
-                   .global
+                   .where(sub: @sub)
                    .includes(:user, :banned_by)
                    .sort_records_reverse_chronologically
-                   .records_after(params[:after].present? ? Ban.global.find_by_id(params[:after]) : nil)
+                   .records_after(params[:after].present? ? Ban.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 
@@ -20,7 +22,7 @@ class BansController < ApplicationController
   end
 
   def search
-    @records = Ban.global.search(params[:query]).all
+    @records = Ban.where(sub: @sub).search(params[:query]).all
 
     render "index"
   end
@@ -45,7 +47,7 @@ class BansController < ApplicationController
     @form = CreateBan.new(create_params)
 
     if @form.save
-      head :no_content, location: bans_path
+      head :no_content, location: bans_path(sub: @sub)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -73,12 +75,16 @@ class BansController < ApplicationController
 
   private
 
+  def set_sub
+    @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : nil
+  end
+
   def set_ban
-    @ban = Ban.global.find(params[:id])
+    @ban = Ban.find(params[:id])
   end
 
   def create_params
-    params.require(:create_ban).permit(:username, :reason, :days, :permanent).merge(current_user: current_user)
+    params.require(:create_ban).permit(:username, :reason, :days, :permanent).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
