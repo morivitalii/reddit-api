@@ -2,6 +2,7 @@
 
 class SubModeratorsController < BaseSubController
   before_action :set_moderator, only: [:edit, :update, :confirm, :destroy]
+  before_action -> { authorize(@sub, policy_class: SubModeratorPolicy) }
 
   def index
     @records = Moderator.include(ChronologicalOrder)
@@ -25,25 +26,19 @@ class SubModeratorsController < BaseSubController
   end
 
   def new
-    SubModeratorsPolicy.authorize!(:create, @sub)
-
     @form = CreateSubModerator.new
 
     render partial: "new"
   end
 
   def edit
-    SubModeratorsPolicy.authorize!(:update, @sub)
-
     @form = UpdateSubModerator.new(master: @moderator.master)
 
     render partial: "edit"
   end
 
   def create
-    SubModeratorsPolicy.authorize!(:create, @sub)
-
-    @form = CreateSubModerator.new(create_params.merge(sub: @sub, current_user: current_user))
+    @form = CreateSubModerator.new(create_params)
 
     if @form.save
       head :no_content, location: sub_moderators_path(@sub)
@@ -53,9 +48,7 @@ class SubModeratorsController < BaseSubController
   end
 
   def update
-    SubModeratorsPolicy.authorize!(:update, @sub)
-
-    @form = UpdateSubModerator.new(update_params.merge(moderator: @moderator, current_user: current_user))
+    @form = UpdateSubModerator.new(update_params)
 
     if @form.save
       render partial: "moderator", object: @form.moderator
@@ -65,14 +58,10 @@ class SubModeratorsController < BaseSubController
   end
 
   def confirm
-    SubModeratorsPolicy.authorize!(:destroy, @sub)
-
     render partial: "confirm"
   end
 
   def destroy
-    SubModeratorsPolicy.authorize!(:destroy, @sub)
-
     DeleteSubModerator.new(moderator: @moderator, current_user: current_user).call
 
     head :no_content
@@ -85,10 +74,10 @@ class SubModeratorsController < BaseSubController
   end
 
   def create_params
-    params.require(:create_sub_moderator).permit(:username, :master)
+    params.require(:create_sub_moderator).permit(:username, :master).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_sub_moderator).permit(:master)
+    params.require(:update_sub_moderator).permit(:master).merge(moderator: @moderator, current_user: current_user)
   end
 end
