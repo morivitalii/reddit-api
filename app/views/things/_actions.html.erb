@@ -67,7 +67,7 @@
           <%= link_to(t('edit'), edit_sub_text_path(thing.sub, thing), class: 'dropdown-item') %>
         <% end %>
 
-        <% if TagThingPolicy.authorize(:update, thing) %>
+        <% if TagThingPolicy.new(current_user, thing).update? %>
           <%= link_to(t('tag'), edit_sub_thing_tag_path(thing.sub, thing), remote: true, class: 'tag dropdown-item') %>
         <% end %>
 
