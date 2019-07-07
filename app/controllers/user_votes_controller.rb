@@ -3,9 +3,9 @@
 class UserVotesController < BaseUserController
   layout "narrow"
 
-  def index
-    UserVotesPolicy.authorize!(:index, @user)
+  before_action -> { authorize(@user, policy_class: UserVotesPolicy) }
 
+  def index
     @records = Vote.include(ReverseChronologicalOrder)
                    .vote_type(helpers.vote_type_filter(params[:vote_type]))
                    .thing_type(helpers.thing_type_filter(params[:thing_type]))

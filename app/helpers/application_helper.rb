@@ -127,7 +127,7 @@ module ApplicationHelper
       menu[t("bookmarks")] = user_bookmarks_path(user)
     end
 
-    if UserVotesPolicy.authorize(:index, user)
+    if UserVotesPolicy.new(current_user, user).index?
       menu[t("votes")] = user_votes_path(user)
     end
 
