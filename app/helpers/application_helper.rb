@@ -97,7 +97,7 @@ module ApplicationHelper
 
     menu[t("pages")] = sub_pages_path(sub)
 
-    if SubBlacklistedDomainsPolicy.authorize(:index, sub)
+    if SubBlacklistedDomainPolicy.new(current_user, sub).index?
       menu[t("blacklisted_domains")] = sub_blacklisted_domains_path(sub)
     end
 
