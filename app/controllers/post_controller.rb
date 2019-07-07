@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PostController < ApplicationController
-  before_action -> { authorize(Post, policy_class: PostPolicy) }
+  before_action -> { authorize(Thing, policy_class: PostPolicy) }
 
   def new
     @records = Follow.include(ChronologicalOrder)
