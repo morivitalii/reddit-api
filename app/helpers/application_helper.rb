@@ -83,8 +83,8 @@ module ApplicationHelper
       t("contributors") => sub_contributors_path(sub)
     }
 
-    if SubRulePolicy.new(current_user, sub).index?
-      menu[t("rules")] = sub_rules_path(sub)
+    if RulePolicy.new(current_user, sub).index?
+      menu[t("rules")] = rules_path(sub: sub)
     end
 
     if SubDeletionReasonPolicy.new(current_user, sub).index?

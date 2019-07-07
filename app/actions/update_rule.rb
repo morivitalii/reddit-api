@@ -16,8 +16,9 @@ class UpdateRule
     return false
   else
     CreateLogJob.perform_later(
+      sub: @rule.sub,
       current_user: @current_user,
-      action: "update_global_rule",
+      action: "update_rule",
       model: @rule
     )
   end

@@ -179,9 +179,9 @@ ru:
     delete_ban: разбанил
     create_sub_contributor: одобрил контрибутора
     delete_sub_contributor: удалил контрибутора
-    create_sub_rule: добавил правило
-    update_sub_rule: изменил правило
-    delete_sub_rule: удалил правило
+    create_rule: добавил правило
+    update_rule: изменил правило
+    delete_rule: удалил правило
     create_sub_deletion_reason: добавил причину удаления контента
     update_sub_deletion_reason: изменил причину удаления контента
     delete_sub_deletion_reason: удалил причину удаления контента
@@ -200,9 +200,6 @@ ru:
     delete_sub_page: удалил страницу
     create_blacklisted_domain: добавил в черный список домен
     delete_blacklisted_domain: удалил из черного списка домен
-    create_global_rule: добавил правило
-    update_global_rule: изменил правило
-    delete_global_rule: удалил правило
     create_global_deletion_reason: добавил причину удаления контента
     update_global_deletion_reason: изменил причину удаления контента
     delete_global_deletion_reason: удалил причину удаления контента

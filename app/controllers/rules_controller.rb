@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 class RulesController < ApplicationController
+  before_action :set_sub, only: [:index, :new, :create]
   before_action :set_rule, only: [:edit, :update, :confirm, :destroy]
-  before_action -> { authorize(Rule, policy_class: RulePolicy) }
+  before_action -> { authorize(@sub, policy_class: RulePolicy) }, only: [:index, :new, :create]
+  before_action -> { authorize(@rule.sub, policy_class: RulePolicy) }, only: [:edit, :update, :confirm, :destroy]
 
   def index
     @records = Rule.include(ChronologicalOrder)
-                   .global
+                   .where(sub: @sub)
                    .sort_records_chronologically
-                   .records_after(params[:after].present? ? Rule.global.find_by_id(params[:after]) : nil)
+                   .records_after(params[:after].present? ? Rule.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 
@@ -37,7 +39,7 @@ class RulesController < ApplicationController
     @form = CreateRule.new(create_params)
 
     if @form.save
-      head :no_content, location: rules_path
+      head :no_content, location: rules_path(sub: @sub)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -65,12 +67,16 @@ class RulesController < ApplicationController
 
   private
 
+  def set_sub
+    @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : nil
+  end
+
   def set_rule
-    @rule = Rule.global.find(params[:id])
+    @rule = Rule.find(params[:id])
   end
 
   def create_params
-    params.require(:create_rule).permit(:title, :description).merge(current_user: current_user)
+    params.require(:create_rule).permit(:title, :description).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
