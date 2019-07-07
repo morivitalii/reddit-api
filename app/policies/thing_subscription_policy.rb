@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class ThingSubscriptionPolicy < ApplicationPolicy
-  def create?(thing)
+  def create?
     return unless user?
 
-    thing.user_id == Current.user.id
+    record.user_id == user.id
   end
 
   alias destroy? create?

@@ -95,7 +95,7 @@
           <% end %>
         <% end %>
 
-        <% if ThingSubscriptionPolicy.authorize(:create, thing) %>
+        <% if ThingSubscriptionPolicy.new(current_user, thing).create? %>
           <% if thing.receive_notifications? %>
             <%= link_to(fa_icon('check-square-o', text: t('receive_notifications')), sub_thing_subscription_path(thing.sub, thing), remote: true, method: :delete, class: 'notifications dropdown-item') %>
           <% else %>
