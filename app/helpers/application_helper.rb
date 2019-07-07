@@ -91,7 +91,7 @@ module ApplicationHelper
       menu[t("deletion_reasons")] = sub_deletion_reasons_path(sub)
     end
 
-    if SubTagsPolicy.authorize(:index, sub)
+    if SubTagPolicy.new(current_user, sub).index?
       menu[t("tags")] = sub_tags_path(sub)
     end
 
