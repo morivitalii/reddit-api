@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class SubDeletionReasonsPolicy < ApplicationPolicy
-  def index?(sub)
-    staff? || sub_master?(sub)
+class SubDeletionReasonPolicy < ApplicationPolicy
+  def index?
+    staff? || sub_master?(record)
   end
 
   alias create? index?

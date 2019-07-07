@@ -87,7 +87,7 @@ module ApplicationHelper
       menu[t("rules")] = sub_rules_path(sub)
     end
 
-    if SubDeletionReasonsPolicy.authorize(:index, sub)
+    if SubDeletionReasonPolicy.new(current_user, sub).index?
       menu[t("deletion_reasons")] = sub_deletion_reasons_path(sub)
     end
 

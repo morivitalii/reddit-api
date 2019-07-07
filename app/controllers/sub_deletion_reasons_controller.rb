@@ -2,10 +2,9 @@
 
 class SubDeletionReasonsController < BaseSubController
   before_action :set_deletion_reason, only: [:edit, :update, :confirm, :destroy]
+  before_action -> { authorize(@sub, policy_class: SubDeletionReasonPolicy) }
 
   def index
-    SubDeletionReasonsPolicy.authorize!(:index, @sub)
-
     @records = DeletionReason.include(ChronologicalOrder)
                    .where(sub: @sub)
                    .includes(:sub)
@@ -21,16 +20,12 @@ class SubDeletionReasonsController < BaseSubController
   end
 
   def new
-    SubDeletionReasonsPolicy.authorize!(:create, @sub)
-
     @form = CreateSubDeletionReason.new
 
     render partial: "new"
   end
 
   def edit
-    SubDeletionReasonsPolicy.authorize!(:update, @sub)
-
     @form = UpdateSubDeletionReason.new(
       title: @deletion_reason.title,
       description: @deletion_reason.description
@@ -40,9 +35,7 @@ class SubDeletionReasonsController < BaseSubController
   end
 
   def create
-    SubDeletionReasonsPolicy.authorize!(:create, @sub)
-
-    @form = CreateSubDeletionReason.new(create_params.merge(sub: @sub, current_user: current_user))
+    @form = CreateSubDeletionReason.new(create_params)
 
     if @form.save
       head :no_content, location: sub_deletion_reasons_path(@sub)
@@ -52,9 +45,7 @@ class SubDeletionReasonsController < BaseSubController
   end
 
   def update
-    SubDeletionReasonsPolicy.authorize!(:update, @sub)
-
-    @form = UpdateSubDeletionReason.new(update_params.merge(deletion_reason: @deletion_reason, current_user: current_user))
+    @form = UpdateSubDeletionReason.new(update_params)
 
     if @form.save
       render partial: "sub_deletion_reasons/deletion_reason", object: @form.deletion_reason
@@ -64,14 +55,10 @@ class SubDeletionReasonsController < BaseSubController
   end
 
   def confirm
-    SubDeletionReasonsPolicy.authorize!(:destroy, @sub)
-
     render partial: "confirm"
   end
 
   def destroy
-    SubDeletionReasonsPolicy.authorize!(:destroy, @sub)
-
     DeleteSubDeletionReason.new(deletion_reason: @deletion_reason, current_user: current_user).call
 
     head :no_content
@@ -84,10 +71,10 @@ class SubDeletionReasonsController < BaseSubController
   end
 
   def create_params
-    params.require(:create_sub_deletion_reason).permit(:title, :description)
+    params.require(:create_sub_deletion_reason).permit(:title, :description).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_sub_deletion_reason).permit(:title, :description)
+    params.require(:update_sub_deletion_reason).permit(:title, :description).merge(deletion_reason: @deletion_reason, current_user: current_user)
   end
 end
