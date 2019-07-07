@@ -4,7 +4,9 @@ class SubsController < ApplicationController
   layout "narrow", only: "show"
   before_action :set_sub, except: [:index]
   before_action :set_navigation_title, except: [:index]
-
+  before_action -> { authorize(Sub) }, only: [:index]
+  before_action -> { authorize(@sub) }, only: [:show, :edit, :update]
+  
   def index
     @records = Sub.include(ChronologicalOrder)
                    .sort_records_chronologically

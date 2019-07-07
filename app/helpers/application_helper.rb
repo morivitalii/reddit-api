@@ -105,7 +105,7 @@ module ApplicationHelper
       menu[t("logs")] = sub_logs_path(sub)
     end
 
-    if SubsPolicy.authorize(:update, sub)
+    if SubPolicy.new(current_user, sub).update?
       menu[t("settings")] = edit_sub_path(sub)
     end
 
