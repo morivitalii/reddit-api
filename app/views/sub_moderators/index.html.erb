@@ -9,7 +9,7 @@
       <%= link_to(t('moderators'), sub_moderators_path(@sub)) %>
     </div>
 
-    <% if SubModeratorsPolicy.authorize(:create, @sub) %>
+    <% if SubModeratorPolicy.new(current_user, @sub).create? %>
       <div class="actions">
         <%= link_to(t('create'), new_sub_moderator_path(@sub), remote: true, class: 'create') %>
       </div>
@@ -26,7 +26,7 @@
 
   <div class="col-12">
     <div class="body col-12">
-      <% cache_variant = SubModeratorsPolicy.authorize(:update, @sub) %>
+      <% cache_variant = SubModeratorPolicy.new(current_user, @sub).update? %>
       <%= render partial: "moderator", collection: @records, cached: ->(moderator) { [moderator, cache_variant] } %>
     </div>
   </div>

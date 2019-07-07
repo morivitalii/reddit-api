@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class ThingsActions < ApplicationPolicy
+class LogPolicy < ApplicationPolicy
   def index?
-    user?
+    staff?
   end
 end

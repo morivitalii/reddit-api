@@ -2,10 +2,9 @@
 
 class SubBansController < BaseSubController
   before_action :set_ban, only: [:edit, :update, :confirm, :destroy]
+  before_action -> { authorize(@sub, policy_class: SubBanPolicy) }
 
   def index
-    SubBansPolicy.authorize!(:index, @sub)
-
     @records = Ban.include(ReverseChronologicalOrder)
                    .where(sub: @sub)
                    .includes(:user, :banned_by)
@@ -21,24 +20,18 @@ class SubBansController < BaseSubController
   end
 
   def search
-    SubBansPolicy.authorize!(:index, @sub)
-
     @records = @sub.bans.search(params[:query]).all
 
     render "index"
   end
 
   def new
-    SubBansPolicy.authorize!(:create, @sub)
-
     @form = CreateSubBan.new
 
     render partial: "new"
   end
 
   def edit
-    SubBansPolicy.authorize!(:update, @sub)
-
     @form = UpdateSubBan.new(
       reason: @ban.reason,
       days: @ban.days,
@@ -49,9 +42,7 @@ class SubBansController < BaseSubController
   end
 
   def create
-    SubBansPolicy.authorize!(:create, @sub)
-
-    @form = CreateSubBan.new(create_params.merge(sub: @sub, current_user: current_user))
+    @form = CreateSubBan.new(create_params)
 
     if @form.save
       head :no_content, location: sub_bans_path(@sub)
@@ -61,9 +52,7 @@ class SubBansController < BaseSubController
   end
 
   def update
-    SubBansPolicy.authorize!(:update, @sub)
-
-    @form = UpdateSubBan.new(update_params.merge(ban: @ban, current_user: current_user))
+    @form = UpdateSubBan.new(update_params)
 
     if @form.save
       render partial: "ban", object: @form.ban
@@ -73,14 +62,10 @@ class SubBansController < BaseSubController
   end
 
   def confirm
-    SubBansPolicy.authorize!(:destroy, @sub)
-
     render partial: "confirm"
   end
 
   def destroy
-    SubBansPolicy.authorize!(:destroy, @sub)
-    
     DeleteSubBan.new(ban: @ban, current_user: current_user).call
 
     head :no_content
@@ -93,10 +78,10 @@ class SubBansController < BaseSubController
   end
 
   def create_params
-    params.require(:create_sub_ban).permit(:username, :reason, :days, :permanent)
+    params.require(:create_sub_ban).permit(:username, :reason, :days, :permanent).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_sub_ban).permit(:reason, :days, :permanent)
+    params.require(:update_sub_ban).permit(:reason, :days, :permanent).merge(ban: @ban, current_user: current_user)
   end
 end

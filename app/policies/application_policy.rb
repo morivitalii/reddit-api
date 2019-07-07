@@ -1,57 +1,65 @@
-# frozen_string_literal: true
-
 class ApplicationPolicy
-  class AuthorizationError < StandardError
-  end
+  attr_reader :user, :record
 
-  def self.authorize!(action, *args)
-    unless authorize(action, *args)
-      raise AuthorizationError
-    end
-  end
-
-  def self.authorize(action, *args)
-    self.new.method("#{action}?").call(*args)
+  def initialize(user, record)
+    @user = user
+    @record = record
   end
 
   def staff?
     return false unless user?
 
-    Current.user.staff.present?
+    user.staff.present?
   end
 
-  def master?(sub)
+  def sub_master?(sub)
     return false unless user?
 
-    Current.user.moderators.find { |i| i.master? && i.sub_id == sub.id }.present?
+    user.moderators.find { |i| i.master? && i.sub_id == sub.id }.present?
   end
 
-  def moderator?(sub = nil)
+  def moderator?
     return false unless user?
 
-    if sub.present?
-      Current.user.moderators.find { |i| i.sub_id == sub.id }.present?
-    else
-      Current.user.moderators.present?
-    end
+    user.moderators.exists?
   end
 
-  def contributor?(sub)
+  def sub_moderator?(sub)
     return false unless user?
 
-    Current.user.contributors.find { |i| i.sub_id == sub.id }.present?
+    user.moderators.find { |i| i.sub_id == sub.id }.present?
   end
 
-  def follower?(sub)
+  def sub_contributor?(sub)
     return false unless user?
 
-    Current.user.follows.find { |i| i.sub_id == sub.id }
+    user.contributors.find { |i| i.sub_id == sub.id }.present?
   end
 
-  def banned?(sub)
+  def sub_follower?(sub)
     return false unless user?
 
-    ban = Current.user.bans.find { |i| i.sub_id == sub.id }
+    user.follows.find { |i| i.sub_id == sub.id }
+  end
+
+  def banned_globally?
+    return false unless user?
+
+    ban = user.bans.global.take
+
+    return false if ban.blank?
+    return ban if ban.permanent?
+    return ban unless ban.stale?
+
+    DeleteSubBan.new(ban: ban, current_user: User.auto_moderator).call
+
+    false
+  end
+
+  def banned_in_sub?(sub)
+    return false unless user?
+
+    ban = user.bans.find { |i| i.sub_id == sub.id }
 
     return false if ban.blank?
     return ban if ban.permanent?
@@ -63,6 +71,6 @@ class ApplicationPolicy
   end
 
   def user?
-    Current.user.present?
+    user.present?
   end
 end

@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 class LinksController < BaseSubController
-  def new
-    LinkPolicy.authorize!(:create, @sub)
+  before_action -> { authorize(@sub, policy_class: LinkPolicy) }
 
+  def new
     @form = CreateLink.new
   end
 
   def create
-    LinkPolicy.authorize!(:create, @sub)
-
     @form = CreateLink.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save

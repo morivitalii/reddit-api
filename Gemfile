@@ -30,6 +30,7 @@ gem "browser", "~> 2.5"
 gem "recaptcha", "~> 5.0"
 gem "diffy", "~> 3.3"
 gem "whenever", "1.0.0", require: false
+gem "pundit", "~> 2"
 
 group :development, :test do
   gem "rubocop", "~> 0.72.0", require: false

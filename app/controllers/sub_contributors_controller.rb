@@ -2,10 +2,9 @@
 
 class SubContributorsController < BaseSubController
   before_action :set_contributor, only: [:confirm, :destroy]
+  before_action -> { authorize(@sub, policy_class: SubContributorPolicy) }
 
   def index
-    SubContributorsPolicy.authorize!(:index, @sub)
-
     @records = Contributor.include(ReverseChronologicalOrder)
                    .where(sub: @sub)
                    .includes(:user, :approved_by)
@@ -21,24 +20,18 @@ class SubContributorsController < BaseSubController
   end
 
   def search
-    SubContributorsPolicy.authorize!(:index, @sub)
-
     @records = @sub.contributors.search(params[:query]).all
 
     render "index"
   end
 
   def new
-    SubContributorsPolicy.authorize!(:create, @sub)
-
     @form = CreateSubContributor.new
 
     render partial: "new"
   end
 
   def create
-    SubContributorsPolicy.authorize!(:create, @sub)
-
     @form = CreateSubContributor.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
@@ -49,14 +42,10 @@ class SubContributorsController < BaseSubController
   end
 
   def confirm
-    SubContributorsPolicy.authorize!(:destroy, @sub)
-
     render partial: "confirm"
   end
 
   def destroy
-    SubContributorsPolicy.authorize!(:destroy, @sub)
-
     DeleteSubContributor.new(contributor: @contributor, current_user: current_user).call
 
     head :no_content

@@ -6,7 +6,7 @@
       <%= link_to(t('pages'), pages_path) %>
     </div>
 
-    <% if PagesPolicy.authorize(:create) %>
+    <% if PagePolicy.new(current_user, nil).create? %>
       <div class="actions">
         <%= link_to(t('create'), new_page_path, class: 'create') %>
       </div>

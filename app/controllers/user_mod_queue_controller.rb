@@ -4,10 +4,9 @@ class UserModQueueController < BaseUserController
   layout "narrow"
 
   before_action :set_navigation_title
+  before_action -> { authorize(@user, policy_class: UserModQueuePolicy) }
 
   def show
-    UserModQueuePolicy.authorize!(:index, @user)
-
     @records = ModQueue.include(ReverseChronologicalOrder)
                    .queue_type(helpers.mod_queue_filter(params[:mod_queue_type]))
                    .thing_type(helpers.thing_type_filter(params[:thing_type]))

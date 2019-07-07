@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class SubLogsController < BaseSubController
-  def index
-    SubLogsPolicy.authorize!(:index, @sub)
+  before_action -> { authorize(@sub, policy_class: SubLogPolicy) }
 
+  def index
     # N+1 db requests guaranteed, but who care if partials cached like forever anyway
     @records = Log.include(ReverseChronologicalOrder)
                    .where(sub: @sub)

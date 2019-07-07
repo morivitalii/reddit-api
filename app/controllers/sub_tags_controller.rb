@@ -2,10 +2,9 @@
 
 class SubTagsController < BaseSubController
   before_action :set_tag, only: [:edit, :update, :confirm, :destroy]
+  before_action -> { authorize(@sub, policy_class: SubTagPolicy) }
 
   def index
-    SubTagsPolicy.authorize!(:index, @sub)
-
     @records = Tag.include(ChronologicalOrder)
                    .where(sub: @sub)
                    .sort_records_chronologically
@@ -20,25 +19,19 @@ class SubTagsController < BaseSubController
   end
 
   def new
-    SubTagsPolicy.authorize!(:create, @sub)
-
     @form = CreateSubTag.new
 
     render partial: "new"
   end
 
   def edit
-    SubTagsPolicy.authorize!(:update, @sub)
-
     @form = UpdateSubTag.new(title: @tag.title)
 
     render partial: "edit"
   end
 
   def create
-    SubTagsPolicy.authorize!(:create, @sub)
-
-    @form = CreateSubTag.new(create_params.merge(sub: @sub, current_user: current_user))
+    @form = CreateSubTag.new(create_params)
 
     if @form.save
       head :no_content, location: sub_tags_path(@sub)
@@ -48,9 +41,7 @@ class SubTagsController < BaseSubController
   end
 
   def update
-    SubTagsPolicy.authorize!(:update, @sub)
-
-    @form = UpdateSubTag.new(update_params.merge(tag: @tag, current_user: current_user))
+    @form = UpdateSubTag.new(update_params)
 
     if @form.save
       render partial: "sub_tags/tag", object: @form.tag
@@ -60,14 +51,10 @@ class SubTagsController < BaseSubController
   end
 
   def confirm
-    SubTagsPolicy.authorize!(:destroy, @sub)
-
     render partial: "confirm"
   end
 
   def destroy
-    SubTagsPolicy.authorize!(:destroy, @sub)
-
     DeleteSubTag.new(tag: @tag, current_user: current_user).call
 
     head :no_content
@@ -80,10 +67,10 @@ class SubTagsController < BaseSubController
   end
 
   def create_params
-    params.require(:create_sub_tag).permit(:title)
+    params.require(:create_sub_tag).permit(:title).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_sub_tag).permit(:title)
+    params.require(:update_sub_tag).permit(:title).merge(tag: @tag, current_user: current_user)
   end
 end

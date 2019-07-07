@@ -83,29 +83,29 @@ module ApplicationHelper
       t("contributors") => sub_contributors_path(sub)
     }
 
-    if SubRulesPolicy.authorize(:index, sub)
+    if SubRulePolicy.new(current_user, sub).index?
       menu[t("rules")] = sub_rules_path(sub)
     end
 
-    if SubDeletionReasonsPolicy.authorize(:index, sub)
+    if SubDeletionReasonPolicy.new(current_user, sub).index?
       menu[t("deletion_reasons")] = sub_deletion_reasons_path(sub)
     end
 
-    if SubTagsPolicy.authorize(:index, sub)
+    if SubTagPolicy.new(current_user, sub).index?
       menu[t("tags")] = sub_tags_path(sub)
     end
 
     menu[t("pages")] = sub_pages_path(sub)
 
-    if SubBlacklistedDomainsPolicy.authorize(:index, sub)
+    if SubBlacklistedDomainPolicy.new(current_user, sub).index?
       menu[t("blacklisted_domains")] = sub_blacklisted_domains_path(sub)
     end
 
-    if SubLogsPolicy.authorize(:index, sub)
+    if SubLogPolicy.new(current_user, sub).index?
       menu[t("logs")] = sub_logs_path(sub)
     end
 
-    if SubsPolicy.authorize(:update, sub)
+    if SubPolicy.new(current_user, sub).update?
       menu[t("settings")] = edit_sub_path(sub)
     end
 
@@ -123,11 +123,11 @@ module ApplicationHelper
       menu[t("notifications")] = user_notifications_path(user)
     end
 
-    if UserBookmarksPolicy.authorize(:index, user)
+    if UserBookmarksPolicy.new(current_user, user).index?
       menu[t("bookmarks")] = user_bookmarks_path(user)
     end
 
-    if UserVotesPolicy.authorize(:index, user)
+    if UserVotesPolicy.new(current_user, user).index?
       menu[t("votes")] = user_votes_path(user)
     end
 

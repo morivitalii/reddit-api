@@ -2,26 +2,22 @@
 
 class CommentsController < BaseThingController
   before_action :check_thing_type, only: [:edit, :update]
+  before_action -> { authorize(@sub, policy_class: CommentPolicy) }, only: [:new, :create]
+  before_action -> { authorize(@thing, policy_class: CommentPolicy) }, only: [:edit, :update]
 
   def new
-    CommentsPolicy.authorize!(:create, @sub)
-
     @form = CreateComment.new
 
     render partial: "new"
   end
 
   def edit
-    CommentsPolicy.authorize!(:update, @thing)
-
     @form = UpdateComment.new(text: @thing.text)
 
     render partial: "edit"
   end
 
   def create
-    CommentsPolicy.authorize!(:create, @sub)
-
     @form = CreateComment.new(create_params.merge(thing: @thing, current_user: current_user))
 
     if @form.save
@@ -32,8 +28,6 @@ class CommentsController < BaseThingController
   end
 
   def update
-    CommentsPolicy.authorize!(:update, @thing)
-
     @form = UpdateComment.new(update_params.merge(comment: @thing))
 
     if @form.save

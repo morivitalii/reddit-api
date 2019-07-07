@@ -3,9 +3,9 @@
 class UserBookmarksController < BaseUserController
   layout "narrow"
 
-  def index
-    UserBookmarksPolicy.authorize!(:index, @user)
+  before_action -> { authorize(@user, policy_class: UserBookmarksPolicy) }
 
+  def index
     @records = Bookmark.include(ReverseChronologicalOrder)
                    .joins(:thing)
                    .merge(Thing.not_deleted)

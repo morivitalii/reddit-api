@@ -2,10 +2,9 @@
 
 class SubRulesController < BaseSubController
   before_action :set_rule, only: [:edit, :update, :confirm, :destroy]
+  before_action -> { authorize(@sub, policy_class: SubRulePolicy) }
 
   def index
-    SubRulesPolicy.authorize!(:index, @sub)
-
     @records = Rule.include(ChronologicalOrder)
                    .where(sub: @sub)
                    .sort_records_chronologically
@@ -20,16 +19,12 @@ class SubRulesController < BaseSubController
   end
 
   def new
-    SubRulesPolicy.authorize!(:create, @sub)
-
     @form = CreateSubRule.new
 
     render partial: "new"
   end
 
   def edit
-    SubRulesPolicy.authorize!(:update, @sub)
-
     @form = UpdateSubRule.new(
       title: @rule.title,
       description: @rule.description
@@ -39,9 +34,7 @@ class SubRulesController < BaseSubController
   end
 
   def create
-    SubRulesPolicy.authorize!(:create, @sub)
-
-    @form = CreateSubRule.new(create_params.merge(sub: @sub, current_user: current_user))
+    @form = CreateSubRule.new(create_params)
 
     if @form.save
       head :no_content, location: sub_rules_path(@sub)
@@ -51,9 +44,7 @@ class SubRulesController < BaseSubController
   end
 
   def update
-    SubRulesPolicy.authorize!(:update, @sub)
-
-    @form = UpdateSubRule.new(update_params.merge(rule: @rule, current_user: current_user))
+    @form = UpdateSubRule.new(update_params)
 
     if @form.save
       render partial: "sub_rules/rule", object: @form.rule
@@ -63,14 +54,10 @@ class SubRulesController < BaseSubController
   end
 
   def confirm
-    SubRulesPolicy.authorize!(:destroy, @sub)
-
     render partial: "confirm"
   end
 
   def destroy
-    SubRulesPolicy.authorize!(:destroy, @sub)
-
     DeleteSubRule.new(rule: @rule, current_user: current_user).call
 
     head :no_content
@@ -83,10 +70,10 @@ class SubRulesController < BaseSubController
   end
 
   def create_params
-    params.require(:create_sub_rule).permit(:title, :description)
+    params.require(:create_sub_rule).permit(:title, :description).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_sub_rule).permit(:title, :description)
+    params.require(:update_sub_rule).permit(:title, :description).merge(rule: @rule, current_user: current_user)
   end
 end

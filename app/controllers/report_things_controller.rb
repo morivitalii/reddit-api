@@ -1,26 +1,23 @@
 # frozen_string_literal: true
 
 class ReportThingsController < BaseThingController
-  def index
-    ReportThingPolicy.authorize!(:index, @sub)
+  before_action -> { authorize(@sub, policy_class: ReportThingPolicy) }, only: [:index]
+  before_action -> { authorize(Thing, policy_class: ReportThingPolicy) }, only: [:new, :create]
 
+  def index
     @reports = @thing.reports.includes(:user).order(id: :asc).all
 
     render partial: "index"
   end
 
   def new
-    ReportThingPolicy.authorize!(:create)
-
     @form = CreateThingReport.new
 
     render partial: "new"
   end
 
   def create
-    ReportThingPolicy.authorize!(:create)
-
-    @form = CreateThingReport.new(create_params.merge(thing: @thing, current_user: current_user))
+    @form = CreateThingReport.new(create_params)
 
     if @form.save
       head :no_content
@@ -32,6 +29,6 @@ class ReportThingsController < BaseThingController
   private
 
   def create_params
-    params.require(:create_thing_report).permit(:text)
+    params.require(:create_thing_report).permit(:text).merge(thing: @thing, current_user: current_user)
   end
 end

@@ -2,10 +2,9 @@
 
 class DeletionReasonsController < ApplicationController
   before_action :set_deletion_reason, only: [:edit, :update, :confirm, :destroy]
+  before_action -> { authorize(DeletionReason) }
 
   def index
-    DeletionReasonsPolicy.authorize!(:index)
-
     @records = DeletionReason.include(ChronologicalOrder)
                    .global
                    .sort_records_chronologically
@@ -20,16 +19,12 @@ class DeletionReasonsController < ApplicationController
   end
 
   def new
-    DeletionReasonsPolicy.authorize!(:create)
-
     @form = CreateDeletionReason.new
 
     render partial: "new"
   end
 
   def edit
-    DeletionReasonsPolicy.authorize!(:update)
-
     @form = UpdateDeletionReason.new(
         title: @deletion_reason.title,
         description: @deletion_reason.description
@@ -39,9 +34,7 @@ class DeletionReasonsController < ApplicationController
   end
 
   def create
-    DeletionReasonsPolicy.authorize!(:create)
-
-    @form = CreateDeletionReason.new(create_params.merge(current_user: current_user))
+    @form = CreateDeletionReason.new(create_params)
 
     if @form.save
       head :no_content, location: deletion_reasons_path
@@ -51,9 +44,7 @@ class DeletionReasonsController < ApplicationController
   end
 
   def update
-    DeletionReasonsPolicy.authorize!(:update)
-
-    @form = UpdateDeletionReason.new(update_params.merge(deletion_reason: @deletion_reason, current_user: current_user))
+    @form = UpdateDeletionReason.new(update_params)
 
     if @form.save
       render partial: "deletion_reason", object: @form.deletion_reason
@@ -63,14 +54,10 @@ class DeletionReasonsController < ApplicationController
   end
 
   def confirm
-    DeletionReasonsPolicy.authorize!(:destroy)
-
     render partial: "confirm"
   end
 
   def destroy
-    DeletionReasonsPolicy.authorize!(:destroy)
-
     DeleteDeletionReason.new(deletion_reason: @deletion_reason, current_user: current_user).call
 
     head :no_content
@@ -83,10 +70,10 @@ class DeletionReasonsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_deletion_reason).permit(:title, :description)
+    params.require(:create_deletion_reason).permit(:title, :description).merge(current_user: current_user)
   end
 
   def update_params
-    params.require(:update_deletion_reason).permit(:title, :description)
+    params.require(:update_deletion_reason).permit(:title, :description).merge(deletion_reason: @deletion_reason, current_user: current_user)
   end
 end

@@ -7,7 +7,7 @@
     </span>
 
     <div class="dropdown-menu dropdown-menu-right">
-      <% if thing.comment? && CommentsPolicy.authorize(:update, thing) %>
+      <% if thing.comment? && CommentPolicy.new(current_user, thing).update? %>
         <%= link_to(t("edit"), edit_sub_thing_comment_path(thing.sub, thing), remote: true, class: "update dropdown-item") %>
       <% end %>
 
@@ -17,30 +17,30 @@
         <%= link_to(t("bookmark"), sub_thing_bookmark_path(thing.sub, thing), remote: true, method: :post, class: 'bookmark dropdown-item') %>
       <% end %>
 
-      <% if !thing.approved? && ApproveThingPolicy.authorize(:create, thing) %>
+      <% if !thing.approved? && ApproveThingPolicy.new(current_user, thing).create? %>
         <%= link_to(t("approve"), sub_thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve dropdown-item') %>
       <% end %>
 
-      <% if !thing.deleted? && DeleteThingPolicy.authorize(:create, thing) %>
+      <% if !thing.deleted? && DeleteThingPolicy.new(current_user, thing).create? %>
         <%= link_to(t("delete"), new_sub_thing_delete_path(thing.sub, thing), remote: true, method: :get, class: "delete dropdown-item") %>
       <% end %>
 
       <%= link_to(t('report'), new_sub_thing_report_path(thing.sub, thing), remote: true, class: 'report dropdown-item') %>
 
-      <% if !thing.approved? && thing.reports_count.positive? && ReportThingPolicy.authorize(:index, thing.sub) %>
+      <% if !thing.approved? && thing.reports_count.positive? && ReportThingPolicy.new(current_user, thing.sub).index? %>
         <%= link_to(t('reports'), sub_thing_reports_path(thing.sub, thing), remote: true, class: 'reports dropdown-item') %>
       <% end %>
 
       <% if thing.post? %>
-        <% if thing.text? && TextPolicy.authorize(:update, thing) %>
+        <% if thing.text? && TextPolicy.new(current_user, thing).update? %>
           <%= link_to(t("edit"), edit_sub_text_path(thing.sub, thing), class: "dropdown-item") %>
         <% end %>
 
-        <% if TagThingPolicy.authorize(:update, thing) %>
+        <% if TagThingPolicy.new(current_user, thing).update? %>
           <%= link_to(t('tag'), edit_sub_thing_tag_path(thing.sub, thing), remote: true, class: 'tag dropdown-item') %>
         <% end %>
 
-        <% if SpecifyThingPolicy.authorize(:create, thing) %>
+        <% if SpecifyThingPolicy.new(current_user, thing).create? %>
           <% if thing.explicit? %>
             <%= link_to(fa_icon('check-square-o', text: t('explicit')), sub_thing_specify_path(thing.sub, thing), remote: true, method: :delete, class: 'explicit dropdown-item') %>
           <% else %>
@@ -48,7 +48,7 @@
           <% end %>
         <% end %>
 
-        <% if SpoilerThingPolicy.authorize(:create, thing) %>
+        <% if SpoilerThingPolicy.new(current_user, thing).create? %>
           <% if thing.spoiler? %>
             <%= link_to(fa_icon('check-square-o', text: t('spoiler')), sub_thing_spoiler_path(thing.sub, thing), remote: true, method: :delete, class: 'spoiler dropdown-item') %>
           <% else %>
@@ -56,7 +56,7 @@
           <% end %>
         <% end %>
 
-        <% if IgnoreThingReportsPolicy.authorize(:create, thing) %>
+        <% if IgnoreThingReportsPolicy.new(current_user, thing).create? %>
           <% if thing.ignore_reports? %>
             <%= link_to(fa_icon('check-square-o', text: t('ignore_reports')), sub_thing_ignore_reports_path(thing.sub, thing), remote: true, method: :delete, class: 'ignore_reports dropdown-item') %>
           <% else %>
@@ -64,7 +64,7 @@
           <% end %>
         <% end %>
 
-        <% if ThingSubscriptionPolicy.authorize(:create, thing) %>
+        <% if ThingSubscriptionPolicy.new(current_user, thing).create? %>
           <% if thing.receive_notifications? %>
             <%= link_to(fa_icon('check-square-o', text: t('receive_notifications')), sub_thing_subscription_path(thing.sub, thing), remote: true, method: :delete, class: 'notifications dropdown-item') %>
           <% else %>

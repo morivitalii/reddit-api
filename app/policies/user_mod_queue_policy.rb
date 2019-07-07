@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class UserModQueuePolicy < ApplicationPolicy
-  def index?(user)
+  def index?
     return false unless user?
 
-    staff? || Current.user.id == user.id && user.moderator?
+    staff? || user.id == record.id && record.moderator?
   end
 end

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class ReportThingPolicy < ApplicationPolicy
-  def index?(sub)
-    staff? || moderator?(sub)
+  def index?
+    staff? || sub_moderator?(record)
   end
 
   def create?

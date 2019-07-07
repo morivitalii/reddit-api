@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class UserBookmarksPolicy < ApplicationPolicy
-  def index?(user)
+  def index?
     return false unless user?
 
-    staff? || Current.user.id == user.id
+    staff? || user.id == record.id
   end
 end

@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 class MediasController < BaseSubController
-  def new
-    MediaPolicy.authorize!(:create, @sub)
+  before_action -> { authorize(@sub, policy_class: MediaPolicy) }
 
+  def new
     @form = CreateMedia.new
   end
 
   def create
-    MediaPolicy.authorize!(:create, @sub)
-
     @form = CreateMedia.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save

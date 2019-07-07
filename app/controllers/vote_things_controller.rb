@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class VoteThingsController < BaseThingController
-  def create
-    VoteThingPolicy.authorize!(:create)
+  before_action -> { authorize(Thing, policy_class: VoteThingPolicy) }
 
-    @form = CreateThingVote.new(vote_params.merge(thing: @thing, current_user: current_user))
+  def create
+    @form = CreateThingVote.new(vote_params)
 
     if @form.save
       head :no_content
@@ -16,6 +16,6 @@ class VoteThingsController < BaseThingController
   private
 
   def vote_params
-    params.require(:thing_vote).permit(:type)
+    params.require(:thing_vote).permit(:type).merge(thing: @thing, current_user: current_user)
   end
 end

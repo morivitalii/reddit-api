@@ -2,6 +2,7 @@
 
 class SubPagesController < BaseSubController
   before_action :set_page, only: [:show, :edit, :update, :confirm, :destroy]
+  before_action -> { authorize(@sub, policy_class: SubPagePolicy) }
 
   def index
     @records = Page.include(ChronologicalOrder)
@@ -21,14 +22,10 @@ class SubPagesController < BaseSubController
   end
 
   def new
-    SubPagesPolicy.authorize!(:create, @sub)
-
     @form = CreateSubPage.new
   end
 
   def edit
-    SubPagesPolicy.authorize!(:update, @sub)
-
     @form = UpdateSubPage.new(
       title: @page.title,
       text: @page.text
@@ -36,9 +33,7 @@ class SubPagesController < BaseSubController
   end
 
   def create
-    SubPagesPolicy.authorize!(:create, @sub)
-
-    @form = CreateSubPage.new(create_params.merge(sub: @sub, current_user: current_user))
+    @form = CreateSubPage.new(create_params)
 
     if @form.save
       head :no_content, location: sub_page_path(@sub, @form.page)
@@ -48,9 +43,7 @@ class SubPagesController < BaseSubController
   end
 
   def update
-    SubPagesPolicy.authorize!(:update, @sub)
-
-    @form = UpdateSubPage.new(update_params.merge(page: @page, current_user: current_user))
+    @form = UpdateSubPage.new(update_params)
 
     if @form.save
       head :no_content, location: sub_page_path(@sub, @form.page)
@@ -60,14 +53,10 @@ class SubPagesController < BaseSubController
   end
 
   def confirm
-    SubPagesPolicy.authorize!(:destroy, @sub)
-
     render partial: "confirm"
   end
 
   def destroy
-    SubPagesPolicy.authorize!(:destroy, @sub)
-
     DeleteSubPage.new(page: @page, current_user: current_user).call
 
     head :no_content
@@ -80,10 +69,10 @@ class SubPagesController < BaseSubController
   end
 
   def create_params
-    params.require(:create_sub_page).permit(:title, :text)
+    params.require(:create_sub_page).permit(:title, :text).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_sub_page).permit(:title, :text)
+    params.require(:update_sub_page).permit(:title, :text).merge(page: @page, current_user: current_user)
   end
 end

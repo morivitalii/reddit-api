@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class PostController < ApplicationController
+  before_action -> { authorize(Thing, policy_class: PostPolicy) }
+
   def new
-    PostPolicy.authorize!(:new)
     @records = Follow.include(ChronologicalOrder)
                    .where(user: current_user)
                    .sort_records_chronologically

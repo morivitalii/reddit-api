@@ -2,10 +2,9 @@
 
 class SubBlacklistedDomainsController < BaseSubController
   before_action :set_blacklisted_domain, only: [:confirm, :destroy]
+  before_action -> { authorize(@sub, policy_class: SubBlacklistedDomainPolicy) }
 
   def index
-    SubBlacklistedDomainsPolicy.authorize!(:index, @sub)
-
     @records = BlacklistedDomain.include(ReverseChronologicalOrder)
                    .where(sub: @sub)
                    .sort_records_reverse_chronologically
@@ -20,24 +19,18 @@ class SubBlacklistedDomainsController < BaseSubController
   end
 
   def search
-    SubBlacklistedDomainsPolicy.authorize!(:index, @sub)
-
     @records = @sub.blacklisted_domains.search(params[:query]).all
 
     render "index"
   end
 
   def new
-    SubBlacklistedDomainsPolicy.authorize!(:create, @sub)
-
     @form = CreateSubBlacklistedDomain.new
 
     render partial: "new"
   end
 
   def create
-    SubBlacklistedDomainsPolicy.authorize!(:create, @sub)
-
     @form = CreateSubBlacklistedDomain.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
@@ -48,14 +41,10 @@ class SubBlacklistedDomainsController < BaseSubController
   end
 
   def confirm
-    SubBlacklistedDomainsPolicy.authorize!(:destroy, @sub)
-
     render partial: "confirm"
   end
 
   def destroy
-    SubBlacklistedDomainsPolicy.authorize!(:destroy, @sub)
-
     DeleteSubBlacklistedDomain.new(blacklisted_domain: @blacklisted_domain, current_user: current_user).call
 
     head :no_content

@@ -2,10 +2,9 @@
 
 class BlacklistedDomainsController < ApplicationController
   before_action :set_blacklisted_domain, only: [:confirm, :destroy]
+  before_action -> { authorize(BlacklistedDomain) }
 
   def index
-    BlacklistedDomainsPolicy.authorize!(:index)
-
     @records = BlacklistedDomain.include(ReverseChronologicalOrder)
                    .global
                    .sort_records_reverse_chronologically
@@ -20,25 +19,19 @@ class BlacklistedDomainsController < ApplicationController
   end
 
   def search
-    BlacklistedDomainsPolicy.authorize!(:index)
-
     @records = BlacklistedDomain.global.search(params[:query]).all
 
     render "index"
   end
 
   def new
-    BlacklistedDomainsPolicy.authorize!(:create)
-
     @form = CreateBlacklistedDomain.new
 
     render partial: "new"
   end
 
   def create
-    BlacklistedDomainsPolicy.authorize!(:create)
-
-    @form = CreateBlacklistedDomain.new(create_params.merge(current_user: current_user))
+    @form = CreateBlacklistedDomain.new(create_params)
 
     if @form.save
       head :no_content, location: blacklisted_domains_path
@@ -48,14 +41,10 @@ class BlacklistedDomainsController < ApplicationController
   end
 
   def confirm
-    BlacklistedDomainsPolicy.authorize!(:destroy)
-
     render partial: "confirm"
   end
 
   def destroy
-    BlacklistedDomainsPolicy.authorize!(:destroy)
-
     DeleteBlacklistedDomain.new(blacklisted_domain: @blacklisted_domain, current_user: current_user).call
 
     head :no_content
@@ -68,6 +57,6 @@ class BlacklistedDomainsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_blacklisted_domain).permit(:domain)
+    params.require(:create_blacklisted_domain).permit(:domain).merge(current_user: current_user)
   end
 end

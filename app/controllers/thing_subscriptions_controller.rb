@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
 class ThingSubscriptionsController < BaseThingController
-  def create
-    ThingSubscriptionPolicy.authorize!(:create, @thing)
+  before_action -> { authorize(@thing, policy_class: ThingSubscriptionPolicy) }
 
+  def create
     SubscribeToThing.new(@thing).call
 
     head :no_content
   end
 
   def destroy
-    ThingSubscriptionPolicy.authorize!(:destroy, @thing)
-
     UnsubscribeFromThing.new(@thing).call
 
     head :no_content

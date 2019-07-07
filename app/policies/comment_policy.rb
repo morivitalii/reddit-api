@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-class TextPolicy < ApplicationPolicy
+class CommentPolicy < ApplicationPolicy
   def create?
     return false if banned_in_sub?(record)
 
     user?
   end
-
-  alias new? create?
 
   def update?
     return false unless user?
@@ -16,5 +14,6 @@ class TextPolicy < ApplicationPolicy
     record.user_id == user.id
   end
 
+  alias new? create?
   alias edit? update?
 end
