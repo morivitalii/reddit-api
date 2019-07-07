@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
 class SubFollowController < BaseSubController
-  def create
-    SubFollowsPolicy.authorize!(:create)
+  before_action -> { authorize(Follow) }
 
+  def create
     CreateSubFollow.new(sub: @sub, current_user: current_user).call
 
     head :no_content
   end
 
   def destroy
-    SubFollowsPolicy.authorize!(:destroy)
-
     DeleteSubFollow.new(sub: @sub, current_user: current_user).call
 
     head :no_content

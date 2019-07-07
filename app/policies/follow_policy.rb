@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SubFollowsPolicy < ApplicationPolicy
+class FollowPolicy < ApplicationPolicy
   def create?
     user?
   end
