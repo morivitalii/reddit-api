@@ -9,7 +9,7 @@
       <%= link_to(t('pages'), sub_pages_path(@sub)) %>
     </div>
 
-    <% if SubPagesPolicy.authorize(:create, @sub) %>
+    <% if SubPagePolicy.new(current_user, @sub).create? %>
       <div class="actions">
         <%= link_to(t('create'), new_sub_page_path(@sub), class: 'create') %>
       </div>
@@ -18,7 +18,7 @@
 
   <div class="col-12">
     <div class="body col-12">
-      <% cache_variant = SubPagesPolicy.authorize(:update, @sub) %>
+      <% cache_variant = SubPagePolicy.new(current_user, @sub).update? %>
       <%= render partial: "page", collection: @records, cached: ->(page) { [page, cache_variant] } %>
     </div>
   </div>
