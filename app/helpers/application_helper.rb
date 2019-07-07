@@ -101,7 +101,7 @@ module ApplicationHelper
       menu[t("blacklisted_domains")] = sub_blacklisted_domains_path(sub)
     end
 
-    if SubLogsPolicy.authorize(:index, sub)
+    if SubLogPolicy.new(current_user, sub).index?
       menu[t("logs")] = sub_logs_path(sub)
     end
 
