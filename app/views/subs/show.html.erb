@@ -27,7 +27,7 @@
 
   <% if @sub.pages.count.positive? %>
     <li class="nav-item">
-      <%= link_to(t("pages"), sub_pages_path(@sub), class: "nav-link") %>
+      <%= link_to(t("pages"), pages_path(sub: @sub), class: "nav-link") %>
     </li>
   <% end %>
 <% end %>

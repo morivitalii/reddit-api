@@ -195,14 +195,11 @@ ru:
     mark_thing_as_not_explicit: снял отметку 18+
     mark_thing_as_spoiler: отметил как спойлер
     mark_thing_as_not_spoiler: снял отметку спойлер
-    create_sub_page: добавил страницу
-    update_sub_page: изменил страницу
-    delete_sub_page: удалил страницу
+    create_page: добавил страницу
+    update_page: изменил страницу
+    delete_page: удалил страницу
     create_blacklisted_domain: добавил в черный список домен
     delete_blacklisted_domain: удалил из черного списка домен
-    create_global_page: добавил страницу
-    update_global_page: изменил страницу
-    delete_global_page: удалил страницу
     ignore_thing_reports: добавил отметку игнорировать жалобы
     do_not_ignore_thing_reports: снял отметку игнорировать жалобы
   follows_count:

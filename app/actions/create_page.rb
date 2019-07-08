@@ -3,11 +3,12 @@
 class CreatePage
   include ActiveModel::Model
 
-  attr_accessor :current_user, :title, :text
+  attr_accessor :current_user, :sub, :title, :text
   attr_reader :page
 
   def save
     @page = Page.create!(
+      sub: @sub,
       title: @title,
       text: @text,
       edited_by: @current_user
@@ -18,8 +19,9 @@ class CreatePage
     return false
   else
     CreateLogJob.perform_later(
+      sub: @sub,
       current_user: @current_user,
-      action: "create_global_page",
+      action: "create_page",
       model: @page
     )
   end

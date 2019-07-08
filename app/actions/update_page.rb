@@ -17,9 +17,10 @@ class UpdatePage
     return false
   else
     CreateLogJob.perform_later(
-        current_user: @current_user,
-        action: "update_global_page",
-        model: @page
+      sub: @page.sub,
+      current_user: @current_user,
+      action: "update_page",
+      model: @page
     )
   end
 end

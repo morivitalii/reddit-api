@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
+  before_action :set_sub, only: [:index, :new, :create]
   before_action :set_page, only: [:show, :edit, :update, :confirm, :destroy]
-  before_action -> { authorize(Page, policy_class: PagePolicy) }
+  before_action -> { authorize(@sub, policy_class: PagePolicy) }, only: [:index, :new, :create]
+  before_action -> { authorize(@page.sub, policy_class: PagePolicy) }, only: [:show, :edit, :update, :confirm, :destroy]
 
   def index
     @records = Page.include(ChronologicalOrder)
-                   .global
+                   .where(sub: @sub)
                    .sort_records_chronologically
-                   .records_after(params[:after].present? ? Page.global.find_by_id(params[:after]) : nil)
+                   .records_after(params[:after].present? ? Page.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 
@@ -33,7 +35,7 @@ class PagesController < ApplicationController
   end
 
   def create
-    @form = CreatePage.new(create_params.merge(current_user: current_user))
+    @form = CreatePage.new(create_params)
 
     if @form.save
       head :no_content, location: page_path(@form.page)
@@ -43,7 +45,7 @@ class PagesController < ApplicationController
   end
 
   def update
-    @form = UpdatePage.new(update_params.merge(page: @page, current_user: current_user))
+    @form = UpdatePage.new(update_params)
 
     if @form.save
       head :no_content, location: page_path(@form.page)
@@ -64,15 +66,19 @@ class PagesController < ApplicationController
 
   private
 
+  def set_sub
+    @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub]).take! : nil
+  end
+
   def set_page
-    @page = Page.global.find(params[:id])
+    @page = Page.find(params[:id])
   end
 
   def create_params
-    params.require(:create_page).permit(:title, :text)
+    params.require(:create_page).permit(:title, :text).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_page).permit(:title, :text)
+    params.require(:update_page).permit(:title, :text).merge(page: @page, current_user: current_user)
   end
 end

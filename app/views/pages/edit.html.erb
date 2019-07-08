@@ -1,9 +1,13 @@
 <% content_for(:meta_title, @page.title) %>
 
+<% if @sub.present? %>
+  <%= render 'subs/sidebar' %>
+<% end %>
+
 <div class="col-12 bg-white border rounded mb-3">
   <div id="pages" class="row mt-2 mb-3">
     <div class="col-12 h5">
-      <%= link_to(t('pages'), pages_path) %>
+      <%= link_to(t('pages'), pages_path(sub: @sub)) %>
     </div>
 
     <div class="col-12">

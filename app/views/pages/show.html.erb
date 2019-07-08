@@ -1,5 +1,10 @@
 <% content_for(:meta_title, @page.title) %>
 
+<% if @sub.present? %>
+  <%= render 'subs/second_top_menu' %>
+  <%= render 'subs/sidebar' %>
+<% end %>
+
 <div class="page col-12 bg-white border rounded mb-3">
   <div class="row mt-2">
     <div class="col-12 h5">
