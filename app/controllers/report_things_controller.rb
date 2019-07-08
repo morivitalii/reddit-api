@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class ReportThingsController < BaseThingController
-  before_action -> { authorize(@sub, policy_class: ReportThingPolicy) }, only: [:index]
-  before_action -> { authorize(Thing, policy_class: ReportThingPolicy) }, only: [:new, :create]
+  before_action -> { authorize(@thing, policy_class: ReportThingPolicy) }
 
   def index
     @reports = @thing.reports.includes(:user).order(id: :asc).all

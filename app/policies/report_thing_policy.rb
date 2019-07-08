@@ -2,7 +2,7 @@
 
 class ReportThingPolicy < ApplicationPolicy
   def index?
-    staff? || sub_moderator?(record)
+    staff? || sub_moderator?(record.sub)
   end
 
   def create?
