@@ -22,6 +22,6 @@ class DeleteThingsController < BaseThingController
   private
 
   def create_params
-    current_user.staff? || current_user.sub_moderator?(@sub) ? params.require(:mark_thing_as_deleted).permit(:deletion_reason) : {}
+    current_user.staff? || current_user.sub_moderator?(@thing.sub) ? params.require(:mark_thing_as_deleted).permit(:deletion_reason) : {}
   end
 end
