@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
-class UserBookmarksController < BaseUserController
+class BookmarksController < ApplicationController
   layout "narrow"
 
-  before_action -> { authorize(@user, policy_class: UserBookmarksPolicy) }
+  before_action :set_user, only: [:index]
+  before_action :set_navigation_title, only: [:index]
+  before_action :set_thing, only: [:create, :destroy]
+  before_action -> { authorize(Bookmark) }
 
   def index
     @records = Bookmark.include(ReverseChronologicalOrder)
@@ -23,5 +26,31 @@ class UserBookmarksController < BaseUserController
     end
 
     @records = @records.map(&:thing)
+  end
+
+  def create
+    CreateBookmark.new(thing: @thing, current_user: current_user).call
+
+    head :no_content
+  end
+
+  def destroy
+    DeleteBookmark.new(thing: @thing, current_user: current_user).call
+
+    head :no_content
+  end
+
+  private
+
+  def set_user
+    @user = current_user
+  end
+
+  def set_navigation_title
+    @navigation_title = @user.username
+  end
+
+  def set_thing
+    @thing = Thing.find(params[:thing_id])
   end
 end

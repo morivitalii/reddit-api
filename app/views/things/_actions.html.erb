@@ -18,9 +18,9 @@
   <%= link_to(thing.presenter.comments_count, thing_path(thing, anchor: 'comments'), class: "comments_count") %>
 
   <% if thing.bookmark.present? %>
-    <%= link_to(fa_icon('bookmark'), thing_bookmark_path(thing), remote: true, method: :delete, class: "bookmark", data: { toggle: :tooltip }, title: t('delete_bookmark')) %>
+    <%= link_to(fa_icon('bookmark'), thing_bookmarks_path(thing), remote: true, method: :delete, class: "bookmark", data: { toggle: :tooltip }, title: t('delete_bookmark')) %>
   <% else %>
-    <%= link_to(fa_icon('bookmark-o'), thing_bookmark_path(thing), remote: true, method: :post, class: "bookmark" , data: { toggle: :tooltip }, title: t('bookmark')) %>
+    <%= link_to(fa_icon('bookmark-o'), thing_bookmarks_path(thing), remote: true, method: :post, class: "bookmark" , data: { toggle: :tooltip }, title: t('bookmark')) %>
   <% end %>
 
   <% if ApproveThingPolicy.new(current_user, thing).create? %>

@@ -20,7 +20,7 @@
 
     <div class="dropdown-menu">
       <% thing_type_filter_options.each do |k, v| %>
-        <%= link_to(v, user_bookmarks_path(@user, k), class: 'dropdown-item') %>
+        <%= link_to(v, bookmarks_path(k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>

@@ -123,8 +123,8 @@ module ApplicationHelper
       menu[t("notifications")] = user_notifications_path(user)
     end
 
-    if UserBookmarksPolicy.new(current_user, user).index?
-      menu[t("bookmarks")] = user_bookmarks_path(user)
+    if BookmarkPolicy.new(current_user, nil).index?
+      menu[t("bookmarks")] = bookmarks_path
     end
 
     if UserVotesPolicy.new(current_user, user).index?
