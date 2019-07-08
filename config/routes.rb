@@ -72,7 +72,7 @@ Rails.application.routes.draw do
     resource :follow, only: [:create, :destroy], controller: :sub_follow
   end
 
-  resources :things, only: [:show], path: "/" do
+  resources :things, only: [:show], path: "/t" do
     resource :approve_things, only: [:create], as: :approve, path: :approve
     resource :delete_things, only: [:new, :create], as: :delete, path: :delete
     resource :vote_things, only: [:create], as: :vote, path: :vote

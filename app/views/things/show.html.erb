@@ -28,7 +28,7 @@
       </div>
 
       <div class="title col-12 mt-1">
-        <%= link_to(@post.title, sub_thing_path(@post.sub, @post)) %>
+        <%= link_to(@post.title, thing_path(@post)) %>
       </div>
 
       <%= render @post.presenter.content, thing: @post %>
@@ -40,7 +40,7 @@
           <%= link_to(fa_icon("arrow-down"), sub_thing_vote_path(@post.sub, @post), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
         </span>
 
-        <%= link_to(@post.presenter.comments_count, sub_thing_path(@post.sub, @post, anchor: 'comments'), class: "comments_count") %>
+        <%= link_to(@post.presenter.comments_count, thing_path(@post, anchor: 'comments'), class: "comments_count") %>
       </div>
     <% else %>
       <% if @post.file_attacher.cached? %>
@@ -107,12 +107,12 @@
 
           <div class="dropdown-menu">
             <% @sort_options.each do |k, v| %>
-              <%= link_to(v, sub_thing_path(@post.sub, @thing, sort: k, anchor: 'sort'), class: 'dropdown-item') %>
+              <%= link_to(v, thing_path(@thing, sort: k, anchor: 'sort'), class: 'dropdown-item') %>
             <% end %>
           </div>
 
           <% if @comment.present? %>
-            <span class="float-right"><%= t('comment_page_html', url: sub_thing_path(@post.sub, @post, sort: @sort)) %></span>
+            <span class="float-right"><%= t('comment_page_html', url: thing_path(@post, sort: @sort)) %></span>
           <% end %>
         </div>
       </div>

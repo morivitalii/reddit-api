@@ -15,7 +15,7 @@
     <% end %>
   </span>
 
-  <%= link_to(thing.presenter.comments_count, sub_thing_path(thing.sub, thing, anchor: 'comments'), class: "comments_count") %>
+  <%= link_to(thing.presenter.comments_count, thing_path(thing, anchor: 'comments'), class: "comments_count") %>
 
   <% if thing.bookmark.present? %>
     <%= link_to(fa_icon('bookmark'), sub_thing_bookmark_path(thing.sub, thing), remote: true, method: :delete, class: "bookmark", data: { toggle: :tooltip }, title: t('delete_bookmark')) %>

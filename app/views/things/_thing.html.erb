@@ -4,7 +4,7 @@
       <%= link_to(thing.user.username, user_path(thing.user)) %>
 
       <% if thing.comment? %>
-        <%= t('to') %> <%= link_to(truncate(thing.post.title, length: 75), sub_thing_path(thing.sub, thing.post)) %>
+        <%= t('to') %> <%= link_to(truncate(thing.post.title, length: 75), thing_path(thing.post)) %>
       <% end %>
 
       <%= t('in') %> <%= link_to(thing.sub.url, sub_path(thing.sub)) %>
@@ -30,7 +30,7 @@
 
     <% if thing.title.present? %>
       <div class="title col-12 mt-1">
-        <%= link_to(thing.title, sub_thing_path(thing.sub, thing)) %>
+        <%= link_to(thing.title, thing_path(thing)) %>
       </div>
     <% end %>
 
@@ -57,7 +57,7 @@
         <%= link_to(fa_icon("arrow-down"), sub_thing_vote_path(thing.sub, thing), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
       </span>
 
-      <%= link_to(thing.presenter.comments_count, sub_thing_path(thing.sub, thing, anchor: 'comments'), class: "comments_count") %>
+      <%= link_to(thing.presenter.comments_count, thing_path(thing, anchor: 'comments'), class: "comments_count") %>
     </div>
   </div>
 </div>
