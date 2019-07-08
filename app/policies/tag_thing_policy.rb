@@ -2,7 +2,7 @@
 
 class TagThingPolicy < ApplicationPolicy
   def update?
-    staff? || sub_moderator?(record.sub)
+    record.post? && (staff? || sub_moderator?(record.sub))
   end
 
   alias edit? update?

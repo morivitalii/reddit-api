@@ -26,6 +26,6 @@ class TagThingsController < BaseThingController
   end
 
   def set_thing
-    @thing = @sub.things.thing_type(:post).find(params[:thing_id])
+    @thing = Thing.find(params[:id])
   end
 end
