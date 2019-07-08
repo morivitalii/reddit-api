@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class ThingsController < BaseThingController
+class ThingsController < ApplicationController
+  before_action :set_thing
   before_action :set_sort_options
   before_action :set_sort
 
@@ -28,7 +29,7 @@ class ThingsController < BaseThingController
   private
 
   def set_thing
-    @thing = @sub.things.find(params[:id])
+    @thing = Thing.find(params[:id])
   end
 
   def set_sort_options
