@@ -11,7 +11,7 @@ class LinksController < BaseSubController
     @form = CreateLink.new(create_params.merge(sub: @sub, current_user: current_user))
 
     if @form.save
-      head :no_content, location: sub_thing_path(@sub, @form.post)
+      head :no_content, location: thing_path(@form.post)
     else
       render json: @form.errors, status: :unprocessable_entity
     end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class SpecifyThingsController < BaseThingController
+class SpecifyThingsController < ApplicationController
+  before_action :set_thing
   before_action -> { authorize(@thing, policy_class: SpecifyThingPolicy) }
 
   def create
@@ -18,6 +19,6 @@ class SpecifyThingsController < BaseThingController
   private
 
   def set_thing
-    @thing = @sub.things.thing_type(:post).find(params[:thing_id])
+    @thing = Thing.find(params[:thing_id])
   end
 end

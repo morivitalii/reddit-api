@@ -1,4 +1,4 @@
 <% title = log.loggable.title.presence || log.loggable.post.title %>
 
 <%= t("log.mark_thing_as_approved") %> <%= log.loggable.post? ? t("post") : "#{t("comment")} #{t("to")}" %>
-"<%= link_to(truncate(title, length: 40), sub_thing_path(log.loggable.sub, log.loggable)) %>"
+"<%= link_to(truncate(title, length: 40), thing_path(log.loggable)) %>"

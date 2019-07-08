@@ -2,7 +2,7 @@
 
 class SpecifyThingPolicy < ApplicationPolicy
   def create?
-    staff? || sub_moderator?(record.sub)
+    record.post? && (staff? || sub_moderator?(record.sub))
   end
 
   alias destroy? create?

@@ -3,13 +3,13 @@
 
   <% if item[:deeper] %>
     <div class="toBranch col-12 ml-3 mt-2 pl-0">
-      <%= link_to(t("to_branch", comments: "#{item[:thing].comments_count} #{t("comments_count", count: item[:thing].comments_count)}"), sub_thing_path(item[:thing].sub, item[:thing], sort: @sort, anchor: "comments")) %>
+      <%= link_to(t("to_branch", comments: "#{item[:thing].comments_count} #{t("comments_count", count: item[:thing].comments_count)}"), thing_path(item[:thing], sort: @sort, anchor: "comments")) %>
     </div>
   <% end %>
 
   <% if item[:load_more] %>
     <div class="loadMore col-12 ml-3 pl-0">
-      <%= link_to(t("load_more", comments: "#{item[:load_more_size]} #{t("comments_count", count: item[:load_more_size])}"), sub_thing_path(item[:thing].sub, item[:thing], sort: @sort, after: item[:load_more_after]), remote: true) %>
+      <%= link_to(t("load_more", comments: "#{item[:load_more_size]} #{t("comments_count", count: item[:load_more_size])}"), thing_path(item[:thing], sort: @sort, after: item[:load_more_after]), remote: true) %>
     </div>
   <% end %>
 </div>

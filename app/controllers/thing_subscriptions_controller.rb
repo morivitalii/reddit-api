@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class ThingSubscriptionsController < BaseThingController
+class ThingSubscriptionsController < ApplicationController
+  before_action :set_thing
   before_action -> { authorize(@thing, policy_class: ThingSubscriptionPolicy) }
 
   def create
@@ -13,5 +14,11 @@ class ThingSubscriptionsController < BaseThingController
     UnsubscribeFromThing.new(@thing).call
 
     head :no_content
+  end
+
+  private
+
+  def set_thing
+    @thing = Thing.find(params[:thing_id])
   end
 end

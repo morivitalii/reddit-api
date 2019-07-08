@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class ReportThingsController < BaseThingController
-  before_action -> { authorize(@sub, policy_class: ReportThingPolicy) }, only: [:index]
-  before_action -> { authorize(Thing, policy_class: ReportThingPolicy) }, only: [:new, :create]
+class ReportThingsController < ApplicationController
+  before_action :set_thing
+  before_action -> { authorize(@thing, policy_class: ReportThingPolicy) }
 
   def index
     @reports = @thing.reports.includes(:user).order(id: :asc).all
@@ -27,6 +27,10 @@ class ReportThingsController < BaseThingController
   end
 
   private
+
+  def set_thing
+    @thing = Thing.find(params[:thing_id])
+  end
 
   def create_params
     params.require(:create_thing_report).permit(:text).merge(thing: @thing, current_user: current_user)

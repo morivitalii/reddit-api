@@ -1,33 +1,33 @@
 <div data-id="<%= thing.id %>" class="actions col-12">
   <span class="vote">
     <% if thing.vote&.up? %>
-      <%= link_to(fa_icon("arrow-up"), sub_thing_vote_path(thing.sub, thing), data: { params: "thing_vote[type]=meh" }, remote: true, method: :post, class: "text-success mr-1") %>
+      <%= link_to(fa_icon("arrow-up"), thing_vote_path(thing), data: { params: "thing_vote[type]=meh" }, remote: true, method: :post, class: "text-success mr-1") %>
     <% else %>
-      <%= link_to(fa_icon("arrow-up"), sub_thing_vote_path(thing.sub, thing), data: { params: "thing_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
+      <%= link_to(fa_icon("arrow-up"), thing_vote_path(thing), data: { params: "thing_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
     <% end %>
 
     <%= thing.presenter.score %>
 
     <% if thing.vote&.down? %>
-      <%= link_to(fa_icon("arrow-down"), sub_thing_vote_path(thing.sub, thing), data: { params: "thing_vote[type]=meh" }, remote: true, method: :post, class: "text-danger ml-1") %>
+      <%= link_to(fa_icon("arrow-down"), thing_vote_path(thing), data: { params: "thing_vote[type]=meh" }, remote: true, method: :post, class: "text-danger ml-1") %>
     <% else %>
-      <%= link_to(fa_icon("arrow-down"), sub_thing_vote_path(thing.sub, thing), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
+      <%= link_to(fa_icon("arrow-down"), thing_vote_path(thing), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
     <% end %>
   </span>
 
-  <%= link_to(thing.presenter.comments_count, sub_thing_path(thing.sub, thing, anchor: 'comments'), class: "comments_count") %>
+  <%= link_to(thing.presenter.comments_count, thing_path(thing, anchor: 'comments'), class: "comments_count") %>
 
   <% if thing.bookmark.present? %>
-    <%= link_to(fa_icon('bookmark'), sub_thing_bookmark_path(thing.sub, thing), remote: true, method: :delete, class: "bookmark", data: { toggle: :tooltip }, title: t('delete_bookmark')) %>
+    <%= link_to(fa_icon('bookmark'), thing_bookmark_path(thing), remote: true, method: :delete, class: "bookmark", data: { toggle: :tooltip }, title: t('delete_bookmark')) %>
   <% else %>
-    <%= link_to(fa_icon('bookmark-o'), sub_thing_bookmark_path(thing.sub, thing), remote: true, method: :post, class: "bookmark" , data: { toggle: :tooltip }, title: t('bookmark')) %>
+    <%= link_to(fa_icon('bookmark-o'), thing_bookmark_path(thing), remote: true, method: :post, class: "bookmark" , data: { toggle: :tooltip }, title: t('bookmark')) %>
   <% end %>
 
   <% if ApproveThingPolicy.new(current_user, thing).create? %>
     <% if thing.approved? %>
-      <%= link_to(fa_icon('check'), sub_thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve text-success', data: { toggle: :tooltip }, title: t('approved_details', username: thing.approved_by.username, approved_at: l(thing.approved_at))) %>
+      <%= link_to(fa_icon('check'), thing_approve_path(thing), remote: true, method: :post, class: 'approve text-success', data: { toggle: :tooltip }, title: t('approved_details', username: thing.approved_by.username, approved_at: l(thing.approved_at))) %>
     <% else %>
-      <%= link_to(fa_icon('check'), sub_thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve', data: { toggle: :tooltip }, title: t('approve')) %>
+      <%= link_to(fa_icon('check'), thing_approve_path(thing), remote: true, method: :post, class: 'approve', data: { toggle: :tooltip }, title: t('approve')) %>
     <% end %>
   <% end %>
 
@@ -43,7 +43,7 @@
       <% title = t("delete") %>
     <% end %>
 
-    <%= link_to(fa_icon("trash"), new_sub_thing_delete_path(thing.sub, thing), remote: true, method: :get, class: "delete #{ "text-danger" if thing.deleted? }", data: { toggle: :tooltip }, title: title) %>
+    <%= link_to(fa_icon("trash"), new_thing_delete_path(thing), remote: true, method: :get, class: "delete #{ "text-danger" if thing.deleted? }", data: { toggle: :tooltip }, title: title) %>
   <% end %>
 
   <span class="menu dropdown">
@@ -52,14 +52,14 @@
     </span>
 
     <div class="dropdown-menu">
-      <%= link_to(t('report'), new_sub_thing_report_path(thing.sub, thing), remote: true, class: 'report dropdown-item') %>
+      <%= link_to(t('report'), new_thing_report_path(thing), remote: true, class: 'report dropdown-item') %>
 
       <% if !thing.approved? && thing.reports_count.positive? && ReportThingPolicy.new(current_user, thing.sub).index? %>
-        <%= link_to(t('reports'), sub_thing_reports_path(thing.sub, thing), remote: true, class: 'reports dropdown-item') %>
+        <%= link_to(t('reports'), thing_reports_path(thing), remote: true, class: 'reports dropdown-item') %>
       <% end %>
 
       <% if thing.comment? && CommentPolicy.new(current_user, thing).update? %>
-        <%= link_to(t("edit"), edit_sub_thing_comment_path(thing.sub, thing), remote: true, class: "update dropdown-item") %>
+        <%= link_to(t("edit"), edit_thing_comment_path(thing), remote: true, class: "update dropdown-item") %>
       <% end %>
 
       <% if thing.post? %>
@@ -68,38 +68,38 @@
         <% end %>
 
         <% if TagThingPolicy.new(current_user, thing).update? %>
-          <%= link_to(t('tag'), edit_sub_thing_tag_path(thing.sub, thing), remote: true, class: 'tag dropdown-item') %>
+          <%= link_to(t('tag'), edit_thing_tag_path(thing), remote: true, class: 'tag dropdown-item') %>
         <% end %>
 
         <% if SpecifyThingPolicy.new(current_user, thing).create? %>
           <% if thing.explicit? %>
-            <%= link_to(fa_icon('check-square-o', text: t('explicit')), sub_thing_specify_path(thing.sub, thing), remote: true, method: :delete, class: 'explicit dropdown-item') %>
+            <%= link_to(fa_icon('check-square-o', text: t('explicit')), thing_specify_path(thing), remote: true, method: :delete, class: 'explicit dropdown-item') %>
           <% else %>
-            <%= link_to(fa_icon('square-o', text: t('explicit')), sub_thing_specify_path(thing.sub, thing), remote: true, method: :post, class: 'explicit dropdown-item') %>
+            <%= link_to(fa_icon('square-o', text: t('explicit')), thing_specify_path(thing), remote: true, method: :post, class: 'explicit dropdown-item') %>
           <% end %>
         <% end %>
 
         <% if SpoilerThingPolicy.new(current_user, thing).create? %>
           <% if thing.spoiler? %>
-            <%= link_to(fa_icon('check-square-o', text: t('spoiler')), sub_thing_spoiler_path(thing.sub, thing), remote: true, method: :delete, class: 'spoiler dropdown-item') %>
+            <%= link_to(fa_icon('check-square-o', text: t('spoiler')), thing_spoiler_path(thing), remote: true, method: :delete, class: 'spoiler dropdown-item') %>
           <% else %>
-            <%= link_to(fa_icon('square-o', text: t('spoiler')), sub_thing_spoiler_path(thing.sub, thing), remote: true, method: :post, class: 'spoiler dropdown-item') %>
+            <%= link_to(fa_icon('square-o', text: t('spoiler')), thing_spoiler_path(thing), remote: true, method: :post, class: 'spoiler dropdown-item') %>
           <% end %>
         <% end %>
 
         <% if IgnoreThingReportsPolicy.new(current_user, thing).create? %>
           <% if thing.ignore_reports? %>
-            <%= link_to(fa_icon('check-square-o', text: t('ignore_reports')), sub_thing_ignore_reports_path(thing.sub, thing), remote: true, method: :delete, class: 'ignore_reports dropdown-item') %>
+            <%= link_to(fa_icon('check-square-o', text: t('ignore_reports')), thing_ignore_reports_path(thing), remote: true, method: :delete, class: 'ignore_reports dropdown-item') %>
           <% else %>
-            <%= link_to(fa_icon('square-o', text: t('ignore_reports')), sub_thing_ignore_reports_path(thing.sub, thing), remote: true, method: :post, class: 'ignore_reports dropdown-item') %>
+            <%= link_to(fa_icon('square-o', text: t('ignore_reports')), thing_ignore_reports_path(thing), remote: true, method: :post, class: 'ignore_reports dropdown-item') %>
           <% end %>
         <% end %>
 
         <% if ThingSubscriptionPolicy.new(current_user, thing).create? %>
           <% if thing.receive_notifications? %>
-            <%= link_to(fa_icon('check-square-o', text: t('receive_notifications')), sub_thing_subscription_path(thing.sub, thing), remote: true, method: :delete, class: 'notifications dropdown-item') %>
+            <%= link_to(fa_icon('check-square-o', text: t('receive_notifications')), thing_subscription_path(thing), remote: true, method: :delete, class: 'notifications dropdown-item') %>
           <% else %>
-            <%= link_to(fa_icon('square-o', text: t('receive_notifications')), sub_thing_subscription_path(thing.sub, thing), remote: true, method: :post, class: 'notifications dropdown-item') %>
+            <%= link_to(fa_icon('square-o', text: t('receive_notifications')), thing_subscription_path(thing), remote: true, method: :post, class: 'notifications dropdown-item') %>
           <% end %>
         <% end %>
       <% end %>

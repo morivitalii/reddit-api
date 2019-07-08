@@ -70,20 +70,20 @@ Rails.application.routes.draw do
     resources :moderators, except: [:show], concerns: [:searchable, :confirmable], controller: :sub_moderators
     resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
     resource :follow, only: [:create, :destroy], controller: :sub_follow
+  end
 
-    resources :things, only: [:show], path: "/" do
-      resource :approve_things, only: [:create], as: :approve, path: :approve
-      resource :delete_things, only: [:new, :create], as: :delete, path: :delete
-      resource :vote_things, only: [:create], as: :vote, path: :vote
-      resource :bookmark_things, only: [:create, :destroy], as: :bookmark, path: :bookmark
-      resource :specify_things, only: [:create, :destroy], as: :specify, path: :specify
-      resource :spoiler_things, only: [:create, :destroy], as: :spoiler, path: :spoiler
-      resource :tag_things, only: [:edit, :update], as: :tag, path: :tag
-      resources :report_things, only: [:index, :new, :create], as: :reports, path: :reports
-      resource :thing_subscriptions, only: [:create, :destroy], as: :subscription, path: :subscription
-      resource :ignore_thing_reports, only: [:create, :destroy], as: :ignore_reports, path: :ignore_reports
-      resource :comments, only: [:new, :create, :edit, :update, :destroy], as: :comment, path: :comment
-    end
+  resources :things, only: [:show], path: "/t" do
+    resource :approve_things, only: [:create], as: :approve, path: :approve
+    resource :delete_things, only: [:new, :create], as: :delete, path: :delete
+    resource :vote_things, only: [:create], as: :vote, path: :vote
+    resource :bookmark_things, only: [:create, :destroy], as: :bookmark, path: :bookmark
+    resource :specify_things, only: [:create, :destroy], as: :specify, path: :specify
+    resource :spoiler_things, only: [:create, :destroy], as: :spoiler, path: :spoiler
+    resource :tag_things, only: [:edit, :update], as: :tag, path: :tag
+    resources :report_things, only: [:index, :new, :create], as: :reports, path: :reports
+    resource :thing_subscriptions, only: [:create, :destroy], as: :subscription, path: :subscription
+    resource :ignore_thing_reports, only: [:create, :destroy], as: :ignore_reports, path: :ignore_reports
+    resource :comments, only: [:new, :create, :edit, :update, :destroy], as: :comment, path: :comment
   end
 
   match "*path", via: :all, to: "page_not_found#show"

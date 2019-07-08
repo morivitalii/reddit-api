@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class IgnoreThingReportsController < BaseThingController
+class IgnoreThingReportsController < ApplicationController
+  before_action :set_thing
   before_action -> { authorize(@thing, policy_class: IgnoreThingReportsPolicy) }
 
   def create
@@ -13,5 +14,11 @@ class IgnoreThingReportsController < BaseThingController
     DoNotIgnoreThingReports.new(thing: @thing, current_user: current_user).call
 
     head :no_content
+  end
+
+  private
+
+  def set_thing
+    @thing = Thing.find(params[:thing_id])
   end
 end

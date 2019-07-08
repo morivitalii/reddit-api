@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class ThingsController < BaseThingController
+class ThingsController < ApplicationController
+  before_action :set_thing
   before_action :set_sort_options
   before_action :set_sort
 
@@ -21,14 +22,14 @@ class ThingsController < BaseThingController
         render partial: "nested", locals: { item: @topic.branch }
       end
     else
-      render "show", status: @thing.deleted? ? 404 : 200
+      render "show", status: @thing.deleted? ? :not_found : :ok
     end
   end
 
   private
 
   def set_thing
-    @thing = @sub.things.find(params[:id])
+    @thing = Thing.find(params[:id])
   end
 
   def set_sort_options

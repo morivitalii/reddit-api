@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class CommentsController < BaseThingController
-  before_action :check_thing_type, only: [:edit, :update]
-  before_action -> { authorize(@sub, policy_class: CommentPolicy) }, only: [:new, :create]
-  before_action -> { authorize(@thing, policy_class: CommentPolicy) }, only: [:edit, :update]
+class CommentsController < ApplicationController
+  before_action :set_thing, only: [:new, :create]
+  before_action :set_comment, only: [:edit, :update]
+  before_action -> { authorize(@thing, policy_class: CommentPolicy) }, only: [:new, :create, :edit, :update]
 
   def new
     @form = CreateComment.new
@@ -18,7 +18,7 @@ class CommentsController < BaseThingController
   end
 
   def create
-    @form = CreateComment.new(create_params.merge(thing: @thing, current_user: current_user))
+    @form = CreateComment.new(create_params)
 
     if @form.save
       render partial: "things/comment", locals: { item: { thing: @form.comment } }
@@ -28,7 +28,7 @@ class CommentsController < BaseThingController
   end
 
   def update
-    @form = UpdateComment.new(update_params.merge(comment: @thing))
+    @form = UpdateComment.new(update_params)
 
     if @form.save
       render partial: "things/comment", locals: { item: { thing: @form.comment } }
@@ -39,17 +39,19 @@ class CommentsController < BaseThingController
 
   private
 
-  def check_thing_type
-    unless @thing.comment?
-      raise ActiveRecord::RecordNotFound
-    end
+  def set_thing
+    @thing = Thing.find(params[:thing_id])
+  end
+
+  def set_comment
+    @thing = Thing.where(thing_type: :comment).find(params[:thing_id])
   end
 
   def create_params
-    params.require(:create_comment).permit(:text)
+    params.require(:create_comment).permit(:text).merge(thing: @thing, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_comment).permit(:text)
+    params.require(:update_comment).permit(:text).merge(comment: @thing)
   end
 end
