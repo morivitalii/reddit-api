@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class ReportThingsController < BaseThingController
+class ReportThingsController < ApplicationController
+  before_action :set_thing
   before_action -> { authorize(@thing, policy_class: ReportThingPolicy) }
 
   def index
@@ -26,6 +27,10 @@ class ReportThingsController < BaseThingController
   end
 
   private
+
+  def set_thing
+    @thing = Thing.find(params[:id])
+  end
 
   def create_params
     params.require(:create_thing_report).permit(:text).merge(thing: @thing, current_user: current_user)
