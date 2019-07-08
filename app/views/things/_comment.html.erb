@@ -40,7 +40,7 @@
           <%= link_to(fa_icon("arrow-down"), thing_vote_path(item[:thing]), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
         </span>
 
-        <%= link_to(t("reply").downcase, new_sub_thing_comment_path(item[:thing].sub, item[:thing]), remote: true, class: "reply") %>
+        <%= link_to(t("reply").downcase, new_thing_comment_path(item[:thing]), remote: true, class: "reply") %>
       </div>
     </div>
 

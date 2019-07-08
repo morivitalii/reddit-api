@@ -40,11 +40,11 @@ class CommentsController < ApplicationController
   private
 
   def set_thing
-    @thing = Thing.find(params[:id])
+    @thing = Thing.find(params[:thing_id])
   end
 
   def set_comment
-    @thing = Thing.where(thing_type: :comment).find(params[:id])
+    @thing = Thing.where(thing_type: :comment).find(params[:thing_id])
   end
 
   def create_params

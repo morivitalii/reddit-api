@@ -65,7 +65,7 @@
         <% if CommentPolicy.new(current_user, @post).create? %>
           <div class="row mt-3">
             <div class="col-12">
-              <%= form_with(model: CreateComment.new, url: sub_thing_comment_path(@post.sub, @post), class: 'createCommentForm') do |f| %>
+              <%= form_with(model: CreateComment.new, url: thing_comment_path(@post), class: 'createCommentForm') do |f| %>
                 <%= f.text_area :text, label: false %>
                 <%= f.submit t('reply'), class: 'btn-sm' %>
 
