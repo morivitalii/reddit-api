@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class VoteThingsController < BaseThingController
+class VoteThingsController < ApplicationController
+  before_action :set_thing
   before_action -> { authorize(Thing, policy_class: VoteThingPolicy) }
 
   def create
@@ -14,6 +15,10 @@ class VoteThingsController < BaseThingController
   end
 
   private
+
+  def set_thing
+    @thing = Thing.find(params[:id])
+  end
 
   def vote_params
     params.require(:thing_vote).permit(:type).merge(thing: @thing, current_user: current_user)
