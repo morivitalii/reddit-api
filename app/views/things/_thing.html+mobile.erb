@@ -53,9 +53,9 @@
     <%= link_to(thing.presenter.comments_count, thing_path(thing, anchor: 'comments'), class: "comments_count") %>
 
     <span class="vote float-right">
-      <%= link_to(fa_icon("arrow-up"), sub_thing_vote_path(thing.sub, thing), data: { params: "thing_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
+      <%= link_to(fa_icon("arrow-up"), thing_vote_path(thing), data: { params: "thing_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
       <%= thing.presenter.score %>
-      <%= link_to(fa_icon("arrow-down"), sub_thing_vote_path(thing.sub, thing), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
+      <%= link_to(fa_icon("arrow-down"), thing_vote_path(thing), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
     </span>
   </div>
 </div>
