@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class SpecifyThingsController < BaseThingController
+class SpecifyThingsController < ApplicationController
+  before_action :set_thing
   before_action -> { authorize(@thing, policy_class: SpecifyThingPolicy) }
 
   def create
