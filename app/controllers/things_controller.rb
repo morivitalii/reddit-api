@@ -21,7 +21,7 @@ class ThingsController < BaseThingController
         render partial: "nested", locals: { item: @topic.branch }
       end
     else
-      render "show", status: @thing.deleted? ? 404 : 200
+      render "show", status: @thing.deleted? ? :not_found : :ok
     end
   end
 

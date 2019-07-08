@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class BaseThingController < BaseSubController
+class BaseThingController < ApplicationController
   before_action :set_thing
 
   private
 
   def set_thing
-    @thing = @sub.things.find(params[:thing_id])
+    @thing = Thing.find(params[:id])
   end
 end
