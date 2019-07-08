@@ -3,10 +3,10 @@
 class BookmarksController < ApplicationController
   layout "narrow"
 
+  before_action -> { authorize(Bookmark) }
   before_action :set_user, only: [:index]
   before_action :set_navigation_title, only: [:index]
   before_action :set_thing, only: [:create, :destroy]
-  before_action -> { authorize(Bookmark) }
 
   def index
     @records = Bookmark.include(ReverseChronologicalOrder)
