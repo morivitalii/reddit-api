@@ -1,13 +1,18 @@
 <% content_for(:meta_title, t("deletion_reasons")) %>
 
+<% if @sub.present? %>
+  <%= render 'subs/second_top_menu' %>
+  <%= render 'subs/sidebar' %>
+<% end %>
+
 <div id="deletion_reasons" class="entries row">
   <div class="head col-12">
     <div class="title">
-      <%= link_to(t('deletion_reasons'), deletion_reasons_path) %>
+      <%= link_to(t('deletion_reasons'), deletion_reasons_path(sub: @sub)) %>
     </div>
 
     <div class="actions">
-      <%= link_to(t('create'), new_deletion_reason_path, remote: true, class: 'create') %>
+      <%= link_to(t('create'), new_deletion_reason_path(sub: @sub), remote: true, class: 'create') %>
     </div>
   </div>
 

@@ -20,9 +20,9 @@ class Log < ApplicationRecord
     create_rule: 10,
     update_rule: 11,
     delete_rule: 12,
-    create_sub_deletion_reason: 13,
-    update_sub_deletion_reason: 14,
-    delete_sub_deletion_reason: 15,
+    create_deletion_reason: 13,
+    update_deletion_reason: 14,
+    delete_deletion_reason: 15,
     create_sub_tag: 16,
     update_sub_tag: 17,
     delete_sub_tag: 18,
@@ -38,9 +38,6 @@ class Log < ApplicationRecord
     delete_sub_page: 28,
     create_blacklisted_domain: 29,
     delete_blacklisted_domain: 30,
-    create_global_deletion_reason: 36,
-    update_global_deletion_reason: 37,
-    delete_global_deletion_reason: 38,
     create_global_page: 39,
     update_global_page: 40,
     delete_global_page: 41,
@@ -78,11 +75,11 @@ class Log < ApplicationRecord
                    [:title, :description]
                  when :delete_rule
                    [:title, :description]
-                 when :create_sub_deletion_reason
+                 when :create_deletion_reason
                    [:title, :description]
-                 when :update_sub_deletion_reason
+                 when :update_deletion_reason
                    [:title, :description]
-                 when :delete_sub_deletion_reason
+                 when :delete_deletion_reason
                    [:title, :description]
                  when :create_sub_tag
                    [:title]
@@ -114,12 +111,6 @@ class Log < ApplicationRecord
                    [:domain]
                  when :delete_blacklisted_domain
                    [:domain]
-                 when :create_global_deletion_reason
-                   [:title, :description]
-                 when :update_global_deletion_reason
-                   [:title, :description]
-                 when :delete_global_deletion_reason
-                   [:title, :description]
                  when :create_global_page
                    [:title, :text]
                  when :update_global_page

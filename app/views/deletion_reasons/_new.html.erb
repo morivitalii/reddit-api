@@ -1,5 +1,5 @@
 <%= render 'shared/modal', title: t('create') do %>
-  <%= form_with(model: @form, url: deletion_reasons_path) do |f| %>
+  <%= form_with(model: @form, url: deletion_reasons_path(sub: @sub)) do |f| %>
     <div class="modal-body">
       <%= f.text_field :title %>
       <%= f.text_area :description %>

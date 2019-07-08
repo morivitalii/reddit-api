@@ -3,11 +3,12 @@
 class CreateDeletionReason
   include ActiveModel::Model
 
-  attr_accessor :current_user, :title, :description
+  attr_accessor :current_user, :sub, :title, :description
   attr_reader :deletion_reason
 
   def save
     @deletion_reason = DeletionReason.create!(
+      sub: @sub,
       title: @title,
       description: @description
     )
@@ -17,8 +18,9 @@ class CreateDeletionReason
     return false
   else
     CreateLogJob.perform_later(
+      sub: @sub,
       current_user: @current_user,
-      action: "create_global_deletion_reason",
+      action: "create_deletion_reason",
       model: @deletion_reason
     )
   end

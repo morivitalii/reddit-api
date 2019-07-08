@@ -182,9 +182,9 @@ ru:
     create_rule: добавил правило
     update_rule: изменил правило
     delete_rule: удалил правило
-    create_sub_deletion_reason: добавил причину удаления контента
-    update_sub_deletion_reason: изменил причину удаления контента
-    delete_sub_deletion_reason: удалил причину удаления контента
+    create_deletion_reason: добавил причину удаления контента
+    update_deletion_reason: изменил причину удаления контента
+    delete_deletion_reason: удалил причину удаления контента
     create_sub_tag: добавил тег
     update_sub_tag: изменил тег
     delete_sub_tag: удалил тег
@@ -200,9 +200,6 @@ ru:
     delete_sub_page: удалил страницу
     create_blacklisted_domain: добавил в черный список домен
     delete_blacklisted_domain: удалил из черного списка домен
-    create_global_deletion_reason: добавил причину удаления контента
-    update_global_deletion_reason: изменил причину удаления контента
-    delete_global_deletion_reason: удалил причину удаления контента
     create_global_page: добавил страницу
     update_global_page: изменил страницу
     delete_global_page: удалил страницу

@@ -16,8 +16,9 @@ class UpdateDeletionReason
     return false
   else
     CreateLogJob.perform_later(
+      sub: @deletion_reason.sub,
       current_user: @current_user,
-      action: "update_global_deletion_reason",
+      action: "update_deletion_reason",
       model: @deletion_reason
     )
   end
