@@ -1,12 +1,16 @@
 <% content_for(:meta_title, t("pages")) %>
 
+<% if @sub.present? %>
+  <%= render 'subs/sidebar' %>
+<% end %>
+
 <div id="pages" class="row mt-3 mb-3">
   <div class="col-12 h5 mb-3">
-    <%= link_to(t('pages'), pages_path) %>
+    <%= link_to(t('pages'), pages_path(sub: @sub)) %>
   </div>
 
   <div class="col-12">
-    <%= form_with(model: @form, url: pages_path) do |f| %>
+    <%= form_with(model: @form, url: pages_path(sub: @sub)) do |f| %>
       <%= f.text_field :title %>
       <%= f.text_area :text %>
 

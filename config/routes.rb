@@ -13,10 +13,6 @@ Rails.application.routes.draw do
     get 'confirm', on: :member
   end
 
-  concern :pages do |options|
-    resources :pages, { concerns: [:confirmable] }.merge(options)
-  end
-
   concern :mod_queue do |options|
     resource :mod_queue, { only: [] }.merge(options) do
       get "(/:mod_queue_type)(/:thing_type)", action: :show, as: "", constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
@@ -57,7 +53,7 @@ Rails.application.routes.draw do
   resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   resources :rules, except: [:show], concerns: [:confirmable]
   resources :deletion_reasons, except: [:show], concerns: [:confirmable]
-  concerns :pages
+  resources :pages, concerns: [:confirmable]
   resources :bans, except: [:show], concerns: [:searchable, :confirmable]
   resources :logs, only: [:index]
 
@@ -69,7 +65,6 @@ Rails.application.routes.draw do
     resources :medias, only: [:new, :create]
 
     concerns :mod_queue, controller: :sub_mod_queue
-    concerns :pages, controller: :sub_pages
 
     resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable], controller: :sub_contributors
     resources :moderators, except: [:show], concerns: [:searchable, :confirmable], controller: :sub_moderators

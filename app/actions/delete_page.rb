@@ -10,8 +10,9 @@ class DeletePage
     @page.destroy!
 
     CreateLogJob.perform_later(
+      sub: @page.sub,
       current_user: @current_user,
-      action: "delete_global_page",
+      action: "delete_page",
       model: @page
     )
   end

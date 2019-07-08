@@ -33,14 +33,11 @@ class Log < ApplicationRecord
     mark_thing_as_not_explicit: 23,
     mark_thing_as_spoiler: 24,
     mark_thing_as_not_spoiler: 25,
-    create_sub_page: 26,
-    update_sub_page: 27,
-    delete_sub_page: 28,
+    create_page: 26,
+    update_page: 27,
+    delete_page: 28,
     create_blacklisted_domain: 29,
     delete_blacklisted_domain: 30,
-    create_global_page: 39,
-    update_global_page: 40,
-    delete_global_page: 41,
     ignore_thing_reports: 45,
     do_not_ignore_thing_reports: 46
   }
@@ -101,22 +98,16 @@ class Log < ApplicationRecord
                    [:spoiler]
                  when :mark_thing_as_not_spoiler
                    [:spoiler]
-                 when :create_sub_page
+                 when :create_page
                    [:title, :text]
-                 when :update_sub_page
+                 when :update_page
                    [:title, :text]
-                 when :delete_sub_page
+                 when :delete_page
                    [:title, :text]
                  when :create_blacklisted_domain
                    [:domain]
                  when :delete_blacklisted_domain
                    [:domain]
-                 when :create_global_page
-                   [:title, :text]
-                 when :update_global_page
-                   [:title, :text]
-                 when :delete_global_page
-                   [:title, :text]
                  when :ignore_thing_reports
                    [:ignore_reports]
                  when :do_not_ignore_thing_reports
