@@ -27,6 +27,6 @@ class TagThingsController < ApplicationController
   end
 
   def set_thing
-    @thing = Thing.find(params[:id])
+    @thing = Thing.find(params[:thing_id])
   end
 end

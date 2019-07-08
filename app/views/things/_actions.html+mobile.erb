@@ -37,7 +37,7 @@
         <% end %>
 
         <% if TagThingPolicy.new(current_user, thing).update? %>
-          <%= link_to(t('tag'), edit_sub_thing_tag_path(thing.sub, thing), remote: true, class: 'tag dropdown-item') %>
+          <%= link_to(t('tag'), edit_thing_tag_path(thing), remote: true, class: 'tag dropdown-item') %>
         <% end %>
 
         <% if SpecifyThingPolicy.new(current_user, thing).create? %>
