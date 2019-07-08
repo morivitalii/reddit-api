@@ -1,17 +1,17 @@
 <div data-id="<%= thing.id %>" class="actions col-12">
   <span class="vote">
     <% if thing.vote&.up? %>
-      <%= link_to(fa_icon("arrow-up"), thing_vote_path(thing), data: { params: "thing_vote[type]=meh" }, remote: true, method: :post, class: "text-success mr-1") %>
+      <%= link_to(fa_icon("arrow-up"), thing_votes_path(thing), data: { params: "thing_vote[type]=meh" }, remote: true, method: :post, class: "text-success mr-1") %>
     <% else %>
-      <%= link_to(fa_icon("arrow-up"), thing_vote_path(thing), data: { params: "thing_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
+      <%= link_to(fa_icon("arrow-up"), thing_votes_path(thing), data: { params: "thing_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
     <% end %>
 
     <%= thing.presenter.score %>
 
     <% if thing.vote&.down? %>
-      <%= link_to(fa_icon("arrow-down"), thing_vote_path(thing), data: { params: "thing_vote[type]=meh" }, remote: true, method: :post, class: "text-danger ml-1") %>
+      <%= link_to(fa_icon("arrow-down"), thing_votes_path(thing), data: { params: "thing_vote[type]=meh" }, remote: true, method: :post, class: "text-danger ml-1") %>
     <% else %>
-      <%= link_to(fa_icon("arrow-down"), thing_vote_path(thing), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
+      <%= link_to(fa_icon("arrow-down"), thing_votes_path(thing), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
     <% end %>
   </span>
 

@@ -20,7 +20,7 @@
 
     <div class="dropdown-menu">
       <% vote_type_filter_options.each do |k, v| %>
-        <%= link_to(v, user_votes_path(@user, vote_type: k), class: 'dropdown-item') %>
+        <%= link_to(v, votes_path(vote_type: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
@@ -32,7 +32,7 @@
 
     <div class="dropdown-menu">
       <% thing_type_filter_options.each do |k, v| %>
-        <%= link_to(v, user_votes_path(@user, vote_type: params[:vote_type], thing_type: k), class: 'dropdown-item') %>
+        <%= link_to(v, votes_path(vote_type: params[:vote_type], thing_type: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
