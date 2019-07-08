@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class TagThingsController < BaseThingController
+class TagThingsController < ApplicationController
+  before_action :set_thing
   before_action -> { authorize(@thing, policy_class: TagThingPolicy) }
 
   def edit
