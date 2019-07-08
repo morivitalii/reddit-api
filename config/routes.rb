@@ -30,14 +30,14 @@ Rails.application.routes.draw do
   resource :sign_out, only: [:destroy], controller: :sign_out
   resource :user_settings, only: [:edit, :update], path: :settings
 
+  resources :bookmarks, only: [] do
+    get "(/:thing_type)", action: :index, as: "", on: :collection, constraints: { thing_type: thing_type_regex }, defaults: { thing_type: "all" }
+  end
+
   resources :users, only: [], path: "/u" do
     get "(/:thing_type)(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_type: thing_type_regex, thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_type: "all", thing_sort: "new", thing_date: "all" }
 
     resources :user_notifications, only: [:index], as: :notifications, path: :notifications
-
-    resources :user_bookmarks, only: [], as: :bookmarks, path: :bookmarks do
-      get "(/:thing_type)", action: :index, as: "", on: :collection, constraints: { thing_type: thing_type_regex }, defaults: { thing_type: "all" }
-    end
 
     resources :user_votes, only: [], as: :votes, path: :votes do
       get "(/:vote_type)(/:thing_type)", action: :index, as: "", on: :collection, constraints: { vote_type: vote_type_regex, thing_type: thing_type_regex }, defaults: { vote_type: "all", thing_type: "all" }
@@ -76,7 +76,7 @@ Rails.application.routes.draw do
     resource :approve_things, only: [:create], as: :approve, path: :approve
     resource :delete_things, only: [:new, :create], as: :delete, path: :delete
     resource :vote_things, only: [:create], as: :vote, path: :vote
-    resource :bookmark_things, only: [:create, :destroy], as: :bookmark, path: :bookmark
+    resource :bookmarks, only: [:create, :destroy]
     resource :specify_things, only: [:create, :destroy], as: :specify, path: :specify
     resource :spoiler_things, only: [:create, :destroy], as: :spoiler, path: :spoiler
     resource :tag_things, only: [:edit, :update], as: :tag, path: :tag

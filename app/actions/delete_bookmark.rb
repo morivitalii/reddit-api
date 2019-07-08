@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeleteThingBookmark
+class DeleteBookmark
   def initialize(thing:, current_user:)
     @thing = thing
     @current_user = current_user
