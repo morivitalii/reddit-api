@@ -3,10 +3,10 @@
 class VotesController < ApplicationController
   layout "narrow", only: [:index]
 
+  before_action -> { authorize(Vote) }
   before_action :set_user, only: [:index]
   before_action :set_navigation_title, only: [:index]
   before_action :set_thing, only: [:create]
-  before_action -> { authorize(Vote) }
 
   def index
     @records = Vote.include(ReverseChronologicalOrder)
