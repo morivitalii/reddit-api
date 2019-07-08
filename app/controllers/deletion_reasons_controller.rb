@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 class DeletionReasonsController < ApplicationController
+  before_action :set_sub, only: [:index, :new, :create]
   before_action :set_deletion_reason, only: [:edit, :update, :confirm, :destroy]
-  before_action -> { authorize(DeletionReason) }
+  before_action -> { authorize(@sub, policy_class: DeletionReasonPolicy) }, only: [:index, :new, :create]
+  before_action -> { authorize(@deletion_reason.sub, policy_class: DeletionReasonPolicy) }, only: [:edit, :update, :confirm, :destroy]
 
   def index
     @records = DeletionReason.include(ChronologicalOrder)
-                   .global
+                   .where(sub: @sub)
                    .sort_records_chronologically
-                   .records_after(params[:after].present? ? DeletionReason.global.find_by_id(params[:after]) : nil)
+                   .records_after(params[:after].present? ? DeletionReason.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 
@@ -26,8 +28,8 @@ class DeletionReasonsController < ApplicationController
 
   def edit
     @form = UpdateDeletionReason.new(
-        title: @deletion_reason.title,
-        description: @deletion_reason.description
+      title: @deletion_reason.title,
+      description: @deletion_reason.description
     )
 
     render partial: "edit"
@@ -37,7 +39,7 @@ class DeletionReasonsController < ApplicationController
     @form = CreateDeletionReason.new(create_params)
 
     if @form.save
-      head :no_content, location: deletion_reasons_path
+      head :no_content, location: deletion_reasons_path(sub: @sub)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -65,12 +67,16 @@ class DeletionReasonsController < ApplicationController
 
   private
 
+  def set_sub
+    @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : nil
+  end
+
   def set_deletion_reason
-    @deletion_reason = DeletionReason.global.find(params[:id])
+    @deletion_reason = DeletionReason.find(params[:id])
   end
 
   def create_params
-    params.require(:create_deletion_reason).permit(:title, :description).merge(current_user: current_user)
+    params.require(:create_deletion_reason).permit(:title, :description).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params

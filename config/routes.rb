@@ -13,10 +13,6 @@ Rails.application.routes.draw do
     get 'confirm', on: :member
   end
 
-  concern :deletion_reasons do |options|
-    resources :deletion_reasons, { except: [:show], concerns: [:confirmable] }.merge(options)
-  end
-
   concern :pages do |options|
     resources :pages, { concerns: [:confirmable] }.merge(options)
   end
@@ -60,7 +56,7 @@ Rails.application.routes.draw do
 
   resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   resources :rules, except: [:show], concerns: [:confirmable]
-  concerns :deletion_reasons
+  resources :deletion_reasons, except: [:show], concerns: [:confirmable]
   concerns :pages
   resources :bans, except: [:show], concerns: [:searchable, :confirmable]
   resources :logs, only: [:index]
@@ -73,7 +69,6 @@ Rails.application.routes.draw do
     resources :medias, only: [:new, :create]
 
     concerns :mod_queue, controller: :sub_mod_queue
-    concerns :deletion_reasons, controller: :sub_deletion_reasons
     concerns :pages, controller: :sub_pages
 
     resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable], controller: :sub_contributors

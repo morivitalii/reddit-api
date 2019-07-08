@@ -10,8 +10,9 @@ class DeleteDeletionReason
     @deletion_reason.destroy!
 
     CreateLogJob.perform_later(
+      sub: @deletion_reason.sub,
       current_user: @current_user,
-      action: "delete_global_deletion_reason",
+      action: "delete_deletion_reason",
       model: @deletion_reason
     )
   end

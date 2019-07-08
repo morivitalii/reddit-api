@@ -2,7 +2,7 @@
 
 class DeletionReasonPolicy < ApplicationPolicy
   def index?
-    staff?
+    staff? || (record.present? ? sub_moderator?(sub) : false)
   end
 
   alias new? index?

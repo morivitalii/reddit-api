@@ -87,8 +87,8 @@ module ApplicationHelper
       menu[t("rules")] = rules_path(sub: sub)
     end
 
-    if SubDeletionReasonPolicy.new(current_user, sub).index?
-      menu[t("deletion_reasons")] = sub_deletion_reasons_path(sub)
+    if DeletionReasonPolicy.new(current_user, sub).index?
+      menu[t("deletion_reasons")] = deletion_reasons_path(sub: sub)
     end
 
     if SubTagPolicy.new(current_user, sub).index?
