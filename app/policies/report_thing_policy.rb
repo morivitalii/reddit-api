@@ -8,4 +8,6 @@ class ReportThingPolicy < ApplicationPolicy
   def create?
     user?
   end
+
+  alias new? create?
 end
