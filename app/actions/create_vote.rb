@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateThingVote
+class CreateVote
   include ActiveModel::Model
 
   attr_accessor :thing, :current_user, :type

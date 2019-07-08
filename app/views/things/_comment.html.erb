@@ -35,9 +35,9 @@
 
       <div class="actions col-12 mt-1">
         <span class="vote">
-          <%= link_to(fa_icon("arrow-up"), thing_vote_path(item[:thing]), data: { params: "thing_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
+          <%= link_to(fa_icon("arrow-up"), thing_votes_path(item[:thing]), data: { params: "thing_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
           <%= item[:thing].presenter.score %>
-          <%= link_to(fa_icon("arrow-down"), thing_vote_path(item[:thing]), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
+          <%= link_to(fa_icon("arrow-down"), thing_votes_path(item[:thing]), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
         </span>
 
         <%= link_to(t("reply").downcase, new_thing_comment_path(item[:thing]), remote: true, class: "reply") %>

@@ -127,8 +127,8 @@ module ApplicationHelper
       menu[t("bookmarks")] = bookmarks_path
     end
 
-    if UserVotesPolicy.new(current_user, user).index?
-      menu[t("votes")] = user_votes_path(user)
+    if VotePolicy.new(current_user, nil).index?
+      menu[t("votes")] = votes_path
     end
 
     menu
