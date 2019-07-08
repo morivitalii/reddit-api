@@ -12,9 +12,9 @@
       <% end %>
 
       <% if thing.bookmark.present? %>
-        <%= link_to(t("delete_bookmark"), sub_thing_bookmark_path(thing.sub, thing), remote: true, method: :delete, class: 'bookmark dropdown-item') %>
+        <%= link_to(t("delete_bookmark"), thing_bookmark_path(thing), remote: true, method: :delete, class: 'bookmark dropdown-item') %>
       <% else %>
-        <%= link_to(t("bookmark"), sub_thing_bookmark_path(thing.sub, thing), remote: true, method: :post, class: 'bookmark dropdown-item') %>
+        <%= link_to(t("bookmark"), thing_bookmark_path(thing), remote: true, method: :post, class: 'bookmark dropdown-item') %>
       <% end %>
 
       <% if !thing.approved? && ApproveThingPolicy.new(current_user, thing).create? %>
