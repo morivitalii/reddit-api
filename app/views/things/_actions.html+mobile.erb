@@ -18,7 +18,7 @@
       <% end %>
 
       <% if !thing.approved? && ApproveThingPolicy.new(current_user, thing).create? %>
-        <%= link_to(t("approve"), sub_thing_approve_path(thing.sub, thing), remote: true, method: :post, class: 'approve dropdown-item') %>
+        <%= link_to(t("approve"), thing_approve_path(thing), remote: true, method: :post, class: 'approve dropdown-item') %>
       <% end %>
 
       <% if !thing.deleted? && DeleteThingPolicy.new(current_user, thing).create? %>
