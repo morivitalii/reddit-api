@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-class CommentsController < BaseThingController
-  before_action :check_thing_type, only: [:edit, :update]
+class CommentsController < ApplicationController
+  before_action :set_thing, only: [:new, :create]
+  before_action :set_comment, only: [:edit, :update]
   before_action -> { authorize(@thing, policy_class: CommentPolicy) }, only: [:new, :create, :edit, :update]
 
   def new
@@ -38,10 +39,12 @@ class CommentsController < BaseThingController
 
   private
 
-  def check_thing_type
-    unless @thing.comment?
-      raise ActiveRecord::RecordNotFound
-    end
+  def set_thing
+    @thing = Thing.find(params[:id])
+  end
+
+  def set_comment
+    @thing = Thing.where(thing_type: :comment).find(params[:id])
   end
 
   def create_params
