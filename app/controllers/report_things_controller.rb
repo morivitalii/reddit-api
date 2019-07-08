@@ -29,7 +29,7 @@ class ReportThingsController < ApplicationController
   private
 
   def set_thing
-    @thing = Thing.find(params[:id])
+    @thing = Thing.find(params[:thing_id])
   end
 
   def create_params
