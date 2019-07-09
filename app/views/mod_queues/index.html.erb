@@ -8,7 +8,7 @@
 
     <div class="dropdown-menu">
       <% mod_queue_filter_options.each do |k, v| %>
-        <%= link_to(v, sub_mod_queue_path(@sub, mod_queue_type: k), class: 'dropdown-item') %>
+        <%= link_to(v, mod_queues_path(sub: @sub, mod_queue_type: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
@@ -20,12 +20,15 @@
 
     <div class="dropdown-menu">
       <% thing_type_filter_options.each do |k, v| %>
-        <%= link_to(v, sub_mod_queue_path(@sub, mod_queue_type: params[:mod_queue_type], thing_type: k), class: 'dropdown-item') %>
+        <%= link_to(v, mod_queues_path(sub: @sub, mod_queue_type: params[:mod_queue_type], thing_type: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
 <% end %>
 
-<%= render "subs/sidebar" %>
+<% if @sub.present? %>
+  <%= render "subs/sidebar" %>
+<% end %>
+
 <%= render partial: "things/thing", collection: @records, cached: true %>
 <%= render 'shared/pagination', after: @after_record %>

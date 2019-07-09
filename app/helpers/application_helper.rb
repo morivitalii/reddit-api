@@ -77,7 +77,7 @@ module ApplicationHelper
 
   def sub_mod_menu(sub)
     menu = {
-      t("mod_queue") => sub_mod_queue_path(sub),
+      t("mod_queue") => mod_queues_path(sub: sub),
       t("moderators") => sub_moderators_path(sub),
       t("bans") => bans_path(sub: sub),
       t("contributors") => sub_contributors_path(sub)

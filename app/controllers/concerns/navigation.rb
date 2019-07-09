@@ -35,7 +35,7 @@ module Navigation
           if moderator_in.present?
             navigation[:moderator_in] = {
               title: t("mod_queue"),
-              items: [{ href: user_mod_queue_path(current_user), title: t("mod_queue") }] +
+              items: [{ href: mod_queues_path, title: t("mod_queue") }] +
                      moderator_in.map { |sub| { href: sub_path(sub), title: sub.title } }
             }
           end
