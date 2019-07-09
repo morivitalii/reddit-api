@@ -3,7 +3,7 @@
     <div class="col-12 rounded-top bg-dark text-white pt-2 pb-2">
       <%= t('sub') %>
 
-      <% if current_user&.staff? || current_user&.sub_moderator?(@sub) %>
+      <% if current_user&.global_moderator? || current_user&.sub_moderator?(@sub) %>
         <span class="dropdown-toggle float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <%= fa_icon(:cog) %>
         </span>

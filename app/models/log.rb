@@ -9,9 +9,9 @@ class Log < ApplicationRecord
 
   enum action: {
     update_sub_settings: 1,
-    create_sub_moderator: 2,
-    update_sub_moderator: 3,
-    delete_sub_moderator: 4,
+    create_moderator: 2,
+    update_moderator: 3,
+    delete_moderator: 4,
     create_ban: 5,
     update_ban: 6,
     delete_ban: 7,
@@ -50,11 +50,11 @@ class Log < ApplicationRecord
     attributes = case action
                  when :update_sub_settings
                    [:title, :description]
-                 when :create_sub_moderator
+                 when :create_moderator
                    [:master]
-                 when :update_sub_moderator
+                 when :update_moderator
                    [:master]
-                 when :delete_sub_moderator
+                 when :delete_moderator
                    [:master]
                  when :create_ban
                    [:reason, :days, :permanent]

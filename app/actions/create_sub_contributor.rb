@@ -11,7 +11,6 @@ class CreateSubContributor
   with_options if: ->(r) { r.errors.blank? } do
     validates :username, username_existence: true
     validates :username, user_not_banned: true
-    validates :username, user_not_staff: true
     validates :username, user_not_moderator: true
     validates :username, user_not_contributor: true
   end

@@ -11,10 +11,8 @@ class CreateBan
   with_options if: ->(record) { record.errors.blank? } do
     validates :username, username_existence: true
     validates :username, user_not_banned: true
-    validates :username, user_not_staff: true
+    validates :username, user_not_moderator: true
   end
-
-  validates :username, user_not_moderator: true, if: ->(record) { record.sub.present? && record.errors.blank? }
 
   def save
     return false if invalid?

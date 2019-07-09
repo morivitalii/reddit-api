@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SubModeratorPolicy < ApplicationPolicy
+class ModeratorPolicy < ApplicationPolicy
   def index?
     true
   end
@@ -8,7 +8,7 @@ class SubModeratorPolicy < ApplicationPolicy
   alias search? index?
 
   def create?
-    staff? || sub_master?(record)
+    global_moderator? || (record.present? ? sub_master?(record) : nil)
   end
 
   alias new? create?

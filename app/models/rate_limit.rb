@@ -15,7 +15,7 @@ class RateLimit < ApplicationRecord
   end
 
   def self.beyond?(key, sub)
-    return false if Current.user.staff? || Current.user.sub_moderator?(sub) || Current.user.sub_contributor?(sub)
+    return false if Current.user.global_moderator? || Current.user.sub_moderator?(sub) || Current.user.sub_contributor?(sub)
 
     rate_limit = Current.user.rate_limits.where(key: key).take
     return false if rate_limit.blank? || rate_limit.stale?
@@ -24,7 +24,7 @@ class RateLimit < ApplicationRecord
   end
 
   def self.hit(key, sub)
-    return if Current.user.staff? || Current.user.sub_moderator?(sub) || Current.user.sub_contributor?(sub)
+    return if Current.user.global_moderator? || Current.user.sub_moderator?(sub) || Current.user.sub_contributor?(sub)
 
     rate_limit = Current.user.rate_limits.find_or_create_by!(key: key)
     rate_limit.stale? ? rate_limit.reset : rate_limit.increment!(:hits)

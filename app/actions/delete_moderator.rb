@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeleteSubModerator
+class DeleteModerator
   def initialize(moderator:, current_user:)
     @moderator = moderator
     @current_user = current_user
@@ -12,7 +12,7 @@ class DeleteSubModerator
     CreateLogJob.perform_later(
       sub: @moderator.sub,
       current_user: @current_user,
-      action: "delete_sub_moderator",
+      action: "delete_moderator",
       loggable: @moderator.user,
       model: @moderator
     )

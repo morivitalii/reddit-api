@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UpdateSubModerator
+class UpdateModerator
   include ActiveModel::Model
 
   attr_accessor :moderator, :current_user, :master
@@ -15,7 +15,7 @@ class UpdateSubModerator
     CreateLogJob.perform_later(
       sub: @moderator.sub,
       current_user: @current_user,
-      action: "update_sub_moderator",
+      action: "update_moderator",
       loggable: @moderator.user,
       model: @moderator
     )

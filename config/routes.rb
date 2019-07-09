@@ -46,6 +46,7 @@ Rails.application.routes.draw do
 
   post "/things_actions", to: "things_actions#index", as: :things_actions
 
+  resources :moderators, except: [:show], concerns: [:searchable, :confirmable]
   resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   resources :rules, except: [:show], concerns: [:confirmable]
   resources :deletion_reasons, except: [:show], concerns: [:confirmable]
@@ -61,7 +62,6 @@ Rails.application.routes.draw do
     resources :medias, only: [:new, :create]
 
     resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable], controller: :sub_contributors
-    resources :moderators, except: [:show], concerns: [:searchable, :confirmable], controller: :sub_moderators
     resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
     resource :follow, only: [:create, :destroy], controller: :sub_follow
   end

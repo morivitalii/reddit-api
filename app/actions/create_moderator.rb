@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class CreateSubModerator
+class CreateModerator
   include ActiveModel::Model
 
-  attr_accessor :sub, :current_user, :username, :master
+  attr_accessor :current_user, :sub, :username, :master
   attr_reader :moderator
 
   validates :username, presence: true, username_format: true
@@ -32,7 +32,7 @@ class CreateSubModerator
     CreateLogJob.perform_later(
       sub: @sub,
       current_user: @current_user,
-      action: "create_sub_moderator",
+      action: "create_moderator",
       loggable: @user,
       model: @moderator
     )

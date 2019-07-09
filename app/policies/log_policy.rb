@@ -2,6 +2,6 @@
 
 class LogPolicy < ApplicationPolicy
   def index?
-    staff? || (record.present? ? sub_moderator?(record) : false)
+    global_moderator? || (record.present? ? sub_moderator?(record) : false)
   end
 end

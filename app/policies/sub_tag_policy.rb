@@ -2,7 +2,7 @@
 
 class SubTagPolicy < ApplicationPolicy
   def index?
-    staff? || sub_master?(record)
+    global_moderator? || sub_master?(record)
   end
 
   alias new? index?

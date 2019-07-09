@@ -4,7 +4,6 @@ class User < ApplicationRecord
   has_secure_password validations: false
   has_secure_token :forgot_password_token
 
-  has_one :staff
   has_many :subs
   has_many :follows
   has_many :moderators
@@ -18,7 +17,7 @@ class User < ApplicationRecord
   has_many :logs
   has_many :rate_limits
 
-  delegate :staff?, :sub_master?, :sub_moderator?, :moderator?, :sub_contributor?, :sub_follower?, :banned_in_sub?, :banned_globally?, to: :policy
+  delegate :global_moderator?, :sub_master?, :sub_moderator?, :moderator?, :sub_contributor?, :sub_follower?, :banned_in_sub?, :banned_globally?, to: :policy
 
   before_save :nullify_email_on_save
 

@@ -2,7 +2,7 @@
 
 class SubContributorPolicy < ApplicationPolicy
   def index?
-    staff? || sub_moderator?(record)
+    global_moderator? || sub_moderator?(record)
   end
 
   alias search? index?
