@@ -13,12 +13,6 @@ Rails.application.routes.draw do
     get 'confirm', on: :member
   end
 
-  concern :mod_queue do |options|
-    resource :mod_queue, { only: [] }.merge(options) do
-      get "(/:mod_queue_type)(/:thing_type)", action: :show, as: "", constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
-    end
-  end
-
   root "home#index", thing_sort: "hot", thing_date: "all"
 
   get "/:thing_sort(/:thing_date)", to: "home#index", as: :home, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_date: "all" }
@@ -40,10 +34,12 @@ Rails.application.routes.draw do
 
   resources :notifications, only: [:index]
 
+  resources :mod_queues, only: [] do
+    get "(/:mod_queue_type)(/:thing_type)", action: :index, as: "", on: :collection, constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
+  end
+
   resources :users, only: [], path: "/u" do
     get "(/:thing_type)(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_type: thing_type_regex, thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_type: "all", thing_sort: "new", thing_date: "all" }
-
-    concerns :mod_queue, controller: :user_mod_queue
   end
 
   get "/post/new", to: "post#new", as: :post_new
@@ -63,8 +59,6 @@ Rails.application.routes.draw do
     resources :texts, only: [:new, :edit, :create, :update]
     resources :links, only: [:new, :create]
     resources :medias, only: [:new, :create]
-
-    concerns :mod_queue, controller: :sub_mod_queue
 
     resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable], controller: :sub_contributors
     resources :moderators, except: [:show], concerns: [:searchable, :confirmable], controller: :sub_moderators

@@ -1,20 +1,24 @@
 # frozen_string_literal: true
 
-class UserModQueueController < BaseUserController
+class ModQueuesController < ApplicationController
   layout "narrow"
 
+  before_action :set_sub
+  before_action -> { authorize(ModQueue) }
   before_action :set_navigation_title
-  before_action -> { authorize(@user, policy_class: UserModQueuePolicy) }
 
-  def show
-    @records = ModQueue.include(ReverseChronologicalOrder)
-                   .queue_type(helpers.mod_queue_filter(params[:mod_queue_type]))
+  def index
+    scope = policy_scope(ModQueue.include(ReverseChronologicalOrder))
+
+    if @sub.present?
+      scope = scope.where(sub: @sub)
+    end
+
+    @records = scope.queue_type(helpers.mod_queue_filter(params[:mod_queue_type]))
                    .thing_type(helpers.thing_type_filter(params[:thing_type]))
-                   .joins(sub: :moderators)
-                   .where(subs: { moderators: { user: @user } })
-                   .includes(thing: [:sub, :user, :post])
                    .sort_records_reverse_chronologically
                    .records_after(params[:after].present? ? ModQueue.find_by_id(params[:after]) : nil)
+                   .includes(thing: [:sub, :user, :post])
                    .limit(51)
                    .to_a
 
@@ -27,6 +31,10 @@ class UserModQueueController < BaseUserController
   end
 
   private
+
+  def set_sub
+    @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub]).take! : nil
+  end
 
   def set_navigation_title
     @navigation_title = t("mod_queue")
