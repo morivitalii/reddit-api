@@ -2,7 +2,7 @@
 
 class DeletionReasonPolicy < ApplicationPolicy
   def index?
-    staff? || (record.present? ? sub_moderator?(sub) : false)
+    global_moderator? || (record.present? ? sub_moderator?(record) : false)
   end
 
   alias new? index?

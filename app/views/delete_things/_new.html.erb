@@ -1,7 +1,7 @@
 <%= render 'shared/modal', title: t('delete') do %>
   <%= form_with(model: @form, url: thing_delete_path(@thing), class: 'deleteForm') do |f| %>
     <div class="modal-body">
-      <% if current_user.staff? || current_user.sub_moderator?(@sub) %>
+      <% if current_user.global_moderator? || current_user.sub_moderator?(@sub) %>
         <div class="form-group">
           <select class="removalReasons form-control">
             <option value=""><% t('deletion_reason_select') %></option>

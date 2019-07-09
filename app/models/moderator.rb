@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class Moderator < ApplicationRecord
-  belongs_to :sub
+  belongs_to :sub, optional: true
   belongs_to :user, touch: :moderators_updated_at
   belongs_to :invited_by, class_name: "User", foreign_key: "invited_by_id"
 
-  before_create :delete_user_as_contributor_on_create
+  before_create :delete_user_as_contributor_on_create, if: -> (record) { record.sub.present? }
 
   def self.search(query)
     joins(:user).where("lower(users.username) = ?", query)

@@ -247,7 +247,7 @@ class Thing < ApplicationRecord
   end
 
   def set_approval_attributes_on_create
-    if user.staff? || user.sub_moderator?(sub) || user.sub_contributor?(sub)
+    if user.global_moderator? || user.sub_moderator?(sub) || user.sub_contributor?(sub)
       assign_attributes(
         approved: true,
         approved_by: User.auto_moderator,
@@ -282,7 +282,7 @@ class Thing < ApplicationRecord
 
   def reset_approval_attributes_on_edit
     return unless edited_at_changed?
-    return if user.staff? || user.sub_moderator?(sub) || user.sub_contributor?(sub)
+    return if user.global_moderator? || user.sub_moderator?(sub) || user.sub_contributor?(sub)
 
     reset_approval_attributes
   end

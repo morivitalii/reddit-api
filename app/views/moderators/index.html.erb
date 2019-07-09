@@ -1,32 +1,34 @@
 <% content_for(:meta_title, t("moderators")) %>
 
-<%= render 'subs/second_top_menu' %>
-<%= render 'subs/sidebar' %>
+<% if @sub.present? %>
+  <%= render 'subs/second_top_menu' %>
+  <%= render 'subs/sidebar' %>
+<% end %>
 
 <div id="moderators" class="entries row">
   <div class="head col-12">
     <div class="title">
-      <%= link_to(t('moderators'), sub_moderators_path(@sub)) %>
+      <%= link_to(t('moderators'), moderators_path(sub: @sub)) %>
     </div>
 
-    <% if SubModeratorPolicy.new(current_user, @sub).create? %>
+    <% if ModeratorPolicy.new(current_user, @sub).create? %>
       <div class="actions">
-        <%= link_to(t('create'), new_sub_moderator_path(@sub), remote: true, class: 'create') %>
+        <%= link_to(t('create'), new_moderator_path(sub: @sub), remote: true, class: 'create') %>
       </div>
     <% end %>
   </div>
 
   <div class="search col-12">
-    <%= form_with(url: search_sub_moderators_path(@sub), local: true, class: "form-inline") do |f| %>
+    <%= form_with(url: search_moderators_path(sub: @sub), local: true, class: "form-inline") do |f| %>
       <%= f.text_field :query, value: params[:query], placeholder: t("username") %>
       <%= f.submit t("search") %>
-      <%= link_to(t("reset"), sub_moderators_path(@sub), class: "btn btn-primary") %>
+      <%= link_to(t("reset"), moderators_path(sub: @sub), class: "btn btn-primary") %>
     <% end %>
   </div>
 
   <div class="col-12">
     <div class="body col-12">
-      <% cache_variant = SubModeratorPolicy.new(current_user, @sub).update? %>
+      <% cache_variant = ModeratorPolicy.new(current_user, @sub).update? %>
       <%= render partial: "moderator", collection: @records, cached: ->(moderator) { [moderator, cache_variant] } %>
     </div>
   </div>

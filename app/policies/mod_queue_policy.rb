@@ -14,7 +14,7 @@ class ModQueuePolicy < ApplicationPolicy
     end
 
     def resolve
-      if user.staff?
+      if user.global_moderator?
         scope
       else
         scope.joins(sub: :moderators).where(subs: { moderators: { user: user } })

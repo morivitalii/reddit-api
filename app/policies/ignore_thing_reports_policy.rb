@@ -2,7 +2,7 @@
 
 class IgnoreThingReportsPolicy < ApplicationPolicy
   def create?
-    staff? || sub_moderator?(record.sub)
+    global_moderator? || sub_moderator?(record.sub)
   end
 
   alias destroy? create?

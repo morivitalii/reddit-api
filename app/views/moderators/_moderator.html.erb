@@ -3,12 +3,12 @@
     <%= link_to(moderator.user.username, moderator.user) %>
 
     <div class="actions">
-      <% if SubModeratorPolicy.new(current_user, @sub).update? %>
-        <%= link_to(fa_icon('pencil'), edit_sub_moderator_path(@sub, moderator), remote: true, class: 'update ml-2') %>
+      <% if ModeratorPolicy.new(current_user, @sub).update? %>
+        <%= link_to(fa_icon('pencil'), edit_moderator_path(moderator), remote: true, class: 'update ml-2') %>
       <% end %>
 
-      <% if SubModeratorPolicy.new(current_user, @sub).destroy? %>
-        <%= link_to(fa_icon('trash'), confirm_sub_moderator_path(@sub, moderator), remote: true, class: 'delete ml-2') %>
+      <% if ModeratorPolicy.new(current_user, @sub).destroy? %>
+        <%= link_to(fa_icon('trash'), confirm_moderator_path(moderator), remote: true, class: 'delete ml-2') %>
       <% end %>
 
       <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>

@@ -3,7 +3,7 @@
     <div class="col-12">
       <%= link_to(@sub.title, sub_path(@sub), class: 'font-weight-bold') %>
 
-      <% if current_user&.staff? || current_user&.sub_moderator?(@sub) %>
+      <% if current_user&.global_moderator? || current_user&.sub_moderator?(@sub) %>
         <span class="dropdown-toggle float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <%= fa_icon(:cog) %>
         </span>

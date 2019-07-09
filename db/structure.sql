@@ -302,7 +302,7 @@ ALTER SEQUENCE public.mod_queues_id_seq OWNED BY public.mod_queues.id;
 
 CREATE TABLE public.moderators (
     id bigint NOT NULL,
-    sub_id bigint NOT NULL,
+    sub_id bigint,
     user_id bigint NOT NULL,
     invited_by_id bigint NOT NULL,
     master boolean DEFAULT false NOT NULL,
@@ -507,37 +507,6 @@ CREATE TABLE public.schema_migrations (
 
 
 --
--- Name: staffs; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.staffs (
-    id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
-);
-
-
---
--- Name: staffs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.staffs_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: staffs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.staffs_id_seq OWNED BY public.staffs.id;
-
-
---
 -- Name: subs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -715,7 +684,6 @@ CREATE TABLE public.users (
     created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     moderators_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    staff_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     contributors_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     bans_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     follows_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
@@ -872,13 +840,6 @@ ALTER TABLE ONLY public.reports ALTER COLUMN id SET DEFAULT nextval('public.repo
 --
 
 ALTER TABLE ONLY public.rules ALTER COLUMN id SET DEFAULT nextval('public.rules_id_seq'::regclass);
-
-
---
--- Name: staffs id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.staffs ALTER COLUMN id SET DEFAULT nextval('public.staffs_id_seq'::regclass);
 
 
 --
@@ -1049,14 +1010,6 @@ ALTER TABLE ONLY public.rules
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
-
-
---
--- Name: staffs staffs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.staffs
-    ADD CONSTRAINT staffs_pkey PRIMARY KEY (id);
 
 
 --
@@ -1406,13 +1359,6 @@ CREATE UNIQUE INDEX index_reports_on_user_id_and_thing_id ON public.reports USIN
 --
 
 CREATE INDEX index_rules_on_sub_id ON public.rules USING btree (sub_id);
-
-
---
--- Name: index_staffs_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_staffs_on_user_id ON public.staffs USING btree (user_id);
 
 
 --
@@ -1869,14 +1815,6 @@ ALTER TABLE ONLY public.votes
 
 
 --
--- Name: staffs fk_rails_dc073ad4c2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.staffs
-    ADD CONSTRAINT fk_rails_dc073ad4c2 FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
 -- Name: moderators fk_rails_e69979a229; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1944,6 +1882,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190619151146'),
 ('20190624121820'),
 ('20190709090102'),
-('20190709090252');
+('20190709090252'),
+('20190709092346'),
+('20190709092704');
 
 

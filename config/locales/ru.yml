@@ -30,7 +30,6 @@ ru:
       username_taken: имя пользователя занято
       email_taken: email занят
       invalid_reset_password_link: вы перешли по устаревшей ссылке на изменение пароля. повторите процедуру восстановления пароля чтобы получить на email новую ссылку
-      user_staff: пользователь администратор
       user_moderator: пользователь модератор
       user_contributor: пользователь контрибутор
       user_banned: пользователь забанен
@@ -171,9 +170,9 @@ ru:
   downs: Против
   log:
     update_sub_settings: обновил настройки
-    create_sub_moderator: добавил модератора
-    update_sub_moderator: изменил права модератора
-    delete_sub_moderator: удалил модератора
+    create_moderator: добавил модератора
+    update_moderator: изменил права модератора
+    delete_moderator: удалил модератора
     create_ban: забанил
     update_ban: изменил условия или причину бана
     delete_ban: разбанил

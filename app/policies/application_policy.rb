@@ -6,22 +6,22 @@ class ApplicationPolicy
     @record = record
   end
 
-  def staff?
+  def moderator?
     return false unless user?
 
-    user.staff.present?
+    user.moderators.exists?
+  end
+
+  def global_moderator?
+    return false unless user?
+
+    user.moderators.find { |i| i.sub_id.blank? }.present?
   end
 
   def sub_master?(sub)
     return false unless user?
 
     user.moderators.find { |i| i.master? && i.sub_id == sub.id }.present?
-  end
-
-  def moderator?
-    return false unless user?
-
-    user.moderators.exists?
   end
 
   def sub_moderator?(sub)

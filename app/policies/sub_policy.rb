@@ -8,7 +8,7 @@ class SubPolicy < ApplicationPolicy
   alias show? index?
 
   def update?
-    staff? || sub_master?(record)
+    global_moderator? || sub_master?(record)
   end
 
   alias edit? update?
