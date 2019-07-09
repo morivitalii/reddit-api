@@ -625,7 +625,7 @@ CREATE TABLE public.things (
     updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     edited_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     deleted_at timestamp without time zone,
-    deleted boolean,
+    deleted boolean DEFAULT false NOT NULL,
     deletion_reason character varying,
     deleted_at_id bigint,
     approved_at timestamp without time zone,
@@ -1942,6 +1942,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190616104344'),
 ('20190616105241'),
 ('20190619151146'),
-('20190624121820');
+('20190624121820'),
+('20190709090102'),
+('20190709090252');
 
 
