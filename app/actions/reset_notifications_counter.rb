@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ResetUserNotificationsCounter
+class ResetNotificationsCounter
   def initialize(current_user:)
     @current_user = current_user
   end

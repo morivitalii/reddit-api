@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
-class UserNotificationsController < BaseUserController
+class NotificationsController < ApplicationController
   layout "narrow"
 
+  before_action :set_user
+  before_action :reset_counter
   before_action :set_navigation_title
-  before_action -> { authorize(@user, policy_class: UserNotificationsPolicy) }
+  before_action -> { authorize(Notification) }
 
   def index
-    if current_user.id == @user.id
-      ResetUserNotificationsCounter.new(current_user: current_user).call
-    end
-
     @records = Notification.include(ReverseChronologicalOrder)
                    .joins(:thing)
                    .merge(Thing.not_deleted)
@@ -30,6 +28,14 @@ class UserNotificationsController < BaseUserController
   end
 
   private
+
+  def set_user
+    @user = current_user
+  end
+
+  def reset_counter
+    ResetNotificationsCounter.new(current_user: current_user).call
+  end
 
   def set_navigation_title
     @navigation_title = t("notifications")
