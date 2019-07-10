@@ -11,8 +11,8 @@ class UsersController < ApplicationController
   def show
     @records = Thing.thing_type(ThingsTypes.new(params[:thing_type]).key)
                    .not_deleted
-                   .sort_records_by(helpers.thing_sort_filter(params[:thing_sort]))
-                   .records_after(params[:after].present? ? @user.things.find_by_id(params[:after]) : nil, helpers.thing_sort_filter(params[:thing_sort]))
+                   .sort_records_by(ThingsSorting.new(params[:thing_sort]).key)
+                   .records_after(params[:after].present? ? @user.things.find_by_id(params[:after]) : nil, ThingsSorting.new(params[:thing_sort]).key)
                    .records_after_date(helpers.thing_date_filter(params[:thing_date]))
                    .where(user: @user)
                    .includes(:sub, :user, :post)

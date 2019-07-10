@@ -15,11 +15,11 @@
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= thing_sort_filter_options[params[:thing_sort]] %>
+      <%= ThingsSorting.new(params[:thing_sort]).i18n %>
     </a>
 
     <div class="dropdown-menu">
-      <% thing_sort_filter_options.each do |k, v| %>
+      <% ThingsSorting.new.list.each do |k, v| %>
         <%= link_to(v, user_path(@user, thing_type: params[:thing_type], thing_sort: k), class: 'dropdown-item') %>
       <% end %>
     </div>

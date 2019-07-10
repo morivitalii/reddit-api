@@ -16,7 +16,7 @@ class ThingsTypes
   end
 
   def i18n
-    type.present? ? list[type] : list[default_key]
+    list.fetch(type, list[default_key])
   end
 
   private
