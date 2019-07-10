@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UpdateUserSettings
+class UpdateUser
   include ActiveModel::Model
 
   attr_accessor :user, :email, :password, :password_current

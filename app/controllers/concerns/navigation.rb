@@ -21,7 +21,7 @@ module Navigation
           end
 
           navigation[:other][:items].push({ href: notifications_path, title: t("notifications") })
-          navigation[:other][:items].push({ href: edit_user_settings_path, title: t("settings") })
+          navigation[:other][:items].push({ href: edit_users_path, title: t("settings") })
 
           if Current.variant.mobile?
             # TODO: fix. link must be with option method: :delete

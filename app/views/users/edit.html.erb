@@ -1,13 +1,13 @@
 <% content_for(:meta_title, t("settings")) %>
 
-<%= render 'users/sidebar' %>
+<%= render 'sidebar' %>
 
 <div class="row mb-3">
   <div class="col-12">
     <div class="col-12 bg-white border rounded">
       <div class="row">
         <div class="col-12 pt-3 pb-3">
-          <%= form_with(model: @form, url: user_settings_path, method: :put, class: 'userSettingsForm') do |f| %>
+          <%= form_with(model: @form, url: users_path, method: :put, class: 'userSettingsForm') do |f| %>
             <%= f.text_field :email %>
             <%= f.password_field :password %>
             <%= f.password_field :password_current %>

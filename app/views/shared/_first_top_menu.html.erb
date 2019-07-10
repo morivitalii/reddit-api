@@ -28,7 +28,7 @@
 
                   <div class="dropdown-menu">
                     <%= link_to(t('profile'), user_path(current_user), class: 'dropdown-item') %>
-                    <%= link_to(t('settings'), edit_user_settings_path, class: 'dropdown-item') %>
+                    <%= link_to(t('settings'), edit_users_path, class: 'dropdown-item') %>
                     <div class="dropdown-divider"></div>
                     <%= link_to(t('sign_out'), sign_out_path, method: :delete, class: 'dropdown-item') %>
                   </div>
