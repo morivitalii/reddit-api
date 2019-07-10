@@ -15,12 +15,12 @@
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= thing_type_filter_options[params[:thing_type]] %>
+      <%= ThingsTypes.new(params[:type]).i18n %>
     </a>
 
     <div class="dropdown-menu">
-      <% thing_type_filter_options.each do |k, v| %>
-        <%= link_to(v, bookmarks_path(k), class: 'dropdown-item') %>
+      <% ThingsTypes.new.list.each do |k, v| %>
+        <%= link_to(v, bookmarks_path(type: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>

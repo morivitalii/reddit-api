@@ -3,7 +3,7 @@
 <% content_for(:second_top_menu) do %>
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= thing_type_filter_options[params[:thing_type]] %>
+      <%= ThingsTypes.new(params[:thing_type]).i18n %>
     </a>
 
     <div class="dropdown-menu">

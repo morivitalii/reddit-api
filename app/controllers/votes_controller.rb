@@ -11,7 +11,7 @@ class VotesController < ApplicationController
   def index
     @records = Vote.include(ReverseChronologicalOrder)
                    .vote_type(helpers.vote_type_filter(params[:vote_type]))
-                   .thing_type(helpers.thing_type_filter(params[:thing_type]))
+                   .thing_type(ThingsTypes.new(params[:thing_type]).key)
                    .where(user: @user)
                    .includes(thing: [:sub, :user, :post])
                    .joins(:thing)

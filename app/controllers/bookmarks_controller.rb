@@ -12,7 +12,7 @@ class BookmarksController < ApplicationController
     @records = Bookmark.include(ReverseChronologicalOrder)
                    .joins(:thing)
                    .merge(Thing.not_deleted)
-                   .thing_type(helpers.thing_type_filter(params[:thing_type]))
+                   .thing_type(ThingsTypes.new(params[:thing_type]).key)
                    .where(user: @user)
                    .sort_records_reverse_chronologically
                    .records_after(params[:after].present? ? @user.bookmarks.find_by_id(params[:after]) : nil)
