@@ -42,17 +42,6 @@ module ApplicationHelper
     end
   end
 
-  def thing_type_filter_options
-    { all: t("posts_and_comments"), posts: t("posts"), comments: t("comments") }.with_indifferent_access
-  end
-
-  def thing_type_filter(param)
-    case param
-    when "posts" then :post
-    when "comments" then :comment
-    end
-  end
-
   def mod_queue_filter_options
     { all: t("all"), new: t("new"), reports: t("reports") }.with_indifferent_access
   end

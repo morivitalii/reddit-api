@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   before_action :set_navigation_title
 
   def show
-    @records = Thing.thing_type(helpers.thing_type_filter(params[:thing_type]))
+    @records = Thing.thing_type(ThingsTypes.new(params[:thing_type]).key)
                    .not_deleted
                    .sort_records_by(helpers.thing_sort_filter(params[:thing_sort]))
                    .records_after(params[:after].present? ? @user.things.find_by_id(params[:after]) : nil, helpers.thing_sort_filter(params[:thing_sort]))
