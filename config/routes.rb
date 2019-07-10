@@ -22,7 +22,6 @@ Rails.application.routes.draw do
   resource :forgot_password, only: [:new, :create], controller: :forgot_password
   resource :password, only: [:edit, :update], controller: :password
   resource :sign_out, only: [:destroy], controller: :sign_out
-  resource :user_settings, only: [:edit, :update], path: :settings
 
   resources :bookmarks, only: [] do
     get "(/:thing_type)", action: :index, as: "", on: :collection, constraints: { thing_type: thing_type_regex }, defaults: { thing_type: "all" }
@@ -37,6 +36,8 @@ Rails.application.routes.draw do
   resources :mod_queues, only: [] do
     get "(/:mod_queue_type)(/:thing_type)", action: :index, as: "", on: :collection, constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
   end
+
+  resource :users, only: [:edit, :update]
 
   resources :users, only: [], path: "/u" do
     get "(/:thing_type)(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_type: thing_type_regex, thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_type: "all", thing_sort: "new", thing_date: "all" }
