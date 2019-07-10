@@ -29,19 +29,6 @@ module ApplicationHelper
     end
   end
 
-  def thing_sort_filter_options
-    { hot: t("hot"), new: t("new"), top: t("top"), controversy: t("controversy") }.with_indifferent_access
-  end
-
-  def thing_sort_filter(param)
-    case param
-    when "hot" then :hot
-    when "top" then :top
-    when "new" then :created_at
-    when "controversy" then :controversy
-    end
-  end
-
   def mod_queue_filter_options
     { all: t("all"), new: t("new"), reports: t("reports") }.with_indifferent_access
   end

@@ -29,7 +29,7 @@ class Thing < ApplicationRecord
 
   scope :sort_records_by, -> (sort) do
     if sort.present?
-      if sort == :created_at
+      if sort == :new
         order(id: :desc)
       else
         order("#{sort}_score" => :desc, id: :desc)
