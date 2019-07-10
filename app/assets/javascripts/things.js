@@ -4,7 +4,7 @@ function load_things_actions(things) {
 
     if(ids.length > 0 && user_signed_in) {
         Rails.ajax({
-            url: "/things_actions",
+            url: "/t/actions",
             type: "POST",
             data: "ids=" + ids,
             success: function(data) {

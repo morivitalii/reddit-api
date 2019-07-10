@@ -44,8 +44,6 @@ Rails.application.routes.draw do
 
   get "/post/new", to: "post#new", as: :post_new
 
-  post "/things_actions", to: "things_actions#index", as: :things_actions
-
   resources :moderators, except: [:show], concerns: [:searchable, :confirmable]
   resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   resources :rules, except: [:show], concerns: [:confirmable]
@@ -67,6 +65,8 @@ Rails.application.routes.draw do
   end
 
   resources :things, only: [:show], path: "/t" do
+    post "/actions", action: :actions, on: :collection, as: :actions
+
     resource :approve_things, only: [:create], as: :approve, path: :approve
     resource :delete_things, only: [:new, :create], as: :delete, path: :delete
     resource :votes, only: [:create]
