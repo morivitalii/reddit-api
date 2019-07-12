@@ -5,8 +5,7 @@ class SubTagsController < BaseSubController
   before_action -> { authorize(@sub, policy_class: SubTagPolicy) }
 
   def index
-    @records = Tag.include(Chronological)
-                   .where(sub: @sub)
+    @records = Tag.where(sub: @sub)
                    .chronologically(params[:after].present? ? @sub.tags.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a

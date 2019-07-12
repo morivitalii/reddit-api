@@ -9,8 +9,7 @@ class BookmarksController < ApplicationController
   before_action :set_thing, only: [:create, :destroy]
 
   def index
-    @records = Bookmark.include(ReverseChronological)
-                   .joins(:thing)
+    @records = Bookmark.joins(:thing)
                    .merge(Thing.not_deleted)
                    .thing_type(ThingsTypes.new(params[:thing_type]).key)
                    .where(user: @user)

@@ -7,8 +7,7 @@ class ModeratorsController < ApplicationController
   before_action -> { authorize(@moderator.sub, policy_class: ModeratorPolicy) }, only: [:edit, :update, :confirm, :destroy]
 
   def index
-    @records = Moderator.include(Chronological)
-                   .where(sub: @sub)
+    @records = Moderator.where(sub: @sub)
                    .chronologically(params[:after].present? ? Moderator.find_by_id(params[:after]) : nil)
                    .includes(:user, :invited_by)
                    .limit(51)

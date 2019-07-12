@@ -4,8 +4,7 @@ class PostController < ApplicationController
   before_action -> { authorize(Thing, policy_class: PostPolicy) }
 
   def new
-    @records = Follow.include(Chronological)
-                   .where(user: current_user)
+    @records = Follow.where(user: current_user)
                    .chronologically(params[:after].present? ? current_user.follows.find_by_id(params[:after]) : nil)
                    .includes(:sub)
                    .limit(51)

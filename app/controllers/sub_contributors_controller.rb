@@ -5,8 +5,7 @@ class SubContributorsController < BaseSubController
   before_action -> { authorize(@sub, policy_class: SubContributorPolicy) }
 
   def index
-    @records = Contributor.include(ReverseChronological)
-                   .where(sub: @sub)
+    @records = Contributor.where(sub: @sub)
                    .includes(:user, :approved_by)
                    .reverse_chronologically(params[:after].present? ? @sub.contributors.find_by_id(params[:after]) : nil)
                    .limit(51)

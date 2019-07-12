@@ -5,8 +5,7 @@ class LogsController < ApplicationController
   before_action -> { authorize(@sub, policy_class: LogPolicy) }
 
   def index
-    @records = Log.include(ReverseChronological)
-                   .where(sub: @sub)
+    @records = Log.where(sub: @sub)
                    .includes(:user, :loggable)
                    .reverse_chronologically(params[:after].present? ? Log.find_by_id(params[:after]) : nil)
                    .limit(51)

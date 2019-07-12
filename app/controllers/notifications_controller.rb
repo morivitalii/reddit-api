@@ -9,8 +9,7 @@ class NotificationsController < ApplicationController
   before_action -> { authorize(Notification) }
 
   def index
-    @records = Notification.include(ReverseChronological)
-                   .joins(:thing)
+    @records = Notification.joins(:thing)
                    .merge(Thing.not_deleted)
                    .where(user: @user)
                    .includes(thing: [:sub, :user, :post, :comment])
