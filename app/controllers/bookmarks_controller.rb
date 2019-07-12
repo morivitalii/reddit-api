@@ -11,9 +11,9 @@ class BookmarksController < ApplicationController
   def index
     @records = Bookmark.joins(:thing)
                    .merge(Thing.not_deleted)
-                   .thing_type(ThingsTypes.new(params[:thing_type]).key)
+                   .thing_type(type)
                    .where(user: @user)
-                   .reverse_chronologically(params[:after].present? ? @user.bookmarks.find_by_id(params[:after]) : nil)
+                   .reverse_chronologically(after)
                    .includes(thing: [:sub, :user, :post])
                    .limit(51)
                    .to_a
@@ -50,5 +50,13 @@ class BookmarksController < ApplicationController
 
   def set_thing
     @thing = Thing.find(params[:thing_id])
+  end
+
+  def type
+    ThingsTypes.new(params[:type]).key
+  end
+
+  def after
+    params[:after].present? ? Bookmark.find_by_id(params[:after]) : nil
   end
 end

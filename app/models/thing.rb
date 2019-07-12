@@ -39,7 +39,7 @@ class Thing < ApplicationRecord
 
   scope :records_after, ->(record, sort) do
     if record.present?
-      if sort == :created_at
+      if sort == :new
         where("id < ?", record.id)
       else
         where("(#{sort}_score, id) < (?, ?)", record["#{sort}_score"], record.id)
