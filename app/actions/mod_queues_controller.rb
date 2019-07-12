@@ -14,7 +14,7 @@ class ModQueuesController < ApplicationController
       scope = scope.where(sub: @sub)
     end
 
-    @records = scope.queue_type(helpers.mod_queue_filter(params[:mod_queue_type]))
+    @records = scope.queue_type(ModQueuesTypes.new(params[:mod_queue_type]).key)
                    .thing_type(ThingsTypes.new(params[:thing_type]).key)
                    .reverse_chronologically(params[:after].present? ? ModQueue.find_by_id(params[:after]) : nil)
                    .includes(thing: [:sub, :user, :post])

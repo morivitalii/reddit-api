@@ -26,10 +26,7 @@ Rails.application.routes.draw do
   resources :bookmarks, only: [:index]
   resources :votes, only: [:index]
   resources :notifications, only: [:index]
-
-  resources :mod_queues, only: [] do
-    get "(/:mod_queue_type)(/:thing_type)", action: :index, as: "", on: :collection, constraints: { mod_queue_type: mod_queue_type_regex, thing_type: thing_type_regex }, defaults: { mod_queue_type: "all", thing_type: "all" }
-  end
+  resources :mod_queues, only: [:index]
 
   resource :users, only: [:edit, :update]
 
