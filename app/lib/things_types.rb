@@ -12,7 +12,7 @@ class ThingsTypes
   end
 
   def key
-    types.keys.include?(type) ? type.singularize : nil
+    types.keys.include?(type) ? type : nil
   end
 
   def i18n
@@ -22,7 +22,7 @@ class ThingsTypes
   private
 
   def types
-    { posts: I18n.t("posts"), comments: I18n.t("comments") }
+    { post: I18n.t("posts"), comment: I18n.t("comments") }
   end
 
   def default_types
