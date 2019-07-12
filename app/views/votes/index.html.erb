@@ -15,11 +15,11 @@
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= vote_type_filter_options[params[:vote_type]] %>
+      <%= VotesTypes.new(params[:type]).i18n %>
     </a>
 
     <div class="dropdown-menu">
-      <% vote_type_filter_options.each do |k, v| %>
+      <% VotesTypes.new.list.each do |k, v| %>
         <%= link_to(v, votes_path(vote_type: k), class: 'dropdown-item') %>
       <% end %>
     </div>

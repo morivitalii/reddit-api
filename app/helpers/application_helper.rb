@@ -40,17 +40,6 @@ module ApplicationHelper
     end
   end
 
-  def vote_type_filter_options
-    { all: t("ups_and_downs"), ups: t("ups"), downs: t("downs") }.with_indifferent_access
-  end
-
-  def vote_type_filter(param)
-    case param
-    when "ups" then :up
-    when "downs" then :down
-    end
-  end
-
   def sub_mod_menu(sub)
     menu = {
       t("mod_queue") => mod_queues_path(sub: sub),
