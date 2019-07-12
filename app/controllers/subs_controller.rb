@@ -25,7 +25,7 @@ class SubsController < ApplicationController
                    .not_deleted
                    .sort_records_by(ThingsSorting.new(params[:thing_sort]).key)
                    .records_after(params[:after].present? ? @sub.things.find_by_id(params[:after]) : nil, ThingsSorting.new(params[:thing_sort]).key)
-                   .records_after_date(helpers.thing_date_filter(params[:thing_date]))
+                   .records_after_date(ThingsDates.new(params[:thing_date]).date)
                    .where(sub: @sub)
                    .includes(:sub, :user)
                    .limit(51)

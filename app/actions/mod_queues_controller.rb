@@ -14,9 +14,9 @@ class ModQueuesController < ApplicationController
       scope = scope.where(sub: @sub)
     end
 
-    @records = scope.queue_type(ModQueuesTypes.new(params[:mod_queue_type]).key)
-                   .thing_type(ThingsTypes.new(params[:thing_type]).key)
-                   .reverse_chronologically(params[:after].present? ? ModQueue.find_by_id(params[:after]) : nil)
+    @records = scope.queue_type(mod_queue_type)
+                   .thing_type(thing_type)
+                   .reverse_chronologically(after)
                    .includes(thing: [:sub, :user, :post])
                    .limit(51)
                    .to_a
@@ -37,5 +37,17 @@ class ModQueuesController < ApplicationController
 
   def set_navigation_title
     @navigation_title = t("mod_queue")
+  end
+
+  def mod_queue_type
+    ModQueuesTypes.new(params[:mod_queue_type]).key
+  end
+
+  def thing_type
+    ThingsTypes.new(params[:thing_type]).key
+  end
+
+  def after
+    params[:after].present? ? ModQueue.find_by_id(params[:after]) : nil
   end
 end

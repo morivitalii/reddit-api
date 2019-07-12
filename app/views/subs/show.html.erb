@@ -15,11 +15,11 @@
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= thing_date_filter_options[params[:thing_date]] %>
+      <%= ThingsDates.new(params[:thing_date]).i18n %>
     </a>
 
     <div class="dropdown-menu">
-      <% thing_date_filter_options.each do |k, v| %>
+      <% ThingsDates.new.list.each do |k, v| %>
         <%= link_to(v, sub_path(@sub, thing_sort: params[:thing_sort], thing_date: k), class: 'dropdown-item') %>
       <% end %>
     </div>
