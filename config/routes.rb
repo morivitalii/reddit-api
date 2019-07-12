@@ -24,11 +24,7 @@ Rails.application.routes.draw do
   resource :sign_out, only: [:destroy], controller: :sign_out
 
   resources :bookmarks, only: [:index]
-
-  resources :votes, only: [] do
-    get "(/:vote_type)(/:thing_type)", action: :index, as: "", on: :collection, constraints: { vote_type: vote_type_regex, thing_type: thing_type_regex }, defaults: { vote_type: "all", thing_type: "all" }
-  end
-
+  resources :votes, only: [:index]
   resources :notifications, only: [:index]
 
   resources :mod_queues, only: [] do
