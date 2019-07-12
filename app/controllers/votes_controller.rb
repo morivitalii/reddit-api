@@ -17,8 +17,7 @@ class VotesController < ApplicationController
                    .joins(:thing)
                    .merge(Thing.not_deleted)
                    .merge(Thing.where.not(user: @user))
-                   .sort_records_reverse_chronologically
-                   .records_after(params[:after].present? ? @user.votes.find_by_id(params[:after]) : nil)
+                   .reverse_chronologically(params[:after].present? ? @user.votes.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 

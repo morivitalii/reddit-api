@@ -4,7 +4,10 @@ module ReverseChronological
   extend ActiveSupport::Concern
 
   included do
-    scope :sort_records_reverse_chronologically, -> { order(id: :desc) }
-    scope :records_after, ->(record) { where("#{table_name}.id < ?", record.id) if record.present? }
+    scope :reverse_chronologically, ->(record) {
+      scope = order(id: :desc)
+
+      record.present? ? scope.where("#{table_name}.id < ?", record.id) : scope
+    }
   end
 end

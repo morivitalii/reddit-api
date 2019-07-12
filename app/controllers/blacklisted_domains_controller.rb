@@ -9,8 +9,7 @@ class BlacklistedDomainsController < ApplicationController
   def index
     @records = BlacklistedDomain.include(ReverseChronological)
                    .where(sub: @sub)
-                   .sort_records_reverse_chronologically
-                   .records_after(params[:after].present? ? BlacklistedDomain.find_by_id(params[:after]) : nil)
+                   .reverse_chronologically(params[:after].present? ? BlacklistedDomain.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 

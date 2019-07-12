@@ -8,8 +8,7 @@ class SubContributorsController < BaseSubController
     @records = Contributor.include(ReverseChronological)
                    .where(sub: @sub)
                    .includes(:user, :approved_by)
-                   .sort_records_reverse_chronologically
-                   .records_after(params[:after].present? ? @sub.contributors.find_by_id(params[:after]) : nil)
+                   .reverse_chronologically(params[:after].present? ? @sub.contributors.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 

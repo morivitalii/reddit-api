@@ -14,8 +14,7 @@ class NotificationsController < ApplicationController
                    .merge(Thing.not_deleted)
                    .where(user: @user)
                    .includes(thing: [:sub, :user, :post, :comment])
-                   .sort_records_reverse_chronologically
-                   .records_after(params[:after].present? ? @user.notifications.find_by_id(params[:after]) : nil)
+                   .reverse_chronologically(params[:after].present? ? @user.notifications.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 
