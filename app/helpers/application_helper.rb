@@ -17,18 +17,6 @@ module ApplicationHelper
     content_tag("span", "", class: "datetime-#{format}", data: { timestamp: time.to_i })
   end
 
-  def thing_date_filter_options
-    { day: t("day"), week: t("week"), month: t("month"), all: t("all_time") }.with_indifferent_access
-  end
-
-  def thing_date_filter(param)
-    case param
-    when "day" then 1.day.ago
-    when "week" then 1.week.ago
-    when "month" then 1.month.ago
-    end
-  end
-
   def sub_mod_menu(sub)
     menu = {
       t("mod_queue") => mod_queues_path(sub: sub),

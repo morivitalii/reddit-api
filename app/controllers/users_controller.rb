@@ -13,7 +13,7 @@ class UsersController < ApplicationController
                    .not_deleted
                    .sort_records_by(ThingsSorting.new(params[:thing_sort]).key)
                    .records_after(params[:after].present? ? @user.things.find_by_id(params[:after]) : nil, ThingsSorting.new(params[:thing_sort]).key)
-                   .records_after_date(helpers.thing_date_filter(params[:thing_date]))
+                   .records_after_date(ThingsDates.new(params[:thing_date]).date)
                    .where(user: @user)
                    .includes(:sub, :user, :post)
                    .limit(51)
