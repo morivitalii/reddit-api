@@ -9,7 +9,7 @@ class VotesController < ApplicationController
   before_action :set_thing, only: [:create]
 
   def index
-    @records = Vote.vote_type(helpers.vote_type_filter(params[:vote_type]))
+    @records = Vote.vote_type(VotesTypes.new(params[:vote_type]).key)
                    .thing_type(ThingsTypes.new(params[:thing_type]).key)
                    .where(user: @user)
                    .includes(thing: [:sub, :user, :post])
