@@ -9,14 +9,14 @@ class VotesController < ApplicationController
   before_action :set_thing, only: [:create]
 
   def index
-    @records = Vote.vote_type(VotesTypes.new(params[:vote_type]).key)
-                   .thing_type(ThingsTypes.new(params[:thing_type]).key)
+    @records = Vote.vote_type(vote_type)
+                   .thing_type(thing_type)
                    .where(user: @user)
                    .includes(thing: [:sub, :user, :post])
                    .joins(:thing)
                    .merge(Thing.not_deleted)
                    .merge(Thing.where.not(user: @user))
-                   .reverse_chronologically(params[:after].present? ? @user.votes.find_by_id(params[:after]) : nil)
+                   .reverse_chronologically(after)
                    .limit(51)
                    .to_a
 
@@ -54,5 +54,17 @@ class VotesController < ApplicationController
 
   def vote_params
     params.require(:thing_vote).permit(:type).merge(thing: @thing, current_user: current_user)
+  end
+
+  def vote_type
+    VotesTypes.new(params[:vote_type]).key
+  end
+
+  def thing_type
+    ThingsTypes.new(params[:thing_type]).key
+  end
+
+  def after
+    params[:after].present? ? Vote.find_by_id(params[:after]) : nil
   end
 end

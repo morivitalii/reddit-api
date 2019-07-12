@@ -22,7 +22,7 @@ class VotesTypes
   private
 
   def types
-    { ups: I18n.t("ups"), downs: I18n.t("downs") }
+    { up: I18n.t("ups"), down: I18n.t("downs") }
   end
 
   def default_types
