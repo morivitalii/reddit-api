@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   before_action -> { authorize(@page.sub, policy_class: PagePolicy) }, only: [:show, :edit, :update, :confirm, :destroy]
 
   def index
-    @records = Page.include(ChronologicalOrder)
+    @records = Page.include(Chronological)
                    .where(sub: @sub)
                    .sort_records_chronologically
                    .records_after(params[:after].present? ? Page.find_by_id(params[:after]) : nil)

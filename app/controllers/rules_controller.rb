@@ -7,7 +7,7 @@ class RulesController < ApplicationController
   before_action -> { authorize(@rule.sub, policy_class: RulePolicy) }, only: [:edit, :update, :confirm, :destroy]
 
   def index
-    @records = Rule.include(ChronologicalOrder)
+    @records = Rule.include(Chronological)
                    .where(sub: @sub)
                    .sort_records_chronologically
                    .records_after(params[:after].present? ? Rule.find_by_id(params[:after]) : nil)

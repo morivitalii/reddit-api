@@ -8,7 +8,7 @@ class SubsController < ApplicationController
   before_action -> { authorize(@sub) }, only: [:show, :edit, :update]
   
   def index
-    @records = Sub.include(ChronologicalOrder)
+    @records = Sub.include(Chronological)
                    .sort_records_chronologically
                    .records_after(params[:after].present? ? Sub.find_by_id(params[:after]) : nil)
                    .limit(51)

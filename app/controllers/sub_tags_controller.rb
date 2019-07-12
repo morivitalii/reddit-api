@@ -5,7 +5,7 @@ class SubTagsController < BaseSubController
   before_action -> { authorize(@sub, policy_class: SubTagPolicy) }
 
   def index
-    @records = Tag.include(ChronologicalOrder)
+    @records = Tag.include(Chronological)
                    .where(sub: @sub)
                    .sort_records_chronologically
                    .records_after(params[:after].present? ? @sub.tags.find_by_id(params[:after]) : nil)
