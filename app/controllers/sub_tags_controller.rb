@@ -7,8 +7,7 @@ class SubTagsController < BaseSubController
   def index
     @records = Tag.include(Chronological)
                    .where(sub: @sub)
-                   .sort_records_chronologically
-                   .records_after(params[:after].present? ? @sub.tags.find_by_id(params[:after]) : nil)
+                   .chronologically(params[:after].present? ? @sub.tags.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 

@@ -4,7 +4,10 @@ module Chronological
   extend ActiveSupport::Concern
 
   included do
-    scope :sort_records_chronologically, -> { order(id: :asc) }
-    scope :records_after, ->(record) { where("#{table_name}.id > ?", record.id) if record.present? }
+    scope :chronologically, ->(record) {
+      scope = order(id: :asc)
+
+      record.present? ? where("#{table_name}.id > ?", record.id) : scope
+    }
   end
 end

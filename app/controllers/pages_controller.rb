@@ -9,8 +9,7 @@ class PagesController < ApplicationController
   def index
     @records = Page.include(Chronological)
                    .where(sub: @sub)
-                   .sort_records_chronologically
-                   .records_after(params[:after].present? ? Page.find_by_id(params[:after]) : nil)
+                   .chronologically(params[:after].present? ? Page.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 

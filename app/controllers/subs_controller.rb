@@ -9,8 +9,7 @@ class SubsController < ApplicationController
   
   def index
     @records = Sub.include(Chronological)
-                   .sort_records_chronologically
-                   .records_after(params[:after].present? ? Sub.find_by_id(params[:after]) : nil)
+                   .chronologically(params[:after].present? ? Sub.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 

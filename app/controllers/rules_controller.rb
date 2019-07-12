@@ -9,8 +9,7 @@ class RulesController < ApplicationController
   def index
     @records = Rule.include(Chronological)
                    .where(sub: @sub)
-                   .sort_records_chronologically
-                   .records_after(params[:after].present? ? Rule.find_by_id(params[:after]) : nil)
+                   .chronologically(params[:after].present? ? Rule.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 

@@ -6,8 +6,7 @@ class PostController < ApplicationController
   def new
     @records = Follow.include(Chronological)
                    .where(user: current_user)
-                   .sort_records_chronologically
-                   .records_after(params[:after].present? ? current_user.follows.find_by_id(params[:after]) : nil)
+                   .chronologically(params[:after].present? ? current_user.follows.find_by_id(params[:after]) : nil)
                    .includes(:sub)
                    .limit(51)
                    .to_a

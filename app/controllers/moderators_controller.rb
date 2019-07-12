@@ -9,8 +9,7 @@ class ModeratorsController < ApplicationController
   def index
     @records = Moderator.include(Chronological)
                    .where(sub: @sub)
-                   .sort_records_chronologically
-                   .records_after(params[:after].present? ? Moderator.find_by_id(params[:after]) : nil)
+                   .chronologically(params[:after].present? ? Moderator.find_by_id(params[:after]) : nil)
                    .includes(:user, :invited_by)
                    .limit(51)
                    .to_a
