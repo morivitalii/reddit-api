@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ReverseChronologicalOrder
+module ReverseChronological
   extend ActiveSupport::Concern
 
   included do

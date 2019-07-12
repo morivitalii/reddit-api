@@ -8,7 +8,7 @@ class ModQueuesController < ApplicationController
   before_action :set_navigation_title
 
   def index
-    scope = policy_scope(ModQueue.include(ReverseChronologicalOrder))
+    scope = policy_scope(ModQueue.include(ReverseChronological))
 
     if @sub.present?
       scope = scope.where(sub: @sub)

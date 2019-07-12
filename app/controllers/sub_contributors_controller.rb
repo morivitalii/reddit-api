@@ -5,7 +5,7 @@ class SubContributorsController < BaseSubController
   before_action -> { authorize(@sub, policy_class: SubContributorPolicy) }
 
   def index
-    @records = Contributor.include(ReverseChronologicalOrder)
+    @records = Contributor.include(ReverseChronological)
                    .where(sub: @sub)
                    .includes(:user, :approved_by)
                    .sort_records_reverse_chronologically

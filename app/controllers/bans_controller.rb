@@ -7,7 +7,7 @@ class BansController < ApplicationController
   before_action -> { authorize(@ban.sub, policy_class: BanPolicy) }, only: [:edit, :update, :confirm, :destroy]
 
   def index
-    @records = Ban.include(ReverseChronologicalOrder)
+    @records = Ban.include(ReverseChronological)
                    .where(sub: @sub)
                    .includes(:user, :banned_by)
                    .sort_records_reverse_chronologically

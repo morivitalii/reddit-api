@@ -5,7 +5,7 @@ class LogsController < ApplicationController
   before_action -> { authorize(@sub, policy_class: LogPolicy) }
 
   def index
-    @records = Log.include(ReverseChronologicalOrder)
+    @records = Log.include(ReverseChronological)
                    .where(sub: @sub)
                    .includes(:user, :loggable)
                    .sort_records_reverse_chronologically
