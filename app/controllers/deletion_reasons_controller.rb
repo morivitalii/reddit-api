@@ -7,10 +7,8 @@ class DeletionReasonsController < ApplicationController
   before_action -> { authorize(@deletion_reason.sub, policy_class: DeletionReasonPolicy) }, only: [:edit, :update, :confirm, :destroy]
 
   def index
-    @records = DeletionReason.include(ChronologicalOrder)
-                   .where(sub: @sub)
-                   .sort_records_chronologically
-                   .records_after(params[:after].present? ? DeletionReason.find_by_id(params[:after]) : nil)
+    @records = DeletionReason.where(sub: @sub)
+                   .chronologically(params[:after].present? ? DeletionReason.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 

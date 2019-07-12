@@ -7,10 +7,8 @@ class BlacklistedDomainsController < ApplicationController
   before_action -> { authorize(@blacklisted_domain.sub, policy_class: BlacklistedDomainPolicy) }, only: [:confirm, :destroy]
 
   def index
-    @records = BlacklistedDomain.include(ReverseChronologicalOrder)
-                   .where(sub: @sub)
-                   .sort_records_reverse_chronologically
-                   .records_after(params[:after].present? ? BlacklistedDomain.find_by_id(params[:after]) : nil)
+    @records = BlacklistedDomain.where(sub: @sub)
+                   .reverse_chronologically(params[:after].present? ? BlacklistedDomain.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 

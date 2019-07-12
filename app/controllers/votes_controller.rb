@@ -9,16 +9,14 @@ class VotesController < ApplicationController
   before_action :set_thing, only: [:create]
 
   def index
-    @records = Vote.include(ReverseChronologicalOrder)
-                   .vote_type(helpers.vote_type_filter(params[:vote_type]))
+    @records = Vote.vote_type(helpers.vote_type_filter(params[:vote_type]))
                    .thing_type(ThingsTypes.new(params[:thing_type]).key)
                    .where(user: @user)
                    .includes(thing: [:sub, :user, :post])
                    .joins(:thing)
                    .merge(Thing.not_deleted)
                    .merge(Thing.where.not(user: @user))
-                   .sort_records_reverse_chronologically
-                   .records_after(params[:after].present? ? @user.votes.find_by_id(params[:after]) : nil)
+                   .reverse_chronologically(params[:after].present? ? @user.votes.find_by_id(params[:after]) : nil)
                    .limit(51)
                    .to_a
 

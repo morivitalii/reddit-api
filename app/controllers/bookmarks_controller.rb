@@ -9,13 +9,11 @@ class BookmarksController < ApplicationController
   before_action :set_thing, only: [:create, :destroy]
 
   def index
-    @records = Bookmark.include(ReverseChronologicalOrder)
-                   .joins(:thing)
+    @records = Bookmark.joins(:thing)
                    .merge(Thing.not_deleted)
                    .thing_type(ThingsTypes.new(params[:thing_type]).key)
                    .where(user: @user)
-                   .sort_records_reverse_chronologically
-                   .records_after(params[:after].present? ? @user.bookmarks.find_by_id(params[:after]) : nil)
+                   .reverse_chronologically(params[:after].present? ? @user.bookmarks.find_by_id(params[:after]) : nil)
                    .includes(thing: [:sub, :user, :post])
                    .limit(51)
                    .to_a

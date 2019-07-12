@@ -8,7 +8,7 @@ class ModQueuesController < ApplicationController
   before_action :set_navigation_title
 
   def index
-    scope = policy_scope(ModQueue.include(ReverseChronologicalOrder))
+    scope = policy_scope(ModQueue)
 
     if @sub.present?
       scope = scope.where(sub: @sub)
@@ -16,8 +16,7 @@ class ModQueuesController < ApplicationController
 
     @records = scope.queue_type(helpers.mod_queue_filter(params[:mod_queue_type]))
                    .thing_type(ThingsTypes.new(params[:thing_type]).key)
-                   .sort_records_reverse_chronologically
-                   .records_after(params[:after].present? ? ModQueue.find_by_id(params[:after]) : nil)
+                   .reverse_chronologically(params[:after].present? ? ModQueue.find_by_id(params[:after]) : nil)
                    .includes(thing: [:sub, :user, :post])
                    .limit(51)
                    .to_a
