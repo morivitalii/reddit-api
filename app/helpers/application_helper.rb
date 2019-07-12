@@ -29,17 +29,6 @@ module ApplicationHelper
     end
   end
 
-  def mod_queue_filter_options
-    { all: t("all"), new: t("new"), reports: t("reports") }.with_indifferent_access
-  end
-
-  def mod_queue_filter(param)
-    case param
-    when "new" then :not_approved
-    when "reports" then :reported
-    end
-  end
-
   def sub_mod_menu(sub)
     menu = {
       t("mod_queue") => mod_queues_path(sub: sub),
