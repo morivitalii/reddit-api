@@ -28,8 +28,7 @@
 
   <div class="col-12">
     <div class="body col-12">
-      <% cache_variant = ModeratorPolicy.new(current_user, @sub).update? %>
-      <%= render partial: "moderator", collection: @records, cached: ->(moderator) { [moderator, cache_variant] } %>
+      <%= render partial: "moderator", collection: @records %>
     </div>
   </div>
 </div>
