@@ -1,26 +1,26 @@
-<% content_for(:meta_title, t(params[:thing_sort])) %>
+<% content_for(:meta_title, t(params[:sort])) %>
 
 <% content_for(:second_top_menu) do %>
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= ThingsSorting.new(params[:thing_sort]).i18n %>
+      <%= ThingsSorting.new(params[:sort]).i18n %>
     </a>
 
     <div class="dropdown-menu">
       <% ThingsSorting.new.list.each do |k, v| %>
-        <%= link_to(v, home_path(k), class: 'dropdown-item') %>
+        <%= link_to(v, root_path(sort: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= ThingsDates.new(params[:thing_date]).i18n %>
+      <%= ThingsDates.new(params[:date]).i18n %>
     </a>
 
     <div class="dropdown-menu">
       <% ThingsDates.new.list.each do |k, v| %>
-        <%= link_to(v, home_path(params[:thing_sort], k), class: 'dropdown-item') %>
+        <%= link_to(v, root_path(sort: params[:sort], date: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>

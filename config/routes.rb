@@ -13,9 +13,7 @@ Rails.application.routes.draw do
     get 'confirm', on: :member
   end
 
-  root "home#index", thing_sort: "hot", thing_date: "all"
-
-  get "/:thing_sort(/:thing_date)", to: "home#index", as: :home, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_date: "all" }
+  root "home#index"
 
   resource :sign_up, only: [:new, :create], controller: :sign_up
   resource :sign_in, only: [:new, :create], controller: :sign_in

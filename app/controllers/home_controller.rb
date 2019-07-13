@@ -8,9 +8,9 @@ class HomeController < ApplicationController
   def index
     @records = Thing.thing_type(:post)
                    .not_deleted
-                   .sort_records_by(ThingsSorting.new(params[:thing_sort]).key)
-                   .records_after(params[:after].present? ? Thing.find_by_id(params[:after]) : nil, ThingsDates.new(params[:thing_date]).date)
-                   .records_after_date(@date)
+                   .sort_records_by(sort)
+                   .records_after(after, date)
+                   .records_after_date(date)
                    .includes(:sub, :user)
                    .limit(51)
                    .to_a
@@ -22,6 +22,18 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def sort
+    ThingsSorting.new(params[:sort]).key
+  end
+
+  def after
+    params[:after].present? ? Thing.find_by_id(params[:after]) : nil
+  end
+
+  def date
+    ThingsDates.new(params[:date]).date
+  end
 
   def set_navigation_title
     @navigation_title = t("home")
