@@ -42,9 +42,7 @@ Rails.application.routes.draw do
   resources :bans, except: [:show], concerns: [:searchable, :confirmable]
   resources :logs, only: [:index]
 
-  resources :subs, only: [:index, :edit, :update], path: "/r" do
-    get "(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_sort: "hot", thing_date: "all" }
-
+  resources :subs, only: [:index, :show, :edit, :update], path: "/r" do
     resources :texts, only: [:new, :edit, :create, :update]
     resources :links, only: [:new, :create]
     resources :medias, only: [:new, :create]
