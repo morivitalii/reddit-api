@@ -1,16 +1,10 @@
 Rails.application.routes.draw do
-  thing_sort_regex = /hot|new|top|controversy/
-  thing_date_regex = /day|week|month/
-  thing_type_regex = /posts|comments/
-  vote_type_regex = /ups|downs/
-  mod_queue_type_regex = /new|reports/
-
   concern :searchable do
     post "search", on: :collection
   end
 
   concern :confirmable do
-    get 'confirm', on: :member
+    get "confirm", on: :member
   end
 
   root "home#index"
@@ -20,20 +14,12 @@ Rails.application.routes.draw do
   resource :forgot_password, only: [:new, :create], controller: :forgot_password
   resource :password, only: [:edit, :update], controller: :password
   resource :sign_out, only: [:destroy], controller: :sign_out
-
+  resource :users, only: [:edit, :update]
+  resources :users, only: [:show], path: "/u"
   resources :bookmarks, only: [:index]
   resources :votes, only: [:index]
   resources :notifications, only: [:index]
   resources :mod_queues, only: [:index]
-
-  resource :users, only: [:edit, :update]
-
-  resources :users, only: [], path: "/u" do
-    get "(/:thing_type)(/:thing_sort)(/:thing_date)", action: :show, as: "", on: :member, constraints: { thing_type: thing_type_regex, thing_sort: thing_sort_regex, thing_date: thing_date_regex }, defaults: { thing_type: "all", thing_sort: "new", thing_date: "all" }
-  end
-
-  get "/post/new", to: "post#new", as: :post_new
-
   resources :moderators, except: [:show], concerns: [:searchable, :confirmable]
   resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   resources :rules, except: [:show], concerns: [:confirmable]
@@ -67,6 +53,8 @@ Rails.application.routes.draw do
     resource :ignore_thing_reports, only: [:create, :destroy], as: :ignore_reports, path: :ignore_reports
     resource :comments, only: [:new, :create, :edit, :update, :destroy], as: :comment, path: :comment
   end
+
+  get "/post/new", to: "post#new", as: :post_new
 
   match "*path", via: :all, to: "page_not_found#show"
 end

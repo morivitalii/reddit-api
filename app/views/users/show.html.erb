@@ -3,7 +3,7 @@
 <% content_for(:second_top_menu) do %>
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= ThingsTypes.new(params[:thing_type]).i18n %>
+      <%= ThingsTypes.new(params[:type]).i18n %>
     </a>
 
     <div class="dropdown-menu">
@@ -15,24 +15,24 @@
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= ThingsSorting.new(params[:thing_sort]).i18n %>
+      <%= ThingsSorting.new(params[:sort]).i18n %>
     </a>
 
     <div class="dropdown-menu">
       <% ThingsSorting.new.list.each do |k, v| %>
-        <%= link_to(v, user_path(@user, thing_type: params[:thing_type], thing_sort: k), class: 'dropdown-item') %>
+        <%= link_to(v, user_path(@user, type: params[:type], sort: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= ThingsDates.new(params[:thing_date]).i18n %>
+      <%= ThingsDates.new(params[:date]).i18n %>
     </a>
 
     <div class="dropdown-menu">
       <% ThingsDates.new.list.each do |k, v| %>
-        <%= link_to(v, user_path(@user, thing_sort: params[:thing_sort], thing_date: k, thing_type: params[:thing_type]), class: 'dropdown-item') %>
+        <%= link_to(v, user_path(@user, sort: params[:sort], date: k, type: params[:type]), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
