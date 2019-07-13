@@ -56,9 +56,9 @@ module ApplicationHelper
 
   def user_profile_menu(user)
     menu = {
-      t("posts_and_comments") => user_path(user, thing_type: :all),
-      t("posts") => user_path(user, thing_type: :posts),
-      t("comments") =>user_path(user, thing_type: :comments)
+      t("posts_and_comments") => user_path(user, type: :all),
+      t("posts") => user_path(user, type: :post),
+      t("comments") =>user_path(user, type: :comment)
     }
 
     if Current.user&.id == user.id

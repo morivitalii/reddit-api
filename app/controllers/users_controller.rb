@@ -9,11 +9,11 @@ class UsersController < ApplicationController
   before_action :set_navigation_title
 
   def show
-    @records = Thing.thing_type(ThingsTypes.new(params[:thing_type]).key)
-                   .not_deleted
-                   .sort_records_by(ThingsSorting.new(params[:thing_sort]).key)
-                   .records_after(params[:after].present? ? @user.things.find_by_id(params[:after]) : nil, ThingsSorting.new(params[:thing_sort]).key)
-                   .records_after_date(ThingsDates.new(params[:thing_date]).date)
+    @records = Thing.not_deleted
+                   .thing_type(type)
+                   .sort_records_by(sort)
+                   .records_after(after, sort)
+                   .records_after_date(date)
                    .where(user: @user)
                    .includes(:sub, :user, :post)
                    .limit(51)
@@ -55,5 +55,21 @@ class UsersController < ApplicationController
 
   def update_params
     params.require(:update_user).permit(:email, :password, :password_current).merge(user: @user)
+  end
+
+  def type
+    ThingsTypes.new(params[:type]).key
+  end
+
+  def sort
+    ThingsSorting.new(params[:sort]).key
+  end
+
+  def date
+    ThingsDates.new(params[:date]).date
+  end
+
+  def after
+    params[:after].present? ? Thing.find_by_id(params[:after]) : nil
   end
 end
