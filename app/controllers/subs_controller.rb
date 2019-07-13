@@ -2,23 +2,9 @@
 
 class SubsController < ApplicationController
   layout "narrow", only: "show"
-  before_action :set_sub, except: [:index]
-  before_action :set_navigation_title, except: [:index]
-  before_action -> { authorize(Sub) }, only: [:index]
-  before_action -> { authorize(@sub) }, only: [:show, :edit, :update]
-  
-  def index
-    @records = Sub.chronologically(params[:after].present? ? Sub.find_by_id(params[:after]) : nil)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
-
-    @navigation_title = t("subs")
-  end
+  before_action :set_sub
+  before_action :set_navigation_title
+  before_action -> { authorize(@sub) }
 
   def show
     @records = Thing.thing_type(:post)
@@ -38,17 +24,13 @@ class SubsController < ApplicationController
   end
 
   def edit
-    SubsPolicy.authorize!(:update, @sub)
-
     @form = UpdateSub.new(
-        title: @sub.title,
-        description: @sub.description
+      title: @sub.title,
+      description: @sub.description
     )
   end
 
   def update
-    SubsPolicy.authorize!(:update, @sub)
-
     @form = UpdateSub.new(update_params)
 
     if @form.save
