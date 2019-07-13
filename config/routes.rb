@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   resources :bans, except: [:show], concerns: [:searchable, :confirmable]
   resources :logs, only: [:index]
 
-  resources :subs, only: [:index, :show, :edit, :update], path: "/s" do
+  resources :subs, only: [:show, :edit, :update], path: "/s" do
     resources :texts, only: [:new, :edit, :create, :update]
     resources :links, only: [:new, :create]
     resources :medias, only: [:new, :create]

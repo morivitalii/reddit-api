@@ -10,7 +10,6 @@ module Navigation
           other: {
             items: [
               { href: root_path, title: t("home") },
-              { href: subs_path, title: t("subs") }
             ]
           }
         }
