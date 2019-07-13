@@ -23,9 +23,9 @@ class SubsController < ApplicationController
   def show
     @records = Thing.thing_type(:post)
                    .not_deleted
-                   .sort_records_by(ThingsSorting.new(params[:thing_sort]).key)
-                   .records_after(params[:after].present? ? @sub.things.find_by_id(params[:after]) : nil, ThingsSorting.new(params[:thing_sort]).key)
-                   .records_after_date(ThingsDates.new(params[:thing_date]).date)
+                   .sort_records_by(sort)
+                   .records_after(after, sort)
+                   .records_after_date(date)
                    .where(sub: @sub)
                    .includes(:sub, :user)
                    .limit(51)
@@ -49,7 +49,7 @@ class SubsController < ApplicationController
   def update
     SubsPolicy.authorize!(:update, @sub)
 
-    @form = UpdateSub.new(update_params.merge(sub: @sub, current_user: current_user))
+    @form = UpdateSub.new(update_params)
 
     if @form.save
       head :no_content, location: edit_sub_path(@sub)
@@ -69,6 +69,18 @@ class SubsController < ApplicationController
   end
 
   def update_params
-    params.require(:update_sub).permit(:title, :description)
+    params.require(:update_sub).permit(:title, :description).merge(sub: @sub, current_user: current_user)
+  end
+
+  def sort
+    ThingsSorting.new(params[:sort]).key
+  end
+
+  def date
+    ThingsDates.new(params[:date]).date
+  end
+
+  def after
+    params[:after].present? ? Thing.find_by_id(params[:after]) : nil
   end
 end
