@@ -100,6 +100,7 @@ class Thing < ApplicationRecord
     validates :file, presence: true
   end
 
+  validates :content_type, presence: true, inclusion: { in: self.content_types.keys }
   validates :deletion_reason, allow_blank: true, length: { maximum: 5_000 }
   validates :tag, allow_blank: true, length: { maximum: 30 }
 

@@ -25,6 +25,10 @@ class Sub < ApplicationRecord
     url
   end
 
+  def self.default
+    self.where("lower(url) = ?", "all").take!
+  end
+
   def title=(value)
     super(value&.squish)
   end

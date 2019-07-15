@@ -1,4 +1,6 @@
 ActiveRecord::Base.transaction do
-  SignUp.new(username: "readmaru", password: "password").save
+  readmaru = SignUp.new(username: "readmaru", password: "password").save
   SignUp.new(username: "AutoModerator", password: "password").save
+
+  Sub.create!(user: readmaru, url: "all", title: "All")
 end
