@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resource :forgot_password, only: [:new, :create], controller: :forgot_password
   resource :password, only: [:edit, :update], controller: :password
   resource :sign_out, only: [:destroy], controller: :sign_out
+  resources :posts, only: [:new, :create, :edit, :update]
   resource :users, only: [:edit, :update]
   resources :users, only: [:show], path: "/u"
   resources :bookmarks, only: [:index]
@@ -29,10 +30,6 @@ Rails.application.routes.draw do
   resources :logs, only: [:index]
 
   resources :subs, only: [:show, :edit, :update], path: "/s" do
-    resources :texts, only: [:new, :edit, :create, :update]
-    resources :links, only: [:new, :create]
-    resources :medias, only: [:new, :create]
-
     resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable], controller: :sub_contributors
     resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
     resource :follow, only: [:create, :destroy], controller: :sub_follow
@@ -53,8 +50,6 @@ Rails.application.routes.draw do
     resource :ignore_thing_reports, only: [:create, :destroy], as: :ignore_reports, path: :ignore_reports
     resource :comments, only: [:new, :create, :edit, :update, :destroy], as: :comment, path: :comment
   end
-
-  get "/post/new", to: "post#new", as: :post_new
 
   match "*path", via: :all, to: "page_not_found#show"
 end

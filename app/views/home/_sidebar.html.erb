@@ -2,7 +2,7 @@
   <div class="sidebar row bg-white border rounded mb-3 pb-3">
     <div class="col-12 mt-3">
       <% if user_signed_in? %>
-        <%= link_to(t('create_post'), post_new_path, class: 'btn btn-primary btn-block') %>
+        <%= link_to(t('create_post'), new_post_path, class: 'btn btn-primary btn-block') %>
       <% else %>
         <%= link_to(t('create_post'), new_sign_in_path, remote: true, class: 'signIn btn btn-primary btn-block') %>
       <% end %>

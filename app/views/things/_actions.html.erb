@@ -63,8 +63,8 @@
       <% end %>
 
       <% if thing.post? %>
-        <% if thing.text? && TextPolicy.new(current_user, thing).update? %>
-          <%= link_to(t('edit'), edit_sub_text_path(thing.sub, thing), class: 'dropdown-item') %>
+        <% if thing.text? && PostPolicy.new(current_user, thing).update? %>
+          <%= link_to(t('edit'), edit_post_path(thing), class: 'dropdown-item') %>
         <% end %>
 
         <% if TagThingPolicy.new(current_user, thing).update? %>

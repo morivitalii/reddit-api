@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UpdateText
+class UpdatePost
   include ActiveModel::Model
 
   attr_accessor :post, :text

@@ -32,7 +32,7 @@
       <% end %>
 
       <% if user_signed_in? %>
-        <%= link_to(t('create_post'), new_sub_text_path(@sub), class: 'btn btn-primary') %>
+        <%= link_to(t('create_post'), new_post_path(sub: @sub), class: 'btn btn-primary') %>
       <% else %>
         <%= link_to(t('create_post'), new_sign_in_path, remote: true, class: 'signIn btn btn-primary') %>
       <% end %>

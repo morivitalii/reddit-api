@@ -1,28 +1,32 @@
-<% content_for(:meta_title, t("text")) %>
+<% content_for(:meta_title, t("create_post")) %>
 
-<%= render 'subs/sidebar' %>
+<% if @sub.present? %>
+  <%= render 'subs/sidebar' %>
+<% end %>
 
-<div class="row">
+<div id="newPost" class="row">
   <div class="col-12 p-0">
     <ul class="nav nav-pills nav-fill">
       <li class="nav-item">
-        <%= link_to(t('text'), new_sub_text_path(@sub), class: 'nav-link active h6 border-bottom rounded-0 p-3') %>
+        <%= link_to(t('text'), "#", class: 'nav-link active h6 border-bottom rounded-0 p-3', data: { target: "text" }) %>
       </li>
 
       <li class="nav-item">
-        <%= link_to(t('link'), new_sub_link_path(@sub), class: 'nav-link h6 border-bottom border-left border-right rounded-0 p-3') %>
+        <%= link_to(t('link'), "#", class: 'nav-link h6 border-bottom border-left border-right rounded-0 p-3', data: { target: "url" }) %>
       </li>
 
       <li class="nav-item">
-        <%= link_to(t('media'), new_sub_media_path(@sub), class: 'nav-link h6 border-bottom rounded-0 p-3') %>
+        <%= link_to(t('media'), "#", class: 'nav-link h6 border-bottom rounded-0 p-3', data: { target: "file" }) %>
       </li>
     </ul>
   </div>
 
   <div class="col-12 mt-2 mb-3">
-    <%= form_with(model: @form, url: sub_texts_path(@sub), class: 'createPostForm') do |f| %>
+    <%= form_with(model: @form, as: :create_post, url: posts_path(sub: @sub), class: 'createPostForm') do |f| %>
       <%= f.text_area :title, rows: 3 %>
       <%= f.text_area :text %>
+      <%= f.text_area :url, rows: 3 %>
+      <%= f.file_field :file %>
       <%= f.check_box :explicit %>
       <%= f.check_box :spoiler %>
       <%= f.submit t('create') %>
