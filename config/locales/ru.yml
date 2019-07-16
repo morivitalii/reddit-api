@@ -176,8 +176,8 @@ ru:
     create_ban: забанил
     update_ban: изменил условия или причину бана
     delete_ban: разбанил
-    create_sub_contributor: одобрил контрибутора
-    delete_sub_contributor: удалил контрибутора
+    create_contributor: одобрил контрибутора
+    delete_contributor: удалил контрибутора
     create_rule: добавил правило
     update_rule: изменил правило
     delete_rule: удалил правило

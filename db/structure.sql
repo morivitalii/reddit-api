@@ -133,7 +133,7 @@ ALTER SEQUENCE public.bookmarks_id_seq OWNED BY public.bookmarks.id;
 
 CREATE TABLE public.contributors (
     id bigint NOT NULL,
-    sub_id bigint NOT NULL,
+    sub_id bigint,
     user_id bigint NOT NULL,
     approved_by_id bigint NOT NULL,
     created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
@@ -1884,6 +1884,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190709090102'),
 ('20190709090252'),
 ('20190709092346'),
-('20190709092704');
+('20190709092704'),
+('20190716102457');
 
 

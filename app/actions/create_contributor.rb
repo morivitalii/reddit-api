@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSubContributor
+class CreateContributor
   include ActiveModel::Model
 
   attr_accessor :sub, :current_user, :username
@@ -20,7 +20,8 @@ class CreateSubContributor
 
     @user = User.where("lower(username) = ?", @username.downcase).take!
 
-    @contributor = @sub.contributors.create!(
+    @contributor = Contributor.create!(
+      sub: @sub,
       approved_by: @current_user,
       user: @user
     )
@@ -32,7 +33,7 @@ class CreateSubContributor
     CreateLogJob.perform_later(
       sub: @sub,
       current_user: @current_user,
-      action: "create_sub_contributor",
+      action: "create_contributor",
       loggable: @user
     )
   end
