@@ -11,7 +11,7 @@ class BookmarksController < ApplicationController
   def index
     @records = Bookmark.joins(:thing)
                    .merge(Thing.not_deleted)
-                   .thing_type(type)
+                   .merge(Thing.thing_type(type))
                    .where(user: @user)
                    .reverse_chronologically(after)
                    .includes(thing: [:sub, :user, :post])

@@ -102,7 +102,6 @@ CREATE TABLE public.bookmarks (
     id bigint NOT NULL,
     thing_id bigint NOT NULL,
     user_id bigint NOT NULL,
-    thing_type integer NOT NULL,
     created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
 );
@@ -1120,13 +1119,6 @@ CREATE INDEX index_bookmarks_on_thing_id ON public.bookmarks USING btree (thing_
 
 
 --
--- Name: index_bookmarks_on_thing_type; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_bookmarks_on_thing_type ON public.bookmarks USING btree (thing_type);
-
-
---
 -- Name: index_bookmarks_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1887,6 +1879,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190716120925'),
 ('20190716121355'),
 ('20190716122420'),
-('20190716171022');
+('20190716171022'),
+('20190716175842');
 
 
