@@ -3,14 +3,15 @@
     <div class="modal-body">
       <%= f.text_field :tag %>
 
-      <% if @thing.sub.tags.present? %>
+      <% tags = Tag.where(sub: @thing.sub).or(Tag.where(sub: nil)).all %>
+      <% if tags.present? %>
         <div class="form-group">
           <input class="search form-control" placeholder="<%= t('tag_select') %>">
         </div>
 
         <div class="form-group">
           <div class="list col-12 pl-0">
-            <% @thing.sub.tags.each do |tag| %>
+            <% tags.each do |tag| %>
               <div class="tag row">
                 <div class="col-12">
                     <span class="p-1">

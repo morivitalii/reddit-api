@@ -33,8 +33,8 @@ module ApplicationHelper
       menu[t("deletion_reasons")] = deletion_reasons_path(sub: sub)
     end
 
-    if SubTagPolicy.new(current_user, sub).index?
-      menu[t("tags")] = sub_tags_path(sub)
+    if TagPolicy.new(current_user, sub).index?
+      menu[t("tags")] = tags_path(sub: sub)
     end
 
     menu[t("pages")] = pages_path(sub: sub)

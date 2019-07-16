@@ -184,9 +184,9 @@ ru:
     create_deletion_reason: добавил причину удаления контента
     update_deletion_reason: изменил причину удаления контента
     delete_deletion_reason: удалил причину удаления контента
-    create_sub_tag: добавил тег
-    update_sub_tag: изменил тег
-    delete_sub_tag: удалил тег
+    create_tag: добавил тег
+    update_tag: изменил тег
+    delete_tag: удалил тег
     mark_thing_as_approved: одобрил
     mark_thing_as_deleted: удалил
     update_thing_tag: изменил тег у

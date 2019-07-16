@@ -547,7 +547,7 @@ ALTER SEQUENCE public.subs_id_seq OWNED BY public.subs.id;
 
 CREATE TABLE public.tags (
     id bigint NOT NULL,
-    sub_id bigint NOT NULL,
+    sub_id bigint,
     title character varying NOT NULL,
     created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
@@ -1885,6 +1885,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190709090252'),
 ('20190709092346'),
 ('20190709092704'),
-('20190716102457');
+('20190716102457'),
+('20190716105255');
 
 

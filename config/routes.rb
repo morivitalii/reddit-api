@@ -26,13 +26,12 @@ Rails.application.routes.draw do
   resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   resources :rules, except: [:show], concerns: [:confirmable]
   resources :deletion_reasons, except: [:show], concerns: [:confirmable]
+  resources :tags, except: [:show], concerns: [:confirmable]
   resources :pages, concerns: [:confirmable]
   resources :bans, except: [:show], concerns: [:searchable, :confirmable]
   resources :logs, only: [:index]
 
   resources :subs, only: [:show, :edit, :update], path: "/s" do
-
-    resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
     resource :follow, only: [:create, :destroy], controller: :sub_follow
   end
 
