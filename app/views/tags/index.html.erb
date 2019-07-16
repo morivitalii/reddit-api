@@ -1,16 +1,18 @@
 <% content_for(:meta_title, t("tags")) %>
 
-<%= render 'subs/second_top_menu' %>
-<%= render 'subs/sidebar' %>
+<% if @sub.present? %>
+  <%= render 'subs/second_top_menu' %>
+  <%= render 'subs/sidebar' %>
+<% end %>
 
 <div id="tags" class="entries row">
   <div class="head col-12">
     <div class="title">
-      <%= link_to(t('tags'), sub_tags_path(@sub)) %>
+      <%= link_to(t('tags'), tags_path(sub: @sub)) %>
     </div>
 
     <div class="actions">
-      <%= link_to(t('create'), new_sub_tag_path(@sub), remote: true, class: 'create') %>
+      <%= link_to(t('create'), new_tag_path(sub: @sub), remote: true, class: 'create') %>
     </div>
   </div>
 

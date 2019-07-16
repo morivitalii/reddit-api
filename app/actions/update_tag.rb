@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UpdateSubTag
+class UpdateTag
   include ActiveModel::Model
 
   attr_accessor :tag, :current_user, :title
@@ -15,7 +15,7 @@ class UpdateSubTag
     CreateLogJob.perform_later(
       sub: @tag.sub,
       current_user: @current_user,
-      action: "update_sub_tag",
+      action: "update_tag",
       model: @tag
     )
   end

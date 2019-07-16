@@ -1,12 +1,12 @@
-<%= render 'shared/modal', title: t('create') do %>
-  <%= form_with(model: @form, url: sub_tags_path(@sub)) do |f| %>
+<%= render 'shared/modal', title: t('edit') do %>
+  <%= form_with(model: @form, url: tag_path(@tag), method: :put, class: 'updateForm') do |f| %>
     <div class="modal-body">
       <%= f.text_field :title %>
     </div>
 
     <div class="modal-footer">
       <button type="button" class="btn btn-primary" data-dismiss="modal"><%= t('cancel') %></button>
-      <%= f.submit t('create') %>
+      <%= f.submit t('update') %>
     </div>
   <% end %>
 <% end %>

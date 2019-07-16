@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SubTagPolicy < ApplicationPolicy
+class TagPolicy < ApplicationPolicy
   def index?
     global_moderator? || sub_master?(record)
   end

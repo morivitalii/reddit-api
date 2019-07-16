@@ -23,9 +23,9 @@ class Log < ApplicationRecord
     create_deletion_reason: 13,
     update_deletion_reason: 14,
     delete_deletion_reason: 15,
-    create_sub_tag: 16,
-    update_sub_tag: 17,
-    delete_sub_tag: 18,
+    create_tag: 16,
+    update_tag: 17,
+    delete_tag: 18,
     mark_thing_as_approved: 19,
     mark_thing_as_deleted: 20,
     update_thing_tag: 21,
@@ -78,11 +78,11 @@ class Log < ApplicationRecord
                    [:title, :description]
                  when :delete_deletion_reason
                    [:title, :description]
-                 when :create_sub_tag
+                 when :create_tag
                    [:title]
-                 when :update_sub_tag
+                 when :update_tag
                    [:title]
-                 when :delete_sub_tag
+                 when :delete_tag
                    [:title]
                  when :mark_thing_as_approved
                    [:approved, :deleted, :deletion_reason, :text]
