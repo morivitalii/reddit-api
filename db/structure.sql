@@ -683,7 +683,6 @@ CREATE TABLE public.users (
     notifications_count integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    moderators_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     forgot_password_email_sent_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
 );
 
@@ -1886,6 +1885,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190716105255'),
 ('20190716120617'),
 ('20190716120925'),
-('20190716121355');
+('20190716121355'),
+('20190716122420');
 
 
