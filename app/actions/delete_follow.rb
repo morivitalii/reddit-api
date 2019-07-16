@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeleteSubFollow
+class DeleteFollow
   def initialize(sub:, current_user:)
     @sub = sub
     @current_user = current_user

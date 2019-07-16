@@ -26,9 +26,9 @@
 
     <div class="col-12 mt-2">
       <% if current_user&.sub_follower?(@sub) %>
-        <%= link_to(t('unsubscribe'), sub_follow_path(@sub), class: 'follow btn btn-primary', remote: true, method: :delete) %>
+        <%= link_to(t('unsubscribe'), sub_follows_path(@sub), class: 'follow btn btn-primary', remote: true, method: :delete) %>
       <% else %>
-        <%= link_to(t('subscribe'), sub_follow_path(@sub), class: 'follow btn btn-primary', remote: true, method: :post) %>
+        <%= link_to(t('subscribe'), sub_follows_path(@sub), class: 'follow btn btn-primary', remote: true, method: :post) %>
       <% end %>
 
       <% if user_signed_in? %>
