@@ -685,7 +685,6 @@ CREATE TABLE public.users (
     updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     moderators_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     contributors_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    bans_updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     forgot_password_email_sent_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
 );
 
@@ -1886,6 +1885,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190709092704'),
 ('20190716102457'),
 ('20190716105255'),
-('20190716120617');
+('20190716120617'),
+('20190716120925');
 
 

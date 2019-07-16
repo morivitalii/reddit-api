@@ -2,7 +2,7 @@
 
 class Ban < ApplicationRecord
   belongs_to :sub, optional: true
-  belongs_to :user, touch: :bans_updated_at
+  belongs_to :user
   belongs_to :banned_by, class_name: "User", foreign_key: "banned_by_id"
 
   scope :global, -> { where(sub: nil) }
