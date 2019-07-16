@@ -15,8 +15,8 @@ class Log < ApplicationRecord
     create_ban: 5,
     update_ban: 6,
     delete_ban: 7,
-    create_sub_contributor: 8,
-    delete_sub_contributor: 9,
+    create_contributor: 8,
+    delete_contributor: 9,
     create_rule: 10,
     update_rule: 11,
     delete_rule: 12,
@@ -62,9 +62,9 @@ class Log < ApplicationRecord
                    [:reason, :days, :permanent]
                  when :delete_ban
                    [:reason, :days, :permanent]
-                 when :create_sub_contributor
+                 when :create_contributor
                    []
-                 when :delete_sub_contributor
+                 when :delete_contributor
                    []
                  when :create_rule
                    [:title, :description]

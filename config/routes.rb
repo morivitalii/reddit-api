@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :notifications, only: [:index]
   resources :mod_queues, only: [:index]
   resources :moderators, except: [:show], concerns: [:searchable, :confirmable]
+  resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   resources :rules, except: [:show], concerns: [:confirmable]
   resources :deletion_reasons, except: [:show], concerns: [:confirmable]
@@ -30,7 +31,7 @@ Rails.application.routes.draw do
   resources :logs, only: [:index]
 
   resources :subs, only: [:show, :edit, :update], path: "/s" do
-    resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable], controller: :sub_contributors
+
     resources :tags, except: [:show], concerns: [:confirmable], controller: :sub_tags
     resource :follow, only: [:create, :destroy], controller: :sub_follow
   end

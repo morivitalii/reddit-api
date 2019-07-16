@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Contributor < ApplicationRecord
-  belongs_to :sub
+  belongs_to :sub, optional: true
   belongs_to :user, touch: :contributors_updated_at
   belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id"
 

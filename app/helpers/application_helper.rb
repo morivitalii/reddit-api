@@ -22,7 +22,7 @@ module ApplicationHelper
       t("mod_queue") => mod_queues_path(sub: sub),
       t("moderators") => moderators_path(sub: sub),
       t("bans") => bans_path(sub: sub),
-      t("contributors") => sub_contributors_path(sub)
+      t("contributors") => contributors_path(sub: sub)
     }
 
     if RulePolicy.new(current_user, sub).index?

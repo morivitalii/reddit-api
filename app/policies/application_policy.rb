@@ -30,6 +30,12 @@ class ApplicationPolicy
     user.moderators.find { |i| i.sub_id == sub.id }.present?
   end
 
+  def global_contributor?
+    return false unless user?
+
+    user.contributors.find { |i| i.sub_id.blank? }
+  end
+
   def sub_contributor?(sub)
     return false unless user?
 

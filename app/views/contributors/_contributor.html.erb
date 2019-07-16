@@ -3,7 +3,7 @@
     <%= link_to(contributor.user.username, contributor.user) %>
 
     <div class="actions">
-      <%= link_to(fa_icon('trash'), confirm_sub_contributor_path(@sub, contributor), remote: true, class: 'delete') %>
+      <%= link_to(fa_icon('trash'), confirm_contributor_path(contributor), remote: true, class: 'delete') %>
       <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>
     </div>
   </div>

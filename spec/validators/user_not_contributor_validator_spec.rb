@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe UserNotContributorValidator do
   let(:sub) { create(:sub) }
   let(:contributor) { create(:contributor, sub: sub) }
-  let(:model) { CreateSubContributor.new(sub: sub) }
+  let(:model) { CreateContributor.new(sub: sub) }
   subject { described_class.new(attributes: [:username]) }
 
   it "valid if user not contributor in sub" do
