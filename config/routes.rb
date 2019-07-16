@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   resources :logs, only: [:index]
 
   resources :subs, only: [:show, :edit, :update], path: "/s" do
-    resource :follow, only: [:create, :destroy], controller: :sub_follow
+    resource :follows, only: [:create, :destroy]
   end
 
   resources :things, only: [:show], path: "/t" do
