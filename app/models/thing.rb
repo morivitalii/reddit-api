@@ -59,7 +59,6 @@ class Thing < ApplicationRecord
   before_update :reset_approval_attributes_on_deletion
   before_update :reset_deletion_attributes_on_approving
   after_create :create_mod_queue_on_create
-  after_create :increment_rate_limits_on_create
   after_create :create_topic_on_create
   after_create :insert_to_topic_on_create
   after_create :create_up_vote_on_create
@@ -74,14 +73,6 @@ class Thing < ApplicationRecord
 
   with_options if: ->(r) { r.post? } do
     validates :title, presence: true, length: { maximum: 350 }
-  end
-
-  with_options if: ->(r) { r.post? && r.errors.blank? } do
-    validates :title, rate_limit: { key: ->(r) { r.thing_type }, sub: ->(r) { r.sub } }, on: :create
-  end
-
-  with_options if: ->(r) { r.comment? && r.errors.blank? } do
-    validates :text, rate_limit: { key: ->(r) { r.thing_type }, sub: ->(r) { r.sub } }, on: :create
   end
 
   with_options if: ->(r) { r.text? } do
@@ -304,10 +295,6 @@ class Thing < ApplicationRecord
     return if approved?
 
     create_mod_queue!(queue_type: :not_approved)
-  end
-
-  def increment_rate_limits_on_create
-    RateLimit.hit(thing_type, sub)
   end
 
   def create_topic_on_create

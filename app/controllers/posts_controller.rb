@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
+  include RateLimits
+
   before_action :set_sub, only: [:new, :create]
   before_action :set_post, only: [:edit, :update]
   before_action -> { authorize(@sub, policy_class: PostPolicy) }, only: [:new, :create]
@@ -17,7 +19,12 @@ class PostsController < ApplicationController
   def create
     @form = CreatePost.new(create_params)
 
-    if @form.save
+    rate_limit_key = :posts
+    rate_limits = 100
+
+    if check_rate_limits(@form, attribute: :title, key: rate_limit_key, limit: rate_limits) && @form.save
+      hit_rate_limits(key: rate_limit_key)
+
       head :no_content, location: thing_path(@form.post)
     else
       render json: @form.errors, status: :unprocessable_entity

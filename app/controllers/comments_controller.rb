@@ -20,7 +20,12 @@ class CommentsController < ApplicationController
   def create
     @form = CreateComment.new(create_params)
 
-    if @form.save
+    rate_limit_key = :comments
+    rate_limits = 200
+
+    if check_rate_limits(@form, attribute: :text, key: rate_limit_key, limit: rate_limits) && @form.save
+      hit_rate_limits(key: rate_limit_key)
+
       render partial: "things/comment", locals: { item: { thing: @form.comment } }
     else
       render json: @form.errors, status: :unprocessable_entity
