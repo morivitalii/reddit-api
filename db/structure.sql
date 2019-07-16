@@ -1316,17 +1316,17 @@ CREATE INDEX index_rate_limits_on_created_at ON public.rate_limits USING btree (
 
 
 --
+-- Name: index_rate_limits_on_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_rate_limits_on_key ON public.rate_limits USING btree (key);
+
+
+--
 -- Name: index_rate_limits_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_rate_limits_on_user_id ON public.rate_limits USING btree (user_id);
-
-
---
--- Name: index_rate_limits_on_user_id_and_key; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_rate_limits_on_user_id_and_key ON public.rate_limits USING btree (user_id, key);
 
 
 --
@@ -1886,6 +1886,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190716120617'),
 ('20190716120925'),
 ('20190716121355'),
-('20190716122420');
+('20190716122420'),
+('20190716171022');
 
 
