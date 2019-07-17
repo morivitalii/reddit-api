@@ -19,8 +19,6 @@ class User < ApplicationRecord
 
   delegate :global_moderator?, :sub_master?, :sub_moderator?, :moderator?, :global_contributor?, :sub_contributor?, :sub_follower?, :banned_in_sub?, :banned_globally?, to: :policy
 
-  before_save :nullify_email_on_save
-
   def self.auto_moderator
     self.where("lower(users.username) = ?", "AutoModerator".downcase).take!
   end
@@ -31,13 +29,5 @@ class User < ApplicationRecord
 
   def policy
     @policy ||= ApplicationPolicy.new(self, nil)
-  end
-
-  private
-
-  def nullify_email_on_save
-    return unless email.blank?
-
-    self.email = nil
   end
 end
