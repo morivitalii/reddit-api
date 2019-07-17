@@ -302,7 +302,6 @@ CREATE TABLE public.moderators (
     sub_id bigint,
     user_id bigint NOT NULL,
     invited_by_id bigint NOT NULL,
-    master boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
 );
@@ -1851,6 +1850,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190716175842'),
 ('20190717121108'),
 ('20190717122330'),
-('20190717123516');
+('20190717123516'),
+('20190717171335');
 
 

@@ -10,7 +10,6 @@ class Log < ApplicationRecord
   enum action: {
     update_sub_settings: 1,
     create_moderator: 2,
-    update_moderator: 3,
     delete_moderator: 4,
     create_ban: 5,
     update_ban: 6,
@@ -51,11 +50,9 @@ class Log < ApplicationRecord
                  when :update_sub_settings
                    [:title, :description]
                  when :create_moderator
-                   [:master]
-                 when :update_moderator
-                   [:master]
+                   []
                  when :delete_moderator
-                   [:master]
+                   []
                  when :create_ban
                    [:reason, :days, :permanent]
                  when :update_ban

@@ -2,9 +2,9 @@
 
 class ModeratorsController < ApplicationController
   before_action :set_sub, only: [:index, :search, :new, :create]
-  before_action :set_moderator, only: [:edit, :update, :confirm, :destroy]
+  before_action :set_moderator, only: [:confirm, :destroy]
   before_action -> { authorize(@sub, policy_class: ModeratorPolicy) }, only: [:index, :search, :new, :create]
-  before_action -> { authorize(@moderator.sub, policy_class: ModeratorPolicy) }, only: [:edit, :update, :confirm, :destroy]
+  before_action -> { authorize(@moderator.sub, policy_class: ModeratorPolicy) }, only: [:confirm, :destroy]
 
   def index
     @records = Moderator.where(sub: @sub)
@@ -31,27 +31,11 @@ class ModeratorsController < ApplicationController
     render partial: "new"
   end
 
-  def edit
-    @form = UpdateModerator.new(master: @moderator.master)
-
-    render partial: "edit"
-  end
-
   def create
     @form = CreateModerator.new(create_params)
 
     if @form.save
       head :no_content, location: moderators_path(sub: @sub)
-    else
-      render json: @form.errors, status: :unprocessable_entity
-    end
-  end
-
-  def update
-    @form = UpdateModerator.new(update_params)
-
-    if @form.save
-      render partial: "moderator", object: @form.moderator
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -78,10 +62,6 @@ class ModeratorsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_moderator).permit(:username, :master).merge(sub: @sub, current_user: current_user)
-  end
-
-  def update_params
-    params.require(:update_moderator).permit(:master).merge(moderator: @moderator, current_user: current_user)
+    params.require(:create_moderator).permit(:username).merge(sub: @sub, current_user: current_user)
   end
 end

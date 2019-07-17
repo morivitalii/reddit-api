@@ -14,7 +14,7 @@ class Sub < ApplicationRecord
   has_many :pages
   has_many :blacklisted_domains
 
-  after_create :add_creator_as_master_moderator
+  after_create :add_owner_as_moderator
 
   validates :url, presence: true, length: { maximum: 20 }
   validates :title, presence: true, length: { maximum: 30 }
@@ -38,7 +38,7 @@ class Sub < ApplicationRecord
 
   private
 
-  def add_creator_as_master_moderator
-    moderators.create!(user: user, invited_by: user, master: true)
+  def add_owner_as_moderator
+    moderators.create!(user: user, invited_by: user)
   end
 end
