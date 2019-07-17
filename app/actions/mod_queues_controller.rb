@@ -11,11 +11,10 @@ class ModQueuesController < ApplicationController
     scope = policy_scope(ModQueue)
 
     if @sub.present?
-      scope = scope.where(sub: @sub)
+      scope = scope.where(things: { sub: @sub })
     end
 
     @records = scope.queue_type(mod_queue_type)
-                   .joins(:thing)
                    .merge(Thing.thing_type(thing_type))
                    .reverse_chronologically(after)
                    .includes(thing: [:sub, :user, :post])

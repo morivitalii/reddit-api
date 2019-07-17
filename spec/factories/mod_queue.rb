@@ -1,15 +1,11 @@
 FactoryBot.define do
   factory :mod_queue do
-    association :sub, factory: :sub
-
     trait :post do
       association :thing, factory: :text_post
-      thing_type { :post }
     end
 
     trait :comment do
       association :thing, factory: :root_comment
-      thing_type { :comment }
     end
 
     trait :not_approved do
