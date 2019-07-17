@@ -26,7 +26,7 @@ gem "image_optim_pack"
 gem "streamio-ffmpeg", "~> 3"
 gem "redcarpet", "~> 3.4"
 gem "font-awesome-rails", "~> 4.7"
-gem "browser", "~> 2.5"
+gem "browser", "~> 2.6"
 gem "recaptcha", "~> 5.0"
 gem "diffy", "~> 3.3"
 gem "whenever", "1.0.0", require: false
