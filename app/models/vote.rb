@@ -4,23 +4,16 @@ class Vote < ApplicationRecord
   belongs_to :thing
   belongs_to :user
 
-  enum thing_type: { post: 1, comment: 2 }
   enum vote_type: { down: -1, meh: 0, up: 1 }
 
-  scope :thing_type, ->(type) { where(thing_type: type) if type.present? }
   scope :vote_type, ->(type) { where(vote_type: type) if type.present? }
 
-  before_validation :set_initial_attributes
   after_save :update_thing_counter_cache
   after_save :update_user_points
   after_save :update_thing_scores
   after_save :update_comment_scores_in_topic
 
   private
-
-  def set_initial_attributes
-    self.thing_type ||= thing.thing_type
-  end
 
   def update_thing_counter_cache
     previous = vote_type_previous_change&.compact

@@ -10,12 +10,12 @@ class VotesController < ApplicationController
 
   def index
     @records = Vote.vote_type(vote_type)
-                   .thing_type(thing_type)
                    .where(user: @user)
-                   .includes(thing: [:sub, :user, :post])
                    .joins(:thing)
                    .merge(Thing.not_deleted)
                    .merge(Thing.where.not(user: @user))
+                   .merge(Thing.thing_type(thing_type))
+                   .includes(thing: [:sub, :user, :post])
                    .reverse_chronologically(after)
                    .limit(51)
                    .to_a
