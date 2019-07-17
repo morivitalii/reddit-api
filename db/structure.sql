@@ -267,7 +267,6 @@ ALTER SEQUENCE public.logs_id_seq OWNED BY public.logs.id;
 
 CREATE TABLE public.mod_queues (
     id bigint NOT NULL,
-    sub_id bigint NOT NULL,
     thing_id bigint NOT NULL,
     queue_type integer NOT NULL,
     created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
@@ -1222,13 +1221,6 @@ CREATE INDEX index_mod_queues_on_queue_type ON public.mod_queues USING btree (qu
 
 
 --
--- Name: index_mod_queues_on_sub_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_mod_queues_on_sub_id ON public.mod_queues USING btree (sub_id);
-
-
---
 -- Name: index_mod_queues_on_thing_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1811,14 +1803,6 @@ ALTER TABLE ONLY public.blacklisted_domains
 
 
 --
--- Name: mod_queues fk_rails_fad732e1b1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.mod_queues
-    ADD CONSTRAINT fk_rails_fad732e1b1 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
-
-
---
 -- Name: mod_queues fk_rails_fc1200f55a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1866,6 +1850,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190716171022'),
 ('20190716175842'),
 ('20190717121108'),
-('20190717122330');
+('20190717122330'),
+('20190717123516');
 
 

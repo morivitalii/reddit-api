@@ -13,7 +13,6 @@ class Sub < ApplicationRecord
   has_many :logs
   has_many :pages
   has_many :blacklisted_domains
-  has_many :mod_queues
 
   after_create :add_creator_as_master_moderator
 
