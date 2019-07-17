@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :votes, only: [:index]
   resources :notifications, only: [:index]
   resources :mod_queues, only: [:index]
-  resources :moderators, except: [:show], concerns: [:searchable, :confirmable]
+  resources :moderators, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   resources :rules, except: [:show], concerns: [:confirmable]

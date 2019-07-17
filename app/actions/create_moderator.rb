@@ -3,7 +3,7 @@
 class CreateModerator
   include ActiveModel::Model
 
-  attr_accessor :current_user, :sub, :username, :master
+  attr_accessor :current_user, :sub, :username
   attr_reader :moderator
 
   validates :username, presence: true, username_format: true
@@ -21,8 +21,7 @@ class CreateModerator
 
     @moderator = @sub.moderators.create!(
       invited_by: @current_user,
-      user: @user,
-      master: @master
+      user: @user
     )
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)

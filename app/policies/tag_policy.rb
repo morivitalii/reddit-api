@@ -2,7 +2,7 @@
 
 class TagPolicy < ApplicationPolicy
   def index?
-    global_moderator? || sub_master?(record)
+    global_moderator? || sub_moderator?(record)
   end
 
   alias new? index?

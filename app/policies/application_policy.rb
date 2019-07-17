@@ -18,12 +18,6 @@ class ApplicationPolicy
     user.moderators.find { |i| i.sub_id.blank? }.present?
   end
 
-  def sub_master?(sub)
-    return false unless user?
-
-    user.moderators.find { |i| i.master? && i.sub_id == sub.id }.present?
-  end
-
   def sub_moderator?(sub)
     return false unless user?
 

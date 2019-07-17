@@ -6,7 +6,7 @@ class SubPolicy < ApplicationPolicy
   end
 
   def update?
-    global_moderator? || sub_master?(record)
+    global_moderator? || sub_moderator?(record)
   end
 
   alias edit? update?

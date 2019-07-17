@@ -125,8 +125,6 @@ ru:
   permanent: перманентно
   until: до
   reason: по причине
-  master_access: Полный доступ
-  default_access: Стандартный доступ
   restricted_access: У вас нету доступа к этой странице
   not_xhr_request: Эта страница недоступна по прямому запросу
   tag_select: Выберите тег
@@ -171,7 +169,6 @@ ru:
   log:
     update_sub_settings: обновил настройки
     create_moderator: добавил модератора
-    update_moderator: изменил права модератора
     delete_moderator: удалил модератора
     create_ban: забанил
     update_ban: изменил условия или причину бана

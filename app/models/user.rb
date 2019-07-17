@@ -17,7 +17,7 @@ class User < ApplicationRecord
   has_many :logs
   has_many :rate_limits
 
-  delegate :global_moderator?, :sub_master?, :sub_moderator?, :moderator?, :global_contributor?, :sub_contributor?, :sub_follower?, :banned_in_sub?, :banned_globally?, to: :policy
+  delegate :global_moderator?, :sub_moderator?, :moderator?, :global_contributor?, :sub_contributor?, :sub_follower?, :banned_in_sub?, :banned_globally?, to: :policy
 
   def self.auto_moderator
     self.where("lower(users.username) = ?", "AutoModerator".downcase).take!

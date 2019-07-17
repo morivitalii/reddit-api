@@ -8,12 +8,10 @@ class ModeratorPolicy < ApplicationPolicy
   alias search? index?
 
   def create?
-    global_moderator? || (record.present? ? sub_master?(record) : nil)
+    global_moderator? || (record.present? ? sub_moderator?(record) : nil)
   end
 
   alias new? create?
-  alias edit? create?
-  alias update? create?
   alias confirm? create?
   alias destroy? create?
 end
