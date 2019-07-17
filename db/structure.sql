@@ -713,7 +713,6 @@ CREATE TABLE public.votes (
     id bigint NOT NULL,
     thing_id bigint NOT NULL,
     user_id bigint NOT NULL,
-    thing_type integer NOT NULL,
     vote_type integer NOT NULL,
     created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
     updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
@@ -1511,13 +1510,6 @@ CREATE INDEX index_votes_on_thing_id ON public.votes USING btree (thing_id);
 
 
 --
--- Name: index_votes_on_thing_type; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_votes_on_thing_type ON public.votes USING btree (thing_type);
-
-
---
 -- Name: index_votes_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1880,6 +1872,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190716121355'),
 ('20190716122420'),
 ('20190716171022'),
-('20190716175842');
+('20190716175842'),
+('20190717121108');
 
 

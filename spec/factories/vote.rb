@@ -6,12 +6,10 @@ FactoryBot.define do
 
     trait :post do
       association :thing, factory: :text_post
-      thing_type { :post }
     end
 
     trait :comment do
       association :thing, factory: :root_comment
-      thing_type { :comment }
     end
 
     trait :up do
