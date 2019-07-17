@@ -15,7 +15,8 @@ class ModQueuesController < ApplicationController
     end
 
     @records = scope.queue_type(mod_queue_type)
-                   .thing_type(thing_type)
+                   .joins(:thing)
+                   .merge(Thing.thing_type(thing_type))
                    .reverse_chronologically(after)
                    .includes(thing: [:sub, :user, :post])
                    .limit(51)
