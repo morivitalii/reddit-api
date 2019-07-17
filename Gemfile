@@ -33,7 +33,7 @@ gem "whenever", "1.0.0", require: false
 gem "pundit", "~> 2"
 
 group :development, :test do
-  gem "rubocop", "~> 0.72.0", require: false
+  gem "rubocop", "~> 0.73.0", require: false
   gem "rspec-rails", "~> 3.8"
   gem "puma", "~> 4.0"
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
