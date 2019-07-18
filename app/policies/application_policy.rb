@@ -1,76 +1,12 @@
 class ApplicationPolicy
-  attr_reader :user, :record
+  attr_reader :context, :record
 
-  def initialize(user, record)
-    @user = user
+  def initialize(context, record)
+    @context = context
     @record = record
   end
 
-  def moderator?
-    return false unless user?
-
-    user.moderators.exists?
-  end
-
-  def global_moderator?
-    return false unless user?
-
-    user.moderators.find { |i| i.sub_id.blank? }.present?
-  end
-
-  def sub_moderator?(sub)
-    return false unless user?
-
-    user.moderators.find { |i| i.sub_id == sub.id }.present?
-  end
-
-  def global_contributor?
-    return false unless user?
-
-    user.contributors.find { |i| i.sub_id.blank? }
-  end
-
-  def sub_contributor?(sub)
-    return false unless user?
-
-    user.contributors.find { |i| i.sub_id == sub.id }.present?
-  end
-
-  def sub_follower?(sub)
-    return false unless user?
-
-    user.follows.find { |i| i.sub_id == sub.id }
-  end
-
-  def banned_globally?
-    return false unless user?
-
-    ban = user.bans.global.take
-
-    return false if ban.blank?
-    return ban if ban.permanent?
-    return ban unless ban.stale?
-
-    DeleteBan.new(ban: ban, current_user: User.auto_moderator).call
-
-    false
-  end
-
-  def banned_in_sub?(sub)
-    return false unless user?
-
-    ban = user.bans.find { |i| i.sub_id == sub.id }
-
-    return false if ban.blank?
-    return ban if ban.permanent?
-    return ban unless ban.stale?
-
-    DeleteBan.new(ban: ban, current_user: User.auto_moderator).call
-
-    false
-  end
-
-  def user?
-    user.present?
+  def user_signed_in?
+    context.user.present?
   end
 end

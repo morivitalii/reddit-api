@@ -2,9 +2,7 @@
 
 class DeleteThingPolicy < ApplicationPolicy
   def create?
-    return false unless user?
-
-    global_moderator? || sub_moderator?(record.sub) || record.user_id == user.id
+    user_signed_in? && (record.user_id == context.user.id || context.user.moderator?(record.sub))
   end
 
   alias new? create?

@@ -2,7 +2,7 @@
 
 class SpoilerThingPolicy < ApplicationPolicy
   def create?
-    record.post? && (global_moderator? || sub_moderator?(record.sub))
+    user_signed_in? && context.user.moderator?(record.sub) && record.post?
   end
 
   alias destroy? create?

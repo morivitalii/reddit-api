@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def pundit_user
+    UserContext.new(current_user, nil)
+  end
+
   rescue_from "Pundit::NotAuthorizedError", with: :authorization_error_response
 
   def authorization_error_response

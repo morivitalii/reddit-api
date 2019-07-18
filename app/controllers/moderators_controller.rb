@@ -3,8 +3,7 @@
 class ModeratorsController < ApplicationController
   before_action :set_sub, only: [:index, :search, :new, :create]
   before_action :set_moderator, only: [:confirm, :destroy]
-  before_action -> { authorize(@sub, policy_class: ModeratorPolicy) }, only: [:index, :search, :new, :create]
-  before_action -> { authorize(@moderator.sub, policy_class: ModeratorPolicy) }, only: [:confirm, :destroy]
+  before_action -> { authorize(Moderator) }
 
   def index
     @records = Moderator.where(sub: @sub)
@@ -52,6 +51,10 @@ class ModeratorsController < ApplicationController
   end
 
   private
+
+  def pundit_user
+    UserContext.new(current_user, @sub || @moderator&.sub)
+  end
 
   def set_sub
     @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : nil

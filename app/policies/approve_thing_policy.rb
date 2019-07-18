@@ -2,6 +2,6 @@
 
 class ApproveThingPolicy < ApplicationPolicy
   def create?
-    global_moderator? || sub_moderator?(record.sub)
+    user_signed_in? && context.user.moderator?(record.sub)
   end
 end

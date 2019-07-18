@@ -2,7 +2,7 @@
 
 class TagPolicy < ApplicationPolicy
   def index?
-    global_moderator? || sub_moderator?(record)
+    user_signed_in? && context.user.moderator?(context.sub)
   end
 
   alias new? index?

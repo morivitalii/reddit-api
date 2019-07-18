@@ -2,19 +2,13 @@
 
 class PostPolicy < ApplicationPolicy
   def create?
-    return false if banned_globally?
-    return false if record.present? && banned_in_sub?(record)
-
-    user?
+    user_signed_in? && !context.user.banned?(context.sub)
   end
 
   alias new? create?
 
   def update?
-    return false unless user?
-    return false if banned_in_sub?(record.sub)
-
-    record.user_id == user.id
+    user_signed_in? && !context.user.banned?(context.sub) && record.user_id == context.user.id
   end
 
   alias edit? update?

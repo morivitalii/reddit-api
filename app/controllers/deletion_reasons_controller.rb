@@ -3,8 +3,7 @@
 class DeletionReasonsController < ApplicationController
   before_action :set_sub, only: [:index, :new, :create]
   before_action :set_deletion_reason, only: [:edit, :update, :confirm, :destroy]
-  before_action -> { authorize(@sub, policy_class: DeletionReasonPolicy) }, only: [:index, :new, :create]
-  before_action -> { authorize(@deletion_reason.sub, policy_class: DeletionReasonPolicy) }, only: [:edit, :update, :confirm, :destroy]
+  before_action -> { authorize(DeletionReason) }
 
   def index
     @records = DeletionReason.where(sub: @sub)
@@ -64,6 +63,10 @@ class DeletionReasonsController < ApplicationController
   end
 
   private
+
+  def pundit_user
+    UserContext.new(current_user, @sub || @deletion_reason&.sub)
+  end
 
   def set_sub
     @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : nil

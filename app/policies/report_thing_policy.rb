@@ -2,11 +2,11 @@
 
 class ReportThingPolicy < ApplicationPolicy
   def index?
-    global_moderator? || sub_moderator?(record.sub)
+    user_signed_in? && context.user.moderator?(record.sub)
   end
 
   def create?
-    user?
+    user_signed_in?
   end
 
   alias new? create?

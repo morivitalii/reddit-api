@@ -6,7 +6,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    user?
+    user_signed_in?
   end
 
   alias edit? update?

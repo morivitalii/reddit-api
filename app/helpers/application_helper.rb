@@ -25,29 +25,29 @@ module ApplicationHelper
       t("contributors") => contributors_path(sub: sub)
     }
 
-    if RulePolicy.new(current_user, sub).index?
+    if RulePolicy.new(pundit_user, sub).index?
       menu[t("rules")] = rules_path(sub: sub)
     end
 
-    if DeletionReasonPolicy.new(current_user, sub).index?
+    if DeletionReasonPolicy.new(pundit_user, sub).index?
       menu[t("deletion_reasons")] = deletion_reasons_path(sub: sub)
     end
 
-    if TagPolicy.new(current_user, sub).index?
+    if TagPolicy.new(pundit_user, sub).index?
       menu[t("tags")] = tags_path(sub: sub)
     end
 
     menu[t("pages")] = pages_path(sub: sub)
 
-    if BlacklistedDomainPolicy.new(current_user, sub).index?
+    if BlacklistedDomainPolicy.new(pundit_user, BlacklistedDomain).index?
       menu[t("blacklisted_domains")] = blacklisted_domains_path(sub: sub)
     end
 
-    if LogPolicy.new(current_user, sub).index?
+    if LogPolicy.new(pundit_user, sub).index?
       menu[t("logs")] = logs_path(sub: sub)
     end
 
-    if SubPolicy.new(current_user, sub).update?
+    if SubPolicy.new(pundit_user, sub).update?
       menu[t("settings")] = edit_sub_path(sub)
     end
 
@@ -65,11 +65,11 @@ module ApplicationHelper
       menu[t("notifications")] = notifications_path
     end
 
-    if BookmarkPolicy.new(current_user, nil).index?
+    if BookmarkPolicy.new(pundit_user, nil).index?
       menu[t("bookmarks")] = bookmarks_path
     end
 
-    if VotePolicy.new(current_user, nil).index?
+    if VotePolicy.new(pundit_user, nil).index?
       menu[t("votes")] = votes_path
     end
 

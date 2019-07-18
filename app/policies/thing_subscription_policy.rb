@@ -2,9 +2,7 @@
 
 class ThingSubscriptionPolicy < ApplicationPolicy
   def create?
-    return unless user?
-
-    record.user_id == user.id
+    user_signed_in? && record.user_id == context.user.id
   end
 
   alias destroy? create?

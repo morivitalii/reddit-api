@@ -11,7 +11,7 @@
       <%= link_to(t('pages'), pages_path(sub: @sub)) %>
     </div>
 
-    <% if PagePolicy.new(current_user, @sub).create? %>
+    <% if PagePolicy.new(pundit_user, @sub).create? %>
       <div class="actions">
         <%= link_to(t('create'), new_page_path(sub: @sub), class: 'create') %>
       </div>

@@ -3,8 +3,7 @@
 class RulesController < ApplicationController
   before_action :set_sub, only: [:index, :new, :create]
   before_action :set_rule, only: [:edit, :update, :confirm, :destroy]
-  before_action -> { authorize(@sub, policy_class: RulePolicy) }, only: [:index, :new, :create]
-  before_action -> { authorize(@rule.sub, policy_class: RulePolicy) }, only: [:edit, :update, :confirm, :destroy]
+  before_action -> { authorize(Rule) }
 
   def index
     @records = Rule.where(sub: @sub)
@@ -64,6 +63,10 @@ class RulesController < ApplicationController
   end
 
   private
+
+  def pundit_user
+    UserContext.new(current_user, @sub || @rule&.sub)
+  end
 
   def set_sub
     @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : nil
