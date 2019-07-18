@@ -3,8 +3,7 @@
 class PagesController < ApplicationController
   before_action :set_sub, only: [:index, :new, :create]
   before_action :set_page, only: [:show, :edit, :update, :confirm, :destroy]
-  before_action -> { authorize(@sub, policy_class: PagePolicy) }, only: [:index, :new, :create]
-  before_action -> { authorize(@page.sub, policy_class: PagePolicy) }, only: [:show, :edit, :update, :confirm, :destroy]
+  before_action -> { authorize(Page) }
 
   def index
     @records = Page.where(sub: @sub)
@@ -63,6 +62,10 @@ class PagesController < ApplicationController
   end
 
   private
+
+  def pundit_user
+    UserContext.new(current_user, @sub || @page&.sub)
+  end
 
   def set_sub
     @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub]).take! : nil

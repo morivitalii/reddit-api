@@ -2,7 +2,7 @@
 
 class LogsController < ApplicationController
   before_action :set_sub
-  before_action -> { authorize(@sub, policy_class: LogPolicy) }
+  before_action -> { authorize(Log) }
 
   def index
     @records = Log.where(sub: @sub)
@@ -18,6 +18,10 @@ class LogsController < ApplicationController
   end
 
   private
+
+  def pundit_user
+    UserContext.new(current_user, @sub)
+  end
 
   def set_sub
     @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : nil

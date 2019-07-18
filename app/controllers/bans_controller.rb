@@ -3,15 +3,10 @@
 class BansController < ApplicationController
   before_action :set_sub, only: [:index, :search, :new, :create]
   before_action :set_ban, only: [:edit, :update, :confirm, :destroy]
-  before_action -> { authorize(@sub, policy_class: BanPolicy) }, only: [:index, :search, :new, :create]
-  before_action -> { authorize(@ban.sub, policy_class: BanPolicy) }, only: [:edit, :update, :confirm, :destroy]
+  before_action -> { authorize(Ban) }
 
   def index
-    @records = Ban.where(sub: @sub)
-                   .includes(:user, :banned_by)
-                   .reverse_chronologically(params[:after].present? ? Ban.find_by_id(params[:after]) : nil)
-                   .limit(51)
-                   .to_a
+    @records = Ban.where(sub: @sub).includes(:user, :banned_by).reverse_chronologically(after).limit(51).to_a
 
     if @records.size > 50
       @records.delete_at(-1)
@@ -73,12 +68,20 @@ class BansController < ApplicationController
 
   private
 
+  def pundit_user
+    UserContext.new(current_user, @sub || @ban&.sub)
+  end
+
   def set_sub
     @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : nil
   end
 
   def set_ban
     @ban = Ban.find(params[:id])
+  end
+
+  def after
+    params[:after].present? ? Ban.find_by_id(params[:after]) : nil
   end
 
   def create_params

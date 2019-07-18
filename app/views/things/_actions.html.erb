@@ -23,7 +23,7 @@
     <%= link_to(fa_icon('bookmark-o'), thing_bookmarks_path(thing), remote: true, method: :post, class: "bookmark" , data: { toggle: :tooltip }, title: t('bookmark')) %>
   <% end %>
 
-  <% if ApproveThingPolicy.new(current_user, thing).create? %>
+  <% if ApproveThingPolicy.new(pundit_user, thing).create? %>
     <% if thing.approved? %>
       <%= link_to(fa_icon('check'), thing_approve_path(thing), remote: true, method: :post, class: 'approve text-success', data: { toggle: :tooltip }, title: t('approved_details', username: thing.approved_by.username, approved_at: l(thing.approved_at))) %>
     <% else %>
@@ -31,7 +31,7 @@
     <% end %>
   <% end %>
 
-  <% if DeleteThingPolicy.new(current_user, thing).create? %>
+  <% if DeleteThingPolicy.new(pundit_user, thing).create? %>
     <% if thing.deleted? %>
       <% title = t(
           "deleted_details",
@@ -54,24 +54,24 @@
     <div class="dropdown-menu">
       <%= link_to(t('report'), new_thing_report_path(thing), remote: true, class: 'report dropdown-item') %>
 
-      <% if !thing.approved? && thing.reports_count.positive? && ReportThingPolicy.new(current_user, thing).index? %>
+      <% if !thing.approved? && thing.reports_count.positive? && ReportThingPolicy.new(pundit_user, thing).index? %>
         <%= link_to(t('reports'), thing_reports_path(thing), remote: true, class: 'reports dropdown-item') %>
       <% end %>
 
-      <% if thing.comment? && CommentPolicy.new(current_user, thing).update? %>
+      <% if thing.comment? && CommentPolicy.new(pundit_user, thing).update? %>
         <%= link_to(t("edit"), edit_thing_comment_path(thing), remote: true, class: "update dropdown-item") %>
       <% end %>
 
       <% if thing.post? %>
-        <% if thing.text? && PostPolicy.new(current_user, thing).update? %>
+        <% if thing.text? && PostPolicy.new(pundit_user, thing).update? %>
           <%= link_to(t('edit'), edit_post_path(thing), class: 'dropdown-item') %>
         <% end %>
 
-        <% if TagThingPolicy.new(current_user, thing).update? %>
+        <% if TagThingPolicy.new(pundit_user, thing).update? %>
           <%= link_to(t('tag'), edit_thing_tag_path(thing), remote: true, class: 'tag dropdown-item') %>
         <% end %>
 
-        <% if SpecifyThingPolicy.new(current_user, thing).create? %>
+        <% if SpecifyThingPolicy.new(pundit_user, thing).create? %>
           <% if thing.explicit? %>
             <%= link_to(fa_icon('check-square-o', text: t('explicit')), thing_specify_path(thing), remote: true, method: :delete, class: 'explicit dropdown-item') %>
           <% else %>
@@ -79,7 +79,7 @@
           <% end %>
         <% end %>
 
-        <% if SpoilerThingPolicy.new(current_user, thing).create? %>
+        <% if SpoilerThingPolicy.new(pundit_user, thing).create? %>
           <% if thing.spoiler? %>
             <%= link_to(fa_icon('check-square-o', text: t('spoiler')), thing_spoiler_path(thing), remote: true, method: :delete, class: 'spoiler dropdown-item') %>
           <% else %>
@@ -87,7 +87,7 @@
           <% end %>
         <% end %>
 
-        <% if IgnoreThingReportsPolicy.new(current_user, thing).create? %>
+        <% if IgnoreThingReportsPolicy.new(pundit_user, thing).create? %>
           <% if thing.ignore_reports? %>
             <%= link_to(fa_icon('check-square-o', text: t('ignore_reports')), thing_ignore_reports_path(thing), remote: true, method: :delete, class: 'ignore_reports dropdown-item') %>
           <% else %>
@@ -95,7 +95,7 @@
           <% end %>
         <% end %>
 
-        <% if ThingSubscriptionPolicy.new(current_user, thing).create? %>
+        <% if ThingSubscriptionPolicy.new(pundit_user, thing).create? %>
           <% if thing.receive_notifications? %>
             <%= link_to(fa_icon('check-square-o', text: t('receive_notifications')), thing_subscription_path(thing), remote: true, method: :delete, class: 'notifications dropdown-item') %>
           <% else %>

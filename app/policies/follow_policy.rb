@@ -2,7 +2,7 @@
 
 class FollowPolicy < ApplicationPolicy
   def create?
-    user?
+    user_signed_in?
   end
 
   alias destroy? create?

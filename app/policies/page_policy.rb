@@ -2,14 +2,15 @@
 
 class PagePolicy < ApplicationPolicy
   def index?
-    global_moderator? || (record.present? ? sub_moderator?(record) : false)
-  end
-
-  def show?
     true
   end
 
-  alias new? index?
+  alias show? index?
+
+  def new?
+    user_signed_in? && context.user.moderator?(context.sub)
+  end
+  
   alias create? index?
   alias edit? index?
   alias update? index?

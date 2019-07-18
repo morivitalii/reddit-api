@@ -3,8 +3,7 @@
 class BlacklistedDomainsController < ApplicationController
   before_action :set_sub, only: [:index, :search, :new, :create]
   before_action :set_blacklisted_domain, only: [:confirm, :destroy]
-  before_action -> { authorize(@sub, policy_class: BlacklistedDomainPolicy) }, only: [:index, :search, :new, :create]
-  before_action -> { authorize(@blacklisted_domain.sub, policy_class: BlacklistedDomainPolicy) }, only: [:confirm, :destroy]
+  before_action -> { authorize(BlacklistedDomain) }, only: [:index, :search, :new, :create]
 
   def index
     @records = BlacklistedDomain.where(sub: @sub)
@@ -51,6 +50,10 @@ class BlacklistedDomainsController < ApplicationController
   end
 
   private
+
+  def pundit_user
+    UserContext.new(current_user, @sub || @blacklisted_domain&.sub)
+  end
 
   def set_sub
     @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : nil

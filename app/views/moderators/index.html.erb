@@ -11,7 +11,7 @@
       <%= link_to(t('moderators'), moderators_path(sub: @sub)) %>
     </div>
 
-    <% if ModeratorPolicy.new(current_user, @sub).create? %>
+    <% if ModeratorPolicy.new(pundit_user, @sub).create? %>
       <div class="actions">
         <%= link_to(t('create'), new_moderator_path(sub: @sub), remote: true, class: 'create') %>
       </div>

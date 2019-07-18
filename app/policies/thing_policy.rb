@@ -6,6 +6,6 @@ class ThingPolicy < ApplicationPolicy
   end
 
   def actions?
-    user?
+    user_signed_in?
   end
 end

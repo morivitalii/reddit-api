@@ -2,7 +2,7 @@
 
 class BookmarkPolicy < ApplicationPolicy
   def index?
-    user?
+    user_signed_in?
   end
 
   alias create? index?

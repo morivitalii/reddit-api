@@ -6,7 +6,7 @@ class SubPolicy < ApplicationPolicy
   end
 
   def update?
-    global_moderator? || sub_moderator?(record)
+    user_signed_in? && context.user.id == record.user_id
   end
 
   alias edit? update?

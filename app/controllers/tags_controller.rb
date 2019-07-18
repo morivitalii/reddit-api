@@ -3,8 +3,7 @@
 class TagsController < ApplicationController
   before_action :set_sub, only: [:index, :new, :create]
   before_action :set_tag, only: [:edit, :update, :confirm, :destroy]
-  before_action -> { authorize(@sub, policy_class: TagPolicy) }, only: [:index, :new, :create]
-  before_action -> { authorize(@tag.sub, policy_class: TagPolicy) }, only: [:edit, :update, :confirm, :destroy]
+  before_action -> { authorize(Tag) }
 
   def index
     @records = Tag.where(sub: @sub).chronologically(after).limit(51).to_a
@@ -58,6 +57,10 @@ class TagsController < ApplicationController
   end
 
   private
+
+  def pundit_user
+    UserContext.new(current_user, @sub || @tag&.sub)
+  end
 
   def set_sub
     @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : nil

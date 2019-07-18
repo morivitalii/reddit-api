@@ -8,7 +8,7 @@ class ContributorPolicy < ApplicationPolicy
   alias search? index?
 
   def create?
-    global_moderator? || (record.present? ? sub_moderator?(record) : false)
+    user_signed_in? && context.user.moderator?(context.sub)
   end
 
   alias new? create?

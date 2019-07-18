@@ -8,7 +8,7 @@ class ModeratorPolicy < ApplicationPolicy
   alias search? index?
 
   def create?
-    global_moderator? || (record.present? ? sub_moderator?(record) : nil)
+    user_signed_in? && context.user.moderator?(context.sub)
   end
 
   alias new? create?

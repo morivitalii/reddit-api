@@ -62,7 +62,7 @@
 
     <% if @comment.blank? %>
       <% if user_signed_in? %>
-        <% if CommentPolicy.new(current_user, @post).create? %>
+        <% if CommentPolicy.new(pundit_user, @post).create? %>
           <div class="row mt-3">
             <div class="col-12">
               <%= form_with(model: CreateComment.new, url: thing_comment_path(@post), class: 'createCommentForm') do |f| %>

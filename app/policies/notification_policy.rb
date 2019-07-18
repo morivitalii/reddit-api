@@ -2,6 +2,6 @@
 
 class NotificationPolicy < ApplicationPolicy
   def index?
-    user?
+    user_signed_in?
   end
 end

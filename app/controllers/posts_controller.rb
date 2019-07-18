@@ -5,8 +5,8 @@ class PostsController < ApplicationController
 
   before_action :set_sub, only: [:new, :create]
   before_action :set_post, only: [:edit, :update]
-  before_action -> { authorize(@sub, policy_class: PostPolicy) }, only: [:new, :create]
-  before_action -> { authorize(@post, policy_class: PostPolicy) }, only: [:edit, :update]
+  before_action -> { authorize(Post) }, only: [:new, :create]
+  before_action -> { authorize(@post) }, only: [:edit, :update]
 
   def new
     @form = CreatePost.new
@@ -42,6 +42,10 @@ class PostsController < ApplicationController
   end
 
   private
+
+  def pundit_user
+    UserContext.new(current_user, @sub || @post&.sub)
+  end
 
   def set_sub
     @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : Sub.default
