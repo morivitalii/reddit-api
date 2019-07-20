@@ -186,18 +186,14 @@ ru:
     delete_tag: удалил тег
     mark_thing_as_approved: одобрил
     mark_thing_as_deleted: удалил
-    update_thing_tag: изменил тег у
     mark_thing_as_explicit: отметил как 18+
     mark_thing_as_not_explicit: снял отметку 18+
-    mark_thing_as_spoiler: отметил как спойлер
-    mark_thing_as_not_spoiler: снял отметку спойлер
     create_page: добавил страницу
     update_page: изменил страницу
     delete_page: удалил страницу
     create_blacklisted_domain: добавил в черный список домен
     delete_blacklisted_domain: удалил из черного списка домен
-    ignore_thing_reports: добавил отметку игнорировать жалобы
-    do_not_ignore_thing_reports: снял отметку игнорировать жалобы
+    update_thing: изменил
   follows_count:
     few: подписчика
     many: подписчиков

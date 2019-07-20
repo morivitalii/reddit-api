@@ -36,39 +36,39 @@
           <%= link_to(t("edit"), edit_post_path(thing), class: "dropdown-item") %>
         <% end %>
 
-        <% if TagThingPolicy.new(pundit_user, thing).update? %>
-          <%= link_to(t('tag'), edit_thing_tag_path(thing), remote: true, class: 'tag dropdown-item') %>
+        <% if ThingPolicy.new(pundit_user, thing).tag? && thing.post? %>
+          <%= link_to(t('tag'), edit_thing_path(thing), remote: true, class: 'tag dropdown-item') %>
         <% end %>
 
-        <% if SpecifyThingPolicy.new(pundit_user, thing).create? %>
+        <% if ThingPolicy.new(pundit_user, thing).explicit? %>
           <% if thing.explicit? %>
-            <%= link_to(fa_icon('check-square-o', text: t('explicit')), thing_specify_path(thing), remote: true, method: :delete, class: 'explicit dropdown-item') %>
+            <%= link_to(fa_icon('check-square-o', text: t('explicit')), thing_path(thing, update_thing: { explicit: false }), remote: true, method: :put, class: 'explicit dropdown-item') %>
           <% else %>
-            <%= link_to(fa_icon('square-o', text: t('explicit')), thing_specify_path(thing), remote: true, method: :post, class: 'explicit dropdown-item') %>
+            <%= link_to(fa_icon('square-o', text: t('explicit')), thing_path(thing, update_thing: { explicit: true }), remote: true, method: :put, class: 'explicit dropdown-item') %>
           <% end %>
         <% end %>
 
-        <% if SpoilerThingPolicy.new(pundit_user, thing).create? %>
+        <% if ThingPolicy.new(pundit_user, thing).spoiler? %>
           <% if thing.spoiler? %>
-            <%= link_to(fa_icon('check-square-o', text: t('spoiler')), thing_spoiler_path(thing), remote: true, method: :delete, class: 'spoiler dropdown-item') %>
+            <%= link_to(fa_icon('check-square-o', text: t('spoiler')), thing_path(thing, update_thing: { spoiler: false }), remote: true, method: :put, class: 'spoiler dropdown-item') %>
           <% else %>
-            <%= link_to(fa_icon('square-o', text: t('spoiler')), thing_spoiler_path(thing), remote: true, method: :post, class: 'spoiler dropdown-item') %>
+            <%= link_to(fa_icon('square-o', text: t('spoiler')), thing_path(thing, update_thing: { spoiler: true }), remote: true, method: :put, class: 'spoiler dropdown-item') %>
           <% end %>
         <% end %>
 
-        <% if IgnoreThingReportsPolicy.new(pundit_user, thing).create? %>
+        <% if ThingPolicy.new(pundit_user, thing).ignore_reports? %>
           <% if thing.ignore_reports? %>
-            <%= link_to(fa_icon('check-square-o', text: t('ignore_reports')), thing_ignore_reports_path(thing), remote: true, method: :delete, class: 'ignore_reports dropdown-item') %>
+            <%= link_to(fa_icon('check-square-o', text: t('ignore_reports')), thing_path(thing, update_thing: { ignore_reports: false }), remote: true, method: :put, class: 'ignore_reports dropdown-item') %>
           <% else %>
-            <%= link_to(fa_icon('square-o', text: t('ignore_reports')), thing_ignore_reports_path(thing), remote: true, method: :post, class: 'ignore_reports dropdown-item') %>
+            <%= link_to(fa_icon('square-o', text: t('ignore_reports')), thing_path(thing, update_thing: { ignore_reports: true }), remote: true, method: :put, class: 'ignore_reports dropdown-item') %>
           <% end %>
         <% end %>
 
-        <% if ThingSubscriptionPolicy.new(pundit_user, thing).create? %>
+        <% if ThingPolicy.new(pundit_user, thing).receive_notifications? %>
           <% if thing.receive_notifications? %>
-            <%= link_to(fa_icon('check-square-o', text: t('receive_notifications')), thing_subscription_path(thing), remote: true, method: :delete, class: 'notifications dropdown-item') %>
+            <%= link_to(fa_icon('check-square-o', text: t('receive_notifications')), thing_path(thing, update_thing: { receive_notifications: false }), remote: true, method: :put, class: 'notifications dropdown-item') %>
           <% else %>
-            <%= link_to(fa_icon('square-o', text: t('receive_notifications')), thing_subscription_path(thing), remote: true, method: :post, class: 'notifications dropdown-item') %>
+            <%= link_to(fa_icon('square-o', text: t('receive_notifications')), thing_path(thing, update_thing: { receive_notifications: true }), remote: true, method: :put, class: 'notifications dropdown-item') %>
           <% end %>
         <% end %>
       <% end %>

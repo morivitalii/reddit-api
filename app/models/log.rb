@@ -27,18 +27,12 @@ class Log < ApplicationRecord
     delete_tag: 18,
     mark_thing_as_approved: 19,
     mark_thing_as_deleted: 20,
-    update_thing_tag: 21,
-    mark_thing_as_explicit: 22,
-    mark_thing_as_not_explicit: 23,
-    mark_thing_as_spoiler: 24,
-    mark_thing_as_not_spoiler: 25,
     create_page: 26,
     update_page: 27,
     delete_page: 28,
     create_blacklisted_domain: 29,
     delete_blacklisted_domain: 30,
-    ignore_thing_reports: 45,
-    do_not_ignore_thing_reports: 46
+    update_thing: 31
   }
 
   before_create :details_to_html
@@ -85,16 +79,6 @@ class Log < ApplicationRecord
                    [:approved, :deleted, :deletion_reason, :text]
                  when :mark_thing_as_deleted
                    [:deleted, :deletion_reason, :approved, :text]
-                 when :update_thing_tag
-                   [:tag]
-                 when :mark_thing_as_explicit
-                   [:explicit]
-                 when :mark_thing_as_not_explicit
-                   [:explicit]
-                 when :mark_thing_as_spoiler
-                   [:spoiler]
-                 when :mark_thing_as_not_spoiler
-                   [:spoiler]
                  when :create_page
                    [:title, :text]
                  when :update_page
@@ -105,10 +89,8 @@ class Log < ApplicationRecord
                    [:domain]
                  when :delete_blacklisted_domain
                    [:domain]
-                 when :ignore_thing_reports
-                   [:ignore_reports]
-                 when :do_not_ignore_thing_reports
-                   [:ignore_reports]
+                 when :update_thing
+                   [:receive_notifications, :explicit, :spoiler, :tag, :ignore_reports]
                  end
 
     if model.destroyed?
