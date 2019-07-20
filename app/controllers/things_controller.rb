@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class ThingsController < ApplicationController
-  before_action -> { authorize(Thing) }
-  before_action :set_thing, only: [:show]
+  before_action :set_thing, only: [:show, :edit, :update]
   before_action :set_sort_options, only: [:show]
   before_action :set_sort, only: [:show]
+  before_action -> { authorize(@thing) }, only: [:show, :edit, :update]
+  before_action -> { authorize(Thing) }, only: [:actions]
 
   def show
     @topic = CommentsTree.new(
@@ -24,6 +25,30 @@ class ThingsController < ApplicationController
       end
     else
       render "show", status: @thing.deleted? ? :not_found : :ok
+    end
+  end
+
+  def edit
+    @form = UpdateThing.new(tag: @thing.tag)
+
+    render partial: "edit"
+  end
+
+  def update
+    @form = UpdateThing.new(update_params)
+
+    thing = @form.thing
+
+    if @form.save
+      render json: {
+        explicit: thing.explicit,
+        spoiler: thing.spoiler,
+        tag: thing.tag,
+        receive_notifications: thing.receive_notifications,
+        ignore_reports: thing.ignore_reports
+      }
+    else
+      render json: @form.errors, status: :unprocessable_entity
     end
   end
 
@@ -47,6 +72,14 @@ class ThingsController < ApplicationController
   end
 
   private
+
+  def pundit_user
+    UserContext.new(current_user, @thing)
+  end
+
+  def update_params
+    params.require(:update_thing).permit(*policy(@thing).permitted_attributes).merge(thing: @thing, current_user: current_user)
+  end
 
   def set_thing
     @thing = Thing.find(params[:id])

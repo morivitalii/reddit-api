@@ -35,19 +35,14 @@ Rails.application.routes.draw do
     resource :follows, only: [:create, :destroy]
   end
 
-  resources :things, only: [:show], path: "/t" do
+  resources :things, only: [:show, :edit, :update], path: "/t" do
     post "/actions", action: :actions, on: :collection, as: :actions
 
     resource :approve_things, only: [:create], as: :approve, path: :approve
     resource :delete_things, only: [:new, :create], as: :delete, path: :delete
     resource :votes, only: [:create]
     resource :bookmarks, only: [:create, :destroy]
-    resource :specify_things, only: [:create, :destroy], as: :specify, path: :specify
-    resource :spoiler_things, only: [:create, :destroy], as: :spoiler, path: :spoiler
-    resource :tag_things, only: [:edit, :update], as: :tag, path: :tag
     resources :report_things, only: [:index, :new, :create], as: :reports, path: :reports
-    resource :thing_subscriptions, only: [:create, :destroy], as: :subscription, path: :subscription
-    resource :ignore_thing_reports, only: [:create, :destroy], as: :ignore_reports, path: :ignore_reports
     resource :comments, only: [:new, :create, :edit, :update, :destroy], as: :comment, path: :comment
   end
 

@@ -74,24 +74,20 @@ $(document).ready(function() {
     });
 
     $(document).on('ajax:success', '.thing .actions .explicit', function(e) {
-        var explicit = $(this).closest('.thing').find('.info .explicit');
-
-        if (explicit.length === 0) {
+        if (e.detail[0].explicit === true) {
             $(this).closest('.thing').find('.info').append('<span class="explicit">18+</span>');
         } else {
-            explicit.remove();
+            $(this).closest('.thing').find('.info .explicit').remove();
         }
 
         load_things_actions($(this).closest('.thing'));
     });
 
     $(document).on('ajax:success', '.thing .actions .spoiler', function(e) {
-        var spoiler = $(this).closest('.thing').find('.info .spoiler');
-
-        if (spoiler.length === 0) {
+        if (e.detail[0].spoiler === true) {
             $(this).closest('.thing').find('.info').append('<span class="spoiler">Спойлер</span>');
         } else {
-            spoiler.remove();
+            $(this).closest('.thing').find('.info .spoiler').remove();
         }
 
         load_things_actions($(this).closest('.thing'));
@@ -158,7 +154,7 @@ $(document).ready(function() {
 
     $(document).on('click', '.thing .tagForm .tag', function(e) {
         var value = $.trim($(this).text());
-        $('#update_thing_tag_tag').val(value);
+        $('#update_thing_tag').val(value);
     });
 
     $(document).on('ajax:success', '.thing .tagForm', function (e) {
