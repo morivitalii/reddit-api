@@ -244,7 +244,7 @@ GEM
     selenium-webdriver (3.142.3)
       childprocess (>= 0.5, < 2.0)
       rubyzip (~> 1.2, >= 1.2.2)
-    shrine (2.18.1)
+    shrine (2.19.0)
       content_disposition (~> 1.0)
       down (~> 4.1)
     sidekiq (5.2.7)
@@ -325,7 +325,7 @@ DEPENDENCIES
   rubocop (~> 0.73.0)
   sass-rails (~> 5.0)
   selenium-webdriver (~> 3.142)
-  shrine (~> 2.18)
+  shrine (~> 2.19)
   sidekiq (~> 5.2)
   spring
   spring-watcher-listen (~> 2.0.0)
