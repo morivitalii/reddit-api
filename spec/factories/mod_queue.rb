@@ -7,18 +7,5 @@ FactoryBot.define do
     trait :comment do
       association :thing, factory: :root_comment
     end
-
-    trait :not_approved do
-      queue_type { :not_approved }
-    end
-
-    trait :reported do
-      queue_type { :reported }
-    end
-
-    factory :not_approved_post_mod_queue, traits: [:post, :not_approved]
-    factory :not_approved_comment_mod_queue, traits: [:comment, :not_approved]
-    factory :reported_post_mod_queue, traits: [:post, :reported]
-    factory :reported_comment_mod_queue, traits: [:comment, :reported]
   end
 end

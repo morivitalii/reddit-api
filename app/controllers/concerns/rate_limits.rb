@@ -38,7 +38,7 @@ module RateLimits
     end
 
     def skip_rate_limiting?
-      current_user.global_moderator? || current_user.global_contributor?
+      current_user.moderator? || current_user.contributor?
     end
   end
 end

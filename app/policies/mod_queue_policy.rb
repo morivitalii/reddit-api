@@ -15,9 +15,9 @@ class ModQueuePolicy < ApplicationPolicy
 
     def resolve
       if context.user.moderator?
-        scope.joins(thing: :sub)
+        scope
       else
-        scope.joins(thing: { sub: :moderators }).where(things: { subs: { moderators: { user: context.user } }})
+        scope.joins(sub: :moderators).where(subs: { moderators: { user: context.user } })
       end
     end
   end

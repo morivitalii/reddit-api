@@ -1,9 +1,9 @@
-<% content_for(:meta_title, t("new")) %>
+<% content_for(:meta_title, t("reports")) %>
 
 <% content_for(:second_top_menu) do %>
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= t("new") %>
+      <%= t("reports") %>
     </a>
 
     <div class="dropdown-menu">
@@ -19,7 +19,7 @@
 
     <div class="dropdown-menu">
       <% ThingsTypes.new.list.each do |k, v| %>
-        <%= link_to(v, mod_queue_path(sub: @sub, type: k), class: 'dropdown-item') %>
+        <%= link_to(v, reports_path(sub: @sub, type: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>

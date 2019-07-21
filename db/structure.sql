@@ -262,38 +262,6 @@ ALTER SEQUENCE public.logs_id_seq OWNED BY public.logs.id;
 
 
 --
--- Name: mod_queues; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.mod_queues (
-    id bigint NOT NULL,
-    thing_id bigint NOT NULL,
-    queue_type integer NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
-);
-
-
---
--- Name: mod_queues_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.mod_queues_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: mod_queues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.mod_queues_id_seq OWNED BY public.mod_queues.id;
-
-
---
 -- Name: moderators; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -592,7 +560,6 @@ CREATE TABLE public.things (
     deleted_at timestamp without time zone,
     deleted boolean DEFAULT false NOT NULL,
     deletion_reason character varying,
-    deleted_at_id bigint,
     approved_at timestamp without time zone,
     approved boolean DEFAULT false NOT NULL,
     approved_by_id bigint,
@@ -606,7 +573,6 @@ CREATE TABLE public.things (
     file_data character varying,
     thing_type integer NOT NULL,
     content_type integer NOT NULL,
-    reports_count integer DEFAULT 0 NOT NULL,
     receive_notifications boolean DEFAULT false NOT NULL,
     ignore_reports boolean DEFAULT false NOT NULL,
     deleted_by_id bigint
@@ -785,13 +751,6 @@ ALTER TABLE ONLY public.logs ALTER COLUMN id SET DEFAULT nextval('public.logs_id
 
 
 --
--- Name: mod_queues id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.mod_queues ALTER COLUMN id SET DEFAULT nextval('public.mod_queues_id_seq'::regclass);
-
-
---
 -- Name: moderators id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -937,14 +896,6 @@ ALTER TABLE ONLY public.follows
 
 ALTER TABLE ONLY public.logs
     ADD CONSTRAINT logs_pkey PRIMARY KEY (id);
-
-
---
--- Name: mod_queues mod_queues_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.mod_queues
-    ADD CONSTRAINT mod_queues_pkey PRIMARY KEY (id);
 
 
 --
@@ -1213,20 +1164,6 @@ CREATE INDEX index_logs_on_user_id ON public.logs USING btree (user_id);
 
 
 --
--- Name: index_mod_queues_on_queue_type; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_mod_queues_on_queue_type ON public.mod_queues USING btree (queue_type);
-
-
---
--- Name: index_mod_queues_on_thing_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_mod_queues_on_thing_id ON public.mod_queues USING btree (thing_id);
-
-
---
 -- Name: index_moderators_on_invited_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1360,6 +1297,13 @@ CREATE UNIQUE INDEX index_tags_on_sub_id_lower_title ON public.tags USING btree 
 
 
 --
+-- Name: index_things_on_approved; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_things_on_approved ON public.things USING btree (approved);
+
+
+--
 -- Name: index_things_on_approved_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1399,13 +1343,6 @@ CREATE INDEX index_things_on_created_at ON public.things USING btree (created_at
 --
 
 CREATE INDEX index_things_on_deleted ON public.things USING btree (deleted);
-
-
---
--- Name: index_things_on_deleted_at_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_deleted_at_id ON public.things USING btree (deleted_at_id);
 
 
 --
@@ -1602,14 +1539,6 @@ ALTER TABLE ONLY public.contributors
 
 
 --
--- Name: things fk_rails_471305ed8a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.things
-    ADD CONSTRAINT fk_rails_471305ed8a FOREIGN KEY (deleted_at_id) REFERENCES public.users(id);
-
-
---
 -- Name: notifications fk_rails_4d1f56ac6a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1802,14 +1731,6 @@ ALTER TABLE ONLY public.blacklisted_domains
 
 
 --
--- Name: mod_queues fk_rails_fc1200f55a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.mod_queues
-    ADD CONSTRAINT fk_rails_fc1200f55a FOREIGN KEY (thing_id) REFERENCES public.things(id);
-
-
---
 -- Name: pages fk_rails_fdd8b754a1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1851,6 +1772,11 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190717121108'),
 ('20190717122330'),
 ('20190717123516'),
-('20190717171335');
+('20190717171335'),
+('20190721143014'),
+('20190721153911'),
+('20190721195133'),
+('20190721202518'),
+('20190721202915');
 
 

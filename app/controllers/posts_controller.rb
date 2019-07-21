@@ -5,7 +5,7 @@ class PostsController < ApplicationController
 
   before_action :set_sub, only: [:new, :create]
   before_action :set_post, only: [:edit, :update]
-  before_action -> { authorize(Post) }, only: [:new, :create]
+  before_action -> { authorize(nil, policy_class: PostPolicy) }, only: [:new, :create]
   before_action -> { authorize(@post) }, only: [:edit, :update]
 
   def new

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :bookmarks, only: [:index]
   resources :votes, only: [:index]
   resources :notifications, only: [:index]
+  resources :reports, only: [:index]
   resources :mod_queues, only: [:index]
   resources :moderators, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
   resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
@@ -42,7 +43,11 @@ Rails.application.routes.draw do
     resource :delete_things, only: [:new, :create], as: :delete, path: :delete
     resource :votes, only: [:create]
     resource :bookmarks, only: [:create, :destroy]
-    resources :report_things, only: [:index, :new, :create], as: :reports, path: :reports
+
+    resources :reports, only: [:new, :create] do
+      get "/", action: :thing_index, on: :collection
+    end
+
     resource :comments, only: [:new, :create, :edit, :update, :destroy], as: :comment, path: :comment
   end
 

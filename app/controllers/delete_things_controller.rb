@@ -27,6 +27,6 @@ class DeleteThingsController < ApplicationController
   end
 
   def create_params
-    current_user.global_moderator? || current_user.sub_moderator?(@thing.sub) ? params.require(:mark_thing_as_deleted).permit(:deletion_reason) : {}
+    current_user.moderator?(@thing.sub) ? params.require(:mark_thing_as_deleted).permit(:deletion_reason) : {}
   end
 end

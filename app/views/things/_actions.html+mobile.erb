@@ -27,7 +27,7 @@
 
       <%= link_to(t('report'), new_thing_report_path(thing), remote: true, class: 'report dropdown-item') %>
 
-      <% if !thing.approved? && thing.reports_count.positive? && ReportThingPolicy.new(pundit_user, thing).index? %>
+      <% if !thing.approved? && ReportPolicy.new(pundit_user, nil).thing_index? %>
         <%= link_to(t('reports'), thing_reports_path(thing), remote: true, class: 'reports dropdown-item') %>
       <% end %>
 

@@ -11,10 +11,6 @@ class UserPermissions
     global_moderator? || (sub.present? ? sub_moderator?(sub) : false)
   end
 
-  def global_moderator?
-    user.moderators.find { |i| i.sub_id.blank? }.present?
-  end
-
   def contributor?(sub = nil)
     global_contributor? || (sub.present? ? sub_contributor?(sub) : false)
   end
@@ -28,6 +24,10 @@ class UserPermissions
   end
 
   private
+
+  def global_moderator?
+    user.moderators.find { |i| i.sub_id.blank? }.present?
+  end
 
   def sub_moderator?(sub)
     user.moderators.find { |i| i.sub_id == sub.id }.present?
