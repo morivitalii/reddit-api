@@ -4,20 +4,19 @@ class ModQueuesController < ApplicationController
   layout "narrow"
 
   before_action :set_sub
-  before_action -> { authorize(ModQueue) }
+  before_action -> { authorize(nil, policy_class: ModQueuePolicy) }
   before_action :set_navigation_title
 
   def index
-    scope = policy_scope(ModQueue)
+    scope = policy_scope(Thing, policy_scope_class: ModQueuePolicy::Scope)
 
     if @sub.present?
-      scope = scope.where(things: { sub: @sub })
+      scope = scope.where(sub: @sub)
     end
 
-    @records = scope.queue_type(mod_queue_type)
-                   .merge(Thing.thing_type(thing_type))
+    @records = scope.where(deleted: false, approved: false).thing_type(type)
                    .reverse_chronologically(after)
-                   .includes(thing: [:sub, :user, :post])
+                   .includes(:sub, :user, :post)
                    .limit(51)
                    .to_a
 
@@ -25,8 +24,6 @@ class ModQueuesController < ApplicationController
       @records.delete_at(-1)
       @after_record = @records.last
     end
-
-    @records = @records.map(&:thing)
   end
 
   private
@@ -39,15 +36,11 @@ class ModQueuesController < ApplicationController
     @navigation_title = t("mod_queue")
   end
 
-  def mod_queue_type
-    ModQueuesTypes.new(params[:mod_queue_type]).key
-  end
-
-  def thing_type
-    ThingsTypes.new(params[:thing_type]).key
+  def type
+    ThingsTypes.new(params[:type]).key
   end
 
   def after
-    params[:after].present? ? ModQueue.find_by_id(params[:after]) : nil
+    params[:after].present? ? Thing.find_by_id(params[:after]) : nil
   end
 end

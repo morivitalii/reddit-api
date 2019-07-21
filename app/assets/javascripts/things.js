@@ -184,7 +184,7 @@ $(document).ready(function() {
         $('#custom-reason').collapse('hide');
 
         $('#reportModal').find('.collapse').find('input[type="radio"]').prop('checked', false);
-        $('#create_thing_report_text').val('');
+        $('#create_report_text').val('');
     });
 
     $(document).on('show.bs.collapse', '.thing .reportForm #other-reasons', function () {
@@ -192,7 +192,7 @@ $(document).ready(function() {
         $('#custom-reason').collapse('hide');
 
         $('#reportModal').find('.collapse').find('input[type="radio"]').prop('checked', false);
-        $('#create_thing_report_text').val('');
+        $('#create_report_text').val('');
     });
 
     $(document).on('show.bs.collapse', '.thing .reportForm #custom-reason', function () {
@@ -200,13 +200,13 @@ $(document).ready(function() {
         $('#other-reasons').collapse('hide');
 
         $('#reportModal').find('.collapse').find('input[type="radio"]').prop('checked', false);
-        $('#create_thing_report_text').val('');
+        $('#create_report_text').val('');
     });
 
     $(document).on('change', '.thing .reportForm .report-rule', function() {
         $('#reportModal').find('.collapse').find('input[type="radio"]').prop('checked', false);
         $(this).prop('checked', true);
-        $('#create_thing_report_text').val($(this).val());
+        $('#create_report_text').val($(this).val());
     });
 
     $(document).on('ajax:success', '.thing .reportForm', function (e) {

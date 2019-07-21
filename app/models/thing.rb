@@ -19,7 +19,6 @@ class Thing < ApplicationRecord
   has_many :reports
   has_one :notification
   has_many :logs, as: :loggable
-  has_one :mod_queue
 
   enum thing_type: { post: 1, comment: 2 }
   enum content_type: { text: 1, link: 2, media: 3 }
@@ -54,19 +53,15 @@ class Thing < ApplicationRecord
   before_create :set_approval_attributes_on_create
   before_create :set_file_processing_attributes_on_file_cache
   before_update :update_edited_at_on_edit
-  before_update :reset_file_processing_attributes_on_file_store
+  before_update :reset_deletion_attributes_on_file_store
   before_update :reset_approval_attributes_on_edit
-  before_update :reset_approval_attributes_on_deletion
   before_update :reset_deletion_attributes_on_approving
-  after_create :create_mod_queue_on_create
   after_create :create_topic_on_create
   after_create :insert_to_topic_on_create
   after_create :create_up_vote_on_create
   after_create :create_notification_on_create
   after_update :update_post_counter_cache_on_approving_or_deletion
   after_update :update_comment_counter_cache_on_approving_or_deletion
-  after_update :create_mod_queue_on_edit
-  after_update :delete_mod_queue_on_approving_or_deletion
   after_update :delete_reports_on_approving_or_deletion
   after_update :update_comment_in_topic_on_approving_or_deletion
   before_save :text_to_html_on_create_or_edit
@@ -77,10 +72,14 @@ class Thing < ApplicationRecord
 
   with_options if: ->(r) { r.text? } do
     validates :text, presence: true, length: { maximum: 10_000 }
+    validates :url, absence: true
+    validates :file, absence: true
   end
 
   with_options if: ->(r) { r.link? } do
     validates :url, presence: true, length: { maximum: 2048 }
+    validates :text, absence: true
+    validates :file, absence: true
   end
 
   with_options if: ->(r) { r.link? && r.errors.blank? } do
@@ -89,6 +88,8 @@ class Thing < ApplicationRecord
 
   with_options if: ->(r) { r.media? } do
     validates :file, presence: true
+    validates :text, absence: true
+    validates :url, absence: true
   end
 
   validates :content_type, presence: true, inclusion: { in: self.content_types.keys }
@@ -239,7 +240,7 @@ class Thing < ApplicationRecord
   end
 
   def set_approval_attributes_on_create
-    if user.global_moderator? || user.global_contributor? || user.sub_moderator?(sub) || user.sub_contributor?(sub)
+    if user.moderator?(sub) || user.contributor?(sub)
       assign_attributes(
         approved: true,
         approved_by: User.auto_moderator,
@@ -265,7 +266,7 @@ class Thing < ApplicationRecord
     self.edited_at = Time.current
   end
 
-  def reset_file_processing_attributes_on_file_store
+  def reset_deletion_attributes_on_file_store
     return unless media?
     return unless file_data_changed? && file_attacher.stored?
 
@@ -273,14 +274,7 @@ class Thing < ApplicationRecord
   end
 
   def reset_approval_attributes_on_edit
-    return unless edited_at_changed?
-    return if user.global_moderator? || user.global_contributor? || user.sub_moderator?(sub) || user.sub_contributor?(sub)
-
-    reset_approval_attributes
-  end
-
-  def reset_approval_attributes_on_deletion
-    return unless deleted_changed?(from: false, to: true)
+    return if !edited_at_changed? || user.moderator?(sub) || user.contributor?(sub)
 
     reset_approval_attributes
   end
@@ -289,12 +283,6 @@ class Thing < ApplicationRecord
     return unless approved_changed?(from: false, to: true)
 
     reset_deletion_attributes
-  end
-
-  def create_mod_queue_on_create
-    return if approved?
-
-    create_mod_queue!(queue_type: :not_approved)
   end
 
   def create_topic_on_create
@@ -347,22 +335,6 @@ class Thing < ApplicationRecord
     return false unless comment?
 
     user_id == replied_to.user_id
-  end
-
-  def create_mod_queue_on_edit
-    return unless edited_at_previous_change.present?
-    return if approved?
-
-    create_mod_queue!(queue_type: :not_approved)
-  end
-
-  def delete_mod_queue_on_approving_or_deletion
-    previous_approved = approved_previous_change&.compact
-    previous_deleted = deleted_previous_change&.compact
-
-    if previous_approved == [false, true] || previous_deleted == [false, true]
-      mod_queue&.destroy!
-    end
   end
 
   def delete_reports_on_approving_or_deletion
