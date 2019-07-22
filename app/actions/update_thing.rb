@@ -16,15 +16,18 @@ class UpdateThing
       receive_notifications: @receive_notifications,
     }.compact
 
-    @thing.update!(attributes)
+    ActiveRecord::Base.transaction do
+      @thing.update!(attributes)
 
-    CreateLogJob.perform_later(
-      sub: @thing.sub,
-      current_user: @current_user,
-      action: "update_thing",
-      loggable: @thing,
-      model: @thing
-    )
+      CreateLog.new(
+        sub: @thing.sub,
+        current_user: @current_user,
+        action: :update_thing,
+        loggable: @thing,
+        attributes: [:receive_notifications, :explicit, :spoiler, :tag, :ignore_reports],
+        model: @thing
+      ).call
+    end
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 

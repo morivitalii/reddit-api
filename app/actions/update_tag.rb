@@ -6,17 +6,20 @@ class UpdateTag
   attr_accessor :tag, :current_user, :title
 
   def save
-    @tag.update!(title: @title)
+    ActiveRecord::Base.transaction do
+      @tag.update!(title: @title)
+
+      CreateLog.new(
+        sub: @tag.sub,
+        current_user: @current_user,
+        action: :update_tag,
+        attributes: [:title],
+        model: @tag
+      ).call
+    end
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
     return false
-  else
-    CreateLogJob.perform_later(
-      sub: @tag.sub,
-      current_user: @current_user,
-      action: "update_tag",
-      model: @tag
-    )
   end
 end

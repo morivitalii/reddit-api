@@ -7,13 +7,15 @@ class DeleteContributor
   end
 
   def call
-    @contributor.destroy!
+    ActiveRecord::Base.transaction do
+      @contributor.destroy!
 
-    CreateLogJob.perform_later(
-      sub: @contributor.sub,
-      current_user: @current_user,
-      action: "delete_contributor",
-      loggable: @contributor.user
-    )
+      CreateLog.new(
+        sub: @contributor.sub,
+        current_user: @current_user,
+        action: :delete_contributor,
+        loggable: @contributor.user
+      ).call
+    end
   end
 end

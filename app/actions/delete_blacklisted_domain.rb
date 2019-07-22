@@ -7,13 +7,16 @@ class DeleteBlacklistedDomain
   end
 
   def call
-    @blacklisted_domain.destroy!
+    ActiveRecord::Base.transaction do
+      @blacklisted_domain.destroy!
 
-    CreateLogJob.perform_later(
-      sub: @blacklisted_domain.sub,
-      current_user: @current_user,
-      action: "delete_blacklisted_domain",
-      model: @blacklisted_domain
-    )
+      CreateLog.new(
+        sub: @blacklisted_domain.sub,
+        current_user: @current_user,
+        action: :delete_blacklisted_domain,
+        attributes: [:domain],
+        model: @blacklisted_domain
+      ).call
+    end
   end
 end

@@ -7,20 +7,23 @@ class CreateBlacklistedDomain
   attr_reader :blacklisted_domain
 
   def save
-    @blacklisted_domain = BlacklistedDomain.create!(
-      sub: @sub,
-      domain: @domain
-    )
+    ActiveRecord::Base.transaction do
+      @blacklisted_domain = BlacklistedDomain.create!(
+        sub: @sub,
+        domain: @domain
+      )
+
+      CreateLog.new(
+        sub: @sub,
+        current_user: @current_user,
+        action: :create_blacklisted_domain,
+        attributes: [:domain],
+        model: @blacklisted_domain
+      ).call
+    end
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
     return false
-  else
-    CreateLogJob.perform_later(
-      sub: @sub,
-      current_user: @current_user,
-      action: "create_blacklisted_domain",
-      model: @blacklisted_domain
-    )
   end
 end

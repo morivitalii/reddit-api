@@ -2,6 +2,7 @@
   <div class="title col-12">
     <span>
       <%= datetime_tag(log.created_at, :long) %> <%= link_to(log.user.username, user_path(log.user)) %>
+      <% pp log.action %>
       <%= render partial: log.action, object: log, as: :log %>
     </span>
 
