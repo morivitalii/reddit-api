@@ -7,20 +7,23 @@ class CreateTag
   attr_reader :tag
 
   def save
-    @tag = Tag.create!(
-      sub: @sub,
-      title: @title
-    )
+    ActiveRecord::Base.transaction do
+      @tag = Tag.create!(
+        sub: @sub,
+        title: @title
+      )
+
+      CreateLog.new(
+        sub: @sub,
+        current_user: @current_user,
+        action: :create_tag,
+        attributes: [:title],
+        model: @tag
+      ).call
+    end
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
     return false
-  else
-    CreateLogJob.perform_later(
-      sub: @sub,
-      current_user: @current_user,
-      action: "create_tag",
-      model: @tag
-    )
   end
 end

@@ -7,21 +7,24 @@ class CreateDeletionReason
   attr_reader :deletion_reason
 
   def save
-    @deletion_reason = DeletionReason.create!(
-      sub: @sub,
-      title: @title,
-      description: @description
-    )
+    ActiveRecord::Base.transaction do
+      @deletion_reason = DeletionReason.create!(
+        sub: @sub,
+        title: @title,
+        description: @description
+      )
+
+      CreateLog.new(
+        sub: @sub,
+        current_user: @current_user,
+        action: :create_contributor,
+        model: @deletion_reason,
+        attributes: [:title, :description]
+      ).call
+    end
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
     return false
-  else
-    CreateLogJob.perform_later(
-      sub: @sub,
-      current_user: @current_user,
-      action: "create_deletion_reason",
-      model: @deletion_reason
-    )
   end
 end

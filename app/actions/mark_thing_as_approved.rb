@@ -9,18 +9,21 @@ class MarkThingAsApproved
   def call
     return false if @thing.approved?
 
-    @thing.update!(
-      approved: true,
-      approved_by: @current_user,
-      approved_at: Time.current
-    )
+    ActiveRecord::Base.transaction do
+      @thing.update!(
+        approved: true,
+        approved_by: @current_user,
+        approved_at: Time.current
+      )
 
-    CreateLogJob.perform_later(
-      sub: @thing.sub,
-      current_user: @current_user,
-      action: "mark_thing_as_approved",
-      loggable: @thing,
-      model: @thing
-    )
+      CreateLog.new(
+        sub: @thing.sub,
+        current_user: @current_user,
+        action: :mark_thing_as_approved,
+        attributes: [:approved, :deleted, :deletion_reason, :text],
+        loggable: @thing,
+        model: @thing
+      ).call
+    end
   end
 end

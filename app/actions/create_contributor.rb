@@ -20,21 +20,23 @@ class CreateContributor
 
     @user = User.where("lower(username) = ?", @username.downcase).take!
 
-    @contributor = Contributor.create!(
-      sub: @sub,
-      approved_by: @current_user,
-      user: @user
-    )
+    ActiveRecord::Base.transaction do
+      @contributor = Contributor.create!(
+        sub: @sub,
+        approved_by: @current_user,
+        user: @user
+      )
+
+      CreateLog.new(
+        sub: @sub,
+        current_user: @current_user,
+        action: :create_contributor,
+        loggable: @user
+      ).call
+    end
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
     return false
-  else
-    CreateLogJob.perform_later(
-      sub: @sub,
-      current_user: @current_user,
-      action: "create_contributor",
-      loggable: @user
-    )
   end
 end

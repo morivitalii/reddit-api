@@ -7,14 +7,16 @@ class DeleteModerator
   end
 
   def call
-    @moderator.destroy!
+    ActiveRecord::Base.transaction do
+      @moderator.destroy!
 
-    CreateLogJob.perform_later(
-      sub: @moderator.sub,
-      current_user: @current_user,
-      action: "delete_moderator",
-      loggable: @moderator.user,
-      model: @moderator
-    )
+      CreateLog.new(
+        sub: @moderator.sub,
+        current_user: @current_user,
+        action: :delete_moderator,
+        loggable: @moderator.user,
+        model: @moderator
+      ).call
+    end
   end
 end

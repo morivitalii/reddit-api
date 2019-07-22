@@ -6,21 +6,24 @@ class UpdatePage
   attr_accessor :page, :current_user, :title, :text
 
   def save
-    @page.update!(
-      title: @title,
-      text: @text,
-      edited_by: @current_user
-    )
+    ActiveRecord::Base.transaction do
+      @page.update!(
+        title: @title,
+        text: @text,
+        edited_by: @current_user
+      )
+
+      CreateLog.new(
+        sub: @page.sub,
+        current_user: @current_user,
+        action: :update_page,
+        attributes: [:title, :text],
+        model: @page
+      ).call
+    end
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
     return false
-  else
-    CreateLogJob.perform_later(
-      sub: @page.sub,
-      current_user: @current_user,
-      action: "update_page",
-      model: @page
-    )
   end
 end

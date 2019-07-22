@@ -7,13 +7,16 @@ class DeleteDeletionReason
   end
 
   def call
-    @deletion_reason.destroy!
+    ActiveRecord::Base.transaction do
+      @deletion_reason.destroy!
 
-    CreateLogJob.perform_later(
-      sub: @deletion_reason.sub,
-      current_user: @current_user,
-      action: "delete_deletion_reason",
-      model: @deletion_reason
-    )
+      CreateLog.new(
+        sub: @deletion_reason.sub,
+        current_user: @current_user,
+        action: :delete_deletion_reason,
+        attributes: [:title, :description],
+        model: @deletion_reason
+      ).call
+    end
   end
 end

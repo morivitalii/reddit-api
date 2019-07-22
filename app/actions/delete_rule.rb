@@ -7,13 +7,16 @@ class DeleteRule
   end
 
   def call
-    @rule.destroy!
+    ActiveRecord::Base.transaction do
+      @rule.destroy!
 
-    CreateLogJob.perform_later(
-      sub: @rule.sub,
-      current_user: @current_user,
-      action: "delete_rule",
-      model: @rule
-    )
+      CreateLog.new(
+        sub: @rule.sub,
+        current_user: @current_user,
+        action: :delete_rule,
+        attributes: [:title, :description],
+        model: @rule
+      ).call
+    end
   end
 end

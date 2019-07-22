@@ -7,14 +7,17 @@ class DeleteBan
   end
 
   def call
-    @ban.destroy!
+    ActiveRecord::Base.transaction do
+      @ban.destroy!
 
-    CreateLogJob.perform_later(
-      sub: @ban.sub,
-      current_user: @current_user,
-      action: "delete_ban",
-      loggable: @ban.user,
-      model: @ban
-    )
+      CreateLog.new(
+        sub: @ban.sub,
+        current_user: @current_user,
+        action: :delete_ban,
+        loggable: @ban.user,
+        attributes: [:reason, :days, :permanent],
+        model: @ban
+      ).call
+    end
   end
 end
