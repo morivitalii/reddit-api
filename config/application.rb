@@ -19,10 +19,7 @@ Bundler.require(*Rails.groups)
 module App
   class Application < Rails::Application
     config.load_defaults 5.2
-    # TODO remove as unnecessary
-    config.action_dispatch.cookies_serializer = :json
     config.active_record.schema_format = :sql
-    # TODO specify in env configs
     config.active_job.queue_adapter = :inline
     config.action_mailer.deliver_later_queue_name = "low_priority"
     config.i18n.available_locales = :ru
