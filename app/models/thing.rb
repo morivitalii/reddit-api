@@ -64,7 +64,6 @@ class Thing < ApplicationRecord
   after_update :update_comment_counter_cache_on_approving_or_deletion
   after_update :delete_reports_on_approving_or_deletion
   after_update :update_comment_in_topic_on_approving_or_deletion
-  before_save :text_to_html_on_create_or_edit
 
   with_options if: ->(r) { r.post? } do
     validates :title, presence: true, length: { maximum: 350 }
@@ -209,6 +208,30 @@ class Thing < ApplicationRecord
 
   def presenter
     @presenter ||= ThingPresenter.new(self)
+  end
+
+  def html_text
+    return unless text?
+    return @html_text if defined? (@html_text)
+
+    markdown = Redcarpet::Markdown.new(
+      MarkdownRenderer.new(
+        escape_html: true,
+        hard_wrap: true,
+        no_images: true,
+        link_attributes: { rel: "nofollow", target: "_blank" },
+        space_after_headers: true,
+        fenced_code_blocks: true,
+        safe_links_only: true
+      ),
+      autolink: true,
+      tables: true,
+      superscript: true,
+      strikethrough: true,
+      disable_indented_code_blocks: true
+    )
+
+    @html_text = markdown.render(text)
   end
 
   private
@@ -378,28 +401,5 @@ class Thing < ApplicationRecord
     ActiveRecord::Base.connection.execute(
       "UPDATE topics SET branch = jsonb_set(branch, '{#{id}, deleted}', '#{deleted}', false), updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}' WHERE post_id = #{post_id};"
     )
-  end
-
-  def text_to_html_on_create_or_edit
-    return unless text? || text_changed?
-
-    markdown = Redcarpet::Markdown.new(
-      MarkdownRenderer.new(
-        escape_html: true,
-        hard_wrap: true,
-        no_images: true,
-        link_attributes: { rel: "nofollow", target: "_blank" },
-        space_after_headers: true,
-        fenced_code_blocks: true,
-        safe_links_only: true
-      ),
-      autolink: true,
-      tables: true,
-      superscript: true,
-      strikethrough: true,
-      disable_indented_code_blocks: true
-    )
-
-    self.text_html = markdown.render(text)
   end
 end

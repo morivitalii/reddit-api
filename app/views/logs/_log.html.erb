@@ -5,16 +5,16 @@
       <%= render partial: log.action, object: log, as: :log %>
     </span>
 
-    <% if log.details_html.present? %>
+    <% if log.html_details.present? %>
       <div class="actions">
         <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>
       </div>
     <% end %>
   </div>
 
-  <% if log.details_html.present? %>
+  <% if log.html_details.present? %>
     <div class="details col-12 d-none">
-      <%= log.details_html.html_safe %>
+      <%= log.html_details.html_safe %>
     </div>
   <% end %>
 </div>

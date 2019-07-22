@@ -35,8 +35,6 @@ class Log < ApplicationRecord
     update_thing: 31
   }
 
-  before_create :details_to_html
-
   def self.model_changes(model, action)
     changes = {}
 
@@ -110,21 +108,21 @@ class Log < ApplicationRecord
     changes
   end
 
-  private
+  def html_details
+    return @html_text if defined? (@html_text)
 
-  def details_to_html
-    html = ""
+    @html_text = ""
     helpers = ApplicationController.helpers
 
     details.each do |attribute, (from, to)|
       if (from.present? || to.present?) && from != to
-        html += helpers.content_tag("div",
+        @html_text += helpers.content_tag("div",
           helpers.content_tag("div", ActiveRecord::Base.human_attribute_name(attribute), class: "col-12") +
-          helpers.content_tag("div", Diffy::Diff.new(from, to).to_s(:html).html_safe, class: "col-12 mt-2 mb-2"),
+              helpers.content_tag("div", Diffy::Diff.new(from, to).to_s(:html).html_safe, class: "col-12 mt-2 mb-2"),
         class: "row")
       end
     end
 
-    self.details_html = html
+    @html_text
   end
 end

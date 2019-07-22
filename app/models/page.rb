@@ -8,7 +8,6 @@ class Page < ApplicationRecord
 
   before_create :set_edited_at_on_create
   before_update :update_edited_at_on_edit
-  before_save :text_to_html_on_create_or_edit
 
   validates :title, presence: true, length: { maximum: 350 }
   validates :text, presence: true, length: { maximum: 50_000 }
@@ -25,20 +24,8 @@ class Page < ApplicationRecord
     super(value.strip)
   end
 
-  private
-
-  def set_edited_at_on_create
-    self.edited_at = created_at
-  end
-
-  def update_edited_at_on_edit
-    return unless text_changed?
-
-    self.edited_at = Time.current
-  end
-
-  def text_to_html_on_create_or_edit
-    return unless text_changed?
+  def html_text
+    return @html_text if defined? (@html_text)
 
     markdown = Redcarpet::Markdown.new(
       MarkdownRenderer.new(
@@ -57,6 +44,18 @@ class Page < ApplicationRecord
       disable_indented_code_blocks: true
     )
 
-    self.text_html = markdown.render(text)
+    @html_text = markdown.render(text)
+  end
+
+  private
+
+  def set_edited_at_on_create
+    self.edited_at = created_at
+  end
+
+  def update_edited_at_on_edit
+    return unless text_changed?
+
+    self.edited_at = Time.current
   end
 end
