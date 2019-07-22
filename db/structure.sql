@@ -234,10 +234,10 @@ CREATE TABLE public.logs (
     user_id bigint NOT NULL,
     loggable_id integer,
     loggable_type character varying,
-    action integer NOT NULL,
     details json DEFAULT '{}'::json NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    action character varying NOT NULL
 );
 
 
@@ -1133,13 +1133,6 @@ CREATE INDEX index_follows_on_user_id ON public.follows USING btree (user_id);
 
 
 --
--- Name: index_logs_on_action; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_logs_on_action ON public.logs USING btree (action);
-
-
---
 -- Name: index_logs_on_loggable_id_and_loggable_type; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1778,6 +1771,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190722001031'),
 ('20190722010653'),
 ('20190722010659'),
-('20190722010707');
+('20190722010707'),
+('20190722012742');
 
 

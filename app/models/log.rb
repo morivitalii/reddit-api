@@ -7,33 +7,18 @@ class Log < ApplicationRecord
 
   scope :global, -> { where(sub: nil) }
 
-  enum action: {
-    update_sub_settings: 1,
-    create_moderator: 2,
-    delete_moderator: 4,
-    create_ban: 5,
-    update_ban: 6,
-    delete_ban: 7,
-    create_contributor: 8,
-    delete_contributor: 9,
-    create_rule: 10,
-    update_rule: 11,
-    delete_rule: 12,
-    create_deletion_reason: 13,
-    update_deletion_reason: 14,
-    delete_deletion_reason: 15,
-    create_tag: 16,
-    update_tag: 17,
-    delete_tag: 18,
-    mark_thing_as_approved: 19,
-    mark_thing_as_deleted: 20,
-    create_page: 26,
-    update_page: 27,
-    delete_page: 28,
-    create_blacklisted_domain: 29,
-    delete_blacklisted_domain: 30,
-    update_thing: 31
-  }
+  enum action: [
+    :update_sub_settings,
+    :create_moderator, :delete_moderator,
+    :create_ban, :update_ban, :delete_ban,
+    :create_contributor, :delete_contributor,
+    :create_rule, :update_rule, :delete_rule,
+    :create_deletion_reason, :update_deletion_reason, :delete_deletion_reason,
+    :create_tag, :update_tag, :delete_tag,
+    :update_thing, :mark_thing_as_approved, :mark_thing_as_deleted,
+    :create_page, :update_page, :delete_page,
+    :create_blacklisted_domain, :delete_blacklisted_domain
+  ]
 
   def self.model_changes(model, action)
     changes = {}
