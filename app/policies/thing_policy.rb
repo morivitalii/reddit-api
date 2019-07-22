@@ -6,7 +6,7 @@ class ThingPolicy < ApplicationPolicy
   end
 
   def edit?
-    user_signed_in? && (context.user.id == record.user.id || context.user.moderator?(record.sub))
+    user_signed_in? && (context.user.id == record.user_id || context.user.moderator?(record.sub))
   end
 
   alias update? edit?
@@ -20,7 +20,7 @@ class ThingPolicy < ApplicationPolicy
   alias ignore_reports? tag?
 
   def receive_notifications?
-    user_signed_in? && context.user.id == record.user.id
+    user_signed_in? && context.user.id == record.user_id
   end
 
   def actions?

@@ -11,41 +11,57 @@ class UserPermissions
     global_moderator? || (sub.present? ? sub_moderator?(sub) : false)
   end
 
+  def global_moderator?
+    moderators.find { |i| i.sub_id.blank? }.present?
+  end
+
+  def sub_moderator?(sub)
+    moderators.find { |i| i.sub_id == sub.id }.present?
+  end
+
   def contributor?(sub = nil)
     global_contributor? || (sub.present? ? sub_contributor?(sub) : false)
+  end
+
+  def global_contributor?
+    contributors.find { |i| i.sub_id.blank? }.present?
+  end
+
+  def sub_contributor?(sub)
+    contributors.find { |i| i.sub_id == sub.id }.present?
   end
 
   def banned?(sub = nil)
     banned_globally? || (sub.present? ? banned_in_sub?(sub) : false)
   end
 
+  def banned_globally?
+    bans.find { |i| i.sub_id.blank? }.present?
+  end
+
+  def banned_in_sub?(sub)
+    bans.find { |i| i.sub_id == sub.id }.present?
+  end
+
   def follower?(sub)
-    user.follows.find { |i| i.sub_id == sub.id }.present?
+    follows.find { |i| i.sub_id == sub.id }.present?
   end
 
   private
 
-  def global_moderator?
-    user.moderators.find { |i| i.sub_id.blank? }.present?
+  def moderators
+    @moderators ||= user.moderators
   end
 
-  def sub_moderator?(sub)
-    user.moderators.find { |i| i.sub_id == sub.id }.present?
+  def contributors
+    @contributors ||= user.contributors
   end
 
-  def global_contributor?
-    user.contributors.find { |i| i.sub_id.blank? }.present?
+  def bans
+    @bans ||= user.bans
   end
 
-  def sub_contributor?(sub)
-    user.contributors.find { |i| i.sub_id == sub.id }.present?
-  end
-
-  def banned_globally?
-    user.bans.find { |i| i.sub_id.blank? }.present?
-  end
-
-  def banned_in_sub?(sub)
-    user.bans.find { |i| i.sub_id == sub.id }.present?
+  def follows
+    @follows ||= user.follows
   end
 end
