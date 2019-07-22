@@ -38,8 +38,8 @@ CREATE TABLE public.bans (
     permanent boolean DEFAULT false NOT NULL,
     days integer,
     end_at timestamp without time zone,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    updated_at timestamp without time zone,
+    created_at timestamp without time zone
 );
 
 
@@ -70,8 +70,8 @@ CREATE TABLE public.blacklisted_domains (
     id bigint NOT NULL,
     sub_id bigint,
     domain character varying NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -102,8 +102,8 @@ CREATE TABLE public.bookmarks (
     id bigint NOT NULL,
     thing_id bigint NOT NULL,
     user_id bigint NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -135,8 +135,8 @@ CREATE TABLE public.contributors (
     sub_id bigint,
     user_id bigint NOT NULL,
     approved_by_id bigint NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -168,8 +168,8 @@ CREATE TABLE public.deletion_reasons (
     sub_id bigint,
     title character varying NOT NULL,
     description character varying NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -200,8 +200,8 @@ CREATE TABLE public.follows (
     id bigint NOT NULL,
     sub_id bigint NOT NULL,
     user_id bigint NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -237,8 +237,8 @@ CREATE TABLE public.logs (
     action integer NOT NULL,
     details json DEFAULT '{}'::json NOT NULL,
     details_html character varying,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -270,8 +270,8 @@ CREATE TABLE public.moderators (
     sub_id bigint,
     user_id bigint NOT NULL,
     invited_by_id bigint NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -302,8 +302,8 @@ CREATE TABLE public.notifications (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
     thing_id bigint NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -337,9 +337,9 @@ CREATE TABLE public.pages (
     title character varying NOT NULL,
     text character varying NOT NULL,
     text_html character varying NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    edited_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    edited_at timestamp without time zone NOT NULL
 );
 
 
@@ -371,8 +371,8 @@ CREATE TABLE public.rate_limits (
     user_id bigint NOT NULL,
     key character varying NOT NULL,
     hits integer DEFAULT 0 NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -403,8 +403,8 @@ CREATE TABLE public.reports (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
     thing_id bigint NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     text character varying NOT NULL
 );
 
@@ -437,8 +437,8 @@ CREATE TABLE public.rules (
     sub_id bigint,
     title character varying NOT NULL,
     description character varying,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -481,8 +481,8 @@ CREATE TABLE public.subs (
     follows_count integer DEFAULT 0 NOT NULL,
     description character varying,
     title character varying NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -513,8 +513,8 @@ CREATE TABLE public.tags (
     id bigint NOT NULL,
     sub_id bigint,
     title character varying NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -554,9 +554,9 @@ CREATE TABLE public.things (
     best_score double precision DEFAULT 0.0 NOT NULL,
     top_score integer DEFAULT 0 NOT NULL,
     controversy_score integer DEFAULT 0 NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    edited_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    edited_at timestamp without time zone NOT NULL,
     deleted_at timestamp without time zone,
     deleted boolean DEFAULT false NOT NULL,
     deletion_reason character varying,
@@ -606,8 +606,8 @@ CREATE TABLE public.topics (
     id bigint NOT NULL,
     post_id bigint NOT NULL,
     branch jsonb DEFAULT '{}'::jsonb NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -643,8 +643,8 @@ CREATE TABLE public.users (
     posts_points integer DEFAULT 0 NOT NULL,
     comments_points integer DEFAULT 0 NOT NULL,
     notifications_count integer DEFAULT 0 NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     forgot_password_email_sent_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
 );
 
@@ -677,8 +677,8 @@ CREATE TABLE public.votes (
     thing_id bigint NOT NULL,
     user_id bigint NOT NULL,
     vote_type integer NOT NULL,
-    created_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1777,6 +1777,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190721153911'),
 ('20190721195133'),
 ('20190721202518'),
-('20190721202915');
+('20190721202915'),
+('20190722001031');
 
 
