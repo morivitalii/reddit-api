@@ -8,6 +8,5 @@ class BlacklistedDomainPolicy < ApplicationPolicy
   alias search? index?
   alias new? index?
   alias create? index?
-  alias confirm? index?
   alias destroy? index?
 end

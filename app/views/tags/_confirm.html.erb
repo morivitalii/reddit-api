@@ -1,6 +1,0 @@
-<%= render 'shared/modal', title: t('confirmation') do %>
-  <div class="modal-body text-right">
-    <button type="button" class="btn btn-primary" data-dismiss="modal"><%= t('cancel') %></button>
-    <%= link_to(t('confirm'), tag_path(@tag), remote: true, method: :delete, class: 'confirm btn btn-primary') %>
-  </div>
-<% end %>

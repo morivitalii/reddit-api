@@ -2,7 +2,7 @@
 
 class BansController < ApplicationController
   before_action :set_sub, only: [:index, :search, :new, :create]
-  before_action :set_ban, only: [:edit, :update, :confirm, :destroy]
+  before_action :set_ban, only: [:edit, :update, :destroy]
   before_action -> { authorize(Ban) }
 
   def index
@@ -54,10 +54,6 @@ class BansController < ApplicationController
     else
       render json: @form.errors, status: :unprocessable_entity
     end
-  end
-
-  def confirm
-    render partial: "confirm"
   end
 
   def destroy

@@ -4,7 +4,7 @@
 
     <div class="actions">
       <%= link_to(fa_icon('pencil'), edit_rule_path(rule), remote: true, class: 'update') %>
-      <%= link_to(fa_icon('trash'), confirm_rule_path(rule), remote: true, class: 'delete') %>
+      <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: rule_path(rule) }) %>
 
       <% if rule.description.present? %>
         <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>

@@ -2,7 +2,7 @@
 
 class BlacklistedDomainsController < ApplicationController
   before_action :set_sub, only: [:index, :search, :new, :create]
-  before_action :set_blacklisted_domain, only: [:confirm, :destroy]
+  before_action :set_blacklisted_domain, only: [:destroy]
   before_action -> { authorize(BlacklistedDomain) }, only: [:index, :search, :new, :create]
 
   def index
@@ -37,10 +37,6 @@ class BlacklistedDomainsController < ApplicationController
     else
       render json: @form.errors, status: :unprocessable_entity
     end
-  end
-
-  def confirm
-    render partial: "confirm"
   end
 
   def destroy

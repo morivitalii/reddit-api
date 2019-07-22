@@ -9,6 +9,5 @@ class DeletionReasonPolicy < ApplicationPolicy
   alias create? index?
   alias edit? index?
   alias update? index?
-  alias confirm? index?
   alias destroy? index?
 end

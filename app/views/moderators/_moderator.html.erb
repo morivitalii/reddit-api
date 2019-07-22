@@ -4,7 +4,7 @@
 
     <div class="actions">
       <% if ModeratorPolicy.new(pundit_user, @sub).destroy? %>
-        <%= link_to(fa_icon('trash'), confirm_moderator_path(moderator), remote: true, class: 'delete ml-2') %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: moderator_path(moderator) }) %>
       <% end %>
 
       <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>
