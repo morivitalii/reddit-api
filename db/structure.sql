@@ -236,7 +236,6 @@ CREATE TABLE public.logs (
     loggable_type character varying,
     action integer NOT NULL,
     details json DEFAULT '{}'::json NOT NULL,
-    details_html character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -336,7 +335,6 @@ CREATE TABLE public.pages (
     edited_by_id bigint NOT NULL,
     title character varying NOT NULL,
     text character varying NOT NULL,
-    text_html character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     edited_at timestamp without time zone NOT NULL
@@ -565,7 +563,6 @@ CREATE TABLE public.things (
     approved_by_id bigint,
     title character varying,
     text character varying,
-    text_html character varying,
     explicit boolean DEFAULT false NOT NULL,
     spoiler boolean DEFAULT false NOT NULL,
     tag character varying,
@@ -1778,6 +1775,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190721195133'),
 ('20190721202518'),
 ('20190721202915'),
-('20190722001031');
+('20190722001031'),
+('20190722010653'),
+('20190722010659'),
+('20190722010707');
 
 
