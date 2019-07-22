@@ -8,7 +8,7 @@
       <% end %>
 
       <% if PagePolicy.new(pundit_user, @sub).destroy? %>
-        <%= link_to(fa_icon('trash'), confirm_page_path(page), remote: true, class: 'delete') %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: page_path(page) }) %>
       <% end %>
     </div>
   </div>

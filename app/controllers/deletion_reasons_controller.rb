@@ -2,7 +2,7 @@
 
 class DeletionReasonsController < ApplicationController
   before_action :set_sub, only: [:index, :new, :create]
-  before_action :set_deletion_reason, only: [:edit, :update, :confirm, :destroy]
+  before_action :set_deletion_reason, only: [:edit, :update, :destroy]
   before_action -> { authorize(DeletionReason) }
 
   def index
@@ -50,10 +50,6 @@ class DeletionReasonsController < ApplicationController
     else
       render json: @form.errors, status: :unprocessable_entity
     end
-  end
-
-  def confirm
-    render partial: "confirm"
   end
 
   def destroy

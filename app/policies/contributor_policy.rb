@@ -12,6 +12,5 @@ class ContributorPolicy < ApplicationPolicy
   end
 
   alias new? create?
-  alias confirm? create?
   alias destroy? create?
 end

@@ -14,15 +14,4 @@ $(document).ready(function() {
         $('.modal').modal('hide');
         entry.replaceWith(e.detail[0].activeElement.innerHTML);
     });
-
-    $(document).on('ajax:success', '#tags .delete', function(e) {
-        $(this).closest('.entry').append(e.detail[0].activeElement.innerHTML);
-        $('.modal').modal('show');
-    });
-
-    $(document).on('ajax:success', '#tags .confirm', function(e) {
-        var entry = $(this).closest('.entry');
-        $('.modal').modal('hide');
-        entry.remove();
-    });
 });

@@ -2,7 +2,7 @@
 
 class ModeratorsController < ApplicationController
   before_action :set_sub, only: [:index, :search, :new, :create]
-  before_action :set_moderator, only: [:confirm, :destroy]
+  before_action :set_moderator, only: [:destroy]
   before_action -> { authorize(Moderator) }
 
   def index
@@ -38,10 +38,6 @@ class ModeratorsController < ApplicationController
     else
       render json: @form.errors, status: :unprocessable_entity
     end
-  end
-
-  def confirm
-    render partial: "confirm"
   end
 
   def destroy

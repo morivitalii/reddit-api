@@ -2,7 +2,7 @@
 
 class ContributorsController < ApplicationController
   before_action :set_sub, only: [:index, :search, :new, :create]
-  before_action :set_contributor, only: [:confirm, :destroy]
+  before_action :set_contributor, only: [:destroy]
   before_action -> { authorize(Contributor) }
 
   def index
@@ -38,10 +38,6 @@ class ContributorsController < ApplicationController
     else
       render json: @form.errors, status: :unprocessable_entity
     end
-  end
-
-  def confirm
-    render partial: "confirm"
   end
 
   def destroy

@@ -4,7 +4,7 @@
 
     <div class="actions">
       <%= link_to(fa_icon('pencil'), edit_tag_path(tag), remote: true, class: 'update') %>
-      <%= link_to(fa_icon('trash'), confirm_tag_path(tag), remote: true, class: 'delete') %>
+      <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: tag_path(tag) }) %>
     </div>
   </div>
 </div>

@@ -16,17 +16,6 @@ $(document).ready(function() {
         format_datetime();
     });
 
-    $(document).on('ajax:success', '#bans .delete', function(e) {
-        $(this).closest('.entry').append(e.detail[0].activeElement.innerHTML);
-        $('.modal').modal('show');
-    });
-
-    $(document).on('ajax:success', '#bans .confirm', function() {
-        var entry = $(this).closest('.entry');
-        $('.modal').modal('hide');
-        entry.remove();
-    });
-
     $(document).on('click', '#bans .toggleDetails', function() {
         $(this).closest('.entry').find('.details').toggleClass('d-none');
     });

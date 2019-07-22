@@ -3,10 +3,6 @@ Rails.application.routes.draw do
     post "search", on: :collection
   end
 
-  concern :confirmable do
-    get "confirm", on: :member
-  end
-
   root "home#index"
 
   resource :sign_up, only: [:new, :create], controller: :sign_up
@@ -22,14 +18,14 @@ Rails.application.routes.draw do
   resources :notifications, only: [:index]
   resources :reports, only: [:index]
   resources :mod_queues, only: [:index]
-  resources :moderators, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
-  resources :contributors, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
-  resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable, :confirmable]
-  resources :rules, except: [:show], concerns: [:confirmable]
-  resources :deletion_reasons, except: [:show], concerns: [:confirmable]
-  resources :tags, except: [:show], concerns: [:confirmable]
-  resources :pages, concerns: [:confirmable]
-  resources :bans, except: [:show], concerns: [:searchable, :confirmable]
+  resources :moderators, except: [:show, :edit, :update], concerns: [:searchable]
+  resources :contributors, except: [:show, :edit, :update], concerns: [:searchable]
+  resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable]
+  resources :rules, except: [:show]
+  resources :deletion_reasons, except: [:show]
+  resources :tags, except: [:show]
+  resources :pages
+  resources :bans, except: [:show], concerns: [:searchable]
   resources :logs, only: [:index]
 
   resources :subs, only: [:show, :edit, :update], path: "/s" do
