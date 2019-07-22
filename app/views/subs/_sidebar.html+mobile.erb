@@ -40,15 +40,17 @@
   </div>
 <% end %>
 
-<% ban = current_user&.banned?(@sub) %>
-<% if ban.present? %>
-  <div class="row text-center text-danger border-bottom pb-3">
-    <div class="col-12 mt-3">
-      <% if ban.permanent? %>
-        <%= t('banned_permanent') %>
-      <% else %>
-        <%= t('banned_until_html', until: datetime_tag(ban.end_at, :short)) %>
-      <% end %>
+<% if user_signed_in? %>
+  <% ban = current_user.bans.find { |ban| ban.sub_id == @sub.id } %>
+  <% if ban.present? %>
+    <div class="row text-center text-danger border-bottom pb-3">
+      <div class="col-12 mt-3">
+        <% if ban.permanent? %>
+          <%= t('banned_permanent') %>
+        <% else %>
+          <%= t('banned_until_html', until: datetime_tag(ban.end_at, :short)) %>
+        <% end %>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>

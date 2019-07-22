@@ -20,7 +20,7 @@ class UserPermissions
   end
 
   def follower?(sub)
-    user.follows.find { |i| i.sub_id == sub.id }
+    user.follows.find { |i| i.sub_id == sub.id }.present?
   end
 
   private
@@ -34,7 +34,7 @@ class UserPermissions
   end
 
   def global_contributor?
-    user.contributors.find { |i| i.sub_id.blank? }
+    user.contributors.find { |i| i.sub_id.blank? }.present?
   end
 
   def sub_contributor?(sub)
@@ -42,26 +42,10 @@ class UserPermissions
   end
 
   def banned_globally?
-    ban = user.bans.global.take
-
-    return false if ban.blank?
-    return ban if ban.permanent?
-    return ban unless ban.stale?
-
-    DeleteBan.new(ban: ban, current_user: User.auto_moderator).call
-
-    false
+    user.bans.find { |i| i.sub_id.blank? }.present?
   end
 
   def banned_in_sub?(sub)
-    ban = user.bans.find { |i| i.sub_id == sub.id }
-
-    return false if ban.blank?
-    return ban if ban.permanent?
-    return ban unless ban.stale?
-
-    DeleteBan.new(ban: ban, current_user: User.auto_moderator).call
-
-    false
+    user.bans.find { |i| i.sub_id == sub.id }.present?
   end
 end
