@@ -7,11 +7,8 @@ class MarkThingAsApproved
   end
 
   def call
-    return false if @thing.approved?
-
     ActiveRecord::Base.transaction do
       @thing.update!(
-        approved: true,
         approved_by: @current_user,
         approved_at: Time.current
       )
@@ -20,7 +17,7 @@ class MarkThingAsApproved
         sub: @thing.sub,
         current_user: @current_user,
         action: :mark_thing_as_approved,
-        attributes: [:approved, :deleted, :deletion_reason, :text],
+        attributes: [:approved_at, :deleted, :deletion_reason, :text],
         loggable: @thing,
         model: @thing
       ).call

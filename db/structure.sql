@@ -559,7 +559,6 @@ CREATE TABLE public.things (
     deleted boolean DEFAULT false NOT NULL,
     deletion_reason character varying,
     approved_at timestamp without time zone,
-    approved boolean DEFAULT false NOT NULL,
     approved_by_id bigint,
     title character varying,
     text character varying,
@@ -1287,13 +1286,6 @@ CREATE UNIQUE INDEX index_tags_on_sub_id_lower_title ON public.tags USING btree 
 
 
 --
--- Name: index_things_on_approved; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_approved ON public.things USING btree (approved);
-
-
---
 -- Name: index_things_on_approved_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1772,6 +1764,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190722010653'),
 ('20190722010659'),
 ('20190722010707'),
-('20190722012742');
+('20190722012742'),
+('20190724014115');
 
 

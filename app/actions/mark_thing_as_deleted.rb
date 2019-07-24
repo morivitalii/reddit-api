@@ -18,7 +18,7 @@ class MarkThingAsDeleted
         sub: @thing.sub,
         current_user: @current_user,
         action: :mark_thing_as_deleted,
-        attributes: [:deleted, :deletion_reason, :approved, :text],
+        attributes: [:deleted, :deletion_reason, :approved_at, :text],
         loggable: @thing,
         model: @thing
       ).call
