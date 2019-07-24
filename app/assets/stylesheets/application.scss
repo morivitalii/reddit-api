@@ -297,3 +297,59 @@ body {
 .diff li.diff-block-info {
   background: none repeat scroll 0 0 gray;
 }
+
+body.cursorPointer {
+  cursor: pointer;
+}
+
+.comments .comments {
+  position: relative;
+  padding-left: 10px;
+}
+
+.comments .comments::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5px;
+  width: 2px;
+  background-color: #e8e9ea;
+  transition: background-color 100ms ease-out;
+}
+
+.comments.highlighted::after {
+  background-color: #3170b3;
+}
+
+.comment.comment_collapsed .content,
+.comment.comment_collapsed .actions {
+  display: none;
+}
+
+.comment.comment_collapsed .comments {
+  display: none;
+}
+
+.comment__expand {
+  display: none;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.comment_collapsed .comment__expand {
+  display: inline-block;
+}
+
+.comment__children-info {
+  display: none;
+  margin-left: 5px;
+}
+
+.comment_collapsed .comment__children-info {
+  display: inline-block;
+}
+
+.replyCommentForm {
+  flex: 0 1 auto !important;
+}
