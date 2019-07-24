@@ -18,7 +18,6 @@ ru:
     master: Мастер
     days: Количество дней
     permanent: Перманентно
-    approved: Одобренно
     deleted: Удалено
     domain: Домен
   errors:

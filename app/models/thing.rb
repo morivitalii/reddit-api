@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Thing < ApplicationRecord
+  include Approvable
   include Uploader::Attachment.new(:file)
 
   attribute :vote, default: nil
@@ -8,7 +9,6 @@ class Thing < ApplicationRecord
 
   belongs_to :sub
   belongs_to :user
-  belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", optional: true
   belongs_to :deleted_by, class_name: "User", foreign_key: "deleted_by_id", optional: true
   belongs_to :post, class_name: "Thing", counter_cache: :comments_count, optional: true
   belongs_to :comment, class_name: "Thing", counter_cache: :comments_count, optional: true
@@ -50,20 +50,17 @@ class Thing < ApplicationRecord
 
   before_create :normalize_url_on_create
   before_create :set_edited_at_on_create
-  before_create :set_approval_attributes_on_create
   before_create :set_file_processing_attributes_on_file_cache
   before_update :update_edited_at_on_edit
   before_update :reset_deletion_attributes_on_file_store
-  before_update :reset_approval_attributes_on_edit
-  before_update :reset_deletion_attributes_on_approving
   after_create :create_topic_on_create
   after_create :insert_to_topic_on_create
   after_create :create_up_vote_on_create
   after_create :create_notification_on_create
-  after_update :update_post_counter_cache_on_approving_or_deletion
-  after_update :update_comment_counter_cache_on_approving_or_deletion
-  after_update :delete_reports_on_approving_or_deletion
-  after_update :update_comment_in_topic_on_approving_or_deletion
+  after_update :update_post_counter_cache_on_deletion
+  after_update :update_comment_counter_cache_on_deletion
+  after_update :delete_reports_on_deletion
+  after_update :update_comment_in_topic_on_deletion
 
   with_options if: ->(r) { r.post? } do
     validates :title, presence: true, length: { maximum: 350 }
@@ -173,14 +170,6 @@ class Thing < ApplicationRecord
     end
   end
 
-  def reset_approval_attributes
-    assign_attributes(
-      approved: false,
-      approved_by: nil,
-      approved_at: nil
-    )
-  end
-
   def reset_deletion_attributes
     assign_attributes(
       deleted: false,
@@ -262,16 +251,6 @@ class Thing < ApplicationRecord
     self.edited_at = created_at
   end
 
-  def set_approval_attributes_on_create
-    if user.moderator?(sub) || user.contributor?(sub)
-      assign_attributes(
-        approved: true,
-        approved_by: User.auto_moderator,
-        approved_at: created_at
-      )
-    end
-  end
-
   def set_file_processing_attributes_on_file_cache
     return unless media?
     return unless file_data_changed? && file_attacher.cached?
@@ -292,18 +271,6 @@ class Thing < ApplicationRecord
   def reset_deletion_attributes_on_file_store
     return unless media?
     return unless file_data_changed? && file_attacher.stored?
-
-    reset_deletion_attributes
-  end
-
-  def reset_approval_attributes_on_edit
-    return if !edited_at_changed? || user.moderator?(sub) || user.contributor?(sub)
-
-    reset_approval_attributes
-  end
-
-  def reset_deletion_attributes_on_approving
-    return unless approved_changed?(from: false, to: true)
 
     reset_deletion_attributes
   end
@@ -360,16 +327,15 @@ class Thing < ApplicationRecord
     user_id == replied_to.user_id
   end
 
-  def delete_reports_on_approving_or_deletion
-    previous_approved = approved_previous_change&.compact
+  def delete_reports_on_deletion
     previous_deleted = deleted_previous_change&.compact
 
-    if previous_approved == [false, true] || previous_deleted == [false, true]
+    if previous_deleted == [false, true]
       reports.destroy_all
     end
   end
 
-  def update_post_counter_cache_on_approving_or_deletion
+  def update_post_counter_cache_on_deletion
     return unless comment?
 
     previous = deleted_previous_change&.compact
@@ -381,7 +347,7 @@ class Thing < ApplicationRecord
     end
   end
 
-  def update_comment_counter_cache_on_approving_or_deletion
+  def update_comment_counter_cache_on_deletion
     return unless comment?
     return if comment.blank?
 
@@ -394,12 +360,20 @@ class Thing < ApplicationRecord
     end
   end
 
-  def update_comment_in_topic_on_approving_or_deletion
+  def update_comment_in_topic_on_deletion
     return unless comment?
     return unless deleted_previously_changed?
 
     ActiveRecord::Base.connection.execute(
       "UPDATE topics SET branch = jsonb_set(branch, '{#{id}, deleted}', '#{deleted}', false), updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}' WHERE post_id = #{post_id};"
     )
+  end
+
+  def editing?
+    edited_at_changed?
+  end
+
+  def deletion?
+    deleted_at_changed? && deleted?
   end
 end

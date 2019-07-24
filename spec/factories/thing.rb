@@ -52,7 +52,6 @@ FactoryBot.define do
     end
 
     trait :approved do
-      approved { true }
       association :approved_by, factory: :user
       approved_at { Time.current }
     end
