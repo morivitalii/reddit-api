@@ -114,7 +114,7 @@ ru:
   reply: Ответить
   approve: Одобрить
   report: Пожаловаться
-  rules_violation: Нару`шение правил сообщества
+  rules_violation: Нарушение правил сообщества
   other_violation: Другие причины
   custom_report: Произвольная жалоба
   banned_until_html: 'Вы забанены в этом сабе до %{until}'

@@ -4,6 +4,7 @@ class Thing < ApplicationRecord
   include Editable
   include Approvable
   include Deletable
+  include Notifiable
   include Uploader::Attachment.new(:file)
 
   attribute :vote, default: nil
@@ -18,7 +19,6 @@ class Thing < ApplicationRecord
   has_many :bookmarks
   has_many :votes
   has_many :reports
-  has_one :notification
   has_many :logs, as: :loggable
 
   enum thing_type: { post: 1, comment: 2 }
@@ -54,7 +54,6 @@ class Thing < ApplicationRecord
   after_create :create_topic_on_create
   after_create :insert_to_topic_on_create
   after_create :create_up_vote_on_create
-  after_create :create_notification_on_create
 
   with_options if: ->(r) { r.post? } do
     validates :title, presence: true, length: { maximum: 350 }
@@ -249,7 +248,7 @@ class Thing < ApplicationRecord
 
     json = {
       id: id,
-      thing_id: replied_to.id,
+      thing_id: reply_to.id,
       deleted: false,
       scores: {
         best: best_score,
@@ -268,25 +267,5 @@ class Thing < ApplicationRecord
     votes.create!(vote_type: :up, user: user)
   end
 
-  def create_notification_on_create
-    return unless send_notification?
 
-    create_notification(user: replied_to.user)
-  end
-
-  def send_notification?
-    comment? && !replied_to_yourself? && replied_to.receive_notifications?
-  end
-
-  def replied_to
-    return false unless comment?
-
-    comment.presence || post
-  end
-
-  def replied_to_yourself?
-    return false unless comment?
-
-    user_id == replied_to.user_id
-  end
 end

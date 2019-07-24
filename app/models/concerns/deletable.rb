@@ -9,6 +9,8 @@ module Deletable
     scope :not_deleted, -> { where(deleted_at: nil) }
 
     after_update :delete_reports_on_delete
+
+    before_update :disapprove_on_delete
     after_update :update_comment_in_topic_on_delete
 
     def deletion_reason=(value)
@@ -31,6 +33,12 @@ module Deletable
         deleted_at: nil,
         deletion_reason: nil
       )
+    end
+
+    def disapprove_on_delete
+      if deletion?
+        reset_approve_attributes
+      end
     end
 
     def update_comment_in_topic_on_delete
