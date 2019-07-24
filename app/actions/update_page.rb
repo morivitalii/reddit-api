@@ -10,7 +10,8 @@ class UpdatePage
       @page.update!(
         title: @title,
         text: @text,
-        edited_by: @current_user
+        edited_by: @current_user,
+        edited_at: Time.current
       )
 
       CreateLog.new(

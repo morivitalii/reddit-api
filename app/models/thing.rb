@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Thing < ApplicationRecord
+  include Editable
   include Approvable
   include Uploader::Attachment.new(:file)
 
@@ -49,9 +50,7 @@ class Thing < ApplicationRecord
   scope :records_after_date, ->(date) { where("created_at > ?", date) if date.present? }
 
   before_create :normalize_url_on_create
-  before_create :set_edited_at_on_create
   before_create :set_file_processing_attributes_on_file_cache
-  before_update :update_edited_at_on_edit
   before_update :reset_deletion_attributes_on_file_store
   after_create :create_topic_on_create
   after_create :insert_to_topic_on_create
@@ -94,10 +93,6 @@ class Thing < ApplicationRecord
 
   def scores_stale?
     updated_at < 20.minutes.ago || (up_votes_count < 20 && down_votes_count < 20)
-  end
-
-  def edited?
-    created_at != edited_at
   end
 
   def youtube?
@@ -247,10 +242,6 @@ class Thing < ApplicationRecord
     self.url = Addressable::URI.parse(self.url).normalize.to_s
   end
 
-  def set_edited_at_on_create
-    self.edited_at = created_at
-  end
-
   def set_file_processing_attributes_on_file_cache
     return unless media?
     return unless file_data_changed? && file_attacher.cached?
@@ -260,12 +251,6 @@ class Thing < ApplicationRecord
       deleted_by: User.auto_moderator,
       deleted_at: Time.current
     )
-  end
-
-  def update_edited_at_on_edit
-    return if !text? || !text_changed?
-
-    self.edited_at = Time.current
   end
 
   def reset_deletion_attributes_on_file_store
@@ -367,10 +352,6 @@ class Thing < ApplicationRecord
     ActiveRecord::Base.connection.execute(
       "UPDATE topics SET branch = jsonb_set(branch, '{#{id}, deleted}', '#{deleted}', false), updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}' WHERE post_id = #{post_id};"
     )
-  end
-
-  def editing?
-    edited_at_changed?
   end
 
   def deletion?

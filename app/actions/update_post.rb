@@ -3,10 +3,14 @@
 class UpdatePost
   include ActiveModel::Model
 
-  attr_accessor :post, :text
+  attr_accessor :post, :current_user, :text
 
   def save
-    @post.update!(text: @text)
+    @post.update!(
+      text: @text,
+      edited_by: @current_user,
+      edited_at: Time.current
+    )
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
