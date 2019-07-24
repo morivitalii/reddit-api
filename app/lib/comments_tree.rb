@@ -11,7 +11,7 @@ class CommentsTree
     @after = params[:after]
     @initial_limit = 50
     @load_more_limit = 50
-    @level_limit = Current.variant.desktop? ? 10 : 4
+    @level_limit = 10
     @nested_limit = 100
     @per_nested_limit = 10
     @nested_count = 0
