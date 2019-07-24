@@ -18,8 +18,9 @@ module Editable
       edited_at_changed? && edited?
     end
 
+    # TODO fix it for pages. add something to check if model is approvable
     def disapprove_on_edit
-      if editing?
+      if respond_to?(:approvable?) && editing?
         reset_approve_attributes
       end
     end
