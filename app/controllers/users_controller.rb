@@ -11,9 +11,8 @@ class UsersController < ApplicationController
   def show
     @records = Thing.not_deleted
                    .thing_type(type)
-                   .sort_records_by(sort)
-                   .records_after(after, sort)
-                   .records_after_date(date)
+                   .chronologically(sort, after)
+                   .in_date_range(date)
                    .where(user: @user)
                    .includes(:sub, :user, :post)
                    .limit(51)

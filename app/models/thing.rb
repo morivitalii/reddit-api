@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Thing < ApplicationRecord
+  include Scorable
   include Editable
   include Approvable
   include Deletable
@@ -22,28 +23,7 @@ class Thing < ApplicationRecord
   enum content_type: { text: 1, link: 2, media: 3 }
 
   scope :thing_type, ->(type) { where(thing_type: type) if type.present? }
-
-  scope :sort_records_by, -> (sort) do
-    if sort.present?
-      if sort == :new
-        order(id: :desc)
-      else
-        order("#{sort}_score" => :desc, id: :desc)
-      end
-    end
-  end
-
-  scope :records_after, ->(record, sort) do
-    if record.present?
-      if sort == :new
-        where("id < ?", record.id)
-      else
-        where("(#{sort}_score, id) < (?, ?)", record["#{sort}_score"], record.id)
-      end
-    end
-  end
-
-  scope :records_after_date, ->(date) { where("created_at > ?", date) if date.present? }
+  scope :in_date_range, ->(date) { where("created_at > ?", date) if date.present? }
 
   before_create :normalize_url_on_create
   before_create :set_file_processing_attributes_on_file_cache
@@ -79,10 +59,6 @@ class Thing < ApplicationRecord
 
   validates :content_type, presence: true, inclusion: { in: self.content_types.keys }
   validates :tag, allow_blank: true, length: { maximum: 30 }
-
-  def scores_stale?
-    updated_at < 20.minutes.ago || (up_votes_count < 20 && down_votes_count < 20)
-  end
 
   def youtube?
     return false unless link?

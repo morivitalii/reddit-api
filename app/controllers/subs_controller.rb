@@ -9,9 +9,8 @@ class SubsController < ApplicationController
   def show
     @records = Thing.thing_type(:post)
                    .not_deleted
-                   .sort_records_by(sort)
-                   .records_after(after, sort)
-                   .records_after_date(date)
+                   .chronologically(sort, after)
+                   .in_date_range(date)
                    .where(sub: @sub)
                    .includes(:sub, :user)
                    .limit(51)
