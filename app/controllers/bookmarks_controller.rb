@@ -9,12 +9,10 @@ class BookmarksController < ApplicationController
   before_action :set_thing, only: [:create, :destroy]
 
   def index
-    @records = Bookmark.joins(:thing)
-                   .merge(Thing.not_deleted)
-                   .merge(Thing.thing_type(type))
+    @records = Bookmark.type(type)
                    .where(user: @user)
+                   .includes(bookmarkable: [:sub, :user, :post])
                    .reverse_chronologically(after)
-                   .includes(thing: [:sub, :user, :post])
                    .limit(51)
                    .to_a
 
@@ -23,17 +21,17 @@ class BookmarksController < ApplicationController
       @after_record = @records.last
     end
 
-    @records = @records.map(&:thing)
+    @records = @records.map(&:bookmarkable)
   end
 
   def create
-    CreateBookmark.new(thing: @thing, current_user: current_user).call
+    CreateBookmark.new(@thing, current_user).call
 
     head :no_content
   end
 
   def destroy
-    DeleteBookmark.new(thing: @thing, current_user: current_user).call
+    DeleteBookmark.new(@thing, current_user).call
 
     head :no_content
   end
@@ -53,7 +51,7 @@ class BookmarksController < ApplicationController
   end
 
   def type
-    ThingsTypes.new(params[:type]).key
+    ThingsTypes.new(params[:type]).key&.to_s&.classify
   end
 
   def after

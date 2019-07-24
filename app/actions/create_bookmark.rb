@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class CreateBookmark
-  def initialize(thing:, current_user:)
-    @thing = thing
+  def initialize(model, current_user)
+    @model = model
     @current_user = current_user
   end
 
   def call
-    @thing.bookmarks.find_or_create_by!(user: @current_user)
+    @model.bookmarks.find_or_create_by!(user: @current_user)
   end
 end

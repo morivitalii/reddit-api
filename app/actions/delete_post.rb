@@ -11,7 +11,7 @@ class DeletePost
       ids = comments_ids + [@post.id]
 
       Notification.where(thing_id: ids).delete_all
-      Bookmark.where(thing_id: ids).delete_all
+      Bookmark.where(bookmarkable_type: "Thing", bookmarkable_id: ids).delete_all
       Vote.where(thing_id: ids).delete_all
       Report.where(thing_id: ids).delete_all
       Log.where(loggable_type: "Thing", loggable_id: ids).delete_all
