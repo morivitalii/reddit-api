@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DeletionReason < ApplicationRecord
+  include Paginatable
+
   belongs_to :sub, optional: true
 
   scope :global, -> { where(sub: nil) }

@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   def show
     @records = Thing.not_deleted
                    .thing_type(type)
-                   .chronologically(sort, after)
+                   .chronologically_by_score(sort, after)
                    .in_date_range(date)
                    .where(user: @user)
                    .includes(:sub, :user, :post)

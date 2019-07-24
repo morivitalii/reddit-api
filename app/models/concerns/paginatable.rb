@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Sorting
+module Paginatable
   extend ActiveSupport::Concern
 
   included do

@@ -4,7 +4,7 @@ module Scorable
   extend ActiveSupport::Concern
 
   included do
-    scope :chronologically, ->(sort, record) {
+    scope :chronologically_by_score, ->(sort, record) {
       attribute = "#{sort}_score"
       scope = order(attribute => :desc, id: :desc)
 
