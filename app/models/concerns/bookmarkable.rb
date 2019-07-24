@@ -6,6 +6,6 @@ module Bookmarkable
   included do
     attribute :bookmark, default: nil
 
-    has_many :bookmarks
+    has_many :bookmarks, as: :bookmarkable
   end
 end

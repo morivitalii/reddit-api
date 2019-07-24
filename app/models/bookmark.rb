@@ -3,6 +3,12 @@
 class Bookmark < ApplicationRecord
   include Paginatable
 
-  belongs_to :thing
+  belongs_to :bookmarkable, polymorphic: true
   belongs_to :user
+
+  scope :type, -> (type) {
+    if type.present?
+      where(bookmarkable_type: type)
+    end
+  }
 end

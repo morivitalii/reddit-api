@@ -59,11 +59,11 @@ class ThingsController < ApplicationController
 
     things = Thing.includes(:sub, :approved_by).where(id: ids).to_a
     votes = Vote.where(thing: things, user: current_user).to_a
-    bookmarks = Bookmark.where(thing: things, user: current_user).to_a
+    bookmarks = Bookmark.where(bookmarkable: things, user: current_user).to_a
 
     things.each do |thing|
       thing.vote = votes.find { |vote| thing.id == vote.thing_id }
-      thing.bookmark = bookmarks.find { |bookmark| thing.id == bookmark.thing_id }
+      thing.bookmark = bookmarks.find { |bookmark| thing.id == bookmark.bookmarkable_id }
     end
 
     html = render_to_string(partial: "things/actions", collection: things, as: :thing)

@@ -100,10 +100,11 @@ ALTER SEQUENCE public.blacklisted_domains_id_seq OWNED BY public.blacklisted_dom
 
 CREATE TABLE public.bookmarks (
     id bigint NOT NULL,
-    thing_id bigint NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    bookmarkable_type character varying NOT NULL,
+    bookmarkable_id bigint NOT NULL
 );
 
 
@@ -1056,10 +1057,10 @@ CREATE UNIQUE INDEX index_blacklisted_domains_on_sub_id_lower_domain ON public.b
 
 
 --
--- Name: index_bookmarks_on_thing_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_bookmarks_on_bookmarkable_type_and_bookmarkable_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_bookmarks_on_thing_id ON public.bookmarks USING btree (thing_id);
+CREATE INDEX index_bookmarks_on_bookmarkable_type_and_bookmarkable_id ON public.bookmarks USING btree (bookmarkable_type, bookmarkable_id);
 
 
 --
@@ -1070,10 +1071,10 @@ CREATE INDEX index_bookmarks_on_user_id ON public.bookmarks USING btree (user_id
 
 
 --
--- Name: index_bookmarks_on_user_id_and_thing_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_bookmarks_uniqueness; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_bookmarks_on_user_id_and_thing_id ON public.bookmarks USING btree (user_id, thing_id);
+CREATE UNIQUE INDEX index_bookmarks_uniqueness ON public.bookmarks USING btree (bookmarkable_id, bookmarkable_type, user_id);
 
 
 --
@@ -1464,14 +1465,6 @@ ALTER TABLE ONLY public.things
 
 
 --
--- Name: bookmarks fk_rails_1db505e406; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.bookmarks
-    ADD CONSTRAINT fk_rails_1db505e406 FOREIGN KEY (thing_id) REFERENCES public.things(id);
-
-
---
 -- Name: bans fk_rails_20d480679b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1795,6 +1788,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190724023916'),
 ('20190724025712'),
 ('20190724025818'),
-('20190724152958');
+('20190724152958'),
+('20190724172531'),
+('20190724172544');
 
 
