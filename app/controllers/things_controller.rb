@@ -58,11 +58,11 @@ class ThingsController < ApplicationController
     return head :no_content if ids.blank? && ids.size > 500
 
     things = Thing.includes(:sub, :approved_by).where(id: ids).to_a
-    votes = Vote.where(thing: things, user: current_user).to_a
+    votes = Vote.where(votable: things, user: current_user).to_a
     bookmarks = Bookmark.where(bookmarkable: things, user: current_user).to_a
 
     things.each do |thing|
-      thing.vote = votes.find { |vote| thing.id == vote.thing_id }
+      thing.vote = votes.find { |vote| thing.id == vote.votable_id }
       thing.bookmark = bookmarks.find { |bookmark| thing.id == bookmark.bookmarkable_id }
     end
 

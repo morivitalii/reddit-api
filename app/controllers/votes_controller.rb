@@ -10,11 +10,8 @@ class VotesController < ApplicationController
   def index
     @records = Vote.vote_type(vote_type)
                    .where(user: @user)
-                   .joins(:thing)
-                   .merge(Thing.not_deleted)
-                   .merge(Thing.where.not(user: @user))
-                   .merge(Thing.thing_type(thing_type))
-                   .includes(thing: [:sub, :user, :post])
+                   .type(thing_type)
+                   .includes(votable: [:sub, :user, :post])
                    .reverse_chronologically(after)
                    .limit(51)
                    .to_a
@@ -24,7 +21,7 @@ class VotesController < ApplicationController
       @after_record = @records.last
     end
 
-    @records = @records.map(&:thing)
+    @records = @records.map(&:votable)
   end
 
   def create
@@ -48,7 +45,7 @@ class VotesController < ApplicationController
   end
 
   def vote_params
-    params.require(:thing_vote).permit(:type).merge(thing: @thing, current_user: current_user)
+    params.require(:thing_vote).permit(:type).merge(model: @thing, current_user: current_user)
   end
 
   def vote_type
@@ -56,7 +53,7 @@ class VotesController < ApplicationController
   end
 
   def thing_type
-    ThingsTypes.new(params[:thing_type]).key
+    ThingsTypes.new(params[:thing_type]).key&.to_s&.classify
   end
 
   def after
