@@ -16,6 +16,7 @@ class ThingsController < ApplicationController
 
     @post = @topic.post
     @comment = @topic.comment
+    @sub = @post.sub
 
     if request.xhr?
       if @comment.present?

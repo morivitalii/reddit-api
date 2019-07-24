@@ -8,11 +8,9 @@ class NotificationsController < ApplicationController
   before_action -> { authorize(Notification) }
 
   def index
-    @records = Notification.joins(:thing)
-                   .merge(Thing.not_deleted)
-                   .where(user: @user)
-                   .includes(thing: [:sub, :user, :post, :comment])
-                   .reverse_chronologically(params[:after].present? ? @user.notifications.find_by_id(params[:after]) : nil)
+    @records = Notification.where(user: @user)
+                   .includes(notifiable: [:sub, :user, :post, :comment])
+                   .reverse_chronologically(after)
                    .limit(51)
                    .to_a
 
@@ -21,13 +19,17 @@ class NotificationsController < ApplicationController
       @after_record = @records.last
     end
 
-    @records = @records.map(&:thing)
+    @records = @records.map(&:notifiable)
   end
 
   private
 
   def set_user
     @user = current_user
+  end
+
+  def after
+    params[:after].present? ? Notification.find_by_id(params[:after]) : nil
   end
 
   def reset_counter

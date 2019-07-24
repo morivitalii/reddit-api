@@ -4,7 +4,7 @@ module Notifiable
   extend ActiveSupport::Concern
 
   included do
-    has_one :notification
+    has_one :notification, as: :notifiable
 
     after_create :send_notification_on_create
 
