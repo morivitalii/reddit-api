@@ -8,7 +8,6 @@ module Approvable
 
     before_create :approve_on_create
     before_update :disapprove_on_edit
-    before_update :disapprove_on_delete
     before_update :restore_on_approve
     after_update :delete_reports_on_approve
     after_update :update_comment_in_topic_on_approve
@@ -39,12 +38,6 @@ module Approvable
 
     def disapprove_on_edit
       if editing? && !auto_approve?
-        reset_approve_attributes
-      end
-    end
-
-    def disapprove_on_delete
-      if deletion?
         reset_approve_attributes
       end
     end
