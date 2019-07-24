@@ -14,7 +14,7 @@ class ModQueuesController < ApplicationController
       scope = scope.where(sub: @sub)
     end
 
-    @records = scope.where(deleted: false, approved_at: nil).thing_type(type)
+    @records = scope.where(deleted_at: nil, approved_at: nil).thing_type(type)
                    .reverse_chronologically(after)
                    .includes(:sub, :user, :post)
                    .limit(51)

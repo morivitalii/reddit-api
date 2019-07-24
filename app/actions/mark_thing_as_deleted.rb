@@ -8,7 +8,6 @@ class MarkThingAsDeleted
   def save
     ActiveRecord::Base.transaction do
       @thing.update!(
-        deleted: true,
         deleted_by: @current_user,
         deleted_at: Time.current,
         deletion_reason: @deletion_reason
@@ -18,7 +17,7 @@ class MarkThingAsDeleted
         sub: @thing.sub,
         current_user: @current_user,
         action: :mark_thing_as_deleted,
-        attributes: [:deleted, :deletion_reason, :approved_at, :text],
+        attributes: [:deleted_at, :deletion_reason, :approved_at, :text],
         loggable: @thing,
         model: @thing
       ).call
