@@ -401,10 +401,12 @@ ALTER SEQUENCE public.rate_limits_id_seq OWNED BY public.rate_limits.id;
 CREATE TABLE public.reports (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
-    thing_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    text character varying NOT NULL
+    text character varying NOT NULL,
+    reportable_type character varying,
+    reportable_id bigint,
+    sub_id bigint NOT NULL
 );
 
 
@@ -1232,10 +1234,24 @@ CREATE INDEX index_rate_limits_on_user_id ON public.rate_limits USING btree (use
 
 
 --
--- Name: index_reports_on_thing_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_reports_on_reportable_type_and_reportable_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_reports_on_thing_id ON public.reports USING btree (thing_id);
+CREATE INDEX index_reports_on_reportable_type_and_reportable_id ON public.reports USING btree (reportable_type, reportable_id);
+
+
+--
+-- Name: index_reports_on_reportable_type_and_reportable_id_and_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_reports_on_reportable_type_and_reportable_id_and_user_id ON public.reports USING btree (reportable_type, reportable_id, user_id);
+
+
+--
+-- Name: index_reports_on_sub_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reports_on_sub_id ON public.reports USING btree (sub_id);
 
 
 --
@@ -1243,13 +1259,6 @@ CREATE INDEX index_reports_on_thing_id ON public.reports USING btree (thing_id);
 --
 
 CREATE INDEX index_reports_on_user_id ON public.reports USING btree (user_id);
-
-
---
--- Name: index_reports_on_user_id_and_thing_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_reports_on_user_id_and_thing_id ON public.reports USING btree (user_id, thing_id);
 
 
 --
@@ -1585,14 +1594,6 @@ ALTER TABLE ONLY public.things
 
 
 --
--- Name: reports fk_rails_706a779751; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.reports
-    ADD CONSTRAINT fk_rails_706a779751 FOREIGN KEY (thing_id) REFERENCES public.things(id);
-
-
---
 -- Name: contributors fk_rails_75adfa0433; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1790,6 +1791,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190724025818'),
 ('20190724152958'),
 ('20190724172531'),
-('20190724172544');
+('20190724172544'),
+('20190724221053'),
+('20190724221232'),
+('20190724224154');
 
 

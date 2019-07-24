@@ -11,13 +11,12 @@ class ReportsController < ApplicationController
     scope = policy_scope(Report)
 
     if @sub.present?
-      scope = scope.where(things: { sub: @sub })
+      scope = scope.where(sub: @sub)
     end
 
-    @records = scope.distinct
-                   .merge(Thing.thing_type(type))
+    @records = scope.type(type)
                    .reverse_chronologically(after)
-                   .includes(thing: [:sub, :user, :post])
+                   .includes(reportable: [:sub, :user, :post])
                    .limit(51)
                    .to_a
 
@@ -26,7 +25,7 @@ class ReportsController < ApplicationController
       @after_record = @records.last
     end
 
-    @records = @records.map(&:thing)
+    @records = @records.map(&:reportable)
   end
 
   def thing_index
@@ -66,7 +65,7 @@ class ReportsController < ApplicationController
   end
 
   def type
-    ThingsTypes.new(params[:type]).key
+    ThingsTypes.new(params[:type]).key&.to_s&.classify
   end
 
   def after
@@ -74,6 +73,6 @@ class ReportsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_report).permit(:text).merge(thing: @thing, current_user: current_user)
+    params.require(:create_report).permit(:text).merge(model: @thing, current_user: current_user)
   end
 end

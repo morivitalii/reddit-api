@@ -3,13 +3,13 @@
 class CreateReport
   include ActiveModel::Model
 
-  attr_accessor :thing, :current_user, :text
+  attr_accessor :model, :current_user, :text
 
   def save
     return true if skip?
 
-    report = @thing.reports.find_or_initialize_by(user: @current_user)
-    report.text = @text
+    report = @model.reports.find_or_initialize_by(user: @current_user)
+    report.assign_attributes(sub: @model.sub, text: @text)
 
     report.save!
   rescue ActiveRecord::RecordInvalid => invalid
@@ -21,6 +21,6 @@ class CreateReport
   private
 
   def skip?
-    @thing.ignore_reports?
+    @model.ignore_reports?
   end
 end
