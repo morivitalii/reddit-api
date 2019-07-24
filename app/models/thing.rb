@@ -7,9 +7,8 @@ class Thing < ApplicationRecord
   include Notifiable
   include Reportable
   include Votable
+  include Bookmarkable
   include Uploader::Attachment.new(:file)
-
-  attribute :bookmark, default: nil
 
   belongs_to :sub
   belongs_to :user
@@ -17,7 +16,6 @@ class Thing < ApplicationRecord
   belongs_to :comment, class_name: "Thing", counter_cache: :comments_count, optional: true
   has_one :topic, foreign_key: "post_id"
   has_many :comments, foreign_key: "post_id", class_name: "Thing"
-  has_many :bookmarks
   has_many :logs, as: :loggable
 
   enum thing_type: { post: 1, comment: 2 }
