@@ -4,7 +4,7 @@ module Reportable
   extend ActiveSupport::Concern
 
   included do
-    has_many :reports
+    has_many :reports, as: :reportable
 
     after_update :delete_reports_on_approve
     after_update :delete_reports_on_delete

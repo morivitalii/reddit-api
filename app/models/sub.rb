@@ -13,6 +13,7 @@ class Sub < ApplicationRecord
   has_many :logs
   has_many :pages
   has_many :blacklisted_domains
+  has_many :reports
 
   after_create :add_owner_as_moderator
 
