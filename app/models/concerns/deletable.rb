@@ -8,10 +8,10 @@ module Deletable
 
     scope :not_deleted, -> { where(deleted_at: nil) }
 
-    after_update :delete_reports_on_delete
-
     before_update :disapprove_on_delete
     after_update :update_comment_in_topic_on_delete
+
+    validates :deletion_reason, allow_blank: true, length: { maximum: 5_000 }
 
     def deletion_reason=(value)
       super(value&.squish)
@@ -48,12 +48,6 @@ module Deletable
       ActiveRecord::Base.connection.execute(
           "UPDATE topics SET branch = jsonb_set(branch, '{#{id}, deleted}', '#{deleted?}', false), updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}' WHERE post_id = #{post_id};"
       )
-    end
-
-    def delete_reports_on_delete
-      if deletion?
-        reports.destroy_all
-      end
     end
   end
 end
