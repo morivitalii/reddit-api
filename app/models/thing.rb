@@ -96,11 +96,7 @@ class Thing < ApplicationRecord
   def cut_text_preview?
     return false unless text?
 
-    if Current.variant.desktop?
-      text.length > 800
-    elsif Current.variant.mobile?
-      text.length > 500
-    end
+    text.length > 800
   end
 
   def cut_image_preview?
@@ -113,9 +109,9 @@ class Thing < ApplicationRecord
   def image_content_dimensions
     return false unless image?
 
-    variant = Current.variant.first
+    variant = :desktop
 
-    if file[variant].height > 550 && !Current.variant.mobile?
+    if file[variant].height > 550
       coefficient_by_max_height = 550 / file[variant].height.to_f
       width_calculated_with_coefficient_by_max_height = (file[variant].width * coefficient_by_max_height).round
 

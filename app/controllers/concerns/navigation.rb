@@ -5,7 +5,7 @@ module Navigation
 
   included do
     before_action do
-      @navigation = Rails.cache.fetch("user-navigation-#{current_user&.id}-#{current_user&.updated_at}-#{Current.variant.first}", expires_in: 24.hours) do
+      @navigation = Rails.cache.fetch("user-navigation-#{current_user&.id}-#{current_user&.updated_at}", expires_in: 24.hours) do
         navigation = {
           other: {
             items: [
@@ -15,17 +15,8 @@ module Navigation
         }
 
         if helpers.user_signed_in?
-          if Current.variant.mobile?
-            navigation[:other][:items].push({ href: user_path(current_user), title: t("profile") })
-          end
-
           navigation[:other][:items].push({ href: notifications_path, title: t("notifications") })
           navigation[:other][:items].push({ href: edit_users_path, title: t("settings") })
-
-          if Current.variant.mobile?
-            # TODO: fix. link must be with option method: :delete
-            navigation[:other][:items].push({ href: sign_out_path, title: t("sign_out") })
-          end
 
           moderator_in = Sub.joins(:moderators).where(moderators: { user: current_user }).to_a
           follower_in = Sub.joins(:follows).where(follows: { user: current_user }).to_a

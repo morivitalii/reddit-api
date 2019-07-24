@@ -84,12 +84,11 @@ class Uploader < Shrine
         screenshot.open # refresh file descriptor
 
         desktop = ImageProcessing::Vips.source(screenshot).saver(quality: 100).resize_to_limit(720, 360).call
-        mobile = ImageProcessing::Vips.source(desktop).saver(quality: 100).resize_to_limit(425, 500).call
-        [desktop, mobile].each(&:open)
+        [desktop].each(&:open)
 
         # Extract original file metadata
         io.refresh_metadata!(context)
-        { original: io, desktop: desktop, mobile: mobile }
+        { original: io, desktop: desktop }
       elsif io.content_type == "image/gif"
         gif = FFMPEG::Movie.new(original.path)
         mp4 = Tempfile.new(["", ".mp4"], binmode: true)
@@ -101,18 +100,16 @@ class Uploader < Shrine
         screenshot.open # refresh file descriptor
 
         desktop = ImageProcessing::Vips.source(screenshot).saver(quality: 100).resize_to_limit(720, 360).call
-        mobile = ImageProcessing::Vips.source(desktop).saver(quality: 100).resize_to_limit(425, 500).call
-        [desktop, mobile].each(&:open)
+        [desktop].each(&:open)
 
-        { original: mp4, desktop: desktop, mobile: mobile }
+        { original: mp4, desktop: desktop }
       else
         desktop = ImageProcessing::Vips.source(original.path).saver(quality: 100).resize_to_limit(825, nil).call
-        mobile = ImageProcessing::Vips.source(desktop).saver(quality: 100).resize_to_limit(425, nil).call
-        [desktop, mobile].each(&:open)
+        [desktop].each(&:open)
 
         # Extract original file metadata
         io.refresh_metadata!(context)
-        { original: io, desktop: desktop, mobile: mobile }
+        { original: io, desktop: desktop }
       end
     end
   end
