@@ -6,9 +6,9 @@ class Thing < ApplicationRecord
   include Deletable
   include Notifiable
   include Reportable
+  include Votable
   include Uploader::Attachment.new(:file)
 
-  attribute :vote, default: nil
   attribute :bookmark, default: nil
 
   belongs_to :sub
@@ -18,7 +18,6 @@ class Thing < ApplicationRecord
   has_one :topic, foreign_key: "post_id"
   has_many :comments, foreign_key: "post_id", class_name: "Thing"
   has_many :bookmarks
-  has_many :votes
   has_many :logs, as: :loggable
 
   enum thing_type: { post: 1, comment: 2 }
@@ -53,7 +52,6 @@ class Thing < ApplicationRecord
   before_update :reset_deletion_attributes_on_file_store
   after_create :create_topic_on_create
   after_create :insert_to_topic_on_create
-  after_create :create_up_vote_on_create
 
   with_options if: ->(r) { r.post? } do
     validates :title, presence: true, length: { maximum: 350 }
@@ -261,10 +259,4 @@ class Thing < ApplicationRecord
       "UPDATE topics SET branch = jsonb_set(branch, '{#{id}}', '#{json}', true), updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}' WHERE post_id = #{post_id};"
     )
   end
-
-  def create_up_vote_on_create
-    votes.create!(vote_type: :up, user: user)
-  end
-
-
 end
