@@ -3,8 +3,6 @@
 class HomeController < ApplicationController
   layout "narrow"
 
-  before_action :set_navigation_title
-
   def index
     @records = Thing.thing_type(:post)
                    .not_deleted
@@ -32,9 +30,5 @@ class HomeController < ApplicationController
 
   def date
     ThingsDates.new(params[:date]).date
-  end
-
-  def set_navigation_title
-    @navigation_title = t("home")
   end
 end

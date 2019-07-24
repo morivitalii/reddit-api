@@ -5,7 +5,6 @@ class NotificationsController < ApplicationController
 
   before_action :set_user
   before_action :reset_counter
-  before_action :set_navigation_title
   before_action -> { authorize(Notification) }
 
   def index
@@ -33,9 +32,5 @@ class NotificationsController < ApplicationController
 
   def reset_counter
     ResetNotificationsCounter.new(current_user: current_user).call
-  end
-
-  def set_navigation_title
-    @navigation_title = t("notifications")
   end
 end

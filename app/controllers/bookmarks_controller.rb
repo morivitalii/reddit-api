@@ -5,7 +5,6 @@ class BookmarksController < ApplicationController
 
   before_action -> { authorize(Bookmark) }
   before_action :set_user, only: [:index]
-  before_action :set_navigation_title, only: [:index]
   before_action :set_thing, only: [:create, :destroy]
 
   def index
@@ -40,10 +39,6 @@ class BookmarksController < ApplicationController
 
   def set_user
     @user = current_user
-  end
-
-  def set_navigation_title
-    @navigation_title = @user.username
   end
 
   def set_thing

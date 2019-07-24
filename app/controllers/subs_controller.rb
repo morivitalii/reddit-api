@@ -3,7 +3,6 @@
 class SubsController < ApplicationController
   layout "narrow", only: "show"
   before_action :set_sub
-  before_action :set_navigation_title
   before_action -> { authorize(@sub) }
 
   def show
@@ -43,10 +42,6 @@ class SubsController < ApplicationController
 
   def set_sub
     @sub = Sub.where("lower(url) = ?", params[:id].downcase).take!
-  end
-
-  def set_navigation_title
-    @navigation_title = @sub.title
   end
 
   def update_params

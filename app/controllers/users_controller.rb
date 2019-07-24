@@ -6,7 +6,6 @@ class UsersController < ApplicationController
   before_action -> { authorize(User) }
   before_action :set_user, only: [:show]
   before_action :set_current_user, only: [:edit, :update]
-  before_action :set_navigation_title
 
   def show
     @records = Thing.not_deleted
@@ -46,10 +45,6 @@ class UsersController < ApplicationController
 
   def set_current_user
     @user = current_user
-  end
-
-  def set_navigation_title
-    @navigation_title = @user.username
   end
 
   def update_params
