@@ -60,6 +60,6 @@ class PostsController < ApplicationController
   end
 
   def update_params
-    params.require(:update_post).permit(:text).merge(post: @post)
+    params.require(:update_post).permit(:text).merge(post: @post, current_user: current_user)
   end
 end

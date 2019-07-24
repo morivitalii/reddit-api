@@ -332,12 +332,12 @@ ALTER SEQUENCE public.notifications_id_seq OWNED BY public.notifications.id;
 CREATE TABLE public.pages (
     id bigint NOT NULL,
     sub_id bigint,
-    edited_by_id bigint NOT NULL,
+    edited_by_id bigint,
     title character varying NOT NULL,
     text character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    edited_at timestamp without time zone NOT NULL
+    edited_at timestamp without time zone
 );
 
 
@@ -554,7 +554,7 @@ CREATE TABLE public.things (
     controversy_score integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    edited_at timestamp without time zone NOT NULL,
+    edited_at timestamp without time zone,
     deleted_at timestamp without time zone,
     deleted boolean DEFAULT false NOT NULL,
     deletion_reason character varying,
@@ -571,7 +571,8 @@ CREATE TABLE public.things (
     content_type integer NOT NULL,
     receive_notifications boolean DEFAULT false NOT NULL,
     ignore_reports boolean DEFAULT false NOT NULL,
-    deleted_by_id bigint
+    deleted_by_id bigint,
+    edited_by_id bigint
 );
 
 
@@ -1335,6 +1336,13 @@ CREATE INDEX index_things_on_deleted_by_id ON public.things USING btree (deleted
 
 
 --
+-- Name: index_things_on_edited_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_things_on_edited_by_id ON public.things USING btree (edited_by_id);
+
+
+--
 -- Name: index_things_on_hot_score; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1518,6 +1526,14 @@ ALTER TABLE ONLY public.follows
 
 ALTER TABLE ONLY public.contributors
     ADD CONSTRAINT fk_rails_41647502bc FOREIGN KEY (approved_by_id) REFERENCES public.users(id);
+
+
+--
+-- Name: things fk_rails_4390fc3962; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.things
+    ADD CONSTRAINT fk_rails_4390fc3962 FOREIGN KEY (edited_by_id) REFERENCES public.users(id);
 
 
 --
@@ -1765,6 +1781,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190722010659'),
 ('20190722010707'),
 ('20190722012742'),
-('20190724014115');
+('20190724014115'),
+('20190724022619'),
+('20190724023901'),
+('20190724023906'),
+('20190724023916');
 
 

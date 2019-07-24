@@ -57,6 +57,6 @@ class CommentsController < ApplicationController
   end
 
   def update_params
-    params.require(:update_comment).permit(:text).merge(comment: @thing)
+    params.require(:update_comment).permit(:text).merge(comment: @thing, current_user: current_user)
   end
 end
