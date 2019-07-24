@@ -45,7 +45,6 @@ FactoryBot.define do
     end
 
     trait :deleted do
-      deleted { true }
       association :deleted_by, factory: :user
       deleted_at { Time.current }
       deletion_reason { "Deletion reason" }

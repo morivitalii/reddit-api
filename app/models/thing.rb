@@ -3,6 +3,7 @@
 class Thing < ApplicationRecord
   include Editable
   include Approvable
+  include Deletable
   include Uploader::Attachment.new(:file)
 
   attribute :vote, default: nil
@@ -10,7 +11,6 @@ class Thing < ApplicationRecord
 
   belongs_to :sub
   belongs_to :user
-  belongs_to :deleted_by, class_name: "User", foreign_key: "deleted_by_id", optional: true
   belongs_to :post, class_name: "Thing", counter_cache: :comments_count, optional: true
   belongs_to :comment, class_name: "Thing", counter_cache: :comments_count, optional: true
   has_one :topic, foreign_key: "post_id"
@@ -25,7 +25,6 @@ class Thing < ApplicationRecord
   enum content_type: { text: 1, link: 2, media: 3 }
 
   scope :thing_type, ->(type) { where(thing_type: type) if type.present? }
-  scope :not_deleted, -> { where(deleted: false) }
 
   scope :sort_records_by, -> (sort) do
     if sort.present?
@@ -56,10 +55,6 @@ class Thing < ApplicationRecord
   after_create :insert_to_topic_on_create
   after_create :create_up_vote_on_create
   after_create :create_notification_on_create
-  after_update :update_post_counter_cache_on_deletion
-  after_update :update_comment_counter_cache_on_deletion
-  after_update :delete_reports_on_deletion
-  after_update :update_comment_in_topic_on_deletion
 
   with_options if: ->(r) { r.post? } do
     validates :title, presence: true, length: { maximum: 350 }
@@ -165,15 +160,6 @@ class Thing < ApplicationRecord
     end
   end
 
-  def reset_deletion_attributes
-    assign_attributes(
-      deleted: false,
-      deleted_by: nil,
-      deleted_at: nil,
-      deletion_reason: nil
-    )
-  end
-
   def title=(value)
     super(value.squish)
   end
@@ -184,10 +170,6 @@ class Thing < ApplicationRecord
 
   def text=(value)
     super(value.strip)
-  end
-
-  def deletion_reason=(value)
-    super(value&.squish)
   end
 
   def presenter
@@ -246,11 +228,7 @@ class Thing < ApplicationRecord
     return unless media?
     return unless file_data_changed? && file_attacher.cached?
 
-    assign_attributes(
-      deleted: true,
-      deleted_by: User.auto_moderator,
-      deleted_at: Time.current
-    )
+    assign_attributes(deleted_by: user, deleted_at: Time.current)
   end
 
   def reset_deletion_attributes_on_file_store
@@ -310,51 +288,5 @@ class Thing < ApplicationRecord
     return false unless comment?
 
     user_id == replied_to.user_id
-  end
-
-  def delete_reports_on_deletion
-    previous_deleted = deleted_previous_change&.compact
-
-    if previous_deleted == [false, true]
-      reports.destroy_all
-    end
-  end
-
-  def update_post_counter_cache_on_deletion
-    return unless comment?
-
-    previous = deleted_previous_change&.compact
-
-    if previous == [false, true]
-      post.decrement!(:comments_count)
-    elsif previous == [true, false]
-      post.increment!(:comments_count)
-    end
-  end
-
-  def update_comment_counter_cache_on_deletion
-    return unless comment?
-    return if comment.blank?
-
-    previous = deleted_previous_change&.compact
-
-    if previous == [false, true]
-      comment.decrement!(:comments_count)
-    elsif previous == [true, false]
-      comment.increment!(:comments_count)
-    end
-  end
-
-  def update_comment_in_topic_on_deletion
-    return unless comment?
-    return unless deleted_previously_changed?
-
-    ActiveRecord::Base.connection.execute(
-      "UPDATE topics SET branch = jsonb_set(branch, '{#{id}, deleted}', '#{deleted}', false), updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}' WHERE post_id = #{post_id};"
-    )
-  end
-
-  def deletion?
-    deleted_at_changed? && deleted?
   end
 end

@@ -11,8 +11,6 @@ module Approvable
     before_update :disapprove_on_delete
     before_update :restore_on_approve
     after_update :delete_reports_on_approve
-    after_update :update_post_counter_cache_on_approve
-    after_update :update_comment_counter_cache_on_approve
     after_update :update_comment_in_topic_on_approve
 
     def approved?
@@ -63,37 +61,12 @@ module Approvable
       end
     end
 
-    def update_post_counter_cache_on_approve
-      return unless comment?
-
-      previous = deleted_previous_change&.compact
-
-      if previous == [false, true]
-        post.decrement!(:comments_count)
-      elsif previous == [true, false]
-        post.increment!(:comments_count)
-      end
-    end
-
-    def update_comment_counter_cache_on_approve
-      return unless comment?
-      return if comment.blank?
-
-      previous = deleted_previous_change&.compact
-
-      if previous == [false, true]
-        comment.decrement!(:comments_count)
-      elsif previous == [true, false]
-        comment.increment!(:comments_count)
-      end
-    end
-
     def update_comment_in_topic_on_approve
       return unless comment?
-      return unless deleted_previously_changed?
+      return unless deleted_at_previously_changed?
 
       ActiveRecord::Base.connection.execute(
-        "UPDATE topics SET branch = jsonb_set(branch, '{#{id}, deleted}', '#{deleted}', false), updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}' WHERE post_id = #{post_id};"
+        "UPDATE topics SET branch = jsonb_set(branch, '{#{id}, deleted}', '#{deleted?}', false), updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}' WHERE post_id = #{post_id};"
       )
     end
   end

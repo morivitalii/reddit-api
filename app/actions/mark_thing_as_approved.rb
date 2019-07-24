@@ -17,7 +17,7 @@ class MarkThingAsApproved
         sub: @thing.sub,
         current_user: @current_user,
         action: :mark_thing_as_approved,
-        attributes: [:approved_at, :deleted, :deletion_reason, :text],
+        attributes: [:approved_at, :deleted_at, :deletion_reason, :text],
         loggable: @thing,
         model: @thing
       ).call

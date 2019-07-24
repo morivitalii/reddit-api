@@ -556,7 +556,6 @@ CREATE TABLE public.things (
     updated_at timestamp without time zone NOT NULL,
     edited_at timestamp without time zone,
     deleted_at timestamp without time zone,
-    deleted boolean DEFAULT false NOT NULL,
     deletion_reason character varying,
     approved_at timestamp without time zone,
     approved_by_id bigint,
@@ -1322,10 +1321,10 @@ CREATE INDEX index_things_on_created_at ON public.things USING btree (created_at
 
 
 --
--- Name: index_things_on_deleted; Type: INDEX; Schema: public; Owner: -
+-- Name: index_things_on_deleted_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_things_on_deleted ON public.things USING btree (deleted);
+CREATE INDEX index_things_on_deleted_at ON public.things USING btree (deleted_at);
 
 
 --
@@ -1785,6 +1784,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190724022619'),
 ('20190724023901'),
 ('20190724023906'),
-('20190724023916');
+('20190724023916'),
+('20190724025712'),
+('20190724025818');
 
 
