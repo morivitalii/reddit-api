@@ -5,6 +5,7 @@ class Thing < ApplicationRecord
   include Approvable
   include Deletable
   include Notifiable
+  include Reportable
   include Uploader::Attachment.new(:file)
 
   attribute :vote, default: nil
@@ -18,7 +19,6 @@ class Thing < ApplicationRecord
   has_many :comments, foreign_key: "post_id", class_name: "Thing"
   has_many :bookmarks
   has_many :votes
-  has_many :reports
   has_many :logs, as: :loggable
 
   enum thing_type: { post: 1, comment: 2 }
@@ -82,7 +82,6 @@ class Thing < ApplicationRecord
   end
 
   validates :content_type, presence: true, inclusion: { in: self.content_types.keys }
-  validates :deletion_reason, allow_blank: true, length: { maximum: 5_000 }
   validates :tag, allow_blank: true, length: { maximum: 30 }
 
   def scores_stale?
