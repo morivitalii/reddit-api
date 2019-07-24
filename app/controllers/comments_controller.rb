@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
+  include RateLimits
+
   before_action :set_thing, only: [:new, :create]
   before_action :set_comment, only: [:edit, :update]
   before_action -> { authorize(@thing, policy_class: CommentPolicy) }, only: [:new, :create, :edit, :update]

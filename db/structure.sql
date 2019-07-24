@@ -301,9 +301,10 @@ ALTER SEQUENCE public.moderators_id_seq OWNED BY public.moderators.id;
 CREATE TABLE public.notifications (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
-    thing_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    notifiable_type character varying NOT NULL,
+    notifiable_id bigint NOT NULL
 );
 
 
@@ -571,7 +572,7 @@ CREATE TABLE public.things (
     file_data character varying,
     thing_type integer NOT NULL,
     content_type integer NOT NULL,
-    receive_notifications boolean DEFAULT false NOT NULL,
+    receive_notifications boolean DEFAULT true NOT NULL,
     ignore_reports boolean DEFAULT false NOT NULL,
     deleted_by_id bigint,
     edited_by_id bigint,
@@ -1186,10 +1187,10 @@ CREATE INDEX index_moderators_on_user_id ON public.moderators USING btree (user_
 
 
 --
--- Name: index_notifications_on_thing_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_notifications_on_notifiable_type_and_notifiable_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_notifications_on_thing_id ON public.notifications USING btree (thing_id);
+CREATE INDEX index_notifications_on_notifiable_type_and_notifiable_id ON public.notifications USING btree (notifiable_type, notifiable_id);
 
 
 --
@@ -1197,6 +1198,13 @@ CREATE UNIQUE INDEX index_notifications_on_thing_id ON public.notifications USIN
 --
 
 CREATE INDEX index_notifications_on_user_id ON public.notifications USING btree (user_id);
+
+
+--
+-- Name: index_notifications_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_notifications_uniqueness ON public.notifications USING btree (notifiable_type, notifiable_id, user_id);
 
 
 --
@@ -1547,14 +1555,6 @@ ALTER TABLE ONLY public.things
 
 
 --
--- Name: notifications fk_rails_4d1f56ac6a; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.notifications
-    ADD CONSTRAINT fk_rails_4d1f56ac6a FOREIGN KEY (thing_id) REFERENCES public.things(id);
-
-
---
 -- Name: rate_limits fk_rails_503ad46b83; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1789,6 +1789,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190724221232'),
 ('20190724224154'),
 ('20190724225505'),
-('20190724225534');
+('20190724225534'),
+('20190724230752'),
+('20190724230802'),
+('20190724232645');
 
 
