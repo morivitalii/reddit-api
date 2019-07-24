@@ -5,7 +5,6 @@ class VotesController < ApplicationController
 
   before_action -> { authorize(Vote) }
   before_action :set_user, only: [:index]
-  before_action :set_navigation_title, only: [:index]
   before_action :set_thing, only: [:create]
 
   def index
@@ -42,10 +41,6 @@ class VotesController < ApplicationController
 
   def set_user
     @user = current_user
-  end
-
-  def set_navigation_title
-    @navigation_title = @user.username
   end
 
   def set_thing

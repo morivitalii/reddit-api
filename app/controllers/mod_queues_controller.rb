@@ -5,7 +5,6 @@ class ModQueuesController < ApplicationController
 
   before_action :set_sub
   before_action -> { authorize(nil, policy_class: ModQueuePolicy) }
-  before_action :set_navigation_title
 
   def index
     scope = policy_scope(Thing, policy_scope_class: ModQueuePolicy::Scope)
@@ -30,10 +29,6 @@ class ModQueuesController < ApplicationController
 
   def set_sub
     @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub]).take! : nil
-  end
-
-  def set_navigation_title
-    @navigation_title = t("mod_queue")
   end
 
   def type
