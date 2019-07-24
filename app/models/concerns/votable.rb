@@ -6,7 +6,7 @@ module Votable
   included do
     attribute :vote, default: nil
 
-    has_many :votes
+    has_many :votes, as: :votable
 
     after_create :create_up_vote_on_create
 

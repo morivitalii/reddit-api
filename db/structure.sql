@@ -674,11 +674,12 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 CREATE TABLE public.votes (
     id bigint NOT NULL,
-    thing_id bigint NOT NULL,
     user_id bigint NOT NULL,
     vote_type integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    votable_type character varying NOT NULL,
+    votable_id bigint NOT NULL
 );
 
 
@@ -1430,13 +1431,6 @@ CREATE UNIQUE INDEX index_users_on_lower_username ON public.users USING btree (l
 
 
 --
--- Name: index_votes_on_thing_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_votes_on_thing_id ON public.votes USING btree (thing_id);
-
-
---
 -- Name: index_votes_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1444,10 +1438,17 @@ CREATE INDEX index_votes_on_user_id ON public.votes USING btree (user_id);
 
 
 --
--- Name: index_votes_on_user_id_and_thing_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_votes_on_votable_type_and_votable_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_votes_on_user_id_and_thing_id ON public.votes USING btree (user_id, thing_id);
+CREATE INDEX index_votes_on_votable_type_and_votable_id ON public.votes USING btree (votable_type, votable_id);
+
+
+--
+-- Name: index_votes_on_votable_type_and_votable_id_and_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_votes_on_votable_type_and_votable_id_and_user_id ON public.votes USING btree (votable_type, votable_id, user_id);
 
 
 --
@@ -1599,14 +1600,6 @@ ALTER TABLE ONLY public.things
 
 ALTER TABLE ONLY public.contributors
     ADD CONSTRAINT fk_rails_75adfa0433 FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
--- Name: votes fk_rails_8a672aea00; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.votes
-    ADD CONSTRAINT fk_rails_8a672aea00 FOREIGN KEY (thing_id) REFERENCES public.things(id);
 
 
 --
@@ -1794,6 +1787,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190724172544'),
 ('20190724221053'),
 ('20190724221232'),
-('20190724224154');
+('20190724224154'),
+('20190724225505'),
+('20190724225534');
 
 
