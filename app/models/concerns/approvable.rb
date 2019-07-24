@@ -10,6 +10,10 @@ module Approvable
     before_update :undelete_on_approve
     after_update :update_comment_in_topic_on_approve
 
+    def approvable?
+      true
+    end
+
     def approved?
       approved_at.present?
     end
