@@ -571,7 +571,8 @@ CREATE TABLE public.things (
     receive_notifications boolean DEFAULT false NOT NULL,
     ignore_reports boolean DEFAULT false NOT NULL,
     deleted_by_id bigint,
-    edited_by_id bigint
+    edited_by_id bigint,
+    new_score integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1349,6 +1350,13 @@ CREATE INDEX index_things_on_hot_score ON public.things USING btree (hot_score D
 
 
 --
+-- Name: index_things_on_new_score; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_things_on_new_score ON public.things USING btree (new_score DESC);
+
+
+--
 -- Name: index_things_on_post_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1786,6 +1794,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190724023906'),
 ('20190724023916'),
 ('20190724025712'),
-('20190724025818');
+('20190724025818'),
+('20190724152958');
 
 

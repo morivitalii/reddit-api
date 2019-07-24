@@ -59,16 +59,9 @@ class Vote < ApplicationRecord
   end
 
   def update_thing_scores
-    return unless thing.scores_stale?
-
-    thing.assign_attributes(
-      hot_score: ScoreCalculator.hot(thing.up_votes_count, thing.down_votes_count, thing.created_at),
-      best_score: ScoreCalculator.best(thing.up_votes_count, thing.down_votes_count),
-      top_score: ScoreCalculator.top(thing.up_votes_count, thing.down_votes_count),
-      controversy_score: ScoreCalculator.controversy(thing.up_votes_count, thing.down_votes_count),
-    )
-    
-    thing.save!(touch: false)
+    if thing.scores_stale?
+      thing.refresh_scores!
+    end
   end
 
   def update_comment_scores_in_topic
@@ -76,10 +69,11 @@ class Vote < ApplicationRecord
     return unless thing.scores_stale?
 
     json = {
-      best: thing.best_score,
-      top: thing.top_score,
-      controversy: thing.controversy_score,
-      created_at: thing.created_at.to_i
+      new_score: thing.new_score,
+      hot_score: thing.hot_score,
+      best_score: thing.best_score,
+      top_score: thing.top_score,
+      controversy_score: thing.controversy_score
     }.to_json
 
     ActiveRecord::Base.connection.execute(

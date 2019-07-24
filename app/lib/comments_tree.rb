@@ -54,11 +54,12 @@ class CommentsTree
 
   def sort(branch)
     case @sort
-    when :best then branch.sort { |a, b| a.dig(:scores, :best) == b.dig(:scores, :best) ? a[:id] <=> b[:id] : b.dig(:scores, :best) <=> a.dig(:scores, :best) }
-    when :top then branch.sort { |a, b| a.dig(:scores, :top) == b.dig(:scores, :best) ? a[:id] <=> b[:id] : b.dig(:scores, :top) <=> a.dig(:scores, :top) }
-    when :controversy then branch.sort { |a, b| a.dig(:scores, :controversy) == b.dig(:scores, :controversy) ? a[:id] <=> b[:id] : b.dig(:scores, :controversy) <=> a.dig(:scores, :controversy) }
-    when :new then branch.sort { |a, b| a.dig(:scores, :created_at) == b.dig(:scores, :created_at) ? b[:id] <=> a[:id] : b.dig(:scores, :created_at) <=> a.dig(:scores, :created_at) }
-    when :old then branch.sort { |a, b| a.dig(:scores, :created_at) == b.dig(:scores, :created_at) ? a[:id] <=> b[:id] : a.dig(:scores, :created_at) <=> b.dig(:scores, :created_at) }
+    when :hot then branch.sort { |a, b| a.dig(:scores, :hot_score) == b.dig(:scores, :hot_score) ? a[:id] <=> b[:id] : b.dig(:scores, :hot_score) <=> a.dig(:scores, :hot_score) }
+    when :best then branch.sort { |a, b| a.dig(:scores, :best_score) == b.dig(:scores, :best_score) ? a[:id] <=> b[:id] : b.dig(:scores, :best_score) <=> a.dig(:scores, :best_score) }
+    when :top then branch.sort { |a, b| a.dig(:scores, :top_score) == b.dig(:scores, :top_score) ? a[:id] <=> b[:id] : b.dig(:scores, :top_score) <=> a.dig(:scores, :top_score) }
+    when :controversy then branch.sort { |a, b| a.dig(:scores, :controversy_score) == b.dig(:scores, :controversy_score) ? a[:id] <=> b[:id] : b.dig(:scores, :controversy_score) <=> a.dig(:scores, :controversy_score) }
+    when :new then branch.sort { |a, b| a.dig(:scores, :new_score) == b.dig(:scores, :new_score) ? b[:id] <=> a[:id] : b.dig(:scores, :new_score) <=> a.dig(:scores, :new_score) }
+    when :old then branch.sort { |a, b| a.dig(:scores, :new_score) == b.dig(:scores, :new_score) ? a[:id] <=> b[:id] : a.dig(:scores, :new_score) <=> b.dig(:scores, :new_score) }
     end
   end
 

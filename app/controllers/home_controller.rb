@@ -8,9 +8,8 @@ class HomeController < ApplicationController
   def index
     @records = Thing.thing_type(:post)
                    .not_deleted
-                   .sort_records_by(sort)
-                   .records_after(after, date)
-                   .records_after_date(date)
+                   .chronologically(sort, after)
+                   .in_date_range(date)
                    .includes(:sub, :user)
                    .limit(51)
                    .to_a
