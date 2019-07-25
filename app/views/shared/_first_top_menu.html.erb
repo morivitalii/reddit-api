@@ -6,7 +6,33 @@
           <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                <%= render "shared/navigation" %>
+                <select id="navigation" class="selectpicker" data-live-search="true" data-size="10" title="<%= t("app_name") %>">
+                  <option data-href="<%= root_path %>"><%= t("home")%></option>
+
+                  <% if user_signed_in? %>
+                    <option data-href="<%= notifications_path %>"><%= t("notifications")%></option>
+                    <option data-href="<%= edit_users_path %>"><%= t("settings") %></option>
+
+                    <% navigation = UserNavigation.new(current_user) %>
+
+                    <% if navigation.moderation.present? %>
+                      <optgroup label="<%= t("mod_queue") %>">
+                        <option data-href="<%= mod_queues_path %>"><%= t("mod_queue") %></option>
+                          <% navigation.moderation.each do |sub| %>
+                            <option data-href="<%= sub_path(sub) %>"><%= sub.title %></option>
+                          <% end %>
+                      </optgroup>
+                    <% end %>
+
+                    <% if navigation.follows.present? %>
+                      <optgroup label="<%= t("follows") %>">
+                        <% navigation.follows.each do |sub| %>
+                          <option data-href="<%= sub_path(sub) %>"><%= sub.title %></option>
+                        <% end %>
+                      </optgroup>
+                    <% end %>
+                  <% end %>
+                </select>
               </li>
             </ul>
             <ul class="navbar-nav">
