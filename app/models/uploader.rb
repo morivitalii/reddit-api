@@ -50,7 +50,7 @@ class Uploader < Shrine
   add_metadata do |io, context|
     next unless context[:action] == :store
 
-    original_metadata = JSON.parse(context[:record].file_data)["metadata"]
+    original_metadata = JSON.parse(context[:record].media_data)["metadata"]
     filename = "#{File.basename(original_metadata["filename"], ".*")} #{context[:version] || "original"}#{File.extname(context[:metadata]["filename"])}"
 
     if context[:metadata]["mime_type"] == "video/mp4"

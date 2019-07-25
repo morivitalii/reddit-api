@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :contributors
   has_many :bans
   has_many :things
+  has_many :posts
   has_many :bookmarks
   has_many :votes
   has_many :reports
