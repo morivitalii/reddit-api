@@ -40,6 +40,10 @@ class SubsController < ApplicationController
 
   private
 
+  def pundit_user
+    UserContext.new(current_user, @sub)
+  end
+
   def set_sub
     @sub = Sub.where("lower(url) = ?", params[:id].downcase).take!
   end

@@ -3,17 +3,55 @@
     <div class="col-12 rounded-top bg-dark text-white pt-2 pb-2">
       <%= t('sub') %>
 
-      <% if current_user&.moderator?(@sub) %>
-        <span class="dropdown-toggle float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <%= fa_icon(:cog) %>
-        </span>
+      <span class="dropdown-toggle float-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <%= fa_icon(:cog) %>
+      </span>
 
-        <div class="dropdown-menu dropdown-menu-right">
-          <% sub_mod_menu(@sub).each do |title, path| %>
-            <%= link_to(title, path, class: 'dropdown-item') %>
-          <% end %>
-        </div>
-      <% end %>
+      <div class="dropdown-menu dropdown-menu-right">
+        <% if ModQueuePolicy.new(pundit_user, nil).index? %>
+          <%= link_to(t("mod_queue"), mod_queues_path(sub: @sub), class: "dropdown-item") %>
+        <% end %>
+
+        <% if policy(Moderator).index? %>
+          <%= link_to(t("moderators"), moderators_path(sub: @sub), class: "dropdown-item") %>
+        <% end %>
+
+        <% if policy(Ban).index? %>
+          <%= link_to(t("bans"), bans_path(sub: @sub), class: "dropdown-item") %>
+        <% end %>
+
+        <% if policy(Contributor).index? %>
+          <%= link_to(t("contributors"), contributors_path(sub: @sub), class: "dropdown-item") %>
+        <% end %>
+
+        <% if policy(Rule).index? %>
+          <%= link_to(t("rules"), rules_path(sub: @sub), class: "dropdown-item") %>
+        <% end %>
+
+        <% if policy(DeletionReason).index? %>
+          <%= link_to(t("deletion_reasons"), deletion_reasons_path(sub: @sub), class: "dropdown-item") %>
+        <% end %>
+
+        <% if policy(Tag).index? %>
+          <%= link_to(t("tags"), tags_path(sub: @sub), class: "dropdown-item") %>
+        <% end %>
+
+        <% if policy(Page).index? %>
+          <%= link_to(t("pages"), pages_path(sub: @sub), class: "dropdown-item") %>
+        <% end %>
+
+        <% if policy(BlacklistedDomain).index? %>
+          <%= link_to(t("blacklisted_domains"), blacklisted_domains_path(sub: @sub), class: "dropdown-item") %>
+        <% end %>
+
+        <% if policy(Log).index? %>
+          <%= link_to(t("logs"), logs_path(sub: @sub), class: "dropdown-item") %>
+        <% end %>
+
+        <% if policy(@sub).update? %>
+          <%= link_to(t("settings"), edit_sub_path(@sub), class: "dropdown-item") %>
+        <% end %>
+      </div>
     </div>
 
     <div class="col-12 mt-2">

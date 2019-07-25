@@ -27,6 +27,10 @@ class ModQueuesController < ApplicationController
 
   private
 
+  def pundit_user
+    UserContext.new(current_user, @sub)
+  end
+
   def set_sub
     @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub]).take! : nil
   end

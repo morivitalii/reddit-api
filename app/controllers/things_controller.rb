@@ -75,7 +75,7 @@ class ThingsController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @thing)
+    UserContext.new(current_user, @thing&.sub)
   end
 
   def update_params
