@@ -3,7 +3,6 @@
 class ApplicationController < ActionController::Base
   include PageNotFound
   include Authorization
-  include Navigation
   include Pundit
 
   private

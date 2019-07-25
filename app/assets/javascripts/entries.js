@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $(document).on('ajax:success', '.entries .create', function(e) {
-        $('#bans').append(e.detail[0].activeElement.innerHTML);
+        $('.entries').append(e.detail[0].activeElement.innerHTML);
         $('.modal').modal('show');
     });
 
