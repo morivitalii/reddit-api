@@ -128,6 +128,57 @@ ALTER SEQUENCE public.bookmarks_id_seq OWNED BY public.bookmarks.id;
 
 
 --
+-- Name: comments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comments (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    post_id bigint NOT NULL,
+    parent_id bigint NOT NULL,
+    text text NOT NULL,
+    receive_notifications boolean DEFAULT true NOT NULL,
+    ignore_reports boolean DEFAULT false NOT NULL,
+    comments_count integer DEFAULT 0 NOT NULL,
+    up_votes_count integer DEFAULT 0 NOT NULL,
+    down_votes_count integer DEFAULT 0 NOT NULL,
+    new_score integer DEFAULT 0 NOT NULL,
+    hot_score double precision DEFAULT 0.0 NOT NULL,
+    best_score double precision DEFAULT 0.0 NOT NULL,
+    top_score integer DEFAULT 0 NOT NULL,
+    controversy_score integer DEFAULT 0 NOT NULL,
+    edited_by_id bigint,
+    edited_at timestamp without time zone,
+    approved_by_id bigint,
+    approved_at timestamp without time zone,
+    deleted_by_id bigint,
+    deleted_at timestamp without time zone,
+    deletion_reason character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
+
+
+--
 -- Name: contributors; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -781,6 +832,13 @@ ALTER TABLE ONLY public.bookmarks ALTER COLUMN id SET DEFAULT nextval('public.bo
 
 
 --
+-- Name: comments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.comments_id_seq'::regclass);
+
+
+--
 -- Name: contributors id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -929,6 +987,14 @@ ALTER TABLE ONLY public.blacklisted_domains
 
 ALTER TABLE ONLY public.bookmarks
     ADD CONSTRAINT bookmarks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
 
 
 --
@@ -1150,6 +1216,90 @@ CREATE INDEX index_bookmarks_on_user_id ON public.bookmarks USING btree (user_id
 --
 
 CREATE UNIQUE INDEX index_bookmarks_uniqueness ON public.bookmarks USING btree (bookmarkable_id, bookmarkable_type, user_id);
+
+
+--
+-- Name: index_comments_on_approved_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_approved_by_id ON public.comments USING btree (approved_by_id);
+
+
+--
+-- Name: index_comments_on_best_score; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_best_score ON public.comments USING btree (best_score);
+
+
+--
+-- Name: index_comments_on_controversy_score; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_controversy_score ON public.comments USING btree (controversy_score);
+
+
+--
+-- Name: index_comments_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_created_at ON public.comments USING btree (created_at);
+
+
+--
+-- Name: index_comments_on_deleted_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_deleted_by_id ON public.comments USING btree (deleted_by_id);
+
+
+--
+-- Name: index_comments_on_edited_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_edited_by_id ON public.comments USING btree (edited_by_id);
+
+
+--
+-- Name: index_comments_on_hot_score; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_hot_score ON public.comments USING btree (hot_score DESC);
+
+
+--
+-- Name: index_comments_on_new_score; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_new_score ON public.comments USING btree (new_score DESC);
+
+
+--
+-- Name: index_comments_on_parent_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_parent_id ON public.comments USING btree (parent_id);
+
+
+--
+-- Name: index_comments_on_post_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_post_id ON public.comments USING btree (post_id);
+
+
+--
+-- Name: index_comments_on_top_score; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_top_score ON public.comments USING btree (top_score);
+
+
+--
+-- Name: index_comments_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_user_id ON public.comments USING btree (user_id);
 
 
 --
@@ -1615,6 +1765,14 @@ CREATE INDEX index_votes_on_vote_type ON public.votes USING btree (vote_type);
 
 
 --
+-- Name: comments fk_rails_03de2dc08c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT fk_rails_03de2dc08c FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: bans fk_rails_070022cd76; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1663,11 +1821,27 @@ ALTER TABLE ONLY public.things
 
 
 --
+-- Name: comments fk_rails_293e84bea1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT fk_rails_293e84bea1 FOREIGN KEY (approved_by_id) REFERENCES public.users(id);
+
+
+--
 -- Name: rules fk_rails_2acf6061a2; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.rules
     ADD CONSTRAINT fk_rails_2acf6061a2 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
+
+
+--
+-- Name: comments fk_rails_2c6f8fad1f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT fk_rails_2c6f8fad1f FOREIGN KEY (edited_by_id) REFERENCES public.users(id);
 
 
 --
@@ -1679,6 +1853,14 @@ ALTER TABLE ONLY public.deletion_reasons
 
 
 --
+-- Name: comments fk_rails_2fd19c0db7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT fk_rails_2fd19c0db7 FOREIGN KEY (post_id) REFERENCES public.posts(id);
+
+
+--
 -- Name: tags fk_rails_313e753d97; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1687,11 +1869,27 @@ ALTER TABLE ONLY public.tags
 
 
 --
+-- Name: comments fk_rails_31554e7034; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT fk_rails_31554e7034 FOREIGN KEY (parent_id) REFERENCES public.comments(id);
+
+
+--
 -- Name: follows fk_rails_32479bd030; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.follows
     ADD CONSTRAINT fk_rails_32479bd030 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: comments fk_rails_3f25c5a043; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT fk_rails_3f25c5a043 FOREIGN KEY (deleted_by_id) REFERENCES public.users(id);
 
 
 --
