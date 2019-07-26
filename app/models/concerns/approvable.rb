@@ -8,7 +8,6 @@ module Approvable
 
     before_create :approve_on_create
     before_update :undelete_on_approve
-    after_update :update_comment_in_topic_on_approve
 
     def approvable?
       true
@@ -42,15 +41,6 @@ module Approvable
       if approving?
         reset_deletion_attributes
       end
-    end
-
-    def update_comment_in_topic_on_approve
-      return unless comment?
-      return unless deleted_at_previously_changed?
-
-      ActiveRecord::Base.connection.execute(
-        "UPDATE topics SET branch = jsonb_set(branch, '{#{id}, deleted}', '#{deleted?}', false), updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}' WHERE post_id = #{post_id};"
-      )
     end
   end
 end
