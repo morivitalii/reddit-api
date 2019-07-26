@@ -135,7 +135,7 @@ CREATE TABLE public.comments (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
     post_id bigint NOT NULL,
-    parent_id bigint NOT NULL,
+    parent_id bigint,
     text text NOT NULL,
     receive_notifications boolean DEFAULT true NOT NULL,
     ignore_reports boolean DEFAULT false NOT NULL,
@@ -2180,6 +2180,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190724230802'),
 ('20190724232645'),
 ('20190725220001'),
-('20190725220004');
+('20190725220004'),
+('20190726040646');
 
 
