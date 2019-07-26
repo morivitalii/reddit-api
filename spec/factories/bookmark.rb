@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :bookmark do
-    association :thing, factory: [:text_post]
-    association :user, factory: :user
+    user
+    association :bookmarkable, factory: :post
   end
 end

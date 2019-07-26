@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :rate_limit do
     association :user, factory: :user
+    post
 
     trait :post do
       key { :post }
@@ -9,8 +10,5 @@ FactoryBot.define do
     trait :comment do
       key { :comment }
     end
-
-    factory :post_rate_limit, traits: [:post]
-    factory :comment_rate_limit, traits: [:comment]
   end
 end
