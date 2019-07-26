@@ -64,12 +64,11 @@ class Comment < ApplicationRecord
       id: id,
       thing_id: reply_to.id,
       deleted: deleted?,
-      scores: {
-        best: best_score,
-        top: top_score,
-        controversy: controversy_score,
-        created_at: created_at.to_i
-      }
+      new_score: new_score,
+      hot_score: hot_score,
+      best_score: best_score,
+      top_score: top_score,
+      controversy_score: controversy_score
     }.to_json
 
     query = "UPDATE topics
