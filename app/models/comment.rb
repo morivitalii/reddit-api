@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Comment < ApplicationRecord
-  include Paginatable
   include Scorable
   include Editable
   include Approvable
@@ -10,6 +9,8 @@ class Comment < ApplicationRecord
   include Reportable
   include Votable
   include Bookmarkable
+
+  delegate :sub, to: :post
 
   belongs_to :user
   belongs_to :post, counter_cache: :comments_count

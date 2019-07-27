@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# TODO rework
 module Notifiable
   extend ActiveSupport::Concern
 
@@ -15,11 +16,11 @@ module Notifiable
     end
 
     def send_notification?
-      comment? && user.id != reply_to.user.id && reply_to&.receive_notifications?
+      is_a?(Comment) && user.id != reply_to.user.id && reply_to&.receive_notifications?
     end
 
     def reply_to
-      comment.presence || post
+      parent.presence || post
     end
   end
 end

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Post < ApplicationRecord
-  include Paginatable
   include Scorable
   include Editable
   include Approvable
@@ -48,7 +47,7 @@ class Post < ApplicationRecord
   end
 
   def title=(value)
-    super(value.squish)
+    super(value&.squish)
   end
 
   def tag=(value)
@@ -56,7 +55,7 @@ class Post < ApplicationRecord
   end
 
   def text=(value)
-    super(value.strip)
+    super(value&.strip)
   end
 
   def presenter

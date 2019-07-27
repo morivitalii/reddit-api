@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Vote < ApplicationRecord
-  include Paginatable
-
   belongs_to :votable, polymorphic: true, touch: true
   belongs_to :user
 
@@ -47,7 +45,7 @@ class Vote < ApplicationRecord
     return if previous == %w(meh)
     return if user_id == votable.user_id
 
-    user_points_attribute = votable.post? ? :posts_points : :comments_points
+    user_points_attribute = votable.is_a?(Post) ? :posts_points : :comments_points
 
     if previous == %w(up) || previous == %w(meh up)
       user.increment!(user_points_attribute)
