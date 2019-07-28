@@ -11,11 +11,13 @@ Rails.application.routes.draw do
   resource :password, only: [:edit, :update], controller: :password
   resource :sign_out, only: [:destroy], controller: :sign_out
 
-  resources :posts, only: [:new, :create, :edit, :update] do
+  resources :posts, only: [:new, :create, :edit, :update, :destroy] do
+    get "/new_destroy", action: :new_destroy, on: :member, as: :new_destroy
     post "/approve", action: :approve, on: :member, as: :approve
   end
 
-  resources :comments, only: [] do
+  resources :comments, only: [:destroy] do
+    get "/new_destroy", action: :new_destroy, on: :member, as: :new_destroy
     post "/approve", action: :approve, on: :member, as: :approve
   end
 
@@ -43,7 +45,6 @@ Rails.application.routes.draw do
   resources :things, only: [:show, :edit, :update], path: "/t" do
     post "/actions", action: :actions, on: :collection, as: :actions
 
-    resource :delete_things, only: [:new, :create], as: :delete, path: :delete
     resource :votes, only: [:create]
     resource :bookmarks, only: [:create, :destroy]
 
@@ -51,7 +52,7 @@ Rails.application.routes.draw do
       get "/", action: :thing_index, on: :collection
     end
 
-    resource :comments, only: [:new, :create, :edit, :update, :destroy], as: :comment, path: :comment
+    resource :comments, only: [:new, :create, :edit, :update], as: :comment, path: :comment
   end
 
   match "*path", via: :all, to: "page_not_found#show"

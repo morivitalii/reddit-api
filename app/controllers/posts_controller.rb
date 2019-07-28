@@ -4,9 +4,9 @@ class PostsController < ApplicationController
   include RateLimits
 
   before_action :set_sub, only: [:new, :create]
-  before_action :set_post, only: [:edit, :update, :approve]
+  before_action :set_post, only: [:edit, :update, :approve, :new_destroy, :destroy]
   before_action -> { authorize(nil, policy_class: PostPolicy) }, only: [:new, :create]
-  before_action -> { authorize(@post) }, only: [:edit, :update, :approve]
+  before_action -> { authorize(@post) }, only: [:edit, :update, :approve, :new_destroy, :destroy]
 
   def new
     @form = CreatePost.new
@@ -47,6 +47,22 @@ class PostsController < ApplicationController
     head :no_content
   end
 
+  def new_destroy
+    @form = DeletePost.new(deletion_reason: @thing.deletion_reason)
+
+    render partial: "new_destroy"
+  end
+
+  def destroy
+    @form = DeletePost.new(destroy_params)
+
+    if @form.save
+      head :no_content
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def pundit_user
@@ -67,5 +83,9 @@ class PostsController < ApplicationController
 
   def update_params
     params.require(:update_post).permit(:text).merge(post: @post, current_user: current_user)
+  end
+
+  def destroy_params
+    params.require(:delete_post).permit(policy(@post).permitted_attributes_for_destroy).merge(post: @post, current_user: current_user)
   end
 end

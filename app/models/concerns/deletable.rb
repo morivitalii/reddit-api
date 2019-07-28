@@ -16,6 +16,14 @@ module Deletable
       super(value&.squish)
     end
 
+    def delete!(user, reason = nil)
+      update!(
+        deleted_by: user,
+        deleted_at: Time.current,
+        deletion_reason: reason
+      )
+    end
+
     def deleted?
       deleted_at.present?
     end

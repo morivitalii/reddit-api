@@ -1,5 +1,5 @@
 <%= render 'shared/modal', title: t('delete') do %>
-  <%= form_with(model: @form, url: thing_delete_path(@thing), class: 'deleteForm') do |f| %>
+  <%= form_with(model: @form, url: comment_path(@thing), method: :delete, class: 'deleteForm') do |f| %>
     <div class="modal-body">
       <% if current_user.moderator?(@sub) %>
         <div class="form-group">
