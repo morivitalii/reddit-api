@@ -8,19 +8,12 @@ class UsersController < ApplicationController
   before_action :set_current_user, only: [:edit, :update]
 
   def show
-    @records = Thing.not_deleted
+    @records, @pagination_record = Thing.not_deleted
                    .thing_type(type)
-                   .chronologically_by_score(sort, after)
                    .in_date_range(date)
                    .where(user: @user)
                    .includes(:sub, :user, :post)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+                   .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
   end
 
   def edit
@@ -61,9 +54,5 @@ class UsersController < ApplicationController
 
   def date
     ThingsDates.new(params[:date]).date
-  end
-
-  def after
-    params[:after].present? ? Thing.find_by_id(params[:after]) : nil
   end
 end

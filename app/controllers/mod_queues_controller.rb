@@ -13,16 +13,10 @@ class ModQueuesController < ApplicationController
       scope = scope.where(sub: @sub)
     end
 
-    @records = scope.where(deleted_at: nil, approved_at: nil).thing_type(type)
-                   .reverse_chronologically(after)
-                   .includes(:sub, :user, :post)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+    @records, @pagination_record = scope.where(deleted_at: nil, approved_at: nil)
+                                       .thing_type(type)
+                                       .includes(:sub, :user, :post)
+                                       .paginate(after: params[:after])
   end
 
   private
@@ -37,9 +31,5 @@ class ModQueuesController < ApplicationController
 
   def type
     ThingsTypes.new(params[:type]).key
-  end
-
-  def after
-    params[:after].present? ? Thing.find_by_id(params[:after]) : nil
   end
 end

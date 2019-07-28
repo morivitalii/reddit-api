@@ -8,18 +8,11 @@ class VotesController < ApplicationController
   before_action :set_thing, only: [:create]
 
   def index
-    @records = Vote.vote_type(vote_type)
+    @records, @pagination_record = Vote.vote_type(vote_type)
                    .where(user: @user)
                    .type(thing_type)
                    .includes(votable: [:sub, :user, :post])
-                   .reverse_chronologically(after)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+                   .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
 
     @records = @records.map(&:votable)
   end
@@ -54,9 +47,5 @@ class VotesController < ApplicationController
 
   def thing_type
     ThingsTypes.new(params[:thing_type]).key&.to_s&.classify
-  end
-
-  def after
-    params[:after].present? ? Vote.find_by_id(params[:after]) : nil
   end
 end

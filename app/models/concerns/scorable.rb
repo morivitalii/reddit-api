@@ -6,13 +6,6 @@ module Scorable
   included do
     before_update :update_scores
 
-    scope :chronologically_by_score, ->(sort, record) {
-      attribute = "#{sort}_score"
-      scope = order(attribute => :desc, id: :desc)
-
-      record.present? ? scope.where("(#{attribute}, id) < (?, ?)", record[attribute], record.id) : scope
-    }
-
     private
 
     def scores_stale?

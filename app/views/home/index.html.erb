@@ -28,4 +28,4 @@
 
 <%= render "home/sidebar" %>
 <%= render partial: "things/thing", collection: @records, cached: true %>
-<%= render "shared/pagination", after: @after_record %>
+<%= render "shared/pagination", pagination_record: @pagination_record %>

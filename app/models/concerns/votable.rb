@@ -8,11 +8,9 @@ module Votable
 
     has_many :votes, as: :votable
 
-    after_create :create_up_vote_on_create
-
     private
 
-    def create_up_vote_on_create
+    def create_self_up_vote!
       votes.create!(vote_type: :up, user: user)
     end
   end

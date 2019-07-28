@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Comment < ApplicationRecord
+  include Paginatable
+
   include Scorable
   include Editable
   include Approvable

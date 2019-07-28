@@ -6,15 +6,7 @@ class DeletionReasonsController < ApplicationController
   before_action -> { authorize(DeletionReason) }
 
   def index
-    @records = DeletionReason.where(sub: @sub)
-                   .chronologically(params[:after].present? ? DeletionReason.find_by_id(params[:after]) : nil)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+    @records, @pagination_record = DeletionReason.where(sub: @sub).paginate(after: params[:after])
   end
 
   def new

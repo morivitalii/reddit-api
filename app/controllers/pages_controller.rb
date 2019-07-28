@@ -6,15 +6,7 @@ class PagesController < ApplicationController
   before_action -> { authorize(Page) }
 
   def index
-    @records = Page.where(sub: @sub)
-                   .chronologically(params[:after].present? ? Page.find_by_id(params[:after]) : nil)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+    @records, @pagination_record = Page.where(sub: @sub).paginate(order: :asc, after: params[:after])
   end
 
   def show

@@ -6,16 +6,7 @@ class ModeratorsController < ApplicationController
   before_action -> { authorize(Moderator) }
 
   def index
-    @records = Moderator.where(sub: @sub)
-                   .chronologically(params[:after].present? ? Moderator.find_by_id(params[:after]) : nil)
-                   .includes(:user, :invited_by)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+    @records, @pagination_record = Moderator.where(sub: @sub).includes(:user, :invited_by).paginate(after: params[:after])
   end
 
   def search

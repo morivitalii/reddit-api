@@ -5,16 +5,7 @@ class LogsController < ApplicationController
   before_action -> { authorize(Log) }
 
   def index
-    @records = Log.where(sub: @sub)
-                   .includes(:user, :loggable)
-                   .reverse_chronologically(params[:after].present? ? Log.find_by_id(params[:after]) : nil)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+    @records, @pagination_record = Log.where(sub: @sub).includes(:user, :loggable).paginate(after: params[:after])
   end
 
   private

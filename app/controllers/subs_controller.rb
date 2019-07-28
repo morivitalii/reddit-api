@@ -6,19 +6,12 @@ class SubsController < ApplicationController
   before_action -> { authorize(@sub) }
 
   def show
-    @records = Thing.thing_type(:post)
+    @records, @pagination_record = Thing.thing_type(:post)
                    .not_deleted
-                   .chronologically_by_score(sort, after)
                    .in_date_range(date)
                    .where(sub: @sub)
                    .includes(:sub, :user)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+                   .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
   end
 
   def edit
@@ -58,9 +51,5 @@ class SubsController < ApplicationController
 
   def date
     ThingsDates.new(params[:date]).date
-  end
-
-  def after
-    params[:after].present? ? Thing.find_by_id(params[:after]) : nil
   end
 end

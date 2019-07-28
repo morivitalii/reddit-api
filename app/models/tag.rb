@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Tag < ApplicationRecord
+  include Paginatable
+
   belongs_to :sub, optional: true
 
   scope :global, -> { where(sub: nil) }

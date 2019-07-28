@@ -6,12 +6,7 @@ class TagsController < ApplicationController
   before_action -> { authorize(Tag) }
 
   def index
-    @records = Tag.where(sub: @sub).chronologically(after).limit(51).to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+    @records, @pagination_record = Tag.where(sub: @sub).paginate(order: :asc, after: params[:after])
   end
 
   def new
@@ -72,9 +67,5 @@ class TagsController < ApplicationController
 
   def update_params
     params.require(:update_tag).permit(:title).merge(tag: @tag, current_user: current_user)
-  end
-
-  def after
-    params[:after].present? ? Tag.find_by_id(params[:after]) : nil
   end
 end

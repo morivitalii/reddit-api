@@ -14,16 +14,7 @@ class ReportsController < ApplicationController
       scope = scope.where(sub: @sub)
     end
 
-    @records = scope.type(type)
-                   .reverse_chronologically(after)
-                   .includes(reportable: [:sub, :user, :post])
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+    @records, @pagination_record = scope.type(type).includes(reportable: [:sub, :user, :post]).paginate(after: params[:after])
 
     @records = @records.map(&:reportable)
   end
@@ -66,10 +57,6 @@ class ReportsController < ApplicationController
 
   def type
     ThingsTypes.new(params[:type]).key&.to_s&.classify
-  end
-
-  def after
-    params[:after].present? ? Report.find_by_id(params[:after]) : nil
   end
 
   def create_params

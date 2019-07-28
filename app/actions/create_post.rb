@@ -7,7 +7,8 @@ class CreatePost
   attr_reader :post
 
   def save
-    @post = Thing.create!(
+    ActiveRecord::Base.transaction do
+      @post = Thing.create!(
         sub: @sub,
         thing_type: :post,
         content_type: content_type,
@@ -18,7 +19,10 @@ class CreatePost
         file: @file,
         explicit: @explicit,
         spoiler: @spoiler
-    )
+      )
+
+      @post.create_self_up_vote!
+    end
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 

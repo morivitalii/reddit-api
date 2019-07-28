@@ -6,15 +6,7 @@ class BlacklistedDomainsController < ApplicationController
   before_action -> { authorize(BlacklistedDomain) }, only: [:index, :search, :new, :create]
 
   def index
-    @records = BlacklistedDomain.where(sub: @sub)
-                   .reverse_chronologically(params[:after].present? ? BlacklistedDomain.find_by_id(params[:after]) : nil)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+    @records, @pagination_record = BlacklistedDomain.where(sub: @sub).paginate(after: params[:after])
   end
 
   def search
