@@ -10,7 +10,15 @@ Rails.application.routes.draw do
   resource :forgot_password, only: [:new, :create], controller: :forgot_password
   resource :password, only: [:edit, :update], controller: :password
   resource :sign_out, only: [:destroy], controller: :sign_out
-  resources :posts, only: [:new, :create, :edit, :update]
+
+  resources :posts, only: [:new, :create, :edit, :update] do
+    post "/approve", action: :approve, on: :member, as: :approve
+  end
+
+  resources :comments, only: [] do
+    post "/approve", action: :approve, on: :member, as: :approve
+  end
+
   resource :users, only: [:edit, :update]
   resources :users, only: [:show], path: "/u"
   resources :bookmarks, only: [:index]
@@ -35,7 +43,6 @@ Rails.application.routes.draw do
   resources :things, only: [:show, :edit, :update], path: "/t" do
     post "/actions", action: :actions, on: :collection, as: :actions
 
-    resource :approve_things, only: [:create], as: :approve, path: :approve
     resource :delete_things, only: [:new, :create], as: :delete, path: :delete
     resource :votes, only: [:create]
     resource :bookmarks, only: [:create, :destroy]
