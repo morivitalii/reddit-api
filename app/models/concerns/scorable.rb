@@ -4,6 +4,8 @@ module Scorable
   extend ActiveSupport::Concern
 
   included do
+    before_update :update_scores
+
     scope :chronologically_by_score, ->(sort, record) {
       attribute = "#{sort}_score"
       scope = order(attribute => :desc, id: :desc)
@@ -11,12 +13,16 @@ module Scorable
       record.present? ? scope.where("(#{attribute}, id) < (?, ?)", record[attribute], record.id) : scope
     }
 
+    private
+
     def scores_stale?
       updated_at < 20.minutes.ago || (up_votes_count < 20 && down_votes_count < 20)
     end
 
-    def refresh_scores!
-      update!(
+    def update_scores
+      return if scores_stale?
+
+      assign_attributes(
         new_score: calculate_new_score,
         hot_score: calculate_hot_score,
         best_score: calculate_best_score,
@@ -24,8 +30,6 @@ module Scorable
         controversy_score: calculate_controversy_score,
       )
     end
-
-    private
 
     def calculate_new_score
       created_at.to_i

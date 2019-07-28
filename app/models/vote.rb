@@ -3,7 +3,7 @@
 class Vote < ApplicationRecord
   include Paginatable
 
-  belongs_to :votable, polymorphic: true
+  belongs_to :votable, polymorphic: true, touch: true
   belongs_to :user
 
   enum vote_type: { down: -1, meh: 0, up: 1 }
@@ -18,8 +18,6 @@ class Vote < ApplicationRecord
 
   after_save :update_votable_counter_cache
   after_save :update_user_points
-  after_save :update_votable_scores
-  after_save :update_comment_scores_in_topic
 
   private
 
@@ -64,28 +62,5 @@ class Vote < ApplicationRecord
     elsif previous == %w(down up)
       user.increment!(user_points_attribute, 2)
     end
-  end
-
-  def update_votable_scores
-    if votable.scores_stale?
-      votable.refresh_scores!
-    end
-  end
-
-  def update_comment_scores_in_topic
-    return unless votable.comment?
-    return unless votable.scores_stale?
-
-    json = {
-      new_score: votable.new_score,
-      hot_score: votable.hot_score,
-      best_score: votable.best_score,
-      top_score: votable.top_score,
-      controversy_score: votable.controversy_score
-    }.to_json
-
-    ActiveRecord::Base.connection.execute(
-      "UPDATE topics SET branch = jsonb_set(branch, '{#{votable.id}, scores}', '#{json}', false), updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}' WHERE post_id = #{votable.post_id};"
-    )
   end
 end
