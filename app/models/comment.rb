@@ -17,7 +17,7 @@ class Comment < ApplicationRecord
   has_many :children, class_name: "Comment", foreign_key: "parent_id"
   has_many :logs, as: :loggable
 
-  after_create :insert_to_topic_on_create
+  after_save :upsert_in_topic
 
   validates :text, presence: true, length: { maximum: 10_000 }
 
@@ -59,21 +59,24 @@ class Comment < ApplicationRecord
 
   private
 
-  def insert_to_topic_on_create
+  def upsert_in_topic
     json = {
-        id: id,
-        thing_id: reply_to.id,
-        deleted: false,
-        scores: {
-            best: best_score,
-            top: top_score,
-            controversy: controversy_score,
-            created_at: created_at.to_i
-        }
+      id: id,
+      thing_id: reply_to.id,
+      deleted: deleted?,
+      scores: {
+        best: best_score,
+        top: top_score,
+        controversy: controversy_score,
+        created_at: created_at.to_i
+      }
     }.to_json
 
-    ActiveRecord::Base.connection.execute(
-        "UPDATE topics SET branch = jsonb_set(branch, '{#{id}}', '#{json}', true), updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}' WHERE post_id = #{post_id};"
-    )
+    query = "UPDATE topics
+             SET branch = jsonb_set(branch, '{#{id}}', '#{json}', true),
+                 updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}'
+             WHERE post_id = #{post_id};"
+
+    ActiveRecord::Base.connection.execute(query)
   end
 end
