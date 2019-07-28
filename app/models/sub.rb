@@ -29,6 +29,10 @@ class Sub < ApplicationRecord
     self.where("lower(url) = ?", "all").take!
   end
 
+  def self.find_by_lower_url(url = nil)
+    url.present? ? self.where("lower(url) = ?", url.downcase).take! : nil
+  end
+
   def title=(value)
     super(value&.squish)
   end

@@ -48,7 +48,7 @@ class PostsController < ApplicationController
   end
 
   def new_destroy
-    @form = DeletePost.new(deletion_reason: @thing.deletion_reason)
+    @form = DeletePost.new(deletion_reason: @post.deletion_reason)
 
     render partial: "new_destroy"
   end
@@ -70,7 +70,7 @@ class PostsController < ApplicationController
   end
 
   def set_sub
-    @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : Sub.default
+    @sub = params[:sub].present? ? Sub.find_by_lower_url(params[:sub]) : Sub.default
   end
 
   def set_post

@@ -19,6 +19,6 @@ class FollowsController < ApplicationController
   private
 
   def set_sub
-    @sub = Sub.where("lower(url) = ?", params[:sub_id].downcase).take!
+    @sub = Sub.find_by_lower_url(params[:sub])
   end
 end
