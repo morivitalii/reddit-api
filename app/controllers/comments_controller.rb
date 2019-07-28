@@ -4,8 +4,8 @@ class CommentsController < ApplicationController
   include RateLimits
 
   before_action :set_thing, only: [:new, :create]
-  before_action :set_comment, only: [:edit, :update]
-  before_action -> { authorize(@thing, policy_class: CommentPolicy) }, only: [:new, :create, :edit, :update]
+  before_action :set_comment, only: [:edit, :update, :approve]
+  before_action -> { authorize(@thing, policy_class: CommentPolicy) }, only: [:new, :create, :edit, :update, :approve]
 
   def new
     @form = CreateComment.new
@@ -44,6 +44,12 @@ class CommentsController < ApplicationController
     end
   end
 
+  def approve
+    Approve.new(@thing, @current_user).call
+
+    head :no_content
+  end
+
   private
 
   def set_thing
@@ -51,7 +57,7 @@ class CommentsController < ApplicationController
   end
 
   def set_comment
-    @thing = Thing.where(thing_type: :comment).find(params[:thing_id])
+    @thing = Thing.where(thing_type: :comment).find(params[:id])
   end
 
   def create_params

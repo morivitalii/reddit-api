@@ -4,9 +4,9 @@ class PostsController < ApplicationController
   include RateLimits
 
   before_action :set_sub, only: [:new, :create]
-  before_action :set_post, only: [:edit, :update]
+  before_action :set_post, only: [:edit, :update, :approve]
   before_action -> { authorize(nil, policy_class: PostPolicy) }, only: [:new, :create]
-  before_action -> { authorize(@post) }, only: [:edit, :update]
+  before_action -> { authorize(@post) }, only: [:edit, :update, :approve]
 
   def new
     @form = CreatePost.new
@@ -41,6 +41,12 @@ class PostsController < ApplicationController
     end
   end
 
+  def approve
+    Approve.new(@post, @current_user).call
+
+    head :no_content
+  end
+
   private
 
   def pundit_user
@@ -52,7 +58,7 @@ class PostsController < ApplicationController
   end
 
   def set_post
-    @post = Thing.thing_type(:post).where(content_type: :text).find(params[:id])
+    @post = Thing.where(thing_type: :post).find(params[:id])
   end
 
   def create_params

@@ -23,11 +23,21 @@
     <%= link_to(fa_icon('bookmark-o'), thing_bookmarks_path(thing), remote: true, method: :post, class: "bookmark" , data: { toggle: :tooltip }, title: t('bookmark')) %>
   <% end %>
 
-  <% if ApproveThingPolicy.new(pundit_user, thing).create? %>
-    <% if thing.approved? %>
-      <%= link_to(fa_icon('check'), thing_approve_path(thing), remote: true, method: :post, class: 'approve text-success', data: { toggle: :tooltip }, title: t('approved_details', username: thing.approved_by.username, approved_at: l(thing.approved_at))) %>
-    <% else %>
-      <%= link_to(fa_icon('check'), thing_approve_path(thing), remote: true, method: :post, class: 'approve', data: { toggle: :tooltip }, title: t('approve')) %>
+  <% if thing.is_a?(Post) %>
+    <% if PostPolicy.new(pundit_user, thing).approve? %>
+      <% if thing.approved? %>
+        <%= link_to(fa_icon('check'), approve_post_path(thing), remote: true, method: :post, class: 'approve text-success', data: { toggle: :tooltip }, title: t('approved_details', username: thing.approved_by.username, approved_at: l(thing.approved_at))) %>
+      <% else %>
+        <%= link_to(fa_icon('check'), approve_post_path(thing), remote: true, method: :post, class: 'approve', data: { toggle: :tooltip }, title: t('approve')) %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% if CommentPolicy.new(pundit_user, thing).approve? %>
+      <% if thing.approved? %>
+        <%= link_to(fa_icon('check'), approve_comment_path(thing), remote: true, method: :post, class: 'approve text-success', data: { toggle: :tooltip }, title: t('approved_details', username: thing.approved_by.username, approved_at: l(thing.approved_at))) %>
+      <% else %>
+        <%= link_to(fa_icon('check'), approve_comment_path(thing), remote: true, method: :post, class: 'approve', data: { toggle: :tooltip }, title: t('approve')) %>
+      <% end %>
     <% end %>
   <% end %>
 

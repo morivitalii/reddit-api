@@ -9,6 +9,10 @@ module Approvable
     before_create :approve_on_create
     before_update :undelete_on_approve
 
+    def approve!(user)
+      update!(approved_by: user, approved_at: Time.current)
+    end
+
     def approvable?
       true
     end

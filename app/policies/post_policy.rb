@@ -12,4 +12,8 @@ class PostPolicy < ApplicationPolicy
   end
 
   alias edit? update?
+
+  def approve?
+    user_signed_in? && context.user.moderator?(record.sub)
+  end
 end
