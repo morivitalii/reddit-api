@@ -1,5 +1,5 @@
 <div class="comments row <%= "hasToBranch" if item[:deeper] %> <%= "hasLoadMore" if item[:load_more] %>">
-  <%= render partial: "things/comment", collection: item[:nested], as: :item %>
+  <%= render partial: "comments/nested_comment", collection: item[:nested], as: :item %>
 
   <% if item[:deeper] %>
     <div class="toBranch col-12 ml-3 mt-2 pl-0">

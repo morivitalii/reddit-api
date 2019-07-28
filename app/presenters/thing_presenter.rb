@@ -11,27 +11,27 @@ class ThingPresenter < ApplicationPresenter
 
   def content
     if post? && text?
-      "things/content/text_content"
+      "posts/content/text_content"
     elsif link?
       if youtube?
-        "things/content/link_youtube_content"
+        "posts/content/link_youtube_content"
       else
-        "things/content/link_content"
+        "posts/content/link_content"
       end
     elsif media?
       if file_attacher.cached?
-        "things/content/media_processing"
+        "posts/content/media_processing"
       else
         if image?
-          "things/content/media_image_content"
+          "posts/content/media_image_content"
         elsif video?
-          "things/content/media_video_content"
+          "posts/content/media_video_content"
         elsif gif?
-          "things/content/media_gif_content"
+          "posts/content/media_gif_content"
         end
       end
     elsif comment? && text?
-      "things/content/comment_content"
+      "posts/content/comment_content"
     end
   end
 

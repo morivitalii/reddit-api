@@ -11,7 +11,7 @@
     </div>
 
     <div class="col-12 pr-3">
-      <%= render partial: "things/nested", locals: { item: item } %>
+      <%= render partial: "comments/nested", locals: { item: item } %>
     </div>
   </div>
 <% else %>
@@ -47,7 +47,7 @@
     <div class="col-12 pr-3">
       <% # This condition is unnecessary but prevents idle rendering %>
       <% if item[:nested].present? %>
-        <%= render partial: "things/nested", locals: { item: item } %>
+        <%= render partial: "comments/nested", locals: { item: item } %>
       <% else %>
         <div class="comments row"></div>
       <% end %>

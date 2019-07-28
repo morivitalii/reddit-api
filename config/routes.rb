@@ -14,11 +14,27 @@ Rails.application.routes.draw do
   resources :posts, only: [:new, :create, :edit, :update, :destroy] do
     get "/new_destroy", action: :new_destroy, on: :member, as: :new_destroy
     post "/approve", action: :approve, on: :member, as: :approve
+
+    resource :comments, only: [:create]
+    resource :votes, only: [:create]
+    resource :bookmarks, only: [:create, :destroy]
+
+    resources :reports, only: [:new, :create] do
+      get "/", action: :thing_index, on: :collection
+    end
   end
 
-  resources :comments, only: [:destroy] do
+  resources :comments, only: [:edit, :update, :destroy] do
     get "/new_destroy", action: :new_destroy, on: :member, as: :new_destroy
     post "/approve", action: :approve, on: :member, as: :approve
+
+    resource :comments, only: [:new, :create]
+    resource :votes, only: [:create]
+    resource :bookmarks, only: [:create, :destroy]
+
+    resources :reports, only: [:new, :create] do
+      get "/", action: :thing_index, on: :collection
+    end
   end
 
   resource :users, only: [:edit, :update]
@@ -36,23 +52,9 @@ Rails.application.routes.draw do
   resources :tags, except: [:show]
   resources :pages
   resources :bans, except: [:show], concerns: [:searchable]
-  resources :logs, only: [:index]
 
   resources :subs, only: [:show, :edit, :update], path: "/s" do
     resource :follows, only: [:create, :destroy]
-  end
-
-  resources :things, only: [:show, :edit, :update], path: "/t" do
-    post "/actions", action: :actions, on: :collection, as: :actions
-
-    resource :votes, only: [:create]
-    resource :bookmarks, only: [:create, :destroy]
-
-    resources :reports, only: [:new, :create] do
-      get "/", action: :thing_index, on: :collection
-    end
-
-    resource :comments, only: [:new, :create, :edit, :update], as: :comment, path: :comment
   end
 
   match "*path", via: :all, to: "page_not_found#show"

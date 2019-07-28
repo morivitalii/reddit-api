@@ -19,20 +19,10 @@ class CreateModerator
 
     @user = User.where("lower(username) = ?", @username.downcase).take!
 
-    ActiveRecord::Base.transaction do
-      @moderator = @sub.moderators.create!(
-        invited_by: @current_user,
-        user: @user
-      )
-
-      CreateLog.new(
-        sub: @sub,
-        current_user: @current_user,
-        action: :create_moderator,
-        loggable: @user,
-        model: @moderator
-      ).call
-    end
+    @moderator = @sub.moderators.create!(
+      invited_by: @current_user,
+      user: @user
+    )
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 

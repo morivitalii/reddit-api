@@ -135,7 +135,6 @@ CREATE TABLE public.comments (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
     post_id bigint NOT NULL,
-    parent_id bigint,
     text text NOT NULL,
     receive_notifications boolean DEFAULT true NOT NULL,
     ignore_reports boolean DEFAULT false NOT NULL,
@@ -155,7 +154,8 @@ CREATE TABLE public.comments (
     deleted_at timestamp without time zone,
     deletion_reason character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    comment_id bigint
 );
 
 
@@ -274,42 +274,6 @@ CREATE SEQUENCE public.follows_id_seq
 --
 
 ALTER SEQUENCE public.follows_id_seq OWNED BY public.follows.id;
-
-
---
--- Name: logs; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.logs (
-    id bigint NOT NULL,
-    sub_id bigint,
-    user_id bigint NOT NULL,
-    loggable_id integer,
-    loggable_type character varying,
-    details json DEFAULT '{}'::json NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    action character varying NOT NULL
-);
-
-
---
--- Name: logs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.logs_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.logs_id_seq OWNED BY public.logs.id;
 
 
 --
@@ -647,66 +611,6 @@ ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
 
 
 --
--- Name: things; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.things (
-    id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    sub_id bigint NOT NULL,
-    post_id bigint,
-    comment_id bigint,
-    comments_count integer DEFAULT 0 NOT NULL,
-    up_votes_count integer DEFAULT 0 NOT NULL,
-    down_votes_count integer DEFAULT 0 NOT NULL,
-    hot_score double precision DEFAULT 0.0 NOT NULL,
-    best_score double precision DEFAULT 0.0 NOT NULL,
-    top_score integer DEFAULT 0 NOT NULL,
-    controversy_score integer DEFAULT 0 NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    edited_at timestamp without time zone,
-    deleted_at timestamp without time zone,
-    deletion_reason character varying,
-    approved_at timestamp without time zone,
-    approved_by_id bigint,
-    title character varying,
-    text character varying,
-    explicit boolean DEFAULT false NOT NULL,
-    spoiler boolean DEFAULT false NOT NULL,
-    tag character varying,
-    url character varying,
-    file_data character varying,
-    thing_type integer NOT NULL,
-    content_type integer NOT NULL,
-    receive_notifications boolean DEFAULT true NOT NULL,
-    ignore_reports boolean DEFAULT false NOT NULL,
-    deleted_by_id bigint,
-    edited_by_id bigint,
-    new_score integer DEFAULT 0 NOT NULL
-);
-
-
---
--- Name: things_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.things_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: things_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.things_id_seq OWNED BY public.things.id;
-
-
---
 -- Name: topics; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -860,13 +764,6 @@ ALTER TABLE ONLY public.follows ALTER COLUMN id SET DEFAULT nextval('public.foll
 
 
 --
--- Name: logs id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.logs ALTER COLUMN id SET DEFAULT nextval('public.logs_id_seq'::regclass);
-
-
---
 -- Name: moderators id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -927,13 +824,6 @@ ALTER TABLE ONLY public.subs ALTER COLUMN id SET DEFAULT nextval('public.subs_id
 --
 
 ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id_seq'::regclass);
-
-
---
--- Name: things id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.things ALTER COLUMN id SET DEFAULT nextval('public.things_id_seq'::regclass);
 
 
 --
@@ -1022,14 +912,6 @@ ALTER TABLE ONLY public.follows
 
 
 --
--- Name: logs logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.logs
-    ADD CONSTRAINT logs_pkey PRIMARY KEY (id);
-
-
---
 -- Name: moderators moderators_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1107,14 +989,6 @@ ALTER TABLE ONLY public.subs
 
 ALTER TABLE ONLY public.tags
     ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
-
-
---
--- Name: things things_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.things
-    ADD CONSTRAINT things_pkey PRIMARY KEY (id);
 
 
 --
@@ -1233,6 +1107,13 @@ CREATE INDEX index_comments_on_best_score ON public.comments USING btree (best_s
 
 
 --
+-- Name: index_comments_on_comment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_comment_id ON public.comments USING btree (comment_id);
+
+
+--
 -- Name: index_comments_on_controversy_score; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1272,13 +1153,6 @@ CREATE INDEX index_comments_on_hot_score ON public.comments USING btree (hot_sco
 --
 
 CREATE INDEX index_comments_on_new_score ON public.comments USING btree (new_score DESC);
-
-
---
--- Name: index_comments_on_parent_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_comments_on_parent_id ON public.comments USING btree (parent_id);
 
 
 --
@@ -1356,27 +1230,6 @@ CREATE UNIQUE INDEX index_follows_on_sub_id_and_user_id ON public.follows USING 
 --
 
 CREATE INDEX index_follows_on_user_id ON public.follows USING btree (user_id);
-
-
---
--- Name: index_logs_on_loggable_id_and_loggable_type; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_logs_on_loggable_id_and_loggable_type ON public.logs USING btree (loggable_id, loggable_type);
-
-
---
--- Name: index_logs_on_sub_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_logs_on_sub_id ON public.logs USING btree (sub_id);
-
-
---
--- Name: index_logs_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_logs_on_user_id ON public.logs USING btree (user_id);
 
 
 --
@@ -1604,111 +1457,6 @@ CREATE UNIQUE INDEX index_tags_on_sub_id_lower_title ON public.tags USING btree 
 
 
 --
--- Name: index_things_on_approved_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_approved_by_id ON public.things USING btree (approved_by_id);
-
-
---
--- Name: index_things_on_best_score; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_best_score ON public.things USING btree (best_score);
-
-
---
--- Name: index_things_on_comment_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_comment_id ON public.things USING btree (comment_id);
-
-
---
--- Name: index_things_on_controversy_score; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_controversy_score ON public.things USING btree (controversy_score);
-
-
---
--- Name: index_things_on_created_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_created_at ON public.things USING btree (created_at);
-
-
---
--- Name: index_things_on_deleted_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_deleted_at ON public.things USING btree (deleted_at);
-
-
---
--- Name: index_things_on_deleted_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_deleted_by_id ON public.things USING btree (deleted_by_id);
-
-
---
--- Name: index_things_on_edited_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_edited_by_id ON public.things USING btree (edited_by_id);
-
-
---
--- Name: index_things_on_hot_score; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_hot_score ON public.things USING btree (hot_score DESC);
-
-
---
--- Name: index_things_on_new_score; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_new_score ON public.things USING btree (new_score DESC);
-
-
---
--- Name: index_things_on_post_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_post_id ON public.things USING btree (post_id);
-
-
---
--- Name: index_things_on_sub_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_sub_id ON public.things USING btree (sub_id);
-
-
---
--- Name: index_things_on_thing_type; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_thing_type ON public.things USING btree (thing_type);
-
-
---
--- Name: index_things_on_top_score; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_top_score ON public.things USING btree (top_score);
-
-
---
--- Name: index_things_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_things_on_user_id ON public.things USING btree (user_id);
-
-
---
 -- Name: index_topics_on_post_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1789,14 +1537,6 @@ ALTER TABLE ONLY public.posts
 
 
 --
--- Name: things fk_rails_13c43b4a24; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.things
-    ADD CONSTRAINT fk_rails_13c43b4a24 FOREIGN KEY (approved_by_id) REFERENCES public.users(id);
-
-
---
 -- Name: bans fk_rails_20d480679b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1810,14 +1550,6 @@ ALTER TABLE ONLY public.bans
 
 ALTER TABLE ONLY public.topics
     ADD CONSTRAINT fk_rails_20d6eae1b8 FOREIGN KEY (post_id) REFERENCES public.posts(id);
-
-
---
--- Name: things fk_rails_25f037a748; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.things
-    ADD CONSTRAINT fk_rails_25f037a748 FOREIGN KEY (post_id) REFERENCES public.things(id);
 
 
 --
@@ -1869,14 +1601,6 @@ ALTER TABLE ONLY public.tags
 
 
 --
--- Name: comments fk_rails_31554e7034; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT fk_rails_31554e7034 FOREIGN KEY (parent_id) REFERENCES public.comments(id);
-
-
---
 -- Name: follows fk_rails_32479bd030; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1898,14 +1622,6 @@ ALTER TABLE ONLY public.comments
 
 ALTER TABLE ONLY public.contributors
     ADD CONSTRAINT fk_rails_41647502bc FOREIGN KEY (approved_by_id) REFERENCES public.users(id);
-
-
---
--- Name: things fk_rails_4390fc3962; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.things
-    ADD CONSTRAINT fk_rails_4390fc3962 FOREIGN KEY (edited_by_id) REFERENCES public.users(id);
 
 
 --
@@ -1957,19 +1673,19 @@ ALTER TABLE ONLY public.posts
 
 
 --
+-- Name: comments fk_rails_6545a5f2bc; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT fk_rails_6545a5f2bc FOREIGN KEY (comment_id) REFERENCES public.comments(id);
+
+
+--
 -- Name: subs fk_rails_67f5376a4c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subs
     ADD CONSTRAINT fk_rails_67f5376a4c FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
--- Name: things fk_rails_6f4cb1efd2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.things
-    ADD CONSTRAINT fk_rails_6f4cb1efd2 FOREIGN KEY (comment_id) REFERENCES public.things(id);
 
 
 --
@@ -1989,22 +1705,6 @@ ALTER TABLE ONLY public.posts
 
 
 --
--- Name: things fk_rails_8a69a3b738; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.things
-    ADD CONSTRAINT fk_rails_8a69a3b738 FOREIGN KEY (deleted_by_id) REFERENCES public.users(id);
-
-
---
--- Name: logs fk_rails_8fc980bf44; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.logs
-    ADD CONSTRAINT fk_rails_8fc980bf44 FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
 -- Name: notifications fk_rails_b080fb4855; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2018,14 +1718,6 @@ ALTER TABLE ONLY public.notifications
 
 ALTER TABLE ONLY public.follows
     ADD CONSTRAINT fk_rails_b61b5b4590 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
-
-
---
--- Name: things fk_rails_b9af16ffb5; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.things
-    ADD CONSTRAINT fk_rails_b9af16ffb5 FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -2050,14 +1742,6 @@ ALTER TABLE ONLY public.moderators
 
 ALTER TABLE ONLY public.bookmarks
     ADD CONSTRAINT fk_rails_c1ff6fa4ac FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
--- Name: logs fk_rails_c5600a1448; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.logs
-    ADD CONSTRAINT fk_rails_c5600a1448 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
 
 
 --
@@ -2090,14 +1774,6 @@ ALTER TABLE ONLY public.votes
 
 ALTER TABLE ONLY public.moderators
     ADD CONSTRAINT fk_rails_e69979a229 FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
--- Name: things fk_rails_e9811c537d; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.things
-    ADD CONSTRAINT fk_rails_e9811c537d FOREIGN KEY (sub_id) REFERENCES public.subs(id);
 
 
 --
@@ -2182,6 +1858,13 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190725220001'),
 ('20190725220004'),
 ('20190726040646'),
-('20190728020437');
+('20190728020437'),
+('20190728062131'),
+<<<<<<< Updated upstream
+('20190728063719'),
+('20190728064759');
+=======
+('20190728063719');
+>>>>>>> Stashed changes
 
 

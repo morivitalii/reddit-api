@@ -7,16 +7,6 @@ class DeletePage
   end
 
   def call
-    ActiveRecord::Base.transaction do
-      @page.destroy!
-
-      CreateLog.new(
-        sub: @page.sub,
-        current_user: @current_user,
-        action: :delete_page,
-        attributes: [:title, :text],
-        model: @page
-      ).call
-    end
+    @page.destroy!
   end
 end

@@ -2,20 +2,18 @@
 
 class Sub < ApplicationRecord
   belongs_to :user
-  has_many :follows
-  has_many :moderators
-  has_many :contributors
-  has_many :bans
-  has_many :things
-  has_many :posts
-  has_many :comments
-  has_many :rules
-  has_many :deletion_reasons
-  has_many :tags
-  has_many :logs
-  has_many :pages
-  has_many :blacklisted_domains
-  has_many :reports
+  has_many :follows, dependent: :destroy
+  has_many :moderators, dependent: :destroy
+  has_many :contributors, dependent: :destroy
+  has_many :bans, dependent: :destroy
+  has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :rules, dependent: :destroy
+  has_many :deletion_reasons, dependent: :destroy
+  has_many :tags, dependent: :destroy
+  has_many :pages, dependent: :destroy
+  has_many :blacklisted_domains, dependent: :destroy
+  has_many :reports, dependent: :destroy
 
   validates :url, presence: true, length: { maximum: 20 }
   validates :title, presence: true, length: { maximum: 30 }

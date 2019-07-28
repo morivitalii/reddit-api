@@ -4,20 +4,18 @@ class User < ApplicationRecord
   has_secure_password validations: false
   has_secure_token :forgot_password_token
 
-  has_many :subs
-  has_many :follows
-  has_many :moderators
-  has_many :contributors
-  has_many :bans
-  has_many :things
-  has_many :posts
-  has_many :comments
-  has_many :bookmarks
-  has_many :votes
-  has_many :reports
-  has_many :notifications
-  has_many :logs
-  has_many :rate_limits
+  has_many :subs, dependent: :restrict_with_error
+  has_many :follows, dependent: :destroy
+  has_many :moderators, dependent: :destroy
+  has_many :contributors, dependent: :destroy
+  has_many :bans, dependent: :destroy
+  has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
+  has_many :votes, dependent: :destroy
+  has_many :reports, dependent: :destroy
+  has_many :notifications, dependent: :destroy
+  has_many :rate_limits, dependent: :destroy
 
   delegate :moderator?, :contributor?, :banned?, :follower?, to: :permissions
 

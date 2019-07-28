@@ -7,21 +7,11 @@ class CreateRule
   attr_reader :rule
 
   def save
-    ActiveRecord::Base.transaction do
-      @rule = Rule.create!(
-        sub: @sub,
-        title: @title,
-        description: @description
-      )
-
-      CreateLog.new(
-        sub: @sub,
-        current_user: @current_user,
-        action: :create_rule,
-        attributes: [:title, :description],
-        model: @rule
-      ).call
-    end
+    @rule = Rule.create!(
+      sub: @sub,
+      title: @title,
+      description: @description
+    )
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 

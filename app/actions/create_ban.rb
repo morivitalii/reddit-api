@@ -19,25 +19,14 @@ class CreateBan
 
     @user = User.where("lower(username) = ?", @username.downcase).take!
 
-    ActiveRecord::Base.transaction do
-      @ban = Ban.create!(
-        sub: @sub,
-        banned_by: @current_user,
-        user: @user,
-        reason: @reason,
-        days: @days,
-        permanent: @permanent
-      )
-
-      CreateLog.new(
-        sub: @sub,
-        current_user: @current_user,
-        action: :create_ban,
-        attributes: [:reason, :days, :permanent],
-        loggable: @user,
-        model: @ban
-      ).call
-    end
+    @ban = Ban.create!(
+      sub: @sub,
+      banned_by: @current_user,
+      user: @user,
+      reason: @reason,
+      days: @days,
+      permanent: @permanent
+    )
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 

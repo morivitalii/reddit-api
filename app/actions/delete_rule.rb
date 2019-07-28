@@ -7,16 +7,6 @@ class DeleteRule
   end
 
   def call
-    ActiveRecord::Base.transaction do
-      @rule.destroy!
-
-      CreateLog.new(
-        sub: @rule.sub,
-        current_user: @current_user,
-        action: :delete_rule,
-        attributes: [:title, :description],
-        model: @rule
-      ).call
-    end
+    @rule.destroy!
   end
 end

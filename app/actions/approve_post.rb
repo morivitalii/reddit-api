@@ -7,17 +7,6 @@ class ApprovePost
   end
 
   def call
-    ActiveRecord::Base.transaction do
-      @post.approve!(current_user)
-
-      CreateLog.new(
-        sub: @post.sub,
-        current_user: @current_user,
-        action: :mark_thing_as_approved,
-        attributes: [:approved_at, :deleted_at, :deletion_reason, :text],
-        loggable: @post,
-        post: @post
-      ).call
-    end
+    @post.approve!(current_user)
   end
 end

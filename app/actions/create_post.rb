@@ -8,10 +8,8 @@ class CreatePost
 
   def save
     ActiveRecord::Base.transaction do
-      @post = Thing.create!(
+      @post = Post.create!(
         sub: @sub,
-        thing_type: :post,
-        content_type: content_type,
         user: @current_user,
         title: @title,
         text: @text,

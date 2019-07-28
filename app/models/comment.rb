@@ -16,9 +16,8 @@ class Comment < ApplicationRecord
 
   belongs_to :user
   belongs_to :post, counter_cache: :comments_count
-  belongs_to :parent, class_name: "Comment", foreign_key: "parent_id", counter_cache: :comments_count, optional: true
-  has_many :children, class_name: "Comment", foreign_key: "parent_id"
-  has_many :logs, as: :loggable
+  belongs_to :parent, class_name: "Comment", foreign_key: "comment_id", counter_cache: :comments_count, optional: true
+  has_many :comments, class_name: "Comment", foreign_key: "comment_id", dependent: :destroy
 
   after_save :upsert_in_topic
 

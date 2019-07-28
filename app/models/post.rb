@@ -14,9 +14,8 @@ class Post < ApplicationRecord
 
   belongs_to :sub
   belongs_to :user
-  has_one :topic
-  has_many :comments
-  has_many :logs, as: :loggable
+  has_one :topic, dependent: :destroy
+  has_many :comments, dependent: :destroy
   
   scope :in_date_range, ->(date) { where("created_at > ?", date) if date.present? }
 

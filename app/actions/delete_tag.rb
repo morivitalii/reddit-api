@@ -7,16 +7,6 @@ class DeleteTag
   end
 
   def call
-    ActiveRecord::Base.transaction do
-      @tag.destroy!
-
-      CreateLog.new(
-        sub: @tag.sub,
-        current_user: @current_user,
-        action: :delete_tag,
-        attributes: [:title],
-        model: @tag
-      ).call
-    end
+    @tag.destroy!
   end
 end

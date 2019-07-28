@@ -44,10 +44,6 @@
           <%= link_to(t("blacklisted_domains"), blacklisted_domains_path(sub: @sub), class: "dropdown-item") %>
         <% end %>
 
-        <% if policy(Log).index? %>
-          <%= link_to(t("logs"), logs_path(sub: @sub), class: "dropdown-item") %>
-        <% end %>
-
         <% if policy(@sub).update? %>
           <%= link_to(t("settings"), edit_sub_path(@sub), class: "dropdown-item") %>
         <% end %>

@@ -3,17 +3,15 @@
 class CreateComment
   include ActiveModel::Model
 
-  attr_accessor :thing, :current_user, :text
+  attr_accessor :commentable_model, :current_user, :text
   attr_reader :comment
 
   def save
     ActiveRecord::Base.transaction do
-      @comment = @thing.sub.things.create!(
-        thing_type: :comment,
-        content_type: :text,
+      @comment = Comment.create!(
         user: @current_user,
-        post: @thing.post? ? @thing : @thing.post,
-        comment: @thing.comment? ? @thing : nil,
+        post: post,
+        comment: comment,
         text: @text
       )
 
@@ -23,5 +21,15 @@ class CreateComment
     errors.merge!(invalid.record.errors)
 
     return false
+  end
+
+  private
+
+  def post
+    @commentable_model.is_a?(Post) ? @commentable_model : @commentable_model.post
+  end
+
+  def comment
+    @commentable_model.is_a?(Comment) ? @commentable_model : nil
   end
 end
