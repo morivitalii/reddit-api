@@ -57,7 +57,7 @@ class RulesController < ApplicationController
   end
 
   def set_sub
-    @sub = params[:sub].present? ? Sub.where("lower(url) = ?", params[:sub].downcase).take! : nil
+    @sub = Sub.find_by_lower_url(params[:sub])
   end
 
   def set_rule
