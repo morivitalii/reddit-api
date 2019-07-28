@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Thing < ApplicationRecord
+  include Paginatable
   include Scorable
   include Editable
   include Approvable

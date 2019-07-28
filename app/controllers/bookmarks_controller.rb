@@ -8,17 +8,7 @@ class BookmarksController < ApplicationController
   before_action :set_thing, only: [:create, :destroy]
 
   def index
-    @records = Bookmark.type(type)
-                   .where(user: @user)
-                   .includes(bookmarkable: [:sub, :user, :post])
-                   .reverse_chronologically(after)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+    @records, @pagination_record = Bookmark.type(type).where(user: @user).includes(bookmarkable: [:sub, :user, :post]).paginate(after: params[:after])
 
     @records = @records.map(&:bookmarkable)
   end
@@ -47,9 +37,5 @@ class BookmarksController < ApplicationController
 
   def type
     ThingsTypes.new(params[:type]).key&.to_s&.classify
-  end
-
-  def after
-    params[:after].present? ? Bookmark.find_by_id(params[:after]) : nil
   end
 end

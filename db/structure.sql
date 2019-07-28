@@ -712,10 +712,10 @@ ALTER SEQUENCE public.things_id_seq OWNED BY public.things.id;
 
 CREATE TABLE public.topics (
     id bigint NOT NULL,
-    post_id bigint NOT NULL,
     branch jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    post_id bigint NOT NULL
 );
 
 
@@ -1712,7 +1712,7 @@ CREATE INDEX index_things_on_user_id ON public.things USING btree (user_id);
 -- Name: index_topics_on_post_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_topics_on_post_id ON public.topics USING btree (post_id);
+CREATE INDEX index_topics_on_post_id ON public.topics USING btree (post_id);
 
 
 --
@@ -1809,7 +1809,7 @@ ALTER TABLE ONLY public.bans
 --
 
 ALTER TABLE ONLY public.topics
-    ADD CONSTRAINT fk_rails_20d6eae1b8 FOREIGN KEY (post_id) REFERENCES public.things(id);
+    ADD CONSTRAINT fk_rails_20d6eae1b8 FOREIGN KEY (post_id) REFERENCES public.posts(id);
 
 
 --
@@ -2181,6 +2181,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190724232645'),
 ('20190725220001'),
 ('20190725220004'),
-('20190726040646');
+('20190726040646'),
+('20190728020437');
 
 

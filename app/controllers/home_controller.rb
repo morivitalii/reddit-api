@@ -4,28 +4,17 @@ class HomeController < ApplicationController
   layout "narrow"
 
   def index
-    @records = Thing.thing_type(:post)
-                   .not_deleted
-                   .chronologically_by_score(sort, after)
-                   .in_date_range(date)
-                   .includes(:sub, :user)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+    @records, @pagination_record = Thing.thing_type(:post)
+                                       .not_deleted
+                                       .in_date_range(date)
+                                       .includes(:sub, :user)
+                                       .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
   end
 
   private
 
   def sort
     ThingsSorting.new(params[:sort]).key
-  end
-
-  def after
-    params[:after].present? ? Thing.find_by_id(params[:after]) : nil
   end
 
   def date

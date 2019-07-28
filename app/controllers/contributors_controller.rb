@@ -6,16 +6,7 @@ class ContributorsController < ApplicationController
   before_action -> { authorize(Contributor) }
 
   def index
-    @records = Contributor.where(sub: @sub)
-                   .includes(:user, :approved_by)
-                   .reverse_chronologically(after)
-                   .limit(51)
-                   .to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+    @records, @pagination_record = Contributor.where(sub: @sub).includes(:user, :approved_by).paginate(after: params[:after])
   end
 
   def search
@@ -62,9 +53,5 @@ class ContributorsController < ApplicationController
 
   def create_params
     params.require(:create_contributor).permit(:username).merge(sub: @sub, current_user: current_user)
-  end
-
-  def after
-    params[:after].present? ? Contributor.find_by_id(params[:after]) : nil
   end
 end

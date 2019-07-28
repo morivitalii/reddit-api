@@ -6,12 +6,7 @@ class BansController < ApplicationController
   before_action -> { authorize(Ban) }
 
   def index
-    @records = Ban.where(sub: @sub).includes(:user, :banned_by).reverse_chronologically(after).limit(51).to_a
-
-    if @records.size > 50
-      @records.delete_at(-1)
-      @after_record = @records.last
-    end
+    @records, @pagination_record = Ban.includes(:user, :banned_by).where(sub: @sub).paginate(after: params[:after])
   end
 
   def search
@@ -74,10 +69,6 @@ class BansController < ApplicationController
 
   def set_ban
     @ban = Ban.find(params[:id])
-  end
-
-  def after
-    params[:after].present? ? Ban.find_by_id(params[:after]) : nil
   end
 
   def create_params

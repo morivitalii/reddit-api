@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Vote < ApplicationRecord
+  include Paginatable
+
   belongs_to :votable, polymorphic: true, touch: true
   belongs_to :user
 
