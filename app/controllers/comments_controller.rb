@@ -4,8 +4,8 @@ class CommentsController < ApplicationController
   include RateLimits
 
   before_action :set_thing, only: [:new, :create]
-  before_action :set_comment, only: [:edit, :update, :approve]
-  before_action -> { authorize(@thing, policy_class: CommentPolicy) }, only: [:new, :create, :edit, :update, :approve]
+  before_action :set_comment, only: [:edit, :update, :approve, :new_destroy, :destroy]
+  before_action -> { authorize(@thing, policy_class: CommentPolicy) }, only: [:new, :create, :edit, :update, :approve, :new_destroy, :destroy]
 
   def new
     @form = CreateComment.new
@@ -50,6 +50,22 @@ class CommentsController < ApplicationController
     head :no_content
   end
 
+  def new_destroy
+    @form = DeleteComment.new(deletion_reason: @thing.deletion_reason)
+
+    render partial: "new_destroy"
+  end
+
+  def destroy
+    @form = DeleteComment.new(destroy_params)
+
+    if @form.save
+      head :no_content
+    else
+      render json: @form.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_thing
@@ -66,5 +82,9 @@ class CommentsController < ApplicationController
 
   def update_params
     params.require(:update_comment).permit(:text).merge(comment: @thing, current_user: current_user)
+  end
+
+  def destroy_params
+    params.require(:delete_comment).permit(policy(@thing).permitted_attributes_for_destroy).merge(comment: @thing, current_user: current_user)
   end
 end

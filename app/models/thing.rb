@@ -26,41 +26,6 @@ class Thing < ApplicationRecord
   scope :thing_type, ->(type) { where(thing_type: type) if type.present? }
   scope :in_date_range, ->(date) { where("created_at > ?", date) if date.present? }
 
-  before_create :normalize_url_on_create
-  before_create :set_file_processing_attributes_on_file_cache
-  before_update :reset_deletion_attributes_on_file_store
-  after_create :create_topic_on_create
-  after_create :insert_to_topic_on_create
-
-  with_options if: ->(r) { r.post? } do
-    validates :title, presence: true, length: { maximum: 350 }
-  end
-
-  with_options if: ->(r) { r.text? } do
-    validates :text, presence: true, length: { maximum: 10_000 }
-    validates :url, absence: true
-    validates :file, absence: true
-  end
-
-  with_options if: ->(r) { r.link? } do
-    validates :url, presence: true, length: { maximum: 2048 }
-    validates :text, absence: true
-    validates :file, absence: true
-  end
-
-  with_options if: ->(r) { r.link? && r.errors.blank? } do
-    validate :validate_domain_not_blacklisted, on: :create
-  end
-
-  with_options if: ->(r) { r.media? } do
-    validates :file, presence: true
-    validates :text, absence: true
-    validates :url, absence: true
-  end
-
-  validates :content_type, presence: true, inclusion: { in: self.content_types.keys }
-  validates :tag, allow_blank: true, length: { maximum: 30 }
-
   def youtube?
     return false unless link?
 

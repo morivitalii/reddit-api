@@ -41,20 +41,38 @@
     <% end %>
   <% end %>
 
-  <% if DeleteThingPolicy.new(pundit_user, thing).create? %>
-    <% if thing.deleted? %>
-      <% title = t(
-          "deleted_details",
-          username: thing.deleted_by.username,
-          deleted_at: l(thing.deleted_at),
-          reason: thing.deletion_reason.present? ? thing.deletion_reason : t("deletion_reason_not_specified")
-      ) %>
-    <% else %>
-      <% title = t("delete") %>
-    <% end %>
+  <% if thing.is_a?(Post) %>
+    <% if PostPolicy.new(pundit_user, thing).destroy? %>
+      <% if thing.deleted? %>
+        <% title = t(
+            "deleted_details",
+            username: thing.deleted_by.username,
+            deleted_at: l(thing.deleted_at),
+            reason: thing.deletion_reason.present? ? thing.deletion_reason : t("deletion_reason_not_specified")
+        ) %>
+      <% else %>
+        <% title = t("delete") %>
+      <% end %>
 
-    <%= link_to(fa_icon("trash"), new_thing_delete_path(thing), remote: true, method: :get, class: "delete #{ "text-danger" if thing.deleted? }", data: { toggle: :tooltip }, title: title) %>
+      <%= link_to(fa_icon("trash"), new_destroy_post_path(thing), remote: true, class: "delete #{ "text-danger" if thing.deleted? }", data: { toggle: :tooltip }, title: title) %>
+    <% end %>
+  <% else %>
+    <% if CommentPolicy.new(pundit_user, thing).destroy? %>
+      <% if thing.deleted? %>
+        <% title = t(
+            "deleted_details",
+            username: thing.deleted_by.username,
+            deleted_at: l(thing.deleted_at),
+            reason: thing.deletion_reason.present? ? thing.deletion_reason : t("deletion_reason_not_specified")
+        ) %>
+      <% else %>
+        <% title = t("delete") %>
+      <% end %>
+
+      <%= link_to(fa_icon("trash"), new_destroy_comment_path(thing), remote: true, class: "delete #{ "text-danger" if thing.deleted? }", data: { toggle: :tooltip }, title: title) %>
+    <% end %>
   <% end %>
+
 
   <span class="menu dropdown">
     <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
