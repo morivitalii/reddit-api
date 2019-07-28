@@ -363,6 +363,62 @@ ALTER SEQUENCE public.pages_id_seq OWNED BY public.pages.id;
 
 
 --
+-- Name: posts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.posts (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    sub_id bigint NOT NULL,
+    title character varying NOT NULL,
+    tag character varying,
+    text text,
+    url character varying,
+    media_data character varying,
+    explicit boolean DEFAULT false NOT NULL,
+    spoiler boolean DEFAULT false NOT NULL,
+    receive_notifications boolean DEFAULT true NOT NULL,
+    ignore_reports boolean DEFAULT false NOT NULL,
+    comments_count integer DEFAULT 0 NOT NULL,
+    up_votes_count integer DEFAULT 0 NOT NULL,
+    down_votes_count integer DEFAULT 0 NOT NULL,
+    new_score integer DEFAULT 0 NOT NULL,
+    hot_score double precision DEFAULT 0.0 NOT NULL,
+    best_score double precision DEFAULT 0.0 NOT NULL,
+    top_score integer DEFAULT 0 NOT NULL,
+    controversy_score integer DEFAULT 0 NOT NULL,
+    edited_by_id bigint,
+    edited_at timestamp without time zone,
+    approved_by_id bigint,
+    approved_at timestamp without time zone,
+    deleted_by_id bigint,
+    deleted_at timestamp without time zone,
+    deletion_reason character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: posts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.posts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: posts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.posts_id_seq OWNED BY public.posts.id;
+
+
+--
 -- Name: rate_limits; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -774,6 +830,13 @@ ALTER TABLE ONLY public.pages ALTER COLUMN id SET DEFAULT nextval('public.pages_
 
 
 --
+-- Name: posts id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts ALTER COLUMN id SET DEFAULT nextval('public.posts_id_seq'::regclass);
+
+
+--
 -- Name: rate_limits id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -922,6 +985,14 @@ ALTER TABLE ONLY public.notifications
 
 ALTER TABLE ONLY public.pages
     ADD CONSTRAINT pages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: posts posts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_pkey PRIMARY KEY (id);
 
 
 --
@@ -1222,6 +1293,83 @@ CREATE INDEX index_pages_on_sub_id ON public.pages USING btree (sub_id);
 
 
 --
+-- Name: index_posts_on_approved_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_approved_by_id ON public.posts USING btree (approved_by_id);
+
+
+--
+-- Name: index_posts_on_best_score; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_best_score ON public.posts USING btree (best_score);
+
+
+--
+-- Name: index_posts_on_controversy_score; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_controversy_score ON public.posts USING btree (controversy_score);
+
+
+--
+-- Name: index_posts_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_created_at ON public.posts USING btree (created_at);
+
+
+--
+-- Name: index_posts_on_deleted_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_deleted_by_id ON public.posts USING btree (deleted_by_id);
+
+
+--
+-- Name: index_posts_on_edited_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_edited_by_id ON public.posts USING btree (edited_by_id);
+
+
+--
+-- Name: index_posts_on_hot_score; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_hot_score ON public.posts USING btree (hot_score DESC);
+
+
+--
+-- Name: index_posts_on_new_score; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_new_score ON public.posts USING btree (new_score DESC);
+
+
+--
+-- Name: index_posts_on_sub_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_sub_id ON public.posts USING btree (sub_id);
+
+
+--
+-- Name: index_posts_on_top_score; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_top_score ON public.posts USING btree (top_score);
+
+
+--
+-- Name: index_posts_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_user_id ON public.posts USING btree (user_id);
+
+
+--
 -- Name: index_rate_limits_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1475,6 +1623,14 @@ ALTER TABLE ONLY public.bans
 
 
 --
+-- Name: posts fk_rails_082ae69979; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT fk_rails_082ae69979 FOREIGN KEY (edited_by_id) REFERENCES public.users(id);
+
+
+--
 -- Name: things fk_rails_13c43b4a24; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1571,11 +1727,35 @@ ALTER TABLE ONLY public.contributors
 
 
 --
+-- Name: posts fk_rails_5736a68073; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT fk_rails_5736a68073 FOREIGN KEY (deleted_by_id) REFERENCES public.users(id);
+
+
+--
 -- Name: pages fk_rails_5aaf9853f4; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.pages
     ADD CONSTRAINT fk_rails_5aaf9853f4 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
+
+
+--
+-- Name: posts fk_rails_5b5ddfd518; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT fk_rails_5b5ddfd518 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: posts fk_rails_5bdccabcd5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT fk_rails_5bdccabcd5 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
 
 
 --
@@ -1600,6 +1780,14 @@ ALTER TABLE ONLY public.things
 
 ALTER TABLE ONLY public.contributors
     ADD CONSTRAINT fk_rails_75adfa0433 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: posts fk_rails_78a7444b29; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT fk_rails_78a7444b29 FOREIGN KEY (approved_by_id) REFERENCES public.users(id);
 
 
 --
@@ -1792,6 +1980,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190724225534'),
 ('20190724230752'),
 ('20190724230802'),
-('20190724232645');
+('20190724232645'),
+('20190725220001'),
+('20190725220004');
 
 

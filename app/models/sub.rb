@@ -7,6 +7,7 @@ class Sub < ApplicationRecord
   has_many :contributors
   has_many :bans
   has_many :things
+  has_many :posts
   has_many :rules
   has_many :deletion_reasons
   has_many :tags
