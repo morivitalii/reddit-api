@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :moderator do
-    association :sub, factory: :sub
-    association :user, factory: :user
+    sub
+    user
     association :invited_by, factory: :user
   end
 end

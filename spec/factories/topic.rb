@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :topic do
-    association :post, factory: :text_post
+    post
   end
 end

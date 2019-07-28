@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :sub do
-    association :user, factory: :user
+    user
     sequence(:url) { |i| "sub#{i}" }
     sequence(:title) { |i| "Sub #{i}" }
     sequence(:description) { |i| "Description #{i}" }

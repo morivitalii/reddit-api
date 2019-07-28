@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :contributor do
-    association :sub, factory: :sub
-    association :user, factory: :user
+    sub
+    user
     association :approved_by, factory: :user
   end
 end
