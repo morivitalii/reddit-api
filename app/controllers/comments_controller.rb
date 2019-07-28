@@ -45,7 +45,7 @@ class CommentsController < ApplicationController
   end
 
   def approve
-    Approve.new(@thing, @current_user).call
+    ApproveComment.new(@thing, @current_user).call
 
     head :no_content
   end

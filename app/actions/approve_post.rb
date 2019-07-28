@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
-class Approve
-  def initialize(model, current_user)
-    @model = model
+class ApprovePost
+  def initialize(post, current_user)
+    @post = post
     @current_user = current_user
   end
 
   def call
     ActiveRecord::Base.transaction do
-      @model.approve!
+      @post.approve!(current_user)
 
       CreateLog.new(
-        sub: @model.sub,
+        sub: @post.sub,
         current_user: @current_user,
         action: :mark_thing_as_approved,
         attributes: [:approved_at, :deleted_at, :deletion_reason, :text],
-        loggable: @model,
-        model: @model
+        loggable: @post,
+        post: @post
       ).call
     end
   end

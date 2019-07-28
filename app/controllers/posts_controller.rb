@@ -42,7 +42,7 @@ class PostsController < ApplicationController
   end
 
   def approve
-    Approve.new(@post, @current_user).call
+    ApprovePost.new(@post, @current_user).call
 
     head :no_content
   end
