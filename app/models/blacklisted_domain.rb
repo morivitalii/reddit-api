@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class BlacklistedDomain < ApplicationRecord
-  include Paginatable
-
   belongs_to :sub, optional: true
 
   scope :global, -> { where(sub: nil) }

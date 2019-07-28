@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Log < ApplicationRecord
-  include Paginatable
-
   belongs_to :sub, optional: true
   belongs_to :user
   belongs_to :loggable, polymorphic: true, optional: true

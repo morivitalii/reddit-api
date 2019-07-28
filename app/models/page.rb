@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Page < ApplicationRecord
-  include Paginatable
   include Editable
 
   belongs_to :sub, optional: true
