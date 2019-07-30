@@ -1,12 +1,12 @@
 <%= render 'shared/modal', title: t('delete') do %>
-  <%= form_with(model: @form, url: comment_path(@thing), method: :delete, class: 'deleteForm') do |f| %>
+  <%= form_with(model: @form, url: post_path(@post), method: :delete, class: 'removeForm') do |f| %>
     <div class="modal-body">
-      <% if current_user.moderator?(@sub) %>
+      <% if policy(@post).remove? %>
         <div class="form-group">
-          <select class="removalReasons form-control">
+          <select class="reasons form-control">
             <option value=""><% t('deletion_reason_select') %></option>
 
-            <% DeletionReason.global.or(DeletionReason.where(sub: @sub)).all.each do |deletion_reason| %>
+            <% @deletion_reasons.each do |deletion_reason| %>
               <option value="<%= deletion_reason.description %>"><%= deletion_reason.title %></option>
             <% end %>
           </select>

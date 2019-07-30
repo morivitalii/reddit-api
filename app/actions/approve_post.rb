@@ -7,6 +7,6 @@ class ApprovePost
   end
 
   def call
-    @post.approve!(current_user)
+    @post.approve!(@current_user)
   end
 end

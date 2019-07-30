@@ -4,25 +4,47 @@ class BookmarksController < ApplicationController
   layout "narrow"
 
   before_action -> { authorize(Bookmark) }
-  before_action :set_user, only: [:index]
-  before_action :set_thing, only: [:create, :destroy]
+  before_action :set_user, only: [:index, :comments]
+  before_action :set_bookmarkable, only: [:create, :destroy]
 
   def index
-    @records, @pagination_record = Bookmark.type(type).where(user: @user).includes(bookmarkable: [:sub, :user, :post]).paginate(after: params[:after])
+    @records, @pagination_record = Bookmark.type("Post")
+                                       .where(user: @user)
+                                       .includes(bookmarkable: [:user, :sub])
+                                       .paginate(after: params[:after])
 
-    @records = @records.map(&:bookmarkable)
+    @records = @records.map(&:bookmarkable).map(&:decorate)
+  end
+
+  def comments
+    @records, @pagination_record = Bookmark.type("Comment")
+                                       .where(user: @user)
+                                       .includes(bookmarkable: [:user, :post])
+                                       .paginate(after: params[:after])
+
+    @records = @records.map(&:bookmarkable).map(&:decorate)
   end
 
   def create
-    CreateBookmark.new(@thing, current_user).call
+    CreateBookmark.new(@bookmarkable, current_user).call
 
-    head :no_content
+    @bookmarkable = @bookmarkable.decorate
+
+    render json: {
+      bookmarked: true,
+      bookmark_link_tooltip_message: @bookmarkable.bookmark_link_tooltip_message
+    }
   end
 
   def destroy
-    DeleteBookmark.new(@thing, current_user).call
+    DeleteBookmark.new(@bookmarkable, current_user).call
 
-    head :no_content
+    @bookmarkable = @bookmarkable.decorate
+
+    render json: {
+      bookmarked: false,
+      bookmark_link_tooltip_message: @bookmarkable.bookmark_link_tooltip_message
+    }
   end
 
   private
@@ -31,11 +53,11 @@ class BookmarksController < ApplicationController
     @user = current_user
   end
 
-  def set_thing
-    @thing = Thing.find(params[:thing_id])
-  end
-
-  def type
-    ThingsTypes.new(params[:type]).key&.to_s&.classify
+  def set_bookmarkable
+    if params[:post_id].present?
+      @bookmarkable = Post.find(params[:post_id])
+    elsif params[:comment_id].present?
+      @bookmarkable = Comment.find(params[:comment_id])
+    end
   end
 end

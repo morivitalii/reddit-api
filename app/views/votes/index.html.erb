@@ -7,12 +7,10 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("posts_and_comments"), user_path(@user, type: :all), class: 'dropdown-item') %>
-      <%= link_to(t("posts"), user_path(@user, type: :post), class: 'dropdown-item') %>
-      <%= link_to(t("comments"), user_path(@user, type: :comment), class: 'dropdown-item') %>
+      <%= link_to(t("posts"), user_path(@user), class: 'dropdown-item') %>
+      <%= link_to(t("comments"), comments_user_path(@user), class: 'dropdown-item') %>
 
       <% if current_user.id == @user.id %>
-        <%= link_to(t("notifications"), notifications_path, class: 'dropdown-item') %>
         <%= link_to(t("bookmarks"), bookmarks_path, class: 'dropdown-item') %>
         <%= link_to(t("votes"), votes_path, class: 'dropdown-item') %>
       <% end %>
@@ -33,17 +31,16 @@
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= ThingsTypes.new(params[:thing_type]).i18n %>
+      <%= t("posts") %>
     </a>
 
     <div class="dropdown-menu">
-      <% ThingsTypes.new.list.each do |k, v| %>
-        <%= link_to(v, votes_path(vote_type: params[:vote_type], thing_type: k), class: 'dropdown-item') %>
-      <% end %>
+      <%= link_to(t("posts"), votes_path(vote_type: params[:vote_type]), class: 'dropdown-item') %>
+      <%= link_to(t("comments"), comments_votes_path(vote_type: params[:vote_type]), class: 'dropdown-item') %>
     </div>
   </li>
 <% end %>
 
-<%= render "users/sidebar" %>
-<%= render partial: "things/thing", collection: @records, cached: true %>
+<%= render "users/sidebar", user: @user %>
+<%= render @records %>
 <%= render 'shared/pagination', pagination_record: @pagination_record %>

@@ -32,6 +32,6 @@
   <% end %>
 <% end %>
 
-<%= render "subs/sidebar" %>
-<%= render partial: "things/thing", collection: @records, cached: true %>
+<%= render "subs/sidebar", sub: @sub %>
+<%= render @records %>
 <%= render 'shared/pagination', pagination_record: @pagination_record %>

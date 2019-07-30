@@ -7,14 +7,38 @@ module Approvable
     belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", optional: true
 
     before_create :approve_on_create
-    before_update :undelete_on_approve
+    before_update :undo_remove_on_approve, if: ->(r) { r.respond_to?(:removable?) }
 
     def approve!(user)
-      update!(approved_by: user, approved_at: Time.current)
+      approve(user)
+      save!
+    end
+
+    def approve(user)
+      assign_attributes(
+        approved_by: user,
+        approved_at: Time.current
+      )
+    end
+
+    def undo_approve!
+      undo_approve
+      save!
+    end
+
+    def undo_approve
+      assign_attributes(
+        approved_by: nil,
+        approved_at: nil
+      )
     end
 
     def approvable?
       true
+    end
+
+    def approving?
+      approved_at_changed? && approved?
     end
 
     def approved?
@@ -23,28 +47,20 @@ module Approvable
 
     private
 
-    def approving?
-      approved_at_changed? && approved?
+    def approve_on_create
+      if auto_approve?
+        approve(user)
+      end
+    end
+
+    def undo_remove_on_approve
+      if approving?
+        undo_remove
+      end
     end
 
     def auto_approve?
       user.moderator?(sub) || user.contributor?(sub)
-    end
-
-    def reset_approve_attributes
-      assign_attributes(approved_by: nil, approved_at: nil)
-    end
-
-    def approve_on_create
-      if auto_approve?
-        assign_attributes(approved_by: user, approved_at: Time.current)
-      end
-    end
-
-    def undelete_on_approve
-      if approving?
-        reset_deletion_attributes
-      end
     end
   end
 end

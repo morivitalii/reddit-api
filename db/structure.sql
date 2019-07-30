@@ -136,7 +136,6 @@ CREATE TABLE public.comments (
     user_id bigint NOT NULL,
     post_id bigint NOT NULL,
     text text NOT NULL,
-    receive_notifications boolean DEFAULT true NOT NULL,
     ignore_reports boolean DEFAULT false NOT NULL,
     comments_count integer DEFAULT 0 NOT NULL,
     up_votes_count integer DEFAULT 0 NOT NULL,
@@ -310,39 +309,6 @@ ALTER SEQUENCE public.moderators_id_seq OWNED BY public.moderators.id;
 
 
 --
--- Name: notifications; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.notifications (
-    id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    notifiable_type character varying NOT NULL,
-    notifiable_id bigint NOT NULL
-);
-
-
---
--- Name: notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.notifications_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.notifications_id_seq OWNED BY public.notifications.id;
-
-
---
 -- Name: pages; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -392,7 +358,6 @@ CREATE TABLE public.posts (
     media_data character varying,
     explicit boolean DEFAULT false NOT NULL,
     spoiler boolean DEFAULT false NOT NULL,
-    receive_notifications boolean DEFAULT true NOT NULL,
     ignore_reports boolean DEFAULT false NOT NULL,
     comments_count integer DEFAULT 0 NOT NULL,
     up_votes_count integer DEFAULT 0 NOT NULL,
@@ -654,7 +619,6 @@ CREATE TABLE public.users (
     forgot_password_token character varying NOT NULL,
     posts_points integer DEFAULT 0 NOT NULL,
     comments_points integer DEFAULT 0 NOT NULL,
-    notifications_count integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     forgot_password_email_sent_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
@@ -768,13 +732,6 @@ ALTER TABLE ONLY public.follows ALTER COLUMN id SET DEFAULT nextval('public.foll
 --
 
 ALTER TABLE ONLY public.moderators ALTER COLUMN id SET DEFAULT nextval('public.moderators_id_seq'::regclass);
-
-
---
--- Name: notifications id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.notifications ALTER COLUMN id SET DEFAULT nextval('public.notifications_id_seq'::regclass);
 
 
 --
@@ -917,14 +874,6 @@ ALTER TABLE ONLY public.follows
 
 ALTER TABLE ONLY public.moderators
     ADD CONSTRAINT moderators_pkey PRIMARY KEY (id);
-
-
---
--- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.notifications
-    ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
 
 
 --
@@ -1258,27 +1207,6 @@ CREATE UNIQUE INDEX index_moderators_on_sub_id_and_user_id ON public.moderators 
 --
 
 CREATE INDEX index_moderators_on_user_id ON public.moderators USING btree (user_id);
-
-
---
--- Name: index_notifications_on_notifiable_type_and_notifiable_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_notifications_on_notifiable_type_and_notifiable_id ON public.notifications USING btree (notifiable_type, notifiable_id);
-
-
---
--- Name: index_notifications_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_notifications_on_user_id ON public.notifications USING btree (user_id);
-
-
---
--- Name: index_notifications_uniqueness; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_notifications_uniqueness ON public.notifications USING btree (notifiable_type, notifiable_id, user_id);
 
 
 --
@@ -1705,14 +1633,6 @@ ALTER TABLE ONLY public.posts
 
 
 --
--- Name: notifications fk_rails_b080fb4855; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.notifications
-    ADD CONSTRAINT fk_rails_b080fb4855 FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
 -- Name: follows fk_rails_b61b5b4590; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1860,11 +1780,11 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190726040646'),
 ('20190728020437'),
 ('20190728062131'),
-<<<<<<< Updated upstream
 ('20190728063719'),
-('20190728064759');
-=======
-('20190728063719');
->>>>>>> Stashed changes
+('20190728064759'),
+('20190730025815'),
+('20190730025956'),
+('20190730025959'),
+('20190730030026');
 
 

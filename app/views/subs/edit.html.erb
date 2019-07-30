@@ -1,7 +1,7 @@
 <% content_for(:meta_title, t("settings")) %>
 
-<%= render 'subs/second_top_menu' %>
-<%= render 'subs/sidebar' %>
+<%= render 'subs/second_top_menu', sub: @sub %>
+<%= render 'subs/sidebar', sub: @sub %>
 
 <div class="row mt-2 mb-3">
   <div class="col-12 h5 mb-0">

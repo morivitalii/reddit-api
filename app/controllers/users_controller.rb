@@ -1,19 +1,30 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  layout "narrow", only: [:show]
+  layout "narrow", only: [:show, :comments]
 
   before_action -> { authorize(User) }
-  before_action :set_user, only: [:show]
+  before_action :set_user, only: [:show, :comments]
   before_action :set_current_user, only: [:edit, :update]
 
   def show
-    @records, @pagination_record = Thing.not_deleted
-                   .thing_type(type)
-                   .in_date_range(date)
-                   .where(user: @user)
-                   .includes(:sub, :user, :post)
-                   .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
+    @records, @pagination_record = Post.in_date_range(date)
+                                       .where(user: @user)
+                                       .includes(:sub, :user)
+                                       .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
+
+    @records = @records.map(&:decorate)
+  end
+
+  def comments
+    @records, @pagination_record = Comment.in_date_range(date)
+                                       .where(user: @user)
+                                       .includes(:user, :post)
+                                       .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
+
+    @records = @records.map(&:decorate)
+
+    render "show"
   end
 
   def edit
@@ -42,10 +53,6 @@ class UsersController < ApplicationController
 
   def update_params
     params.require(:update_user).permit(:email, :password, :password_current).merge(user: @user)
-  end
-
-  def type
-    ThingsTypes.new(params[:type]).key
   end
 
   def sort

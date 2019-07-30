@@ -73,12 +73,10 @@ ru:
   day: Сутки
   week: Неделя
   month: Месяц
-  posts_and_comments: Посты и комментарии
   posts: Посты
   post: пост
   comments: Комментарии
   comment: комментарий
-  notifications: Уведомления
   text: Текст
   link: Ссылка
   media: Медиа
@@ -113,6 +111,7 @@ ru:
   reply: Ответить
   approve: Одобрить
   report: Пожаловаться
+  thanks_for_report: Спасибо за активное участие
   rules_violation: Нарушение правил сообщества
   other_violation: Другие причины
   custom_report: Произвольная жалоба
@@ -128,13 +127,11 @@ ru:
   deletion_reason_select: Выбрать причину удаления
   approved_details: 'Одобренно %{username} %{approved_at}'
   deletion_confirmation: 'Подтвердить удаление?'
-  deleted_details: 'Удалено %{username} %{deleted_at}. Причина: %{reason}'
-  deletion_reason_not_specified: 'Не указана'
+  deletion_details: 'Удалено %{username} %{deleted_at}. Причина: "%{reason}"'
   bookmark: Сохранить
   delete_bookmark: Убрать из сохраненного
   tag: Изменить тег
   explicit: 18+
-  receive_notifications: Получать уведомления
   spoiler: Спойлер
   ignore_reports: Игнорировать жалобы
   to: к
@@ -142,8 +139,7 @@ ru:
   to_branch: 'Перейти в ветку (%{comments})'
   load_more: 'Загрузить больше (%{comments})'
   deleted: Удалено
-  deleted_thing_without_reason_html: 'Удалено %{username} %{deleted_at}'
-  deleted_thing_with_reason_html: 'Удалено %{username} %{deleted_at} по причине "%{reason}"'
+  deleted_html: 'Удалено %{username} %{deleted_at} по причине "%{reason}"'
   edited_html: '(отредактировано %{edited_at})'
   comment_page_html: 'Это ветка одного комментария. <a href="%{url}">Посмотреть все комментарии</a>'
   for_posts: за посты

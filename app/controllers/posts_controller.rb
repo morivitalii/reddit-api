@@ -4,36 +4,26 @@ class PostsController < ApplicationController
   include RateLimits
 
   before_action :set_sub, only: [:new, :create]
-  before_action :set_post, only: [:edit, :update, :approve, :new_destroy, :destroy]
+  before_action :set_post, only: [:show, :edit, :tag, :update, :approve, :remove, :destroy]
   before_action :set_sort_options, only: [:show]
   before_action :set_sort, only: [:show]
   before_action -> { authorize(Post) }, only: [:new, :create]
-  before_action -> { authorize(@post) }, only: [:edit, :update, :approve, :new_destroy, :destroy]
+  before_action -> { authorize(@post) }, only: [:tag, :edit, :update, :approve, :remove, :destroy]
 
   def show
-    @topic = CommentsTree.new(
-        thing: @thing,
-        sort: @sort,
-        after: params[:after].present? ? @sub.things.find_by_id(params[:after]) : nil
-    ).build
-
-    @post = @topic.post
-    @comment = @topic.comment
-    @sub = @post.sub
-
-    if request.xhr?
-      if @comment.present?
-        render partial: "nested", locals: { item: @topic.branch[:nested].first }
-      else
-        render partial: "nested", locals: { item: @topic.branch }
-      end
-    else
-      render "show", status: @thing.deleted? ? :not_found : :ok
-    end
+    # TODO js comments loading
+    @post = @post.decorate
   end
 
   def new
     @form = CreatePost.new
+  end
+
+  def tag
+    @form = UpdatePost.new(text: @post.tag)
+    @tags = Tag.where(sub: @post.sub).or(Tag.where(sub: nil)).all
+
+    render partial: "tag"
   end
 
   def edit
@@ -49,7 +39,7 @@ class PostsController < ApplicationController
     if check_rate_limits(@form, attribute: :title, key: rate_limit_key, limit: rate_limits) && @form.save
       hit_rate_limits(key: rate_limit_key)
 
-      head :no_content, location: thing_path(@form.post)
+      head :no_content, location: post_path(@form.post)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -59,29 +49,47 @@ class PostsController < ApplicationController
     @form = UpdatePost.new(update_params)
 
     if @form.save
-      head :no_content, location: thing_path(@form.post)
+      attributes = {
+        tag: @form.post.tag,
+        spoiler: @form.post.spoiler,
+        explicit: @form.post.explicit,
+        ignore_reports: @form.post.ignore_reports
+      }
+
+      render json: attributes, location: post_path(@form.post)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
   end
 
   def approve
-    ApprovePost.new(@post, @current_user).call
+    ApprovePost.new(@post, current_user).call
 
-    head :no_content
+    @post = @post.decorate
+
+    render json: {
+      approve_link_tooltip_message: @post.approve_link_tooltip_message,
+      remove_link_tooltip_message: @post.remove_link_tooltip_message
+    }
   end
 
-  def new_destroy
+  def remove
     @form = DeletePost.new(deletion_reason: @post.deletion_reason)
+    @deletion_reasons = DeletionReason.global.or(DeletionReason.where(sub: @post.sub)).all
 
-    render partial: "new_destroy"
+    render partial: "remove"
   end
 
   def destroy
     @form = DeletePost.new(destroy_params)
 
     if @form.save
-      head :no_content
+      @post = @post.decorate
+
+      render json: {
+        approve_link_tooltip_message: @post.approve_link_tooltip_message,
+        remove_link_tooltip_message: @post.remove_link_tooltip_message
+      }
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -94,11 +102,11 @@ class PostsController < ApplicationController
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub])
+    @sub = Sub.find_by_lower_url(params[:sub]) || Sub.default
   end
 
   def set_post
-    @post = Thing.where(thing_type: :post).find(params[:id])
+    @post = Post.find(params[:id])
   end
 
   def set_sort_options
@@ -110,7 +118,7 @@ class PostsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_post).permit(:title, :text, :url, :file, :explicit, :spoiler).merge(sub: @sub, current_user: current_user)
+    params.require(:create_post).permit(:title, :text, :url, :media, :explicit, :spoiler).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params

@@ -1,8 +1,8 @@
 <% content_for(:meta_title, t("blacklisted_domains")) %>
 
 <% if @sub.present? %>
-  <%= render 'subs/second_top_menu' %>
-  <%= render 'subs/sidebar' %>
+  <%= render 'subs/second_top_menu', sub: @sub %>
+  <%= render 'subs/sidebar', sub: @sub %>
 <% end %>
 
 <div id="blacklisted_domains" class="entries row">

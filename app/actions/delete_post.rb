@@ -6,7 +6,7 @@ class DeletePost
   attr_accessor :post, :current_user, :deletion_reason
 
   def save
-    @post.delete!(@current_user, @deletion_reason)
+    @post.remove!(@current_user, @deletion_reason)
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 

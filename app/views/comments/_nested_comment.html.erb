@@ -1,12 +1,8 @@
-<% if item[:thing].deleted? %>
+<% if item[:thing].removed? %>
   <div class="thing comment col-12 mt-2 pr-0">
     <div class="row pr-3">
       <div class="content deletedComment col-12">
-        <% if item[:thing].deletion_reason.present? %>
-          <%= t("deleted_thing_with_reason_html", username: link_to(item[:thing].deleted_by.username, user_path(item[:thing].deleted_by)), deleted_at: datetime_tag(item[:thing].deleted_at, :ago), reason: item[:thing].deletion_reason) %>
-        <% else %>
-          <%= t("deleted_thing_without_reason_html", username: link_to(item[:thing].deleted_by.username, user_path(item[:thing].deleted_by)), deleted_at: datetime_tag(item[:thing].deleted_at, :ago)) %>
-        <% end %>
+        <%= t("deleted_html", username: link_to(item[:thing].deleted_by.username, user_path(item[:thing].deleted_by)), deleted_at: datetime_tag(item[:thing].deleted_at, :ago), reason: item[:thing].deletion_reason) %>
       </div>
     </div>
 
@@ -15,7 +11,7 @@
     </div>
   </div>
 <% else %>
-  <div data-id="<%= item[:thing].id %>" class="thing comment col-12 mt-2 pr-0">
+  <div class="thing comment col-12 mt-2 pr-0">
     <div class="row pr-3">
       <div class="info col-12 pt-1">
         <span class="comment__expand"><%= fa_icon("plus-square") %></span>
@@ -35,9 +31,9 @@
 
       <div class="actions col-12 mt-1">
         <span class="vote">
-          <%= link_to(fa_icon("arrow-up"), thing_votes_path(item[:thing]), data: { params: "thing_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
-          <%= item[:thing].presenter.score %>
-          <%= link_to(fa_icon("arrow-down"), thing_votes_path(item[:thing]), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
+          <%= link_to(fa_icon("arrow-up"), comment_votes_path(item[:thing]), data: { params: "create_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
+          <%= item[:thing].score %>
+          <%= link_to(fa_icon("arrow-down"), comment_votes_path(item[:thing]), data: { params: "create_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
         </span>
 
         <%= link_to(t("reply").downcase, new_thing_comment_path(item[:thing]), remote: true, class: "reply") %>

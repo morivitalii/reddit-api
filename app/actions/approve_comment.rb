@@ -7,6 +7,6 @@ class ApproveComment
   end
 
   def call
-    @comment.approve!(current_user)
+    @comment.approve!(@current_user)
   end
 end

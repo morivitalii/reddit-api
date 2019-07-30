@@ -3,18 +3,16 @@
 class UpdateComment
   include ActiveModel::Model
 
-  attr_accessor :comment, :current_user, :text, :ignore_reports, :receive_notifications
+  attr_accessor :comment, :current_user, :text, :ignore_reports
 
   def save
     attributes = {
       text: @text,
-      ignore_reports: @ignore_reports,
-      receive_notifications: @receive_notifications,
+      ignore_reports: @ignore_reports
     }.compact
 
     if edited?
-      attributes[:edited_by] = @current_user
-      attributes[:edited_at] = Time.current
+      @comment.edit(@current_user)
     end
 
     @comment.update!(attributes)
@@ -22,5 +20,11 @@ class UpdateComment
     errors.merge!(invalid.record.errors)
 
     return false
+  end
+
+  private
+
+  def edited?
+    @text.present? && @comment.text != @text
   end
 end

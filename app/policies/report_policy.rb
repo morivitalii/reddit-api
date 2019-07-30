@@ -5,7 +5,11 @@ class ReportPolicy < ApplicationPolicy
     user_signed_in? && context.user.moderators.present?
   end
 
-  def thing_index?
+  def comments?
+    user_signed_in? && context.user.moderators.present?
+  end
+
+  def show?
     user_signed_in? && context.user.moderator?(context.sub)
   end
 
@@ -24,6 +28,8 @@ class ReportPolicy < ApplicationPolicy
     end
 
     def resolve
+      scope = @scope.where(sub: context.sub)
+
       if context.user.moderator?
         scope.joins(:sub)
       else

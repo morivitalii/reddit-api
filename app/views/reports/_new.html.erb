@@ -1,7 +1,7 @@
 <%= render 'shared/modal', title: t('report') do %>
-  <%= form_with(model: @form, url: thing_reports_path(@thing), class: 'reportForm') do |f| %>
+  <%= form_with(model: @form, url: [@reportable, :reports], class: 'reportForm') do |f| %>
     <div class="modal-body">
-      <% if @thing.sub.rules.present? %>
+      <% if @reasons.present? %>
         <div class="reportOptionsList pt-2" data-toggle="collapse" data-target="#sub-reasons" aria-expanded="false">
           <span>
             <%= t('rules_violation') %>
@@ -13,10 +13,10 @@
         </div>
 
         <div class="pt-2 collapse" id="sub-reasons">
-          <% @thing.sub.rules.each_with_index do |rule, index| %>
+          <% @reasons.each_with_index do |reason, index| %>
             <div class="custom-control custom-radio">
-              <input id="sub-rule-<%= index %>" type="radio" value="<%= rule.title %>" class="report-rule custom-control-input">
-              <label class="custom-control-label" for="sub-rule-<%= index %>"><%= rule.title %></label>
+              <input id="sub-rule-<%= index %>" type="radio" value="<%= reason.title %>" class="report-rule custom-control-input">
+              <label class="custom-control-label" for="sub-rule-<%= index %>"><%= reason.title %></label>
             </div>
           <% end %>
         </div>
@@ -33,10 +33,10 @@
       </div>
 
       <div class="pt-2 collapse" id="other-reasons">
-        <% DeletionReason.global.all.each_with_index do |deletion_reason, index| %>
+        <% @other_reasons.each_with_index do |reason, index| %>
           <div class="custom-control custom-radio">
-            <input id="other-rule-<%= index %>" type="radio" value="<%= deletion_reason.title %>" class="report-rule custom-control-input">
-            <label class="custom-control-label" for="other-rule-<%= index %>"><%= deletion_reason.title %></label>
+            <input id="other-rule-<%= index %>" type="radio" value="<%= reason.title %>" class="report-rule custom-control-input">
+            <label class="custom-control-label" for="other-rule-<%= index %>"><%= reason.title %></label>
           </div>
         <% end %>
       </div>

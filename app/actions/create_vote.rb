@@ -16,7 +16,7 @@ class CreateVote
     if @vote.blank?
       @vote = @model.votes.create!(vote_type: @type, user: @current_user)
     else
-      @vote.update!(vote_type: @type, created_at: Time.current)
+      @vote.update!(vote_type: @type)
     end
   end
 end

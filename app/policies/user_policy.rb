@@ -5,6 +5,10 @@ class UserPolicy < ApplicationPolicy
     true
   end
 
+  def comments?
+    true
+  end
+
   def update?
     user_signed_in?
   end

@@ -1,7 +1,7 @@
 <% content_for(:meta_title, t("create_post")) %>
 
 <% if @sub.present? %>
-  <%= render 'subs/sidebar' %>
+  <%= render 'subs/sidebar', sub: @sub %>
 <% end %>
 
 <div id="newPost" class="col-12 bg-white border rounded mb-3">
@@ -17,7 +17,7 @@
         </li>
 
         <li class="nav-item">
-          <%= link_to(t('media'), "#", class: 'nav-link h6 border-bottom rounded-0 p-3', data: { target: "file" }) %>
+          <%= link_to(t('media'), "#", class: 'nav-link h6 border-bottom rounded-0 p-3', data: { target: "media" }) %>
         </li>
       </ul>
     </div>
@@ -27,7 +27,7 @@
         <%= f.text_area :title, rows: 3 %>
         <%= f.text_area :text %>
         <%= f.text_area :url, rows: 3 %>
-        <%= f.file_field :file %>
+        <%= f.file_field :media %>
         <%= f.check_box :explicit %>
         <%= f.check_box :spoiler %>
         <%= f.submit t('create') %>

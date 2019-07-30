@@ -6,7 +6,7 @@ class DeleteComment
   attr_accessor :comment, :current_user, :deletion_reason
 
   def save
-    @comment.delete!(@current_user, @deletion_reason)
+    @comment.remove!(@current_user, @deletion_reason)
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 

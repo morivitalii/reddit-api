@@ -1,0 +1,47 @@
+<% content_for(:meta_title, @user.username) %>
+
+<% content_for(:second_top_menu) do %>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= t("comments") %>
+    </a>
+
+    <div class="dropdown-menu">
+      <%= link_to(t("posts"), user_path(@user), class: 'dropdown-item') %>
+      <%= link_to(t("comments"), comments_user_path(@user), class: 'dropdown-item') %>
+
+      <% if current_user.id == @user.id %>
+        <%= link_to(t("bookmarks"), bookmarks_path, class: 'dropdown-item') %>
+        <%= link_to(t("votes"), votes_path, class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= ThingsSorting.new(params[:sort]).i18n %>
+    </a>
+
+    <div class="dropdown-menu">
+      <% ThingsSorting.new.list.each do |k, v| %>
+        <%= link_to(v, comments_user_path(@user, sort: k), class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= ThingsDates.new(params[:date]).i18n %>
+    </a>
+
+    <div class="dropdown-menu">
+      <% ThingsDates.new.list.each do |k, v| %>
+        <%= link_to(v, comments_user_path(@user, sort: params[:sort], date: k), class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+<% end %>
+
+<%= render "users/sidebar", user: @user %>
+<%= render @records %>
+<%= render 'shared/pagination', pagination_record: @pagination_record %>

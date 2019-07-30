@@ -1,6 +1,18 @@
 Rails.application.routes.draw do
   concern :searchable do
-    post "search", on: :collection
+    post :search, on: :collection
+  end
+
+  concern :comments_index do
+    get :comments, action: :comments, on: :collection
+  end
+
+  concern :approvable do
+    post :approve, action: :approve, on: :member
+  end
+
+  concern :removable do
+    get :remove, action: :remove, on: :member
   end
 
   root "home#index"
@@ -11,39 +23,38 @@ Rails.application.routes.draw do
   resource :password, only: [:edit, :update], controller: :password
   resource :sign_out, only: [:destroy], controller: :sign_out
 
-  resources :posts, only: [:new, :create, :edit, :update, :destroy] do
-    get "/new_destroy", action: :new_destroy, on: :member, as: :new_destroy
-    post "/approve", action: :approve, on: :member, as: :approve
+  resources :posts, only: [:show, :new, :create, :edit, :update, :destroy], concerns: [:approvable, :removable] do
+    get :tag, action: :tag, on: :member
 
     resource :comments, only: [:create]
     resource :votes, only: [:create]
     resource :bookmarks, only: [:create, :destroy]
 
     resources :reports, only: [:new, :create] do
-      get "/", action: :thing_index, on: :collection
+      get "/", action: :show, on: :collection
     end
   end
 
-  resources :comments, only: [:edit, :update, :destroy] do
-    get "/new_destroy", action: :new_destroy, on: :member, as: :new_destroy
-    post "/approve", action: :approve, on: :member, as: :approve
-
+  resources :comments, only: [:show, :edit, :update, :destroy], concerns: [:approvable, :removable] do
     resource :comments, only: [:new, :create]
     resource :votes, only: [:create]
     resource :bookmarks, only: [:create, :destroy]
 
     resources :reports, only: [:new, :create] do
-      get "/", action: :thing_index, on: :collection
+      get "/", action: :show, on: :collection
     end
   end
 
   resource :users, only: [:edit, :update]
-  resources :users, only: [:show], path: "/u"
-  resources :bookmarks, only: [:index]
-  resources :votes, only: [:index]
-  resources :notifications, only: [:index]
-  resources :reports, only: [:index]
-  resources :mod_queues, only: [:index]
+
+  resources :users, only: [:show], path: "/u" do
+    get :comments, action: :comments, on: :member
+  end
+
+  resources :bookmarks, only: [:index], concerns: [:comments_index]
+  resources :votes, only: [:index], concerns: [:comments_index]
+  resources :reports, only: [:index], concerns: [:comments_index]
+  resources :mod_queues, only: [:index], concerns: [:comments_index]
   resources :moderators, except: [:show, :edit, :update], concerns: [:searchable]
   resources :contributors, except: [:show, :edit, :update], concerns: [:searchable]
   resources :blacklisted_domains, except: [:show, :edit, :update], concerns: [:searchable]
