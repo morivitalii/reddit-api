@@ -3,7 +3,7 @@
 class UpdatePost
   include ActiveModel::Model
 
-  attr_accessor :post, :current_user, :text, :tag, :explicit, :spoiler, :ignore_reports, :receive_notifications
+  attr_accessor :post, :current_user, :text, :tag, :explicit, :spoiler, :ignore_reports
 
   def save
     attributes = {
@@ -11,13 +11,11 @@ class UpdatePost
       tag: @tag,
       explicit: @explicit,
       spoiler: @spoiler,
-      ignore_reports: @ignore_reports,
-      receive_notifications: @receive_notifications,
+      ignore_reports: @ignore_reports
     }.compact
 
     if edited?
-      attributes[:edited_by] = @current_user
-      attributes[:edited_at] = Time.current
+      @post.edit(@current_user)
     end
 
     @post.update!(attributes)
@@ -30,6 +28,6 @@ class UpdatePost
   private
 
   def edited?
-    @post.text != @text
+    @text.present? && @post.text != @text
   end
 end

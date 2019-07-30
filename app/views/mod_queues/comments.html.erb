@@ -1,0 +1,32 @@
+<% content_for(:meta_title, t("new")) %>
+
+<% content_for(:second_top_menu) do %>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= t("new") %>
+    </a>
+
+    <div class="dropdown-menu">
+      <%= link_to(t("new"), mod_queues_path(sub: @sub), class: 'dropdown-item') %>
+      <%= link_to(t("reports"), reports_path(sub: @sub), class: 'dropdown-item') %>
+    </div>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= t("comments") %>
+    </a>
+
+    <div class="dropdown-menu">
+      <%= link_to(t("posts"), mod_queues_path(sub: @sub), class: 'dropdown-item') %>
+      <%= link_to(t("comments"), comments_mod_queues_path(sub: @sub), class: 'dropdown-item') %>
+    </div>
+  </li>
+<% end %>
+
+<% if @sub.present? %>
+  <%= render "subs/sidebar", sub: @sub %>
+<% end %>
+
+<%= render @records %>
+<%= render 'shared/pagination', pagination_record: @pagination_record %>

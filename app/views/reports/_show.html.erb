@@ -1,8 +1,8 @@
-<%= render 'shared/modal', title: t('reports'), wide: true do %>
+<%= render 'shared/modal', title: t('reports') do %>
   <div class="modal-body pt-0 pb-0">
-    <div id="reports" class="row">
-      <div id="list" class="col-12">
-        <%= render partial: "report", collection: @reports %>
+    <div class="row entries">
+      <div class="col-12">
+        <%= render @reports %>
       </div>
     </div>
   </div>

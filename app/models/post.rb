@@ -2,11 +2,9 @@
 
 class Post < ApplicationRecord
   include Paginatable
-  include Scorable
   include Editable
   include Approvable
-  include Deletable
-  include Notifiable
+  include Removable
   include Reportable
   include Votable
   include Bookmarkable
@@ -58,10 +56,6 @@ class Post < ApplicationRecord
     super(value&.strip)
   end
 
-  def presenter
-    @presenter ||= ThingPresenter.new(self)
-  end
-
   def youtube?
     @youtube ||= %w(youtube.com www.youtube.com youtu.be www.youtu.be).include?(URI(url).host)
   end
@@ -73,15 +67,15 @@ class Post < ApplicationRecord
   end
 
   def image?
-    file[:original].type == "image"
+    media[:original].type == "image"
   end
 
   def video?
-    file[:original].type == "video"
+    media[:original].type == "video"
   end
 
   def gif?
-    file[:original].type == "gif"
+    media[:original].type == "gif"
   end
 
   def cut_text_preview?
@@ -96,19 +90,19 @@ class Post < ApplicationRecord
   def image_content_dimensions
     variant = :desktop
 
-    if file[variant].height > 550
-      coefficient_by_max_height = 550 / file[variant].height.to_f
-      width_calculated_with_coefficient_by_max_height = (file[variant].width * coefficient_by_max_height).round
+    if media[variant].height > 550
+      coefficient_by_max_height = 550 / media[variant].height.to_f
+      width_calculated_with_coefficient_by_max_height = (media[variant].width * coefficient_by_max_height).round
 
       if width_calculated_with_coefficient_by_max_height < 350
-        coefficient_by_min_width = 350 / file[variant].width.to_f
+        coefficient_by_min_width = 350 / media[variant].width.to_f
 
-        [(file[variant].width * coefficient_by_min_width).round, (file[variant].height * coefficient_by_min_width).round]
+        [(media[variant].width * coefficient_by_min_width).round, (media[variant].height * coefficient_by_min_width).round]
       else
-        [width_calculated_with_coefficient_by_max_height, (file[variant].height * coefficient_by_max_height).round]
+        [width_calculated_with_coefficient_by_max_height, (media[variant].height * coefficient_by_max_height).round]
       end
     else
-      [file[variant].width, file[variant].height]
+      [media[variant].width, media[variant].height]
     end
   end
 
@@ -160,13 +154,13 @@ class Post < ApplicationRecord
   end
 
   def set_media_processing_attributes_on_media_cache
-    return unless media.present? || (media_data_changed? && file_attacher.cached?)
+    return unless media.present? || (media_data_changed? && media_attacher.cached?)
 
     assign_attributes(deleted_by: user, deleted_at: Time.current)
   end
 
   def reset_deletion_attributes_on_media_store
-    return unless media.present? || (media_data_changed? && file_attacher.stored?)
+    return unless media.present? || (media_data_changed? && media_attacher.stored?)
 
     reset_deletion_attributes
   end

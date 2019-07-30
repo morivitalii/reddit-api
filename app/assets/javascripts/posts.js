@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var fields_to_hide_on_init = ["url", "file"];
+    var fields_to_hide_on_init = ["url", "media"];
 
     $.each(fields_to_hide_on_init, function(index, value) {
         $(".createPostForm #create_post_" + value).parent(".form-group").addClass("d-none");
@@ -9,7 +9,7 @@ $(document).ready(function() {
         $("#newPost .nav-item a").removeClass("active");
         $(this).addClass("active");
 
-        var fields = ["text", "url", "file"];
+        var fields = ["text", "url", "media"];
         $.each(fields, function(index, value) {
             $(".createPostForm #create_post_" + value).parent(".form-group").addClass("d-none");
         });

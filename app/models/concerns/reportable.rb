@@ -4,10 +4,14 @@ module Reportable
   extend ActiveSupport::Concern
 
   included do
-    has_many :reports, as: :reportable
+    has_many :reports, as: :reportable, dependent: :destroy
 
-    after_update :delete_reports_on_approve
-    after_update :delete_reports_on_delete
+    after_update :delete_reports_on_approve, if: ->(r) { r.respond_to?(:approvable?) }
+    after_update :delete_reports_on_remove, if: ->(r) { r.respond_to?(:removable?) }
+
+    def reportable?
+      true
+    end
 
     private
 
@@ -17,8 +21,8 @@ module Reportable
       end
     end
 
-    def delete_reports_on_delete
-      if deletion?
+    def delete_reports_on_remove
+      if removing?
         reports.destroy_all
       end
     end

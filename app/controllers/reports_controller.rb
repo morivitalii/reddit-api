@@ -1,32 +1,38 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
-  layout "narrow", only: [:index]
+  layout "narrow"
 
-  before_action :set_sub, only: [:index]
-  before_action :set_thing, only: [:thing_index, :new, :create]
+  before_action :set_sub, only: [:index, :comments]
+  before_action :set_reportable, only: [:show, :new, :create]
   before_action -> { authorize(Report) }
 
   def index
     scope = policy_scope(Report)
 
-    if @sub.present?
-      scope = scope.where(sub: @sub)
-    end
+    @records, @pagination_record = scope.type("Post").includes(reportable: [:sub, :user]).paginate(after: params[:after])
 
-    @records, @pagination_record = scope.type(type).includes(reportable: [:sub, :user, :post]).paginate(after: params[:after])
-
-    @records = @records.map(&:reportable)
+    @records = @records.map(&:reportable).map(&:decorate)
   end
 
-  def thing_index
-    @reports = @thing.reports.includes(:user).order(id: :asc).limit(25).all
+  def comments
+    scope = policy_scope(Report)
+
+    @records, @pagination_record = scope.type("Comment").includes(reportable: [:user, :post]).paginate(after: params[:after])
+
+    @records = @records.map(&:reportable).map(&:decorate)
+  end
+
+  def show
+    @reports = @reportable.reports.includes(:user).order(id: :asc).limit(25).all
 
     render partial: "show"
   end
 
   def new
     @form = CreateReport.new
+    @reasons = @reportable.sub.rules.all
+    @other_reasons = DeletionReason.global.all
 
     render partial: "new"
   end
@@ -35,7 +41,7 @@ class ReportsController < ApplicationController
     @form = CreateReport.new(create_params)
 
     if @form.save
-      head :no_content
+      render json: t("thanks_for_report")
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -44,22 +50,22 @@ class ReportsController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @thing&.sub || @sub)
+    UserContext.new(current_user, @sub || @reportable&.sub)
   end
 
   def set_sub
     @sub = Sub.find_by_lower_url(params[:sub])
   end
 
-  def set_thing
-    @thing = Thing.find(params[:thing_id])
-  end
-
-  def type
-    ThingsTypes.new(params[:type]).key&.to_s&.classify
+  def set_reportable
+    if params[:post_id].present?
+      @reportable = Post.find(params[:post_id])
+    elsif params[:comment_id].present?
+      @reportable = Comment.find(params[:comment_id])
+    end
   end
 
   def create_params
-    params.require(:create_report).permit(:text).merge(model: @thing, current_user: current_user)
+    params.require(:create_report).permit(:text).merge(model: @reportable, current_user: current_user)
   end
 end

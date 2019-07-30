@@ -1,9 +1,9 @@
-<% cut = thing.cut_image_preview? %>
+<% cut = post.cut_image_preview? %>
 
 <div class="content <%= "cutPostImage" if cut %> col-12 mt-2 mb-2 pl-0 pr-0 text-center">
-  <a href="<%= thing_path(thing) %>">
-    <% width, height = thing.image_content_dimensions %>
-    <div><%= image_tag(thing.file_url(:desktop), class: "img-fluid", width: width, height: height) %></div>
+  <a href="<%= post_path(post) %>">
+    <% width, height = post.image_content_dimensions %>
+    <div><%= image_tag(post.media_url(:desktop), class: "img-fluid", width: width, height: height) %></div>
 
     <% if cut %>
       <div class="seeFullImage"><%= t("view_full") %></div>

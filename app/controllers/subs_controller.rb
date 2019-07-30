@@ -6,12 +6,13 @@ class SubsController < ApplicationController
   before_action -> { authorize(@sub) }
 
   def show
-    @records, @pagination_record = Thing.thing_type(:post)
-                   .not_deleted
-                   .in_date_range(date)
-                   .where(sub: @sub)
-                   .includes(:sub, :user)
-                   .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
+    @records, @pagination_record = Post.not_deleted
+                                       .in_date_range(date)
+                                       .where(sub: @sub)
+                                       .includes(:sub, :user)
+                                       .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
+
+    @records = @records.map(&:decorate)
   end
 
   def edit

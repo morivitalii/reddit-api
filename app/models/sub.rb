@@ -6,8 +6,7 @@ class Sub < ApplicationRecord
   has_many :moderators, dependent: :destroy
   has_many :contributors, dependent: :destroy
   has_many :bans, dependent: :destroy
-  has_many :posts, dependent: :destroy
-  has_many :comments, dependent: :destroy
+  has_many :posts, dependent: :restrict_with_error
   has_many :rules, dependent: :destroy
   has_many :deletion_reasons, dependent: :destroy
   has_many :tags, dependent: :destroy

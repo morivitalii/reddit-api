@@ -3,7 +3,7 @@
 class CreateComment
   include ActiveModel::Model
 
-  attr_accessor :commentable_model, :current_user, :text
+  attr_accessor :model, :current_user, :text
   attr_reader :comment
 
   def save
@@ -26,10 +26,10 @@ class CreateComment
   private
 
   def post
-    @commentable_model.is_a?(Post) ? @commentable_model : @commentable_model.post
+    @model.is_a?(Post) ? @model : @model.post
   end
 
   def comment
-    @commentable_model.is_a?(Comment) ? @commentable_model : nil
+    @model.is_a?(Comment) ? @model : nil
   end
 end

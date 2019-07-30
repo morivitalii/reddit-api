@@ -6,7 +6,7 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def create?
-    user_signed_in? && !context.user.banned?(record.sub)
+    user_signed_in? && !context.user.banned?(context.sub)
   end
 
   def update?
@@ -24,7 +24,7 @@ class CommentPolicy < ApplicationPolicy
     user_signed_in? && (record.user_id == context.user.id || context.user.moderator?(record.sub))
   end
 
-  alias new_destroy? destroy?
+  alias remove? destroy?
 
   def text?
     user_signed_in? && !context.user.banned?(record.sub) && record.user_id == context.user.id
@@ -34,15 +34,10 @@ class CommentPolicy < ApplicationPolicy
     user_signed_in? && context.user.moderator?(record.sub)
   end
 
-  def receive_notifications?
-    user_signed_in? && context.user.id == record.user_id
-  end
-
   def permitted_attributes_for_update
     attributes = []
 
     attributes.push(:text) if text?
-    attributes.push(:receive_notifications) if receive_notifications?
     attributes.push(:ignore_reports) if ignore_reports?
 
     attributes

@@ -10,7 +10,6 @@
                   <option data-href="<%= root_path %>"><%= t("home")%></option>
 
                   <% if user_signed_in? %>
-                    <option data-href="<%= notifications_path %>"><%= t("notifications")%></option>
                     <option data-href="<%= edit_users_path %>"><%= t("settings") %></option>
 
                     <% navigation = UserNavigation.new(current_user) %>
@@ -37,14 +36,6 @@
             </ul>
             <ul class="navbar-nav">
               <% if user_signed_in? %>
-                <li class="user-signed-in nav-item">
-                  <% if current_user.notifications_count.zero? %>
-                    <%= link_to(fa_icon('bell-o'), notifications_path, class: 'nav-link') %>
-                  <% else %>
-                    <%= link_to(fa_icon('bell', text: current_user.notifications_count), notifications_path, class: 'nav-link text-danger') %>
-                  <% end %>
-                </li>
-
                 <li class="nav-item dropdown ml-2">
                   <span class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <%= current_user.username %>

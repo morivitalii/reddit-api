@@ -1,8 +1,8 @@
 <% content_for(:meta_title, t("bans")) %>
 
 <% if @sub.present? %>
-  <%= render 'subs/second_top_menu' %>
-  <%= render 'subs/sidebar' %>
+  <%= render 'subs/second_top_menu', sub: @sub %>
+  <%= render 'subs/sidebar', sub: @sub %>
 <% end %>
 
 <div id="bans" class="entries row">

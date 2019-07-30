@@ -1,7 +1,7 @@
 <% content_for(:meta_title, t("pages")) %>
 
 <% if @sub.present? %>
-  <%= render 'subs/sidebar' %>
+  <%= render 'subs/sidebar', sub: @sub %>
 <% end %>
 
 <div class="col-12 bg-white border rounded mb-3">

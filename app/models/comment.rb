@@ -2,12 +2,9 @@
 
 class Comment < ApplicationRecord
   include Paginatable
-
-  include Scorable
   include Editable
   include Approvable
-  include Deletable
-  include Notifiable
+  include Removable
   include Reportable
   include Votable
   include Bookmarkable
@@ -19,16 +16,14 @@ class Comment < ApplicationRecord
   belongs_to :parent, class_name: "Comment", foreign_key: "comment_id", counter_cache: :comments_count, optional: true
   has_many :comments, class_name: "Comment", foreign_key: "comment_id", dependent: :destroy
 
+  scope :in_date_range, ->(date) { where("created_at > ?", date) if date.present? }
+
   after_save :upsert_in_topic
 
   validates :text, presence: true, length: { maximum: 10_000 }
 
   def text=(value)
     super(value.strip)
-  end
-
-  def presenter
-    @presenter ||= ThingPresenter.new(self)
   end
 
   def cut_text_preview?
@@ -65,7 +60,7 @@ class Comment < ApplicationRecord
     json = {
       id: id,
       thing_id: reply_to.id,
-      deleted: deleted?,
+      deleted: removed?,
       new_score: new_score,
       hot_score: hot_score,
       best_score: best_score,

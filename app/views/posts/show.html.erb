@@ -1,123 +1,151 @@
 <% content_for(:meta_title, @post.title) %>
 
-<%= render 'subs/second_top_menu' %>
-<%= render 'subs/sidebar' %>
+<%= render 'subs/second_top_menu', sub: @post.sub %>
+<%= render 'subs/sidebar', sub: @post.sub %>
 
 <div class="col-12 bg-white border rounded pb-3 mb-3">
-  <div data-id="<%= @post.id %>" class="thing row mt-2">
-    <% unless @post.deleted? %>
-      <div class="info col-12">
-        <%= link_to(@post.user.username, user_path(@post.user)) %>
-        <%= datetime_tag(@post.created_at, :ago) %>
+  <div class="post row mt-2">
+    <div class="info col-12">
+      <%= link_to(@post.user.username, user_path(@post.user)) %> <%= @post.created_at %>
 
-        <% if @post.edited? %>
-          <%= t('edited_html', edited_at: datetime_tag(@post.edited_at, :ago)) %>
-        <% end %>
+      <% if @post.edited? %>
+        <%= @post.edited_message %>
+      <% end %>
 
-        <% if @post.explicit? %>
-          <span class="explicit"><%= t('explicit') %></span>
-        <% end %>
+      <% if @post.explicit? %>
+        <span class="explicit"><%= t('explicit') %></span>
+      <% end %>
 
-        <% if @post.spoiler? %>
-          <span class="spoiler"><%= t('spoiler') %></span>
-        <% end %>
+      <% if @post.spoiler? %>
+        <span class="spoiler"><%= t('spoiler') %></span>
+      <% end %>
 
-        <% if @post.tag.present? %>
-          <span class="tag"><%= @post.tag %></span>
-        <% end %>
+      <% if @post.tagged? %>
+        <span class="tag"><%= @post.tag %></span>
+      <% end %>
+    </div>
+
+    <div class="title col-12 mt-1">
+      <%= link_to(@post.title, post_path(@post)) %>
+    </div>
+
+    <% if @post.content_processing? %>
+      <div class="content col-12 mt-2">
+        <%= @post.content_processing_message %>
       </div>
-
-      <div class="title col-12 mt-1">
-        <%= link_to(@post.title, thing_path(@post)) %>
-      </div>
-
-      <%= render @post.presenter.content, thing: @post %>
-
-      <div class="actions col-12">
-        <span class="vote">
-          <%= link_to(fa_icon("arrow-up"), thing_votes_path(@post), data: { params: "thing_vote[type]=up" }, remote: true, method: :post, class: "mr-1") %>
-          <%= @post.presenter.score %>
-          <%= link_to(fa_icon("arrow-down"), thing_votes_path(@post), data: { params: "thing_vote[type]=down" }, remote: true, method: :post, class: "ml-1") %>
-        </span>
-
-        <%= link_to(@post.presenter.comments_count, thing_path(@post, anchor: 'comments'), class: "comments_count") %>
+    <% elsif @post.removed? %>
+      <div class="content col-12 mt-2">
+        <%= @post.removed_message %>
       </div>
     <% else %>
-      <% if @post.file_attacher.cached? %>
-        <div class="content col-12 mt-2">
-          <%= t("content_processing") %>
-        </div>
-      <% else %>
-        <div class="content col-12 mt-2">
-          <% if @post.deletion_reason.present? %>
-            <%= t("deleted_thing_with_reason_html", username: link_to(@post.deleted_by.username, user_path(@post.deleted_by)), deleted_at: datetime_tag(@post.deleted_at, :ago), reason: @post.deletion_reason) %>
-          <% else %>
-            <%= t("deleted_thing_without_reason_html", username: link_to(@post.deleted_by.username, user_path(@post.deleted_by)), deleted_at: datetime_tag(@post.deleted_at, :ago)) %>
+      <%= render @post.content_partial, post: @post %>
+    <% end %>
+
+    <div class="actions col-12">
+      <span class="vote">
+        <%= @post.up_vote_link %>
+        <%= @post.score %>
+        <%= @post.down_vote_link %>
+      </span>
+
+      <%= @post.comments_link %>
+      <%= @post.bookmark_link %>
+
+      <% if policy(@post).approve? %>
+        <%= @post.approve_link %>
+      <% end %>
+
+      <% if policy(@post).destroy? %>
+        <%= @post.remove_link %>
+      <% end %>
+
+      <span class="menu dropdown">
+        <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <%= fa_icon("ellipsis-h") %>
+        </span>
+
+        <div class="dropdown-menu">
+          <% if policy(Report).create? %>
+            <%= @post.report_link %>
+          <% end %>
+
+          <% if policy(Report).show? %>
+            <%= @post.reports_link %>
+          <% end %>
+
+          <% if policy(@post).text? %>
+            <%= @post.edit_link %>
+          <% end %>
+
+          <% if policy(@post).tag? %>
+            <%= @post.tag_link %>
+          <% end %>
+
+          <% if policy(@post).explicit? %>
+            <%= @post.explicit_link %>
+          <% end %>
+
+          <% if policy(@post).spoiler? %>
+            <%= @post.spoiler_link %>
+          <% end %>
+
+          <% if policy(@post).ignore_reports? %>
+            <%= @post.ignore_reports_link %>
           <% end %>
         </div>
-      <% end %>
-    <% end %>
+      </span>
+    </div>
   </div>
 
-  <% unless @post.file_attacher.cached? %>
-    <% if @comment.blank? %>
-      <% if user_signed_in? %>
-        <% if CommentPolicy.new(pundit_user, @post).create? %>
-          <div class="row mt-3">
-            <div class="col-12">
-              <%= form_with(model: CreateComment.new, url: thing_comment_path(@post), class: 'createCommentForm') do |f| %>
-                <%= f.text_area :text, label: false %>
-                <%= f.submit t('reply'), class: 'btn-sm' %>
+  <% if policy(Comment).create? %>
+    <div class="row mt-3">
+      <div class="col-12">
+        <%= form_with(model: CreateComment.new, url: post_comments_path(@post), class: 'createCommentForm') do |f| %>
+          <%= f.text_area :text, label: false %>
+          <%= f.submit t('reply'), class: 'btn-sm' %>
 
-                <span class="formatting float-right mt-2" data-toggle="collapse" data-target="#formatting" aria-expanded="false">
-                  <%= t('formatting') %>
-                </span>
-
-                <div class="collapse mt-2" id="formatting">
-                  <%= t('formatting_body_html') %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      <% else %>
-        <div class="row mt-3">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-6 mt-2">
-                <%= t('login_or_sign_up') %>
-              </div>
-
-              <div class="col-6 text-right">
-                <%= link_to(t('sign_in'), new_sign_in_path, remote: true, class: 'signIn btn btn-primary') %>
-                <%= link_to(t('sign_up'), new_sign_up_path, remote: true, class: 'signUp btn btn-primary') %>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-
-    <% if @topic.branch[:nested].present? %>
-      <div class="row mt-3">
-        <div class="col-12">
-          <span id="sort" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= @sort_options.fetch(@sort, @sort_options['best']) %>
+          <span class="formatting float-right mt-2" data-toggle="collapse" data-target="#formatting" aria-expanded="false">
+            <%= t('formatting') %>
           </span>
 
-          <div class="dropdown-menu">
-            <% @sort_options.each do |k, v| %>
-              <%= link_to(v, thing_path(@thing, sort: k, anchor: 'sort'), class: 'dropdown-item') %>
-            <% end %>
+          <div class="collapse mt-2" id="formatting">
+            <%= t('formatting_body_html') %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if user_not_signed_in? %>
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-6 mt-2">
+            <%= t('login_or_sign_up') %>
           </div>
 
-          <% if @comment.present? %>
-            <span class="float-right"><%= t('comment_page_html', url: thing_path(@post, sort: @sort)) %></span>
-          <% end %>
+          <div class="col-6 text-right">
+            <%= link_to(t('sign_in'), new_sign_in_path, remote: true, class: 'signIn btn btn-primary') %>
+            <%= link_to(t('sign_up'), new_sign_up_path, remote: true, class: 'signUp btn btn-primary') %>
+          </div>
         </div>
       </div>
-    <% end %>
-
-    <%= render partial: "things/nested", locals: { item: @topic.branch } %>
+    </div>
   <% end %>
+
+  <div class="row mt-3">
+    <div class="col-12">
+      <span id="sort" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <%= @sort_options.fetch(@sort, @sort_options['best']) %>
+      </span>
+
+      <div class="dropdown-menu">
+        <% @sort_options.each do |k, v| %>
+          <%= link_to(v, post_path(@post, sort: k, anchor: 'sort'), class: 'dropdown-item') %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!--  <#%= render partial: "comments/nested", locals: { item: @topic.branch } %>-->
 </div>

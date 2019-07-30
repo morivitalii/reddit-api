@@ -3,7 +3,7 @@
 class Vote < ApplicationRecord
   include Paginatable
 
-  belongs_to :votable, polymorphic: true, touch: true
+  belongs_to :votable, polymorphic: true
   belongs_to :user
 
   enum vote_type: { down: -1, meh: 0, up: 1 }
@@ -16,12 +16,13 @@ class Vote < ApplicationRecord
     end
   }
 
-  after_save :update_votable_counter_cache
+  after_save :update_counter_cache
+  after_save :update_scores
   after_save :update_user_points
 
   private
 
-  def update_votable_counter_cache
+  def update_counter_cache
     previous = vote_type_previous_change&.compact
     return if previous == %w(meh)
 
@@ -40,6 +41,10 @@ class Vote < ApplicationRecord
       votable.increment!(:up_votes_count)
       votable.decrement!(:down_votes_count)
     end
+  end
+
+  def update_scores
+    votable.update_scores!
   end
 
   def update_user_points

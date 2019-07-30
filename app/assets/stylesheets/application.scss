@@ -38,27 +38,27 @@ body {
   content: "Выбрать";
 }
 
-.thing .title {
+.post .title {
   font-size: 17px;
   line-height: 1.2;
   font-weight: 500;
 }
 
-.thing .title a {
+.post .title a {
   color: #202021;
 }
 
-.thing .title a:hover {
+.post .title a:hover {
   text-decoration: none;
 }
 
-.thing .content.cutPostImage {
+.post .content.cutPostImage {
   position: relative;
   max-height: 500px;
   overflow: hidden;
 }
 
-.thing .seeFullImage {
+.post .seeFullImage {
   position: absolute;
   bottom: 20px;
   left: 50%;
@@ -71,24 +71,24 @@ body {
   font-weight: 500;
 }
 
-.thing .url,
-.thing .info,
-.thing .actions {
+.post .url,
+.post .info,
+.post .actions {
   font-size: 13px;
 }
 
-.thing .info,
-.thing .info a {
+.post .info,
+.post .info a {
   color: #848485;
 }
 
-.thing .info .author {
+.post .info .author {
   color: #006ce1;
 }
 
-.thing .info .explicit,
-.thing .info .spoiler,
-.thing .info .tag {
+.post .info .explicit,
+.post .info .spoiler,
+.post .info .tag {
   background-color: #edeff1;
   font-size: 13px;
   margin-left: 3px;
@@ -96,15 +96,15 @@ body {
   padding: 0.25em;
 }
 
-.thing .actions * + * {
+.post .actions * + * {
   margin-left: 5px;
 }
 
-.thing .actions .menu * {
+.post .actions .menu * {
   margin-left: 0;
 }
 
-.thing .actions .menu .dropdown-toggle::after,
+.post .actions .menu .dropdown-toggle::after,
 .sidebar .dropdown-toggle::after,
 .userMenu .dropdown-toggle::after {
   display: none;
@@ -121,8 +121,8 @@ body {
     background-color: #006ce1;
 }
 
-.thing .url a,
-.thing .content a,
+.post .url a,
+.post .content a,
 .page .content a {
   color: #006ce1;
 }
@@ -131,16 +131,16 @@ body {
   color: #006ce1;
 }
 
-.thing .context {
+.post .context {
   background: #f8f9fa;
 }
 
-.thing .content p {
+.post .content p {
   margin-bottom: 0.75rem;
 }
 
-.thing .content p:last-child,
-.thing .context p:last-child {
+.post .content p:last-child,
+.post .context p:last-child {
   margin-bottom: 0;
 }
 

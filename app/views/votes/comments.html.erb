@@ -1,0 +1,46 @@
+<% content_for(:meta_title, "#{@user.username}: #{t("votes")}") %>
+
+<% content_for(:second_top_menu) do %>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= t('votes') %>
+    </a>
+
+    <div class="dropdown-menu">
+      <%= link_to(t("posts"), user_path(@user), class: 'dropdown-item') %>
+      <%= link_to(t("comments"), comments_user_path(@user), class: 'dropdown-item') %>
+
+      <% if current_user.id == @user.id %>
+        <%= link_to(t("bookmarks"), bookmarks_path, class: 'dropdown-item') %>
+        <%= link_to(t("votes"), votes_path, class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= VotesTypes.new(params[:vote_type]).i18n %>
+    </a>
+
+    <div class="dropdown-menu">
+      <% VotesTypes.new.list.each do |k, v| %>
+        <%= link_to(v, comments_votes_path(vote_type: k), class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= t("comments") %>
+    </a>
+
+    <div class="dropdown-menu">
+      <%= link_to(t("posts"), votes_path(vote_type: params[:vote_type]), class: 'dropdown-item') %>
+      <%= link_to(t("comments"), comments_votes_path(vote_type: params[:vote_type]), class: 'dropdown-item') %>
+    </div>
+  </li>
+<% end %>
+
+<%= render "users/sidebar", user: @user %>
+<%= render @records %>
+<%= render 'shared/pagination', pagination_record: @pagination_record %>

@@ -1,27 +1,40 @@
 # frozen_string_literal: true
 
 class VotesController < ApplicationController
-  layout "narrow", only: [:index]
+  layout "narrow", only: [:index, :comments]
 
   before_action -> { authorize(Vote) }
-  before_action :set_user, only: [:index]
-  before_action :set_thing, only: [:create]
+  before_action :set_user, only: [:index, :comments]
+  before_action :set_votable, only: [:create]
 
   def index
     @records, @pagination_record = Vote.vote_type(vote_type)
-                   .where(user: @user)
-                   .type(thing_type)
-                   .includes(votable: [:sub, :user, :post])
-                   .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
+                                       .where(user: @user)
+                                       .type("Post")
+                                       .includes(votable: [:user, :sub])
+                                       .paginate(after: params[:after])
 
-    @records = @records.map(&:votable)
+    @records = @records.map(&:votable).map(&:decorate)
+  end
+
+  def comments
+    @records, @pagination_record = Vote.vote_type(vote_type)
+                                       .where(user: @user)
+                                       .type("Comment")
+                                       .includes(votable: [:user, :post])
+                                       .paginate(after: params[:after])
+
+    @records = @records.map(&:votable).map(&:decorate)
   end
 
   def create
     @form = CreateVote.new(vote_params)
 
     if @form.save
-      head :no_content
+      type = @form.vote.vote_type
+      score = @form.vote.votable.score
+
+      render json: { type: type, score: score }
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -33,19 +46,21 @@ class VotesController < ApplicationController
     @user = current_user
   end
 
-  def set_thing
-    @thing = Thing.find(params[:thing_id])
+  def set_votable
+    if params[:post_id].present?
+      @votable = Post.find(params[:post_id])
+    elsif params[:comment_id].present?
+      @votable = Comment.find(params[:comment_id])
+    end
   end
 
   def vote_params
-    params.require(:thing_vote).permit(:type).merge(model: @thing, current_user: current_user)
+    params.require(:create_vote).permit(:type).merge(model: @votable, current_user: current_user)
   end
 
   def vote_type
     VotesTypes.new(params[:vote_type]).key
   end
 
-  def thing_type
-    ThingsTypes.new(params[:thing_type]).key&.to_s&.classify
-  end
+
 end
