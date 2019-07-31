@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class BlacklistedDomainsController < ApplicationController
-  before_action :set_sub, only: [:index, :search, :new, :create]
   before_action :set_blacklisted_domain, only: [:destroy]
+  before_action :set_sub
   before_action -> { authorize(BlacklistedDomain) }, only: [:index, :search, :new, :create]
+  before_action -> { authorize(@blacklisted_domain) }, only: [:destroy]
 
   def index
     @records, @pagination_record = BlacklistedDomain.where(sub: @sub).paginate(after: params[:after])
@@ -40,11 +41,11 @@ class BlacklistedDomainsController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub || @blacklisted_domain&.sub)
+    UserContext.new(current_user, @sub)
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub])
+    @sub = @blacklisted_domain.present? ? @blacklisted_domain.sub : Sub.find_by_lower_url(params[:sub])
   end
 
   def set_blacklisted_domain
@@ -52,6 +53,8 @@ class BlacklistedDomainsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_blacklisted_domain).permit(:domain).merge(sub: @sub, current_user: current_user)
+    attributes = policy(BlacklistedDomain).permitted_attributes_for_create
+
+    params.require(:create_blacklisted_domain).permit(attributes).merge(sub: @sub, current_user: current_user)
   end
 end
