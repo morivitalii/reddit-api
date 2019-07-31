@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ForgotPasswordController < ApplicationController
+  before_action -> { authorize(:forgot_password) }
+
   def new
     @form = ForgotPassword.new
 
@@ -24,6 +26,8 @@ class ForgotPasswordController < ApplicationController
   private
 
   def create_params
-    params.require(:forgot_password).permit(:email)
+    attributes = policy(:forgot_password).permitted_attributes_for_create
+
+    params.require(:forgot_password).permit(attributes)
   end
 end
