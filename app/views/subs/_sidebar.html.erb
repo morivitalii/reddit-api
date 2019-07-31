@@ -63,9 +63,11 @@
     </div>
 
     <div class="col-12 mt-2">
-      <% if current_user&.follower?(sub) %>
+      <% if policy(Follow).create? %>
         <%= link_to(t('unsubscribe'), sub_follows_path(sub), class: 'follow btn btn-primary btn-block', remote: true, method: :delete) %>
-      <% else %>
+      <% end %>
+
+      <% if policy(Follow).destroy? %>
         <%= link_to(t('subscribe'), sub_follows_path(sub), class: 'follow btn btn-primary btn-block', remote: true, method: :post) %>
       <% end %>
 

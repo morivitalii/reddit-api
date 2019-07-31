@@ -18,7 +18,11 @@ class FollowsController < ApplicationController
 
   private
 
+  def pundit_user
+    UserContext.new(current_user, @sub)
+  end
+
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub])
+    @sub = Sub.find_by_lower_url(params[:sub_id])
   end
 end
