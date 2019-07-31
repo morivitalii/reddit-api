@@ -3,6 +3,8 @@
 class HomeController < ApplicationController
   layout "narrow"
 
+  before_action -> { authorize(:home) }
+
   def index
     @records, @pagination_record = Post.not_deleted
                                        .in_date_range(date)
