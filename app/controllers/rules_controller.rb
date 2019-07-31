@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class RulesController < ApplicationController
-  before_action :set_sub, only: [:index, :new, :create]
   before_action :set_rule, only: [:edit, :update, :destroy]
-  before_action -> { authorize(Rule) }
+  before_action :set_sub
+  before_action -> { authorize(Rule) }, only: [:index, :new, :create]
+  before_action -> { authorize(rule) }, only: [:edit, :update, :destroy]
 
   def index
     @records, @pagination_record = Rule.where(sub: @sub).paginate(after: params[:after])
@@ -16,10 +17,9 @@ class RulesController < ApplicationController
   end
 
   def edit
-    @form = UpdateRule.new(
-      title: @rule.title,
-      description: @rule.description
-    )
+    attributes = @rule.slice(:title, :description)
+
+    @form = UpdateRule.new(attributes)
 
     render partial: "edit"
   end
@@ -53,11 +53,11 @@ class RulesController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub || @rule&.sub)
+    UserContext.new(current_user, @sub)
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub])
+    @sub = @rule.present? ? @rule.sub : Sub.find_by_lower_url(params[:sub])
   end
 
   def set_rule
@@ -65,10 +65,14 @@ class RulesController < ApplicationController
   end
 
   def create_params
-    params.require(:create_rule).permit(:title, :description).merge(sub: @sub, current_user: current_user)
+    attributes = policy(Rule).permitted_attributes_for_create
+
+    params.require(:create_rule).permit(attributes).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_rule).permit(:title, :description).merge(rule: @rule, current_user: current_user)
+    attributes = policy(@rule).permitted_attributes_for_update
+
+    params.require(:update_rule).permit(attributes).merge(rule: @rule, current_user: current_user)
   end
 end

@@ -12,7 +12,9 @@
     </div>
 
     <div class="actions">
-      <%= link_to(t('create'), new_rule_path(sub: @sub), remote: true, class: 'create') %>
+      <% if policy(Rule).create? %>
+        <%= link_to(t('create'), new_rule_path(sub: @sub), remote: true, class: 'create') %>
+      <% end %>
     </div>
   </div>
 
