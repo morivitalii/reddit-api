@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class DeletionReasonsController < ApplicationController
-  before_action :set_sub, only: [:index, :new, :create]
   before_action :set_deletion_reason, only: [:edit, :update, :destroy]
-  before_action -> { authorize(DeletionReason) }
+  before_action :set_sub
+  before_action -> { authorize(DeletionReason) }, only: [:index, :new, :create]
+  before_action -> { authorize(@deletion_reason) }, only: [:edit, :update, :destroy]
 
   def index
     @records, @pagination_record = DeletionReason.where(sub: @sub).paginate(after: params[:after])
@@ -16,10 +17,9 @@ class DeletionReasonsController < ApplicationController
   end
 
   def edit
-    @form = UpdateDeletionReason.new(
-      title: @deletion_reason.title,
-      description: @deletion_reason.description
-    )
+    attributes = @deletion_reason.slice(:title, :description)
+
+    @form = UpdateDeletionReason.new(attributes)
 
     render partial: "edit"
   end
@@ -53,11 +53,11 @@ class DeletionReasonsController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub || @deletion_reason&.sub)
+    UserContext.new(current_user, @sub)
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub])
+    @sub = @deletion_reason.present? ? @deletion_reason.sub : Sub.find_by_lower_url(params[:sub])
   end
 
   def set_deletion_reason
@@ -65,10 +65,14 @@ class DeletionReasonsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_deletion_reason).permit(:title, :description).merge(sub: @sub, current_user: current_user)
+    attributes = policy(DeletionReason).permitted_attributes_for_create
+
+    params.require(:create_deletion_reason).permit(attributes).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_deletion_reason).permit(:title, :description).merge(deletion_reason: @deletion_reason, current_user: current_user)
+    attributes = policy(@deletion_reason).permitted_attributes_for_update
+
+    params.require(:update_deletion_reason).permit(attributes).merge(deletion_reason: @deletion_reason, current_user: current_user)
   end
 end

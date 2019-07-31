@@ -3,8 +3,13 @@
     <%= deletion_reason.title %>
 
     <div class="actions">
-      <%= link_to(fa_icon('pencil'), edit_deletion_reason_path(deletion_reason), remote: true, class: 'update') %>
-      <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: deletion_reason_path(deletion_reason) }) %>
+      <% if policy(deletion_reason).update? %>
+        <%= link_to(fa_icon('pencil'), edit_deletion_reason_path(deletion_reason), remote: true, class: 'update') %>
+      <% end %>
+
+      <% if policy(deletion_reason).destroy? %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: deletion_reason_path(deletion_reason) }) %>
+      <% end %>
 
       <% if deletion_reason.description.present? %>
         <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>
