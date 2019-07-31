@@ -3,7 +3,7 @@
     <%= link_to(moderator.user.username, moderator.user) %>
 
     <div class="actions">
-      <% if ModeratorPolicy.new(pundit_user, @sub).destroy? %>
+      <% if policy(moderator).destroy? %>
         <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: moderator_path(moderator) }) %>
       <% end %>
 
