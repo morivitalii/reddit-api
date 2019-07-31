@@ -9,6 +9,11 @@ class BookmarkPolicy < ApplicationPolicy
     user_signed_in?
   end
 
-  alias create? index?
-  alias destroy? index?
+  def create?
+    user_signed_in?
+  end
+
+  def destroy?
+    user_signed_in?
+  end
 end
