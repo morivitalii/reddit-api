@@ -5,12 +5,21 @@ class ContributorPolicy < ApplicationPolicy
     true
   end
 
-  alias search? index?
+  def search?
+    true
+  end
 
   def create?
-    user_signed_in? && context.user.moderator?(context.sub)
+    user_signed_in? && (user_global_moderator? || user_sub_moderator?)
   end
 
   alias new? create?
-  alias destroy? create?
+
+  def destroy?
+    user_signed_in? && (user_global_moderator? || user_sub_moderator?)
+  end
+
+  def permitted_attributes_for_create
+    [:username]
+  end
 end

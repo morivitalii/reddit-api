@@ -3,7 +3,10 @@
     <%= link_to(contributor.user.username, contributor.user) %>
 
     <div class="actions">
-      <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: contributor_path(contributor) }) %>
+      <% if policy(contributor).destroy? %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: contributor_path(contributor) }) %>
+      <% end %>
+
       <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>
     </div>
   </div>

@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class ContributorsController < ApplicationController
-  before_action :set_sub, only: [:index, :search, :new, :create]
   before_action :set_contributor, only: [:destroy]
-  before_action -> { authorize(Contributor) }
+  before_action :set_sub
+  before_action -> { authorize(Contributor) }, only: [:index, :search, :new, :create]
+  before_action -> { authorize(@contributor) }, only: [:destroy]
 
   def index
     @records, @pagination_record = Contributor.where(sub: @sub).includes(:user, :approved_by).paginate(after: params[:after])
@@ -40,11 +41,11 @@ class ContributorsController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub || @contributor&.sub)
+    UserContext.new(current_user, @sub)
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub])
+    @sub = @contributor.present? ? @contributor.sub : Sub.find_by_lower_url(params[:sub])
   end
 
   def set_contributor
@@ -52,6 +53,8 @@ class ContributorsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_contributor).permit(:username).merge(sub: @sub, current_user: current_user)
+    attributes = policy(Contributor).permitted_attributes_for_create
+
+    params.require(:create_contributor).permit(attributes).merge(sub: @sub, current_user: current_user)
   end
 end
