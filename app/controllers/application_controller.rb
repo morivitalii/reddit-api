@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   include Authorization
   include Pundit
 
+  after_action :verify_authorized
+
   private
 
   def pundit_user
