@@ -7,6 +7,7 @@ class UserPermissions
     @user = user
   end
 
+  # TODO remove
   def moderator?(sub = nil)
     global_moderator? || (sub.present? ? sub_moderator?(sub) : false)
   end
@@ -19,6 +20,7 @@ class UserPermissions
     moderators.find { |i| i.sub_id == sub.id }.present?
   end
 
+  # TODO remove
   def contributor?(sub = nil)
     global_contributor? || (sub.present? ? sub_contributor?(sub) : false)
   end
@@ -31,6 +33,7 @@ class UserPermissions
     contributors.find { |i| i.sub_id == sub.id }.present?
   end
 
+  # TODO remove
   def banned?(sub = nil)
     banned_globally? || (sub.present? ? banned_in_sub?(sub) : false)
   end
@@ -43,6 +46,7 @@ class UserPermissions
     bans.find { |i| i.sub_id == sub.id }.present?
   end
 
+  # TODO rename to sub_follower?
   def follower?(sub)
     follows.find { |i| i.sub_id == sub.id }.present?
   end

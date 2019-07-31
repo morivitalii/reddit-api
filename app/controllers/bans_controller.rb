@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class BansController < ApplicationController
-  before_action :set_sub, only: [:index, :search, :new, :create]
   before_action :set_ban, only: [:edit, :update, :destroy]
-  before_action -> { authorize(Ban) }
+  before_action :set_sub
+  before_action -> { authorize(Ban) }, only: [:index, :search, :new, :create]
+  before_action -> { authorize(@ban) }, only: [:edit, :update, :destroy]
 
   def index
     @records, @pagination_record = Ban.includes(:user, :banned_by).where(sub: @sub).paginate(after: params[:after])
@@ -22,11 +23,9 @@ class BansController < ApplicationController
   end
 
   def edit
-    @form = UpdateBan.new(
-      reason: @ban.reason,
-      days: @ban.days,
-      permanent: @ban.permanent
-    )
+    attributes = @ban.slice(:reason, :days, :permanent)
+
+    @form = UpdateBan.new(attributes)
 
     render partial: "edit"
   end
@@ -60,11 +59,11 @@ class BansController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub || @ban&.sub)
+    UserContext.new(current_user, @sub)
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub])
+    @sub = @ban.present? ? @ban.sub : Sub.find_by_lower_url(params[:sub])
   end
 
   def set_ban
@@ -72,10 +71,14 @@ class BansController < ApplicationController
   end
 
   def create_params
-    params.require(:create_ban).permit(:username, :reason, :days, :permanent).merge(sub: @sub, current_user: current_user)
+    attributes = policy(Ban).permitted_attributes_for_create
+
+    params.require(:create_ban).permit(attributes).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_ban).permit(:reason, :days, :permanent).merge(ban: @ban, current_user: current_user)
+    attributes = policy(@ban).permitted_attributes_for_update
+
+    params.require(:update_ban).permit(attributes).merge(ban: @ban, current_user: current_user)
   end
 end

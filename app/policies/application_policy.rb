@@ -17,19 +17,31 @@ class ApplicationPolicy
     !user_signed_in?
   end
 
-  def user_moderator?
-    sub_context? ? user.sub_moderator?(sub) : user.global_moderator?
+  def user_global_moderator?
+    user.global_moderator?
   end
 
-  def user_contributor?
-    sub_context? ? user.sub_contributor?(sub) : user.global_contributor?
+  def user_sub_moderator?
+    sub_context? ? user.sub_moderator?(sub) : false
   end
 
-  def user_banned?
-    sub_context? ? user.banned_in_sub?(sub) : user.banned_globally?
+  def user_global_contributor?
+    user.global_contributor?
   end
 
-  def user_follower?
+  def user_sub_contributor?
+    sub_context? ? user.sub_contributor?(sub) : false
+  end
+
+  def user_banned_globally?
+    user.banned_globally?
+  end
+
+  def user_banned_in_sub?
+    sub_context? ? user.banned_in_sub?(sub) : false
+  end
+
+  def user_sub_follower?
     sub_context? ? user.follower?(sub) : false
   end
 
