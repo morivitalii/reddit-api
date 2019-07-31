@@ -3,8 +3,13 @@
     <%= rule.title %>
 
     <div class="actions">
-      <%= link_to(fa_icon('pencil'), edit_rule_path(rule), remote: true, class: 'update') %>
-      <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: rule_path(rule) }) %>
+      <% if policy(rule).update? %>
+        <%= link_to(fa_icon('pencil'), edit_rule_path(rule), remote: true, class: 'update') %>
+      <% end %>
+
+      <% if policy(rule).destroy? %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: rule_path(rule) }) %>
+      <% end %>
 
       <% if rule.description.present? %>
         <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>
