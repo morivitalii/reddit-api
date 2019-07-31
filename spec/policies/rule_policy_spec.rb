@@ -16,19 +16,19 @@ RSpec.describe RulePolicy do
 
       permissions :index? do
         it "grants access" do
-          expect(described_class).to permit(context, rule_class)
+          expect(subject).to permit(context, rule_class)
         end
       end
 
       permissions :new?, :create? do
         it "denies access" do
-          expect(described_class).to_not permit(context, rule_class)
+          expect(subject).to_not permit(context, rule_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "denies access" do
-          expect(described_class).to_not permit(context, global_rule)
+          expect(subject).to_not permit(context, global_rule)
         end
       end
     end
@@ -38,19 +38,19 @@ RSpec.describe RulePolicy do
 
       permissions :index? do
         it "grants access" do
-          expect(described_class).to permit(context, rule_class)
+          expect(subject).to permit(context, rule_class)
         end
       end
 
       permissions :new?, :create? do
         it "denies access" do
-          expect(described_class).to_not permit(context, rule_class)
+          expect(subject).to_not permit(context, rule_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "denies access" do
-          expect(described_class).to_not permit(context, sub_rule)
+          expect(subject).to_not permit(context, sub_rule)
         end
       end
     end
@@ -64,19 +64,19 @@ RSpec.describe RulePolicy do
 
       permissions :index? do
         it "grants access" do
-          expect(described_class).to permit(context, rule_class)
+          expect(subject).to permit(context, rule_class)
         end
       end
 
       permissions :new?, :create? do
         it "denies access" do
-          expect(described_class).to_not permit(context, rule_class)
+          expect(subject).to_not permit(context, rule_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "denies access" do
-          expect(described_class).to_not permit(context, global_rule)
+          expect(subject).to_not permit(context, global_rule)
         end
       end
     end
@@ -86,19 +86,19 @@ RSpec.describe RulePolicy do
 
       permissions :index? do
         it "grants access" do
-          expect(described_class).to permit(context, rule_class)
+          expect(subject).to permit(context, rule_class)
         end
       end
 
       permissions :new?, :create? do
         it "denies access" do
-          expect(described_class).to_not permit(context, rule_class)
+          expect(subject).to_not permit(context, rule_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "denies access" do
-          expect(described_class).to_not permit(context, sub_rule)
+          expect(subject).to_not permit(context, sub_rule)
         end
       end
     end
@@ -112,19 +112,19 @@ RSpec.describe RulePolicy do
 
       permissions :index? do
         it "grants access" do
-          expect(described_class).to permit(context, rule_class)
+          expect(subject).to permit(context, rule_class)
         end
       end
 
       permissions :new?, :create? do
         it "denies access" do
-          expect(described_class).to_not permit(context, rule_class)
+          expect(subject).to_not permit(context, rule_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "denies access" do
-          expect(described_class).to_not permit(context, global_rule)
+          expect(subject).to_not permit(context, global_rule)
         end
       end
     end
@@ -134,19 +134,19 @@ RSpec.describe RulePolicy do
 
       permissions :index? do
         it "grants access" do
-          expect(described_class).to permit(context, rule_class)
+          expect(subject).to permit(context, rule_class)
         end
       end
 
       permissions :new?, :create? do
         it "grants access" do
-          expect(described_class).to permit(context, rule_class)
+          expect(subject).to permit(context, rule_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "grants access" do
-          expect(described_class).to permit(context, sub_rule)
+          expect(subject).to permit(context, sub_rule)
         end
       end
     end
@@ -160,19 +160,19 @@ RSpec.describe RulePolicy do
 
       permissions :index? do
         it "grants access" do
-          expect(described_class).to permit(context, rule_class)
+          expect(subject).to permit(context, rule_class)
         end
       end
 
       permissions :new?, :create? do
         it "grants access" do
-          expect(described_class).to permit(context, rule_class)
+          expect(subject).to permit(context, rule_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "grants access" do
-          expect(described_class).to permit(context, global_rule)
+          expect(subject).to permit(context, global_rule)
         end
       end
     end
@@ -182,19 +182,19 @@ RSpec.describe RulePolicy do
 
       permissions :index? do
         it "grants access" do
-          expect(described_class).to permit(context, rule_class)
+          expect(subject).to permit(context, rule_class)
         end
       end
 
       permissions :new?, :create? do
         it "grants access" do
-          expect(described_class).to permit(context, rule_class)
+          expect(subject).to permit(context, rule_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "grants access" do
-          expect(described_class).to permit(context, sub_rule)
+          expect(subject).to permit(context, sub_rule)
         end
       end
     end

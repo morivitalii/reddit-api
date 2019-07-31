@@ -16,19 +16,19 @@ RSpec.describe BanPolicy do
 
       permissions :index?, :search? do
         it "grants access" do
-          expect(described_class).to permit(context, ban_class)
+          expect(subject).to permit(context, ban_class)
         end
       end
 
       permissions :new?, :create? do
         it "denies access" do
-          expect(described_class).to_not permit(context, ban_class)
+          expect(subject).to_not permit(context, ban_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "denies access" do
-          expect(described_class).to_not permit(context, global_ban)
+          expect(subject).to_not permit(context, global_ban)
         end
       end
     end
@@ -38,19 +38,19 @@ RSpec.describe BanPolicy do
 
       permissions :index?, :search? do
         it "grants access" do
-          expect(described_class).to permit(context, ban_class)
+          expect(subject).to permit(context, ban_class)
         end
       end
 
       permissions :new?, :create? do
         it "denies access" do
-          expect(described_class).to_not permit(context, ban_class)
+          expect(subject).to_not permit(context, ban_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "denies access" do
-          expect(described_class).to_not permit(context, sub_ban)
+          expect(subject).to_not permit(context, sub_ban)
         end
       end
     end
@@ -64,19 +64,19 @@ RSpec.describe BanPolicy do
 
       permissions :index?, :search? do
         it "grants access" do
-          expect(described_class).to permit(context, ban_class)
+          expect(subject).to permit(context, ban_class)
         end
       end
 
       permissions :new?, :create? do
         it "denies access" do
-          expect(described_class).to_not permit(context, ban_class)
+          expect(subject).to_not permit(context, ban_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "denies access" do
-          expect(described_class).to_not permit(context, global_ban)
+          expect(subject).to_not permit(context, global_ban)
         end
       end
     end
@@ -86,19 +86,19 @@ RSpec.describe BanPolicy do
 
       permissions :index?, :search? do
         it "grants access" do
-          expect(described_class).to permit(context, ban_class)
+          expect(subject).to permit(context, ban_class)
         end
       end
 
       permissions :new?, :create? do
         it "denies access" do
-          expect(described_class).to_not permit(context, ban_class)
+          expect(subject).to_not permit(context, ban_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "denies access" do
-          expect(described_class).to_not permit(context, sub_ban)
+          expect(subject).to_not permit(context, sub_ban)
         end
       end
     end
@@ -112,19 +112,19 @@ RSpec.describe BanPolicy do
 
       permissions :index?, :search? do
         it "grants access" do
-          expect(described_class).to permit(context, ban_class)
+          expect(subject).to permit(context, ban_class)
         end
       end
 
       permissions :new?, :create? do
         it "denies access" do
-          expect(described_class).to_not permit(context, ban_class)
+          expect(subject).to_not permit(context, ban_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "denies access" do
-          expect(described_class).to_not permit(context, global_ban)
+          expect(subject).to_not permit(context, global_ban)
         end
       end
     end
@@ -134,19 +134,19 @@ RSpec.describe BanPolicy do
 
       permissions :index?, :search? do
         it "grants access" do
-          expect(described_class).to permit(context, ban_class)
+          expect(subject).to permit(context, ban_class)
         end
       end
 
       permissions :new?, :create? do
         it "grants access" do
-          expect(described_class).to permit(context, ban_class)
+          expect(subject).to permit(context, ban_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "grants access" do
-          expect(described_class).to permit(context, sub_ban)
+          expect(subject).to permit(context, sub_ban)
         end
       end
     end
@@ -160,19 +160,19 @@ RSpec.describe BanPolicy do
 
       permissions :index?, :search? do
         it "grants access" do
-          expect(described_class).to permit(context, ban_class)
+          expect(subject).to permit(context, ban_class)
         end
       end
 
       permissions :new?, :create? do
         it "grants access" do
-          expect(described_class).to permit(context, ban_class)
+          expect(subject).to permit(context, ban_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "grants access" do
-          expect(described_class).to permit(context, global_ban)
+          expect(subject).to permit(context, global_ban)
         end
       end
     end
@@ -182,19 +182,19 @@ RSpec.describe BanPolicy do
 
       permissions :index?, :search? do
         it "grants access" do
-          expect(described_class).to permit(context, ban_class)
+          expect(subject).to permit(context, ban_class)
         end
       end
 
       permissions :new?, :create? do
         it "grants access" do
-          expect(described_class).to permit(context, ban_class)
+          expect(subject).to permit(context, ban_class)
         end
       end
 
       permissions :edit?, :update?, :destroy? do
         it "grants access" do
-          expect(described_class).to permit(context, sub_ban)
+          expect(subject).to permit(context, sub_ban)
         end
       end
     end
