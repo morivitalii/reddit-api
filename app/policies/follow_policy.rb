@@ -2,8 +2,10 @@
 
 class FollowPolicy < ApplicationPolicy
   def create?
-    user_signed_in?
+    user_signed_in? && !user_sub_follower?
   end
 
-  alias destroy? create?
+  def destroy?
+    user_signed_in? && user_sub_follower?
+  end
 end
