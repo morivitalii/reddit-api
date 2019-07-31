@@ -12,7 +12,7 @@ RSpec.describe FollowPolicy do
 
     permissions :create?, :destroy? do
       it "denies access" do
-        expect(described_class).to_not permit(context, follow_class)
+        expect(subject).to_not permit(context, follow_class)
       end
     end
   end
@@ -26,13 +26,13 @@ RSpec.describe FollowPolicy do
 
       permissions :create? do
         it "denies access" do
-          expect(described_class).to_not permit(context, follow_class)
+          expect(subject).to_not permit(context, follow_class)
         end
       end
 
       permissions :destroy? do
         it "grants access" do
-          expect(described_class).to permit(context, follow_class)
+          expect(subject).to permit(context, follow_class)
         end
       end
     end
@@ -40,13 +40,13 @@ RSpec.describe FollowPolicy do
     context "not follower" do
       permissions :create? do
         it "grants access" do
-          expect(described_class).to permit(context, follow_class)
+          expect(subject).to permit(context, follow_class)
         end
       end
 
       permissions :destroy? do
         it "denies access" do
-          expect(described_class).to_not permit(context, follow_class)
+          expect(subject).to_not permit(context, follow_class)
         end
       end
     end

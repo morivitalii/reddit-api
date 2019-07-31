@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe BookmarkPolicy do
+  subject { described_class }
+
   let(:bookmark_class) { Bookmark }
 
   context "for visitor" do
@@ -9,13 +11,13 @@ RSpec.describe BookmarkPolicy do
 
     permissions :index?, :comments? do
       it "denies access" do
-        expect(described_class).to_not permit(context, bookmark_class)
+        expect(subject).to_not permit(context, bookmark_class)
       end
     end
 
     permissions :create?, :destroy? do
       it "denies access" do
-        expect(described_class).to_not permit(context, bookmark_class)
+        expect(subject).to_not permit(context, bookmark_class)
       end
     end
   end
@@ -26,13 +28,13 @@ RSpec.describe BookmarkPolicy do
 
     permissions :index?, :comments? do
       it "grants access" do
-        expect(described_class).to permit(context, bookmark_class)
+        expect(subject).to permit(context, bookmark_class)
       end
     end
 
     permissions :create?, :destroy? do
       it "grants access" do
-        expect(described_class).to permit(context, bookmark_class)
+        expect(subject).to permit(context, bookmark_class)
       end
     end
   end

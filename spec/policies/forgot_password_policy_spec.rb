@@ -9,7 +9,7 @@ RSpec.describe ForgotPasswordPolicy do
 
     permissions :new?, :create? do
       it "grants access" do
-        expect(described_class).to permit(context)
+        expect(subject).to permit(context)
       end
     end
   end
@@ -20,7 +20,7 @@ RSpec.describe ForgotPasswordPolicy do
 
     permissions :new?, :create? do
       it "grants access" do
-        expect(described_class).to permit(context)
+        expect(subject).to permit(context)
       end
     end
   end
