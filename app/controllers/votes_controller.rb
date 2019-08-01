@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class VotesController < ApplicationController
-  layout "narrow", only: [:index, :comments]
+  layout "narrow"
 
   before_action -> { authorize(Vote) }
   before_action :set_user, only: [:index, :comments]
@@ -55,12 +55,12 @@ class VotesController < ApplicationController
   end
 
   def vote_params
-    params.require(:create_vote).permit(:type).merge(model: @votable, current_user: current_user)
+    attributes = policy(Vote).permitted_attributes_for_create
+
+    params.require(:create_vote).permit(attributes).merge(model: @votable, current_user: current_user)
   end
 
   def vote_type
     VotesTypes.new(params[:vote_type]).key
   end
-
-
 end
