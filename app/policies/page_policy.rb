@@ -5,14 +5,31 @@ class PagePolicy < ApplicationPolicy
     true
   end
 
-  alias show? index?
-
-  def new?
-    user_signed_in? && context.user.moderator?(context.sub)
+  def show?
+    true
   end
-  
-  alias create? index?
-  alias edit? index?
-  alias update? index?
-  alias destroy? index?
+
+  def create?
+    user_signed_in? && (user_global_moderator? || user_sub_moderator?)
+  end
+
+  alias new? create?
+
+  def update?
+    user_signed_in? && (user_global_moderator? || user_sub_moderator?)
+  end
+
+  alias edit? update?
+
+  def destroy?
+    user_signed_in? && (user_global_moderator? || user_sub_moderator?)
+  end
+
+  def permitted_attributes_for_create
+    [:title, :text]
+  end
+
+  def permitted_attributes_for_update
+    [:title, :text]
+  end
 end

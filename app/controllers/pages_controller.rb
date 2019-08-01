@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
-  before_action :set_sub, only: [:index, :new, :create]
   before_action :set_page, only: [:show, :edit, :update, :destroy]
-  before_action -> { authorize(Page) }
+  before_action :set_sub
+  before_action -> { authorize(Page) }, only: [:index, :new, :create]
+  before_action -> { authorize(@page) }, only: [:show, :edit, :update, :destroy]
 
   def index
     @records, @pagination_record = Page.where(sub: @sub).paginate(order: :asc, after: params[:after])
@@ -17,10 +18,9 @@ class PagesController < ApplicationController
   end
 
   def edit
-    @form = UpdatePage.new(
-      title: @page.title,
-      text: @page.text
-    )
+    attributes = @page.slice(:title, :text)
+
+    @form = UpdatePage.new(attributes)
   end
 
   def create
@@ -52,11 +52,11 @@ class PagesController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub || @page&.sub)
+    UserContext.new(current_user, @sub)
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub])
+    @sub = @page.present? ? @page.sub : Sub.find_by_lower_url(params[:sub])
   end
 
   def set_page
@@ -64,10 +64,14 @@ class PagesController < ApplicationController
   end
 
   def create_params
-    params.require(:create_page).permit(:title, :text).merge(sub: @sub, current_user: current_user)
+    attributes = policy(Page).permitted_attributes_for_create
+
+    params.require(:create_page).permit(attributes).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_page).permit(:title, :text).merge(page: @page, current_user: current_user)
+    attributes = policy(@page).permitted_attributes_for_update
+
+    params.require(:update_page).permit(attributes).merge(page: @page, current_user: current_user)
   end
 end

@@ -3,9 +3,11 @@
     <%= link_to(t("posts"), sub_path(sub), class: "nav-link") %>
   </li>
 
-  <% if sub.pages.count.positive? %>
-    <li class="nav-item">
-      <%= link_to(t("pages"), pages_path(sub: sub), class: "nav-link") %>
-    </li>
+  <% if policy(Page).index? %>
+    <% if sub.pages.count.positive? %>
+      <li class="nav-item">
+        <%= link_to(t("pages"), pages_path(sub: sub), class: "nav-link") %>
+      </li>
+    <% end %>
   <% end %>
 <% end %>
