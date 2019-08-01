@@ -3,9 +3,8 @@
 class UsersController < ApplicationController
   layout "narrow", only: [:show, :comments]
 
-  before_action -> { authorize(User) }
-  before_action :set_user, only: [:show, :comments]
-  before_action :set_current_user, only: [:edit, :update]
+  before_action :set_user
+  before_action -> { authorize(@user) }
 
   def show
     @records, @pagination_record = Post.in_date_range(date)
@@ -28,7 +27,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @form = UpdateUser.new(email: @user.email)
+    attributes = @user.slice(:email)
+
+    @form = UpdateUser.new(attributes)
   end
 
   def update
@@ -44,15 +45,17 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.where("lower(username) = ?", params[:id].downcase).take!
-  end
-
-  def set_current_user
-    @user = current_user
+    if params[:id].present?
+      @user = User.where("lower(username) = ?", params[:id].downcase).take!
+    else
+      @user = current_user
+    end
   end
 
   def update_params
-    params.require(:update_user).permit(:email, :password, :password_current).merge(user: @user)
+    attributes = policy(@user).permitted_attributes_for_update
+
+    params.require(:update_user).permit(attributes).merge(user: @user)
   end
 
   def sort
