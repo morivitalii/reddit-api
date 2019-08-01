@@ -8,7 +8,7 @@
       </span>
 
       <div class="dropdown-menu dropdown-menu-right">
-        <% if ModQueuePolicy.new(pundit_user, nil).index? %>
+        <% if policy(:mod_queue).index? %>
           <%= link_to(t("mod_queue"), mod_queues_path(sub: sub), class: "dropdown-item") %>
         <% end %>
 

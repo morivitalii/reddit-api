@@ -2,48 +2,50 @@
 
 class ModQueuePolicy < ApplicationPolicy
   def index?
-    user_signed_in? && context.user.moderators.present?
+    return false unless user_signed_in?
+
+    global_context? ? user_moderator_somewhere? : (user_global_moderator? || user_sub_moderator?)
   end
 
-  def comments?
-    user_signed_in? && context.user.moderators.present?
-  end
+  alias comments? index?
 
-  class PostScope
-    attr_accessor :context, :scope
+  class PostScope < ModQueuePolicy
+    attr_reader :user, :scope
 
     def initialize(context, scope)
-      @context = context
+      @user = context.user
       @scope = scope
     end
 
     def resolve
-      scope = @scope.where(sub: context.sub)
-
-      if context.user.moderator?
+      if user_global_moderator?
         scope
       else
-        scope.joins(sub: :moderators).where(subs: { moderators: { user: context.user } })
+        PostsQuery.new(scope).from_subs_where_user_is_moderator(user)
       end
     end
   end
 
-  class CommentScope
-    attr_accessor :context, :scope
+  class CommentScope < ModQueuePolicy
+    attr_reader :user, :scope
 
     def initialize(context, scope)
-      @context = context
+      @user = context.user
       @scope = scope
     end
 
     def resolve
-      scope = @scope.where(posts: { sub: context.sub })
-
-      if context.user.moderator?
-        scope.joins(post: :sub)
+      if user_global_moderator?
+        scope
       else
-        scope.joins(post: { sub: :moderators }).where(posts: { subs: { moderators: { user: context.user } } })
+        CommentsQuery.new(scope).from_subs_where_user_is_moderator(user)
       end
     end
+  end
+
+  private
+
+  def user_moderator_somewhere?
+    user.moderators.present?
   end
 end

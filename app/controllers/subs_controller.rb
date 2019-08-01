@@ -6,7 +6,7 @@ class SubsController < ApplicationController
   before_action -> { authorize(@sub) }
 
   def show
-    @records, @pagination_record = Post.not_deleted
+    @records, @pagination_record = Post.not_removed
                                        .in_date_range(date)
                                        .where(sub: @sub)
                                        .includes(:sub, :user)
