@@ -6,8 +6,6 @@ module Removable
   included do
     belongs_to :deleted_by, class_name: "User", foreign_key: "deleted_by_id", optional: true
 
-    scope :not_deleted, -> { where(deleted_at: nil) }
-
     before_update :undo_approve_on_remove, if: ->(r) { r.respond_to?(:approvable?) }
 
     validates :deletion_reason, allow_blank: true, length: { maximum: 5_000 }
