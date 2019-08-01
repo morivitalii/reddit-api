@@ -5,10 +5,13 @@ class VotePolicy < ApplicationPolicy
     user_signed_in?
   end
 
-  def comments?
+  alias comments? index?
+
+  def create?
     user_signed_in?
   end
 
-  alias create? index?
-  alias destroy? index?
+  def permitted_attributes_for_create
+    [:type]
+  end
 end
