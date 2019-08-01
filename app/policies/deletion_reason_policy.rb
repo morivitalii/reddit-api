@@ -6,19 +6,28 @@ class DeletionReasonPolicy < ApplicationPolicy
   end
 
   def create?
-    user_signed_in? && (user_global_moderator? || user_sub_moderator?)
+    return false unless user_signed_in?
+    return true if user_global_moderator?
+
+    sub_context? ? user_sub_moderator? : false
   end
 
   alias new? create?
 
   def update?
-    user_signed_in? && (user_global_moderator? || user_sub_moderator?)
+    return false unless user_signed_in?
+    return true if user_global_moderator?
+
+    sub_context? ? user_sub_moderator? : false
   end
 
   alias edit? update?
 
   def destroy?
-    user_signed_in? && (user_global_moderator? || user_sub_moderator?)
+    return false unless user_signed_in?
+    return true if user_global_moderator?
+
+    sub_context? ? user_sub_moderator? : false
   end
 
   def permitted_attributes_for_create

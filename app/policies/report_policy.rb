@@ -3,14 +3,19 @@
 class ReportPolicy < ApplicationPolicy
   def index?
     return false unless user_signed_in?
+    return true if user_global_moderator?
+    return user_moderator_somewhere? if global_context?
 
-    global_context? ? user_moderator_somewhere? : (user_global_moderator? || user_sub_moderator?)
+    sub_context? ? user_sub_moderator? : false
   end
 
   alias comments? index?
 
   def show?
-    user_signed_in? && (user_global_moderator? || user_sub_moderator?)
+    return false unless user_signed_in?
+    return true if user_global_moderator?
+
+    sub_context? ? user_sub_moderator? : false
   end
 
   def create?
