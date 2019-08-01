@@ -2,15 +2,15 @@
 
 class ReportPolicy < ApplicationPolicy
   def index?
-    user_signed_in? && context.user.moderators.present?
+    return false unless user_signed_in?
+
+    global_context? ? user_moderator_somewhere? : (user_global_moderator? || user_sub_moderator?)
   end
 
-  def comments?
-    user_signed_in? && context.user.moderators.present?
-  end
+  alias comments? index?
 
   def show?
-    user_signed_in? && context.user.moderator?(context.sub)
+    user_signed_in? && (user_global_moderator? || user_sub_moderator?)
   end
 
   def create?
@@ -19,22 +19,30 @@ class ReportPolicy < ApplicationPolicy
 
   alias new? create?
 
+  def permitted_attributes_for_create
+    [:text]
+  end
+
   class Scope
-    attr_accessor :context, :scope
+    attr_accessor :user, :scope
 
     def initialize(context, scope)
-      @context = context
+      @user = context
       @scope = scope
     end
 
     def resolve
-      scope = @scope.where(sub: context.sub)
-
-      if context.user.moderator?
-        scope.joins(:sub)
+      if user_global_moderator?
+        scope
       else
-        scope.joins(sub: :moderators).where(subs: { moderators: { user: context.user } })
+        ReportsQuery.new(scope).from_subs_where_user_moderator(user)
       end
     end
+  end
+
+  private
+
+  def user_moderator_somewhere?
+    user.moderators.present?
   end
 end

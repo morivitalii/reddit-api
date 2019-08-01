@@ -3,28 +3,24 @@
 class ReportsController < ApplicationController
   layout "narrow"
 
-  before_action :set_sub, only: [:index, :comments]
   before_action :set_reportable, only: [:show, :new, :create]
+  before_action :set_sub
   before_action -> { authorize(Report) }
 
   def index
-    scope = policy_scope(Report)
-
-    @records, @pagination_record = scope.type("Post").includes(reportable: [:sub, :user]).paginate(after: params[:after])
-
-    @records = @records.map(&:reportable).map(&:decorate)
+    scope = policy_scope(posts_scope)
+    @records, @pagination_record = scope.paginate(after: params[:after])
+    @records.map!(&:reportable).map!(&:decorate)
   end
 
   def comments
-    scope = policy_scope(Report)
-
-    @records, @pagination_record = scope.type("Comment").includes(reportable: [:user, :post]).paginate(after: params[:after])
-
-    @records = @records.map(&:reportable).map(&:decorate)
+    scope = policy_scope(comments_scope)
+    @records, @pagination_record = scope.paginate(after: params[:after])
+    @records.map!(&:reportable).map!(&:decorate)
   end
 
   def show
-    @reports = @reportable.reports.includes(:user).order(id: :asc).limit(25).all
+    @reports = reportable_scope.all
 
     render partial: "show"
   end
@@ -50,11 +46,11 @@ class ReportsController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub || @reportable&.sub)
+    UserContext.new(current_user, @sub)
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub])
+    @sub = @reportable.present? ? @reportable.sub : Sub.find_by_lower_url(params[:sub])
   end
 
   def set_reportable
@@ -65,7 +61,29 @@ class ReportsController < ApplicationController
     end
   end
 
+  def posts_scope
+    posts = ReportsQuery.new.posts
+    from_sub = ReportsQuery.new(posts).from_sub(@sub)
+
+    from_sub.includes(reportable: [:sub, :user])
+  end
+
+  def comments_scope
+    comments = ReportsQuery.new.comments
+    from_sub = ReportsQuery.new(comments).from_sub(@sub)
+
+    from_sub.includes(reportable: [:user, post: :sub])
+  end
+
+  def reportable_scope
+    recent = ReportsQuery.new(@reportable.reports).recent(25)
+
+    recent.includes(:user)
+  end
+
   def create_params
-    params.require(:create_report).permit(:text).merge(model: @reportable, current_user: current_user)
+    attributes = policy(Report).permitted_attributes_for_create
+
+    params.require(:create_report).permit(attributes).merge(model: @reportable, current_user: current_user)
   end
 end
