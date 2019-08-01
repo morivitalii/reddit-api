@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class SignInController < ApplicationController
+  before_action -> { authorize(:sign_in) }, only: [:new, :create]
+  skip_after_action :verify_authorized, only: [:unauthenticated]
+
   def new
     @form = SignIn.new
 
