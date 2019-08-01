@@ -3,6 +3,8 @@
 class PasswordController < ApplicationController
   layout "blank"
 
+  before_action -> { authorize(:password) }
+
   def edit
     @form = ChangePassword.new(link_params)
   end
@@ -26,6 +28,8 @@ class PasswordController < ApplicationController
   end
 
   def create_params
-    params.require(:change_password).permit(:token, :password)
+    attributes = policy(:password).permitted_attributes_for_update
+
+    params.require(:change_password).permit(attributes)
   end
 end
