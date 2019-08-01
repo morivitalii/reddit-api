@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class TagsController < ApplicationController
-  before_action :set_sub, only: [:index, :new, :create]
   before_action :set_tag, only: [:edit, :update, :destroy]
-  before_action -> { authorize(Tag) }
+  before_action :set_sub
+  before_action -> { authorize(Tag) }, only: [:index, :new, :create]
+  before_action -> { authorize(@tag) }, only: [:edit, :update, :destroy]
 
   def index
     @records, @pagination_record = Tag.where(sub: @sub).paginate(order: :asc, after: params[:after])
@@ -16,7 +17,9 @@ class TagsController < ApplicationController
   end
 
   def edit
-    @form = UpdateTag.new(title: @tag.title)
+    attributes = @tag.slice(:title)
+
+    @form = UpdateTag.new(attributes)
 
     render partial: "edit"
   end
@@ -50,11 +53,11 @@ class TagsController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub || @tag&.sub)
+    UserContext.new(current_user, @sub)
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub])
+    @sub = @tag.present? ? @tag.sub : Sub.find_by_lower_url(params[:sub])
   end
 
   def set_tag
@@ -62,10 +65,14 @@ class TagsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_tag).permit(:title).merge(sub: @sub, current_user: current_user)
+    attributes = policy(Tag).permitted_attributes_for_create
+
+    params.require(:create_tag).permit(attributes).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_tag).permit(:title).merge(tag: @tag, current_user: current_user)
+    attributes = policy(@tag).permitted_attributes_for_update
+
+    params.require(:update_tag).permit(attributes).merge(tag: @tag, current_user: current_user)
   end
 end

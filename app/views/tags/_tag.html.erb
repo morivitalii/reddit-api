@@ -3,8 +3,13 @@
     <%= tag.title %>
 
     <div class="actions">
-      <%= link_to(fa_icon('pencil'), edit_tag_path(tag), remote: true, class: 'update') %>
-      <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: tag_path(tag) }) %>
+      <% if policy(tag).update? %>
+        <%= link_to(fa_icon('pencil'), edit_tag_path(tag), remote: true, class: 'update') %>
+      <% end %>
+
+      <% if policy(tag).destroy? %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: tag_path(tag) }) %>
+      <% end %>
     </div>
   </div>
 </div>
