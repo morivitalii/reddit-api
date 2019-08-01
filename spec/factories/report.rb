@@ -2,9 +2,9 @@
 
 FactoryBot.define do
   factory :report do
-    sub
-    user
     association :reportable, factory: :post
+    sub { reportable.sub }
+    user
     text { "Text" }
   end
 end

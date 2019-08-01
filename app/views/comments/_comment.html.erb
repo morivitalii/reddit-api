@@ -133,7 +133,7 @@
         <div class="dropdown-menu">
           <%= link_to(t('report'), new_thing_report_path(thing), remote: true, class: 'report dropdown-item') %>
 
-          <% if ReportPolicy.new(pundit_user, nil).show? %>
+          <% if policy(Report).show? %>
             <%= link_to(t('reports'), thing_reports_path(thing), remote: true, class: 'reports dropdown-item') %>
           <% end %>
 
