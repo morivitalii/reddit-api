@@ -16,10 +16,9 @@ class SubsController < ApplicationController
   end
 
   def edit
-    @form = UpdateSub.new(
-      title: @sub.title,
-      description: @sub.description
-    )
+    attributes = @sub.slice(:title, :description)
+
+    @form = UpdateSub.new(attributes)
   end
 
   def update
@@ -43,7 +42,9 @@ class SubsController < ApplicationController
   end
 
   def update_params
-    params.require(:update_sub).permit(:title, :description).merge(sub: @sub, current_user: current_user)
+    attributes = policy(@sub).permitted_attributes_for_update
+
+    params.require(:update_sub).permit(attributes).merge(sub: @sub, current_user: current_user)
   end
 
   def sort

@@ -6,8 +6,12 @@ class SubPolicy < ApplicationPolicy
   end
 
   def update?
-    user_signed_in? && context.user.id == record.user_id
+    user_signed_in? && (user_global_moderator? || user_sub_moderator?)
   end
 
   alias edit? update?
+
+  def permitted_attributes_for_update
+    [:title, :description]
+  end
 end
