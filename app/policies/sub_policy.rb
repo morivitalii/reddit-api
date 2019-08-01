@@ -6,7 +6,10 @@ class SubPolicy < ApplicationPolicy
   end
 
   def update?
-    user_signed_in? && (user_global_moderator? || user_sub_moderator?)
+    return false unless user_signed_in?
+    return true if user_global_moderator?
+
+    user_sub_moderator?
   end
 
   alias edit? update?

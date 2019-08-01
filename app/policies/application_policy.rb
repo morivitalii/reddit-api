@@ -22,7 +22,7 @@ class ApplicationPolicy
   end
 
   def user_sub_moderator?
-    sub_context? ? user.sub_moderator?(sub) : false
+    user.sub_moderator?(sub)
   end
 
   def user_global_contributor?
@@ -30,7 +30,7 @@ class ApplicationPolicy
   end
 
   def user_sub_contributor?
-    sub_context? ? user.sub_contributor?(sub) : false
+    user.sub_contributor?(sub)
   end
 
   def user_banned_globally?
@@ -38,11 +38,11 @@ class ApplicationPolicy
   end
 
   def user_banned_in_sub?
-    sub_context? ? user.banned_in_sub?(sub) : false
+    user.banned_in_sub?(sub)
   end
 
   def user_sub_follower?
-    sub_context? ? user.follower?(sub) : false
+    user.follower?(sub)
   end
 
   def sub_context?
