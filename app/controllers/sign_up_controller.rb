@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SignUpController < ApplicationController
+  before_action -> { authorize(:sign_up) }
+
   def new
     @form = SignUp.new
 
@@ -26,6 +28,8 @@ class SignUpController < ApplicationController
   private
 
   def create_params
-    params.require(:sign_up).permit(:username, :email, :password)
+    attributes = policy(:sign_up).permitted_attributes_for_create
+
+    params.require(:sign_up).permit(attributes)
   end
 end
