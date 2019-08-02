@@ -8,20 +8,12 @@ class BookmarksController < ApplicationController
   before_action :set_bookmarkable, only: [:create, :destroy]
 
   def index
-    @records, @pagination_record = Bookmark.type("Post")
-                                       .where(user: @user)
-                                       .includes(bookmarkable: [:user, :sub])
-                                       .paginate(after: params[:after])
-
+    @records, @pagination_record = posts_scope.paginate(after: params[:after])
     @records = @records.map(&:bookmarkable).map(&:decorate)
   end
 
   def comments
-    @records, @pagination_record = Bookmark.type("Comment")
-                                       .where(user: @user)
-                                       .includes(bookmarkable: [:user, :post])
-                                       .paginate(after: params[:after])
-
+    @records, @pagination_record = comments_scope.paginate(after: params[:after])
     @records = @records.map(&:bookmarkable).map(&:decorate)
   end
 
@@ -48,6 +40,22 @@ class BookmarksController < ApplicationController
   end
 
   private
+
+  def posts_scope
+    query_class = BookmarksQuery
+
+    scope = query_class.new.where_type("Post")
+    scope = query_class.new(scope).where_user(@user)
+    scope.includes(bookmarkable: [:user, :sub])
+  end
+
+  def comments_scope
+    query_class = BookmarksQuery
+
+    scope = query_class.new.where_type("Comment")
+    scope = query_class.new(scope).where_user(@user)
+    scope.includes(bookmarkable: [:user, post: :sub])
+  end
 
   def set_user
     @user = current_user

@@ -8,9 +8,10 @@ RSpec.describe BansQuery do
     let!(:bans) { [create(:sub_ban, sub: sub)] }
 
     it "returns sub bans" do
+      expected_result = bans
       result = subject.where_sub(sub).all
 
-      expect(result).to eq(bans)
+      expect(result).to eq(expected_result)
     end
   end
 
@@ -18,9 +19,10 @@ RSpec.describe BansQuery do
     let!(:bans) { [create(:global_ban)] }
 
     it "returns global bans" do
+      expected_result = bans
       result = subject.where_global.all
 
-      expect(result).to eq(bans)
+      expect(result).to eq(expected_result)
     end
   end
 
@@ -28,17 +30,18 @@ RSpec.describe BansQuery do
     let!(:bans) { create_pair(:ban) }
 
     it "returns bans if given user username is blank" do
+      expected_result = bans
       result = subject.filter_by_username(nil).all
 
-      expect(result).to eq(bans)
+      expect(result).to eq(expected_result)
     end
 
     it "returns ban where user have a given username" do
-      expected_bans = [bans.first]
-      username = expected_bans.first.user.username
+      expected_result = [bans.first]
+      username = expected_result.first.user.username
       result = subject.filter_by_username(username).all
 
-      expect(result).to eq(expected_bans)
+      expect(result).to eq(expected_result)
     end
   end
 end
