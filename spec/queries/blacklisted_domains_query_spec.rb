@@ -26,14 +26,14 @@ RSpec.describe BlacklistedDomainsQuery do
     end
   end
 
-  describe ".where_global_and_sub" do
+  describe ".where_global_or_sub" do
     let!(:sub) { create(:sub) }
     let!(:sub_blacklisted_domains) { [create(:sub_blacklisted_domain, sub: sub)] }
     let!(:global_blacklisted_domains) { [create(:global_blacklisted_domain)] }
 
     it "returns global and sub blacklisted domains" do
       expected_result = sub_blacklisted_domains + global_blacklisted_domains
-      result = subject.where_global_and_sub(sub)
+      result = subject.where_global_or_sub(sub)
 
       expect(result).to eq(expected_result)
     end

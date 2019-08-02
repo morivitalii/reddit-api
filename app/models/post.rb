@@ -137,7 +137,7 @@ class Post < ApplicationRecord
     if uri.present? && uri.host.present? && uri.scheme.in?(%w(http https))
       domain = uri.host.split(".").last(2).join(".")
 
-      scope = BlacklistedDomainsQuery.new.where_global_and_sub(sub)
+      scope = BlacklistedDomainsQuery.new.where_global_or_sub(sub)
       scope = BlacklistedDomainsQuery.new(scope).filter_by_domain(domain)
 
       if scope.exists?

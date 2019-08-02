@@ -5,8 +5,6 @@ class DeletionReason < ApplicationRecord
 
   belongs_to :sub, optional: true
 
-  scope :global, -> { where(sub: nil) }
-
   validates :title, presence: true, length: { maximum: 250 }
   validates :description, presence: true, length: { maximum: 5_000 }
   validate :validate_limits, on: :create, if: ->(r) { r.errors.blank? }
@@ -29,7 +27,9 @@ class DeletionReason < ApplicationRecord
         errors.add(:title, :deletion_reasons_limit)
       end
     else
-      if DeletionReason.global.count >= 50
+      count = DeletionReasonsQuery.new.where_global.count
+
+      if count >= 50
         errors.add(:title, :deletion_reasons_limit)
       end
     end
