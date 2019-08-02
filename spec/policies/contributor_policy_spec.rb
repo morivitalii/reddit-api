@@ -14,7 +14,7 @@ RSpec.describe ContributorPolicy do
     context "global" do
       let(:context) { UserContext.new(user) }
 
-      permissions :index?, :search? do
+      permissions :index? do
         it "grants access" do
           expect(subject).to permit(context, contributor_class)
         end
@@ -36,7 +36,7 @@ RSpec.describe ContributorPolicy do
     context "sub" do
       let(:context) { UserContext.new(user, sub) }
 
-      permissions :index?, :search? do
+      permissions :index? do
         it "grants access" do
           expect(subject).to permit(context, contributor_class)
         end
@@ -62,7 +62,7 @@ RSpec.describe ContributorPolicy do
     context "global" do
       let(:context) { UserContext.new(user) }
 
-      permissions :index?, :search? do
+      permissions :index? do
         it "grants access" do
           expect(subject).to permit(context, contributor_class)
         end
@@ -84,7 +84,7 @@ RSpec.describe ContributorPolicy do
     context "sub" do
       let(:context) { UserContext.new(user, sub) }
 
-      permissions :index?, :search? do
+      permissions :index? do
         it "grants access" do
           expect(subject).to permit(context, contributor_class)
         end
@@ -110,7 +110,7 @@ RSpec.describe ContributorPolicy do
     context "global" do
       let(:context) { UserContext.new(user) }
 
-      permissions :index?, :search? do
+      permissions :index? do
         it "grants access" do
           expect(subject).to permit(context, contributor_class)
         end
@@ -132,7 +132,7 @@ RSpec.describe ContributorPolicy do
     context "sub" do
       let(:context) { UserContext.new(user, sub) }
 
-      permissions :index?, :search? do
+      permissions :index? do
         it "grants access" do
           expect(subject).to permit(context, contributor_class)
         end
@@ -158,7 +158,7 @@ RSpec.describe ContributorPolicy do
     context "global" do
       let(:context) { UserContext.new(user) }
 
-      permissions :index?, :search? do
+      permissions :index? do
         it "grants access" do
           expect(subject).to permit(context, contributor_class)
         end
@@ -180,7 +180,7 @@ RSpec.describe ContributorPolicy do
     context "sub" do
       let(:context) { UserContext.new(user, sub) }
 
-      permissions :index?, :search? do
+      permissions :index? do
         it "grants access" do
           expect(subject).to permit(context, contributor_class)
         end

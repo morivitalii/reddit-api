@@ -3,17 +3,11 @@
 class ContributorsController < ApplicationController
   before_action :set_contributor, only: [:destroy]
   before_action :set_sub
-  before_action -> { authorize(Contributor) }, only: [:index, :search, :new, :create]
+  before_action -> { authorize(Contributor) }, only: [:index, :new, :create]
   before_action -> { authorize(@contributor) }, only: [:destroy]
 
   def index
-    @records, @pagination_record = Contributor.where(sub: @sub).includes(:user, :approved_by).paginate(after: params[:after])
-  end
-
-  def search
-    @records = Contributor.where(sub: @sub).search(params[:query]).all
-
-    render "index"
+    @records, @pagination_record = scope.paginate(after: params[:after])
   end
 
   def new
@@ -39,6 +33,19 @@ class ContributorsController < ApplicationController
   end
 
   private
+
+  def scope
+    query_class = ContributorsQuery
+
+    if @sub.present?
+      scope = query_class.new.where_sub(@sub)
+    else
+      scope = query_class.new.where_global
+    end
+
+    scope = query_class.new(scope).filter_by_username(params[:query])
+    scope.includes(:user, :approved_by)
+  end
 
   def pundit_user
     UserContext.new(current_user, @sub)
