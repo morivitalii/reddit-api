@@ -62,14 +62,18 @@ class ReportsController < ApplicationController
   end
 
   def posts_scope
-    scope = ReportsQuery.new.posts
-    scope = ReportsQuery.new(scope).where_sub(@sub)
+    query_class = ReportsQuery
+
+    scope = query_class.new.posts
+    scope = query_class.new(scope).where_sub(@sub)
     scope.includes(reportable: [:sub, :user])
   end
 
   def comments_scope
-    scope = ReportsQuery.new.comments
-    scope = ReportsQuery.new(scope).where_sub(@sub)
+    query_class = ReportsQuery
+
+    scope = query_class.new.comments
+    scope = query_class.new(scope).where_sub(@sub)
     scope.includes(reportable: [:user, post: :sub])
   end
 

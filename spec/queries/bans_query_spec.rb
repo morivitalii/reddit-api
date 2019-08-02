@@ -5,27 +5,30 @@ RSpec.describe BansQuery do
 
   describe ".where_sub" do
     let!(:sub) { create(:sub) }
-    let!(:global_bans) { [create(:global_ban)] }
-    let!(:sub_bans) { [create(:sub_ban, sub: sub)] }
+    let!(:bans) { [create(:sub_ban, sub: sub)] }
 
-    it "returns global bans when sub is absent" do
-      result = subject.where_sub(nil).all
-
-      expect(result).to eq(global_bans)
-    end
-
-    it "returns sub bans when sub is present" do
+    it "returns sub bans" do
       result = subject.where_sub(sub).all
 
-      expect(result).to eq(sub_bans)
+      expect(result).to eq(bans)
     end
   end
 
-  describe ".where_username" do
+  describe ".where_global" do
+    let!(:bans) { [create(:global_ban)] }
+
+    it "returns global bans" do
+      result = subject.where_global.all
+
+      expect(result).to eq(bans)
+    end
+  end
+
+  describe ".filter_by_username" do
     let!(:bans) { create_pair(:ban) }
 
     it "returns bans if given user username is blank" do
-      result = subject.where_username(nil).all
+      result = subject.filter_by_username(nil).all
 
       expect(result).to eq(bans)
     end
@@ -33,7 +36,7 @@ RSpec.describe BansQuery do
     it "returns ban where user have a given username" do
       expected_bans = [bans.first]
       username = expected_bans.first.user.username
-      result = subject.where_username(username).all
+      result = subject.filter_by_username(username).all
 
       expect(result).to eq(expected_bans)
     end

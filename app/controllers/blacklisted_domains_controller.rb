@@ -3,17 +3,11 @@
 class BlacklistedDomainsController < ApplicationController
   before_action :set_blacklisted_domain, only: [:destroy]
   before_action :set_sub
-  before_action -> { authorize(BlacklistedDomain) }, only: [:index, :search, :new, :create]
+  before_action -> { authorize(BlacklistedDomain) }, only: [:index, :new, :create]
   before_action -> { authorize(@blacklisted_domain) }, only: [:destroy]
 
   def index
-    @records, @pagination_record = BlacklistedDomain.where(sub: @sub).paginate(after: params[:after])
-  end
-
-  def search
-    @records = BlacklistedDomain.where(sub: @sub).search(params[:query]).all
-
-    render "index"
+    @records, @pagination_record = scope.paginate(after: params[:after])
   end
 
   def new
@@ -39,6 +33,18 @@ class BlacklistedDomainsController < ApplicationController
   end
 
   private
+
+  def scope
+    query_class = BlacklistedDomainsQuery
+
+    if @sub.present?
+      scope = query_class.new.where_sub(@sub)
+    else
+      scope = query_class.new.where_global
+    end
+
+    query_class.new(scope).filter_by_domain(params[:query])
+  end
 
   def pundit_user
     UserContext.new(current_user, @sub)

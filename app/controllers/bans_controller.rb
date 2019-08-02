@@ -65,8 +65,15 @@ class BansController < ApplicationController
   end
 
   def scope
-    scope = BansQuery.new.where_sub(@sub)
-    scope = BansQuery.new(scope).where_username(params[:query])
+    query_class = BansQuery
+
+    if @sub.present?
+      scope = query_class.new.where_sub(@sub)
+    else
+      scope = query_class.new.where_global
+    end
+
+    scope = query_class.new(scope).filter_by_username(params[:query])
     scope.includes(:user, :banned_by)
   end
 

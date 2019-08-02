@@ -137,7 +137,10 @@ class Post < ApplicationRecord
     if uri.present? && uri.host.present? && uri.scheme.in?(%w(http https))
       domain = uri.host.split(".").last(2).join(".")
 
-      if BlacklistedDomain.where(sub: [sub, nil]).where("lower(domain) = ?", domain.downcase).exists?
+      scope = BlacklistedDomainsQuery.new.where_global_and_sub(sub)
+      scope = BlacklistedDomainsQuery.new(scope).filter_by_domain(domain)
+
+      if scope.exists?
         errors.add(domain, :blacklisted_domain)
       end
     else
