@@ -59,7 +59,8 @@ class Comment < ApplicationRecord
   def upsert_in_topic
     json = {
       id: id,
-      thing_id: reply_to.id,
+      # TODO fix it
+      # thing_id: reply_to.id,
       deleted: removed?,
       new_score: new_score,
       hot_score: hot_score,
