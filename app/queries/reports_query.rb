@@ -15,13 +15,13 @@ class ReportsQuery
     relation.where(reportable_type: "Comment")
   end
 
-  def from_sub(sub = nil)
+  def where_sub(sub = nil)
     return relation if sub.blank?
 
     relation.where(sub: sub)
   end
 
-  def from_subs_where_user_moderator(user)
+  def subs_where_user_moderator(user)
     relation.joins(sub: :moderators).where(subs: { moderators: { user: user } })
   end
 

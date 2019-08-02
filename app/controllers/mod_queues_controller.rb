@@ -23,17 +23,15 @@ class ModQueuesController < ApplicationController
   private
 
   def posts_scope
-    not_moderated = PostsQuery.new.not_moderated
-    from_sub = PostsQuery.new(not_moderated).from_sub(@sub)
-
-    from_sub.includes(:user, :sub)
+    scope = PostsQuery.new.not_moderated
+    scope = PostsQuery.new(scope).where_sub(@sub)
+    scope.includes(:user, :sub)
   end
 
   def comments_scope
-    not_moderated = CommentsQuery.new.not_moderated
-    from_sub = CommentsQuery.new(not_moderated).from_sub(@sub)
-
-    from_sub.includes(:user, post: :sub)
+    scope = CommentsQuery.new.not_moderated
+    scope = CommentsQuery.new(scope).where_sub(@sub)
+    scope.includes(:user, post: :sub)
   end
 
   def pundit_user

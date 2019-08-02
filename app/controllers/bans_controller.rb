@@ -3,17 +3,11 @@
 class BansController < ApplicationController
   before_action :set_ban, only: [:edit, :update, :destroy]
   before_action :set_sub
-  before_action -> { authorize(Ban) }, only: [:index, :search, :new, :create]
+  before_action -> { authorize(Ban) }, only: [:index, :new, :create]
   before_action -> { authorize(@ban) }, only: [:edit, :update, :destroy]
 
   def index
-    @records, @pagination_record = Ban.includes(:user, :banned_by).where(sub: @sub).paginate(after: params[:after])
-  end
-
-  def search
-    @records = Ban.where(sub: @sub).search(params[:query]).all
-
-    render "index"
+    @records, @pagination_record = scope.paginate(after: params[:after])
   end
 
   def new
@@ -68,6 +62,12 @@ class BansController < ApplicationController
 
   def set_ban
     @ban = Ban.find(params[:id])
+  end
+
+  def scope
+    scope = BansQuery.new.where_sub(@sub)
+    scope = BansQuery.new(scope).where_username(params[:query])
+    scope.includes(:user, :banned_by)
   end
 
   def create_params
