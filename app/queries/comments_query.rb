@@ -11,7 +11,7 @@ class CommentsQuery
     relation.where(deleted_at: nil, approved_at: nil)
   end
 
-  def where_sub(sub = nil)
+  def where_sub(sub)
     return relation if sub.blank?
 
     relation.joins(:post).where(posts: { sub: sub })
