@@ -88,7 +88,7 @@ class CommentsController < ApplicationController
 
   def remove
     @form = DeleteComment.new(deletion_reason: @comment.deletion_reason)
-    @deletion_reasons = DeletionReason.global.or(DeletionReason.where(sub: @comment.sub)).all
+    @deletion_reasons = DeletionReasonsQuery.new.where_global_or_sub(@comment.sub).all
 
     render partial: "remove"
   end

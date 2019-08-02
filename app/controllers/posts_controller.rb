@@ -75,7 +75,7 @@ class PostsController < ApplicationController
 
   def remove
     @form = DeletePost.new(deletion_reason: @post.deletion_reason)
-    @deletion_reasons = DeletionReason.global.or(DeletionReason.where(sub: @post.sub)).all
+    @deletion_reasons = DeletionReasonsQuery.new.where_global_or_sub(@post.sub).all
 
     render partial: "remove"
   end

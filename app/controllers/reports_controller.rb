@@ -28,7 +28,7 @@ class ReportsController < ApplicationController
   def new
     @form = CreateReport.new
     @reasons = @reportable.sub.rules.all
-    @other_reasons = DeletionReason.global.all
+    @other_reasons = DeletionReasonsQuery.new.where_global.all
 
     render partial: "new"
   end

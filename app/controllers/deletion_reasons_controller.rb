@@ -7,7 +7,7 @@ class DeletionReasonsController < ApplicationController
   before_action -> { authorize(@deletion_reason) }, only: [:edit, :update, :destroy]
 
   def index
-    @records, @pagination_record = DeletionReason.where(sub: @sub).paginate(after: params[:after])
+    @records, @pagination_record = scope.paginate(after: params[:after])
   end
 
   def new
@@ -51,6 +51,14 @@ class DeletionReasonsController < ApplicationController
   end
 
   private
+
+  def scope
+    if @sub.present?
+      DeletionReasonsQuery.new.where_sub(@sub)
+    else
+      DeletionReasonsQuery.new.where_global
+    end
+  end
 
   def pundit_user
     UserContext.new(current_user, @sub)
