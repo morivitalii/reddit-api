@@ -62,7 +62,7 @@ Rails.application.routes.draw do
   resources :deletion_reasons, except: [:show]
   resources :tags, except: [:show]
   resources :pages
-  resources :bans, except: [:show], concerns: [:searchable]
+  resources :bans, except: [:show]
 
   resources :subs, only: [:show, :edit, :update], path: "/s" do
     resource :follows, only: [:create, :destroy]

@@ -23,7 +23,7 @@ class ModQueuePolicy < ApplicationPolicy
       if user_global_moderator?
         scope
       else
-        PostsQuery.new(scope).from_subs_where_user_is_moderator(user)
+        PostsQuery.new(scope).subs_where_user_is_moderator(user)
       end
     end
   end
@@ -40,7 +40,7 @@ class ModQueuePolicy < ApplicationPolicy
       if user_global_moderator?
         scope
       else
-        CommentsQuery.new(scope).from_subs_where_user_is_moderator(user)
+        CommentsQuery.new(scope).subs_where_user_is_moderator(user)
       end
     end
   end

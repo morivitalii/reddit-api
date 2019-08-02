@@ -40,7 +40,7 @@ class ReportPolicy < ApplicationPolicy
       if user_global_moderator?
         scope
       else
-        ReportsQuery.new(scope).from_subs_where_user_moderator(user)
+        ReportsQuery.new(scope).subs_where_user_moderator(user)
       end
     end
   end

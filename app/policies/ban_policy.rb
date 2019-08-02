@@ -5,10 +5,6 @@ class BanPolicy < ApplicationPolicy
     true
   end
 
-  def search?
-    true
-  end
-
   def create?
     return false unless user_signed_in?
     return true if user_global_moderator?
