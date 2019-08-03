@@ -52,7 +52,11 @@ class ContributorsController < ApplicationController
   end
 
   def set_sub
-    @sub = @contributor.present? ? @contributor.sub : SubsQuery.new.where_url(params[:sub]).take!
+    if @contributor.present?
+      @sub = @contributor.sub
+    elsif params[:sub].present?
+      @sub = SubsQuery.new.where_url(params[:sub]).take!
+    end
   end
 
   def set_contributor

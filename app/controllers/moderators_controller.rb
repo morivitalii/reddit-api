@@ -52,7 +52,11 @@ class ModeratorsController < ApplicationController
   end
 
   def set_sub
-    @sub = @moderator.present? ? @moderator.sub : SubsQuery.new.where_url(params[:sub]).take!
+    if @moderator.present?
+      @sub = @moderator.sub
+    elsif params[:sub].present?
+      @sub = SubsQuery.new.where_url(params[:sub]).take!
+    end
   end
 
   def set_moderator

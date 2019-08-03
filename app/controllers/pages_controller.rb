@@ -66,7 +66,11 @@ class PagesController < ApplicationController
   end
 
   def set_sub
-    @sub = @page.present? ? @page.sub : SubsQuery.new.where_url(params[:sub]).take!
+    if @page.present?
+      @sub = @page.sub
+    elsif params[:sub].present?
+      @sub = SubsQuery.new.where_url(params[:sub]).take!
+    end
   end
 
   def set_page
