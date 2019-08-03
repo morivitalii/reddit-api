@@ -8,14 +8,12 @@ class ReportsController < ApplicationController
   before_action -> { authorize(Report) }
 
   def index
-    scope = policy_scope(posts_scope)
-    @records, @pagination_record = scope.paginate(after: params[:after])
+    @records, @pagination_record = posts_scope.paginate(after: params[:after])
     @records.map!(&:reportable).map!(&:decorate)
   end
 
   def comments
-    scope = policy_scope(comments_scope)
-    @records, @pagination_record = scope.paginate(after: params[:after])
+    @records, @pagination_record = comments_scope.paginate(after: params[:after])
     @records.map!(&:reportable).map!(&:decorate)
   end
 
@@ -64,16 +62,28 @@ class ReportsController < ApplicationController
   def posts_scope
     query_class = ReportsQuery
 
-    scope = query_class.new.posts
-    scope = query_class.new(scope).where_sub(@sub)
+    if @sub.present?
+      scope = query_class.new.where_sub(@sub)
+    else
+      scope = Report.all
+    end
+
+    scope = query_class.new(scope).posts
+    scope = policy_scope(scope)
     scope.includes(reportable: [:sub, :user])
   end
 
   def comments_scope
     query_class = ReportsQuery
 
-    scope = query_class.new.comments
-    scope = query_class.new(scope).where_sub(@sub)
+    if @sub.present?
+      scope = query_class.new.where_sub(@sub)
+    else
+      scope = Report.all
+    end
+
+    scope = query_class.new(scope).comments
+    scope = policy_scope(scope)
     scope.includes(reportable: [:user, post: :sub])
   end
 

@@ -28,11 +28,12 @@ class ReportPolicy < ApplicationPolicy
     [:text]
   end
 
-  class Scope
-    attr_accessor :user, :scope
+  class Scope < ApplicationPolicy
+    attr_accessor :user, :sub, :scope
 
     def initialize(context, scope)
-      @user = context
+      @user = context.user
+      @sub = context.sub
       @scope = scope
     end
 
