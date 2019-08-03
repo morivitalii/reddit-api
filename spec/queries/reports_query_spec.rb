@@ -27,14 +27,21 @@ RSpec.describe ReportsQuery do
     end
   end
   
-  describe ".where_sub" do
+  describe ".filter_by_sub" do
     let(:sub) { create(:sub) }
     let(:sub_reports) { [create(:report, sub: sub)] }
     let(:reports) { [create(:report)] }
 
+    it "returns all reports if sub is nil" do
+      expected_result = sub_reports + reports
+      result = subject.filter_by_sub(nil).all
+
+      expect(result).to eq(expected_result)
+    end
+
     it "returns reports where sub is given sub" do
       expected_result = sub_reports
-      result = subject.where_sub(sub).all
+      result = subject.filter_by_sub(sub).all
 
       expect(result).to eq(expected_result)
     end

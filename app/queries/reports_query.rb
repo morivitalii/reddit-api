@@ -15,7 +15,9 @@ class ReportsQuery
     relation.where(reportable_type: "Comment")
   end
 
-  def where_sub(sub)
+  def filter_by_sub(sub)
+    return relation if sub.blank?
+
     relation.where(sub: sub)
   end
 
