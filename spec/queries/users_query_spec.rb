@@ -38,4 +38,16 @@ RSpec.describe UsersQuery do
       expect(result).to eq(expected_result)
     end
   end
+
+  describe ".auto_moderator" do
+    let!(:auto_moderator) { create(:user, username: "AutoModerator") }
+    let!(:users) { [create(:user)] }
+
+    it "returns user with AutoModerator username" do
+      expected_result = [auto_moderator]
+      result = subject.auto_moderator.all
+
+      expect(result).to eq(expected_result)
+    end
+  end
 end
