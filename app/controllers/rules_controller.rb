@@ -7,7 +7,7 @@ class RulesController < ApplicationController
   before_action -> { authorize(rule) }, only: [:edit, :update, :destroy]
 
   def index
-    @records, @pagination_record = Rule.where(sub: @sub).paginate(after: params[:after])
+    @records, @pagination_record = scope.paginate(after: params[:after])
   end
 
   def new
@@ -51,6 +51,16 @@ class RulesController < ApplicationController
   end
 
   private
+
+  def scope
+    query_class = RulesQuery
+
+    if @sub.present?
+      query_class.new.where_sub(@sub)
+    else
+      query_class.new.where_global
+    end
+  end
 
   def pundit_user
     UserContext.new(current_user, @sub)

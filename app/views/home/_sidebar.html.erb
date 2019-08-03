@@ -9,7 +9,7 @@
     </div>
   </div>
 
-  <% rules = Rule.global.all %>
+  <% rules = RulesQuery.new.where_global.all %>
   <% if rules.present? %>
     <div class="row bg-white border rounded mt-3 mb-3 pb-2">
       <div class="col-12 rounded-top bg-dark text-white pt-2 pb-2">

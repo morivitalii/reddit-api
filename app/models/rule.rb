@@ -5,8 +5,6 @@ class Rule < ApplicationRecord
 
   belongs_to :sub, optional: true
 
-  scope :global, -> { where(sub: nil) }
-
   validates :title, presence: true, length: { maximum: 100 }
   validates :description, allow_blank: true, length: { maximum: 500 }
   validate :validate_limits, on: :create, if: ->(r) { r.errors.blank? }
@@ -29,7 +27,7 @@ class Rule < ApplicationRecord
         errors.add(:title, :rules_limit)
       end
     else
-      if Rule.global.count >= 15
+      if RulesQuery.new.where_global.count >= 15
         errors.add(:title, :rules_limit)
       end
     end
