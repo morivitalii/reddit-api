@@ -5,10 +5,11 @@ RSpec.describe ContributorsQuery do
 
   describe ".where_sub" do
     let!(:sub) { create(:sub) }
-    let!(:contributors) { [create(:sub_contributor, sub: sub)] }
+    let!(:sub_contributors) { [create(:sub_contributor, sub: sub)] }
+    let!(:global_contributors) { [create(:global_contributor)] }
 
     it "returns sub contributors" do
-      expected_result = contributors
+      expected_result = sub_contributors
       result = subject.where_sub(sub).all
 
       expect(result).to eq(expected_result)
@@ -16,10 +17,11 @@ RSpec.describe ContributorsQuery do
   end
 
   describe ".where_global" do
-    let!(:contributors) { [create(:global_contributor)] }
+    let!(:sub_contributors) { [create(:sub_contributor)] }
+    let!(:global_contributors) { [create(:global_contributor)] }
 
     it "returns global contributors" do
-      expected_result = contributors
+      expected_result = global_contributors
       result = subject.where_global.all
 
       expect(result).to eq(expected_result)

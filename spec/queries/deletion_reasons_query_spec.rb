@@ -5,10 +5,11 @@ RSpec.describe DeletionReasonsQuery do
 
   describe ".where_sub" do
     let!(:sub) { create(:sub) }
-    let!(:deletion_reasons) { [create(:sub_deletion_reason, sub: sub)] }
+    let!(:sub_deletion_reasons) { [create(:sub_deletion_reason, sub: sub)] }
+    let!(:global_deletion_reasons) { [create(:global_deletion_reason)] }
 
     it "returns sub deletion reasons" do
-      expected_result = deletion_reasons
+      expected_result = sub_deletion_reasons
       result = subject.where_sub(sub).all
 
       expect(result).to eq(expected_result)
