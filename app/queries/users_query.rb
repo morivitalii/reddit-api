@@ -18,4 +18,8 @@ class UsersQuery
   def where_email(email)
     relation.where("lower(users.email) = ?", email.downcase)
   end
+
+  def auto_moderator
+    where_username("AutoModerator")
+  end
 end

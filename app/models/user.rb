@@ -21,10 +21,6 @@ class User < ApplicationRecord
   # TODO remove
   delegate :moderator?, :contributor?, :banned?, :follower?, to: :permissions
 
-  def self.auto_moderator
-    self.where("lower(users.username) = ?", "AutoModerator".downcase).take!
-  end
-
   def to_param
     username
   end
