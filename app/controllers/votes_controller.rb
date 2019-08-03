@@ -8,22 +8,12 @@ class VotesController < ApplicationController
   before_action :set_votable, only: [:create]
 
   def index
-    @records, @pagination_record = Vote.vote_type(vote_type)
-                                       .where(user: @user)
-                                       .type("Post")
-                                       .includes(votable: [:user, :sub])
-                                       .paginate(after: params[:after])
-
+    @records, @pagination_record = posts_scope.paginate(after: params[:after])
     @records = @records.map(&:votable).map(&:decorate)
   end
 
   def comments
-    @records, @pagination_record = Vote.vote_type(vote_type)
-                                       .where(user: @user)
-                                       .type("Comment")
-                                       .includes(votable: [:user, :post])
-                                       .paginate(after: params[:after])
-
+    @records, @pagination_record = comments_scope.paginate(after: params[:after])
     @records = @records.map(&:votable).map(&:decorate)
   end
 
@@ -41,6 +31,20 @@ class VotesController < ApplicationController
   end
 
   private
+
+  def posts_scope
+    VotesQuery.new(scope).filter_by_votable_type("Post").includes(votable: [:user, :sub])
+  end
+
+  def comments_scope
+    VotesQuery.new(scope).filter_by_votable_type("Comment").includes(votable: [:user, post: :sub])
+  end
+
+  def scope
+    query_class = VotesQuery
+    scope = query_class.new.filter_by_vote_type(vote_type)
+    query_class.new(scope).where_user(@user)
+  end
 
   def set_user
     @user = current_user
