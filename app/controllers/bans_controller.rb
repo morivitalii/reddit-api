@@ -57,7 +57,7 @@ class BansController < ApplicationController
   end
 
   def set_sub
-    @sub = @ban.present? ? @ban.sub : Sub.find_by_lower_url(params[:sub])
+    @sub = @ban.present? ? @ban.sub : SubsQuery.new.where_url(params[:sub]).take!
   end
 
   def set_ban

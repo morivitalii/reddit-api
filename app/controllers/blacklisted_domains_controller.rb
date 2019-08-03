@@ -51,7 +51,7 @@ class BlacklistedDomainsController < ApplicationController
   end
 
   def set_sub
-    @sub = @blacklisted_domain.present? ? @blacklisted_domain.sub : Sub.find_by_lower_url(params[:sub])
+    @sub = @blacklisted_domain.present? ? @blacklisted_domain.sub : SubsQuery.new.where_url(params[:sub]).take!
   end
 
   def set_blacklisted_domain
