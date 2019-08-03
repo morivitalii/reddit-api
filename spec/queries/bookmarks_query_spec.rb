@@ -7,7 +7,7 @@ RSpec.describe BookmarksQuery do
     let!(:post_bookmarks) { [create(:post_bookmark, )] }
     let!(:comment_bookmarks) { [create(:comment_bookmark)] }
 
-    it "returns all bookmarks" do
+    it "returns all bookmarks if bookmarkable type is blank" do
       expected_result = post_bookmarks + comment_bookmarks
       result = subject.filter_by_bookmarkable_type(nil).all
 
@@ -28,7 +28,7 @@ RSpec.describe BookmarksQuery do
     let!(:user_bookmarks) { [create(:bookmark, user: user)] }
     let!(:bookmarks) { [create(:bookmark)] }
 
-    it "returns bookmarks with given user" do
+    it "returns bookmarks of given user" do
       expected_result = user_bookmarks
       result = subject.where_user(user).all
 
