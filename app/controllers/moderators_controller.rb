@@ -3,17 +3,11 @@
 class ModeratorsController < ApplicationController
   before_action :set_moderator, only: [:destroy]
   before_action :set_sub
-  before_action -> { authorize(Moderator) }, only: [:index, :search, :new, :create]
+  before_action -> { authorize(Moderator) }, only: [:index, :new, :create]
   before_action -> { authorize(@moderator) }, only: [:destroy]
 
   def index
-    @records, @pagination_record = Moderator.where(sub: @sub).includes(:user, :invited_by).paginate(after: params[:after])
-  end
-
-  def search
-    @records = Moderator.where(sub: @sub).search(params[:query]).all
-
-    render "index"
+    @records, @pagination_record = scope.paginate(after: params[:after])
   end
 
   def new
@@ -39,6 +33,19 @@ class ModeratorsController < ApplicationController
   end
 
   private
+
+  def scope
+    query_class = ModeratorsQuery
+
+    if @sub.present?
+      scope = query_class.new.where_sub(@sub)
+    else
+      scope = query_class.new.where_global
+    end
+
+    scope = query_class.new(scope).filter_by_username(params[:query])
+    scope.includes(:user, :invited_by)
+  end
 
   def pundit_user
     UserContext.new(current_user, @sub)

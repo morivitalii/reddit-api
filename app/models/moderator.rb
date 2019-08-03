@@ -9,10 +9,6 @@ class Moderator < ApplicationRecord
 
   before_create :delete_user_as_contributor_on_create, if: -> (record) { record.sub.present? }
 
-  def self.search(query)
-    joins(:user).where("lower(users.username) = ?", query)
-  end
-
   private
 
   def delete_user_as_contributor_on_create

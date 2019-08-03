@@ -36,7 +36,7 @@ RSpec.describe BansQuery do
       expect(result).to eq(expected_result)
     end
 
-    it "returns ban where user have a given username" do
+    it "returns ban where user has a given username" do
       expected_result = [bans.first]
       username = expected_result.first.user.username
       result = subject.filter_by_username(username).all

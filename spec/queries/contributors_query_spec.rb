@@ -36,7 +36,7 @@ RSpec.describe ContributorsQuery do
       expect(result).to eq(expected_result)
     end
 
-    it "returns contributor where user have a given username" do
+    it "returns contributor where user has a given username" do
       expected_result = [contributors.first]
       username = expected_result.first.user.username
       result = subject.filter_by_username(username).all
