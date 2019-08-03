@@ -34,7 +34,8 @@ module RateLimits
     end
 
     def current_user_rate_limit(key)
-      @current_user_rate_limit ||= current_user.rate_limits.todays.find_or_create_by!(key: key)
+      scope = RateLimitsQuery.new.user_daily(current_user)
+      @current_user_rate_limit ||= scope.find_or_create_by!(key: key)
     end
 
     def skip_rate_limiting?
