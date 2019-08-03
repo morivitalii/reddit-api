@@ -6,8 +6,6 @@ class Page < ApplicationRecord
 
   belongs_to :sub, optional: true
 
-  scope :global, -> { where(sub: nil) }
-
   validates :title, presence: true, length: { maximum: 350 }
   validates :text, presence: true, length: { maximum: 50_000 }
 

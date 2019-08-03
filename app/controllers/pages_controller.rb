@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   before_action -> { authorize(@page) }, only: [:show, :edit, :update, :destroy]
 
   def index
-    @records, @pagination_record = Page.where(sub: @sub).paginate(order: :asc, after: params[:after])
+    @records, @pagination_record = scope.paginate(order: :asc, after: params[:after])
   end
 
   def show
@@ -50,6 +50,16 @@ class PagesController < ApplicationController
   end
 
   private
+
+  def scope
+    query_class = PagesQuery
+
+    if @sub.present?
+      query_class.new.where_sub(@sub)
+    else
+      query_class.new.where_global
+    end
+  end
 
   def pundit_user
     UserContext.new(current_user, @sub)
