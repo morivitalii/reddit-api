@@ -16,8 +16,6 @@ class ReportsQuery
   end
 
   def where_sub(sub)
-    return relation if sub.blank?
-
     relation.where(sub: sub)
   end
 
