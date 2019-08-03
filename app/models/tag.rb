@@ -5,8 +5,6 @@ class Tag < ApplicationRecord
 
   belongs_to :sub, optional: true
 
-  scope :global, -> { where(sub: nil) }
-
   validates :title, presence: true, length: { maximum: 30 }
 
   with_options if: ->(r) { r.errors.blank? } do
@@ -21,12 +19,18 @@ class Tag < ApplicationRecord
   private
 
   def validate_uniqueness
+    query_class = TagsQuery
+    scope = query_class.new.where_global_or_sub(sub)
+    scope = query_class.new(scope).filter_by_title(title.squish)
+
     if persisted?
-      if Tag.where(sub: sub).or(Tag.where(sub: nil)).where.not(id: id).where("lower(tags.title) = ?", title.squish.downcase).exists?
+      scope = scope.where.not(id: id)
+
+      if scope.exists?
         errors.add(:title, :taken)
       end
     else
-      if Tag.where(sub: sub).or(Tag.where(sub: nil)).where("lower(tags.title) = ?", title.squish.downcase).exists?
+      if scope.exists?
         errors.add(:title, :taken)
       end
     end
@@ -38,7 +42,7 @@ class Tag < ApplicationRecord
         errors.add(:title, :tags_limit)
       end
     else
-      if Tag.global.count >= 100
+      if TagsQuery.new.where_global.count >= 100
         errors.add(:title, :tags_limit)
       end
     end

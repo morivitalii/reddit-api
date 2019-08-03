@@ -21,7 +21,7 @@ class PostsController < ApplicationController
 
   def tag
     @form = UpdatePost.new(text: @post.tag)
-    @tags = Tag.where(sub: @post.sub).or(Tag.where(sub: nil)).all
+    @tags = TagsQuery.new.where_global_or_sub(@post.sub).all
 
     render partial: "tag"
   end
