@@ -7,7 +7,9 @@ class BookmarksQuery
     @relation = relation
   end
 
-  def where_type(type)
+  def filter_by_bookmarkable_type(type)
+    return relation if type.blank?
+
     relation.where(bookmarkable_type: type)
   end
 

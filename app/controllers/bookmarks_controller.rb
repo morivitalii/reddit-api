@@ -42,19 +42,15 @@ class BookmarksController < ApplicationController
   private
 
   def posts_scope
-    query_class = BookmarksQuery
-
-    scope = query_class.new.where_type("Post")
-    scope = query_class.new(scope).where_user(@user)
-    scope.includes(bookmarkable: [:user, :sub])
+    BookmarksQuery.new(scope).filter_by_bookmarkable_type("Post").includes(bookmarkable: [:user, :sub])
   end
 
   def comments_scope
-    query_class = BookmarksQuery
+    BookmarksQuery.new(scope).filter_by_bookmarkable_type("Comment").includes(bookmarkable: [:user, post: :sub])
+  end
 
-    scope = query_class.new.where_type("Comment")
-    scope = query_class.new(scope).where_user(@user)
-    scope.includes(bookmarkable: [:user, post: :sub])
+  def scope
+    BookmarksQuery.new.where_user(@user)
   end
 
   def set_user
