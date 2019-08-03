@@ -5,10 +5,11 @@ RSpec.describe BansQuery do
 
   describe ".where_sub" do
     let!(:sub) { create(:sub) }
-    let!(:bans) { [create(:sub_ban, sub: sub)] }
+    let!(:sub_bans) { [create(:sub_ban, sub: sub)] }
+    let!(:global_bans) { [create(:global_ban)] }
 
     it "returns sub bans" do
-      expected_result = bans
+      expected_result = sub_bans
       result = subject.where_sub(sub).all
 
       expect(result).to eq(expected_result)
@@ -16,10 +17,11 @@ RSpec.describe BansQuery do
   end
 
   describe ".where_global" do
-    let!(:bans) { [create(:global_ban)] }
+    let!(:sub_bans) { [create(:sub_ban)] }
+    let!(:global_bans) { [create(:global_ban)] }
 
     it "returns global bans" do
-      expected_result = bans
+      expected_result = global_bans
       result = subject.where_global.all
 
       expect(result).to eq(expected_result)

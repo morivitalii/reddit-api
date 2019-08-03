@@ -5,10 +5,11 @@ RSpec.describe RulesQuery do
 
   describe ".where_sub" do
     let!(:sub) { create(:sub) }
-    let!(:rules) { [create(:sub_rule, sub: sub)] }
+    let!(:sub_rules) { [create(:sub_rule, sub: sub)] }
+    let!(:global_rules) { [create(:global_rule)] }
 
     it "returns sub rules" do
-      expected_result = rules
+      expected_result = sub_rules
       result = subject.where_sub(sub).all
 
       expect(result).to eq(expected_result)
@@ -16,10 +17,11 @@ RSpec.describe RulesQuery do
   end
 
   describe ".where_global" do
-    let!(:rules) { [create(:global_rule)] }
+    let!(:sub_rules) { [create(:sub_rule)] }
+    let!(:global_rules) { [create(:global_rule)] }
 
     it "returns global rules" do
-      expected_result = rules
+      expected_result = global_rules
       result = subject.where_global.all
 
       expect(result).to eq(expected_result)
