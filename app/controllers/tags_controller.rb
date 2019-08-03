@@ -57,7 +57,11 @@ class TagsController < ApplicationController
   end
 
   def set_sub
-    @sub = @tag.present? ? @tag.sub : SubsQuery.new.where_url(params[:sub]).take!
+    if @tag.present?
+      @sub = @tag.sub
+    elsif params[:sub].present?
+      @sub = SubsQuery.new.where_url(params[:sub]).take!
+    end
   end
 
   def set_tag

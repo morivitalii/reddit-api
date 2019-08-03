@@ -65,7 +65,11 @@ class DeletionReasonsController < ApplicationController
   end
 
   def set_sub
-    @sub = @deletion_reason.present? ? @deletion_reason.sub : SubsQuery.new.where_url(params[:sub]).take!
+    if @deletion_reason.present?
+      @sub = @deletion_reason.sub
+    elsif params[:sub].present?
+      @sub = SubsQuery.new.where_url(params[:sub]).take!
+    end
   end
 
   def set_deletion_reason
