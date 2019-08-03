@@ -11,10 +11,16 @@ class PostsQuery
     relation.where(deleted_at: nil, approved_at: nil)
   end
 
-  def where_sub(sub)
+  def filter_by_sub(sub)
     return relation if sub.blank?
 
     relation.where(sub: sub)
+  end
+
+  def filter_by_date(date)
+    return relation if date.blank?
+
+    relation.where("created_at > ?", date)
   end
 
   def subs_where_user_is_moderator(user)

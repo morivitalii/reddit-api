@@ -14,8 +14,6 @@ class Post < ApplicationRecord
   belongs_to :user
   has_one :topic, dependent: :destroy
   has_many :comments, dependent: :destroy
-  
-  scope :in_date_range, ->(date) { where("created_at > ?", date) if date.present? }
 
   before_create :normalize_url_on_create
   before_create :set_media_processing_attributes_on_media_cache
