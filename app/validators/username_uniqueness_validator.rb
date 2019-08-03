@@ -2,7 +2,7 @@
 
 class UsernameUniquenessValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    if User.where("lower(username) = ?", value.downcase).exists?
+    if UsersQuery.new.where_username(value).exists?
       record.errors.add(attribute, :username_taken)
     end
   end
