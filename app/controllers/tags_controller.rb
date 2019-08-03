@@ -7,7 +7,7 @@ class TagsController < ApplicationController
   before_action -> { authorize(@tag) }, only: [:edit, :update, :destroy]
 
   def index
-    @records, @pagination_record = Tag.where(sub: @sub).paginate(order: :asc, after: params[:after])
+    @records, @pagination_record = scope.paginate(order: :asc, after: params[:after])
   end
 
   def new
@@ -51,6 +51,16 @@ class TagsController < ApplicationController
   end
 
   private
+
+  def scope
+    query_class = TagsQuery
+
+    if @sub.present?
+      query_class.new.where_sub(@sub)
+    else
+      query_class.new.where_global
+    end
+  end
 
   def pundit_user
     UserContext.new(current_user, @sub)
