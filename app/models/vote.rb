@@ -8,14 +8,6 @@ class Vote < ApplicationRecord
 
   enum vote_type: { down: -1, meh: 0, up: 1 }
 
-  scope :vote_type, ->(type) { where(vote_type: type) if type.present? }
-
-  scope :type, -> (type) {
-    if type.present?
-      where(votable_type: type)
-    end
-  }
-
   after_save :update_counter_cache
   after_save :update_scores
   after_save :update_user_points
