@@ -48,7 +48,7 @@ class ReportsController < ApplicationController
   end
 
   def set_sub
-    @sub = @reportable.present? ? @reportable.sub : Sub.find_by_lower_url(params[:sub])
+    @sub = @reportable.present? ? @reportable.sub : SubsQuery.new.where_url(params[:sub]).take!
   end
 
   def set_reportable

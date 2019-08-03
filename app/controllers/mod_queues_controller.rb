@@ -43,6 +43,6 @@ class ModQueuesController < ApplicationController
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub])
+    @sub = SubsQuery.new.where_url(params[:sub]).take!
   end
 end

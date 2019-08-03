@@ -66,7 +66,7 @@ class PagesController < ApplicationController
   end
 
   def set_sub
-    @sub = @page.present? ? @page.sub : Sub.find_by_lower_url(params[:sub])
+    @sub = @page.present? ? @page.sub : SubsQuery.new.where_url(params[:sub]).take!
   end
 
   def set_page

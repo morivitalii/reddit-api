@@ -52,7 +52,7 @@ class ModeratorsController < ApplicationController
   end
 
   def set_sub
-    @sub = @moderator.present? ? @moderator.sub : Sub.find_by_lower_url(params[:sub])
+    @sub = @moderator.present? ? @moderator.sub : SubsQuery.new.where_url(params[:sub]).take!
   end
 
   def set_moderator

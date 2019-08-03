@@ -67,7 +67,7 @@ class RulesController < ApplicationController
   end
 
   def set_sub
-    @sub = @rule.present? ? @rule.sub : Sub.find_by_lower_url(params[:sub])
+    @sub = @rule.present? ? @rule.sub : SubsQuery.new.where_url(params[:sub]).take!
   end
 
   def set_rule

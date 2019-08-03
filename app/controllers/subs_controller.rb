@@ -38,7 +38,7 @@ class SubsController < ApplicationController
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:id])
+    @sub = SubsQuery.new.where_url(params[:id]).take!
   end
 
   def update_params

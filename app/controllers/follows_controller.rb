@@ -23,6 +23,6 @@ class FollowsController < ApplicationController
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub_id])
+    @sub = SubsQuery.new.where_url(params[:sub_id]).take!
   end
 end

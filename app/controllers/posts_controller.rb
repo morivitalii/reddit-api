@@ -102,7 +102,13 @@ class PostsController < ApplicationController
   end
 
   def set_sub
-    @sub = Sub.find_by_lower_url(params[:sub]) || Sub.default
+    query_class = SubsQuery
+
+    if params[:sub].present?
+      @sub = query_class.new.where_url(params[:sub]).take!
+    else
+      @sub = query_class.new.default.take!
+    end
   end
 
   def set_post

@@ -57,7 +57,7 @@ class TagsController < ApplicationController
   end
 
   def set_sub
-    @sub = @tag.present? ? @tag.sub : Sub.find_by_lower_url(params[:sub])
+    @sub = @tag.present? ? @tag.sub : SubsQuery.new.where_url(params[:sub]).take!
   end
 
   def set_tag
