@@ -65,13 +65,7 @@ class ReportsController < ApplicationController
 
   def posts_scope
     query_class = ReportsQuery
-
-    if @sub.present?
-      scope = query_class.new.where_sub(@sub)
-    else
-      scope = Report.all
-    end
-
+    scope = query_class.new.filter_by_sub(@sub)
     scope = query_class.new(scope).posts
     scope = policy_scope(scope)
     scope.includes(reportable: [:sub, :user])
@@ -79,13 +73,7 @@ class ReportsController < ApplicationController
 
   def comments_scope
     query_class = ReportsQuery
-
-    if @sub.present?
-      scope = query_class.new.where_sub(@sub)
-    else
-      scope = Report.all
-    end
-
+    scope = query_class.new.filter_by_sub(@sub)
     scope = query_class.new(scope).comments
     scope = policy_scope(scope)
     scope.includes(reportable: [:user, post: :sub])
@@ -93,7 +81,6 @@ class ReportsController < ApplicationController
 
   def reportable_scope
     recent = ReportsQuery.new(@reportable.reports).recent(25)
-
     recent.includes(:user)
   end
 
