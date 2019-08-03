@@ -10,7 +10,7 @@ class ForgotPassword
   def save
     return false if invalid?
 
-    user = User.where("lower(email) = ?", @email.downcase).take
+    user = UsersQuery.new.where_email(@email).take
 
     if user.present? && user.forgot_password_email_sent_at < 1.day.ago
       user.update!(forgot_password_email_sent_at: Time.current)

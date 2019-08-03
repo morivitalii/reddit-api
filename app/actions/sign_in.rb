@@ -11,7 +11,7 @@ class SignIn
   validate :authenticate, if: ->(record) { record.errors.blank? }
 
   def authenticate
-    @user = User.where("lower(username) = ?", @username.downcase).take
+    @user = UsersQuery.new.where_username(@username).take
 
     if @user.blank? || !@user.authenticate(@password)
       errors.add(:username, :invalid_credentials)

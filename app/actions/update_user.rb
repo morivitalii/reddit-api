@@ -31,7 +31,10 @@ class UpdateUser
   end
 
   def email_unique?
-    if User.where.not(id: @user.id).where("lower(email) = ?", @email.downcase).exists?
+    scope = UsersQuery.new.where_email(@email)
+    scope = scope.where.not(id: @user.id)
+
+    if scope.exists?
       errors.add(:email, :email_taken)
     end
   end

@@ -18,7 +18,7 @@ class CreateContributor
   def save
     return false if invalid?
 
-    @user = User.where("lower(username) = ?", @username.downcase).take!
+    @user = UsersQuery.new.where_username(@username).take!
 
     @contributor = Contributor.create!(
       sub: @sub,
