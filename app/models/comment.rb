@@ -16,8 +16,6 @@ class Comment < ApplicationRecord
   belongs_to :parent, class_name: "Comment", foreign_key: "comment_id", counter_cache: :comments_count, optional: true
   has_many :comments, class_name: "Comment", foreign_key: "comment_id", dependent: :destroy
 
-  scope :in_date_range, ->(date) { where("created_at > ?", date) if date.present? }
-
   after_save :upsert_in_topic
 
   validates :text, presence: true, length: { maximum: 10_000 }
