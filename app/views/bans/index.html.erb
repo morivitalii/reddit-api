@@ -20,7 +20,7 @@
 
   <div class="search col-12">
     <%= form_with(url: bans_path, local: true, method: :get, class: "form-inline") do |f| %>
-      <%= f.hidden_field :sub, value: @sub.url %>
+      <%= f.hidden_field :sub, value: params[:sub] %>
       <%= f.text_field :query, value: params[:query], placeholder: t("username") %>
       <%= f.submit t("search") %>
       <%= link_to(t("reset"), bans_path(sub: @sub), class: "btn btn-primary") %>

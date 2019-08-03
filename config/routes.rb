@@ -55,7 +55,7 @@ Rails.application.routes.draw do
   resources :votes, only: [:index], concerns: [:comments_index]
   resources :reports, only: [:index], concerns: [:comments_index]
   resources :mod_queues, only: [:index], concerns: [:comments_index]
-  resources :moderators, except: [:show, :edit, :update], concerns: [:searchable]
+  resources :moderators, except: [:show, :edit, :update]
   resources :contributors, except: [:show, :edit, :update]
   resources :blacklisted_domains, except: [:show, :edit, :update]
   resources :rules, except: [:show]

@@ -18,15 +18,14 @@
     </div>
   </div>
 
-  <% if policy(Moderator).search? %>
-    <div class="search col-12">
-      <%= form_with(url: search_moderators_path(sub: @sub), local: true, class: "form-inline") do |f| %>
-        <%= f.text_field :query, value: params[:query], placeholder: t("username") %>
-        <%= f.submit t("search") %>
-        <%= link_to(t("reset"), moderators_path(sub: @sub), class: "btn btn-primary") %>
-      <% end %>
-    </div>
-  <% end %>
+  <div class="search col-12">
+    <%= form_with(url: moderators_path, method: :get, local: true, class: "form-inline") do |f| %>
+      <%= f.hidden_field :sub, value: params[:sub] %>
+      <%= f.text_field :query, value: params[:query], placeholder: t("username") %>
+      <%= f.submit t("search") %>
+      <%= link_to(t("reset"), moderators_path(sub: @sub), class: "btn btn-primary") %>
+    <% end %>
+  </div>
 
   <div class="col-12">
     <div class="body col-12">
