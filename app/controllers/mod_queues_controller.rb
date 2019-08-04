@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ModQueuesController < ApplicationController
-  layout "narrow"
-
   before_action :set_sub
   before_action -> { authorize(:mod_queue) }
 
@@ -37,7 +35,7 @@ class ModQueuesController < ApplicationController
   end
 
   def pundit_user
-    UserContext.new(current_user, @sub)
+    Context.new(current_user, @sub)
   end
 
   def set_sub

@@ -3,39 +3,39 @@ require "rails_helper"
 RSpec.describe TagsQuery do
   subject { described_class.new }
 
-  describe ".where_sub" do
+  describe ".sub" do
     let!(:sub) { create(:sub) }
     let!(:sub_tags) { [create(:sub_tag, sub: sub)] }
     let!(:global_tags) { [create(:global_tag)] }
 
     it "returns sub tags" do
       expected_result = sub_tags
-      result = subject.where_sub(sub).all
+      result = subject.sub(sub).all
 
       expect(result).to eq(expected_result)
     end
   end
 
-  describe ".where_global" do
+  describe ".global" do
     let!(:sub_tags) { [create(:sub_tag)] }
     let!(:global_tags) { [create(:global_tag)] }
 
     it "returns global tags" do
       expected_result = global_tags
-      result = subject.where_global.all
+      result = subject.global.all
 
       expect(result).to eq(expected_result)
     end
   end
 
-  describe ".where_global_or_sub" do
+  describe ".global_or_sub" do
     let!(:sub) { create(:sub) }
     let!(:sub_tags) { [create(:sub_tag, sub: sub)] }
     let!(:global_tags) { [create(:global_tag)] }
 
     it "returns global and sub tags" do
       expected_result = sub_tags + global_tags
-      result = subject.where_global_or_sub(sub)
+      result = subject.global_or_sub(sub)
 
       expect(result).to eq(expected_result)
     end

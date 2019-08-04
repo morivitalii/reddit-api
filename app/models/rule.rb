@@ -27,7 +27,7 @@ class Rule < ApplicationRecord
         errors.add(:title, :rules_limit)
       end
     else
-      if RulesQuery.new.where_global.count >= 15
+      if RulesQuery.new.global.count >= 15
         errors.add(:title, :rules_limit)
       end
     end

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
-  layout "narrow"
-
   before_action -> { authorize(:home) }
 
   def index

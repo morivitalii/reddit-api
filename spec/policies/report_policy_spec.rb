@@ -9,7 +9,7 @@ RSpec.describe ReportPolicy do
     let(:user) { nil }
 
     context "global" do
-      let(:context) { UserContext.new(user) }
+      let(:context) { Context.new(user) }
 
       permissions :index?, :comments? do
         it "denies access" do
@@ -19,7 +19,7 @@ RSpec.describe ReportPolicy do
     end
 
     context "sub" do
-      let(:context) { UserContext.new(user, sub) }
+      let(:context) { Context.new(user, sub) }
 
       permissions :index?, :comments? do
         it "denies access" do
@@ -45,7 +45,7 @@ RSpec.describe ReportPolicy do
     let(:user) { create(:user) }
 
     context "global" do
-      let(:context) { UserContext.new(user) }
+      let(:context) { Context.new(user) }
 
       permissions :index?, :comments? do
         it "denies access" do
@@ -55,7 +55,7 @@ RSpec.describe ReportPolicy do
     end
 
     context "sub" do
-      let(:context) { UserContext.new(user, sub) }
+      let(:context) { Context.new(user, sub) }
 
       permissions :index?, :comments? do
         it "denies access" do
@@ -81,7 +81,7 @@ RSpec.describe ReportPolicy do
     let(:user) { create(:sub_moderator, sub: sub).user }
 
     context "global" do
-      let(:context) { UserContext.new(user) }
+      let(:context) { Context.new(user) }
 
       permissions :index?, :comments? do
         it "grants access" do
@@ -91,7 +91,7 @@ RSpec.describe ReportPolicy do
     end
 
     context "sub" do
-      let(:context) { UserContext.new(user, sub) }
+      let(:context) { Context.new(user, sub) }
 
       permissions :index?, :comments? do
         it "grants access" do
@@ -117,7 +117,7 @@ RSpec.describe ReportPolicy do
     let(:user) { create(:global_moderator).user }
 
     context "global" do
-      let(:context) { UserContext.new(user) }
+      let(:context) { Context.new(user) }
 
       permissions :index?, :comments? do
         it "grants access" do
@@ -127,7 +127,7 @@ RSpec.describe ReportPolicy do
     end
 
     context "sub" do
-      let(:context) { UserContext.new(user, sub) }
+      let(:context) { Context.new(user, sub) }
 
       permissions :index?, :comments? do
         it "grants access" do

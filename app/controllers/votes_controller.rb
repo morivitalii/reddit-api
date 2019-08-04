@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class VotesController < ApplicationController
-  layout "narrow"
-
   before_action -> { authorize(Vote) }
   before_action :set_user, only: [:index, :comments]
   before_action :set_votable, only: [:create]

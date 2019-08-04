@@ -4,16 +4,42 @@ module Authorization
   extend ActiveSupport::Concern
 
   included do
-    before_action do
-      Current.user = request.env["warden"].user
-    end
+    before_action :set_current_user
 
     private
+
+    def set_current_user
+      Current.user = request.env["warden"].user
+    end
 
     helper_method :current_user
 
     def current_user
       Current.user
+    end
+
+    def pundit_user
+      context
+    end
+
+    rescue_from "Pundit::NotAuthorizedError", with: :authorization_error_response
+
+    def authorization_error_response
+      if helpers.user_signed_in?
+        if request.xhr?
+          head :not_acceptable
+        else
+          render "/authorization_error", status: :not_acceptable
+        end
+      else
+        @form = SignIn.new
+
+        if request.xhr?
+          render partial: "sign_in/new", status: :unauthorized
+        else
+          render "sign_in/new", status: :unauthorized
+        end
+      end
     end
   end
 end

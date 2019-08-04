@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  layout "narrow", only: [:show, :comments]
-
   before_action :set_user
   before_action -> { authorize(@user) }
 

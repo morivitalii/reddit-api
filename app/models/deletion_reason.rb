@@ -27,7 +27,7 @@ class DeletionReason < ApplicationRecord
         errors.add(:title, :deletion_reasons_limit)
       end
     else
-      count = DeletionReasonsQuery.new.where_global.count
+      count = DeletionReasonsQuery.new.global.count
 
       if count >= 50
         errors.add(:title, :deletion_reasons_limit)

@@ -11,7 +11,7 @@ class BlacklistedDomain < ApplicationRecord
   private
 
   def validate_uniqueness
-    scope = BlacklistedDomainsQuery.new.where_global_or_sub(sub)
+    scope = BlacklistedDomainsQuery.new.global_or_sub(sub)
     scope = BlacklistedDomainsQuery.new(scope).filter_by_domain(domain)
 
     if scope.exists?

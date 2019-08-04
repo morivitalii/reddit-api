@@ -56,14 +56,14 @@ class TagsController < ApplicationController
     query_class = TagsQuery
 
     if @sub.present?
-      query_class.new.where_sub(@sub)
+      query_class.new.sub(@sub)
     else
-      query_class.new.where_global
+      query_class.new.global
     end
   end
 
   def pundit_user
-    UserContext.new(current_user, @sub)
+    Context.new(current_user, @sub)
   end
 
   def set_sub

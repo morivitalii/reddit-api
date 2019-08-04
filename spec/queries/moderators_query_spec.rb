@@ -3,39 +3,39 @@ require "rails_helper"
 RSpec.describe ModeratorsQuery do
   subject { described_class.new }
 
-  describe ".where_global" do
+  describe ".global" do
     let!(:sub_moderators) { [create(:sub_moderator)] }
     let!(:global_moderators) { [create(:global_moderator)] }
 
     it "returns global moderators" do
       expected_result = global_moderators
-      result = subject.where_global.all
+      result = subject.global.all
 
       expect(result).to eq(expected_result)
     end
   end
 
-  describe ".where_sub" do
+  describe ".sub" do
     let!(:sub) { create(:sub) }
     let!(:sub_moderators) { [create(:sub_moderator, sub: sub)] }
     let!(:global_moderators) { [create(:global_moderator)] }
 
     it "returns sub moderators" do
       expected_result = sub_moderators
-      result = subject.where_sub(sub).all
+      result = subject.sub(sub).all
 
       expect(result).to eq(expected_result)
     end
   end
 
-  describe ".where_global_or_sub" do
+  describe ".global_or_sub" do
     let!(:sub) { create(:sub) }
     let!(:sub_moderators) { [create(:sub_moderator, sub: sub)] }
     let!(:global_moderators) { [create(:global_moderator)] }
 
     it "returns global and sub moderators" do
       expected_result = sub_moderators + global_moderators
-      result = subject.where_global_or_sub(sub).all
+      result = subject.global_or_sub(sub).all
 
       expect(result).to eq(expected_result)
     end
