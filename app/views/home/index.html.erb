@@ -1,4 +1,6 @@
-<% content_for(:meta_title, t(params[:sort])) %>
+<% content_for(:meta_title, @facade.index_meta_title) %>
+
+<%= render "shared/sidebar" %>
 
 <% content_for(:navigation) do %>
   <li class="nav-item dropdown">
@@ -26,6 +28,5 @@
   </li>
 <% end %>
 
-<%= render "shared/sidebar" %>
 <%= render @records %>
 <%= render "shared/pagination", pagination: @pagination %>
