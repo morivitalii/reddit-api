@@ -1,4 +1,6 @@
-<% content_for(:meta_title, "#{@user.username}: #{t("votes")}") %>
+<% content_for(:meta_title, @facade.index_meta_title) %>
+
+<%= render "users/sidebar", user: @user %>
 
 <% content_for(:navigation) do %>
   <li class="nav-item dropdown">
@@ -41,6 +43,5 @@
   </li>
 <% end %>
 
-<%= render "users/sidebar", user: @user %>
 <%= render @records %>
 <%= render 'shared/pagination', pagination: @pagination %>

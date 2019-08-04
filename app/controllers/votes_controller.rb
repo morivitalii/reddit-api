@@ -4,6 +4,7 @@ class VotesController < ApplicationController
   before_action -> { authorize(Vote) }
   before_action :set_user, only: [:index, :comments]
   before_action :set_votable, only: [:create]
+  before_action :set_facade
 
   def index
     @records, @pagination = posts_scope.paginate(after: params[:after])
@@ -42,6 +43,10 @@ class VotesController < ApplicationController
     query_class = VotesQuery
     scope = query_class.new.filter_by_vote_type(vote_type)
     query_class.new(scope).where_user(@user)
+  end
+
+  def set_facade
+    @facade = VotesFacade.new(context, @user)
   end
 
   def set_user
