@@ -1,7 +1,10 @@
 <% if pagination.present? %>
   <div class="row mt-3 mb-3">
     <div class="col-12">
-      <%= link_to(t('forward'), params.permit(:sub, :sort, :type, :thing_type, :vote_type, :date, :after).merge(after: pagination.to_param), class: 'btn btn-sm btn-primary') %>
+      <% permitted_params = *@facade.pagination_permitted_params %>
+      <% pagination_param = pagination.to_param %>
+      <%= link_to(t('forward'), params.permit(permitted_params).merge(after: pagination_param), class: 'btn btn-sm btn-primary') %>
+      <!--<#%= link_to(t('forward'), params.permit(:sub, :sort, :type, :thing_type, :vote_type, :date, :after).merge(after: pagination.to_param), class: 'btn btn-sm btn-primary') %>-->
     </div>
   </div>
 <% end %>
