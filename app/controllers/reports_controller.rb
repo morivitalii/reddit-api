@@ -3,6 +3,7 @@
 class ReportsController < ApplicationController
   before_action :set_reportable, only: [:show, :new, :create]
   before_action :set_sub
+  before_action :set_facade
   before_action -> { authorize(Report) }
 
   def index
@@ -41,24 +42,8 @@ class ReportsController < ApplicationController
 
   private
 
-  def pundit_user
+  def context
     Context.new(current_user, @sub)
-  end
-
-  def set_sub
-    if @reportable.present?
-      @sub = @reportable.sub
-    elsif params[:sub].present?
-      @sub = SubsQuery.new.where_url(params[:sub]).take!
-    end
-  end
-
-  def set_reportable
-    if params[:post_id].present?
-      @reportable = Post.find(params[:post_id])
-    elsif params[:comment_id].present?
-      @reportable = Comment.find(params[:comment_id])
-    end
   end
 
   def posts_scope
@@ -80,6 +65,26 @@ class ReportsController < ApplicationController
   def reportable_scope
     recent = ReportsQuery.new(@reportable.reports).recent(25)
     recent.includes(:user)
+  end
+
+  def set_facade
+    @facade = ReportsFacade.new(context)
+  end
+
+  def set_sub
+    if @reportable.present?
+      @sub = @reportable.sub
+    elsif params[:sub].present?
+      @sub = SubsQuery.new.where_url(params[:sub]).take!
+    end
+  end
+
+  def set_reportable
+    if params[:post_id].present?
+      @reportable = Post.find(params[:post_id])
+    elsif params[:comment_id].present?
+      @reportable = Comment.find(params[:comment_id])
+    end
   end
 
   def create_params
