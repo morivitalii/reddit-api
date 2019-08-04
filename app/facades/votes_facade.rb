@@ -6,6 +6,7 @@ class VotesFacade < ApplicationFacade
   end
 
   def pagination_permitted_params
+    # TODO
     []
   end
 end

@@ -2,6 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :set_user
+  before_action :set_facade
   before_action -> { authorize(@user) }
 
   def show
@@ -48,6 +49,10 @@ class UsersController < ApplicationController
     else
       @user = current_user
     end
+  end
+
+  def set_facade
+    @facade = UsersFacade.new(context, @user)
   end
 
   def update_params
