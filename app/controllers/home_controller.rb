@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
+  before_action :set_facade
   before_action -> { authorize(:home) }
 
   def index
@@ -13,6 +14,10 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def set_facade
+    @facade = HomeFacade.new(context)
+  end
 
   def sort
     ThingsSorting.new(params[:sort]).key
