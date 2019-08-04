@@ -3,6 +3,7 @@
 class ContributorsController < ApplicationController
   before_action :set_contributor, only: [:destroy]
   before_action :set_sub
+  before_action :set_facade
   before_action -> { authorize(Contributor) }, only: [:index, :new, :create]
   before_action -> { authorize(@contributor) }, only: [:destroy]
 
@@ -34,6 +35,10 @@ class ContributorsController < ApplicationController
 
   private
 
+  def context
+    Context.new(current_user, @sub)
+  end
+
   def scope
     query_class = ContributorsQuery
 
@@ -47,8 +52,8 @@ class ContributorsController < ApplicationController
     scope.includes(:user, :approved_by)
   end
 
-  def pundit_user
-    Context.new(current_user, @sub)
+  def set_facade
+    @facade = ContributorsFacade.new(context)
   end
 
   def set_sub
