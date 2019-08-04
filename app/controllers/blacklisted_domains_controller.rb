@@ -3,6 +3,7 @@
 class BlacklistedDomainsController < ApplicationController
   before_action :set_blacklisted_domain, only: [:destroy]
   before_action :set_sub
+  before_action :set_facade
   before_action -> { authorize(BlacklistedDomain) }, only: [:index, :new, :create]
   before_action -> { authorize(@blacklisted_domain) }, only: [:destroy]
 
@@ -34,6 +35,10 @@ class BlacklistedDomainsController < ApplicationController
 
   private
 
+  def context
+    Context.new(current_user, @sub)
+  end
+
   def scope
     query_class = BlacklistedDomainsQuery
 
@@ -46,8 +51,8 @@ class BlacklistedDomainsController < ApplicationController
     query_class.new(scope).filter_by_domain(params[:query])
   end
 
-  def pundit_user
-    Context.new(current_user, @sub)
+  def set_facade
+    @facade = BlacklistedDomainsFacade.new(context)
   end
 
   def set_sub
