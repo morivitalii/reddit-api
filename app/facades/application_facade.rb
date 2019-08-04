@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class ApplicationFacade
-  attr_reader :user, :sub
+  attr_reader :user, :sub, :record
 
-  def initialize(context)
+  def initialize(context, record = nil)
     @user = context.user
     @sub = context.sub
+    @record = record
   end
 
   def user_ban

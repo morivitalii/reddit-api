@@ -9,19 +9,19 @@
     </div>
   </div>
 
-  <% if facade.user_ban.present? %>
+  <% if @facade.user_ban.present? %>
     <div class="row bg-white text-danger border rounded mt-3 mb-3 pt-2 pb-2">
       <div class="col-12">
-        <% if facade.user_ban.permanent? %>
+        <% if @facade.user_ban.permanent? %>
           <%= t('banned_permanent') %>
         <% else %>
-          <%= t('banned_until_html', until: datetime_tag(facade.user_ban.end_at, :short)) %>
+          <%= t('banned_until_html', until: datetime_tag(@facade.user_ban.end_at, :short)) %>
         <% end %>
       </div>
     </div>
   <% end %>
 
-  <% if facade.rules.present? %>
+  <% if @facade.rules.present? %>
     <div class="row bg-white border rounded mt-3 mb-3 pb-2">
       <div class="col-12 rounded-top bg-dark text-white pt-2 pb-2">
         <%= t('rules') %>
@@ -29,7 +29,7 @@
 
       <div class="col-12 mt-2">
         <div class="row">
-          <% facade.rules.each do |rule| %>
+          <% @facade.rules.each do |rule| %>
             <% if rule.description.present? %>
               <div class="sidebarRule col-12 mt-1" data-toggle="collapse" data-target="#sidebarRule<%= rule.to_param %>" aria-expanded="false">
                 <%= rule.title %> <%= fa_icon('caret-down', class: 'float-right') %>
@@ -49,7 +49,7 @@
     </div>
   <% end %>
 
-  <% if facade.recent_moderators.present? %>
+  <% if @facade.recent_moderators.present? %>
     <div class="row bg-white border rounded mt-3 mb-3 pb-2">
       <div class="col-12 rounded-top bg-dark text-white pt-2 pb-2">
         <%= t('moderators') %>
@@ -57,7 +57,7 @@
 
       <div class="col-12 mt-2">
         <div class="row">
-          <% facade.recent_moderators.each do |moderator| %>
+          <% @facade.recent_moderators.each do |moderator| %>
             <div class="col-12">
               <%= link_to(moderator.user.username, user_path(moderator.user)) %>
             </div>
