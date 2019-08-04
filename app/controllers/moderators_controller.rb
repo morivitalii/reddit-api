@@ -3,6 +3,7 @@
 class ModeratorsController < ApplicationController
   before_action :set_moderator, only: [:destroy]
   before_action :set_sub
+  before_action :set_facade
   before_action -> { authorize(Moderator) }, only: [:index, :new, :create]
   before_action -> { authorize(@moderator) }, only: [:destroy]
 
@@ -34,6 +35,10 @@ class ModeratorsController < ApplicationController
 
   private
 
+  def context
+    Context.new(current_user, @sub)
+  end
+
   def scope
     query_class = ModeratorsQuery
 
@@ -47,8 +52,8 @@ class ModeratorsController < ApplicationController
     scope.includes(:user, :invited_by)
   end
 
-  def pundit_user
-    Context.new(current_user, @sub)
+  def set_facade
+    @facade = ModeratorsFacade.new(context)
   end
 
   def set_sub
