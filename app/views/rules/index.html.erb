@@ -1,7 +1,9 @@
-<% content_for(:meta_title, t("rules")) %>
+<% content_for(:meta_title, @facade.index_meta_title) %>
 
-<% if @sub.present? %>
+<% if @facade.sub_context? %>
   <%= render 'subs/sidebar', sub: @sub %>
+<% else %>
+  <%= render 'shared/sidebar' %>
 <% end %>
 
 <div id="rules" class="entries row">

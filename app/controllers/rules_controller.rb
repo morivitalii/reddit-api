@@ -3,6 +3,7 @@
 class RulesController < ApplicationController
   before_action :set_rule, only: [:edit, :update, :destroy]
   before_action :set_sub
+  before_action :set_facade
   before_action -> { authorize(Rule) }, only: [:index, :new, :create]
   before_action -> { authorize(rule) }, only: [:edit, :update, :destroy]
 
@@ -52,6 +53,10 @@ class RulesController < ApplicationController
 
   private
 
+  def context
+    Context.new(current_user, @sub)
+  end
+
   def scope
     query_class = RulesQuery
 
@@ -62,8 +67,8 @@ class RulesController < ApplicationController
     end
   end
 
-  def pundit_user
-    Context.new(current_user, @sub)
+  def set_facade
+    @facade = RulesFacade.new(context)
   end
 
   def set_sub
