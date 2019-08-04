@@ -3,6 +3,7 @@
 class DeletionReasonsController < ApplicationController
   before_action :set_deletion_reason, only: [:edit, :update, :destroy]
   before_action :set_sub
+  before_action :set_facade
   before_action -> { authorize(DeletionReason) }, only: [:index, :new, :create]
   before_action -> { authorize(@deletion_reason) }, only: [:edit, :update, :destroy]
 
@@ -52,6 +53,10 @@ class DeletionReasonsController < ApplicationController
 
   private
 
+  def context
+    Context.new(current_user, @sub)
+  end
+
   def scope
     if @sub.present?
       DeletionReasonsQuery.new.sub(@sub)
@@ -60,8 +65,8 @@ class DeletionReasonsController < ApplicationController
     end
   end
 
-  def pundit_user
-    Context.new(current_user, @sub)
+  def set_facade
+    @facade = DeletionReasonsFacade.new(context)
   end
 
   def set_sub
