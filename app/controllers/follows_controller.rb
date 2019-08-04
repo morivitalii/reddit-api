@@ -19,7 +19,7 @@ class FollowsController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub)
+    Context.new(current_user, @sub)
   end
 
   def set_sub

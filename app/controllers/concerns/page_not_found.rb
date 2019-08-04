@@ -10,7 +10,7 @@ module PageNotFound
       if request.xhr?
         head :not_found
       else
-        render "/page_not_found", status: :not_found
+        render "page_not_found/show", status: :not_found
       end
     end
   end

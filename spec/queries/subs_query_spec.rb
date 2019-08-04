@@ -26,4 +26,32 @@ RSpec.describe SubsQuery do
       expect(result).to eq(expected_result)
     end
   end
+
+  describe ".where_user_moderator" do
+    let!(:user) { create(:user) }
+    let!(:sub) { create(:sub) }
+    let!(:user_sub_moderators) { [create(:sub_moderator, sub: sub, user: user)] }
+    let!(:other_sub_moderators) { create(:sub_moderator, sub: sub) }
+
+    it "returns subs where user is moderator" do
+      expected_result = [sub]
+      result = subject.where_user_moderator(user).all
+
+      expect(result).to eq(expected_result)
+    end
+  end
+
+  describe ".where_user_follower" do
+    let!(:user) { create(:user) }
+    let!(:sub) { create(:sub) }
+    let!(:user_sub_followers) { [create(:follow, sub: sub, user: user)] }
+    let!(:other_sub_followers) { create(:follow, sub: sub) }
+
+    it "returns subs where user is follower" do
+      expected_result = [sub]
+      result = subject.where_user_follower(user).all
+
+      expect(result).to eq(expected_result)
+    end
+  end
 end

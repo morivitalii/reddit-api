@@ -1,7 +1,6 @@
 <% content_for(:meta_title, t("tags")) %>
 
 <% if @sub.present? %>
-  <%= render 'subs/second_top_menu', sub: @sub %>
   <%= render 'subs/sidebar', sub: @sub %>
 <% end %>
 

@@ -10,7 +10,7 @@ class UserNotModeratorValidator < ActiveModel::EachValidator
   private
 
   def scope(sub, username)
-    scope = ModeratorsQuery.new.where_global_or_sub(sub)
+    scope = ModeratorsQuery.new.global_or_sub(sub)
     ModeratorsQuery.new(scope).filter_by_username(username)
   end
 end

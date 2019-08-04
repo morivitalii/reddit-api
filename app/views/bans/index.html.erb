@@ -1,8 +1,9 @@
-<% content_for(:meta_title, t("bans")) %>
+<% content_for(:meta_title, @facade.index_meta_title) %>
 
 <% if @sub.present? %>
-  <%= render 'subs/second_top_menu', sub: @sub %>
-  <%= render 'subs/sidebar', sub: @sub %>
+  <%= render 'subs/sidebar', sub: @sub, facade: @facade %>
+<% else %>
+  <%= render 'shared/sidebar', facade: @facade %>
 <% end %>
 
 <div id="bans" class="entries row">

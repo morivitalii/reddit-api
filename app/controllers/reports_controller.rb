@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
-  layout "narrow"
-
   before_action :set_reportable, only: [:show, :new, :create]
   before_action :set_sub
   before_action -> { authorize(Report) }
@@ -26,7 +24,7 @@ class ReportsController < ApplicationController
   def new
     @form = CreateReport.new
     @reasons = @reportable.sub.rules.all
-    @other_reasons = DeletionReasonsQuery.new.where_global.all
+    @other_reasons = DeletionReasonsQuery.new.global.all
 
     render partial: "new"
   end
@@ -44,7 +42,7 @@ class ReportsController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub)
+    Context.new(current_user, @sub)
   end
 
   def set_sub

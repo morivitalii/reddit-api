@@ -15,27 +15,94 @@
   </head>
 
   <body class="bg-light">
-    <%= render "shared/first_top_menu" %>
-    <%= render "shared/second_top_menu" %>
-
-    <div class="container mt-3">
+  <div class="container-fluid bg-white border-bottom p-0">
+    <div class="container p-0">
       <div class="row">
-        <% sidebar = yield(:sidebar) %>
-        <% if sidebar.present? %>
-          <div class="col-9">
-            <%= yield %>
-          </div>
+        <div class="col-12">
+          <nav class="first-top-menu navbar navbar-expand">
+            <div class="collapse navbar-collapse">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <select id="navigation" class="selectpicker" data-live-search="true" data-size="10" title="<%= t("app_name") %>">
+                    <option data-href="<%= root_path %>"><%= t("home")%></option>
+                    <option data-href="<%= edit_users_path %>"><%= t("settings") %></option>
 
-          <div class="col-3">
-            <div class="col-12 pl-0">
-              <%= sidebar %>
+                    <% if @facade.subs_where_user_moderator.present? %>
+                      <optgroup label="<%= t("mod_queue") %>">
+                        <option data-href="<%= mod_queues_path %>"><%= t("mod_queue") %></option>
+                        <% @facade.subs_where_user_moderator.each do |sub| %>
+                          <option data-href="<%= sub_path(sub) %>"><%= sub.title %></option>
+                        <% end %>
+                      </optgroup>
+                    <% end %>
+
+                    <% if @facade.subs_where_user_follower.present? %>
+                      <optgroup label="<%= t("follows") %>">
+                        <% @facade.subs_where_user_follower.each do |sub| %>
+                          <option data-href="<%= sub_path(sub) %>"><%= sub.title %></option>
+                        <% end %>
+                      </optgroup>
+                    <% end %>
+                  </select>
+                </li>
+              </ul>
+              <ul class="navbar-nav">
+                <% if user_signed_in? %>
+                  <li class="nav-item dropdown ml-2">
+                  <span class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <%= current_user.username %>
+                  </span>
+
+                    <div class="dropdown-menu">
+                      <%= link_to(t('profile'), user_path(current_user), class: 'dropdown-item') %>
+                      <%= link_to(t('settings'), edit_users_path, class: 'dropdown-item') %>
+                      <div class="dropdown-divider"></div>
+                      <%= link_to(t('sign_out'), sign_out_path, method: :delete, class: 'dropdown-item') %>
+                    </div>
+                  </li>
+                <% else %>
+                  <li class="nav-item ml-2">
+                    <%= link_to(t('sign_in'), new_sign_in_path, remote: true, class: 'signIn') %>
+                  </li>
+                <% end %>
+              </ul>
             </div>
-          </div>
-        <% else %>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% navigation = yield(:navigation) %>
+  <% if navigation.present? %>
+    <div class="container-fluid bg-white border-bottom p-0">
+      <div class="container p-0">
+        <div class="row">
           <div class="col-12">
-            <%= yield %>
+            <nav class="second-top-menu navbar navbar-expand">
+              <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                  <%= navigation %>
+                </ul>
+              </div>
+            </nav>
           </div>
-        <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="container mt-3">
+      <div class="row">
+        <div class="col-9">
+          <%= yield %>
+        </div>
+
+        <div class="col-3">
+          <div class="col-12 pl-0">
+            <%= yield(:sidebar) %>
+          </div>
+        </div>
       </div>
     </div>
   </body>

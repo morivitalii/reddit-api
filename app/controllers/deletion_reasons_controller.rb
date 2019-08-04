@@ -54,14 +54,14 @@ class DeletionReasonsController < ApplicationController
 
   def scope
     if @sub.present?
-      DeletionReasonsQuery.new.where_sub(@sub)
+      DeletionReasonsQuery.new.sub(@sub)
     else
-      DeletionReasonsQuery.new.where_global
+      DeletionReasonsQuery.new.global
     end
   end
 
   def pundit_user
-    UserContext.new(current_user, @sub)
+    Context.new(current_user, @sub)
   end
 
   def set_sub

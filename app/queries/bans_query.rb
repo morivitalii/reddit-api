@@ -7,12 +7,20 @@ class BansQuery
     @relation = relation
   end
 
-  def where_global
+  def global
     relation.where(sub: nil)
   end
 
-  def where_sub(sub)
+  def sub(sub)
     relation.where(sub: sub)
+  end
+
+  def user_global_ban(user)
+    relation.where(user: user, sub: nil)
+  end
+
+  def user_sub_ban(user, sub)
+    relation.where(user: user, sub: sub)
   end
 
   def filter_by_username(username)

@@ -53,7 +53,7 @@ class BansController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub)
+    Context.new(current_user, @sub)
   end
 
   def set_sub
@@ -72,9 +72,9 @@ class BansController < ApplicationController
     query_class = BansQuery
 
     if @sub.present?
-      scope = query_class.new.where_sub(@sub)
+      scope = query_class.new.sub(@sub)
     else
-      scope = query_class.new.where_global
+      scope = query_class.new.global
     end
 
     scope = query_class.new(scope).filter_by_username(params[:query])

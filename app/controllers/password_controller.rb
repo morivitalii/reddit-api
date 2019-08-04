@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class PasswordController < ApplicationController
-  layout "blank"
-
   before_action -> { authorize(:password) }
 
   def edit

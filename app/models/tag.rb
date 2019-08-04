@@ -20,7 +20,7 @@ class Tag < ApplicationRecord
 
   def validate_uniqueness
     query_class = TagsQuery
-    scope = query_class.new.where_global_or_sub(sub)
+    scope = query_class.new.global_or_sub(sub)
     scope = query_class.new(scope).filter_by_title(title.squish)
 
     if persisted?
@@ -42,7 +42,7 @@ class Tag < ApplicationRecord
         errors.add(:title, :tags_limit)
       end
     else
-      if TagsQuery.new.where_global.count >= 100
+      if TagsQuery.new.global.count >= 100
         errors.add(:title, :tags_limit)
       end
     end

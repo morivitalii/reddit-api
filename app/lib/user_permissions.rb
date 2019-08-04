@@ -54,18 +54,18 @@ class UserPermissions
   private
 
   def moderators
-    @moderators ||= user.moderators
+    @_moderators ||= user.moderators
   end
 
   def contributors
-    @contributors ||= user.contributors
+    @_contributors ||= user.contributors
   end
 
   def bans
-    @bans ||= user.bans
+    @_bans ||= user.bans
   end
 
   def follows
-    @follows ||= user.follows
+    @_follows ||= user.follows
   end
 end

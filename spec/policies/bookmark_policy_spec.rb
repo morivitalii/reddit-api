@@ -7,7 +7,7 @@ RSpec.describe BookmarkPolicy do
 
   context "for visitor" do
     let(:user) { nil }
-    let(:context) { UserContext.new(user) }
+    let(:context) { Context.new(user) }
 
     permissions :index?, :comments? do
       it "denies access" do
@@ -24,7 +24,7 @@ RSpec.describe BookmarkPolicy do
 
   context "for user" do
     let(:user) { create(:user) }
-    let(:context) { UserContext.new(user) }
+    let(:context) { Context.new(user) }
 
     permissions :index?, :comments? do
       it "grants access" do

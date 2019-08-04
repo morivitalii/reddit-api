@@ -7,7 +7,7 @@ RSpec.describe SubPolicy do
 
   context "for visitor" do
     let(:user) { nil }
-    let(:context) { UserContext.new(user, sub) }
+    let(:context) { Context.new(user, sub) }
 
     permissions :show? do
       it "grants access" do
@@ -24,7 +24,7 @@ RSpec.describe SubPolicy do
 
   context "for user" do
     let(:user) { create(:user) }
-    let(:context) { UserContext.new(user, sub) }
+    let(:context) { Context.new(user, sub) }
 
     permissions :show? do
       it "grants access" do
@@ -41,7 +41,7 @@ RSpec.describe SubPolicy do
 
   context "for sub moderator" do
     let(:user) { create(:sub_moderator, sub: sub).user }
-    let(:context) { UserContext.new(user, sub) }
+    let(:context) { Context.new(user, sub) }
 
     permissions :show? do
       it "grants access" do
@@ -58,7 +58,7 @@ RSpec.describe SubPolicy do
 
   context "for global moderator" do
     let(:user) { create(:global_moderator).user }
-    let(:context) { UserContext.new(user, sub) }
+    let(:context) { Context.new(user, sub) }
 
     permissions :show? do
       it "grants access" do

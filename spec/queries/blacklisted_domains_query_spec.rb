@@ -3,39 +3,39 @@ require "rails_helper"
 RSpec.describe BlacklistedDomainsQuery do
   subject { described_class.new }
 
-  describe ".where_sub" do
+  describe ".sub" do
     let!(:sub) { create(:sub) }
     let!(:sub_blacklisted_domains) { [create(:sub_blacklisted_domain, sub: sub)] }
     let!(:global_blacklisted_domains) { [create(:global_blacklisted_domain)] }
 
     it "returns sub blacklisted domains" do
       expected_result = sub_blacklisted_domains
-      result = subject.where_sub(sub).all
+      result = subject.sub(sub).all
 
       expect(result).to eq(expected_result)
     end
   end
 
-  describe ".where_global" do
+  describe ".global" do
     let!(:sub_blacklisted_domains) { [create(:sub_blacklisted_domain)] }
     let!(:global_blacklisted_domains) { [create(:global_blacklisted_domain)] }
 
     it "returns global blacklisted domains" do
       expected_result = global_blacklisted_domains
-      result = subject.where_global.all
+      result = subject.global.all
 
       expect(result).to eq(expected_result)
     end
   end
 
-  describe ".where_global_or_sub" do
+  describe ".global_or_sub" do
     let!(:sub) { create(:sub) }
     let!(:sub_blacklisted_domains) { [create(:sub_blacklisted_domain, sub: sub)] }
     let!(:global_blacklisted_domains) { [create(:global_blacklisted_domain)] }
 
     it "returns global and sub blacklisted domains" do
       expected_result = sub_blacklisted_domains + global_blacklisted_domains
-      result = subject.where_global_or_sub(sub)
+      result = subject.global_or_sub(sub)
 
       expect(result).to eq(expected_result)
     end

@@ -21,7 +21,7 @@ class PostsController < ApplicationController
 
   def tag
     @form = UpdatePost.new(text: @post.tag)
-    @tags = TagsQuery.new.where_global_or_sub(@post.sub).all
+    @tags = TagsQuery.new.global_or_sub(@post.sub).all
 
     render partial: "tag"
   end
@@ -75,7 +75,7 @@ class PostsController < ApplicationController
 
   def remove
     @form = DeletePost.new(deletion_reason: @post.deletion_reason)
-    @deletion_reasons = DeletionReasonsQuery.new.where_global_or_sub(@post.sub).all
+    @deletion_reasons = DeletionReasonsQuery.new.global_or_sub(@post.sub).all
 
     render partial: "remove"
   end
@@ -98,7 +98,7 @@ class PostsController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub || @post&.sub)
+    Context.new(current_user, @sub || @post&.sub)
   end
 
   def set_sub

@@ -14,4 +14,12 @@ class SubsQuery
   def default
     where_url("all")
   end
+
+  def where_user_moderator(user)
+    relation.joins(:moderators).where(moderators: { user: user })
+  end
+
+  def where_user_follower(user)
+    relation.joins(:follows).where(follows: { user: user })
+  end
 end

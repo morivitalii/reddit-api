@@ -4,6 +4,6 @@ class PageNotFoundController < ApplicationController
   skip_after_action :verify_authorized, only: [:show]
 
   def show
-    render "/page_not_found", status: :not_found
+    render "show", status: :not_found
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UserContext
+class Context
   attr_reader :user, :sub
 
   def initialize(user, sub = nil)

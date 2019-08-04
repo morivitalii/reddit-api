@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class BookmarksController < ApplicationController
-  layout "narrow"
-
   before_action -> { authorize(Bookmark) }
   before_action :set_user, only: [:index, :comments]
   before_action :set_bookmarkable, only: [:create, :destroy]

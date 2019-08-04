@@ -10,7 +10,7 @@ class SignInController < ApplicationController
     if request.xhr?
       render partial: "new"
     else
-      render "new", layout: "blank"
+      render "new"
     end
   end
 

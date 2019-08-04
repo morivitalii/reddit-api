@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class SubsController < ApplicationController
-  layout "narrow", only: "show"
   before_action :set_sub
   before_action -> { authorize(@sub) }
 
@@ -34,7 +33,7 @@ class SubsController < ApplicationController
   private
 
   def pundit_user
-    UserContext.new(current_user, @sub)
+    Context.new(current_user, @sub)
   end
 
   def set_sub
