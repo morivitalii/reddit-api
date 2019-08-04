@@ -6,12 +6,12 @@ class ReportsController < ApplicationController
   before_action -> { authorize(Report) }
 
   def index
-    @records, @pagination_record = posts_scope.paginate(after: params[:after])
+    @records, @pagination = posts_scope.paginate(after: params[:after])
     @records.map!(&:reportable).map!(&:decorate)
   end
 
   def comments
-    @records, @pagination_record = comments_scope.paginate(after: params[:after])
+    @records, @pagination = comments_scope.paginate(after: params[:after])
     @records.map!(&:reportable).map!(&:decorate)
   end
 

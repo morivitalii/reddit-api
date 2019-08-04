@@ -7,14 +7,14 @@ class ModQueuesController < ApplicationController
   def index
     scope = policy_scope(posts_scope, policy_scope_class: ModQueuePolicy::PostScope)
 
-    @records, @pagination_record = scope.paginate(after: params[:after])
+    @records, @pagination = scope.paginate(after: params[:after])
     @records.map!(&:decorate)
   end
 
   def comments
     scope = policy_scope(comments_scope, policy_scope_class: ModQueuePolicy::CommentScope)
 
-    @records, @pagination_record = scope.paginate(after: params[:after])
+    @records, @pagination = scope.paginate(after: params[:after])
     @records.map!(&:decorate)
   end
 

@@ -6,12 +6,12 @@ class VotesController < ApplicationController
   before_action :set_votable, only: [:create]
 
   def index
-    @records, @pagination_record = posts_scope.paginate(after: params[:after])
+    @records, @pagination = posts_scope.paginate(after: params[:after])
     @records = @records.map(&:votable).map(&:decorate)
   end
 
   def comments
-    @records, @pagination_record = comments_scope.paginate(after: params[:after])
+    @records, @pagination = comments_scope.paginate(after: params[:after])
     @records = @records.map(&:votable).map(&:decorate)
   end
 
