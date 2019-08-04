@@ -2,6 +2,7 @@
 
 class SubsController < ApplicationController
   before_action :set_sub
+  before_action :set_facade
   before_action -> { authorize(@sub) }
 
   def show
@@ -32,8 +33,12 @@ class SubsController < ApplicationController
 
   private
 
-  def pundit_user
+  def context
     Context.new(current_user, @sub)
+  end
+
+  def set_facade
+    @facade = SubsFacade.new(context, @sub)
   end
 
   def set_sub
