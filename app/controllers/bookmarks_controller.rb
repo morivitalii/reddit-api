@@ -4,6 +4,7 @@ class BookmarksController < ApplicationController
   before_action -> { authorize(Bookmark) }
   before_action :set_user, only: [:index, :comments]
   before_action :set_bookmarkable, only: [:create, :destroy]
+  before_action :set_facade
 
   def index
     @records, @pagination = posts_scope.paginate(after: params[:after])
@@ -49,6 +50,10 @@ class BookmarksController < ApplicationController
 
   def scope
     BookmarksQuery.new.where_user(@user)
+  end
+
+  def set_facade
+    @facade = BookmarksFacade.new(context, @user)
   end
 
   def set_user
