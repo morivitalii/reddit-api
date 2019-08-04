@@ -3,6 +3,7 @@
 class PagesController < ApplicationController
   before_action :set_page, only: [:show, :edit, :update, :destroy]
   before_action :set_sub
+  before_action :set_facade
   before_action -> { authorize(Page) }, only: [:index, :new, :create]
   before_action -> { authorize(@page) }, only: [:show, :edit, :update, :destroy]
 
@@ -51,6 +52,10 @@ class PagesController < ApplicationController
 
   private
 
+  def context
+    Context.new(current_user, @sub)
+  end
+
   def scope
     query_class = PagesQuery
 
@@ -61,8 +66,8 @@ class PagesController < ApplicationController
     end
   end
 
-  def pundit_user
-    Context.new(current_user, @sub)
+  def set_facade
+    @facade = PagesFacade.new(context, @page)
   end
 
   def set_sub
