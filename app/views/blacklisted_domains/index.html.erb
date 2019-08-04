@@ -1,9 +1,9 @@
-<% content_for(:meta_title, t("blacklisted_domains")) %>
+<% content_for(:meta_title, @facade.index_meta_title) %>
 
-<% if @sub.present? %>
-  <%= render 'subs/sidebar', sub: @sub, facade: @facade %>
+<% if @facade.sub_context? %>
+  <%= render 'subs/sidebar', sub: @sub %>
 <% else %>
-  <%= render 'shared/sidebar', facade: @facade %>
+  <%= render 'shared/sidebar' %>
 <% end %>
 
 <div id="blacklisted_domains" class="entries row">

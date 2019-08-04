@@ -3,7 +3,7 @@
 class BansController < ApplicationController
   before_action :set_ban, only: [:edit, :update, :destroy]
   before_action :set_sub
-  before_action :set_facade, only: [:index]
+  before_action :set_facade
   before_action -> { authorize(Ban) }, only: [:index, :new, :create]
   before_action -> { authorize(@ban) }, only: [:edit, :update, :destroy]
 
@@ -70,6 +70,10 @@ class BansController < ApplicationController
     scope.includes(:user, :banned_by)
   end
 
+  def set_facade
+    @facade = BansFacade.new(context)
+  end
+
   def set_sub
     if @ban.present?
       @sub = @ban.sub
@@ -80,10 +84,6 @@ class BansController < ApplicationController
 
   def set_ban
     @ban = Ban.find(params[:id])
-  end
-
-  def set_facade
-    @facade = BansFacade.new(context)
   end
 
   def create_params
