@@ -1,4 +1,10 @@
-<% content_for(:meta_title, t("new")) %>
+<% content_for(:meta_title, @facade.index_meta_title) %>
+
+<% if @facade.sub_context? %>
+  <%= render 'subs/sidebar', sub: @sub %>
+<% else %>
+  <%= render 'shared/sidebar' %>
+<% end %>
 
 <% content_for(:navigation) do %>
   <li class="nav-item dropdown">
@@ -22,10 +28,6 @@
       <%= link_to(t("comments"), comments_mod_queues_path(sub: @sub), class: 'dropdown-item') %>
     </div>
   </li>
-<% end %>
-
-<% if @sub.present? %>
-  <%= render "subs/sidebar", sub: @sub %>
 <% end %>
 
 <%= render @records %>
