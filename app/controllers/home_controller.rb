@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   before_action -> { authorize(:home) }
 
   def index
-    @records, @pagination_record = Post.not_removed
+    @records, @pagination = Post.not_removed
                                        .in_date_range(date)
                                        .includes(:sub, :user)
                                        .paginate(attributes: ["#{sort}_score", :id], after: params[:after])

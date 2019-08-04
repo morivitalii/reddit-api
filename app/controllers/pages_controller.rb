@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   before_action -> { authorize(@page) }, only: [:show, :edit, :update, :destroy]
 
   def index
-    @records, @pagination_record = scope.paginate(order: :asc, after: params[:after])
+    @records, @pagination = scope.paginate(order: :asc, after: params[:after])
   end
 
   def show

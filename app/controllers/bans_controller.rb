@@ -7,7 +7,7 @@ class BansController < ApplicationController
   before_action -> { authorize(@ban) }, only: [:edit, :update, :destroy]
 
   def index
-    @records, @pagination_record = scope.paginate(after: params[:after])
+    @records, @pagination = scope.paginate(after: params[:after])
   end
 
   def new

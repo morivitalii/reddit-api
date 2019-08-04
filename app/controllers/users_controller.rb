@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action -> { authorize(@user) }
 
   def show
-    @records, @pagination_record = Post.in_date_range(date)
+    @records, @pagination = Post.in_date_range(date)
                                        .where(user: @user)
                                        .includes(:sub, :user)
                                        .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   end
 
   def comments
-    @records, @pagination_record = Comment.in_date_range(date)
+    @records, @pagination = Comment.in_date_range(date)
                                        .where(user: @user)
                                        .includes(:user, :post)
                                        .paginate(attributes: ["#{sort}_score", :id], after: params[:after])

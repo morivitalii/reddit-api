@@ -7,7 +7,7 @@ class ModeratorsController < ApplicationController
   before_action -> { authorize(@moderator) }, only: [:destroy]
 
   def index
-    @records, @pagination_record = scope.paginate(after: params[:after])
+    @records, @pagination = scope.paginate(after: params[:after])
   end
 
   def new
