@@ -27,7 +27,7 @@ class BookmarksController < ApplicationController
   end
 
   def destroy
-    DeleteBookmark.new(@bookmarkable, current_user).call
+    DeleteBookmarkService.new(@bookmarkable, current_user).call
     @bookmarkable.decorate!
 
     render json: {

@@ -6,7 +6,7 @@ RSpec.describe DeleteDeletionReasonService do
   let!(:deletion_reason) { create(:deletion_reason) }
 
   describe ".call" do
-    it "delete blacklisted domain" do
+    it "delete deletion reason" do
       expect { subject.call }.to change { DeletionReason.count }.by(-1)
     end
   end
