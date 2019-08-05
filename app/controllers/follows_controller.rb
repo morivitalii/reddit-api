@@ -5,7 +5,7 @@ class FollowsController < ApplicationController
   before_action :set_sub
 
   def create
-    CreateFollow.new(sub: @sub, current_user: current_user).call
+    CreateFollowService.new(@sub, current_user).call
 
     head :no_content
   end
