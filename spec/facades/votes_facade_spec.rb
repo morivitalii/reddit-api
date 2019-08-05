@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe VotesFacade do
-  subject { described_class.new(context, user) }
+  subject { described_class }
 
   let(:user) { create(:user) }
   let(:context) { Context.new(user) }
@@ -9,7 +9,7 @@ RSpec.describe VotesFacade do
   describe ".index_meta_title" do
     it "returns title" do
       expected_result = "#{user.username}: #{I18n.t("votes")}"
-      result = subject.index_meta_title
+      result = subject.new(context, user).index_meta_title
 
       expect(result).to eq(expected_result)
     end

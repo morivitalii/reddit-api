@@ -4,63 +4,47 @@ RSpec.describe PagePolicy do
   subject { described_class }
 
   let(:sub) { create(:sub) }
+  let(:global_context) { Context.new(user) }
+  let(:sub_context) { Context.new(user, sub) }
+  let(:global_page) { create(:global_page) }
+  let(:sub_page) { create(:sub_page, sub: sub) }
 
   context "for visitor" do
     let(:user) { nil }
 
     context "global" do
-      let(:context) { Context.new(user) }
-
       permissions :index?, :show? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(global_context) }
       end
 
       permissions :edit?, :update? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(global_context, global_page) }
       end
 
       permissions :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(global_context, global_page) }
       end
     end
 
     context "sub" do
-      let(:context) { Context.new(user, sub) }
-
       permissions :index?, :show? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(sub_context) }
       end
 
       permissions :edit?, :update? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(sub_context, sub_page) }
       end
 
       permissions :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(sub_context,sub_page) }
       end
     end
   end
@@ -69,58 +53,38 @@ RSpec.describe PagePolicy do
     let(:user) { create(:user) }
 
     context "global" do
-      let(:context) { Context.new(user) }
-
       permissions :index?, :show? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(global_context) }
       end
 
       permissions :edit?, :update? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(global_context, global_page) }
       end
 
       permissions :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(global_context, global_page) }
       end
     end
 
     context "sub" do
-      let(:context) { Context.new(user, sub) }
-
       permissions :index?, :show? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(sub_context) }
       end
 
       permissions :edit?, :update? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(sub_context, sub_page) }
       end
 
       permissions :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(sub_context, sub_page) }
       end
     end
   end
@@ -129,58 +93,38 @@ RSpec.describe PagePolicy do
     let(:user) { create(:sub_moderator, sub: sub).user }
 
     context "global" do
-      let(:context) { Context.new(user) }
-
       permissions :index?, :show? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(global_context) }
       end
 
       permissions :edit?, :update? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(global_context, global_page) }
       end
 
       permissions :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context)
-        end
+        it { is_expected.to_not permit(global_context, global_page) }
       end
     end
 
     context "sub" do
-      let(:context) { Context.new(user, sub) }
-
       permissions :index?, :show? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :new?, :create? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :edit?, :update? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(sub_context, sub_page) }
       end
 
       permissions :destroy? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(sub_context, sub_page) }
       end
     end
   end
@@ -189,58 +133,38 @@ RSpec.describe PagePolicy do
     let(:user) { create(:global_moderator).user }
 
     context "global" do
-      let(:context) { Context.new(user) }
-
       permissions :index?, :show? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :new?, :create? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :edit?, :update? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(global_context, global_page) }
       end
 
       permissions :destroy? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(global_context, global_page) }
       end
     end
 
     context "sub" do
-      let(:context) { Context.new(user, sub) }
-
       permissions :index?, :show? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :new?, :create? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :edit?, :update? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(sub_context, sub_page) }
       end
 
       permissions :destroy? do
-        it "grants access" do
-          expect(subject).to permit(context)
-        end
+        it { is_expected.to permit(sub_context, sub_page) }
       end
     end
   end

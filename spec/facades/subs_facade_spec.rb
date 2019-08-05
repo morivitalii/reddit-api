@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe SubsFacade do
-  subject { described_class.new(context) }
+  subject { described_class }
 
   let(:user) { create(:user) }
   let(:sub) { create(:sub) }
@@ -10,7 +10,7 @@ RSpec.describe SubsFacade do
   describe ".show_meta_title" do
     it "returns title" do
       expected_result = sub.title
-      result = subject.show_meta_title
+      result = subject.new(context).show_meta_title
 
       expect(result).to eq(expected_result)
     end
@@ -19,7 +19,7 @@ RSpec.describe SubsFacade do
   describe ".edit_meta_title" do
     it "returns title" do
       expected_result = "#{sub.title}: #{I18n.t("settings")}"
-      result = subject.edit_meta_title
+      result = subject.new(context).edit_meta_title
 
       expect(result).to eq(expected_result)
     end
