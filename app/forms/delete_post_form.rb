@@ -3,10 +3,10 @@
 class DeletePostForm
   include ActiveModel::Model
 
-  attr_accessor :post, :current_user, :deletion_reason
+  attr_accessor :post, :user, :reason
 
   def save
-    post.remove!(current_user, deletion_reason)
+    post.remove!(user, reason)
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
