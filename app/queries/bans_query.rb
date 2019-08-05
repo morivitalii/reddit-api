@@ -28,4 +28,8 @@ class BansQuery
 
     relation.joins(:user).where("lower(users.username) = ?", username.downcase)
   end
+
+  def stale
+    relation.where("end_at < ?", Time.current)
+  end
 end

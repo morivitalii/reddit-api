@@ -73,4 +73,16 @@ RSpec.describe BansQuery do
       expect(result).to eq(expected_result)
     end
   end
+
+  describe ".stale" do
+    let!(:stale_bans) { [create(:ban, :stale)] }
+    let!(:not_stale_bans) { [create(:ban)] }
+
+    it "returns stale bans" do
+      expected_result = stale_bans
+      result = subject.stale.all
+
+      expect(result).to eq(expected_result)
+    end
+  end
 end
