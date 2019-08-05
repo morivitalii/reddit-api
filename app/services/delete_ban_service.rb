@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class DeleteBan
-  def initialize(ban:, current_user:)
+class DeleteBanService
+  attr_reader :ban
+
+  def initialize(ban)
     @ban = ban
-    @current_user = current_user
   end
 
   def call

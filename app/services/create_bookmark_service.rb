@@ -9,6 +9,6 @@ class CreateBookmarkService
   end
 
   def call
-    bookmarkable.bookmarks.find_or_create_by!(user: user)
+    Bookmark.find_or_create_by!(bookmarkable: bookmarkable, user: user)
   end
 end

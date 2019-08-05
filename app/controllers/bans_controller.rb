@@ -46,7 +46,7 @@ class BansController < ApplicationController
   end
 
   def destroy
-    DeleteBan.new(ban: @ban, current_user: current_user).call
+    DeleteBanService.new(@ban).call
 
     head :no_content
   end
