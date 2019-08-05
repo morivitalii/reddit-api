@@ -6,7 +6,7 @@ RSpec.describe DeleteTagService do
   let!(:tag) { create(:tag) }
 
   describe ".call" do
-    it "delete blacklisted domain" do
+    it "delete tag" do
       expect { subject.call }.to change { Tag.count }.by(-1)
     end
   end

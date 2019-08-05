@@ -6,7 +6,7 @@ RSpec.describe DeleteRuleService do
   let!(:rule) { create(:rule) }
 
   describe ".call" do
-    it "delete blacklisted domain" do
+    it "delete rule" do
       expect { subject.call }.to change { Rule.count }.by(-1)
     end
   end

@@ -6,7 +6,7 @@ RSpec.describe DeleteModeratorService do
   let!(:moderator) { create(:moderator) }
 
   describe ".call" do
-    it "delete blacklisted domain" do
+    it "delete moderator" do
       expect { subject.call }.to change { Moderator.count }.by(-1)
     end
   end

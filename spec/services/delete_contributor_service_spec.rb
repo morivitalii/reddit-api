@@ -6,7 +6,7 @@ RSpec.describe DeleteContributorService do
   let!(:contributor) { create(:contributor) }
 
   describe ".call" do
-    it "delete blacklisted domain" do
+    it "delete contributor" do
       expect { subject.call }.to change { Contributor.count }.by(-1)
     end
   end

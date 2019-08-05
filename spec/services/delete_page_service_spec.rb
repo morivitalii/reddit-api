@@ -6,7 +6,7 @@ RSpec.describe DeletePageService do
   let!(:page) { create(:page) }
 
   describe ".call" do
-    it "delete blacklisted domain" do
+    it "delete page" do
       expect { subject.call }.to change { Page.count }.by(-1)
     end
   end
