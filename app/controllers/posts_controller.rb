@@ -74,7 +74,7 @@ class PostsController < ApplicationController
   end
 
   def remove
-    @form = DeletePostForm.new(deletion_reason: @post.deletion_reason)
+    @form = DeletePostForm.new(reason: @post.deletion_reason)
     @deletion_reasons = DeletionReasonsQuery.new.global_or_sub(@post.sub).all
 
     render partial: "remove"
@@ -132,6 +132,6 @@ class PostsController < ApplicationController
   end
 
   def destroy_params
-    params.require(:delete_post).permit(policy(@post).permitted_attributes_for_destroy).merge(post: @post, current_user: current_user)
+    params.require(:delete_post).permit(policy(@post).permitted_attributes_for_destroy).merge(post: @post, user: current_user)
   end
 end
