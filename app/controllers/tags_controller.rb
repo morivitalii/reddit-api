@@ -46,7 +46,7 @@ class TagsController < ApplicationController
   end
 
   def destroy
-    DeleteTag.new(tag: @tag, current_user: current_user).call
+    DeleteTagService.new(@tag).call
 
     head :no_content
   end
