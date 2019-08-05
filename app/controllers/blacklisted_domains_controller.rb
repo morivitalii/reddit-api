@@ -28,7 +28,7 @@ class BlacklistedDomainsController < ApplicationController
   end
 
   def destroy
-    DeleteBlacklistedDomain.new(blacklisted_domain: @blacklisted_domain, current_user: current_user).call
+    DeleteBlacklistedDomainService.new(@blacklisted_domain).call
 
     head :no_content
   end
