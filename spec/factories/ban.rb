@@ -27,7 +27,7 @@ FactoryBot.define do
     end
 
     trait :stale do
-      created_at { 7.days.ago }
+      created_at { 1.week.ago }
     end
 
     factory :global_ban, traits: [:global]
