@@ -46,7 +46,7 @@ class DeletionReasonsController < ApplicationController
   end
 
   def destroy
-    DeleteDeletionReason.new(deletion_reason: @deletion_reason, current_user: current_user).call
+    DeleteDeletionReasonService.new(@deletion_reason).call
 
     head :no_content
   end
