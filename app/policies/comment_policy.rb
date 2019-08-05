@@ -45,7 +45,7 @@ class CommentPolicy < ApplicationPolicy
 
   def permitted_attributes_for_destroy
     if context.user.moderator?(record.sub)
-      [:deletion_reason]
+      [:reason]
     else
       []
     end
