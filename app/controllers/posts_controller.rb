@@ -63,7 +63,7 @@ class PostsController < ApplicationController
   end
 
   def approve
-    ApprovePost.new(@post, current_user).call
+    ApprovePostService.new(@post, current_user).call
 
     @post = @post.decorate
 
