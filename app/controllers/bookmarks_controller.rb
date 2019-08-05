@@ -17,9 +17,8 @@ class BookmarksController < ApplicationController
   end
 
   def create
-    CreateBookmark.new(@bookmarkable, current_user).call
-
-    @bookmarkable = @bookmarkable.decorate
+    CreateBookmarkService.new(@bookmarkable, current_user).call
+    @bookmarkable.decorate!
 
     render json: {
       bookmarked: true,
@@ -29,8 +28,7 @@ class BookmarksController < ApplicationController
 
   def destroy
     DeleteBookmark.new(@bookmarkable, current_user).call
-
-    @bookmarkable = @bookmarkable.decorate
+    @bookmarkable.decorate!
 
     render json: {
       bookmarked: false,
