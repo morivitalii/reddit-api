@@ -11,7 +11,7 @@ class FollowsController < ApplicationController
   end
 
   def destroy
-    DeleteFollow.new(sub: @sub, current_user: current_user).call
+    DeleteFollowService.new(@sub, current_user).call
 
     head :no_content
   end
