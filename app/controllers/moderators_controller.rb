@@ -28,7 +28,7 @@ class ModeratorsController < ApplicationController
   end
 
   def destroy
-    DeleteModerator.new(moderator: @moderator, current_user: current_user).call
+    DeleteModeratorService.new(@moderator).call
 
     head :no_content
   end
