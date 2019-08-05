@@ -9,6 +9,6 @@ class CreateFollowService
   end
 
   def call
-    sub.follows.find_or_create_by!(user: user)
+    Follow.find_or_create_by!(sub: sub, user: user)
   end
 end
