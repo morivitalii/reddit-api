@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe DeletePostForm do
+RSpec.describe RemovePostForm do
   subject { described_class.new(post: post, user: user, reason: "Reason") }
 
   let(:user) { double(:user) }
