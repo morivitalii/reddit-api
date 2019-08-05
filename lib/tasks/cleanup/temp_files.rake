@@ -3,6 +3,6 @@
 namespace :cleanup do
   desc "Cleanup temp files"
   task temp_files: :environment do
-    Cleanup::TempFiles.call
+    Cleanup::TempFilesService.new.call
   end
 end
