@@ -1,29 +1,27 @@
 require "rails_helper"
 
 RSpec.describe TagsFacade do
-  subject { described_class.new(context) }
+  subject { described_class }
 
   let(:user) { create(:user) }
+  let(:sub) { create(:sub) }
+  let(:global_context) { Context.new(user) }
+  let(:sub_context) { Context.new(user, sub) }
 
   describe ".index_meta_title" do
     context "global" do
-      let(:context) { Context.new(user) }
-
       it "returns title" do
         expected_result = I18n.t("tags")
-        result = subject.index_meta_title
+        result = subject.new(global_context).index_meta_title
 
         expect(result).to eq(expected_result)
       end
     end
 
     context "sub" do
-      let(:sub) { create(:sub) }
-      let(:context) { Context.new(user, sub) }
-
       it "returns title" do
         expected_result = "#{sub.title}: #{I18n.t("tags")}"
-        result = subject.index_meta_title
+        result = subject.new(sub_context).index_meta_title
 
         expect(result).to eq(expected_result)
       end

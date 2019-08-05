@@ -4,7 +4,8 @@ RSpec.describe RulePolicy do
   subject { described_class }
 
   let(:sub) { create(:sub) }
-  let(:rule_class) { Rule }
+  let(:global_context) { Context.new(user) }
+  let(:sub_context) { Context.new(user, sub) }
   let(:global_rule) { create(:global_rule) }
   let(:sub_rule) { create(:sub_rule, sub: sub) }
 
@@ -12,46 +13,30 @@ RSpec.describe RulePolicy do
     let(:user) { nil }
 
     context "global" do
-      let(:context) { Context.new(user) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, rule_class)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context, rule_class)
-        end
+        it { is_expected.to_not permit(global_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context, global_rule)
-        end
+        it { is_expected.to_not permit(global_context, global_rule) }
       end
     end
 
     context "sub" do
-      let(:context) { Context.new(user, sub) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, rule_class)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context, rule_class)
-        end
+        it { is_expected.to_not permit(sub_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context, sub_rule)
-        end
+        it { is_expected.to_not permit(sub_context, sub_rule) }
       end
     end
   end
@@ -60,46 +45,30 @@ RSpec.describe RulePolicy do
     let(:user) { create(:user) }
 
     context "global" do
-      let(:context) { Context.new(user) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, rule_class)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context, rule_class)
-        end
+        it { is_expected.to_not permit(global_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context, global_rule)
-        end
+        it { is_expected.to_not permit(global_context, global_rule) }
       end
     end
 
     context "sub" do
-      let(:context) { Context.new(user, sub) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, rule_class)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context, rule_class)
-        end
+        it { is_expected.to_not permit(sub_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context, sub_rule)
-        end
+        it { is_expected.to_not permit(sub_context, sub_rule) }
       end
     end
   end
@@ -108,46 +77,30 @@ RSpec.describe RulePolicy do
     let(:user) { create(:sub_moderator, sub: sub).user }
 
     context "global" do
-      let(:context) { Context.new(user) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, rule_class)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context, rule_class)
-        end
+        it { is_expected.to_not permit(global_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context, global_rule)
-        end
+        it { is_expected.to_not permit(global_context, global_rule) }
       end
     end
 
     context "sub" do
-      let(:context) { Context.new(user, sub) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, rule_class)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :new?, :create? do
-        it "grants access" do
-          expect(subject).to permit(context, rule_class)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "grants access" do
-          expect(subject).to permit(context, sub_rule)
-        end
+        it { is_expected.to permit(sub_context, sub_rule) }
       end
     end
   end
@@ -156,46 +109,30 @@ RSpec.describe RulePolicy do
     let(:user) { create(:global_moderator).user }
 
     context "global" do
-      let(:context) { Context.new(user) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, rule_class)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :new?, :create? do
-        it "grants access" do
-          expect(subject).to permit(context, rule_class)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "grants access" do
-          expect(subject).to permit(context, global_rule)
-        end
+        it { is_expected.to permit(global_context, global_rule) }
       end
     end
 
     context "sub" do
-      let(:context) { Context.new(user, sub) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, rule_class)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :new?, :create? do
-        it "grants access" do
-          expect(subject).to permit(context, rule_class)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "grants access" do
-          expect(subject).to permit(context, sub_rule)
-        end
+        it { is_expected.to permit(sub_context, sub_rule) }
       end
     end
   end

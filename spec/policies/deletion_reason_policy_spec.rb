@@ -4,7 +4,8 @@ RSpec.describe DeletionReasonPolicy do
   subject { described_class }
 
   let(:sub) { create(:sub) }
-  let(:deletion_reason_class) { DeletionReason }
+  let(:global_context) { Context.new(user) }
+  let(:sub_context) { Context.new(user, sub) }
   let(:global_deletion_reason) { create(:global_deletion_reason) }
   let(:sub_deletion_reason) { create(:sub_deletion_reason, sub: sub) }
 
@@ -12,46 +13,30 @@ RSpec.describe DeletionReasonPolicy do
     let(:user) { nil }
 
     context "global" do
-      let(:context) { Context.new(user) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, deletion_reason_class)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context, deletion_reason_class)
-        end
+        it { is_expected.to_not permit(global_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context, global_deletion_reason)
-        end
+        it { is_expected.to_not permit(global_context, global_deletion_reason) }
       end
     end
 
     context "sub" do
-      let(:context) { Context.new(user, sub) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, deletion_reason_class)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context, deletion_reason_class)
-        end
+        it { is_expected.to_not permit(sub_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context, sub_deletion_reason)
-        end
+        it { is_expected.to_not permit(sub_context, sub_deletion_reason) }
       end
     end
   end
@@ -60,46 +45,30 @@ RSpec.describe DeletionReasonPolicy do
     let(:user) { create(:user) }
 
     context "global" do
-      let(:context) { Context.new(user) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, deletion_reason_class)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context, deletion_reason_class)
-        end
+        it { is_expected.to_not permit(global_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context, global_deletion_reason)
-        end
+        it { is_expected.to_not permit(global_context, global_deletion_reason) }
       end
     end
 
     context "sub" do
-      let(:context) { Context.new(user, sub) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, deletion_reason_class)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context, deletion_reason_class)
-        end
+        it { is_expected.to_not permit(sub_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context, sub_deletion_reason)
-        end
+        it { is_expected.to_not permit(sub_context, sub_deletion_reason) }
       end
     end
   end
@@ -108,46 +77,30 @@ RSpec.describe DeletionReasonPolicy do
     let(:user) { create(:sub_moderator, sub: sub).user }
 
     context "global" do
-      let(:context) { Context.new(user) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, deletion_reason_class)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :new?, :create? do
-        it "denies access" do
-          expect(subject).to_not permit(context, deletion_reason_class)
-        end
+        it { is_expected.to_not permit(global_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "denies access" do
-          expect(subject).to_not permit(context, global_deletion_reason)
-        end
+        it { is_expected.to_not permit(global_context, global_deletion_reason) }
       end
     end
 
     context "sub" do
-      let(:context) { Context.new(user, sub) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, deletion_reason_class)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :new?, :create? do
-        it "grants access" do
-          expect(subject).to permit(context, deletion_reason_class)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "grants access" do
-          expect(subject).to permit(context, sub_deletion_reason)
-        end
+        it { is_expected.to permit(sub_context, sub_deletion_reason) }
       end
     end
   end
@@ -156,46 +109,30 @@ RSpec.describe DeletionReasonPolicy do
     let(:user) { create(:global_moderator).user }
 
     context "global" do
-      let(:context) { Context.new(user) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, deletion_reason_class)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :new?, :create? do
-        it "grants access" do
-          expect(subject).to permit(context, deletion_reason_class)
-        end
+        it { is_expected.to permit(global_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "grants access" do
-          expect(subject).to permit(context, global_deletion_reason)
-        end
+        it { is_expected.to permit(global_context, global_deletion_reason) }
       end
     end
 
     context "sub" do
-      let(:context) { Context.new(user, sub) }
-
       permissions :index? do
-        it "grants access" do
-          expect(subject).to permit(context, deletion_reason_class)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :new?, :create? do
-        it "grants access" do
-          expect(subject).to permit(context, deletion_reason_class)
-        end
+        it { is_expected.to permit(sub_context) }
       end
 
       permissions :edit?, :update?, :destroy? do
-        it "grants access" do
-          expect(subject).to permit(context, sub_deletion_reason)
-        end
+        it { is_expected.to permit(sub_context, sub_deletion_reason) }
       end
     end
   end
