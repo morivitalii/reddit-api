@@ -27,7 +27,7 @@ RSpec.describe CreateBookmarkService do
         expect { subject.call }.to_not change { Bookmark.count }
       end
 
-      it "return existent" do
+      it "returns existent" do
         expected_result = bookmark
         result = subject.call
 
