@@ -46,7 +46,7 @@ class RulesController < ApplicationController
   end
 
   def destroy
-    DeleteRule.new(rule: @rule, current_user: current_user).call
+    DeleteRuleService.new(@rule).call
 
     head :no_content
   end
