@@ -28,7 +28,7 @@ class ContributorsController < ApplicationController
   end
 
   def destroy
-    DeleteContributor.new(contributor: @contributor, current_user: current_user).call
+    DeleteContributorService.new(@contributor).call
 
     head :no_content
   end
