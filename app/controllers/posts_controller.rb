@@ -74,14 +74,14 @@ class PostsController < ApplicationController
   end
 
   def remove
-    @form = DeletePost.new(deletion_reason: @post.deletion_reason)
+    @form = DeletePostForm.new(deletion_reason: @post.deletion_reason)
     @deletion_reasons = DeletionReasonsQuery.new.global_or_sub(@post.sub).all
 
     render partial: "remove"
   end
 
   def destroy
-    @form = DeletePost.new(destroy_params)
+    @form = DeletePostForm.new(destroy_params)
 
     if @form.save
       @post = @post.decorate
