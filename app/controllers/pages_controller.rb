@@ -45,7 +45,7 @@ class PagesController < ApplicationController
   end
 
   def destroy
-    DeletePage.new(page: @page, current_user: current_user).call
+    DeletePageService.new(@page).call
 
     head :no_content
   end
