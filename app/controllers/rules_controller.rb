@@ -20,7 +20,7 @@ class RulesController < ApplicationController
   def edit
     attributes = @rule.slice(:title, :description)
 
-    @form = UpdateRule.new(attributes)
+    @form = UpdateRuleForm.new(attributes)
 
     render partial: "edit"
   end
@@ -36,7 +36,7 @@ class RulesController < ApplicationController
   end
 
   def update
-    @form = UpdateRule.new(update_params)
+    @form = UpdateRuleForm.new(update_params)
 
     if @form.save
       render partial: "rule", object: @form.rule
@@ -92,6 +92,6 @@ class RulesController < ApplicationController
   def update_params
     attributes = policy(@rule).permitted_attributes_for_update
 
-    params.require(:update_rule).permit(attributes).merge(rule: @rule, current_user: current_user)
+    params.require(:update_rule_form).permit(attributes).merge(rule: @rule)
   end
 end
