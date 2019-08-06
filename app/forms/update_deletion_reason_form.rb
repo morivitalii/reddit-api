@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-class UpdateDeletionReason
+class UpdateDeletionReasonForm
   include ActiveModel::Model
 
-  attr_accessor :deletion_reason, :current_user, :title, :description
+  attr_accessor :deletion_reason, :title, :description
 
   def save
-    @deletion_reason.update!(
-      title: @title,
-      description: @description
+    deletion_reason.update!(
+      title: title,
+      description: description
     )
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
