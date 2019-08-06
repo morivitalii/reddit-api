@@ -21,7 +21,7 @@ class PagesController < ApplicationController
   def edit
     attributes = @page.slice(:title, :text)
 
-    @form = UpdatePage.new(attributes)
+    @form = UpdatePageForm.new(attributes)
   end
 
   def create
@@ -35,7 +35,7 @@ class PagesController < ApplicationController
   end
 
   def update
-    @form = UpdatePage.new(update_params)
+    @form = UpdatePageForm.new(update_params)
 
     if @form.save
       head :no_content, location: page_path(@form.page)
@@ -91,6 +91,6 @@ class PagesController < ApplicationController
   def update_params
     attributes = policy(@page).permitted_attributes_for_update
 
-    params.require(:update_page).permit(attributes).merge(page: @page, current_user: current_user)
+    params.require(:update_page_form).permit(attributes).merge(page: @page, edited_by: current_user)
   end
 end
