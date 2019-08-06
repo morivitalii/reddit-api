@@ -12,13 +12,13 @@ class BlacklistedDomainsController < ApplicationController
   end
 
   def new
-    @form = CreateBlacklistedDomain.new
+    @form = CreateBlacklistedDomainForm.new
 
     render partial: "new"
   end
 
   def create
-    @form = CreateBlacklistedDomain.new(create_params)
+    @form = CreateBlacklistedDomainForm.new(create_params)
 
     if @form.save
       head :no_content, location: blacklisted_domains_path(sub: @sub)
