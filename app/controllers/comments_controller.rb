@@ -87,14 +87,14 @@ class CommentsController < ApplicationController
   end
 
   def remove
-    @form = DeleteComment.new(deletion_reason: @comment.deletion_reason)
+    @form = RemoveCommentForm.new(reason: @comment.deletion_reason)
     @deletion_reasons = DeletionReasonsQuery.new.global_or_sub(@comment.sub).all
 
     render partial: "remove"
   end
 
   def destroy
-    @form = DeleteComment.new(destroy_params)
+    @form = RemoveCommentForm.new(destroy_params)
 
     if @form.save
       @comment = @comment.decorate
@@ -139,6 +139,6 @@ class CommentsController < ApplicationController
   end
 
   def destroy_params
-    params.require(:delete_comment).permit(policy(@comment).permitted_attributes_for_destroy).merge(comment: @comment, current_user: current_user)
+    params.require(:remove_comment_form).permit(policy(@comment).permitted_attributes_for_destroy).merge(comment: @comment, current_user: current_user)
   end
 end
