@@ -32,7 +32,7 @@ module Authorization
           render "/authorization_error", status: :not_acceptable
         end
       else
-        @form = SignIn.new
+        @form = SignInForm.new
 
         if request.xhr?
           render partial: "sign_in/new", status: :unauthorized

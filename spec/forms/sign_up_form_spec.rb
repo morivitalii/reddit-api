@@ -59,13 +59,15 @@ RSpec.describe SignUpForm do
       let(:email) { "email@emal.com" }
       let(:password) { "password" }
 
-      it "creates user" do
+      before do
         @form = subject.new(
           username: username,
           email: email,
           password: password
         )
+      end
 
+      it "creates user" do
         @form.save
 
         expected_result = { username: username, email: email, password: password }
