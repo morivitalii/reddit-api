@@ -12,13 +12,13 @@ class ModeratorsController < ApplicationController
   end
 
   def new
-    @form = CreateModerator.new
+    @form = CreateModeratorForm.new
 
     render partial: "new"
   end
 
   def create
-    @form = CreateModerator.new(create_params)
+    @form = CreateModeratorForm.new(create_params)
 
     if @form.save
       head :no_content, location: moderators_path(sub: @sub)
@@ -71,6 +71,6 @@ class ModeratorsController < ApplicationController
   def create_params
     attributes = policy(Moderator).permitted_attributes_for_create
 
-    params.require(:create_moderator).permit(attributes).merge(sub: @sub, current_user: current_user)
+    params.require(:create_moderator_form).permit(attributes).merge(sub: @sub, invited_by: current_user)
   end
 end
