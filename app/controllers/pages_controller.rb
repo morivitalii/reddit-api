@@ -15,7 +15,7 @@ class PagesController < ApplicationController
   end
 
   def new
-    @form = CreatePage.new
+    @form = CreatePageForm.new
   end
 
   def edit
@@ -25,7 +25,7 @@ class PagesController < ApplicationController
   end
 
   def create
-    @form = CreatePage.new(create_params)
+    @form = CreatePageForm.new(create_params)
 
     if @form.save
       head :no_content, location: page_path(@form.page)
@@ -85,7 +85,7 @@ class PagesController < ApplicationController
   def create_params
     attributes = policy(Page).permitted_attributes_for_create
 
-    params.require(:create_page).permit(attributes).merge(sub: @sub, current_user: current_user)
+    params.require(:create_page_form).permit(attributes).merge(sub: @sub)
   end
 
   def update_params
