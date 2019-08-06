@@ -5,7 +5,7 @@ class SignInController < ApplicationController
   skip_after_action :verify_authorized, only: [:unauthenticated]
 
   def new
-    @form = SignIn.new
+    @form = SignInForm.new
 
     if request.xhr?
       render partial: "new"
@@ -15,7 +15,7 @@ class SignInController < ApplicationController
   end
 
   def create
-    @form = SignIn.new
+    @form = SignInForm.new
 
     if verify_recaptcha(model: @form, attribute: :username) && request.env["warden"].authenticate!(:password)
       head :no_content, location: root_path
