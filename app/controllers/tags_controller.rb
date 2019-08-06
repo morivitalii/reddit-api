@@ -12,7 +12,7 @@ class TagsController < ApplicationController
   end
 
   def new
-    @form = CreateTag.new
+    @form = CreateTagForm.new
 
     render partial: "new"
   end
@@ -26,7 +26,7 @@ class TagsController < ApplicationController
   end
 
   def create
-    @form = CreateTag.new(create_params)
+    @form = CreateTagForm.new(create_params)
 
     if @form.save
       head :no_content, location: tags_path(sub: @sub)
@@ -86,7 +86,7 @@ class TagsController < ApplicationController
   def create_params
     attributes = policy(Tag).permitted_attributes_for_create
 
-    params.require(:create_tag).permit(attributes).merge(sub: @sub, current_user: current_user)
+    params.require(:create_tag_form).permit(attributes).merge(sub: @sub)
   end
 
   def update_params
