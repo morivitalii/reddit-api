@@ -4,11 +4,11 @@ class PasswordController < ApplicationController
   before_action -> { authorize(:password) }
 
   def edit
-    @form = ChangePassword.new(link_params)
+    @form = ChangePasswordForm.new(link_params)
   end
 
   def update
-    @form = ChangePassword.new(create_params)
+    @form = ChangePasswordForm.new(create_params)
 
     if @form.save
       request.env["warden"].set_user(@form.user)
@@ -28,6 +28,6 @@ class PasswordController < ApplicationController
   def create_params
     attributes = policy(:password).permitted_attributes_for_update
 
-    params.require(:change_password).permit(attributes)
+    params.require(:change_password_form).permit(attributes)
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ChangePassword
+class ChangePasswordForm
   include ActiveModel::Model
 
   attr_accessor :token, :password
@@ -8,15 +8,15 @@ class ChangePassword
 
   validates :token, presence: true
   validates :password, presence: true, length: { minimum: 6, maximum: 16 }
-  validate :exists?, if: ->(record) { record.errors.blank? }
+  validate :exists?
 
   def save
     return false if invalid?
 
-    @user = UsersQuery.new.where_forgot_password_token(@token).take!
+    @user = UsersQuery.new.where_forgot_password_token(token).take!
 
     @user.transaction do
-      @user.update!(password: @password)
+      @user.update!(password: password)
       @user.regenerate_forgot_password_token
     end
   end
@@ -24,7 +24,7 @@ class ChangePassword
   private
 
   def exists?
-    unless UsersQuery.new.where_forgot_password_token(@token).exists?
+    unless UsersQuery.new.where_forgot_password_token(token).exists?
       errors.add(:password, :invalid_reset_password_link)
     end
   end
