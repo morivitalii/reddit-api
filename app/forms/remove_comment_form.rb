@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-class DeleteComment
+class RemoveCommentForm
   include ActiveModel::Model
 
-  attr_accessor :comment, :current_user, :deletion_reason
+  attr_accessor :comment, :user, :reason
 
   def save
-    @comment.remove!(@current_user, @deletion_reason)
+    comment.remove!(user, reason)
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
