@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-class UpdateSub
+class UpdateSubForm
   include ActiveModel::Model
 
-  attr_accessor :sub, :current_user, :title, :description
+  attr_accessor :sub, :title, :description
 
   def save
-    @sub.update!(
-      title: @title,
-      description: @description
+    sub.update!(
+      title: title,
+      description: description
     )
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)

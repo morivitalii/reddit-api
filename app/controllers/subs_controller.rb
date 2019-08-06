@@ -18,11 +18,11 @@ class SubsController < ApplicationController
   def edit
     attributes = @sub.slice(:title, :description)
 
-    @form = UpdateSub.new(attributes)
+    @form = UpdateSubForm.new(attributes)
   end
 
   def update
-    @form = UpdateSub.new(update_params)
+    @form = UpdateSubForm.new(update_params)
 
     if @form.save
       head :no_content, location: edit_sub_path(@sub)
@@ -48,7 +48,7 @@ class SubsController < ApplicationController
   def update_params
     attributes = policy(@sub).permitted_attributes_for_update
 
-    params.require(:update_sub).permit(attributes).merge(sub: @sub, current_user: current_user)
+    params.require(:update_sub_form).permit(attributes).merge(sub: @sub)
   end
 
   def sort
