@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class CreateVote
+class CreateVoteForm
   include ActiveModel::Model
 
-  attr_accessor :model, :current_user, :type
+  attr_accessor :votable, :user, :type
   attr_reader :vote
 
   validates :type, presence: true, inclusion: { in: %w(down meh up) }
@@ -11,12 +11,12 @@ class CreateVote
   def save
     return false if invalid?
 
-    @vote = @model.votes.where(user: @current_user).take
+    @vote = Vote.where(votable: votable, user: user).take
 
     if @vote.blank?
-      @vote = @model.votes.create!(vote_type: @type, user: @current_user)
+      @vote = votable.votes.create!(vote_type: type, user: user)
     else
-      @vote.update!(vote_type: @type)
+      @vote.update!(vote_type: type)
     end
   end
 end

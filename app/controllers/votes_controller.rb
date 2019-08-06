@@ -17,7 +17,7 @@ class VotesController < ApplicationController
   end
 
   def create
-    @form = CreateVote.new(vote_params)
+    @form = CreateVoteForm.new(vote_params)
 
     if @form.save
       type = @form.vote.vote_type
@@ -64,7 +64,7 @@ class VotesController < ApplicationController
   def vote_params
     attributes = policy(Vote).permitted_attributes_for_create
 
-    params.require(:create_vote).permit(attributes).merge(model: @votable, current_user: current_user)
+    params.require(:create_vote_form).permit(attributes).merge(model: @votable, user: current_user)
   end
 
   def vote_type
