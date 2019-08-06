@@ -20,7 +20,7 @@ class TagsController < ApplicationController
   def edit
     attributes = @tag.slice(:title)
 
-    @form = UpdateTag.new(attributes)
+    @form = UpdateTagForm.new(attributes)
 
     render partial: "edit"
   end
@@ -36,7 +36,7 @@ class TagsController < ApplicationController
   end
 
   def update
-    @form = UpdateTag.new(update_params)
+    @form = UpdateTagForm.new(update_params)
 
     if @form.save
       render partial: "tag", object: @form.tag
@@ -92,6 +92,6 @@ class TagsController < ApplicationController
   def update_params
     attributes = policy(@tag).permitted_attributes_for_update
 
-    params.require(:update_tag).permit(attributes).merge(tag: @tag, current_user: current_user)
+    params.require(:update_tag_form).permit(attributes).merge(tag: @tag)
   end
 end
