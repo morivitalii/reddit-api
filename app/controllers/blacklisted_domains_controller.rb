@@ -70,6 +70,6 @@ class BlacklistedDomainsController < ApplicationController
   def create_params
     attributes = policy(BlacklistedDomain).permitted_attributes_for_create
 
-    params.require(:create_blacklisted_domain).permit(attributes).merge(sub: @sub, current_user: current_user)
+    params.require(:create_blacklisted_domain_form).permit(attributes).merge(sub: @sub)
   end
 end
