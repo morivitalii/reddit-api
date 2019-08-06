@@ -2,6 +2,8 @@
 
 class UserNotModeratorValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
+    return if value.blank?
+
     if scope(record.sub, value).exists?
       record.errors.add(attribute, :user_moderator)
     end

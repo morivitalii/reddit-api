@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateBlacklistedDomain
+class CreateBlacklistedDomainForm
   include ActiveModel::Model
 
   attr_accessor :current_user, :sub, :domain

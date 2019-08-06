@@ -12,7 +12,7 @@ class BansController < ApplicationController
   end
 
   def new
-    @form = CreateBan.new
+    @form = CreateBanForm.new
 
     render partial: "new"
   end
@@ -26,7 +26,7 @@ class BansController < ApplicationController
   end
 
   def create
-    @form = CreateBan.new(create_params)
+    @form = CreateBanForm.new(create_params)
 
     if @form.save
       head :no_content, location: bans_path(sub: @sub)
@@ -89,7 +89,7 @@ class BansController < ApplicationController
   def create_params
     attributes = policy(Ban).permitted_attributes_for_create
 
-    params.require(:create_ban).permit(attributes).merge(sub: @sub, current_user: current_user)
+    params.require(:create_ban_form).permit(attributes).merge(sub: @sub, current_user: current_user)
   end
 
   def update_params

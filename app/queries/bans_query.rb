@@ -15,6 +15,12 @@ class BansQuery
     relation.where(sub: sub)
   end
 
+  def global_or_sub(sub)
+    sub_condition = relation.model.where(sub: sub)
+
+    relation.where(sub: nil).or(sub_condition)
+  end
+
   def user_global_ban(user)
     relation.where(user: user, sub: nil)
   end

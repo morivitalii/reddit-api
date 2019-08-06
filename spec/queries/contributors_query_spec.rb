@@ -28,6 +28,19 @@ RSpec.describe ContributorsQuery do
     end
   end
 
+  describe ".global_or_sub" do
+    let!(:sub) { create(:sub) }
+    let!(:sub_contributors) { [create(:sub_contributor, sub: sub)] }
+    let!(:global_contributors) { [create(:global_contributor)] }
+
+    it "returns global and sub contributors" do
+      expected_result = sub_contributors + global_contributors
+      result = subject.global_or_sub(sub).all
+
+      expect(result).to eq(expected_result)
+    end
+  end
+
   describe ".filter_by_username" do
     let!(:contributors) { create_pair(:contributor) }
 

@@ -28,6 +28,19 @@ RSpec.describe BansQuery do
     end
   end
 
+  describe ".global_or_sub" do
+    let!(:sub) { create(:sub) }
+    let!(:sub_bans) { [create(:sub_ban, sub: sub)] }
+    let!(:global_bans) { [create(:global_ban)] }
+
+    it "returns global and sub bans" do
+      expected_result = sub_bans + global_bans
+      result = subject.global_or_sub(sub).all
+
+      expect(result).to eq(expected_result)
+    end
+  end
+
   describe ".filter_by_username" do
     let!(:bans) { create_pair(:ban) }
 

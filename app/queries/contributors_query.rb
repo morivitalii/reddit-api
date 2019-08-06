@@ -15,6 +15,12 @@ class ContributorsQuery
     relation.where(sub: sub)
   end
 
+  def global_or_sub(sub)
+    sub_condition = relation.model.where(sub: sub)
+
+    relation.where(sub: nil).or(sub_condition)
+  end
+
   def filter_by_username(username)
     return relation if username.blank?
 
