@@ -4,7 +4,7 @@ class ForgotPasswordController < ApplicationController
   before_action -> { authorize(:forgot_password) }
 
   def new
-    @form = ForgotPassword.new
+    @form = ForgotPasswordForm.new
 
     if request.xhr?
       render partial: "new"
@@ -14,7 +14,7 @@ class ForgotPasswordController < ApplicationController
   end
 
   def create
-    @form = ForgotPassword.new(create_params)
+    @form = ForgotPasswordForm.new(create_params)
 
     if verify_recaptcha(model: @form, attribute: :email) && @form.save
       head :no_content
@@ -28,6 +28,6 @@ class ForgotPasswordController < ApplicationController
   def create_params
     attributes = policy(:forgot_password).permitted_attributes_for_create
 
-    params.require(:forgot_password).permit(attributes)
+    params.require(:forgot_password_form).permit(attributes)
   end
 end

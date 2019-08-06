@@ -621,7 +621,7 @@ CREATE TABLE public.users (
     comments_points integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    forgot_password_email_sent_at timestamp without time zone DEFAULT (now())::timestamp without time zone NOT NULL
+    forgot_password_email_sent_at timestamp without time zone
 );
 
 
@@ -1785,6 +1785,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190730025815'),
 ('20190730025956'),
 ('20190730025959'),
-('20190730030026');
+('20190730030026'),
+('20190806141633'),
+('20190806141651');
 
 
