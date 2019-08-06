@@ -20,7 +20,7 @@ class DeletionReasonsController < ApplicationController
   def edit
     attributes = @deletion_reason.slice(:title, :description)
 
-    @form = UpdateDeletionReason.new(attributes)
+    @form = UpdateDeletionReasonForm.new(attributes)
 
     render partial: "edit"
   end
@@ -36,7 +36,7 @@ class DeletionReasonsController < ApplicationController
   end
 
   def update
-    @form = UpdateDeletionReason.new(update_params)
+    @form = UpdateDeletionReasonForm.new(update_params)
 
     if @form.save
       render partial: "deletion_reason", object: @form.deletion_reason
@@ -90,6 +90,6 @@ class DeletionReasonsController < ApplicationController
   def update_params
     attributes = policy(@deletion_reason).permitted_attributes_for_update
 
-    params.require(:update_deletion_reason).permit(attributes).merge(deletion_reason: @deletion_reason, current_user: current_user)
+    params.require(:update_deletion_reason_form).permit(attributes).merge(deletion_reason: @deletion_reason)
   end
 end
