@@ -20,7 +20,7 @@ class BansController < ApplicationController
   def edit
     attributes = @ban.slice(:reason, :days, :permanent)
 
-    @form = UpdateBan.new(attributes)
+    @form = UpdateBanForm.new(attributes)
 
     render partial: "edit"
   end
@@ -36,7 +36,7 @@ class BansController < ApplicationController
   end
 
   def update
-    @form = UpdateBan.new(update_params)
+    @form = UpdateBanForm.new(update_params)
 
     if @form.save
       render partial: "ban", object: @form.ban
@@ -95,6 +95,6 @@ class BansController < ApplicationController
   def update_params
     attributes = policy(@ban).permitted_attributes_for_update
 
-    params.require(:update_ban).permit(attributes).merge(ban: @ban, current_user: current_user)
+    params.require(:update_ban_form).permit(attributes).merge(ban: @ban)
   end
 end
