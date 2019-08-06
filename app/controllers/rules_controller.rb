@@ -12,7 +12,7 @@ class RulesController < ApplicationController
   end
 
   def new
-    @form = CreateRule.new
+    @form = CreateRuleForm.new
 
     render partial: "new"
   end
@@ -26,7 +26,7 @@ class RulesController < ApplicationController
   end
 
   def create
-    @form = CreateRule.new(create_params)
+    @form = CreateRuleForm.new(create_params)
 
     if @form.save
       head :no_content, location: rules_path(sub: @sub)
@@ -86,7 +86,7 @@ class RulesController < ApplicationController
   def create_params
     attributes = policy(Rule).permitted_attributes_for_create
 
-    params.require(:create_rule).permit(attributes).merge(sub: @sub, current_user: current_user)
+    params.require(:create_rule_form).permit(attributes).merge(sub: @sub)
   end
 
   def update_params
