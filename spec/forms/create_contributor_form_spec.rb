@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CreateBanForm do
+RSpec.describe CreateContributorForm do
   subject { described_class }
 
   describe ".save" do
@@ -48,25 +48,36 @@ RSpec.describe CreateBanForm do
 
         expect(result).to include(expected_result)
       end
+
+      let(:contributor_user) { create(:contributor).user }
+
+      it "adds error on username field when user is contributor" do
+        form = subject.new(username: contributor_user.username)
+        form.save
+
+        result = form.errors.details[:username]
+        expected_result = { error: :user_contributor }
+
+        expect(result).to include(expected_result)
+      end
     end
 
     context "valid" do
       let(:user) { create(:user) }
-      let(:banned_by_user) { create(:user) }
+      let(:approved_by_user) { create(:user) }
 
       before do
         @form = subject.new(
-          banned_by: banned_by_user,
-          username: user.username,
-          permanent: true
+          approved_by: approved_by_user,
+          username: user.username
         )
       end
 
-      it "bans user" do
+      it "approves user as contributor" do
         @form.save
-        result = @form.ban
+        result = @form.contributor
 
-        expect(result).to have_attributes(user: user, banned_by: banned_by_user)
+        expect(result).to have_attributes(user: user, approved_by: approved_by_user)
       end
     end
   end

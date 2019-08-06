@@ -1,29 +1,27 @@
 # frozen_string_literal: true
 
-class CreateBanForm
+class CreateContributorForm
   include ActiveModel::Model
 
-  attr_accessor :banned_by, :sub, :username, :reason, :days, :permanent
-  attr_reader :ban
+  attr_accessor :sub, :approved_by, :username
+  attr_reader :contributor
 
   validates :username,
             username_format: true,
             username_existence: true,
             user_not_banned: true,
-            user_not_moderator: true
+            user_not_moderator: true,
+            user_not_contributor: true
 
   def save
     return false if invalid?
 
     user = UsersQuery.new.where_username(username).take!
 
-    @ban = Ban.create!(
+    @contributor = Contributor.create!(
       sub: sub,
-      banned_by: banned_by,
-      user: user,
-      reason: reason,
-      days: days,
-      permanent: permanent
+      approved_by: approved_by,
+      user: user
     )
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)

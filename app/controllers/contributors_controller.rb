@@ -12,13 +12,13 @@ class ContributorsController < ApplicationController
   end
 
   def new
-    @form = CreateContributor.new
+    @form = CreateContributorForm.new
 
     render partial: "new"
   end
 
   def create
-    @form = CreateContributor.new(create_params)
+    @form = CreateContributorForm.new(create_params)
 
     if @form.save
       head :no_content, location: contributors_path(sub: @sub)
@@ -71,6 +71,6 @@ class ContributorsController < ApplicationController
   def create_params
     attributes = policy(Contributor).permitted_attributes_for_create
 
-    params.require(:create_contributor).permit(attributes).merge(sub: @sub, current_user: current_user)
+    params.require(:create_contributor_form).permit(attributes).merge(sub: @sub, approved_by: current_user)
   end
 end
