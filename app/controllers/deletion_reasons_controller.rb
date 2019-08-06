@@ -12,7 +12,7 @@ class DeletionReasonsController < ApplicationController
   end
 
   def new
-    @form = CreateDeletionReason.new
+    @form = CreateDeletionReasonForm.new
 
     render partial: "new"
   end
@@ -26,7 +26,7 @@ class DeletionReasonsController < ApplicationController
   end
 
   def create
-    @form = CreateDeletionReason.new(create_params)
+    @form = CreateDeletionReasonForm.new(create_params)
 
     if @form.save
       head :no_content, location: deletion_reasons_path(sub: @sub)
@@ -84,7 +84,7 @@ class DeletionReasonsController < ApplicationController
   def create_params
     attributes = policy(DeletionReason).permitted_attributes_for_create
 
-    params.require(:create_deletion_reason).permit(attributes).merge(sub: @sub, current_user: current_user)
+    params.require(:create_deletion_reason_form).permit(attributes).merge(sub: @sub)
   end
 
   def update_params
