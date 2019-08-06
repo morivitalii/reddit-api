@@ -28,11 +28,11 @@ class UsersController < ApplicationController
   def edit
     attributes = @user.slice(:email)
 
-    @form = UpdateUser.new(attributes)
+    @form = UpdateUserForm.new(attributes)
   end
 
   def update
-    @form = UpdateUser.new(update_params)
+    @form = UpdateUserForm.new(update_params)
 
     if @form.save
       head :no_content, location: edit_users_path
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
   def update_params
     attributes = policy(@user).permitted_attributes_for_update
 
-    params.require(:update_user).permit(attributes).merge(user: @user)
+    params.require(:update_user_form).permit(attributes).merge(user: @user)
   end
 
   def sort
