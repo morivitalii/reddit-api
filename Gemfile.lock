@@ -204,7 +204,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    recaptcha (5.0.0)
+    recaptcha (5.1.0)
       json
     redcarpet (3.5.0)
     redis (4.1.2)
@@ -329,7 +329,7 @@ DEPENDENCIES
   pundit (~> 2)
   rails (~> 5.2.2)
   rails-i18n (~> 5.1)
-  recaptcha (~> 5.0)
+  recaptcha (~> 5.1)
   redcarpet (~> 3.5)
   redis (~> 4.1)
   rspec-rails (~> 3.8)
