@@ -6,8 +6,8 @@ module Reportable
   included do
     has_many :reports, as: :reportable, dependent: :destroy
 
-    after_update :delete_reports_on_approve, if: ->(r) { r.respond_to?(:approvable?) }
-    after_update :delete_reports_on_remove, if: ->(r) { r.respond_to?(:removable?) }
+    after_update :delete_reports, if: ->(r) { r.respond_to?(:approvable?) && approving? }
+    after_update :delete_reports, if: ->(r) { r.respond_to?(:removable?) && removing? }
 
     def reportable?
       true
@@ -15,16 +15,8 @@ module Reportable
 
     private
 
-    def delete_reports_on_approve
-      if approving?
-        reports.destroy_all
-      end
-    end
-
-    def delete_reports_on_remove
-      if removing?
-        reports.destroy_all
-      end
+    def delete_reports
+      reports.destroy_all
     end
   end
 end

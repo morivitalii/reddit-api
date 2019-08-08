@@ -6,4 +6,5 @@ RSpec.describe Comment do
   it_behaves_like "bookmarkable"
   it_behaves_like "votable"
   it_behaves_like "removable"
+  it_behaves_like "reportable"
 end
