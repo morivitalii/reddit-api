@@ -30,7 +30,7 @@ class Post < ApplicationRecord
   end
 
   with_options if: ->(r) { r.url.present? } do
-    validates :url, presence: true, length: { maximum: 2048 }
+    validates :url, presence: true, length: { maximum: 2048 }, url_format: true
     validate :validate_url_domain_not_blacklisted, on: :create
     validates :text, absence: true
     validates :media, absence: true
@@ -131,18 +131,13 @@ class Post < ApplicationRecord
 
   def validate_url_domain_not_blacklisted
     uri = Addressable::URI.parse(url).normalize
+    domain = uri.host.split(".").last(2).join(".")
 
-    if uri.present? && uri.host.present? && uri.scheme.in?(%w(http https))
-      domain = uri.host.split(".").last(2).join(".")
+    scope = BlacklistedDomainsQuery.new.global_or_sub(sub)
+    scope = BlacklistedDomainsQuery.new(scope).filter_by_domain(domain)
 
-      scope = BlacklistedDomainsQuery.new.global_or_sub(sub)
-      scope = BlacklistedDomainsQuery.new(scope).filter_by_domain(domain)
-
-      if scope.exists?
-        errors.add(domain, :blacklisted_domain)
-      end
-    else
-      errors.add(:url, :invalid)
+    if scope.exists?
+      errors.add(domain, :blacklisted_domain)
     end
   rescue StandardError
     errors.add(:url, :invalid)
