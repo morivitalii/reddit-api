@@ -6,7 +6,7 @@ module Editable
   included do
     belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", optional: true
 
-    before_update :undo_approve_on_edit, if: ->(r) { r.respond_to?(:approvable?) }
+    before_update :undo_approve, if: ->(r) { r.respond_to?(:approvable?) && r.editing? }
 
     def edit!(user)
       edit(user)
@@ -30,14 +30,6 @@ module Editable
 
     def edited?
       edited_at.present?
-    end
-
-    private
-
-    def undo_approve_on_edit
-      if editing?
-        undo_approve
-      end
     end
   end
 end
