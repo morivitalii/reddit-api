@@ -18,8 +18,6 @@ class CreatePost
         explicit: @explicit,
         spoiler: @spoiler
       )
-
-      @post.create_self_up_vote!
     end
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
