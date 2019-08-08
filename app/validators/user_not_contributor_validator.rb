@@ -11,11 +11,11 @@ class UserNotContributorValidator < ActiveModel::EachValidator
 
   private
 
-  def scope(record, username)
+  def scope(record, value)
     sub = sub(record)
 
     scope = ContributorsQuery.new.global_or_sub(sub)
-    ContributorsQuery.new(scope).filter_by_username(username)
+    ContributorsQuery.new(scope).filter_by_username(value)
   end
 
   def sub(record)

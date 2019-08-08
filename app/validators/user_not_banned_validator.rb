@@ -11,11 +11,11 @@ class UserNotBannedValidator < ActiveModel::EachValidator
 
   private
 
-  def scope(record, username)
+  def scope(record, value)
     sub = sub(record)
 
     scope = BansQuery.new.global_or_sub(sub)
-    BansQuery.new(scope).filter_by_username(username)
+    BansQuery.new(scope).filter_by_username(value)
   end
 
   def sub(record)
