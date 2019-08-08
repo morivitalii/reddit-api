@@ -1,6 +1,6 @@
 require "rails_helper"
 
-class Dummy
+class UrlFormatValidatorDummy
   include ActiveModel::Validations
 
   attr_accessor :url
@@ -9,7 +9,7 @@ class Dummy
 end
 
 RSpec.describe UrlFormatValidator do
-  subject { Dummy.new }
+  subject { UrlFormatValidatorDummy.new }
 
   describe ".validate_each" do
     context "invalid" do
