@@ -5,19 +5,21 @@ class Dummy
 
   attr_accessor :url
 
-  validates :url, url_format: true
+  validates :url, domain_blacklist: true
 end
 
-RSpec.describe UrlFormatValidator do
+RSpec.describe DomainBlacklistValidator do
   subject { Dummy.new }
 
   describe ".validate_each" do
     context "invalid" do
-      it "adds error on url attribute if format is wrong" do
-        subject.url = "invalid url"
+      let!(:blacklisted_domain) { create(:blacklisted_domain) }
+
+      it "adds error on url attribute if domain is blacklisted" do
+        subject.url = "http://#{blacklisted_domain.domain}/"
 
         subject.valid?
-        expected_result = { error: :invalid }
+        expected_result = { error: :blacklisted_domain }
         result = subject.errors.details[:url]
 
         expect(result).to include(expected_result)
@@ -25,7 +27,7 @@ RSpec.describe UrlFormatValidator do
     end
 
     context "valid" do
-      it "does not add error on url attribute if format is valid" do
+      it "does not add error on url attribute if domain is not blacklisted" do
         subject.url = "http://example.com/"
 
         result = subject.valid?

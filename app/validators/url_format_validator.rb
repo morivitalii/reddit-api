@@ -11,12 +11,12 @@ class UrlFormatValidator < ActiveModel::EachValidator
 
   private
 
-  def valid?(url)
-    uri = uri(url)
+  def valid?(value)
+    uri = uri(value)
     uri.present? && uri.host.present? && uri.scheme.in?(%w(http https))
   end
 
-  def uri(url)
-    @_uri = Addressable::URI.parse(url).normalize
+  def uri(value)
+    @_uri = Addressable::URI.parse(value).normalize
   end
 end
