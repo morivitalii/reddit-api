@@ -23,7 +23,7 @@ class ReportsController < ApplicationController
   end
 
   def new
-    @form = CreateReport.new
+    @form = CreateReportForm.new
     @reasons = @reportable.sub.rules.all
     @other_reasons = DeletionReasonsQuery.new.global.all
 
@@ -31,7 +31,7 @@ class ReportsController < ApplicationController
   end
 
   def create
-    @form = CreateReport.new(create_params)
+    @form = CreateReportForm.new(create_params)
 
     if @form.save
       render json: t("thanks_for_report")
@@ -90,6 +90,6 @@ class ReportsController < ApplicationController
   def create_params
     attributes = policy(Report).permitted_attributes_for_create
 
-    params.require(:create_report).permit(attributes).merge(model: @reportable, current_user: current_user)
+    params.require(:create_report_form).permit(attributes).merge(reportable: @reportable, user: current_user)
   end
 end

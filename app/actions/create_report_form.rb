@@ -1,17 +1,14 @@
 # frozen_string_literal: true
 
-class CreateReport
+class CreateReportForm
   include ActiveModel::Model
 
-  attr_accessor :model, :current_user, :text
+  attr_accessor :reportable, :user, :text
 
   def save
     return true if skip?
 
-    report = @model.reports.find_or_initialize_by(user: @current_user)
-    report.assign_attributes(sub: @model.sub, text: @text)
-
-    report.save!
+    Report.create_with(sub: reportable.sub, text: text).find_or_create_by!(reportable: reportable, user: user)
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
@@ -21,6 +18,6 @@ class CreateReport
   private
 
   def skip?
-    @model.ignore_reports?
+    reportable.ignore_reports?
   end
 end
