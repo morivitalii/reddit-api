@@ -7,7 +7,7 @@ class SignUpForm
   attr_reader :user
 
   validates :username, presence: true, username_format: true, username_uniqueness: true
-  validates :email, allow_blank: true, email_format: true, email_uniqueness: true
+  validates :email, allow_blank: true, email_format: true, user_email_uniqueness: true
   validates :password, presence: true, length: { minimum: 6, maximum: 16 }
 
   def save
