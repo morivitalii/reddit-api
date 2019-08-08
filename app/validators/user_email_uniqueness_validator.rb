@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class EmailUniquenessValidator < ActiveModel::EachValidator
+class UserEmailUniquenessValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
 

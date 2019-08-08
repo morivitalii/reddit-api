@@ -1,23 +1,25 @@
 require "rails_helper"
 
-class EmailFormatValidatorDummy
+class UserEmailUniquenessValidatorDummy
   include ActiveModel::Validations
 
   attr_accessor :email
 
-  validates :email, email_format: true
+  validates :email, user_email_uniqueness: true
 end
 
-RSpec.describe EmailFormatValidator do
-  subject { EmailFormatValidatorDummy.new }
+RSpec.describe UserEmailUniquenessValidator do
+  subject { UserEmailUniquenessValidatorDummy.new }
 
   describe ".validate_each" do
     context "invalid" do
-      it "adds error on email attribute if email format is wrong"do
-        subject.email = "invalid email"
+      let!(:user) { create(:user) }
+
+      it "adds error on email attribute if email is taken" do
+        subject.email = user.email
 
         subject.valid?
-        expected_result = { error: :invalid }
+        expected_result = { error: :email_taken }
         result = subject.errors.details[:email]
 
         expect(result).to include(expected_result)
@@ -25,7 +27,7 @@ RSpec.describe EmailFormatValidator do
     end
 
     context "valid" do
-      it "does not add error on email attribute if email format is valid"do
+      it "does not add error on email attribute if email is not taken" do
         subject.email = "valid@email.com"
 
         result = subject.valid?
