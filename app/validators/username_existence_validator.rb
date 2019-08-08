@@ -11,7 +11,7 @@ class UsernameExistenceValidator < ActiveModel::EachValidator
 
   private
 
-  def scope(username)
-    UsersQuery.new.where_username(username)
+  def scope(value)
+    UsersQuery.new.where_username(value)
   end
 end
