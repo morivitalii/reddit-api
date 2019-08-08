@@ -10,9 +10,7 @@ module Votable
 
     alias_attribute :score, :top_score
 
-    def create_self_up_vote!
-      votes.create!(vote_type: :up, user: user)
-    end
+    after_create :create_self_up_vote
 
     def update_scores!
       update!(
@@ -29,6 +27,10 @@ module Votable
     end
 
     private
+
+    def create_self_up_vote
+      votes.create!(vote_type: :up, user: user)
+    end
 
     def calculate_new_score
       created_at.to_i
