@@ -6,7 +6,7 @@ module Removable
   included do
     belongs_to :deleted_by, class_name: "User", foreign_key: "deleted_by_id", optional: true
 
-    before_update :undo_approve_on_remove, if: ->(r) { r.respond_to?(:approvable?) }
+    before_update :undo_approve, if: ->(r) { r.respond_to?(:approvable?) && r.removing? }
 
     validates :deletion_reason, allow_blank: true, length: { maximum: 5_000 }
 
@@ -21,11 +21,6 @@ module Removable
         deleted_at: Time.current,
         deletion_reason: reason
       )
-    end
-
-    def undo_remove!
-      undo_remove
-      save!
     end
 
     def undo_remove
@@ -50,14 +45,6 @@ module Removable
 
     def deletion_reason=(value)
       super(value&.squish)
-    end
-
-    private
-
-    def undo_approve_on_remove
-      if removing?
-        undo_approve
-      end
     end
   end
 end
