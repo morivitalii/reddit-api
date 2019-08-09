@@ -35,7 +35,7 @@ gem "draper", "~> 3"
 group :development, :test do
   gem "rubocop", "~> 0.74.0", require: false
   gem "rspec-rails", "~> 3.8"
-  gem "puma", "~> 4.0"
+  gem "puma", "~> 4.1"
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
 end
 
