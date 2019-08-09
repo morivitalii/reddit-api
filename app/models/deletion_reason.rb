@@ -3,11 +3,13 @@
 class DeletionReason < ApplicationRecord
   include Paginatable
 
+  LIMIT = 50
+
   belongs_to :sub, optional: true
 
   validates :title, presence: true, length: { maximum: 250 }
   validates :description, presence: true, length: { maximum: 5_000 }
-  validate :validate_limits, on: :create, if: ->(r) { r.errors.blank? }
+  validate :validate_limits, on: :create
 
   def title=(value)
     super(value.squish)
@@ -22,16 +24,14 @@ class DeletionReason < ApplicationRecord
   private
 
   def validate_limits
-    if sub.present?
-      if sub.deletion_reasons.count >= 50
-        errors.add(:title, :deletion_reasons_limit)
-      end
-    else
-      count = DeletionReasonsQuery.new.global.count
-
-      if count >= 50
-        errors.add(:title, :deletion_reasons_limit)
-      end
+    if existent_count >= LIMIT
+      errors.add(:title, :deletion_reasons_limit)
     end
+  end
+
+  def existent_count
+    query_class = DeletionReasonsQuery
+    scope = sub.present? ? query_class.new.sub(sub) : query_class.new.global
+    scope.count
   end
 end
