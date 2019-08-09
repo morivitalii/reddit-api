@@ -23,10 +23,4 @@ class Sub < ApplicationRecord
   def to_param
     url
   end
-
-  private
-
-  def add_owner_as_moderator!
-    moderators.create!(user: user, invited_by: user)
-  end
 end
