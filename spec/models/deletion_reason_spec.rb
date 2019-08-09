@@ -4,8 +4,7 @@ RSpec.describe DeletionReason do
   subject { described_class }
 
   it_behaves_like "paginatable"
-  it_behaves_like "squished attribute", :title
-  it_behaves_like "squished attribute", :description
+  it_behaves_like "strip attributes", :title, :description, squish: true
 
   describe "limits validation on create" do
     let(:expected_result) { { error: :deletion_reasons_limit } }

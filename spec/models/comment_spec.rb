@@ -11,4 +11,5 @@ RSpec.describe Comment do
   it_behaves_like "removable"
   it_behaves_like "reportable"
   it_behaves_like "markdownable", :text
+  it_behaves_like "strip attributes", :text
 end

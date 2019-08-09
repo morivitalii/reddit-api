@@ -11,12 +11,14 @@ class Post < ApplicationRecord
   include Markdownable
   include Uploader::Attachment.new(:media)
 
-  markdown_attributes :text
-
   belongs_to :sub
   belongs_to :user
   has_one :topic, dependent: :destroy
   has_many :comments, dependent: :destroy
+
+  markdown_attributes :text
+  strip_attributes :title, :tag, squish: true
+  strip_attributes :text
 
   before_create :normalize_url_on_create
   before_create :set_media_processing_attributes_on_media_cache
@@ -42,18 +44,6 @@ class Post < ApplicationRecord
     validates :media, presence: true
     validates :text, absence: true
     validates :url, absence: true
-  end
-
-  def title=(value)
-    super(value&.squish)
-  end
-
-  def tag=(value)
-    super(value&.squish)
-  end
-
-  def text=(value)
-    super(value&.strip)
   end
 
   def youtube?

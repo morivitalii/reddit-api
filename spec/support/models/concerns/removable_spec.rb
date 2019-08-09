@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.shared_examples_for "removable" do
+  it_behaves_like "strip attributes", :deletion_reason, squish: true
+
   let(:deleted_by) { build(:user) }
   let(:reason) { "Reason" }
 

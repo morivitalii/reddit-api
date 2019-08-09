@@ -9,14 +9,9 @@ class Page < ApplicationRecord
 
   belongs_to :sub, optional: true
 
+  strip_attributes :title, squish: true
+  strip_attributes :text
+
   validates :title, presence: true, length: { maximum: 350 }
   validates :text, presence: true, length: { maximum: 50_000 }
-
-  def title=(value)
-    super(value.squish)
-  end
-
-  def text=(value)
-    super(value.strip)
-  end
 end

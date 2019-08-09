@@ -5,19 +5,11 @@ class Rule < ApplicationRecord
 
   belongs_to :sub, optional: true
 
+  strip_attributes :title, :description, squish: true
+
   validates :title, presence: true, length: { maximum: 100 }
   validates :description, allow_blank: true, length: { maximum: 500 }
   validate :validate_limits, on: :create, if: ->(r) { r.errors.blank? }
-
-  def title=(value)
-    super(value.squish)
-  end
-
-  def description=(value)
-    if value.present?
-      super(value.squish)
-    end
-  end
 
   private
 

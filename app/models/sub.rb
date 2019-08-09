@@ -14,20 +14,14 @@ class Sub < ApplicationRecord
   has_many :blacklisted_domains, dependent: :destroy
   has_many :reports, dependent: :destroy
 
+  strip_attributes :title, :description, squish: true
+
   validates :url, presence: true, length: { maximum: 20 }
   validates :title, presence: true, length: { maximum: 30 }
   validates :description, allow_blank: true, length: { maximum: 200 }
 
   def to_param
     url
-  end
-
-  def title=(value)
-    super(value&.squish)
-  end
-
-  def description=(value)
-    super(value&.squish)
   end
 
   private

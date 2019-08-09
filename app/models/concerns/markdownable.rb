@@ -6,7 +6,7 @@ module Markdownable
   included do
     def self.markdown_attributes(*attributes)
       attributes.each do |attribute|
-        define_method :"#{attribute}_html" do
+        define_method(:"#{attribute}_html") do
           markdown_to_html(attribute)
         end
       end

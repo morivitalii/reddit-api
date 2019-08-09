@@ -4,7 +4,7 @@ RSpec.describe Ban do
   subject { described_class }
 
   it_behaves_like "paginatable"
-  it_behaves_like "squished attribute", :reason
+  it_behaves_like "strip attributes", :reason, squish: true
 
   it "set end_at attribute before save to nil if permanent" do
     model = build(:ban, permanent: true, days: nil)
