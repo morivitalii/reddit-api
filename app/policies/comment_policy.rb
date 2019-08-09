@@ -17,7 +17,7 @@ class CommentPolicy < ApplicationPolicy
   alias edit? update?
 
   def approve?
-    user_signed_in? && context.user.moderator?(record.sub)
+    user_signed_in? && user.moderator?(record.sub)
   end
 
   def destroy?
