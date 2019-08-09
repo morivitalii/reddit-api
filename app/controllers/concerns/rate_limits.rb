@@ -39,7 +39,7 @@ module RateLimits
     end
 
     def skip_rate_limiting?
-      current_user.moderator? || current_user.contributor?
+      ApplicationPolicy.new(context, nil).skip_rate_limiting?
     end
   end
 end
