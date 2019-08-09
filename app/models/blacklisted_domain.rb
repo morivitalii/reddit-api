@@ -11,11 +11,17 @@ class BlacklistedDomain < ApplicationRecord
   private
 
   def validate_uniqueness
-    scope = BlacklistedDomainsQuery.new.global_or_sub(sub)
-    scope = BlacklistedDomainsQuery.new(scope).filter_by_domain(domain)
+    return if domain.blank?
 
-    if scope.exists?
+    unless unique?
       errors.add(:domain, :taken)
     end
+  end
+
+  def unique?
+    query_class = BlacklistedDomainsQuery
+    scope = query_class.new.global_or_sub(sub)
+    scope = query_class.new(scope).filter_by_domain(domain)
+    scope.none?
   end
 end
