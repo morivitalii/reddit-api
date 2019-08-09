@@ -65,7 +65,7 @@ class CommentsController < ApplicationController
 
     if @form.save
       attributes = {
-        text: @form.comment.html_text,
+        text: @form.comment.text_html,
         ignore_reports: @form.comment.ignore_reports
       }
 

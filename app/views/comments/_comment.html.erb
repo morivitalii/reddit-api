@@ -39,7 +39,7 @@
         <% if thing.comment.removed? %>
           <%= t("deleted_html", username: link_to(thing.comment.deleted_by.username, user_path(thing.comment.deleted_by)), deleted_at: datetime_tag(thing.comment.deleted_at, :ago), reason: thing.comment.deletion_reason) %>
         <% else %>
-          <%= thing.comment.html_text.html_safe %>
+          <%= thing.comment.text_html.html_safe %>
         <% end %>
       </div>
     <% end %>
@@ -47,7 +47,7 @@
     <% cut = thing.cut_text_preview? %>
 
     <div class="content <%= "cutCommentText" if cut %> col-12 mt-2 mb-2">
-      <%= thing.html_text.html_safe %>
+      <%= thing.text_html.html_safe %>
     </div>
 
     <div class="actions col-12">
