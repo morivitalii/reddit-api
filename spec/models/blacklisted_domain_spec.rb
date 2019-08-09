@@ -24,7 +24,7 @@ RSpec.describe BlacklistedDomain do
       it "is valid" do
         model = subject.new(domain: "example.com")
 
-        expect(model.valid?).to be_truthy
+        expect(model).to be_valid
       end
     end
   end
