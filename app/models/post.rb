@@ -8,7 +8,10 @@ class Post < ApplicationRecord
   include Reportable
   include Votable
   include Bookmarkable
+  include Markdownable
   include Uploader::Attachment.new(:media)
+
+  markdown_attributes :text
 
   belongs_to :sub
   belongs_to :user
@@ -101,29 +104,6 @@ class Post < ApplicationRecord
     else
       [media[variant].width, media[variant].height]
     end
-  end
-
-  def html_text
-    return @html_text if defined? (@html_text)
-
-    markdown = Redcarpet::Markdown.new(
-      MarkdownRenderer.new(
-        escape_html: true,
-        hard_wrap: true,
-        no_images: true,
-        link_attributes: { rel: "nofollow", target: "_blank" },
-        space_after_headers: true,
-        fenced_code_blocks: true,
-        safe_links_only: true
-      ),
-      autolink: true,
-      tables: true,
-      superscript: true,
-      strikethrough: true,
-      disable_indented_code_blocks: true
-    )
-
-    @html_text = markdown.render(text)
   end
 
   private

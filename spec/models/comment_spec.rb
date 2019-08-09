@@ -10,4 +10,5 @@ RSpec.describe Comment do
   it_behaves_like "approvable"
   it_behaves_like "removable"
   it_behaves_like "reportable"
+  it_behaves_like "markdownable", :text
 end

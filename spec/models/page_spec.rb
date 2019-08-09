@@ -5,4 +5,5 @@ RSpec.describe Page do
 
   it_behaves_like "paginatable"
   it_behaves_like "editable"
+  it_behaves_like "markdownable", :text
 end
