@@ -7,6 +7,12 @@ class ApplicationPolicy
     @record = record
   end
 
+  def skip_rate_limiting?
+    return true if user_global_moderator? || user_global_contributor?
+
+    sub_context? ? (user_sub_moderator? || user_sub_contributor?) : false
+  end
+
   private
 
   def user_signed_in?
@@ -18,31 +24,31 @@ class ApplicationPolicy
   end
 
   def user_global_moderator?
-    user.global_moderator?
+    moderators.find { |i| i.sub_id.blank? }.present?
   end
 
   def user_sub_moderator?
-    user.sub_moderator?(sub)
+    moderators.find { |i| i.sub_id == sub.id }.present?
   end
 
   def user_global_contributor?
-    user.global_contributor?
+    contributors.find { |i| i.sub_id.blank? }.present?
   end
 
   def user_sub_contributor?
-    user.sub_contributor?(sub)
+    contributors.find { |i| i.sub_id == sub.id }.present?
   end
 
   def user_banned_globally?
-    user.banned_globally?
+    bans.find { |i| i.sub_id.blank? }.present?
   end
 
   def user_banned_in_sub?
-    user.banned_in_sub?(sub)
+    bans.find { |i| i.sub_id == sub.id }.present?
   end
 
   def user_sub_follower?
-    user.follower?(sub)
+    follows.find { |i| i.sub_id == sub.id }.present?
   end
 
   def sub_context?
@@ -51,5 +57,21 @@ class ApplicationPolicy
 
   def global_context?
     !sub_context?
+  end
+
+  def moderators
+    @_moderators ||= user.moderators
+  end
+
+  def contributors
+    @_contributors ||= user.contributors
+  end
+
+  def bans
+    @_bans ||= user.bans
+  end
+
+  def follows
+    @_follows ||= user.follows
   end
 end
