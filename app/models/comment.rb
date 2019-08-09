@@ -11,6 +11,7 @@ class Comment < ApplicationRecord
   include Markdownable
 
   markdown_attributes :text
+  strip_attributes :text
 
   delegate :sub, to: :post
 
@@ -22,10 +23,6 @@ class Comment < ApplicationRecord
   after_save :upsert_in_topic
 
   validates :text, presence: true, length: { maximum: 10_000 }
-
-  def text=(value)
-    super(value.strip)
-  end
 
   def cut_text_preview?
     text.length > 800

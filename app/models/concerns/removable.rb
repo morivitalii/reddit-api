@@ -6,6 +6,8 @@ module Removable
   included do
     belongs_to :deleted_by, class_name: "User", foreign_key: "deleted_by_id", optional: true
 
+    strip_attributes :deletion_reason, squish: true
+
     before_update :undo_approve, if: ->(r) { r.respond_to?(:approvable?) && r.removing? }
 
     validates :deletion_reason, allow_blank: true, length: { maximum: 5_000 }
@@ -41,10 +43,6 @@ module Removable
 
     def removed?
       deleted_at.present?
-    end
-
-    def deletion_reason=(value)
-      super(value&.squish)
     end
   end
 end
