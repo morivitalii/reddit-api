@@ -6,26 +6,25 @@ RSpec.describe BlacklistedDomain do
   it_behaves_like "paginatable"
 
   describe "uniqueness validation" do
-    context "not unique" do
-      let(:blacklisted_domain) { create(:blacklisted_domain) }
+    it "adds error on domain attribute if given value not unique" do
+      blacklisted_domain = create(:blacklisted_domain)
+      model = subject.new(domain: blacklisted_domain.domain)
+      model.validate
 
-      it "adds error on domain attribute" do
-        model = subject.new(domain: blacklisted_domain.domain)
-        model.validate
+      expected_result = { error: :taken }
+      result = model.errors.details[:domain]
 
-        expected_result = { error: :taken }
-        result = model.errors.details[:domain]
-
-        expect(result).to include(expected_result)
-      end
+      expect(result).to include(expected_result)
     end
 
-    context "unique" do
-      it "is valid" do
-        model = subject.new(domain: "example.com")
+    it "is valid if given value is unique" do
+      model = subject.new(domain: "example.com")
+      model.validate
 
-        expect(model).to be_valid
-      end
+      expected_result = { error: :taken }
+      result = model.errors.details[:domain]
+
+      expect(result).to_not include(expected_result)
     end
   end
 end
