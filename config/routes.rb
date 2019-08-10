@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     get :tag, action: :tag, on: :member
 
     resource :comments, only: [:create]
-    resource :votes, only: [:create]
+    resource :votes, only: [:create, :destroy]
     resource :bookmarks, only: [:create, :destroy]
 
     resources :reports, only: [:new, :create] do
@@ -37,7 +37,7 @@ Rails.application.routes.draw do
 
   resources :comments, only: [:show, :edit, :update, :destroy], concerns: [:approvable, :removable] do
     resource :comments, only: [:new, :create]
-    resource :votes, only: [:create]
+    resource :votes, only: [:create, :destroy]
     resource :bookmarks, only: [:create, :destroy]
 
     resources :reports, only: [:new, :create] do

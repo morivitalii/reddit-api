@@ -78,7 +78,7 @@ class CommentsController < ApplicationController
   def approve
     ApproveCommentService.new(@comment, current_user).call
 
-    @comment.decorate!
+    @comment = @comment.decorate
 
     render json: {
       approve_link_tooltip_message: @comment.approve_link_tooltip_message,

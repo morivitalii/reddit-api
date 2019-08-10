@@ -15,6 +15,10 @@ RSpec.describe VotePolicy do
     permissions :create? do
       it { is_expected.to_not permit(context) }
     end
+
+    permissions :destroy? do
+      it { is_expected.to_not permit(context) }
+    end
   end
 
   context "for user" do
@@ -25,6 +29,10 @@ RSpec.describe VotePolicy do
     end
 
     permissions :create? do
+      it { is_expected.to permit(context) }
+    end
+
+    permissions :destroy? do
       it { is_expected.to permit(context) }
     end
   end

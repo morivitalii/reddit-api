@@ -6,32 +6,52 @@ class Vote < ApplicationRecord
   belongs_to :votable, polymorphic: true
   belongs_to :user
 
-  enum vote_type: { down: -1, meh: 0, up: 1 }
+  enum vote_type: { down: -1, up: 1 }
 
-  after_save :update_counter_cache
+  validates :vote_type, presence: true, inclusion: { in: %w(down up) }
+
+  after_save :update_votable_points_on_create
+  after_destroy :update_votable_points_on_destroy
+  after_save :update_user_points_on_create
+  after_destroy :update_user_points_on_destroy
   after_save :update_scores
-  after_save :update_user_points
+  after_destroy :update_scores
 
   private
 
-  def update_counter_cache
-    previous = vote_type_previous_change&.compact
-    return if previous == %w(meh)
+  def update_votable_points_on_create
+    if up?
+      votable.increment!(:up_votes_count)
+    elsif down?
+      votable.increment!(:down_votes_count)
+    end
+  end
 
-    if previous == %w(up) || previous == %w(meh up)
-      votable.increment!(:up_votes_count)
-    elsif previous == %w(down) || previous == %w(meh down)
-      votable.increment!(:down_votes_count)
-    elsif previous == %w(up meh)
+  def update_votable_points_on_destroy
+    if up?
       votable.decrement!(:up_votes_count)
-    elsif previous == %w(down meh)
+    elsif down?
       votable.decrement!(:down_votes_count)
-    elsif previous == %w(up down)
-      votable.increment!(:down_votes_count)
-      votable.decrement!(:up_votes_count)
-    elsif previous == %w(down up)
-      votable.increment!(:up_votes_count)
-      votable.decrement!(:down_votes_count)
+    end
+  end
+
+  def update_user_points_on_create
+    return if self_vote?
+
+    if up?
+      user.increment!(user_points_attribute)
+    elsif down?
+      user.decrement!(user_points_attribute)
+    end
+  end
+
+  def update_user_points_on_destroy
+    return if self_vote?
+
+    if up?
+      user.decrement!(user_points_attribute)
+    elsif down?
+      user.increment!(user_points_attribute)
     end
   end
 
@@ -39,25 +59,11 @@ class Vote < ApplicationRecord
     votable.update_scores!
   end
 
-  def update_user_points
-    previous = vote_type_previous_change&.compact
-    return if previous == %w(meh)
-    return if user_id == votable.user_id
+  def user_points_attribute
+    "#{votable.class.name.pluralize}_points"
+  end
 
-    user_points_attribute = votable.is_a?(Post) ? :posts_points : :comments_points
-
-    if previous == %w(up) || previous == %w(meh up)
-      user.increment!(user_points_attribute)
-    elsif previous == %w(down) || previous == %w(meh down)
-      user.decrement!(user_points_attribute)
-    elsif previous == %w(up meh)
-      user.decrement!(user_points_attribute)
-    elsif previous == %w(down meh)
-      user.increment!(user_points_attribute)
-    elsif previous == %w(up down)
-      user.decrement!(user_points_attribute, 2)
-    elsif previous == %w(down up)
-      user.increment!(user_points_attribute, 2)
-    end
+  def self_vote?
+    user_id == votable.user_id
   end
 end
