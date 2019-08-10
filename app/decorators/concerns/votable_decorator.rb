@@ -10,9 +10,10 @@ module VotableDecorator
       link_class = up_voted ? "up text-success mr-1p" : "up mr-1"
       link_icon = h.fa_icon("arrow-up")
       link_path = [model, :votes]
-      link_data_params = "create_vote[type]=#{up_voted ? :meh : :up}"
+      link_data_params = up_voted ? "" : "create_vote_form[type]=up"
+      link_method = up_voted ? :delete : :post
 
-      h.link_to(link_icon, link_path, data: { params: link_data_params }, remote: true, method: :post, class: link_class)
+      h.link_to(link_icon, link_path, data: { params: link_data_params }, remote: true, method: link_method, class: link_class)
     end
 
     def score
@@ -27,9 +28,10 @@ module VotableDecorator
       link_class = down_voted ? "down text-danger mr-1" : "down mr-1"
       link_icon = h.fa_icon("arrow-down")
       link_path = [model, :votes]
-      link_data_params = "create_vote[type]=#{down_voted ? :meh : :down}"
+      link_data_params = down_voted ? "" : "create_vote_form[type]=down"
+      link_method = down_voted ? :delete : :post
 
-      h.link_to(link_icon, link_path, data: { params: link_data_params }, remote: true, method: :post, class: link_class)
+      h.link_to(link_icon, link_path, data: { params: link_data_params }, remote: true, method: link_method, class: link_class)
     end
   end
 end

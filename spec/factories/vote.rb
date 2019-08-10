@@ -14,10 +14,6 @@ FactoryBot.define do
       vote_type { :down }
     end
 
-    trait :meh do
-      vote_type { :meh }
-    end
-
     trait :votable_post do
       association :votable, factory: :post
     end
@@ -30,6 +26,5 @@ FactoryBot.define do
     factory :comment_vote, traits: [:votable_comment]
     factory :up_vote, traits: [:up]
     factory :down_vote, traits: [:down]
-    factory :meh_vote, traits: [:meh]
   end
 end

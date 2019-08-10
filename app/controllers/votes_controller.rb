@@ -3,7 +3,7 @@
 class VotesController < ApplicationController
   before_action -> { authorize(Vote) }
   before_action :set_user, only: [:index, :comments]
-  before_action :set_votable, only: [:create]
+  before_action :set_votable, only: [:create, :destroy]
   before_action :set_facade
 
   def index
@@ -20,13 +20,20 @@ class VotesController < ApplicationController
     @form = CreateVoteForm.new(vote_params)
 
     if @form.save
-      type = @form.vote.vote_type
-      score = @form.vote.votable.score
+      @votable = @votable.reload
+      @votable.vote = @form.vote
 
-      render json: { type: type, score: score }
+      render json: serialized_response(@votable)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    DeleteVoteService.new(@votable, current_user).call
+    @votable = @votable.reload
+
+    render json: serialized_response(@votable)
   end
 
   private
@@ -61,10 +68,16 @@ class VotesController < ApplicationController
     end
   end
 
+  def serialized_response(votable)
+    serializer_class = "#{votable.class.name}Serializer".constantize
+    serializer = serializer_class.new(votable)
+    serializer.serializable_hash
+  end
+
   def vote_params
     attributes = policy(Vote).permitted_attributes_for_create
 
-    params.require(:create_vote_form).permit(attributes).merge(model: @votable, user: current_user)
+    params.require(:create_vote_form).permit(attributes).merge(votable: @votable, user: current_user)
   end
 
   def vote_type

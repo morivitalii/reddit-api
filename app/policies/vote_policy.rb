@@ -11,6 +11,10 @@ class VotePolicy < ApplicationPolicy
     user_signed_in?
   end
 
+  def destroy?
+    user_signed_in?
+  end
+
   def permitted_attributes_for_create
     [:type]
   end
