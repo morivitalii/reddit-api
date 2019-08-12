@@ -4,11 +4,11 @@
 
     <div class="actions">
       <% if policy(deletion_reason).update? %>
-        <%= link_to(fa_icon('pencil'), edit_deletion_reason_path(deletion_reason), remote: true, class: 'update') %>
+        <%= link_to(fa_icon('pencil'), edit_sub_deletion_reason_path(deletion_reason.sub, deletion_reason), remote: true, class: 'update') %>
       <% end %>
 
       <% if policy(deletion_reason).destroy? %>
-        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: deletion_reason_path(deletion_reason) }) %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: sub_deletion_reason_path(deletion_reason.sub, deletion_reason) }) %>
       <% end %>
 
       <% if deletion_reason.description.present? %>

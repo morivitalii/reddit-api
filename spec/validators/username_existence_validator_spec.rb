@@ -19,11 +19,11 @@ RSpec.describe UsernameExistenceValidator do
         subject.username = "username"
 
         subject.valid?
+
         expected_result = { error: :invalid_username }
         result = subject.errors.details[:username]
 
         expect(result).to include(expected_result)
-
       end
     end
 

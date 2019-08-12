@@ -1,13 +1,17 @@
 require "rails_helper"
 
 RSpec.describe DeleteContributorService do
-  subject { described_class.new(contributor) }
-
-  let!(:contributor) { create(:contributor) }
+  subject { described_class }
 
   describe ".call" do
+    let!(:contributor) { create(:contributor) }
+
+    before do
+      @service = subject.new(contributor)
+    end
+
     it "delete contributor" do
-      expect { subject.call }.to change { Contributor.count }.by(-1)
+      expect { @service.call }.to change { Contributor.count }.by(-1)
     end
   end
 end

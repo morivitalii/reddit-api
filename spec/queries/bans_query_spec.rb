@@ -1,101 +1,59 @@
 require "rails_helper"
 
 RSpec.describe BansQuery do
-  subject { described_class.new }
+  subject { described_class }
 
-  describe ".sub" do
-    let!(:sub) { create(:sub) }
-    let!(:sub_bans) { [create(:sub_ban, sub: sub)] }
-    let!(:global_bans) { [create(:global_ban)] }
-
-    it "returns sub bans" do
-      expected_result = sub_bans
-      result = subject.sub(sub).all
-
-      expect(result).to eq(expected_result)
-    end
-  end
-
-  describe ".global" do
-    let!(:sub_bans) { [create(:sub_ban)] }
-    let!(:global_bans) { [create(:global_ban)] }
-
-    it "returns global bans" do
-      expected_result = global_bans
-      result = subject.global.all
-
-      expect(result).to eq(expected_result)
-    end
-  end
-
-  describe ".global_or_sub" do
-    let!(:sub) { create(:sub) }
-    let!(:sub_bans) { [create(:sub_ban, sub: sub)] }
-    let!(:global_bans) { [create(:global_ban)] }
-
-    it "returns global and sub bans" do
-      expected_result = sub_bans + global_bans
-      result = subject.global_or_sub(sub).all
-
-      expect(result).to eq(expected_result)
-    end
-  end
-
-  describe ".filter_by_username" do
-    let!(:bans) { create_pair(:ban) }
-
-    it "returns bans if given user username is blank" do
-      expected_result = bans
-      result = subject.filter_by_username(nil).all
-
-      expect(result).to eq(expected_result)
-    end
-
-    it "returns ban where user has a given username" do
-      expected_result = [bans.first]
-      username = expected_result.first.user.username
-      result = subject.filter_by_username(username).all
-
-      expect(result).to eq(expected_result)
-    end
-  end
-
-  describe ".user_global_ban" do
+  describe ".with_user" do
     let!(:user) { create(:user) }
-    let!(:global_ban) { create(:global_ban, user: user) }
-    let!(:sub_ban) { create(:sub_ban, user: user) }
+    let!(:expected) { create_pair(:ban, user: user) }
+    let!(:others) { create_pair(:ban) }
 
-    it "returns user global ban" do
-      expected_result = global_ban
-      result = subject.user_global_ban(user).take
+    it "returns results filtered by username" do
+      result = subject.new.with_user(user)
 
-      expect(result).to eq(expected_result)
+      expect(result).to contain_exactly(*expected)
     end
   end
 
-  describe ".user_sub_ban" do
+  describe ".with_username" do
     let!(:user) { create(:user) }
-    let!(:sub) { create(:sub) }
-    let!(:global_ban) { create(:global_ban, user: user) }
-    let!(:sub_ban) { create(:sub_ban, user: user, sub: sub) }
+    let!(:expected) { create_pair(:ban, user: user) }
+    let!(:others) { create_pair(:ban) }
 
-    it "returns user sub ban" do
-      expected_result = sub_ban
-      result = subject.user_sub_ban(user, sub).take
+    it "returns results filtered by username" do
+      result = subject.new.with_username(user.username)
+
+      expect(result).to contain_exactly(*expected)
+    end
+  end
+
+  describe ".search_by_username" do
+    it "returns relation if username is blank" do
+      query = subject.new
+
+      expected_result = query.relation
+      result = query.search_by_username("")
 
       expect(result).to eq(expected_result)
+    end
+
+    it "calls .with_username if username is present" do
+      query = subject.new
+
+      expect(query).to receive(:with_username).with(anything)
+
+      query.search_by_username(anything)
     end
   end
 
   describe ".stale" do
-    let!(:stale_bans) { [create(:ban, :stale)] }
-    let!(:not_stale_bans) { [create(:ban)] }
+    let!(:expected) { create_pair(:ban, :stale) }
+    let!(:others) { create_pair(:ban) }
 
-    it "returns stale bans" do
-      expected_result = stale_bans
-      result = subject.stale.all
+    it "returns results filtered by stale" do
+      result = subject.new.stale
 
-      expect(result).to eq(expected_result)
+      expect(result).to contain_exactly(*expected)
     end
   end
 end

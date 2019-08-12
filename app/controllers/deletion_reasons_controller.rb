@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class DeletionReasonsController < ApplicationController
-  before_action :set_deletion_reason, only: [:edit, :update, :destroy]
   before_action :set_sub
   before_action :set_facade
+  before_action :set_deletion_reason, only: [:edit, :update, :destroy]
   before_action -> { authorize(DeletionReason) }, only: [:index, :new, :create]
   before_action -> { authorize(@deletion_reason) }, only: [:edit, :update, :destroy]
 
   def index
-    @records, @pagination = scope.paginate(after: params[:after])
+    @records, @pagination = @sub.deletion_reasons.paginate(after: params[:after])
   end
 
   def new
@@ -29,7 +29,7 @@ class DeletionReasonsController < ApplicationController
     @form = CreateDeletionReasonForm.new(create_params)
 
     if @form.save
-      head :no_content, location: deletion_reasons_path(sub: @sub)
+      head :no_content, location: sub_deletion_reasons_path(@sub)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -57,28 +57,16 @@ class DeletionReasonsController < ApplicationController
     Context.new(current_user, @sub)
   end
 
-  def scope
-    if @sub.present?
-      DeletionReasonsQuery.new.sub(@sub)
-    else
-      DeletionReasonsQuery.new.global
-    end
+  def set_sub
+    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
   end
 
   def set_facade
     @facade = DeletionReasonsFacade.new(context)
   end
 
-  def set_sub
-    if @deletion_reason.present?
-      @sub = @deletion_reason.sub
-    elsif params[:sub].present?
-      @sub = SubsQuery.new.where_url(params[:sub]).take!
-    end
-  end
-
   def set_deletion_reason
-    @deletion_reason = DeletionReason.find(params[:id])
+    @deletion_reason = @sub.deletion_reasons.find(params[:id])
   end
 
   def create_params

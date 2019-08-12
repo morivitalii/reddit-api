@@ -4,7 +4,7 @@ RSpec.shared_examples_for "editable" do
   let(:edited_by) { build(:user) }
 
   before do
-    @model = create(described_class.to_s.underscore.to_sym)
+    @model = create(subject.to_s.underscore.to_sym)
   end
 
   describe ".undo_approve", if: @model.respond_to?(:approvable?) do

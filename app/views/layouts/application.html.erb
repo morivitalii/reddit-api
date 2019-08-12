@@ -27,18 +27,17 @@
                     <option data-href="<%= root_path %>"><%= t("home")%></option>
                     <option data-href="<%= edit_users_path %>"><%= t("settings") %></option>
 
-                    <% if @facade.subs_where_user_moderator.present? %>
+                    <% if @facade.subs_moderated_by_user.present? %>
                       <optgroup label="<%= t("mod_queue") %>">
-                        <option data-href="<%= mod_queues_path %>"><%= t("mod_queue") %></option>
-                        <% @facade.subs_where_user_moderator.each do |sub| %>
+                        <% @facade.subs_moderated_by_user.each do |sub| %>
                           <option data-href="<%= sub_path(sub) %>"><%= sub.title %></option>
                         <% end %>
                       </optgroup>
                     <% end %>
 
-                    <% if @facade.subs_where_user_follower.present? %>
+                    <% if @facade.subs_followed_by_user.present? %>
                       <optgroup label="<%= t("follows") %>">
-                        <% @facade.subs_where_user_follower.each do |sub| %>
+                        <% @facade.subs_followed_by_user.each do |sub| %>
                           <option data-href="<%= sub_path(sub) %>"><%= sub.title %></option>
                         <% end %>
                       </optgroup>
@@ -54,7 +53,7 @@
                   </span>
 
                     <div class="dropdown-menu">
-                      <%= link_to(t('profile'), user_path(current_user), class: 'dropdown-item') %>
+                      <%= link_to(t('profile'), posts_user_path(current_user), class: 'dropdown-item') %>
                       <%= link_to(t('settings'), edit_users_path, class: 'dropdown-item') %>
                       <div class="dropdown-divider"></div>
                       <%= link_to(t('sign_out'), sign_out_path, method: :delete, class: 'dropdown-item') %>

@@ -1,7 +1,7 @@
 <div class="thing col-12 mb-2 pt-2 pb-2 bg-white border rounded">
   <div class="row">
     <div class="info col-12">
-      <%= link_to(thing.user.username, user_path(thing.user)) %>
+      <%= link_to(thing.user.username, posts_user_path(thing.user)) %>
 
       <% if thing.comment? %>
         <%= t('to') %> <%= link_to(truncate(thing.post.title, length: 75), thing_path(thing.post)) %>
@@ -37,7 +37,7 @@
     <% if thing.comment? && thing.association(:comment).loaded? && thing.comment.present? && thing.comment.comment? %>
       <div class="context col-12 mt-2">
         <% if thing.comment.removed? %>
-          <%= t("deleted_html", username: link_to(thing.comment.deleted_by.username, user_path(thing.comment.deleted_by)), deleted_at: datetime_tag(thing.comment.deleted_at, :ago), reason: thing.comment.deletion_reason) %>
+          <%= t("deleted_html", username: link_to(thing.comment.deleted_by.username, posts_user_path(thing.comment.deleted_by)), deleted_at: datetime_tag(thing.comment.deleted_at, :ago), reason: thing.comment.deletion_reason) %>
         <% else %>
           <%= thing.comment.text_html.html_safe %>
         <% end %>

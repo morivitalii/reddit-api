@@ -3,12 +3,13 @@ require "rails_helper"
 RSpec.describe UserPolicy do
   subject { described_class }
 
-  let(:context) { Context.new(user) }
+  let(:sub) { create(:sub) }
+  let(:context) { Context.new(user, sub) }
 
   context "for visitor" do
     let(:user) { nil }
 
-    permissions :show?, :comments? do
+    permissions :posts?, :comments? do
       it { is_expected.to permit(context) }
     end
 
@@ -20,11 +21,7 @@ RSpec.describe UserPolicy do
   context "for user" do
     let(:user) { create(:user) }
 
-    permissions :show?, :comments? do
-      it { is_expected.to permit(context) }
-    end
-
-    permissions :edit?, :update? do
+    permissions :posts?, :comments?, :edit?, :update? do
       it { is_expected.to permit(context) }
     end
   end

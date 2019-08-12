@@ -1,64 +1,62 @@
 require "rails_helper"
 
 RSpec.describe ReportsQuery do
-  subject { described_class.new }
+  subject { described_class }
 
-  describe ".posts" do
-    let(:post_reports) { [create(:post_report)] }
-    let(:comment_reports) { [create(:comment_report)] }
+  describe ".search_by_sub" do
+    let!(:sub) { create(:sub) }
+    let!(:expected) { create_pair(:report, sub: sub) }
+    let!(:others) { create_pair(:report) }
 
-    it "returns post reports" do
-      expected_result = post_reports
-      result = subject.posts.all
+    it "returns relation if sub is blank" do
+      query = subject.new
+
+      expected_result = query.relation
+      result = query.search_by_sub(nil)
 
       expect(result).to eq(expected_result)
+    end
+
+    it "returns results filtered by sub if sub is present" do
+      result = subject.new.search_by_sub(sub)
+
+      expect(result).to contain_exactly(*expected)
     end
   end
-  
-  describe ".comments" do
-    let(:post_reports) { [create(:post_report)] }
-    let(:comment_reports) { [create(:comment_report)] }
 
-    it "returns post reports" do
-      expected_result = comment_reports
-      result = subject.comments.all
-
-      expect(result).to eq(expected_result)
-    end
-  end
-  
-  describe ".filter_by_sub" do
-    let(:sub) { create(:sub) }
-    let(:sub_reports) { [create(:report, sub: sub)] }
-    let(:reports) { [create(:report)] }
-
-    it "returns all reports if sub is nil" do
-      expected_result = sub_reports + reports
-      result = subject.filter_by_sub(nil).all
-
-      expect(result).to eq(expected_result)
-    end
-
-    it "returns reports where sub is given sub" do
-      expected_result = sub_reports
-      result = subject.filter_by_sub(sub).all
-
-      expect(result).to eq(expected_result)
-    end
-  end
-  
-  describe ".subs_where_user_moderator" do
+  describe ".in_subs_moderated_by_user" do
     let!(:user) { create(:user) }
     let!(:sub) { create(:sub) }
-    let!(:sub_moderator) { create(:sub_moderator, user: user, sub: sub) }
-    let!(:sub_reports) { [create(:report, sub: sub)] }
-    let!(:reports) { [create(:report)] }
+    let!(:moderator) { create(:moderator, sub: sub, user: user) }
+    let!(:expected) { create_pair(:report, sub: sub) }
+    let!(:others) { create_pair(:report) }
 
-    it "returns reports from subs where user is moderator" do
-      expected_result = sub_reports
-      result = subject.subs_where_user_moderator(user).all
+    it "returns results filtered by subs where user moderator" do
+      result = subject.new.in_subs_moderated_by_user(user)
 
-      expect(result).to eq(expected_result)
+      expect(result).to contain_exactly(*expected)
+    end
+  end
+
+  describe ".posts_reports" do
+    let!(:expected) { create_pair(:post_report) }
+    let!(:others) { create_pair(:comment_report) }
+
+    it "returns posts reports" do
+      result = subject.new.posts_reports
+
+      expect(result).to contain_exactly(*expected)
+    end
+  end
+
+  describe ".comments_reports" do
+    let!(:expected) { create_pair(:comment_report) }
+    let!(:others) { create_pair(:post_report) }
+
+    it "returns posts reports" do
+      result = subject.new.comments_reports
+
+      expect(result).to contain_exactly(*expected)
     end
   end
 
@@ -67,7 +65,7 @@ RSpec.describe ReportsQuery do
 
     it "returns recent reports" do
       expected_result = reports[1..-1].reverse
-      result = subject.recent(2).all
+      result = subject.new.recent(2)
 
       expect(result).to eq(expected_result)
     end

@@ -4,12 +4,22 @@ RSpec.describe UsersFacade do
   subject { described_class }
 
   let(:user) { create(:user) }
-  let(:context) { Context.new(user) }
+  let(:sub) { create(:sub) }
+  let(:context) { Context.new(user, sub) }
 
-  describe ".show_meta_title" do
+  describe ".posts_meta_title" do
     it "returns title" do
-      expected_result = user.username
-      result = subject.new(context, user).show_meta_title
+      expected_result = "#{user.username}: #{I18n.t("posts")}"
+      result = subject.new(context, user).posts_meta_title
+
+      expect(result).to eq(expected_result)
+    end
+  end
+
+  describe ".comments_meta_title" do
+    it "returns title" do
+      expected_result = "#{user.username}: #{I18n.t("comments")}"
+      result = subject.new(context, user).comments_meta_title
 
       expect(result).to eq(expected_result)
     end

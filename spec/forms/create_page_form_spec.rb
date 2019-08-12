@@ -1,17 +1,26 @@
 require "rails_helper"
 
 RSpec.describe CreatePageForm do
-  subject { described_class.new(title: title, text: text) }
-
-  let(:title) { "Title" }
-  let(:text) { "Text" }
+  subject { described_class }
 
   describe ".save" do
-    it "creates page" do
-      subject.save
-      result = subject.page
+    let(:sub) { create(:sub) }
+    let(:title) { "Title" }
+    let(:text) { "Text" }
 
-      expect(result).to have_attributes(title: title, text: text)
+    before do
+      @form = subject.new(
+        sub: sub,
+        title: title,
+        text: text
+      )
+    end
+
+    it "creates page" do
+      @form.save
+      result = @form.page
+
+      expect(result).to have_attributes(sub: sub, title: title, text: text)
     end
   end
 end

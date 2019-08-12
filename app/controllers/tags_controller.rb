@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class TagsController < ApplicationController
-  before_action :set_tag, only: [:edit, :update, :destroy]
   before_action :set_sub
   before_action :set_facade
+  before_action :set_tag, only: [:edit, :update, :destroy]
   before_action -> { authorize(Tag) }, only: [:index, :new, :create]
   before_action -> { authorize(@tag) }, only: [:edit, :update, :destroy]
 
   def index
-    @records, @pagination = scope.paginate(order: :asc, after: params[:after])
+    @records, @pagination = @sub.tags.paginate(order: :asc, after: params[:after])
   end
 
   def new
@@ -29,7 +29,7 @@ class TagsController < ApplicationController
     @form = CreateTagForm.new(create_params)
 
     if @form.save
-      head :no_content, location: tags_path(sub: @sub)
+      head :no_content, location: sub_tags_path(@sub)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -57,30 +57,16 @@ class TagsController < ApplicationController
     Context.new(current_user, @sub)
   end
 
-  def scope
-    query_class = TagsQuery
-
-    if @sub.present?
-      query_class.new.sub(@sub)
-    else
-      query_class.new.global
-    end
+  def set_sub
+    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
   end
 
   def set_facade
     @facade = TagsFacade.new(context)
   end
 
-  def set_sub
-    if @tag.present?
-      @sub = @tag.sub
-    elsif params[:sub].present?
-      @sub = SubsQuery.new.where_url(params[:sub]).take!
-    end
-  end
-
   def set_tag
-    @tag = Tag.find(params[:id])
+    @tag = @sub.tags.find(params[:id])
   end
 
   def create_params

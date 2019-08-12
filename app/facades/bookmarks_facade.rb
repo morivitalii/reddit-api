@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
 class BookmarksFacade < ApplicationFacade
-  def index_meta_title
-    "#{record.username}: #{I18n.t("bookmarks")}"
+  def posts_meta_title
+    "#{record.username}: #{I18n.t("posts_bookmarks")}"
   end
 
-  def pagination_permitted_params
+  def comments_meta_title
+    "#{record.username}: #{I18n.t("comments_bookmarks")}"
+  end
+
+  def pagination_params
+    # TODO
     []
   end
 end

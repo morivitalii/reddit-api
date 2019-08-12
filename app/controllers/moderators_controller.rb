@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class ModeratorsController < ApplicationController
-  before_action :set_moderator, only: [:destroy]
   before_action :set_sub
   before_action :set_facade
+  before_action :set_moderator, only: [:destroy]
   before_action -> { authorize(Moderator) }, only: [:index, :new, :create]
   before_action -> { authorize(@moderator) }, only: [:destroy]
 
   def index
-    @records, @pagination = scope.paginate(after: params[:after])
+    @records, @pagination = query.paginate(after: params[:after])
   end
 
   def new
@@ -21,7 +21,7 @@ class ModeratorsController < ApplicationController
     @form = CreateModeratorForm.new(create_params)
 
     if @form.save
-      head :no_content, location: moderators_path(sub: @sub)
+      head :no_content, location: sub_moderators_path(@sub)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -39,33 +39,20 @@ class ModeratorsController < ApplicationController
     Context.new(current_user, @sub)
   end
 
-  def scope
-    query_class = ModeratorsQuery
-
-    if @sub.present?
-      scope = query_class.new.sub(@sub)
-    else
-      scope = query_class.new.global
-    end
-
-    scope = query_class.new(scope).filter_by_username(params[:query])
-    scope.includes(:user, :invited_by)
+  def set_sub
+    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
   end
 
   def set_facade
     @facade = ModeratorsFacade.new(context)
   end
 
-  def set_sub
-    if @moderator.present?
-      @sub = @moderator.sub
-    elsif params[:sub].present?
-      @sub = SubsQuery.new.where_url(params[:sub]).take!
-    end
+  def set_moderator
+    @moderator = @sub.moderators.find(params[:id])
   end
 
-  def set_moderator
-    @moderator = Moderator.find(params[:id])
+  def query
+    ModeratorsQuery.new(@sub.moderators).search_by_username(params[:query]).includes(:user, :invited_by)
   end
 
   def create_params

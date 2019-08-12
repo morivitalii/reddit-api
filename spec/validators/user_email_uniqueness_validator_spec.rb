@@ -19,6 +19,7 @@ RSpec.describe UserEmailUniquenessValidator do
         subject.email = user.email
 
         subject.valid?
+
         expected_result = { error: :email_taken }
         result = subject.errors.details[:email]
 

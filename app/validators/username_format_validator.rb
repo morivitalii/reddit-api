@@ -2,14 +2,14 @@
 
 class UsernameFormatValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    unless regexp.match?(value)
+    unless valid?(value)
       record.errors.add(attribute, :invalid_username_format)
     end
   end
 
   private
 
-  def regexp
-    /\A[a-z0-9_-]{2,16}\z/i
+  def valid?(value)
+    /\A[a-z0-9_-]{2,16}\z/i.match?(value)
   end
 end

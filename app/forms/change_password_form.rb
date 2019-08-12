@@ -13,7 +13,7 @@ class ChangePasswordForm
   def save
     return false if invalid?
 
-    @user = UsersQuery.new.where_forgot_password_token(token).take!
+    @user = UsersQuery.new.with_forgot_password_token(token).take!
 
     @user.transaction do
       @user.update!(password: password)
@@ -24,7 +24,7 @@ class ChangePasswordForm
   private
 
   def exists?
-    unless UsersQuery.new.where_forgot_password_token(token).exists?
+    unless UsersQuery.new.with_forgot_password_token(token).exists?
       errors.add(:password, :invalid_reset_password_link)
     end
   end

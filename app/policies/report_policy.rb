@@ -1,21 +1,14 @@
 # frozen_string_literal: true
 
 class ReportPolicy < ApplicationPolicy
-  def index?
-    return false unless user_signed_in?
-    return true if user_global_moderator?
-    return user_moderator_somewhere? if global_context?
-
-    sub_context? ? user_sub_moderator? : false
+  def posts?
+    user_signed_in? && (sub_context? ? user_moderator? : user_moderator_somewhere?)
   end
 
-  alias comments? index?
+  alias comments? posts?
 
   def show?
-    return false unless user_signed_in?
-    return true if user_global_moderator?
-
-    sub_context? ? user_sub_moderator? : false
+    user_signed_in? && user_moderator?
   end
 
   def create?
@@ -38,10 +31,10 @@ class ReportPolicy < ApplicationPolicy
     end
 
     def resolve
-      if user_global_moderator?
+      if sub_context?
         scope
       else
-        ReportsQuery.new(scope).subs_where_user_moderator(user)
+        ReportsQuery.new(scope).in_subs_moderated_by_user(user)
       end
     end
   end
@@ -50,5 +43,9 @@ class ReportPolicy < ApplicationPolicy
 
   def user_moderator_somewhere?
     user.moderators.present?
+  end
+
+  def sub_context?
+    sub.present? && sub.url != "all"
   end
 end

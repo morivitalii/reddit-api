@@ -1,16 +1,24 @@
 require "rails_helper"
 
 RSpec.describe CreateTagForm do
-  subject { described_class.new(title: title) }
-
-  let(:title) { "Title" }
+  subject { described_class }
 
   describe ".save" do
-    it "creates tag" do
-      subject.save
-      result = subject.tag
+    let(:sub) { create(:sub) }
+    let(:title) { "Title" }
 
-      expect(result).to have_attributes(title: title)
+    before do
+      @form = subject.new(
+        sub: sub,
+        title: title
+      )
+    end
+
+    it "creates tag" do
+      @form.save
+      result = @form.tag
+
+      expect(result).to have_attributes(sub: sub, title: title)
     end
   end
 end

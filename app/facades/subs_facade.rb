@@ -9,7 +9,7 @@ class SubsFacade < ApplicationFacade
     "#{sub.title}: #{I18n.t("settings")}"
   end
 
-  def pagination_permitted_params
+  def pagination_params
     # TODO
     []
   end

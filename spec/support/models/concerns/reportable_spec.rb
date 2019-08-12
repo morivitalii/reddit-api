@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.shared_examples_for "reportable" do
   before do
-    @model = create(described_class.to_s.underscore.to_sym)
+    @model = create(subject.to_s.underscore.to_sym)
   end
 
   describe ".delete_reports", if: @model.respond_to?(:approvable?) || @model.respond_to?(:removable?) do

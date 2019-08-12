@@ -1,5 +1,5 @@
 <%= render 'shared/modal', title: t('edit') do %>
-  <%= form_with(model: @form, url: rule_path(@rule), method: :put, class: 'updateForm') do |f| %>
+  <%= form_with(model: @form, url: sub_rule_path(@rule.sub, @rule), method: :put, class: 'updateForm') do |f| %>
     <div class="modal-body">
       <%= f.text_field :title %>
       <%= f.text_area :description %>

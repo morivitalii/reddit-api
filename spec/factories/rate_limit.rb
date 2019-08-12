@@ -17,6 +17,5 @@ FactoryBot.define do
 
     factory :post_rate_limit, traits: [:post_key]
     factory :comment_rate_limit, traits: [:comment_key]
-    factory :stale_rate_limit, traits: [:stale]
   end
 end

@@ -6,19 +6,13 @@ class ModeratorPolicy < ApplicationPolicy
   end
 
   def create?
-    return false unless user_signed_in?
-    return true if user_global_moderator?
-
-    sub_context? ? user_sub_moderator? : false
+    user_signed_in? && user_moderator?
   end
 
   alias new? create?
 
   def destroy?
-    return false unless user_signed_in?
-    return true if user_global_moderator?
-
-    sub_context? ? user_sub_moderator? : false
+    user_signed_in? && user_moderator?
   end
 
   def permitted_attributes_for_create

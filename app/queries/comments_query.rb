@@ -1,29 +1,27 @@
 # frozen_string_literal: true
 
-class CommentsQuery
-  attr_reader :relation
-
-  def initialize(relation = Comment.all)
-    @relation = relation
-  end
-
+class CommentsQuery < ApplicationQuery
   def not_moderated
     relation.where(deleted_at: nil, approved_at: nil)
   end
 
-  def filter_by_sub(sub)
+  def search_by_sub(sub)
     return relation if sub.blank?
 
-    relation.joins(:post).where(posts: { sub: sub })
+    relation.where(sub: sub)
   end
 
-  def filter_by_date(date)
-    return relation if date.blank?
-
-    relation.where("created_at > ?", date)
+  def in_subs_moderated_by_user(user)
+    relation.joins(sub: :moderators).where(subs: { moderators: { user: user } })
   end
 
-  def subs_where_user_is_moderator(user)
-    relation.joins(post: { sub: :moderators }).where(posts: { subs: { moderators: { user: user } } })
+  def created_after(datetime)
+    relation.where("created_at > ?", datetime)
+  end
+
+  def search_created_after(datetime)
+    return relation if datetime.blank?
+
+    created_after(datetime)
   end
 end

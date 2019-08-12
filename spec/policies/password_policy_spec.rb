@@ -3,7 +3,8 @@ require "rails_helper"
 RSpec.describe PasswordPolicy do
   subject { described_class }
 
-  let(:context) { Context.new(user) }
+  let(:sub) { create(:sub) }
+  let(:context) { Context.new(user, sub) }
 
   context "for visitor" do
     let(:user) { nil }

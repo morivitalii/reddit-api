@@ -1,23 +1,10 @@
 require "rails_helper"
 
 RSpec.shared_examples_for "votable" do
-  let(:model) { create(described_class.to_s.underscore.to_sym) }
+  let(:model) { create(subject.to_s.underscore.to_sym) }
 
   describe ".votable?" do
     it { is_expected.to be_truthy }
-  end
-
-  describe ".create_self_up_vote" do
-    let(:model) { build(described_class.to_s.underscore.to_sym) }
-
-    it "creates up vote on create" do
-      model.save!
-
-      result = model.votes.take
-      expected_attributes = { votable: model, user: model.user, vote_type: "up" }
-
-      expect(result).to have_attributes(expected_attributes)
-    end
   end
 
   describe ".update_scores!" do

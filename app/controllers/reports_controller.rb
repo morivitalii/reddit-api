@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
-  before_action :set_reportable, only: [:show, :new, :create]
   before_action :set_sub
   before_action :set_facade
+  before_action :set_reportable, only: [:show, :new, :create]
   before_action -> { authorize(Report) }
 
-  def index
-    @records, @pagination = posts_scope.paginate(after: params[:after])
+  def posts
+    @records, @pagination = posts_query.paginate(after: params[:after])
     @records.map!(&:reportable).map!(&:decorate)
   end
 
   def comments
-    @records, @pagination = comments_scope.paginate(after: params[:after])
+    @records, @pagination = comments_query.paginate(after: params[:after])
     @records.map!(&:reportable).map!(&:decorate)
   end
 
   def show
-    @reports = reportable_scope.all
+    @reports = reportable_query.all
 
     render partial: "show"
   end
@@ -25,7 +25,7 @@ class ReportsController < ApplicationController
   def new
     @form = CreateReportForm.new
     @reasons = @reportable.sub.rules.all
-    @other_reasons = DeletionReasonsQuery.new.global.all
+    @other_reasons = @reportable.sub.deletion_reasons.all
 
     render partial: "new"
   end
@@ -46,37 +46,12 @@ class ReportsController < ApplicationController
     Context.new(current_user, @sub)
   end
 
-  def posts_scope
-    query_class = ReportsQuery
-    scope = query_class.new.filter_by_sub(@sub)
-    scope = query_class.new(scope).posts
-    scope = policy_scope(scope)
-    scope.includes(reportable: [:sub, :user])
-  end
-
-  def comments_scope
-    query_class = ReportsQuery
-    scope = query_class.new.filter_by_sub(@sub)
-    scope = query_class.new(scope).comments
-    scope = policy_scope(scope)
-    scope.includes(reportable: [:user, post: :sub])
-  end
-
-  def reportable_scope
-    recent = ReportsQuery.new(@reportable.reports).recent(25)
-    recent.includes(:user)
+  def set_sub
+    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
   end
 
   def set_facade
     @facade = ReportsFacade.new(context)
-  end
-
-  def set_sub
-    if @reportable.present?
-      @sub = @reportable.sub
-    elsif params[:sub].present?
-      @sub = SubsQuery.new.where_url(params[:sub]).take!
-    end
   end
 
   def set_reportable
@@ -85,6 +60,24 @@ class ReportsController < ApplicationController
     elsif params[:comment_id].present?
       @reportable = Comment.find(params[:comment_id])
     end
+  end
+
+  def posts_query
+    query_class = ReportsQuery
+    query = query_class.new.posts_reports
+    query = query_class.new(query).search_by_sub(@sub)
+    policy_scope(query).includes(reportable: [:sub, :user])
+  end
+
+  def comments_query
+    query_class = ReportsQuery
+    query = query_class.new.posts_reports
+    query = query_class.new(query).search_by_sub(@sub)
+    policy_scope(query).includes(reportable: [:user, :post, :sub])
+  end
+
+  def reportable_query
+    ReportsQuery.new(@reportable.reports).recent(25).includes(:user)
   end
 
   def create_params

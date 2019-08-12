@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
 class ModQueuePolicy < ApplicationPolicy
-  def index?
-    return false unless user_signed_in?
-    return true if user_global_moderator?
-    return user_moderator_somewhere? if global_context?
-
-    sub_context? ? user_sub_moderator? : false
+  def posts?
+    user_signed_in? && (sub_context? ? user_moderator? : user_moderator_somewhere?)
   end
 
-  alias comments? index?
+  alias comments? posts?
 
   class PostScope < ModQueuePolicy
     attr_reader :user, :scope
@@ -20,10 +16,10 @@ class ModQueuePolicy < ApplicationPolicy
     end
 
     def resolve
-      if user_global_moderator?
+      if sub_context?
         scope
       else
-        PostsQuery.new(scope).subs_where_user_is_moderator(user)
+        PostsQuery.new(scope).in_subs_moderated_by_user(user)
       end
     end
   end
@@ -37,10 +33,10 @@ class ModQueuePolicy < ApplicationPolicy
     end
 
     def resolve
-      if user_global_moderator?
+      if sub_context?
         scope
       else
-        CommentsQuery.new(scope).subs_where_user_is_moderator(user)
+        CommentsQuery.new(scope).in_subs_moderated_by_user(user)
       end
     end
   end
@@ -49,5 +45,9 @@ class ModQueuePolicy < ApplicationPolicy
 
   def user_moderator_somewhere?
     user.moderators.present?
+  end
+
+  def sub_context?
+    sub.present? && sub.url != "all"
   end
 end

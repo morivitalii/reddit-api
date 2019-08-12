@@ -1,5 +1,5 @@
 <%= render 'shared/modal', title: t('create') do %>
-  <%= form_with(model: @form, url: bans_path(sub: @sub)) do |f| %>
+  <%= form_with(model: @form, url: sub_bans_path(@sub)) do |f| %>
     <div class="modal-body">
       <%= f.text_field :username %>
       <%= f.text_area :reason %>

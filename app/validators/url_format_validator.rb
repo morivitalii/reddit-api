@@ -1,22 +1,18 @@
 # frozen_string_literal: true
 
 class UrlFormatValidator < ActiveModel::EachValidator
-  def validate_each(record, attr, value)
+  def validate_each(record, attribute, value)
     unless valid?(value)
-      record.errors.add(attr, :invalid)
+      record.errors.add(attribute, :invalid)
     end
   rescue StandardError
-    record.errors.add(attr, :invalid)
+    record.errors.add(attribute, :invalid)
   end
 
   private
 
   def valid?(value)
-    uri = uri(value)
+    uri = Addressable::URI.parse(value).normalize
     uri.present? && uri.host.present? && uri.scheme.in?(%w(http https))
-  end
-
-  def uri(value)
-    @_uri = Addressable::URI.parse(value).normalize
   end
 end

@@ -4,21 +4,14 @@ class UserNotBannedValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
 
-    if scope(record, value).exists?
+    unless valid?(record, value)
       record.errors.add(attribute, :user_banned)
     end
   end
 
   private
 
-  def scope(record, value)
-    sub = sub(record)
-
-    scope = BansQuery.new.global_or_sub(sub)
-    BansQuery.new(scope).filter_by_username(value)
-  end
-
-  def sub(record)
-    record.respond_to?(:sub) ? record.sub : nil
+  def valid?(record, value)
+    BansQuery.new(record.sub.bans).with_username(value).none?
   end
 end

@@ -22,7 +22,7 @@ class ForgotPasswordForm
   private
 
   def user
-    @_user ||= UsersQuery.new.where_email(email).take
+    @_user ||= UsersQuery.new.with_email(email).take
   end
 
   def email_was_sent_today?

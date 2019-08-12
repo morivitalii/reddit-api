@@ -16,6 +16,6 @@ class SignInForm
   end
 
   def user
-    @_user ||= UsersQuery.new.where_username(username).take
+    @_user ||= UsersQuery.new.with_username(username).take
   end
 end

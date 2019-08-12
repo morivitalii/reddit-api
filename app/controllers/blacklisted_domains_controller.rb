@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class BlacklistedDomainsController < ApplicationController
-  before_action :set_blacklisted_domain, only: [:destroy]
   before_action :set_sub
   before_action :set_facade
+  before_action :set_blacklisted_domain, only: [:destroy]
   before_action -> { authorize(BlacklistedDomain) }, only: [:index, :new, :create]
   before_action -> { authorize(@blacklisted_domain) }, only: [:destroy]
 
   def index
-    @records, @pagination = scope.paginate(after: params[:after])
+    @records, @pagination = query.paginate(after: params[:after])
   end
 
   def new
@@ -21,7 +21,7 @@ class BlacklistedDomainsController < ApplicationController
     @form = CreateBlacklistedDomainForm.new(create_params)
 
     if @form.save
-      head :no_content, location: blacklisted_domains_path(sub: @sub)
+      head :no_content, location: sub_blacklisted_domains_path(@sub)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -39,32 +39,20 @@ class BlacklistedDomainsController < ApplicationController
     Context.new(current_user, @sub)
   end
 
-  def scope
-    query_class = BlacklistedDomainsQuery
-
-    if @sub.present?
-      scope = query_class.new.sub(@sub)
-    else
-      scope = query_class.new.global
-    end
-
-    query_class.new(scope).filter_by_domain(params[:query])
+  def set_sub
+    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
   end
 
   def set_facade
     @facade = BlacklistedDomainsFacade.new(context)
   end
 
-  def set_sub
-    if @blacklisted_domain.present?
-      @sub = @blacklisted_domain.sub
-    elsif params[:sub].present?
-      @sub = SubsQuery.new.where_url(params[:sub]).take!
-    end
+  def query
+    BlacklistedDomainsQuery.new(@sub.blacklisted_domains).search_by_domain(params[:query])
   end
 
   def set_blacklisted_domain
-    @blacklisted_domain = BlacklistedDomain.find(params[:id])
+    @blacklisted_domain = @sub.blacklisted_domains.find(params[:id])
   end
 
   def create_params

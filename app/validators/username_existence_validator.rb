@@ -4,14 +4,14 @@ class UsernameExistenceValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
 
-    if scope(value).none?
+    unless valid?(value)
       record.errors.add(attribute, :invalid_username)
     end
   end
 
   private
 
-  def scope(value)
-    UsersQuery.new.where_username(value)
+  def valid?(value)
+    UsersQuery.new.with_username(value).exists?
   end
 end

@@ -1,4 +1,4 @@
-<% content_for(:meta_title, @facade.index_meta_title) %>
+<% content_for(:meta_title, @facade.posts_meta_title) %>
 
 <%= render "users/sidebar", user: @user %>
 
@@ -9,24 +9,12 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("posts"), user_path(@user), class: 'dropdown-item') %>
+      <%= link_to(t("posts"), posts_user_path(@user), class: 'dropdown-item') %>
       <%= link_to(t("comments"), comments_user_path(@user), class: 'dropdown-item') %>
 
       <% if current_user.id == @user.id %>
-        <%= link_to(t("bookmarks"), bookmarks_path, class: 'dropdown-item') %>
-        <%= link_to(t("votes"), votes_path, class: 'dropdown-item') %>
-      <% end %>
-    </div>
-  </li>
-
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= VotesTypes.new(params[:vote_type]).i18n %>
-    </a>
-
-    <div class="dropdown-menu">
-      <% VotesTypes.new.list.each do |k, v| %>
-        <%= link_to(v, votes_path(vote_type: k), class: 'dropdown-item') %>
+        <%= link_to(t("bookmarks"), posts_bookmarks_path, class: 'dropdown-item') %>
+        <%= link_to(t("votes"), posts_votes_path, class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
@@ -37,8 +25,20 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("posts"), votes_path(vote_type: params[:vote_type]), class: 'dropdown-item') %>
+      <%= link_to(t("posts"), posts_votes_path(vote_type: params[:vote_type]), class: 'dropdown-item') %>
       <%= link_to(t("comments"), comments_votes_path(vote_type: params[:vote_type]), class: 'dropdown-item') %>
+    </div>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= VotesTypes.new(params[:vote_type]).i18n %>
+    </a>
+
+    <div class="dropdown-menu">
+      <% VotesTypes.new.list.each do |k, v| %>
+        <%= link_to(v, posts_votes_path(vote_type: k), class: 'dropdown-item') %>
+      <% end %>
     </div>
   </li>
 <% end %>

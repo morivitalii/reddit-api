@@ -3,9 +3,9 @@ require "rails_helper"
 RSpec.describe UpdateRuleForm do
   subject { described_class }
 
-  let(:rule) { double(:rule, update!: "") }
-
   describe ".save" do
+    let(:rule) { instance_double(Rule, update!: "") }
+
     before do
       @form = subject.new(rule: rule)
     end

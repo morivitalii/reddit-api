@@ -9,12 +9,12 @@
 <div id="rules" class="entries row">
   <div class="head col-12">
     <div class="title">
-      <%= link_to(t('rules'), rules_path(sub: @sub)) %>
+      <%= link_to(t('rules'), sub_rules_path(@sub)) %>
     </div>
 
     <div class="actions">
       <% if policy(Rule).create? %>
-        <%= link_to(t('create'), new_rule_path(sub: @sub), remote: true, class: 'create') %>
+        <%= link_to(t('create'), new_sub_rule_path(@sub), remote: true, class: 'create') %>
       <% end %>
     </div>
   </div>

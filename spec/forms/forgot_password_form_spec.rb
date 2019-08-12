@@ -5,9 +5,9 @@ RSpec.describe ForgotPasswordForm do
 
   subject { described_class }
 
-  let(:user) { create(:user) }
-
   describe ".save" do
+    let(:user) { create(:user) }
+
     context "invalid" do
       before do
         @form = subject.new

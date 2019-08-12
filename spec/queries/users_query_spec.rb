@@ -1,53 +1,48 @@
 require "rails_helper"
 
 RSpec.describe UsersQuery do
-  subject { described_class.new }
+  subject { described_class }
 
-  describe ".where_forgot_password_token" do
-    let!(:users) { create_pair(:user) }
+  describe ".with_forgot_password_token" do
+    let!(:expected) { create(:user) }
+    let!(:others) { create_pair(:user) }
 
-    it "returns user with given forgot_password_token" do
-      expected_result = [users.first]
-      token = expected_result.first.forgot_password_token
-      result = subject.where_forgot_password_token(token)
+    it "returns result filtered by forgot_password_token" do
+      result = subject.new.with_forgot_password_token(expected.forgot_password_token).take
 
-      expect(result).to eq(expected_result)
+      expect(result).to eq(expected)
     end
   end
 
-  describe ".where_username" do
-    let!(:users) { create_pair(:user) }
+  describe ".with_username" do
+    let!(:expected) { create(:user) }
+    let!(:others) { create_pair(:user) }
 
-    it "returns user with given username" do
-      expected_result = [users.first]
-      username = expected_result.first.username
-      result = subject.where_username(username)
+    it "returns result filtered by username" do
+      result = subject.new.with_username(expected.username).take
 
-      expect(result).to eq(expected_result)
+      expect(result).to eq(expected)
     end
   end
 
-  describe ".where_email" do
-    let!(:users) { create_pair(:user) }
+  describe ".with_email" do
+    let!(:expected) { create(:user) }
+    let!(:others) { create_pair(:user) }
 
-    it "returns user with given email" do
-      expected_result = [users.first]
-      email = expected_result.first.email
-      result = subject.where_email(email)
+    it "returns result filtered by email" do
+      result = subject.new.with_email(expected.email).take
 
-      expect(result).to eq(expected_result)
+      expect(result).to eq(expected)
     end
   end
 
   describe ".auto_moderator" do
-    let!(:auto_moderator) { create(:user, username: "AutoModerator") }
-    let!(:users) { [create(:user)] }
+    it "calls .with_username with 'AutoModerator'" do
+      query = subject.new
 
-    it "returns user with AutoModerator username" do
-      expected_result = [auto_moderator]
-      result = subject.auto_moderator.all
+      expect(query).to receive(:with_username).with("AutoModerator")
 
-      expect(result).to eq(expected_result)
+      query.auto_moderator
     end
   end
 end

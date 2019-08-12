@@ -21,7 +21,7 @@ class PostsController < ApplicationController
 
   def tag
     @form = UpdatePost.new(text: @post.tag)
-    @tags = TagsQuery.new.global_or_sub(@post.sub).all
+    @tags = TagsQuery.new(@post.sub.tags).all
 
     render partial: "tag"
   end
@@ -75,7 +75,7 @@ class PostsController < ApplicationController
 
   def remove
     @form = RemovePostForm.new(reason: @post.deletion_reason)
-    @deletion_reasons = DeletionReasonsQuery.new.global_or_sub(@post.sub).all
+    @deletion_reasons = @post.sub.deletion_reasons.all
 
     render partial: "remove"
   end
@@ -102,13 +102,7 @@ class PostsController < ApplicationController
   end
 
   def set_sub
-    query_class = SubsQuery
-
-    if params[:sub].present?
-      @sub = query_class.new.where_url(params[:sub]).take!
-    else
-      @sub = query_class.new.default.take!
-    end
+    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
   end
 
   def set_post

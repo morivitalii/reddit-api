@@ -9,11 +9,11 @@
 <div class="col-12 bg-white border rounded mb-3">
   <div id="pages" class="row mt-2 mb-3">
     <div class="col-12 h5">
-      <%= link_to(t('pages'), pages_path(sub: @sub)) %>
+      <%= link_to(t('pages'), sub_pages_path(@sub)) %>
     </div>
 
     <div class="col-12">
-      <%= form_with(model: @form, url: page_path(@page), method: :put, class: 'updateForm') do |f| %>
+      <%= form_with(model: @form, url: sub_page_path(@page.sub, @page), method: :put, class: 'updateForm') do |f| %>
         <%= f.text_field :title %>
         <%= f.text_area :text %>
 

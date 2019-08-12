@@ -1,16 +1,25 @@
 require "rails_helper"
 
 RSpec.describe RemoveCommentForm do
-  subject { described_class.new(comment: comment, user: user, reason: "Reason") }
-
-  let(:user) { double(:user) }
-  let(:comment) { double(:comment) }
+  subject { described_class }
 
   describe ".save" do
-    it "call .remove! on comment with args" do
-      expect(comment).to receive(:remove!).with(subject.user, subject.reason).once
+    let(:user) { instance_double(User) }
+    let(:comment) { instance_double(Comment) }
+    let(:reason) { "Reason" }
 
-      subject.save
+    before do
+      @form = subject.new(
+        comment: comment,
+        user: user,
+        reason: reason
+      )
+    end
+
+    it "call .remove! on comment with args" do
+      expect(comment).to receive(:remove!).with(user, reason).once
+
+      @form.save
     end
   end
 end

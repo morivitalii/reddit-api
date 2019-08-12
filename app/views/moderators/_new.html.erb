@@ -1,5 +1,5 @@
 <%= render 'shared/modal', title: t('create') do %>
-  <%= form_with(model: @form, url: moderators_path(sub: @sub)) do |f| %>
+  <%= form_with(model: @form, url: sub_moderators_path(@sub)) do |f| %>
     <div class="modal-body">
       <%= f.text_field :username %>
     </div>

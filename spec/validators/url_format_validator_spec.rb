@@ -17,6 +17,7 @@ RSpec.describe UrlFormatValidator do
         subject.url = "invalid url"
 
         subject.valid?
+
         expected_result = { error: :invalid }
         result = subject.errors.details[:url]
 

@@ -37,12 +37,12 @@ class SubsController < ApplicationController
     Context.new(current_user, @sub)
   end
 
-  def set_facade
-    @facade = SubsFacade.new(context, @sub)
+  def set_sub
+    @sub = SubsQuery.new.with_url(params[:id]).take!
   end
 
-  def set_sub
-    @sub = SubsQuery.new.where_url(params[:id]).take!
+  def set_facade
+    @facade = SubsFacade.new(context, @sub)
   end
 
   def update_params

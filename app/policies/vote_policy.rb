@@ -1,11 +1,11 @@
 # frozen_string_literal
 
 class VotePolicy < ApplicationPolicy
-  def index?
+  def posts?
     user_signed_in?
   end
 
-  alias comments? index?
+  alias comments? posts?
 
   def create?
     user_signed_in?

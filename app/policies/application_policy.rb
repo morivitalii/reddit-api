@@ -5,13 +5,17 @@ class ApplicationPolicy
     @user = context.user
     @sub = context.sub
     @record = record
+
+    if user_signed_in? && user_banned?
+      raise ApplicationPolicy::BannedError
+    end
   end
 
   def skip_rate_limiting?
-    return true if user_global_moderator? || user_global_contributor?
-
-    sub_context? ? (user_sub_moderator? || user_sub_contributor?) : false
+    user_signed_in? && (user_moderator? || user_contributor?)
   end
+
+  class BannedError < StandardError; end
 
   private
 
@@ -23,55 +27,19 @@ class ApplicationPolicy
     !user_signed_in?
   end
 
-  def user_global_moderator?
-    moderators.find { |i| i.sub_id.blank? }.present?
+  def user_moderator?
+    user.moderators.find { |i| i.sub_id == sub.id }.present?
   end
 
-  def user_sub_moderator?
-    moderators.find { |i| i.sub_id == sub.id }.present?
+  def user_contributor?
+    user.contributors.find { |i| i.sub_id == sub.id }.present?
   end
 
-  def user_global_contributor?
-    contributors.find { |i| i.sub_id.blank? }.present?
+  def user_banned?
+    user.bans.find { |i| i.sub_id == sub.id }.present?
   end
 
-  def user_sub_contributor?
-    contributors.find { |i| i.sub_id == sub.id }.present?
-  end
-
-  def user_banned_globally?
-    bans.find { |i| i.sub_id.blank? }.present?
-  end
-
-  def user_banned_in_sub?
-    bans.find { |i| i.sub_id == sub.id }.present?
-  end
-
-  def user_sub_follower?
-    follows.find { |i| i.sub_id == sub.id }.present?
-  end
-
-  def sub_context?
-    sub.present?
-  end
-
-  def global_context?
-    !sub_context?
-  end
-
-  def moderators
-    @_moderators ||= user.moderators
-  end
-
-  def contributors
-    @_contributors ||= user.contributors
-  end
-
-  def bans
-    @_bans ||= user.bans
-  end
-
-  def follows
-    @_follows ||= user.follows
+  def user_follower?
+    user.follows.find { |i| i.sub_id == sub.id }.present?
   end
 end

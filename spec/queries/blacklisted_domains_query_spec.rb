@@ -1,62 +1,35 @@
 require "rails_helper"
 
 RSpec.describe BlacklistedDomainsQuery do
-  subject { described_class.new }
+  subject { described_class }
 
-  describe ".sub" do
-    let!(:sub) { create(:sub) }
-    let!(:sub_blacklisted_domains) { [create(:sub_blacklisted_domain, sub: sub)] }
-    let!(:global_blacklisted_domains) { [create(:global_blacklisted_domain)] }
+  describe ".with_domain" do
+    let!(:expected) { create(:blacklisted_domain) }
+    let!(:others) { create_pair(:blacklisted_domain) }
 
-    it "returns sub blacklisted domains" do
-      expected_result = sub_blacklisted_domains
-      result = subject.sub(sub).all
+    it "returns results filtered by domain" do
+      result = subject.new.with_domain(expected.domain).take
 
-      expect(result).to eq(expected_result)
+      expect(result).to eq(expected)
     end
   end
 
-  describe ".global" do
-    let!(:sub_blacklisted_domains) { [create(:sub_blacklisted_domain)] }
-    let!(:global_blacklisted_domains) { [create(:global_blacklisted_domain)] }
+  describe ".search_by_domain" do
+    it "returns relation if domain is blank" do
+      query = subject.new
 
-    it "returns global blacklisted domains" do
-      expected_result = global_blacklisted_domains
-      result = subject.global.all
-
-      expect(result).to eq(expected_result)
-    end
-  end
-
-  describe ".global_or_sub" do
-    let!(:sub) { create(:sub) }
-    let!(:sub_blacklisted_domains) { [create(:sub_blacklisted_domain, sub: sub)] }
-    let!(:global_blacklisted_domains) { [create(:global_blacklisted_domain)] }
-
-    it "returns global and sub blacklisted domains" do
-      expected_result = sub_blacklisted_domains + global_blacklisted_domains
-      result = subject.global_or_sub(sub)
-
-      expect(result).to eq(expected_result)
-    end
-  end
-
-  describe ".filter_by_domain" do
-    let!(:blacklisted_domains) { create_pair(:blacklisted_domain) }
-
-    it "returns blacklisted domains if given domain is blank" do
-      expected_result = blacklisted_domains
-      result = subject.filter_by_domain(nil).all
+      expected_result = query.relation
+      result = query.search_by_domain("")
 
       expect(result).to eq(expected_result)
     end
 
-    it "returns blacklisted domain where domain is given domain" do
-      expected_result = [blacklisted_domains.first]
-      domain = expected_result.first.domain
-      result = subject.filter_by_domain(domain).all
+    it "calls .with_domain if domain is present" do
+      query = subject.new
 
-      expect(result).to eq(expected_result)
+      expect(query).to receive(:with_domain).with(anything)
+
+      query.search_by_domain(anything)
     end
   end
 end

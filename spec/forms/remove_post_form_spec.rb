@@ -1,16 +1,25 @@
 require "rails_helper"
 
 RSpec.describe RemovePostForm do
-  subject { described_class.new(post: post, user: user, reason: "Reason") }
-
-  let(:user) { double(:user) }
-  let(:post) { double(:post) }
+  subject { described_class }
 
   describe ".save" do
-    it "call .remove! on post with args" do
-      expect(post).to receive(:remove!).with(subject.user, subject.reason).once
+    let(:user) { instance_double(User) }
+    let(:post) { instance_double(Post) }
+    let(:reason) { "Reason" }
 
-      subject.save
+    before do
+      @form = subject.new(
+        post: post,
+        user: user,
+        reason: reason
+      )
+    end
+
+    it "call .remove! on post with args" do
+      expect(post).to receive(:remove!).with(user, reason).once
+
+      @form.save
     end
   end
 end

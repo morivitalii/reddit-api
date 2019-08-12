@@ -3,9 +3,9 @@ require "rails_helper"
 RSpec.describe UpdateUserForm do
   subject { described_class }
 
-  let(:user) { double(:user, id: "", authenticate: "", update!: "") }
-
   describe ".save" do
+    let(:user) { instance_double(User, id: "", authenticate: "", update!: "") }
+
     context "invalid" do
       before do
         @form = subject.new(user: user, email: "")

@@ -31,7 +31,7 @@ CREATE TABLE public.ar_internal_metadata (
 
 CREATE TABLE public.bans (
     id bigint NOT NULL,
-    sub_id bigint,
+    sub_id bigint NOT NULL,
     user_id bigint NOT NULL,
     banned_by_id bigint NOT NULL,
     reason character varying,
@@ -68,7 +68,7 @@ ALTER SEQUENCE public.bans_id_seq OWNED BY public.bans.id;
 
 CREATE TABLE public.blacklisted_domains (
     id bigint NOT NULL,
-    sub_id bigint,
+    sub_id bigint NOT NULL,
     domain character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -154,7 +154,8 @@ CREATE TABLE public.comments (
     deletion_reason character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    comment_id bigint
+    comment_id bigint,
+    sub_id bigint NOT NULL
 );
 
 
@@ -183,7 +184,7 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 
 CREATE TABLE public.contributors (
     id bigint NOT NULL,
-    sub_id bigint,
+    sub_id bigint NOT NULL,
     user_id bigint NOT NULL,
     approved_by_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -216,7 +217,7 @@ ALTER SEQUENCE public.contributors_id_seq OWNED BY public.contributors.id;
 
 CREATE TABLE public.deletion_reasons (
     id bigint NOT NULL,
-    sub_id bigint,
+    sub_id bigint NOT NULL,
     title character varying NOT NULL,
     description character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -281,7 +282,7 @@ ALTER SEQUENCE public.follows_id_seq OWNED BY public.follows.id;
 
 CREATE TABLE public.moderators (
     id bigint NOT NULL,
-    sub_id bigint,
+    sub_id bigint NOT NULL,
     user_id bigint NOT NULL,
     invited_by_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -314,7 +315,7 @@ ALTER SEQUENCE public.moderators_id_seq OWNED BY public.moderators.id;
 
 CREATE TABLE public.pages (
     id bigint NOT NULL,
-    sub_id bigint,
+    sub_id bigint NOT NULL,
     edited_by_id bigint,
     title character varying NOT NULL,
     text character varying NOT NULL,
@@ -472,7 +473,7 @@ ALTER SEQUENCE public.reports_id_seq OWNED BY public.reports.id;
 
 CREATE TABLE public.rules (
     id bigint NOT NULL,
-    sub_id bigint,
+    sub_id bigint NOT NULL,
     title character varying NOT NULL,
     description character varying,
     created_at timestamp without time zone NOT NULL,
@@ -514,7 +515,6 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.subs (
     id bigint NOT NULL,
-    user_id bigint NOT NULL,
     url character varying NOT NULL,
     follows_count integer DEFAULT 0 NOT NULL,
     description character varying,
@@ -549,7 +549,7 @@ ALTER SEQUENCE public.subs_id_seq OWNED BY public.subs.id;
 
 CREATE TABLE public.tags (
     id bigint NOT NULL,
-    sub_id bigint,
+    sub_id bigint NOT NULL,
     title character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -1000,13 +1000,6 @@ CREATE INDEX index_bans_on_user_id ON public.bans USING btree (user_id);
 
 
 --
--- Name: index_blacklisted_domains_on_lower_domain; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_blacklisted_domains_on_lower_domain ON public.blacklisted_domains USING btree (lower((domain)::text));
-
-
---
 -- Name: index_blacklisted_domains_on_sub_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1109,6 +1102,13 @@ CREATE INDEX index_comments_on_new_score ON public.comments USING btree (new_sco
 --
 
 CREATE INDEX index_comments_on_post_id ON public.comments USING btree (post_id);
+
+
+--
+-- Name: index_comments_on_sub_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_sub_id ON public.comments USING btree (sub_id);
 
 
 --
@@ -1364,13 +1364,6 @@ CREATE UNIQUE INDEX index_subs_on_lower_url ON public.subs USING btree (lower((u
 
 
 --
--- Name: index_subs_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_subs_on_user_id ON public.subs USING btree (user_id);
-
-
---
 -- Name: index_tags_on_sub_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1609,14 +1602,6 @@ ALTER TABLE ONLY public.comments
 
 
 --
--- Name: subs fk_rails_67f5376a4c; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subs
-    ADD CONSTRAINT fk_rails_67f5376a4c FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
 -- Name: contributors fk_rails_75adfa0433; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1630,6 +1615,14 @@ ALTER TABLE ONLY public.contributors
 
 ALTER TABLE ONLY public.posts
     ADD CONSTRAINT fk_rails_78a7444b29 FOREIGN KEY (approved_by_id) REFERENCES public.users(id);
+
+
+--
+-- Name: comments fk_rails_a231e25c25; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT fk_rails_a231e25c25 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
 
 
 --
@@ -1787,6 +1780,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190730025959'),
 ('20190730030026'),
 ('20190806141633'),
-('20190806141651');
+('20190806141651'),
+('20190810090803'),
+('20190810091117'),
+('20190810135911'),
+('20190811172834');
 
 

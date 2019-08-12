@@ -3,10 +3,10 @@ require "rails_helper"
 RSpec.describe UpdatePageForm do
   subject { described_class }
 
-  let(:page) { double(:page, update!: "", edit: "") }
-  let(:edited_by_user) { double(:user) }
-
   describe ".save" do
+    let(:page) { instance_double(Page, update!: "", edit: "") }
+    let(:edited_by_user) { instance_double(User) }
+
     before do
       @form = subject.new(
         page: page,

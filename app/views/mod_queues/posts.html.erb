@@ -1,4 +1,4 @@
-<% content_for(:meta_title, @facade.index_meta_title) %>
+<% content_for(:meta_title, @facade.posts_meta_title) %>
 
 <% if @facade.sub_context? %>
   <%= render 'subs/sidebar', sub: @sub %>
@@ -9,12 +9,12 @@
 <% content_for(:navigation) do %>
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= t("reports") %>
+      <%= t("new") %>
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("new"), mod_queues_path(sub: @sub), class: 'dropdown-item') %>
-      <%= link_to(t("reports"), reports_path(sub: @sub), class: 'dropdown-item') %>
+      <%= link_to(t("new"), posts_sub_mod_queues_path(@sub), class: 'dropdown-item') %>
+      <%= link_to(t("reports"), posts_sub_reports_path(@sub), class: 'dropdown-item') %>
     </div>
   </li>
 
@@ -24,8 +24,8 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("posts"), reports_path(sub: @sub), class: 'dropdown-item') %>
-      <%= link_to(t("comments"), comments_reports_path(sub: @sub), class: 'dropdown-item') %>
+      <%= link_to(t("posts"), posts_sub_mod_queues_path(@sub), class: 'dropdown-item') %>
+      <%= link_to(t("comments"), comments_sub_mod_queues_path(@sub), class: 'dropdown-item') %>
     </div>
   </li>
 <% end %>

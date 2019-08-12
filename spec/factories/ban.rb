@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :ban do
-    global
+    sub
     user
     association :banned_by, factory: :user
     reason { "Reason" }
@@ -18,19 +18,8 @@ FactoryBot.define do
       permanent { true }
     end
 
-    trait :global do
-      sub { nil }
-    end
-
-    trait :sub do
-      sub
-    end
-
     trait :stale do
       created_at { 1.week.ago }
     end
-
-    factory :global_ban, traits: [:global]
-    factory :sub_ban, traits: [:sub]
   end
 end

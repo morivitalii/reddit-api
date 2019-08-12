@@ -4,11 +4,11 @@ RSpec.shared_examples_for "approvable" do
   let(:approved_by) { build(:user) }
 
   before do
-    @model = create(described_class.to_s.underscore.to_sym)
+    @model = create(subject.to_s.underscore.to_sym)
   end
 
   it "approves model on create if user have permissions for approving" do
-    model = build(described_class.to_s.underscore.to_sym)
+    model = build(subject.to_s.underscore.to_sym)
     allow(model).to receive(:auto_approve?).and_return(true)
 
     expect(model).to receive(:approve).with(model.user).once
@@ -17,7 +17,7 @@ RSpec.shared_examples_for "approvable" do
   end
 
   it "does not approve model on create if user have not permissions for approving" do
-    model = build(described_class.to_s.underscore.to_sym)
+    model = build(subject.to_s.underscore.to_sym)
     allow(model).to receive(:auto_approve?).and_return(false)
 
     expect(model).to_not receive(:approve)

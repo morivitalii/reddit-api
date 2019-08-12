@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class UserPolicy < ApplicationPolicy
-  def show?
+  def posts?
     true
   end
 
-  alias comments? show?
+  alias comments? posts?
 
   def update?
     user_signed_in?

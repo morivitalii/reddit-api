@@ -1,62 +1,47 @@
 require "rails_helper"
 
 RSpec.describe ModeratorsQuery do
-  subject { described_class.new }
+  subject { described_class }
 
-  describe ".global" do
-    let!(:sub_moderators) { [create(:sub_moderator)] }
-    let!(:global_moderators) { [create(:global_moderator)] }
+  describe ".with_username" do
+    let!(:user) { create(:user) }
+    let!(:expected) { create_pair(:moderator, user: user) }
+    let!(:others) { create_pair(:moderator) }
 
-    it "returns global moderators" do
-      expected_result = global_moderators
-      result = subject.global.all
+    it "returns results filtered by username" do
+      result = subject.new.with_username(user.username)
 
-      expect(result).to eq(expected_result)
+      expect(result).to contain_exactly(*expected)
     end
   end
 
-  describe ".sub" do
-    let!(:sub) { create(:sub) }
-    let!(:sub_moderators) { [create(:sub_moderator, sub: sub)] }
-    let!(:global_moderators) { [create(:global_moderator)] }
+  describe ".search_by_username" do
+    it "returns relation if username is blank" do
+      query = subject.new
 
-    it "returns sub moderators" do
-      expected_result = sub_moderators
-      result = subject.sub(sub).all
+      expected_result = query.relation
+      result = query.search_by_username("")
 
       expect(result).to eq(expected_result)
+    end
+
+    it "calls .with_username if username is present" do
+      query = subject.new
+
+      expect(query).to receive(:with_username).with(anything)
+
+      query.search_by_username(anything)
     end
   end
 
-  describe ".global_or_sub" do
-    let!(:sub) { create(:sub) }
-    let!(:sub_moderators) { [create(:sub_moderator, sub: sub)] }
-    let!(:global_moderators) { [create(:global_moderator)] }
+  describe ".recent" do
+    let!(:moderators) { create_list(:moderator, 3) }
+    let!(:expected) { moderators[0..1] }
 
-    it "returns global and sub moderators" do
-      expected_result = sub_moderators + global_moderators
-      result = subject.global_or_sub(sub).all
+    it "returns recent moderators" do
+      result = subject.new.recent(2)
 
-      expect(result).to eq(expected_result)
-    end
-  end
-
-  describe ".filter_by_username" do
-    let!(:moderators) { create_pair(:moderator) }
-
-    it "returns moderators if given user username is blank" do
-      expected_result = moderators
-      result = subject.filter_by_username(nil).all
-
-      expect(result).to eq(expected_result)
-    end
-
-    it "returns moderator where user has a given username" do
-      expected_result = [moderators.first]
-      username = expected_result.first.user.username
-      result = subject.filter_by_username(username).all
-
-      expect(result).to eq(expected_result)
+      expect(result).to eq(expected)
     end
   end
 end
