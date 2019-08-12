@@ -620,8 +620,7 @@ CREATE TABLE public.users (
     posts_points integer DEFAULT 0 NOT NULL,
     comments_points integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    forgot_password_email_sent_at timestamp without time zone
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1784,6 +1783,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190810090803'),
 ('20190810091117'),
 ('20190810135911'),
-('20190811172834');
+('20190811172834'),
+('20190812172247');
 
 

@@ -4,28 +4,22 @@ class ChangePasswordForm
   include ActiveModel::Model
 
   attr_accessor :token, :password
-  attr_reader :user
 
   validates :token, presence: true
-  validates :password, presence: true, length: { minimum: 6, maximum: 16 }
-  validate :exists?
+  validates :password, presence: true
 
   def save
     return false if invalid?
 
-    @user = UsersQuery.new.with_forgot_password_token(token).take!
+    user.update!(password: password)
+    user.regenerate_forgot_password_token
+  rescue ActiveRecord::RecordInvalid => invalid
+    errors.merge!(invalid.record.errors)
 
-    @user.transaction do
-      @user.update!(password: password)
-      @user.regenerate_forgot_password_token
-    end
+    return false
   end
 
-  private
-
-  def exists?
-    unless UsersQuery.new.with_forgot_password_token(token).exists?
-      errors.add(:password, :invalid_reset_password_link)
-    end
+  def user
+    @_user ||= UsersQuery.new.with_forgot_password_token(token).take!
   end
 end

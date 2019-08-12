@@ -5,34 +5,10 @@ RSpec.describe SignInForm do
 
   context "invalid" do
     before do
-      @form = subject.new
+      @form = subject.new(username: "username", password: "password")
     end
 
-    it "adds error on username field if given username format is wrong" do
-      @form.username = "wrong username format"
-      @form.validate
-
-      expected_result = { error: :invalid_username_format }
-      result = @form.errors.details[:username]
-
-      expect(result).to include(expected_result)
-    end
-
-    it "adds error on username field if user with given username does not exist" do
-      @form.username = "wrong username"
-      @form.validate
-
-      expected_result = { error: :invalid_username_format }
-      result = @form.errors.details[:username]
-
-      expect(result).to include(expected_result)
-    end
-
-    it "adds error on username field if user with given username exist but password is wrong" do
-      user = create(:user)
-
-      @form.username = user.username
-      @form.password = "wrong password"
+    it "if credentials does not match" do
       @form.validate
 
       expected_result = { error: :invalid_credentials }
@@ -46,17 +22,15 @@ RSpec.describe SignInForm do
     let(:user) { create(:user) }
 
     before do
-      @form = subject.new(
-        username: user.username,
-        password: user.password
-      )
+      @user = instance_double(User)
+      allow(@user).to receive(:authenticate).with(anything).and_return(true)
+
+      @form = subject.new(username: double, password: double)
+      allow(@form).to receive(:user).and_return(@user)
     end
 
     it "is valid" do
-      @form.validate
-      result = @form.errors
-
-      expect(result).to be_blank
+      expect(@form).to be_valid
     end
   end
 end

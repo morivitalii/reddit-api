@@ -6,52 +6,41 @@ RSpec.describe ForgotPasswordForm do
   subject { described_class }
 
   describe ".save" do
-    let(:user) { create(:user) }
-
     context "invalid" do
       before do
-        @form = subject.new
+        @form = subject.new(email: double)
       end
 
-      it "adds error on email field if email format is wrong" do
-        @form.email = "wrong email format"
-        @form.save
+      it "if email is blank" do
+        @form.email = ""
+        @form.validate
 
-        expected_result = { error: :invalid }
+        expected_result = { error: :blank }
         result = @form.errors.details[:email]
 
         expect(result).to include(expected_result)
-      end
-
-      it "returns true if user with given email does not exists" do
-        @form.email = "wrong@email.com"
-
-        result = @form.save
-
-        expect(result).to be_truthy
-      end
-
-      it "returns true if email was sent today" do
-        allow(@form).to receive(:email_was_sent_today?).and_return(true)
-        @form.email = user.email
-
-        result = @form.save
-
-        expect(result).to be_truthy
       end
     end
 
     context "valid" do
       before do
-        @form = subject.new(email: user.email)
-        allow(@form).to receive(:email_was_sent_today?).and_return(false)
+        @user = instance_double(User, email: "user@email.com", forgot_password_token: "token")
+        @form = subject.new(email: @user.email)
       end
 
-      it "updates user forgot_password_email_sent_at field" do
-        expect { @form.save }.to change { user.reload.forgot_password_email_sent_at }
+      it { expect(@form).to be_valid }
+
+      it "does not send email if user with given email does not exist" do
+        allow(@form).to receive(:user).and_return(nil)
+
+        assert_no_emails do
+          @form.save
+        end
       end
 
-      it "sends email" do
+      it "sends forgot password email if user with given email exists" do
+        allow(@form).to receive(:user).and_return(@user)
+
         assert_emails(1) do
           @form.save
         end

@@ -5,9 +5,7 @@ class SignInForm
 
   attr_accessor :username, :password
 
-  validates :username, presence: true, username_format: true
-  validates :password, presence: true, length: { minimum: 6, maximum: 16 }
-  validate :authenticate, if: ->(record) { record.errors.blank? }
+  validate :authenticate
 
   def authenticate
     if user.blank? || !user.authenticate(password)

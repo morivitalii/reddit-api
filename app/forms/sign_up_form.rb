@@ -6,17 +6,15 @@ class SignUpForm
   attr_accessor :username, :email, :password
   attr_reader :user
 
-  validates :username, presence: true, username_format: true, username_uniqueness: true
-  validates :email, allow_blank: true, email_format: true, user_email_uniqueness: true
-  validates :password, presence: true, length: { minimum: 6, maximum: 16 }
-
   def save
-    return false if invalid?
-
     @user = User.create!(
       username: username,
       email: email,
       password: password
     )
+  rescue ActiveRecord::RecordInvalid => invalid
+    errors.merge!(invalid.record.errors)
+
+    return false
   end
 end
