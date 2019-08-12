@@ -4,36 +4,15 @@ RSpec.describe UpdateUserForm do
   subject { described_class }
 
   describe ".save" do
-    let(:user) { instance_double(User, id: "", authenticate: "", update!: "") }
-
     context "invalid" do
       before do
-        @form = subject.new(user: user, email: "")
+        @form = subject.new
       end
 
-      it "adds error on email field if email format is wrong" do
-        @form.email = "wrong email format"
-        @form.save
-
-        expected_result = { error: :invalid }
-        result = @form.errors.details[:email]
-
-        expect(result).to include(expected_result)
-      end
-
-      it "adds error on email field if given email is not unique" do
-        allow(@form).to receive(:email_unique?).and_return(false)
-        @form.save
-
-        expected_result = { error: :email_taken }
-        result = @form.errors.details[:email]
-
-        expect(result).to include(expected_result)
-      end
-
-      it "adds error on current_password field if given password does not match user password" do
+      it "if current_password does not match user password" do
         allow(@form).to receive(:current_password_match?).and_return(false)
-        @form.save
+
+        @form.validate
 
         expected_result = { error: :invalid_current_password }
         result = @form.errors.details[:password_current]
@@ -44,31 +23,18 @@ RSpec.describe UpdateUserForm do
 
     context "valid" do
       before do
-        @form = subject.new(
-          user: user,
-          email: email,
-          password_current: "password"
-        )
+        @user = instance_double(User)
+        @form = subject.new(user: @user, email: double, password: double, password_current: double)
 
         allow(@form).to receive(:current_password_match?).and_return(true)
-        allow(@form).to receive(:email_unique?).and_return(true)
       end
 
-      let(:email) { "email@email.com" }
+      it { expect(@form).to be_valid }
 
-      it "update user email" do
+      it "updates user" do
+        expect(@user).to receive(:update!).with(email: anything, password: anything)
+
         @form.save
-
-        expect(user).to have_received(:update!).with(email: email).once
-      end
-
-      let(:password) { "password" }
-
-      it "update user password only if new password is given" do
-        @form.password = password
-        @form.save
-
-        expect(user).to have_received(:update!).with(hash_including(password: password)).once
       end
     end
   end
