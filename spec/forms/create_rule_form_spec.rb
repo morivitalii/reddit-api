@@ -1,17 +1,26 @@
 require "rails_helper"
 
 RSpec.describe CreateRuleForm do
-  subject { described_class.new(title: title, description: description) }
-
-  let(:title) { "Title" }
-  let(:description) { "Description" }
+  subject { described_class }
 
   describe ".save" do
-    it "creates rule" do
-      subject.save
-      result = subject.rule
+    let(:sub) { create(:sub) }
+    let(:title) { "Title" }
+    let(:description) { "Description" }
 
-      expect(result).to have_attributes(title: title, description: description)
+    before do
+      @form = subject.new(
+        sub: sub,
+        title: title,
+        description: description
+      )
+    end
+
+    it "creates rule" do
+      @form.save
+      result = @form.rule
+
+      expect(result).to have_attributes(sub: sub, title: title, description: description)
     end
   end
 end

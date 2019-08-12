@@ -4,11 +4,11 @@
 
     <div class="actions">
       <% if policy(rule).update? %>
-        <%= link_to(fa_icon('pencil'), edit_rule_path(rule), remote: true, class: 'update') %>
+        <%= link_to(fa_icon('pencil'), edit_sub_rule_path(rule.sub, rule), remote: true, class: 'update') %>
       <% end %>
 
       <% if policy(rule).destroy? %>
-        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: rule_path(rule) }) %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: sub_rule_path(rule.sub, rule) }) %>
       <% end %>
 
       <% if rule.description.present? %>

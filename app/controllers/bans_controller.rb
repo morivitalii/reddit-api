@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class BansController < ApplicationController
-  before_action :set_ban, only: [:edit, :update, :destroy]
   before_action :set_sub
   before_action :set_facade
+  before_action :set_ban, only: [:edit, :update, :destroy]
   before_action -> { authorize(Ban) }, only: [:index, :new, :create]
   before_action -> { authorize(@ban) }, only: [:edit, :update, :destroy]
 
   def index
-    @records, @pagination = scope.paginate(after: params[:after])
+    @records, @pagination = query.paginate(after: params[:after])
   end
 
   def new
@@ -29,7 +29,7 @@ class BansController < ApplicationController
     @form = CreateBanForm.new(create_params)
 
     if @form.save
-      head :no_content, location: bans_path(sub: @sub)
+      head :no_content, location: sub_bans_path(@sub)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -57,33 +57,20 @@ class BansController < ApplicationController
     Context.new(current_user, @sub)
   end
 
-  def scope
-    query_class = BansQuery
-
-    if @sub.present?
-      scope = query_class.new.sub(@sub)
-    else
-      scope = query_class.new.global
-    end
-
-    scope = query_class.new(scope).filter_by_username(params[:query])
-    scope.includes(:user, :banned_by)
+  def set_sub
+    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
   end
 
   def set_facade
     @facade = BansFacade.new(context)
   end
 
-  def set_sub
-    if @ban.present?
-      @sub = @ban.sub
-    elsif params[:sub].present?
-      @sub = SubsQuery.new.where_url(params[:sub]).take!
-    end
+  def set_ban
+    @ban = @sub.bans.find(params[:id])
   end
 
-  def set_ban
-    @ban = Ban.find(params[:id])
+  def query
+    BansQuery.new(@sub.bans).search_by_username(params[:query]).includes(:user, :banned_by)
   end
 
   def create_params

@@ -87,7 +87,6 @@ ru:
   change_password: Изменить пароль
   login_or_sign_up: Что думаете? Войдите или зарегистрируйтесь
   create_post: Добавить пост
-  create_post_in: "Добавить пост в:"
   settings: Настройки
   moderators: Модераторы
   contributors: Контрибуторы
@@ -98,9 +97,15 @@ ru:
   tags: Теги
   pages: Вики
   mod_queue: Модерация контента
+  posts_mod_queue: Модерация постов
+  comments_mod_queue: Модерация комментариев
   reports: Жалобы
+  posts_reports: Жалобы на посты
+  comments_reports: Жалобы на комментарии
   trash: Удаленное
   bookmarks: Закладки
+  posts_bookmarks: Закладки постов
+  comments_bookmarks: Закладки комментариев
   profile: Профиль
   subscribe: Подписаться
   unsubscribe: Отписаться
@@ -156,6 +161,8 @@ ru:
   sub: Комьюнити
   subs: Комьюнити
   votes: Голоса
+  posts_votes: Голоса за посты
+  comments_votes: Голоса за комментарии
   ups_and_downs: За и против
   ups: За
   downs: Против

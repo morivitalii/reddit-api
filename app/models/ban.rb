@@ -3,7 +3,7 @@
 class Ban < ApplicationRecord
   include Paginatable
 
-  belongs_to :sub, optional: true
+  belongs_to :sub
   belongs_to :user
   belongs_to :banned_by, class_name: "User", foreign_key: "banned_by_id"
 

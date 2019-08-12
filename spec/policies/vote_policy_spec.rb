@@ -3,20 +3,13 @@ require "rails_helper"
 RSpec.describe VotePolicy do
   subject { described_class }
 
-  let(:context) { Context.new(user) }
+  let(:sub) { create(:sub) }
+  let(:context) { Context.new(user, sub) }
 
   context "for visitor" do
     let(:user) { nil }
 
-    permissions :index?, :comments? do
-      it { is_expected.to_not permit(context) }
-    end
-
-    permissions :create? do
-      it { is_expected.to_not permit(context) }
-    end
-
-    permissions :destroy? do
+    permissions :posts?, :comments?, :create?, :destroy? do
       it { is_expected.to_not permit(context) }
     end
   end
@@ -24,15 +17,7 @@ RSpec.describe VotePolicy do
   context "for user" do
     let(:user) { create(:user) }
 
-    permissions :index?, :comments? do
-      it { is_expected.to permit(context) }
-    end
-
-    permissions :create? do
-      it { is_expected.to permit(context) }
-    end
-
-    permissions :destroy? do
+    permissions :posts?, :comments?, :create?, :destroy? do
       it { is_expected.to permit(context) }
     end
   end

@@ -5,7 +5,7 @@ class Tag < ApplicationRecord
 
   LIMIT = 100
 
-  belongs_to :sub, optional: true
+  belongs_to :sub
 
   strip_attributes :title, squish: true
 
@@ -24,11 +24,9 @@ class Tag < ApplicationRecord
   end
 
   def unique?
-    query_class = TagsQuery
-    scope = query_class.new.global_or_sub(sub)
-    scope = query_class.new(scope).filter_by_title(title)
-    scope = scope.where.not(id: id) if persisted?
-    scope.none?
+    query = TagsQuery.new(sub.tags).with_title(title)
+    query = query.where.not(id: id) if persisted?
+    query.none?
   end
 
   def validate_limits
@@ -38,8 +36,6 @@ class Tag < ApplicationRecord
   end
 
   def existent_count
-    query_class = TagsQuery
-    scope = sub.present? ? query_class.new.sub(sub) : query_class.new.global
-    scope.count
+    sub.tags.count
   end
 end

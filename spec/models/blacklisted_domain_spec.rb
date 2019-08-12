@@ -7,8 +7,9 @@ RSpec.describe BlacklistedDomain do
 
   describe "uniqueness validation" do
     it "adds error on domain attribute if given value not unique" do
-      blacklisted_domain = create(:blacklisted_domain)
-      model = subject.new(domain: blacklisted_domain.domain)
+      sub = create(:sub)
+      blacklisted_domain = create(:blacklisted_domain, sub: sub)
+      model = subject.new(sub: sub, domain: blacklisted_domain.domain)
       model.validate
 
       expected_result = { error: :taken }
@@ -18,7 +19,8 @@ RSpec.describe BlacklistedDomain do
     end
 
     it "is valid if given value is unique" do
-      model = subject.new(domain: "example.com")
+      sub = create(:sub)
+      model = subject.new(sub: sub, domain: "example.com")
       model.validate
 
       expected_result = { error: :taken }

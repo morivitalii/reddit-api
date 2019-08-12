@@ -7,7 +7,7 @@ RSpec.shared_examples_for "removable" do
   let(:reason) { "Reason" }
 
   before do
-    @model = create(described_class.to_s.underscore.to_sym)
+    @model = create(subject.to_s.underscore.to_sym)
   end
 
   describe ".undo_approve", if: @model.respond_to?(:approvable?) do

@@ -17,6 +17,7 @@ RSpec.describe UsernameFormatValidator do
         subject.username = "invalid username"
 
         subject.valid?
+
         expected_result = { error: :invalid_username_format }
         result = subject.errors.details[:username]
 

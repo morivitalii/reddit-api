@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :set_facade
   before_action -> { authorize(@user) }
 
-  def show
+  def posts
     @records, @pagination = Post.in_date_range(date)
                                        .where(user: @user)
                                        .includes(:sub, :user)
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
 
   def set_user
     if params[:id].present?
-      @user = UsersQuery.new.where_username(params[:id]).take!
+      @user = UsersQuery.new.with_username(params[:id]).take!
     else
       @user = current_user
     end

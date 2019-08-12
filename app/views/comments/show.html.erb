@@ -6,11 +6,11 @@
   <div class="thing row mt-2">
     <% if @comment.removed? %>
       <div class="content col-12 mt-2">
-        <%= t("deleted_html", username: link_to(@comment.deleted_by.username, user_path(@comment.deleted_by)), deleted_at: datetime_tag(@comment.deleted_at, :ago), reason: @comment.deletion_reason) %>
+        <%= t("deleted_html", username: link_to(@comment.deleted_by.username, posts_user_path(@comment.deleted_by)), deleted_at: datetime_tag(@comment.deleted_at, :ago), reason: @comment.deletion_reason) %>
       </div>
     <% else %>
       <div class="info col-12">
-        <%= link_to(@comment.user.username, user_path(@comment.user)) %>
+        <%= link_to(@comment.user.username, posts_user_path(@comment.user)) %>
         <%= datetime_tag(@comment.created_at, :ago) %>
 
         <% if @comment.edited? %>

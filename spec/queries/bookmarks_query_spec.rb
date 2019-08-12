@@ -1,38 +1,27 @@
 require "rails_helper"
 
 RSpec.describe BookmarksQuery do
-  subject { described_class.new }
+  subject { described_class }
 
-  describe ".filter_by_bookmarkable_type" do
-    let!(:post_bookmarks) { [create(:post_bookmark, )] }
-    let!(:comment_bookmarks) { [create(:comment_bookmark)] }
+  describe ".posts_bookmarks" do
+    let!(:expected) { create_pair(:post_bookmark) }
+    let!(:others) { create_pair(:comment_bookmark) }
 
-    it "returns all bookmarks if bookmarkable type is blank" do
-      expected_result = post_bookmarks + comment_bookmarks
-      result = subject.filter_by_bookmarkable_type(nil).all
+    it "returns posts bookmarks" do
+      result = subject.new.posts_bookmarks
 
-      expect(result).to eq(expected_result)
-    end
-
-    it "returns bookmarks with given type" do
-      expected_result = post_bookmarks
-      type = expected_result.first.bookmarkable_type
-      result = subject.filter_by_bookmarkable_type(type).all
-
-      expect(result).to eq(expected_result)
+      expect(result).to contain_exactly(*expected)
     end
   end
 
-  describe ".where_user" do
-    let!(:user) { create(:user) }
-    let!(:user_bookmarks) { [create(:bookmark, user: user)] }
-    let!(:bookmarks) { [create(:bookmark)] }
+  describe ".comments_bookmarks" do
+    let!(:expected) { create_pair(:comment_bookmark) }
+    let!(:others) { create_pair(:post_bookmark) }
 
-    it "returns bookmarks of given user" do
-      expected_result = user_bookmarks
-      result = subject.where_user(user).all
+    it "returns posts bookmarks" do
+      result = subject.new.comments_bookmarks
 
-      expect(result).to eq(expected_result)
+      expect(result).to contain_exactly(*expected)
     end
   end
 end

@@ -19,6 +19,7 @@ RSpec.describe UsernameUniquenessValidator do
         subject.username = user.username
 
         subject.valid?
+
         expected_result = { error: :username_taken }
         result = subject.errors.details[:username]
 

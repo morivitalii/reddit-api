@@ -1,4 +1,4 @@
-<% content_for(:meta_title, @facade.index_meta_title) %>
+<% content_for(:meta_title, @facade.posts_meta_title) %>
 
 <%= render "users/sidebar", user: @user %>
 
@@ -9,12 +9,12 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("posts"), user_path(@user), class: 'dropdown-item') %>
+      <%= link_to(t("posts"), posts_user_path(@user), class: 'dropdown-item') %>
       <%= link_to(t("comments"), comments_user_path(@user), class: 'dropdown-item') %>
 
       <% if current_user.id == @user.id %>
-        <%= link_to(t("bookmarks"), bookmarks_path, class: 'dropdown-item') %>
-        <%= link_to(t("votes"), votes_path, class: 'dropdown-item') %>
+        <%= link_to(t("bookmarks"), posts_bookmarks_path, class: 'dropdown-item') %>
+        <%= link_to(t("votes"), posts_votes_path, class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
@@ -26,7 +26,7 @@
 
     <div class="dropdown-menu">
       <% ThingsSorting.new.list.each do |k, v| %>
-        <%= link_to(v, user_path(@user, sort: k), class: 'dropdown-item') %>
+        <%= link_to(v, posts_user_path(@user, sort: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
@@ -38,7 +38,7 @@
 
     <div class="dropdown-menu">
       <% ThingsDates.new.list.each do |k, v| %>
-        <%= link_to(v, user_path(@user, sort: params[:sort], date: k), class: 'dropdown-item') %>
+        <%= link_to(v, posts_user_path(@user, sort: params[:sort], date: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>

@@ -1,13 +1,17 @@
 require "rails_helper"
 
 RSpec.describe DeleteBanService do
-  subject { described_class.new(ban) }
-
-  let!(:ban) { create(:ban) }
+  subject { described_class }
 
   describe ".call" do
+    let!(:ban) { create(:ban) }
+
+    before do
+      @service = subject.new(ban)
+    end
+
     it "delete ban" do
-      expect { subject.call }.to change { Ban.count }.by(-1)
+      expect { @service.call }.to change { Ban.count }.by(-1)
     end
   end
 end

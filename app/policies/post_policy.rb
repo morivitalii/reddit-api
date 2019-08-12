@@ -6,64 +6,70 @@ class PostPolicy < ApplicationPolicy
   end
 
   def create?
-    user_signed_in? && !context.user.banned?(context.sub)
+    user_signed_in?
   end
 
   alias new? create?
 
   def update?
-    user_signed_in? && context.user.moderator?(record.sub) && !context.user.banned?(record.sub) && record.user_id == context.user.id
+    user_signed_in? && (user_author? || user_moderator?)
   end
 
   alias edit? update?
 
   def approve?
-    user_signed_in? && user.moderator?(record.sub)
+    user_signed_in? && user_moderator?
   end
 
   def destroy?
-    user_signed_in? && (record.user_id == context.user.id || context.user.moderator?(record.sub))
+    user_signed_in? && (user_author? || user_moderator?)
   end
 
   alias remove? destroy?
 
   def text?
-    user_signed_in? && !context.user.banned?(record.sub) && record.user_id == context.user.id
+    user_signed_in? && user_author?
   end
 
   def tag?
-    user_signed_in? && context.user.moderator?(record.sub)
+    user_signed_in? && user_moderator?
   end
 
   def explicit?
-    user_signed_in? && context.user.moderator?(record.sub)
+    user_signed_in? && user_moderator?
   end
 
   def spoiler?
-    user_signed_in? && context.user.moderator?(record.sub)
+    user_signed_in? && user_moderator?
   end
 
   def ignore_reports?
-    user_signed_in? && context.user.moderator?(record.sub)
+    user_signed_in? && user_moderator?
+  end
+
+  def deletion_reason?
+    user_signed_in? && user_moderator?
   end
 
   def permitted_attributes_for_update
     attributes = []
-
     attributes.push(:text) if text?
     attributes.push(:explicit) if explicit?
     attributes.push(:spoiler) if spoiler?
     attributes.push(:tag) if tag?
     attributes.push(:ignore_reports) if ignore_reports?
-
     attributes
   end
 
   def permitted_attributes_for_destroy
-    if context.user.moderator?(record.sub)
-      [:reason]
-    else
-      []
-    end
+    attributes = []
+    attributes.push(:reason) if deletion_reason?
+    attributes
+  end
+
+  private
+
+  def user_author?
+    user.id == record.user_id
   end
 end

@@ -4,11 +4,11 @@
 
     <div class="actions">
       <% if policy(tag).update? %>
-        <%= link_to(fa_icon('pencil'), edit_tag_path(tag), remote: true, class: 'update') %>
+        <%= link_to(fa_icon('pencil'), edit_sub_tag_path(tag.sub, tag), remote: true, class: 'update') %>
       <% end %>
 
       <% if policy(tag).destroy? %>
-        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: tag_path(tag) }) %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: sub_tag_path(tag.sub, tag) }) %>
       <% end %>
     </div>
   </div>

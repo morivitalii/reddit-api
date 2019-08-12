@@ -3,22 +3,29 @@ require "rails_helper"
 class DomainBlacklistValidatorDummy
   include ActiveModel::Validations
 
-  attr_accessor :url
+  attr_accessor :url, :sub
+
+  def initialize(sub)
+    @sub = sub
+  end
 
   validates :url, domain_blacklist: true
 end
 
 RSpec.describe DomainBlacklistValidator do
-  subject { DomainBlacklistValidatorDummy.new }
+  subject { DomainBlacklistValidatorDummy.new(sub) }
 
   describe ".validate_each" do
+    let(:sub) { create(:sub) }
+
     context "invalid" do
-      let!(:blacklisted_domain) { create(:blacklisted_domain) }
+      let!(:blacklisted_domain) { create(:blacklisted_domain, sub: sub) }
 
       it "adds error on url attribute if domain is blacklisted" do
-        subject.url = "http://#{blacklisted_domain.domain}/"
+        subject.url = blacklisted_domain.domain
 
         subject.valid?
+
         expected_result = { error: :blacklisted_domain }
         result = subject.errors.details[:url]
 
@@ -28,7 +35,7 @@ RSpec.describe DomainBlacklistValidator do
 
     context "valid" do
       it "does not add error on url attribute if domain is not blacklisted" do
-        subject.url = "http://example.com/"
+        subject.url = "example.com"
 
         result = subject.valid?
 

@@ -88,7 +88,7 @@ class CommentsController < ApplicationController
 
   def remove
     @form = RemoveCommentForm.new(reason: @comment.deletion_reason)
-    @deletion_reasons = DeletionReasonsQuery.new.global_or_sub(@comment.sub).all
+    @deletion_reasons = @comment.sub.deletion_reasons.all
 
     render partial: "remove"
   end

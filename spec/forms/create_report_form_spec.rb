@@ -3,11 +3,11 @@ require "rails_helper"
 RSpec.describe CreateReportForm do
   subject { described_class }
 
-  let(:user) { create(:user) }
-  let(:reportable) { create(:post) }
-  let(:text) { "Text" }
-
   describe ".save" do
+    let(:user) { create(:user) }
+    let(:reportable) { create(:post) }
+    let(:text) { "Text" }
+
     before do
       @form = subject.new(
         reportable: reportable,

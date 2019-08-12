@@ -3,9 +3,9 @@ require "rails_helper"
 RSpec.describe UpdateDeletionReasonForm do
   subject { described_class }
 
-  let(:deletion_reason) { double(:deletion_reason, update!: "") }
-
   describe ".save" do
+    let(:deletion_reason) { instance_double(DeletionReason, update!: "") }
+
     before do
       @form = subject.new(deletion_reason: deletion_reason)
     end

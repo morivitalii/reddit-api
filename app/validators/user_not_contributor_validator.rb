@@ -4,21 +4,14 @@ class UserNotContributorValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
 
-    if scope(record, value).exists?
+    unless valid?(record, value)
       record.errors.add(attribute, :user_contributor)
     end
   end
 
   private
 
-  def scope(record, value)
-    sub = sub(record)
-
-    scope = ContributorsQuery.new.global_or_sub(sub)
-    ContributorsQuery.new(scope).filter_by_username(value)
-  end
-
-  def sub(record)
-    record.respond_to?(:sub) ? record.sub : nil
+  def valid?(record, value)
+    ContributorsQuery.new(record.sub.contributors).with_username(value).none?
   end
 end

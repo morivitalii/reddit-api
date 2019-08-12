@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class FollowsController < ApplicationController
-  before_action -> { authorize(Follow) }
   before_action :set_sub
+  before_action -> { authorize(Follow) }
 
   def create
     CreateFollowService.new(@sub, current_user).call
@@ -23,6 +23,6 @@ class FollowsController < ApplicationController
   end
 
   def set_sub
-    @sub = SubsQuery.new.where_url(params[:sub_id]).take!
+    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
   end
 end

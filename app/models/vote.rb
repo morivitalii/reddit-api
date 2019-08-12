@@ -60,7 +60,7 @@ class Vote < ApplicationRecord
   end
 
   def user_points_attribute
-    "#{votable.class.name.pluralize}_points"
+    "#{votable.class.name.pluralize.downcase}_points"
   end
 
   def self_vote?

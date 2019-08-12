@@ -23,7 +23,7 @@
     </div>
 
     <div id="text" class="col-12 mt-2 mb-3 type">
-      <%= form_with(model: @form, url: posts_path(sub: @sub), class: 'createPostForm') do |f| %>
+      <%= form_with(model: @form, url: sub_posts_path(@sub), class: 'createPostForm') do |f| %>
         <%= f.text_area :title, rows: 3 %>
         <%= f.text_area :text %>
         <%= f.text_area :url, rows: 3 %>

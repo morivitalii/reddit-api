@@ -41,7 +41,7 @@ module Approvable
     end
 
     def auto_approve?
-      context = Context.new(user)
+      context = Context.new(user, sub)
       Pundit.policy(context, self).approve?
     end
   end

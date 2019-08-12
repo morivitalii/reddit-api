@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class RulesController < ApplicationController
-  before_action :set_rule, only: [:edit, :update, :destroy]
   before_action :set_sub
   before_action :set_facade
+  before_action :set_rule, only: [:edit, :update, :destroy]
   before_action -> { authorize(Rule) }, only: [:index, :new, :create]
   before_action -> { authorize(rule) }, only: [:edit, :update, :destroy]
 
   def index
-    @records, @pagination = scope.paginate(after: params[:after])
+    @records, @pagination = @sub.rules.paginate(after: params[:after])
   end
 
   def new
@@ -29,7 +29,7 @@ class RulesController < ApplicationController
     @form = CreateRuleForm.new(create_params)
 
     if @form.save
-      head :no_content, location: rules_path(sub: @sub)
+      head :no_content, location: sub_rules_path(@sub)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -57,30 +57,16 @@ class RulesController < ApplicationController
     Context.new(current_user, @sub)
   end
 
-  def scope
-    query_class = RulesQuery
-
-    if @sub.present?
-      query_class.new.sub(@sub)
-    else
-      query_class.new.global
-    end
+  def set_sub
+    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
   end
 
   def set_facade
     @facade = RulesFacade.new(context)
   end
 
-  def set_sub
-    if @rule.present?
-      @sub = @rule.sub
-    elsif params[:sub].present?
-      @sub = SubsQuery.new.where_url(params[:sub]).take!
-    end
-  end
-
   def set_rule
-    @rule = Rule.find(params[:id])
+    @rule = @sub.rules.find(params[:id])
   end
 
   def create_params

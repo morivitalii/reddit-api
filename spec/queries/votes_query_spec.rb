@@ -1,58 +1,47 @@
 require "rails_helper"
 
 RSpec.describe VotesQuery do
-  subject { described_class.new }
+  subject { described_class }
 
-  describe ".filter_by_votable_type" do
-    let!(:post_votes) { [create(:post_vote)] }
-    let!(:comment_votes) { [create(:comment_vote)] }
+  describe ".posts_votes" do
+    let!(:expected) { create_pair(:post_vote) }
+    let!(:others) { create_pair(:comment_vote) }
 
-    it "returns all votes if votable type is blank" do
-      expected_result = post_votes + comment_votes
-      result = subject.filter_by_votable_type(nil).all
+    it "returns posts votes" do
+      result = subject.new.posts_votes
 
-      expect(result).to eq(expected_result)
-    end
-
-    it "returns votes with given votable type" do
-      expected_result = post_votes
-      type = expected_result.first.votable_type
-      result = subject.filter_by_votable_type(type).all
-
-      expect(result).to eq(expected_result)
+      expect(result).to contain_exactly(*expected)
     end
   end
 
-  describe ".filter_by_vote_type" do
-    let!(:up_votes) { [create(:up_vote)] }
-    let!(:down_votes) { [create(:down_vote)] }
+  describe ".comments_votes" do
+    let!(:expected) { create_pair(:comment_vote) }
+    let!(:others) { create_pair(:post_vote) }
 
-    it "returns all votes if vote type is blank" do
-      expected_result = up_votes + down_votes
-      result = subject.filter_by_vote_type(nil).all
+    it "returns posts votes" do
+      result = subject.new.comments_votes
 
-      expect(result).to eq(expected_result)
-    end
-
-    it "returns votes with given vote type" do
-      expected_result = up_votes
-      type = expected_result.first.vote_type
-      result = subject.filter_by_vote_type(type).all
-
-      expect(result).to eq(expected_result)
+      expect(result).to contain_exactly(*expected)
     end
   end
 
-  describe ".where_user" do
-    let!(:user) { create(:user) }
-    let!(:user_votes) { [create(:vote, user: user)] }
-    let!(:votes) { [create(:vote)] }
+  describe ".search_by_vote_type" do
+    let!(:expected) { create_pair(:up_vote) }
+    let!(:others) { create_pair(:down_vote) }
 
-    it "returns votes of given user" do
-      expected_result = user_votes
-      result = subject.where_user(user).all
+    it "return relation if type is blank" do
+      query = subject.new
+
+      expected_result = query.relation
+      result = query.search_by_vote_type("")
 
       expect(result).to eq(expected_result)
+    end
+
+    it "returns results filtered by vote_type" do
+      result = subject.new.search_by_vote_type(:up)
+
+      expect(result).to contain_exactly(*expected)
     end
   end
 end

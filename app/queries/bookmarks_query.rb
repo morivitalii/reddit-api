@@ -1,19 +1,11 @@
 # frozen_string_literal: true
 
-class BookmarksQuery
-  attr_reader :relation
-
-  def initialize(relation = Bookmark.all)
-    @relation = relation
+class BookmarksQuery < ApplicationQuery
+  def posts_bookmarks
+    relation.where(bookmarkable_type: "Post")
   end
 
-  def filter_by_bookmarkable_type(type)
-    return relation if type.blank?
-
-    relation.where(bookmarkable_type: type)
-  end
-
-  def where_user(user)
-    relation.where(user: user)
+  def comments_bookmarks
+    relation.where(bookmarkable_type: "Comment")
   end
 end

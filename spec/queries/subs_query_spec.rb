@@ -1,57 +1,52 @@
 require "rails_helper"
 
 RSpec.describe SubsQuery do
-  subject { described_class.new }
+  subject { described_class }
 
-  describe ".where_url" do
-    let!(:subs) { create_pair(:sub) }
+  describe ".with_url" do
+    let!(:expected) { create(:sub) }
+    let!(:others) { create_pair(:sub) }
 
-    it "returns sub with given url" do
-      expected_result = [subs.first]
-      url = expected_result.first.url
-      result = subject.where_url(url).all
+    it "returns results filtered by url" do
+      result = subject.new.with_url(expected.url).take
 
-      expect(result).to eq(expected_result)
+      expect(result).to eq(expected)
     end
   end
 
   describe ".default" do
-    let!(:subs) { [create(:sub)] }
-    let!(:default_sub) { [create(:sub, url: "all")] }
+    it "calls .with_url with 'all'" do
+      query = subject.new
 
-    it "return default sub" do
-      expected_result = default_sub
-      result = subject.default.all
+      expect(query).to receive(:with_url).with("all")
 
-      expect(result).to eq(expected_result)
+      query.default
     end
   end
 
-  describe ".where_user_moderator" do
+  describe ".with_user_moderator" do
     let!(:user) { create(:user) }
-    let!(:sub) { create(:sub) }
-    let!(:user_sub_moderators) { [create(:sub_moderator, sub: sub, user: user)] }
-    let!(:other_sub_moderators) { create(:sub_moderator, sub: sub) }
+    let!(:expected) { create(:sub) }
+    let!(:moderator) { create(:moderator, sub: expected, user: user) }
+    let!(:others) { create(:sub) }
 
-    it "returns subs where user is moderator" do
-      expected_result = [sub]
-      result = subject.where_user_moderator(user).all
+    it "returns subs where user moderator" do
+      result = subject.new.with_user_moderator(user)
 
-      expect(result).to eq(expected_result)
+      expect(result).to eq([expected])
     end
   end
 
-  describe ".where_user_follower" do
+  describe ".with_user_follower" do
     let!(:user) { create(:user) }
-    let!(:sub) { create(:sub) }
-    let!(:user_sub_followers) { [create(:follow, sub: sub, user: user)] }
-    let!(:other_sub_followers) { create(:follow, sub: sub) }
+    let!(:expected) { create(:sub) }
+    let!(:moderator) { create(:follow, sub: expected, user: user) }
+    let!(:others) { create(:sub) }
 
-    it "returns subs where user is follower" do
-      expected_result = [sub]
-      result = subject.where_user_follower(user).all
+    it "returns subs where user follower" do
+      result = subject.new.with_user_follower(user)
 
-      expect(result).to eq(expected_result)
+      expect(result).to eq([expected])
     end
   end
 end

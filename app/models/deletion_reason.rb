@@ -5,7 +5,7 @@ class DeletionReason < ApplicationRecord
 
   LIMIT = 50
 
-  belongs_to :sub, optional: true
+  belongs_to :sub
 
   strip_attributes :title, :description, squish: true
 
@@ -22,8 +22,6 @@ class DeletionReason < ApplicationRecord
   end
 
   def existent_count
-    query_class = DeletionReasonsQuery
-    scope = sub.present? ? query_class.new.sub(sub) : query_class.new.global
-    scope.count
+    sub.deletion_reasons.count
   end
 end

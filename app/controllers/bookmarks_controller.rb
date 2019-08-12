@@ -2,17 +2,17 @@
 
 class BookmarksController < ApplicationController
   before_action -> { authorize(Bookmark) }
-  before_action :set_user, only: [:index, :comments]
+  before_action :set_user, only: [:posts, :comments]
   before_action :set_bookmarkable, only: [:create, :destroy]
   before_action :set_facade
 
-  def index
-    @records, @pagination = posts_scope.paginate(after: params[:after])
+  def posts
+    @records, @pagination = posts_query.paginate(after: params[:after])
     @records = @records.map(&:bookmarkable).map(&:decorate)
   end
 
   def comments
-    @records, @pagination = comments_scope.paginate(after: params[:after])
+    @records, @pagination = comments_query.paginate(after: params[:after])
     @records = @records.map(&:bookmarkable).map(&:decorate)
   end
 
@@ -38,16 +38,12 @@ class BookmarksController < ApplicationController
 
   private
 
-  def posts_scope
-    BookmarksQuery.new(scope).filter_by_bookmarkable_type("Post").includes(bookmarkable: [:user, :sub])
+  def posts_query
+    BookmarksQuery.new(@user.bookmarks).posts_bookmarks.includes(bookmarkable: [:user, :sub])
   end
 
-  def comments_scope
-    BookmarksQuery.new(scope).filter_by_bookmarkable_type("Comment").includes(bookmarkable: [:user, post: :sub])
-  end
-
-  def scope
-    BookmarksQuery.new.where_user(@user)
+  def comments_query
+    BookmarksQuery.new(@user.bookmarks).comments_bookmarks.includes(bookmarkable: [:user, :post, :sub])
   end
 
   def set_facade

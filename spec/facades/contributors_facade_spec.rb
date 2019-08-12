@@ -5,26 +5,14 @@ RSpec.describe ContributorsFacade do
 
   let(:user) { create(:user) }
   let(:sub) { create(:sub) }
-  let(:global_context) { Context.new(user) }
-  let(:sub_context) { Context.new(user, sub) }
+  let(:context) { Context.new(user, sub) }
 
   describe ".index_meta_title" do
-    context "global" do
-      it "returns title" do
-        expected_result = I18n.t("contributors")
-        result = subject.new(global_context).index_meta_title
+    it "returns title" do
+      expected_result = "#{sub.title}: #{I18n.t("contributors")}"
+      result = subject.new(context).index_meta_title
 
-        expect(result).to eq(expected_result)
-      end
-    end
-
-    context "sub" do
-      it "returns title" do
-        expected_result = "#{sub.title}: #{I18n.t("contributors")}"
-        result = subject.new(sub_context).index_meta_title
-
-        expect(result).to eq(expected_result)
-      end
+      expect(result).to eq(expected_result)
     end
   end
 end

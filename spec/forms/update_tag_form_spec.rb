@@ -3,9 +3,9 @@ require "rails_helper"
 RSpec.describe UpdateTagForm do
   subject { described_class }
 
-  let(:tag) { double(:tag, update!: "") }
-
   describe ".save" do
+    let(:tag) { instance_double(Tag, update!: "") }
+
     before do
       @form = subject.new(tag: tag)
     end

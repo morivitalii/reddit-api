@@ -5,7 +5,7 @@ class Page < ApplicationRecord
   include Editable
   include Markdownable
 
-  belongs_to :sub, optional: true
+  belongs_to :sub
 
   markdown_attributes :text
   strip_attributes :title, squish: true

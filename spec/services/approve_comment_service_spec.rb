@@ -1,16 +1,20 @@
 require "rails_helper"
 
 RSpec.describe ApproveCommentService do
-  subject { described_class.new(comment, user) }
-
-  let(:user) { double(:double) }
-  let(:comment) { double(:comment) }
+  subject { described_class }
 
   describe ".call" do
-    it "call .approve! on comment" do
-      expect(comment).to receive(:approve!).with(subject.user).once
+    let(:user) { instance_double(User) }
+    let(:comment) { instance_double(Comment) }
 
-      subject.call
+    before do
+      @service = subject.new(comment, user)
+    end
+
+    it "call .approve! on comment" do
+      expect(comment).to receive(:approve!).with(user).once
+
+      @service.call
     end
   end
 end

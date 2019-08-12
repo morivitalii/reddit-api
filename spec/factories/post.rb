@@ -32,8 +32,5 @@ FactoryBot.define do
       approved_at { nil }
       deleted_at { nil }
     end
-
-    factory :not_moderated_post, traits: [:not_moderated]
-    factory :moderated_post, traits: [:moderated]
   end
 end

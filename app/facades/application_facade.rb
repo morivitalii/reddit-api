@@ -10,80 +10,32 @@ class ApplicationFacade
   end
 
   def user_ban
-    return nil if user_signed_out?
+    return nil if user.blank?
 
-    query_class = BansQuery
-
-    if sub_context?
-      scope = query_class.new.user_sub_ban(user, sub)
-    else
-      scope = query_class.new.user_global_ban(user)
-    end
-
-    @_user_ban ||= scope.take
+    @_user_ban ||= BansQuery.new(sub.bans).with_user(user).take
   end
 
-  def subs_where_user_moderator
-    return [] if user_signed_out?
+  def subs_moderated_by_user
+    return [] if user.blank?
 
-    @_subs_where_user_moderator ||= SubsQuery.new.where_user_moderator(user).all
+    @_subs_moderated_by_user ||= SubsQuery.new.with_user_moderator(user).all
   end
 
-  def subs_where_user_follower
-    return [] if user_signed_out?
+  def subs_followed_by_user
+    return [] if user.blank?
 
-    @_subs_where_user_follower ||= SubsQuery.new.where_user_follower(user).all
+    @_subs_followed_by_user ||= SubsQuery.new.with_user_follower(user).all
   end
 
   def rules
-    query_class = RulesQuery
-
-    if sub_context?
-      scope = query_class.new.sub(sub)
-    else
-      scope = query_class.new.global
-    end
-
-    @_rules ||= scope.all
+    @_rules ||= sub.rules.order(id: :asc).all
   end
 
   def recent_moderators
-    query_class = ModeratorsQuery
-
-    if sub_context?
-      scope = query_class.new.sub(sub)
-    else
-      scope = query_class.new.global
-    end
-
-    @_recent_moderators ||= scope.limit(10).includes(:user).all
+    @_recent_moderators ||= ModeratorsQuery.new(sub.moderators).recent(10).includes(:user).all
   end
 
-  def recent_pages
-    query_class = PagesQuery
-
-    if sub_context?
-      scope = query_class.new.sub(sub)
-    else
-      scope = query_class.new.global
-    end
-
-    @_recent_pages ||= scope.limit(10).all
-  end
-
-  def user_signed_in?
-    user.present?
-  end
-
-  def user_signed_out?
-    !user_signed_in?
-  end
-
-  def sub_context?
-    sub.present?
-  end
-
-  def global_context?
-    !sub_context?
+  def pagination_params
+    []
   end
 end

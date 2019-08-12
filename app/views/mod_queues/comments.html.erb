@@ -1,4 +1,4 @@
-<% content_for(:meta_title, @facade.index_meta_title) %>
+<% content_for(:meta_title, @facade.comments_meta_title) %>
 
 <% if @facade.sub_context? %>
   <%= render 'subs/sidebar', sub: @sub %>
@@ -13,8 +13,8 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("new"), mod_queues_path(sub: @sub), class: 'dropdown-item') %>
-      <%= link_to(t("reports"), reports_path(sub: @sub), class: 'dropdown-item') %>
+      <%= link_to(t("new"), posts_sub_mod_queues_path(@sub), class: 'dropdown-item') %>
+      <%= link_to(t("reports"), posts_sub_reports_path(@sub), class: 'dropdown-item') %>
     </div>
   </li>
 
@@ -24,8 +24,8 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("posts"), mod_queues_path(sub: @sub), class: 'dropdown-item') %>
-      <%= link_to(t("comments"), comments_mod_queues_path(sub: @sub), class: 'dropdown-item') %>
+      <%= link_to(t("posts"), posts_sub_mod_queues_path(@sub), class: 'dropdown-item') %>
+      <%= link_to(t("comments"), comments_sub_mod_queues_path(@sub), class: 'dropdown-item') %>
     </div>
   </li>
 <% end %>

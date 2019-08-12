@@ -5,7 +5,7 @@ class HomeFacade < ApplicationFacade
     I18n.t("app_name")
   end
 
-  def pagination_permitted_params
+  def pagination_params
     # TODO
     []
   end

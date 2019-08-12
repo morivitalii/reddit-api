@@ -15,7 +15,7 @@ class CreateModeratorForm
   def save
     return false if invalid?
 
-    user = UsersQuery.new.where_username(username).take!
+    user = UsersQuery.new.with_username(username).take!
 
     @moderator = Moderator.create!(
       sub: sub,

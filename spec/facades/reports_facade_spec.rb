@@ -5,26 +5,23 @@ RSpec.describe ReportsFacade do
 
   let(:user) { create(:user) }
   let(:sub) { create(:sub) }
-  let(:global_context) { Context.new(user) }
-  let(:sub_context) { Context.new(user, sub) }
+  let(:context) { Context.new(user, sub) }
 
-  describe ".index_meta_title" do
-    context "global" do
-      it "returns title" do
-        expected_result = I18n.t("reports")
-        result = subject.new(global_context).index_meta_title
+  describe ".posts_meta_title" do
+    it "returns title" do
+      expected_result = "#{sub.title}: #{I18n.t("posts_reports")}"
+      result = subject.new(context).posts_meta_title
 
-        expect(result).to eq(expected_result)
-      end
+      expect(result).to eq(expected_result)
     end
+  end
 
-    context "sub" do
-      it "returns title" do
-        expected_result = "#{sub.title}: #{I18n.t("reports")}"
-        result = subject.new(sub_context).index_meta_title
+  describe ".comments_meta_title" do
+    it "returns title" do
+      expected_result = "#{sub.title}: #{I18n.t("comments_reports")}"
+      result = subject.new(context).comments_meta_title
 
-        expect(result).to eq(expected_result)
-      end
+      expect(result).to eq(expected_result)
     end
   end
 end

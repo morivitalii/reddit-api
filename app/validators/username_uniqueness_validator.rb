@@ -4,14 +4,14 @@ class UsernameUniquenessValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
 
-    if scope(value).exists?
+    unless valid?(value)
       record.errors.add(attribute, :username_taken)
     end
   end
 
   private
 
-  def scope(value)
-    UsersQuery.new.where_username(value)
+  def valid?(value)
+    UsersQuery.new.with_username(value).none?
   end
 end

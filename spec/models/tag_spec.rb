@@ -8,8 +8,9 @@ RSpec.describe Tag do
 
   describe "uniqueness validation" do
     it "adds error on title attribute if given value is not unique" do
-      tag = create(:tag)
-      model = subject.new(title: tag.title)
+      sub = create(:sub)
+      tag = create(:tag, sub: sub)
+      model = subject.new(sub: sub, title: tag.title)
       model.validate
 
       expected_result = { error: :taken }
@@ -19,7 +20,8 @@ RSpec.describe Tag do
     end
 
     it "is valid if given value is unique" do
-      model = subject.new(title: "tag")
+      sub = create(:sub)
+      model = subject.new(sub: sub, title: "tag")
       model.validate
 
       expected_result = { error: :taken }

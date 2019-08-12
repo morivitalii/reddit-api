@@ -4,7 +4,6 @@ class User < ApplicationRecord
   has_secure_password validations: false
   has_secure_token :forgot_password_token
 
-  has_many :subs, dependent: :restrict_with_error
   has_many :follows, dependent: :destroy
   has_many :moderators, dependent: :destroy
   has_many :contributors, dependent: :destroy

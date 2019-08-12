@@ -33,7 +33,7 @@ module RemovableDecorator
       deleted_at = h.datetime_tag(model.deleted_at, :ago)
       reason = model.deletion_reason
 
-      link_to_user_profile = h.link_to(deleted_by.username, h.user_path(deleted_by))
+      link_to_user_profile = h.link_to(deleted_by.username, h.posts_user_path(deleted_by))
 
       h.t("deleted_html", username: link_to_user_profile, deleted_at: deleted_at, reason: reason)
     end

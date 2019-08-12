@@ -38,8 +38,7 @@ class UpdateUserForm
   end
 
   def email_unique?
-    scope = UsersQuery.new.where_email(email)
-    scope.where.not(id: user.id).exists?
+    UsersQuery.new.with_email(email).where.not(id: user.id).exists?
   end
 
   def current_password_match?

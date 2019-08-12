@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :comment do
     user
     post
+    sub { post.sub }
     text { "Text" }
 
     trait :moderated do
@@ -13,8 +14,5 @@ FactoryBot.define do
       approved_at { nil }
       deleted_at { nil }
     end
-
-    factory :not_moderated_comment, traits: [:not_moderated]
-    factory :moderated_comment, traits: [:moderated]
   end
 end

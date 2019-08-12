@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class Sub < ApplicationRecord
-  belongs_to :user
   has_many :follows, dependent: :destroy
   has_many :moderators, dependent: :destroy
   has_many :contributors, dependent: :destroy
   has_many :bans, dependent: :destroy
+  has_many :comments, dependent: :restrict_with_error
   has_many :posts, dependent: :restrict_with_error
   has_many :rules, dependent: :destroy
   has_many :deletion_reasons, dependent: :destroy

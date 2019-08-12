@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class ModQueuesFacade < ApplicationFacade
-  def index_meta_title
-    sub_context? ? "#{sub.title}: #{I18n.t("mod_queue")}" : I18n.t("mod_queue")
+  def posts_meta_title
+    "#{sub.title}: #{I18n.t("posts_mod_queue")}"
   end
 
-  def pagination_permitted_params
-    [:sub]
+  def comments_meta_title
+    "#{sub.title}: #{I18n.t("comments_mod_queue")}"
   end
 end

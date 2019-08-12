@@ -5,173 +5,105 @@ RSpec.describe ApplicationFacade do
 
   let(:user) { create(:user) }
   let(:sub) { create(:sub) }
-  let(:global_context) { Context.new(user) }
-  let(:sub_context) { Context.new(user, sub) }
+  let(:context) { Context.new(user, sub) }
 
   describe ".user_ban" do
-    context "global" do
-      context "visitor" do
-        let(:user) { nil }
-
-        it "returns nil" do
-          expected_result = nil
-          result = subject.new(global_context).user_ban
-
-          expect(result).to eq(expected_result)
-        end
-      end
-
-      context "user" do
-        let!(:ban) { create(:global_ban, user: user) }
-
-        it "returns ban" do
-          expected_result = ban
-          result = subject.new(global_context).user_ban
-
-          expect(result).to eq(expected_result)
-        end
-      end
-    end
-
-    context "sub" do
-      context "visitor" do
-        let(:user) { nil }
-
-        it "returns nil" do
-          expected_result = nil
-          result = subject.new(sub_context).user_ban
-
-          expect(result).to eq(expected_result)
-        end
-      end
-
-      context "user" do
-        let!(:ban) { create(:sub_ban, sub: sub, user: user) }
-
-        it "returns ban" do
-          expected_result = ban
-          result = subject.new(sub_context).user_ban
-
-          expect(result).to eq(expected_result)
-        end
-      end
-    end
-  end
-
-  describe ".subs_where_user_moderator" do
     context "visitor" do
-      let!(:user) { nil }
+      let(:user) { nil }
 
-      it "returns blank array" do
-        expected_result = []
-        result = subject.new(global_context).subs_where_user_moderator
+      it "returns nil" do
+        result = subject.new(context).user_ban
 
-        expect(result).to eq(expected_result)
+        expect(result).to be_nil
       end
     end
 
     context "user" do
-      let!(:sub_moderator) { create(:sub_moderator, sub: sub, user: user) }
+      let!(:ban) { create(:ban, sub: sub, user: user) }
+
+      it "returns user ban" do
+        result = subject.new(context).user_ban
+
+        expect(result).to eq(ban)
+      end
+    end
+  end
+
+  describe ".subs_moderated_by_user" do
+    context "visitor" do
+      let(:user) { nil }
+
+      it "returns blank array" do
+        result = subject.new(context).subs_moderated_by_user
+
+        expect(result).to be_blank
+      end
+    end
+
+    context "user" do
+      let!(:expected) { create(:sub) }
+      let!(:others) { create_pair(:sub) }
+      let!(:moderator) { create(:moderator, sub: expected, user: user) }
 
       it "returns subs where user is moderator" do
-        expected_result = [sub]
-        result = subject.new(global_context).subs_where_user_moderator
+        result = subject.new(context).subs_moderated_by_user
 
-        expect(result).to eq(expected_result)
+        expect(result).to contain_exactly(*expected)
       end
     end
   end
 
-  describe ".subs_where_user_follower" do
+  describe ".subs_followed_by_user" do
     context "visitor" do
       let!(:user) { nil }
 
       it "returns blank array" do
-        expected_result = []
-        result = subject.new(global_context).subs_where_user_follower
+        result = subject.new(context).subs_followed_by_user
 
-        expect(result).to eq(expected_result)
+        expect(result).to be_blank
       end
     end
 
     context "user" do
-      let!(:sub_follow) { create(:follow, sub: sub, user: user) }
+      let!(:expected) { create(:sub) }
+      let!(:others) { create_pair(:sub) }
+      let!(:follow) { create(:follow, sub: expected, user: user) }
 
       it "returns subs where user is follower" do
-        expected_result = [sub]
-        result = subject.new(global_context).subs_where_user_follower
+        result = subject.new(context).subs_followed_by_user
 
-        expect(result).to eq(expected_result)
+        expect(result).to contain_exactly(*expected)
       end
     end
   end
 
   describe ".rules" do
-    let!(:global_rules) { create_pair(:global_rule) }
-    let!(:sub_rules) { create_pair(:sub_rule, sub: sub) }
+    let!(:expected) { create_pair(:rule, sub: sub) }
+    let!(:others) { create_pair(:rule) }
 
-    context "global" do
-      it "returns global rules" do
-        expected_result = global_rules
-        result = subject.new(global_context).rules
+    it "returns rules" do
+      result = subject.new(context).rules
 
-        expect(result).to eq(expected_result)
-      end
-    end
-
-    context "sub" do
-      it "returns sub rules" do
-        expected_result = sub_rules
-        result = subject.new(sub_context).rules
-
-        expect(result).to eq(expected_result)
-      end
+      expect(result).to contain_exactly(*expected)
     end
   end
 
   describe ".recent_moderators" do
-    let!(:global_moderators) { create_pair(:global_moderator) }
-    let!(:sub_moderators) { create_pair(:sub_moderator, sub: sub) }
+    let!(:expected) { create_pair(:moderator, sub: sub) }
+    let!(:others) { create_pair(:moderator) }
 
-    context "global" do
-      it "returns global moderators" do
-        expected_result = global_moderators
-        result = subject.new(global_context).recent_moderators
+    it "returns moderators" do
+      result = subject.new(context).recent_moderators
 
-        expect(result).to eq(expected_result)
-      end
-    end
-
-    context "sub" do
-      it "returns sub moderators" do
-        expected_result = sub_moderators
-        result = subject.new(sub_context).recent_moderators
-
-        expect(result).to eq(expected_result)
-      end
+      expect(result).to contain_exactly(*expected)
     end
   end
 
-  describe ".recent_pages" do
-    let!(:global_pages) { create_pair(:global_page) }
-    let!(:sub_pages) { create_pair(:sub_page, sub: sub) }
+  describe ".pagination_params" do
+    it "is empty by default" do
+      result = subject.new(context).pagination_params
 
-    context "global" do
-      it "returns global pages" do
-        expected_result = global_pages
-        result = subject.new(global_context).recent_pages
-
-        expect(result).to eq(expected_result)
-      end
-    end
-
-    context "sub" do
-      it "returns sub pages" do
-        expected_result = sub_pages
-        result = subject.new(sub_context).recent_pages
-
-        expect(result).to eq(expected_result)
-      end
+      expect(result).to be_blank
     end
   end
 end

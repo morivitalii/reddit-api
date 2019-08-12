@@ -1,13 +1,17 @@
 require "rails_helper"
 
 RSpec.describe DeleteDeletionReasonService do
-  subject { described_class.new(deletion_reason) }
-
-  let!(:deletion_reason) { create(:deletion_reason) }
+  subject { described_class }
 
   describe ".call" do
+    let!(:deletion_reason) { create(:deletion_reason) }
+
+    before do
+      @service = subject.new(deletion_reason)
+    end
+
     it "delete deletion reason" do
-      expect { subject.call }.to change { DeletionReason.count }.by(-1)
+      expect { @service.call }.to change { DeletionReason.count }.by(-1)
     end
   end
 end

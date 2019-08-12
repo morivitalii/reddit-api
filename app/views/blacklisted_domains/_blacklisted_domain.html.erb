@@ -4,7 +4,7 @@
 
     <div class="actions">
       <% if policy(blacklisted_domain).destroy? %>
-        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: blacklisted_domain_path(blacklisted_domain) }) %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: sub_blacklisted_domain_path(blacklisted_domain.sub, blacklisted_domain) }) %>
       <% end %>
     </div>
   </div>

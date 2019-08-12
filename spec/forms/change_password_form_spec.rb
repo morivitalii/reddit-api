@@ -3,9 +3,9 @@ require "rails_helper"
 RSpec.describe ChangePasswordForm do
   subject { described_class }
 
-  let(:user) { create(:user) }
-
   describe ".save" do
+    let(:user) { create(:user) }
+
     context "invalid" do
       it "adds error on password field when token is invalid" do
         form = subject.new(token: "invalid_token")

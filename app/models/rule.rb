@@ -5,7 +5,7 @@ class Rule < ApplicationRecord
 
   LIMIT = 15
 
-  belongs_to :sub, optional: true
+  belongs_to :sub
 
   strip_attributes :title, :description, squish: true
 
@@ -22,8 +22,6 @@ class Rule < ApplicationRecord
   end
 
   def existent_count
-    query_class = RulesQuery
-    scope = sub.present? ? query_class.new.sub(sub) : query_class.new.global
-    scope.count
+    sub.rules.count
   end
 end

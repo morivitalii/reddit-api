@@ -4,14 +4,14 @@ class UserEmailUniquenessValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
 
-    if scope(value).exists?
+    unless valid?(value)
       record.errors.add(attribute, :email_taken)
     end
   end
 
   private
 
-  def scope(username)
-    UsersQuery.new.where_email(username)
+  def valid?(value)
+    UsersQuery.new.with_email(value).none?
   end
 end

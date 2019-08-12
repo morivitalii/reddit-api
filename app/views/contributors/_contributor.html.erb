@@ -4,7 +4,7 @@
 
     <div class="actions">
       <% if policy(contributor).destroy? %>
-        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: contributor_path(contributor) }) %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: sub_contributor_path(contributor.sub, contributor) }) %>
       <% end %>
 
       <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>

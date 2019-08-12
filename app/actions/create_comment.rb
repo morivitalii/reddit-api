@@ -10,10 +10,13 @@ class CreateComment
     ActiveRecord::Base.transaction do
       @comment = Comment.create!(
         user: @current_user,
+        sub: post.sub,
         post: post,
         comment: comment,
         text: @text
       )
+
+      @comment.create_self_up_vote!
     end
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)

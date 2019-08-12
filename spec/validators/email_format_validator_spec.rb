@@ -17,6 +17,7 @@ RSpec.describe EmailFormatValidator do
         subject.email = "invalid email"
 
         subject.valid?
+
         expected_result = { error: :invalid }
         result = subject.errors.details[:email]
 

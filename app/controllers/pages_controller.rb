@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
-  before_action :set_page, only: [:show, :edit, :update, :destroy]
   before_action :set_sub
   before_action :set_facade
+  before_action :set_page, only: [:show, :edit, :update, :destroy]
   before_action -> { authorize(Page) }, only: [:index, :new, :create]
   before_action -> { authorize(@page) }, only: [:show, :edit, :update, :destroy]
 
   def index
-    @records, @pagination = scope.paginate(order: :asc, after: params[:after])
+    @records, @pagination = @sub.pages.paginate(order: :asc, after: params[:after])
   end
 
   def show
@@ -28,7 +28,7 @@ class PagesController < ApplicationController
     @form = CreatePageForm.new(create_params)
 
     if @form.save
-      head :no_content, location: page_path(@form.page)
+      head :no_content, location: sub_page_path(@form.page,sub, @form.page)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -38,7 +38,7 @@ class PagesController < ApplicationController
     @form = UpdatePageForm.new(update_params)
 
     if @form.save
-      head :no_content, location: page_path(@form.page)
+      head :no_content, location: sub_page_path(@form.page,sub, @form.page)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -56,30 +56,16 @@ class PagesController < ApplicationController
     Context.new(current_user, @sub)
   end
 
-  def scope
-    query_class = PagesQuery
-
-    if @sub.present?
-      query_class.new.sub(@sub)
-    else
-      query_class.new.global
-    end
-  end
-
   def set_facade
     @facade = PagesFacade.new(context, @page)
   end
 
   def set_sub
-    if @page.present?
-      @sub = @page.sub
-    elsif params[:sub].present?
-      @sub = SubsQuery.new.where_url(params[:sub]).take!
-    end
+    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
   end
 
   def set_page
-    @page = Page.find(params[:id])
+    @page = @sub.pages.find(params[:id])
   end
 
   def create_params

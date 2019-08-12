@@ -14,29 +14,27 @@ RSpec.describe FollowPolicy do
     end
   end
 
-  context "for user" do
-    let(:user) { create(:user) }
+  context "for follower user" do
+    let(:user) { create(:follow, sub: sub).user }
 
-    context "follower" do
-      before { create(:follow, user: user, sub: sub) }
-
-      permissions :create? do
-        it { is_expected.to_not permit(context) }
-      end
-
-      permissions :destroy? do
-        it { is_expected.to permit(context) }
-      end
+    permissions :create? do
+      it { is_expected.to_not permit(context) }
     end
 
-    context "not follower" do
-      permissions :create? do
-        it { is_expected.to permit(context) }
-      end
+    permissions :destroy? do
+      it { is_expected.to permit(context) }
+    end
+  end
 
-      permissions :destroy? do
-        it { is_expected.to_not permit(context) }
-      end
+  context "for not follower user" do
+    let(:user) { create(:user) }
+
+    permissions :create? do
+      it { is_expected.to permit(context) }
+    end
+
+    permissions :destroy? do
+      it { is_expected.to_not permit(context) }
     end
   end
 end
