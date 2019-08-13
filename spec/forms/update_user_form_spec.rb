@@ -14,10 +14,7 @@ RSpec.describe UpdateUserForm do
 
         @form.validate
 
-        expected_result = { error: :invalid_current_password }
-        result = @form.errors.details[:password_current]
-
-        expect(result).to include(expected_result)
+        expect(@form).to have_error(:invalid_current_password).on(:password_current)
       end
     end
 

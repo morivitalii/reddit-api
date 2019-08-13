@@ -24,13 +24,9 @@ RSpec.describe UserNotModeratorValidator do
 
       it "adds error on username if user is moderator" do
         subject.username = user.username
+        subject.validate
 
-        subject.valid?
-
-        expected_result = { error: :user_moderator }
-        result = subject.errors.details[:username]
-
-        expect(result).to include(expected_result)
+        expect(subject).to have_error(:user_moderator).on(:username)
       end
     end
 
@@ -38,9 +34,7 @@ RSpec.describe UserNotModeratorValidator do
       it "does not add error on username attribute if user is not moderator" do
         subject.username = user.username
 
-        result = subject.valid?
-
-        expect(result).to be_truthy
+        expect(subject).to be_valid
       end
     end
   end

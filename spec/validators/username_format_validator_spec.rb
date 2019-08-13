@@ -15,13 +15,9 @@ RSpec.describe UsernameFormatValidator do
     context "invalid" do
       it "adds error on username attribute if username format is wrong"do
         subject.username = "invalid username"
+        subject.validate
 
-        subject.valid?
-
-        expected_result = { error: :invalid_username_format }
-        result = subject.errors.details[:username]
-
-        expect(result).to include(expected_result)
+        expect(subject).to have_error(:invalid_username_format).on(:username)
       end
     end
 
@@ -29,9 +25,7 @@ RSpec.describe UsernameFormatValidator do
       it "does not add error on username attribute if username format is valid"do
         subject.username = "username"
 
-        result = subject.valid?
-
-        expect(result).to be_truthy
+        expect(subject).to be_valid
       end
     end
   end

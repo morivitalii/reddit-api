@@ -12,10 +12,7 @@ RSpec.describe BlacklistedDomain do
       model = subject.new(sub: sub, domain: blacklisted_domain.domain)
       model.validate
 
-      expected_result = { error: :taken }
-      result = model.errors.details[:domain]
-
-      expect(result).to include(expected_result)
+      expect(model).to have_error(:taken).on(:domain)
     end
 
     it "is valid if given value is unique" do
@@ -23,10 +20,7 @@ RSpec.describe BlacklistedDomain do
       model = subject.new(sub: sub, domain: "example.com")
       model.validate
 
-      expected_result = { error: :taken }
-      result = model.errors.details[:domain]
-
-      expect(result).to_not include(expected_result)
+      expect(model).to_not have_error(:taken).on(:domain)
     end
   end
 end

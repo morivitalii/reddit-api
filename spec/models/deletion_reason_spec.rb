@@ -12,10 +12,7 @@ RSpec.describe DeletionReason do
       allow(model).to receive(:existent_count).and_return(described_class::LIMIT)
       model.validate
 
-      expected_result = { error: :deletion_reasons_limit }
-      result = model.errors.details[:title]
-
-      expect(result).to include(expected_result)
+      expect(model).to have_error(:deletion_reasons_limit).on(:title)
     end
 
     it "is valid if within limit" do
@@ -23,10 +20,7 @@ RSpec.describe DeletionReason do
       allow(model).to receive(:existent_count).and_return(described_class::LIMIT - 1)
       model.validate
 
-      expected_result = { error: :deletion_reasons_limit }
-      result = model.errors.details[:title]
-
-      expect(result).to_not include(expected_result)
+      expect(model).to_not have_error(:deletion_reasons_limit).on(:title)
     end
   end
 end

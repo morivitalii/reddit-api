@@ -11,16 +11,11 @@ RSpec.describe SignInForm do
     it "if credentials does not match" do
       @form.validate
 
-      expected_result = { error: :invalid_credentials }
-      result = @form.errors.details[:username]
-
-      expect(result).to include(expected_result)
+      expect(@form).to have_error(:invalid_credentials).on(:username)
     end
   end
 
   context "valid" do
-    let(:user) { create(:user) }
-
     before do
       @user = instance_double(User)
       allow(@user).to receive(:authenticate).with(anything).and_return(true)
