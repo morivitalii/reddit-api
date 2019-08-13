@@ -5,14 +5,8 @@ class CommentsQuery < ApplicationQuery
     relation.where(deleted_at: nil, approved_at: nil)
   end
 
-  def search_by_sub(sub)
-    return relation if sub.blank?
-
-    relation.where(sub: sub)
-  end
-
-  def in_subs_moderated_by_user(user)
-    relation.joins(sub: :moderators).where(subs: { moderators: { user: user } })
+  def reported
+    relation.joins(:reports)
   end
 
   def created_after(datetime)
