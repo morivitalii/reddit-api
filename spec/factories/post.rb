@@ -32,5 +32,15 @@ FactoryBot.define do
       approved_at { nil }
       deleted_at { nil }
     end
+
+    factory :post_with_reports do
+      transient do
+        reports_count { 2 }
+      end
+
+      after(:create) do |post, evaluator|
+        create_list(:report, evaluator.reports_count, reportable: post)
+      end
+    end
   end
 end

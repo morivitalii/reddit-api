@@ -8,12 +8,12 @@ class ReportsController < ApplicationController
 
   def posts
     @records, @pagination = posts_query.paginate(after: params[:after])
-    @records.map!(&:reportable).map!(&:decorate)
+    @records.map!(&:decorate)
   end
 
   def comments
     @records, @pagination = comments_query.paginate(after: params[:after])
-    @records.map!(&:reportable).map!(&:decorate)
+    @records.map!(&:decorate)
   end
 
   def show
@@ -63,17 +63,11 @@ class ReportsController < ApplicationController
   end
 
   def posts_query
-    query_class = ReportsQuery
-    query = query_class.new.posts_reports
-    query = query_class.new(query).search_by_sub(@sub)
-    policy_scope(query).includes(reportable: [:sub, :user])
+    PostsQuery.new(@sub.posts).reported.includes(:sub, :user)
   end
 
   def comments_query
-    query_class = ReportsQuery
-    query = query_class.new.posts_reports
-    query = query_class.new(query).search_by_sub(@sub)
-    policy_scope(query).includes(reportable: [:user, :post, :sub])
+    CommentsQuery.new(@sub.comments).reported.includes(:user, :post, :sub)
   end
 
   def reportable_query

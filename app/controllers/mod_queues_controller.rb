@@ -22,17 +22,11 @@ class ModQueuesController < ApplicationController
   end
 
   def posts_query
-    query_class = PostsQuery
-    query = query_class.new.not_moderated
-    query = query_class.new(query).search_by_sub(@sub)
-    policy_scope(query, policy_scope_class: ModQueuePolicy::PostScope).includes(:user, :sub)
+    PostsQuery.new(@sub.posts).not_moderated.includes(:user, :sub)
   end
 
   def comments_query
-    query_class = CommentsQuery
-    query = query_class.new.not_moderated
-    query = query_class.new(query).search_by_sub(@sub)
-    policy_scope(query, policy_scope_class: ModQueuePolicy::CommentScope).includes(:user, :post, :sub)
+    CommentsQuery.new(@sub.comments).not_moderated.includes(:user, :post, :sub)
   end
 
   def set_facade
