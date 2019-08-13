@@ -15,10 +15,7 @@ RSpec.describe ForgotPasswordForm do
         @form.email = ""
         @form.validate
 
-        expected_result = { error: :blank }
-        result = @form.errors.details[:email]
-
-        expect(result).to include(expected_result)
+        expect(@form).to have_error(:blank).on(:email)
       end
     end
 

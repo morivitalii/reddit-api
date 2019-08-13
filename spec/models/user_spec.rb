@@ -12,10 +12,7 @@ RSpec.describe User do
         user.username = other_user.username
         user.validate
 
-        expected_result = { error: :taken }
-        result = user.errors.details[:username]
-
-        expect(result).to include(hash_including(expected_result))
+        expect(user).to have_error(:taken).on(:username)
       end
 
       it "if email not unique" do
@@ -23,20 +20,14 @@ RSpec.describe User do
         user.email = other_user.email
         user.validate
 
-        expected_result = { error: :taken }
-        result = user.errors.details[:email]
-
-        expect(result).to include(hash_including(expected_result))
+        expect(user).to have_error(:taken).on(:email)
       end
 
       it "if email format invalid"do
         user.email = "invalid email"
         user.validate
 
-        expected_result = { error: :invalid }
-        result = user.errors.details[:email]
-
-        expect(result).to include(hash_including(expected_result))
+        expect(user).to have_error(:invalid).on(:email)
       end
     end
 

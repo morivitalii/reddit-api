@@ -15,20 +15,14 @@ RSpec.describe CreateContributorForm do
         @form.username = ""
         @form.save
 
-        result = @form.errors.details[:username]
-        expected_result = { error: :invalid_username_format }
-
-        expect(result).to include(expected_result)
+        expect(@form).to have_error(:invalid_username_format).on(:username)
       end
 
       it "adds error on username field when user with given username is not exists" do
         @form.username = "username"
         @form.save
 
-        result = @form.errors.details[:username]
-        expected_result = { error: :invalid_username }
-
-        expect(result).to include(expected_result)
+        expect(@form).to have_error(:invalid_username).on(:username)
       end
 
       let(:banned_user) { create(:ban, sub: sub).user }
@@ -37,10 +31,7 @@ RSpec.describe CreateContributorForm do
         @form.username = banned_user.username
         @form.save
 
-        result = @form.errors.details[:username]
-        expected_result = { error: :user_banned }
-
-        expect(result).to include(expected_result)
+        expect(@form).to have_error(:user_banned).on(:username)
       end
 
       let(:moderator_user) { create(:moderator, sub: sub).user }
@@ -49,10 +40,7 @@ RSpec.describe CreateContributorForm do
         @form.username = moderator_user.username
         @form.save
 
-        result = @form.errors.details[:username]
-        expected_result = { error: :user_moderator }
-
-        expect(result).to include(expected_result)
+        expect(@form).to have_error(:user_moderator).on(:username)
       end
 
       let(:contributor_user) { create(:contributor, sub: sub).user }
@@ -61,10 +49,7 @@ RSpec.describe CreateContributorForm do
         @form.username = contributor_user.username
         @form.save
 
-        result = @form.errors.details[:username]
-        expected_result = { error: :user_contributor }
-
-        expect(result).to include(expected_result)
+        expect(@form).to have_error(:user_contributor).on(:username)
       end
     end
 

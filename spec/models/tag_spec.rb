@@ -13,10 +13,7 @@ RSpec.describe Tag do
       model = subject.new(sub: sub, title: tag.title)
       model.validate
 
-      expected_result = { error: :taken }
-      result = model.errors.details[:title]
-
-      expect(result).to include(expected_result)
+      expect(model).to have_error(:taken).on(:title)
     end
 
     it "is valid if given value is unique" do
@@ -24,10 +21,7 @@ RSpec.describe Tag do
       model = subject.new(sub: sub, title: "tag")
       model.validate
 
-      expected_result = { error: :taken }
-      result = model.errors.details[:title]
-
-      expect(result).to_not include(expected_result)
+      expect(model).to_not have_error(:taken).on(:title)
     end
   end
 
@@ -37,10 +31,7 @@ RSpec.describe Tag do
       allow(model).to receive(:existent_count).and_return(described_class::LIMIT)
       model.validate
 
-      expected_result = { error: :tags_limit }
-      result = model.errors.details[:title]
-
-      expect(result).to include(expected_result)
+      expect(model).to have_error(:tags_limit).on(:title)
     end
 
     it "is valid if within limit" do
@@ -48,10 +39,7 @@ RSpec.describe Tag do
       allow(model).to receive(:existent_count).and_return(described_class::LIMIT - 1)
       model.validate
 
-      expected_result = { error: :tags_limit }
-      result = model.errors.details[:title]
-
-      expect(result).to_not include(expected_result)
+      expect(model).to_not have_error(:tags_limit).on(:title)
     end
   end
 end

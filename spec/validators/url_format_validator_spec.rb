@@ -15,13 +15,9 @@ RSpec.describe UrlFormatValidator do
     context "invalid" do
       it "adds error on url attribute if format is wrong" do
         subject.url = "invalid url"
+        subject.validate
 
-        subject.valid?
-
-        expected_result = { error: :invalid }
-        result = subject.errors.details[:url]
-
-        expect(result).to include(expected_result)
+        expect(subject).to have_error(:invalid).on(:url)
       end
     end
 
@@ -29,9 +25,7 @@ RSpec.describe UrlFormatValidator do
       it "does not add error on url attribute if format is valid" do
         subject.url = "http://example.com/"
 
-        result = subject.valid?
-
-        expect(result).to be_truthy
+        expect(subject).to be_valid
       end
     end
   end

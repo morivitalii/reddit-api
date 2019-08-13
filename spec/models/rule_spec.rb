@@ -7,16 +7,12 @@ RSpec.describe Rule do
   it_behaves_like "strip attributes", :title, :description, squish: true
 
   describe "limits validation on create" do
-    let(:expected_result) { { error: :rules_limit } }
-
     it "adds error on title attribute if out of limit" do
       model = subject.new
       allow(model).to receive(:existent_count).and_return(described_class::LIMIT)
       model.validate
 
-      result = model.errors.details[:title]
-
-      expect(result).to include(expected_result)
+      expect(model).to have_error(:rules_limit).on(:title)
     end
 
     it "is valid if within limit" do
@@ -24,9 +20,7 @@ RSpec.describe Rule do
       allow(model).to receive(:existent_count).and_return(described_class::LIMIT - 1)
       model.validate
 
-      result = model.errors.details[:title]
-
-      expect(result).to_not include(expected_result)
+      expect(model).to_not have_error(:rules_limit).on(:title)
     end
   end
 end

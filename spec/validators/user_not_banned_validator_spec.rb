@@ -24,13 +24,9 @@ RSpec.describe UserNotBannedValidator do
 
       it "adds error on username if user is banned" do
         subject.username = user.username
+        subject.validate
 
-        subject.valid?
-
-        expected_result = { error: :user_banned }
-        result = subject.errors.details[:username]
-
-        expect(result).to include(expected_result)
+        expect(subject).to have_error(:user_banned).on(:username)
       end
     end
 
@@ -38,9 +34,7 @@ RSpec.describe UserNotBannedValidator do
       it "does not add error on username attribute if user is not banned" do
         subject.username = user.username
 
-        result = subject.valid?
-
-        expect(result).to be_truthy
+        expect(subject).to be_valid
       end
     end
   end
