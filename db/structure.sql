@@ -63,38 +63,6 @@ ALTER SEQUENCE public.bans_id_seq OWNED BY public.bans.id;
 
 
 --
--- Name: blacklisted_domains; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.blacklisted_domains (
-    id bigint NOT NULL,
-    sub_id bigint NOT NULL,
-    domain character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: blacklisted_domains_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.blacklisted_domains_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: blacklisted_domains_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.blacklisted_domains_id_seq OWNED BY public.blacklisted_domains.id;
-
-
---
 -- Name: bookmarks; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -585,13 +553,6 @@ ALTER TABLE ONLY public.bans ALTER COLUMN id SET DEFAULT nextval('public.bans_id
 
 
 --
--- Name: blacklisted_domains id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.blacklisted_domains ALTER COLUMN id SET DEFAULT nextval('public.blacklisted_domains_id_seq'::regclass);
-
-
---
 -- Name: bookmarks id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -696,14 +657,6 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public.bans
     ADD CONSTRAINT bans_pkey PRIMARY KEY (id);
-
-
---
--- Name: blacklisted_domains blacklisted_domains_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.blacklisted_domains
-    ADD CONSTRAINT blacklisted_domains_pkey PRIMARY KEY (id);
 
 
 --
@@ -851,20 +804,6 @@ CREATE UNIQUE INDEX index_bans_on_sub_id_and_user_id ON public.bans USING btree 
 --
 
 CREATE INDEX index_bans_on_user_id ON public.bans USING btree (user_id);
-
-
---
--- Name: index_blacklisted_domains_on_sub_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_blacklisted_domains_on_sub_id ON public.blacklisted_domains USING btree (sub_id);
-
-
---
--- Name: index_blacklisted_domains_on_sub_id_lower_domain; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_blacklisted_domains_on_sub_id_lower_domain ON public.blacklisted_domains USING btree (sub_id, lower((domain)::text));
 
 
 --
@@ -1485,14 +1424,6 @@ ALTER TABLE ONLY public.moderators
 
 
 --
--- Name: blacklisted_domains fk_rails_fa89ffc1f3; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.blacklisted_domains
-    ADD CONSTRAINT fk_rails_fa89ffc1f3 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
-
-
---
 -- PostgreSQL database dump complete
 --
 
@@ -1576,6 +1507,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814110115'),
 ('20190814132903'),
 ('20190814133845'),
-('20190814134503');
+('20190814134503'),
+('20190814134909');
 
 

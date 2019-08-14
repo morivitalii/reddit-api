@@ -18,9 +18,7 @@ Rails.application.routes.draw do
     resource :follows, only: [:create, :destroy]
     resources :moderators, except: [:show, :edit, :update]
     resources :contributors, except: [:show, :edit, :update]
-    resources :blacklisted_domains, except: [:show, :edit, :update]
     resources :rules, except: [:show]
-    resources :pages
     resources :bans, except: [:show]
 
     resources :mod_queues, only: [] do

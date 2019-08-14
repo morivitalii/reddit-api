@@ -34,7 +34,7 @@ class Post < ApplicationRecord
   end
 
   with_options if: ->(r) { r.url.present? } do
-    validates :url, presence: true, length: { maximum: 2048 }, url_format: true, domain_blacklist: true
+    validates :url, presence: true, length: { maximum: 2048 }, url_format: true
     validates :text, absence: true
     validates :media, absence: true
   end
