@@ -16,7 +16,7 @@
   </div>
 
   <div class="details col-12 d-none">
-    <%= t('banned_by') %> <%= link_to(ban.banned_by.username, posts_user_path(ban.banned_by)) %> <%= datetime_tag(ban.created_at, :short) %>
+    <%= datetime_tag(ban.created_at, :short) %>
 
     <% if ban.permanent? %>
       <%= t('permanent') %>
