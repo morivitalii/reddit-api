@@ -4,7 +4,7 @@ module Approvable
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", optional: true
+    belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", touch: true, optional: true
 
     before_create -> { approve(user) }, if: -> (r) { r.auto_approve? }
     before_update :undo_remove, if: ->(r) { r.respond_to?(:removable?) && r.approving? }

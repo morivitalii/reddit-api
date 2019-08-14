@@ -3,8 +3,8 @@
 class Ban < ApplicationRecord
   include Paginatable
 
-  belongs_to :sub
-  belongs_to :user
+  belongs_to :sub, touch: true
+  belongs_to :user, touch: true
 
   strip_attributes :reason, squish: true
 

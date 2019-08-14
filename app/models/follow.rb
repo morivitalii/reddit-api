@@ -2,5 +2,5 @@
 
 class Follow < ApplicationRecord
   belongs_to :sub, touch: true, counter_cache: true
-  belongs_to :user
+  belongs_to :user, touch: true
 end

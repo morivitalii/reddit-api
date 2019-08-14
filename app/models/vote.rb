@@ -3,8 +3,8 @@
 class Vote < ApplicationRecord
   include Paginatable
 
-  belongs_to :votable, polymorphic: true
-  belongs_to :user
+  belongs_to :votable, polymorphic: true, touch: true
+  belongs_to :user, touch: true
 
   enum vote_type: { down: -1, up: 1 }
 

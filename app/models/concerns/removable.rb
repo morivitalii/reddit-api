@@ -4,7 +4,7 @@ module Removable
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :deleted_by, class_name: "User", foreign_key: "deleted_by_id", optional: true
+    belongs_to :deleted_by, class_name: "User", foreign_key: "deleted_by_id", touch: true, optional: true
 
     strip_attributes :deletion_reason, squish: true
 
