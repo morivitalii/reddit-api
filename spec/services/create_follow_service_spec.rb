@@ -4,11 +4,11 @@ RSpec.describe CreateFollowService do
   subject { described_class }
 
   describe ".call" do
-    let(:sub) { create(:sub) }
+    let(:community) { create(:community) }
     let(:user) { create(:user) }
 
     before do
-      @service = subject.new(sub, user)
+      @service = subject.new(community, user)
     end
 
     context "does not exist" do
@@ -20,12 +20,12 @@ RSpec.describe CreateFollowService do
         result = @service.call
 
         expect(result).to be_instance_of(Follow)
-        expect(result).to have_attributes(sub: sub, user: user)
+        expect(result).to have_attributes(community: community, user: user)
       end
     end
 
     context "exists" do
-      let!(:follow) { create(:follow, sub: sub, user: user) }
+      let!(:follow) { create(:follow, community: community, user: user) }
 
       it "does not create new one" do
         expect { @service.call }.to_not change { Follow.count }

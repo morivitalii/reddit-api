@@ -2,6 +2,6 @@
 
 class ModeratorsFacade < ApplicationFacade
   def index_meta_title
-    "#{sub.title}: #{I18n.t("moderators")}"
+    "#{community.title}: #{I18n.t("moderators")}"
   end
 end

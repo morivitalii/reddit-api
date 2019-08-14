@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :ban do
-    sub
+    community
     user
     temporary
 

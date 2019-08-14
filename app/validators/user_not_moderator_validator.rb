@@ -12,6 +12,6 @@ class UserNotModeratorValidator < ActiveModel::EachValidator
   private
 
   def valid?(record, value)
-    ModeratorsQuery.new(record.sub.moderators).with_username(value).none?
+    ModeratorsQuery.new(record.community.moderators).with_username(value).none?
   end
 end

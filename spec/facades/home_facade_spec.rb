@@ -4,8 +4,8 @@ RSpec.describe HomeFacade do
   subject { described_class }
 
   let(:user) { create(:user) }
-  let(:sub) { create(:user) }
-  let(:context) { Context.new(user, sub) }
+  let(:community) { create(:user) }
+  let(:context) { Context.new(user, community) }
 
   describe ".index_meta_title" do
     it "returns title" do

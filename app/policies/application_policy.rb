@@ -1,9 +1,9 @@
 class ApplicationPolicy
-  attr_reader :user, :sub, :record
+  attr_reader :user, :community, :record
 
   def initialize(context, record)
     @user = context.user
-    @sub = context.sub
+    @community = context.community
     @record = record
 
     if user_signed_in? && user_banned?
@@ -28,14 +28,14 @@ class ApplicationPolicy
   end
 
   def user_moderator?
-    user.moderators.find { |i| i.sub_id == sub.id }.present?
+    user.moderators.find { |i| i.community_id == community.id }.present?
   end
 
   def user_banned?
-    user.bans.find { |i| i.sub_id == sub.id }.present?
+    user.bans.find { |i| i.community_id == community.id }.present?
   end
 
   def user_follower?
-    user.follows.find { |i| i.sub_id == sub.id }.present?
+    user.follows.find { |i| i.community_id == community.id }.present?
   end
 end

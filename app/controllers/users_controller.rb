@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def posts
     @records, @pagination = Post.in_date_range(date)
                                        .where(user: @user)
-                                       .includes(:sub, :user)
+                                       .includes(:community, :user)
                                        .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
 
     @records = @records.map(&:decorate)

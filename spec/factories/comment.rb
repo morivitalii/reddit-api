@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :comment do
     user
     post
-    sub { post.sub }
+    community { post.community }
     text { "Text" }
 
     trait :moderated do

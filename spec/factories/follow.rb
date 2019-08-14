@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :follow do
-    sub
+    community
     user
   end
 end

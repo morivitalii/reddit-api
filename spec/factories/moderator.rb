@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :moderator do
-    sub
+    community
     user
   end
 end

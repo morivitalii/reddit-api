@@ -4,11 +4,11 @@
 
     <div class="actions">
       <% if policy(ban).update? %>
-        <%= link_to(fa_icon('pencil'), edit_sub_ban_path(ban.sub, ban), remote: true, class: 'update') %>
+        <%= link_to(fa_icon('pencil'), edit_community_ban_path(ban.community, ban), remote: true, class: 'update') %>
       <% end %>
 
       <% if policy(ban).destroy? %>
-        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: sub_ban_path(ban.sub, ban) }) %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: community_ban_path(ban.community, ban) }) %>
       <% end %>
 
       <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>

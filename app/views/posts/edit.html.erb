@@ -1,6 +1,6 @@
 <% content_for(:meta_title, @post.title) %>
 
-<%= render 'shared/sidebar', sub: @post.sub %>
+<%= render 'shared/sidebar', community: @post.community %>
 
 <div class="col-12 bg-white border rounded mb-3 pt-2 pb-3">
   <%= form_with(model: @form, as: :update_post, url: post_path(@post), method: :put, class: 'updatePostForm') do |f| %>

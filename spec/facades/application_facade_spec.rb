@@ -4,8 +4,8 @@ RSpec.describe ApplicationFacade do
   subject { described_class }
 
   let(:user) { create(:user) }
-  let(:sub) { create(:sub) }
-  let(:context) { Context.new(user, sub) }
+  let(:community) { create(:community) }
+  let(:context) { Context.new(user, community) }
 
   describe ".user_ban" do
     context "visitor" do
@@ -19,7 +19,7 @@ RSpec.describe ApplicationFacade do
     end
 
     context "user" do
-      let!(:ban) { create(:ban, sub: sub, user: user) }
+      let!(:ban) { create(:ban, community: community, user: user) }
 
       it "returns user ban" do
         result = subject.new(context).user_ban
@@ -29,48 +29,48 @@ RSpec.describe ApplicationFacade do
     end
   end
 
-  describe ".subs_moderated_by_user" do
+  describe ".communities_moderated_by_user" do
     context "visitor" do
       let(:user) { nil }
 
       it "returns blank array" do
-        result = subject.new(context).subs_moderated_by_user
+        result = subject.new(context).communities_moderated_by_user
 
         expect(result).to be_blank
       end
     end
 
     context "user" do
-      let!(:expected) { create(:sub) }
-      let!(:others) { create_pair(:sub) }
-      let!(:moderator) { create(:moderator, sub: expected, user: user) }
+      let!(:expected) { create(:community) }
+      let!(:others) { create_pair(:community) }
+      let!(:moderator) { create(:moderator, community: expected, user: user) }
 
-      it "returns subs where user is moderator" do
-        result = subject.new(context).subs_moderated_by_user
+      it "returns communities where user is moderator" do
+        result = subject.new(context).communities_moderated_by_user
 
         expect(result).to contain_exactly(*expected)
       end
     end
   end
 
-  describe ".subs_followed_by_user" do
+  describe ".communities_followed_by_user" do
     context "visitor" do
       let!(:user) { nil }
 
       it "returns blank array" do
-        result = subject.new(context).subs_followed_by_user
+        result = subject.new(context).communities_followed_by_user
 
         expect(result).to be_blank
       end
     end
 
     context "user" do
-      let!(:expected) { create(:sub) }
-      let!(:others) { create_pair(:sub) }
-      let!(:follow) { create(:follow, sub: expected, user: user) }
+      let!(:expected) { create(:community) }
+      let!(:others) { create_pair(:community) }
+      let!(:follow) { create(:follow, community: expected, user: user) }
 
-      it "returns subs where user is follower" do
-        result = subject.new(context).subs_followed_by_user
+      it "returns communities where user is follower" do
+        result = subject.new(context).communities_followed_by_user
 
         expect(result).to contain_exactly(*expected)
       end
@@ -78,7 +78,7 @@ RSpec.describe ApplicationFacade do
   end
 
   describe ".rules" do
-    let!(:expected) { create_pair(:rule, sub: sub) }
+    let!(:expected) { create_pair(:rule, community: community) }
     let!(:others) { create_pair(:rule) }
 
     it "returns rules" do
@@ -89,7 +89,7 @@ RSpec.describe ApplicationFacade do
   end
 
   describe ".recent_moderators" do
-    let!(:expected) { create_pair(:moderator, sub: sub) }
+    let!(:expected) { create_pair(:moderator, community: community) }
     let!(:others) { create_pair(:moderator) }
 
     it "returns moderators" do

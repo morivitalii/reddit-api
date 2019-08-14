@@ -1,11 +1,11 @@
 require "rails_helper"
 
-RSpec.describe SubsQuery do
+RSpec.describe CommunitiesQuery do
   subject { described_class }
 
   describe ".with_url" do
-    let!(:expected) { create(:sub) }
-    let!(:others) { create_pair(:sub) }
+    let!(:expected) { create(:community) }
+    let!(:others) { create_pair(:community) }
 
     it "returns results filtered by url" do
       result = subject.new.with_url(expected.url).take
@@ -26,11 +26,11 @@ RSpec.describe SubsQuery do
 
   describe ".with_user_moderator" do
     let!(:user) { create(:user) }
-    let!(:expected) { create(:sub) }
-    let!(:moderator) { create(:moderator, sub: expected, user: user) }
-    let!(:others) { create(:sub) }
+    let!(:expected) { create(:community) }
+    let!(:moderator) { create(:moderator, community: expected, user: user) }
+    let!(:others) { create(:community) }
 
-    it "returns subs where user moderator" do
+    it "returns communities where user moderator" do
       result = subject.new.with_user_moderator(user)
 
       expect(result).to eq([expected])
@@ -39,11 +39,11 @@ RSpec.describe SubsQuery do
 
   describe ".with_user_follower" do
     let!(:user) { create(:user) }
-    let!(:expected) { create(:sub) }
-    let!(:moderator) { create(:follow, sub: expected, user: user) }
-    let!(:others) { create(:sub) }
+    let!(:expected) { create(:community) }
+    let!(:moderator) { create(:follow, community: expected, user: user) }
+    let!(:others) { create(:community) }
 
-    it "returns subs where user follower" do
+    it "returns communities where user follower" do
       result = subject.new.with_user_follower(user)
 
       expect(result).to eq([expected])

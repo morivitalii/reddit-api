@@ -4,12 +4,12 @@ RSpec.describe ModeratorsFacade do
   subject { described_class }
 
   let(:user) { create(:user) }
-  let(:sub) { create(:sub) }
-  let(:context) { Context.new(user, sub) }
+  let(:community) { create(:community) }
+  let(:context) { Context.new(user, community) }
 
   describe ".index_meta_title" do
     it "returns title" do
-      expected_result = "#{sub.title}: #{I18n.t("moderators")}"
+      expected_result = "#{community.title}: #{I18n.t("moderators")}"
       result = subject.new(context).index_meta_title
 
       expect(result).to eq(expected_result)

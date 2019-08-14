@@ -31,7 +31,7 @@ class CommentsTree
       @branch = { id: @thing.post_id, nested: [collect_nested({ id: @thing.id }, 0)] }
     end
 
-    query = Thing.where(id: collect_ids(@branch)).includes(:sub, :user, :deleted_by)
+    query = Thing.where(id: collect_ids(@branch)).includes(:community, :user, :deleted_by)
 
     @things = query.all
 

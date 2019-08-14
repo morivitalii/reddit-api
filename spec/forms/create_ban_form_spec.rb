@@ -5,12 +5,12 @@ RSpec.describe CreateBanForm do
 
   describe ".save" do
     it "creates ban" do
-      sub = create(:sub)
+      community = create(:community)
       user = create(:user)
       permanent = true
 
       form = subject.new(
-        sub: sub,
+        community: community,
         username: user.username,
         permanent: permanent
       )
@@ -18,7 +18,7 @@ RSpec.describe CreateBanForm do
       form.save
 
       expect(form.ban).to be_persisted
-      expect(form.ban).to have_attributes(sub: sub, user: user, permanent: permanent)
+      expect(form.ban).to have_attributes(community: community, user: user, permanent: permanent)
     end
   end
 end

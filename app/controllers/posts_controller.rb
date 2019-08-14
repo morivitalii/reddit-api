@@ -3,7 +3,7 @@
 class PostsController < ApplicationController
   include RateLimits
 
-  before_action :set_sub, only: [:new, :create]
+  before_action :set_community, only: [:new, :create]
   before_action :set_post, only: [:show, :edit, :update, :approve, :remove, :destroy]
   before_action :set_sort_options, only: [:show]
   before_action :set_sort, only: [:show]
@@ -89,11 +89,11 @@ class PostsController < ApplicationController
   private
 
   def pundit_user
-    Context.new(current_user, @sub || @post&.sub)
+    Context.new(current_user, @community || @post&.community)
   end
 
-  def set_sub
-    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
+  def set_community
+    @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
   end
 
   def set_post
@@ -109,7 +109,7 @@ class PostsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_post).permit(:title, :text, :url, :media, :explicit, :spoiler).merge(sub: @sub, current_user: current_user)
+    params.require(:create_post).permit(:title, :text, :url, :media, :explicit, :spoiler).merge(community: @community, current_user: current_user)
   end
 
   def update_params

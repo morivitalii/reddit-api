@@ -3,12 +3,12 @@
 class CreateRuleForm
   include ActiveModel::Model
 
-  attr_accessor :sub, :title, :description
+  attr_accessor :community, :title, :description
   attr_reader :rule
 
   def save
     @rule = Rule.create!(
-      sub: sub,
+      community: community,
       title: title,
       description: description
     )

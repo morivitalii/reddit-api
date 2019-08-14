@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   private
 
   def context
-    Context.new(current_user, SubsQuery.new.default.take!)
+    Context.new(current_user, CommunitiesQuery.new.default.take!)
   end
 
   def set_default_facade

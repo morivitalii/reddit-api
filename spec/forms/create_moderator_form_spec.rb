@@ -5,10 +5,10 @@ RSpec.describe CreateModeratorForm do
 
   describe ".save" do
     context "invalid" do
-      let(:sub) { create(:sub) }
+      let(:community) { create(:community) }
 
       before do
-        @form = subject.new(sub: sub)
+        @form = subject.new(community: community)
       end
 
       it "adds error on username field when username format is wrong" do
@@ -25,7 +25,7 @@ RSpec.describe CreateModeratorForm do
         expect(@form).to have_error(:invalid_username).on(:username)
       end
 
-      let(:banned_user) { create(:ban, sub: sub).user }
+      let(:banned_user) { create(:ban, community: community).user }
 
       it "adds error on username field when user is banned" do
         @form.username = banned_user.username
@@ -34,7 +34,7 @@ RSpec.describe CreateModeratorForm do
         expect(@form).to have_error(:user_banned).on(:username)
       end
 
-      let(:moderator_user) { create(:moderator, sub: sub).user }
+      let(:moderator_user) { create(:moderator, community: community).user }
 
       it "adds error on username field when user is moderator" do
         @form.username = moderator_user.username
@@ -45,12 +45,12 @@ RSpec.describe CreateModeratorForm do
     end
 
     context "valid" do
-      let(:sub) { create(:sub) }
+      let(:community) { create(:community) }
       let(:user) { create(:user) }
 
       before do
         @form = subject.new(
-          sub: sub,
+          community: community,
           username: user.username
         )
       end
@@ -59,7 +59,7 @@ RSpec.describe CreateModeratorForm do
         @form.save
         result = @form.moderator
 
-        expect(result).to have_attributes(sub: sub, user: user)
+        expect(result).to have_attributes(community: community, user: user)
       end
     end
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ModeratorsController < ApplicationController
-  before_action :set_sub
+  before_action :set_community
   before_action :set_facade
   before_action :set_moderator, only: [:destroy]
   before_action -> { authorize(Moderator) }, only: [:index, :new, :create]
@@ -21,7 +21,7 @@ class ModeratorsController < ApplicationController
     @form = CreateModeratorForm.new(create_params)
 
     if @form.save
-      head :no_content, location: sub_moderators_path(@sub)
+      head :no_content, location: community_moderators_path(@community)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -36,11 +36,11 @@ class ModeratorsController < ApplicationController
   private
 
   def context
-    Context.new(current_user, @sub)
+    Context.new(current_user, @community)
   end
 
-  def set_sub
-    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
+  def set_community
+    @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
   end
 
   def set_facade
@@ -48,16 +48,16 @@ class ModeratorsController < ApplicationController
   end
 
   def set_moderator
-    @moderator = @sub.moderators.find(params[:id])
+    @moderator = @community.moderators.find(params[:id])
   end
 
   def query
-    ModeratorsQuery.new(@sub.moderators).search_by_username(params[:query]).includes(:user)
+    ModeratorsQuery.new(@community.moderators).search_by_username(params[:query]).includes(:user)
   end
 
   def create_params
     attributes = policy(Moderator).permitted_attributes_for_create
 
-    params.require(:create_moderator_form).permit(attributes).merge(sub: @sub)
+    params.require(:create_moderator_form).permit(attributes).merge(community: @community)
   end
 end

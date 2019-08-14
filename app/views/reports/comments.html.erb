@@ -1,6 +1,6 @@
 <% content_for(:meta_title, @facade.comments_meta_title) %>
 
-<%= render 'shared/sidebar', sub: @sub %>
+<%= render 'shared/sidebar', community: @community %>
 
 <% content_for(:navigation) do %>
   <li class="nav-item dropdown">
@@ -9,8 +9,8 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("new"), posts_sub_mod_queues_path(@sub), class: 'dropdown-item') %>
-      <%= link_to(t("reports"), posts_sub_reports_path(@sub), class: 'dropdown-item') %>
+      <%= link_to(t("new"), posts_community_mod_queues_path(@community), class: 'dropdown-item') %>
+      <%= link_to(t("reports"), posts_community_reports_path(@community), class: 'dropdown-item') %>
     </div>
   </li>
 
@@ -20,8 +20,8 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("posts"), posts_sub_reports_path(@sub), class: 'dropdown-item') %>
-      <%= link_to(t("comments"), comments_sub_reports_path(@sub), class: 'dropdown-item') %>
+      <%= link_to(t("posts"), posts_community_reports_path(@community), class: 'dropdown-item') %>
+      <%= link_to(t("comments"), comments_community_reports_path(@community), class: 'dropdown-item') %>
     </div>
   </li>
 <% end %>

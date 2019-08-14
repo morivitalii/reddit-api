@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Sub < ApplicationRecord
+class Community < ApplicationRecord
   has_many :follows, dependent: :destroy
   has_many :moderators, dependent: :destroy
   has_many :bans, dependent: :destroy

@@ -3,14 +3,14 @@
 class Ban < ApplicationRecord
   include Paginatable
 
-  belongs_to :sub, touch: true
+  belongs_to :community, touch: true
   belongs_to :user, touch: true
 
   strip_attributes :reason, squish: true
 
   before_save :set_end_at
 
-  validates :user, presence: { message: :invalid_username }, uniqueness: { scope: :sub_id }
+  validates :user, presence: { message: :invalid_username }, uniqueness: { scope: :community_id }
   validates :reason, allow_blank: true, length: { maximum: 500 }
   validates :days, absence: true, if: -> (r) { r.permanent }
   validates :days, presence: true,

@@ -9,7 +9,7 @@ RSpec.describe Ban do
   describe "validations" do
     subject { create(:ban) }
 
-    it { is_expected.to validate_uniqueness_of(:user).scoped_to(:sub_id) }
+    it { is_expected.to validate_uniqueness_of(:user).scoped_to(:community_id) }
     it { is_expected.to validate_length_of(:reason).is_at_most(500) }
 
     context "temporary" do

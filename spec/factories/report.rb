@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :report do
     reportable_post
-    sub { reportable.sub }
+    community { reportable.community }
     user
     text { "Text" }
 

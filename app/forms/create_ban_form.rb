@@ -3,12 +3,12 @@
 class CreateBanForm
   include ActiveModel::Model
 
-  attr_accessor :sub, :username, :reason, :days, :permanent
+  attr_accessor :community, :username, :reason, :days, :permanent
   attr_reader :ban
 
   def save
     @ban = Ban.create!(
-      sub: sub,
+      community: community,
       user: user,
       reason: reason,
       days: days,

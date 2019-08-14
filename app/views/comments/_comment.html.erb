@@ -7,7 +7,7 @@
         <%= t('to') %> <%= link_to(truncate(thing.post.title, length: 75), thing_path(thing.post)) %>
       <% end %>
 
-      <%= t('in') %> <%= link_to(thing.sub.url, sub_path(thing.sub)) %>
+      <%= t('in') %> <%= link_to(thing.community.url, community_path(thing.community)) %>
 
       <%= datetime_tag(thing.created_at, :ago) %>
 

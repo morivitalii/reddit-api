@@ -8,7 +8,7 @@ class CreateReportForm
   def save
     return true if skip?
 
-    Report.create_with(sub: reportable.sub, text: text).find_or_create_by!(reportable: reportable, user: user)
+    Report.create_with(community: reportable.community, text: text).find_or_create_by!(reportable: reportable, user: user)
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 

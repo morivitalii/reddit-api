@@ -1,6 +1,6 @@
 <% content_for(:meta_title, @facade.show_meta_title) %>
 
-<%= render 'shared/sidebar', sub: @sub %>
+<%= render 'shared/sidebar', community: @community %>
 
 <% content_for(:navigation) do %>
   <li class="nav-item dropdown">
@@ -10,7 +10,7 @@
 
     <div class="dropdown-menu">
       <% ThingsSorting.new.list.each do |k, v| %>
-        <%= link_to(v, sub_path(@sub, sort: k), class: 'dropdown-item') %>
+        <%= link_to(v, community_path(@community, sort: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
@@ -22,7 +22,7 @@
 
     <div class="dropdown-menu">
       <% ThingsDates.new.list.each do |k, v| %>
-        <%= link_to(v, sub_path(@sub, sort: params[:sort], date: k), class: 'dropdown-item') %>
+        <%= link_to(v, community_path(@community, sort: params[:sort], date: k), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>

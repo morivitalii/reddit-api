@@ -3,9 +3,9 @@ require "rails_helper"
 RSpec.describe ModeratorPolicy do
   subject { described_class }
 
-  let(:sub) { create(:sub) }
-  let(:context) { Context.new(user, sub) }
-  let(:moderator) { create(:moderator, sub: sub) }
+  let(:community) { create(:community) }
+  let(:context) { Context.new(user, community) }
+  let(:moderator) { create(:moderator, community: community) }
 
   context "for visitor" do
     let(:user) { nil }
@@ -40,7 +40,7 @@ RSpec.describe ModeratorPolicy do
   end
 
   context "for moderator" do
-    let(:user) { create(:moderator, sub: sub).user }
+    let(:user) { create(:moderator, community: community).user }
 
     permissions :index?, :new?, :create? do
       it { is_expected.to permit(context) }

@@ -3,13 +3,13 @@ require "rails_helper"
 RSpec.describe ApplicationPolicy do
   subject { described_class }
 
-  let(:sub) { create(:sub) }
-  let(:context) { Context.new(user, sub) }
+  let(:community) { create(:community) }
+  let(:context) { Context.new(user, community) }
 
   it "raises ApplicationPolicy::BannedError if user is banned" do
     ban = create(:ban)
 
-    expect { ApplicationPolicy.new(Context.new(ban.user, ban.sub), nil) }.to raise_error(ApplicationPolicy::BannedError)
+    expect { ApplicationPolicy.new(Context.new(ban.user, ban.community), nil) }.to raise_error(ApplicationPolicy::BannedError)
   end
 
   context "for visitor" do
@@ -29,7 +29,7 @@ RSpec.describe ApplicationPolicy do
   end
 
   context "for moderator" do
-    let(:user) { create(:moderator, sub: sub).user }
+    let(:user) { create(:moderator, community: community).user }
 
     permissions :skip_rate_limiting? do
       it { is_expected.to permit(context) }

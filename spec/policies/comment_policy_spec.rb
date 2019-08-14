@@ -3,9 +3,9 @@ require "rails_helper"
 RSpec.describe CommentPolicy do
   subject { described_class }
 
-  let(:sub) { create(:sub) }
-  let(:context) { Context.new(user, sub) }
-  let(:comment) { create(:comment, sub: sub) }
+  let(:community) { create(:community) }
+  let(:context) { Context.new(user, community) }
+  let(:comment) { create(:comment, community: community) }
 
   context "for visitor" do
     let(:user) { nil }
@@ -60,7 +60,7 @@ RSpec.describe CommentPolicy do
   end
 
   context "for moderator" do
-    let(:user) { create(:moderator, sub: sub).user }
+    let(:user) { create(:moderator, community: community).user }
 
     permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :ignore_reports?, :deletion_reason? do
       it { is_expected.to permit(context, comment) }

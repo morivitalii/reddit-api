@@ -4,7 +4,7 @@
 
     <div class="actions">
       <% if policy(moderator).destroy? %>
-        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: sub_moderator_path(moderator.sub, moderator) }) %>
+        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: community_moderator_path(moderator.community, moderator) }) %>
       <% end %>
     </div>
   </div>
