@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe HomePolicy do
   subject { described_class }
 
-  let(:sub) { create(:sub) }
-  let(:context) { Context.new(user, sub) }
+  let(:community) { create(:community) }
+  let(:context) { Context.new(user, community) }
 
   context "for visitor" do
     let(:user) { nil }

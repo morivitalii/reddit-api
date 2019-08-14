@@ -7,7 +7,7 @@ class HomeController < ApplicationController
   def index
     @records, @pagination = Post.not_removed
                                        .in_date_range(date)
-                                       .includes(:sub, :user)
+                                       .includes(:community, :user)
                                        .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
 
     @records = @records.map(&:decorate)

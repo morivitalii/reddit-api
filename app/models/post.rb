@@ -11,7 +11,7 @@ class Post < ApplicationRecord
   include Markdownable
   include Uploader::Attachment.new(:media)
 
-  belongs_to :sub, touch: true
+  belongs_to :community, touch: true
   belongs_to :user, touch: true
   has_one :topic, dependent: :destroy
   has_many :comments, dependent: :destroy

@@ -4,8 +4,8 @@ RSpec.describe BookmarksFacade do
   subject { described_class }
 
   let(:user) { create(:user) }
-  let(:sub) { create(:sub) }
-  let(:context) { Context.new(user, sub) }
+  let(:community) { create(:community) }
+  let(:context) { Context.new(user, community) }
 
   describe ".posts_meta_title" do
     it "returns title" do

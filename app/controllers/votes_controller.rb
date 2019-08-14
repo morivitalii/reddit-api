@@ -41,13 +41,13 @@ class VotesController < ApplicationController
   def posts_query
     query_class = VotesQuery
     query = query_class.new(@user.votes).posts_votes
-    query_class.new(query).search_by_vote_type(vote_type).includes(votable: [:user, :sub])
+    query_class.new(query).search_by_vote_type(vote_type).includes(votable: [:user, :community])
   end
 
   def comments_query
     query_class = VotesQuery
     query = query_class.new(@user.votes).comments_votes
-    query_class.new(query).search_by_vote_type(vote_type).includes(votable: [:user, :post, :sub])
+    query_class.new(query).search_by_vote_type(vote_type).includes(votable: [:user, :post, :community])
   end
 
   def set_facade

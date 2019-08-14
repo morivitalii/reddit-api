@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-class UpdateSubForm
+class UpdateCommunityForm
   include ActiveModel::Model
 
-  attr_accessor :sub, :title, :description
+  attr_accessor :community, :title, :description
 
   def save
-    sub.update!(
+    community.update!(
       title: title,
       description: description
     )

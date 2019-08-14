@@ -12,6 +12,6 @@ class UserNotBannedValidator < ActiveModel::EachValidator
   private
 
   def valid?(record, value)
-    BansQuery.new(record.sub.bans).with_username(value).none?
+    BansQuery.new(record.community.bans).with_username(value).none?
   end
 end

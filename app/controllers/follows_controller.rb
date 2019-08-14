@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 class FollowsController < ApplicationController
-  before_action :set_sub
+  before_action :set_community
   before_action -> { authorize(Follow) }
 
   def create
-    CreateFollowService.new(@sub, current_user).call
+    CreateFollowService.new(@community, current_user).call
 
     head :no_content
   end
 
   def destroy
-    DeleteFollowService.new(@sub, current_user).call
+    DeleteFollowService.new(@community, current_user).call
 
     head :no_content
   end
@@ -19,10 +19,10 @@ class FollowsController < ApplicationController
   private
 
   def pundit_user
-    Context.new(current_user, @sub)
+    Context.new(current_user, @community)
   end
 
-  def set_sub
-    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
+  def set_community
+    @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
   end
 end

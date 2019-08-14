@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SubPolicy < ApplicationPolicy
+class CommunityPolicy < ApplicationPolicy
   def show?
     true
   end

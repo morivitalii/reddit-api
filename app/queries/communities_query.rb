@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SubsQuery < ApplicationQuery
+class CommunitiesQuery < ApplicationQuery
   def with_url(url)
     relation.where("lower(url) = ?", url.downcase)
   end

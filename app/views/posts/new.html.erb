@@ -1,8 +1,6 @@
 <% content_for(:meta_title, t("create_post")) %>
 
-<% if @sub.present? %>
-  <%= render 'shared/sidebar', sub: @sub %>
-<% end %>
+<%= render 'shared/sidebar', community: @community %>
 
 <div id="newPost" class="col-12 bg-white border rounded mb-3">
   <div class="row">
@@ -23,7 +21,7 @@
     </div>
 
     <div id="text" class="col-12 mt-2 mb-3 type">
-      <%= form_with(model: @form, url: sub_posts_path(@sub), class: 'createPostForm') do |f| %>
+      <%= form_with(model: @form, url: community_posts_path(@community), class: 'createPostForm') do |f| %>
         <%= f.text_area :title, rows: 3 %>
         <%= f.text_area :text %>
         <%= f.text_area :url, rows: 3 %>

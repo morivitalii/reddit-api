@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :rule do
-    sub
+    community
     sequence(:title) { |i| "Title #{i}" }
     sequence(:description) { |i| "Description #{i}" }
   end

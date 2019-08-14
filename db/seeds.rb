@@ -3,6 +3,6 @@ unless Rails.env.test?
     SignUpForm.new(username: "readmaru", password: "password").save
     SignUpForm.new(username: "AutoModerator", password: "password").save
 
-    Sub.create!(url: "all", title: "All")
+    Community.create!(url: "all", title: "All")
   end
 end

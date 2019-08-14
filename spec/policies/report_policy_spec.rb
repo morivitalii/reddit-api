@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe ReportPolicy do
   subject { described_class }
 
-  let(:sub) { create(:sub) }
-  let(:context) { Context.new(user, sub) }
+  let(:community) { create(:community) }
+  let(:context) { Context.new(user, community) }
 
   context "for visitor" do
     let(:user) { nil }
@@ -35,7 +35,7 @@ RSpec.describe ReportPolicy do
   end
 
   context "for moderator" do
-    let(:user) { create(:moderator, sub: sub).user }
+    let(:user) { create(:moderator, community: community).user }
 
     permissions :posts?, :comments?, :new?, :create? do
       it { is_expected.to permit(context) }

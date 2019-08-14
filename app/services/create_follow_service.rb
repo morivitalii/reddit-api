@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class CreateFollowService
-  attr_reader :sub, :user
+  attr_reader :community, :user
 
-  def initialize(sub, user)
-    @sub = sub
+  def initialize(community, user)
+    @community = community
     @user = user
   end
 
   def call
-    Follow.find_or_create_by!(sub: sub, user: user)
+    Follow.find_or_create_by!(community: community, user: user)
   end
 end

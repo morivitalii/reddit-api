@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :post do
     user
-    sub
+    community
     title { "Title" }
     text
 

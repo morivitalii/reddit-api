@@ -10,7 +10,7 @@ class CreateComment
     ActiveRecord::Base.transaction do
       @comment = Comment.create!(
         user: @current_user,
-        sub: post.sub,
+        community: post.community,
         post: post,
         comment: comment,
         text: @text

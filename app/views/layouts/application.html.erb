@@ -27,18 +27,18 @@
                     <option data-href="<%= root_path %>"><%= t("home")%></option>
                     <option data-href="<%= edit_users_path %>"><%= t("settings") %></option>
 
-                    <% if @facade.subs_moderated_by_user.present? %>
+                    <% if @facade.communities_moderated_by_user.present? %>
                       <optgroup label="<%= t("mod_queue") %>">
-                        <% @facade.subs_moderated_by_user.each do |sub| %>
-                          <option data-href="<%= sub_path(sub) %>"><%= sub.title %></option>
+                        <% @facade.communities_moderated_by_user.each do |community| %>
+                          <option data-href="<%= community_path(community) %>"><%= community.title %></option>
                         <% end %>
                       </optgroup>
                     <% end %>
 
-                    <% if @facade.subs_followed_by_user.present? %>
+                    <% if @facade.communities_followed_by_user.present? %>
                       <optgroup label="<%= t("follows") %>">
-                        <% @facade.subs_followed_by_user.each do |sub| %>
-                          <option data-href="<%= sub_path(sub) %>"><%= sub.title %></option>
+                        <% @facade.communities_followed_by_user.each do |community| %>
+                          <option data-href="<%= community_path(community) %>"><%= community.title %></option>
                         <% end %>
                       </optgroup>
                     <% end %>

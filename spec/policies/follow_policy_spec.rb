@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe FollowPolicy do
   subject { described_class }
 
-  let(:sub) { create(:sub) }
-  let(:context) { Context.new(user, sub) }
+  let(:community) { create(:community) }
+  let(:context) { Context.new(user, community) }
   
   context "for visitor" do
     let(:user) { nil }
@@ -15,7 +15,7 @@ RSpec.describe FollowPolicy do
   end
 
   context "for follower user" do
-    let(:user) { create(:follow, sub: sub).user }
+    let(:user) { create(:follow, community: community).user }
 
     permissions :create? do
       it { is_expected.to_not permit(context) }

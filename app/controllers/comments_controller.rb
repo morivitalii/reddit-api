@@ -15,12 +15,12 @@ class CommentsController < ApplicationController
     # @topic = CommentsTree.new(
     #     thing: @thing,
     #     sort: @sort,
-    #     after: params[:after].present? ? @sub.things.find_by_id(params[:after]) : nil
+    #     after: params[:after].present? ? @community.things.find_by_id(params[:after]) : nil
     # ).build
     #
     # @post = @topic.post
     # @comment = @topic.comment
-    # @sub = @post.sub
+    # @community = @post.community
     #
     # if request.xhr?
     #   if @comment.present?

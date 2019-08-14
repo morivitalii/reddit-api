@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class RulesController < ApplicationController
-  before_action :set_sub
+  before_action :set_community
   before_action :set_facade
   before_action :set_rule, only: [:edit, :update, :destroy]
   before_action -> { authorize(Rule) }, only: [:index, :new, :create]
   before_action -> { authorize(rule) }, only: [:edit, :update, :destroy]
 
   def index
-    @records, @pagination = @sub.rules.paginate(after: params[:after])
+    @records, @pagination = @community.rules.paginate(after: params[:after])
   end
 
   def new
@@ -29,7 +29,7 @@ class RulesController < ApplicationController
     @form = CreateRuleForm.new(create_params)
 
     if @form.save
-      head :no_content, location: sub_rules_path(@sub)
+      head :no_content, location: community_rules_path(@community)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -54,11 +54,11 @@ class RulesController < ApplicationController
   private
 
   def context
-    Context.new(current_user, @sub)
+    Context.new(current_user, @community)
   end
 
-  def set_sub
-    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
+  def set_community
+    @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
   end
 
   def set_facade
@@ -66,13 +66,13 @@ class RulesController < ApplicationController
   end
 
   def set_rule
-    @rule = @sub.rules.find(params[:id])
+    @rule = @community.rules.find(params[:id])
   end
 
   def create_params
     attributes = policy(Rule).permitted_attributes_for_create
 
-    params.require(:create_rule_form).permit(attributes).merge(sub: @sub)
+    params.require(:create_rule_form).permit(attributes).merge(community: @community)
   end
 
   def update_params

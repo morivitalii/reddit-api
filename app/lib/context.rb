@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class Context
-  attr_reader :user, :sub
+  attr_reader :user, :community
 
-  def initialize(user, sub)
+  def initialize(user, community)
     @user = user
-    @sub = sub
+    @community = community
   end
 end

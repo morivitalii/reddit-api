@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :sub do
-    sequence(:url) { |i| "sub#{i}" }
-    sequence(:title) { |i| "Sub #{i}" }
+  factory :community do
+    sequence(:url) { |i| "community#{i}" }
+    sequence(:title) { |i| "Community #{i}" }
     sequence(:description) { |i| "Description #{i}" }
   end
 end

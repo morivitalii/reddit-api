@@ -1,25 +1,25 @@
 <% content_for(:meta_title, @facade.index_meta_title) %>
 
-<%= render 'shared/sidebar', sub: @sub %>
+<%= render 'shared/sidebar', community: @community %>
 
 <div id="moderators" class="entries row">
   <div class="head col-12">
     <div class="title">
-      <%= link_to(t('moderators'), sub_moderators_path(@sub)) %>
+      <%= link_to(t('moderators'), community_moderators_path(@community)) %>
     </div>
 
     <div class="actions">
       <% if policy(Moderator).create? %>
-        <%= link_to(t('create'), new_sub_moderator_path(@sub), remote: true, class: 'create') %>
+        <%= link_to(t('create'), new_community_moderator_path(@community), remote: true, class: 'create') %>
       <% end %>
     </div>
   </div>
 
   <div class="search col-12">
-    <%= form_with(url: sub_moderators_path(@sub), method: :get, local: true, class: "form-inline") do |f| %>
+    <%= form_with(url: community_moderators_path(@community), method: :get, local: true, class: "form-inline") do |f| %>
       <%= f.text_field :query, value: params[:query], placeholder: t("username") %>
       <%= f.submit t("search") %>
-      <%= link_to(t("reset"), sub_moderators_path(@sub), class: "btn btn-primary") %>
+      <%= link_to(t("reset"), community_moderators_path(@community), class: "btn btn-primary") %>
     <% end %>
   </div>
 

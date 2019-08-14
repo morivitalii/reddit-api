@@ -2,6 +2,6 @@
 
 class BansFacade < ApplicationFacade
   def index_meta_title
-    "#{sub.title}: #{I18n.t("bans")}"
+    "#{community.title}: #{I18n.t("bans")}"
   end
 end

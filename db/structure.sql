@@ -31,7 +31,7 @@ CREATE TABLE public.ar_internal_metadata (
 
 CREATE TABLE public.bans (
     id bigint NOT NULL,
-    sub_id bigint NOT NULL,
+    community_id bigint NOT NULL,
     user_id bigint NOT NULL,
     reason character varying,
     permanent boolean DEFAULT false NOT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE public.comments (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     comment_id bigint,
-    sub_id bigint NOT NULL
+    community_id bigint NOT NULL
 );
 
 
@@ -146,12 +146,46 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 
 
 --
+-- Name: communities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.communities (
+    id bigint NOT NULL,
+    url character varying NOT NULL,
+    follows_count integer DEFAULT 0 NOT NULL,
+    description character varying,
+    title character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: communities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.communities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: communities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.communities_id_seq OWNED BY public.communities.id;
+
+
+--
 -- Name: follows; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.follows (
     id bigint NOT NULL,
-    sub_id bigint NOT NULL,
+    community_id bigint NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -183,7 +217,7 @@ ALTER SEQUENCE public.follows_id_seq OWNED BY public.follows.id;
 
 CREATE TABLE public.moderators (
     id bigint NOT NULL,
-    sub_id bigint NOT NULL,
+    community_id bigint NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -216,7 +250,7 @@ ALTER SEQUENCE public.moderators_id_seq OWNED BY public.moderators.id;
 CREATE TABLE public.posts (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
-    sub_id bigint NOT NULL,
+    community_id bigint NOT NULL,
     title character varying NOT NULL,
     tag character varying,
     text text,
@@ -309,7 +343,7 @@ CREATE TABLE public.reports (
     text character varying NOT NULL,
     reportable_type character varying,
     reportable_id bigint,
-    sub_id bigint NOT NULL
+    community_id bigint NOT NULL
 );
 
 
@@ -338,7 +372,7 @@ ALTER SEQUENCE public.reports_id_seq OWNED BY public.reports.id;
 
 CREATE TABLE public.rules (
     id bigint NOT NULL,
-    sub_id bigint NOT NULL,
+    community_id bigint NOT NULL,
     title character varying NOT NULL,
     description character varying,
     created_at timestamp without time zone NOT NULL,
@@ -372,40 +406,6 @@ ALTER SEQUENCE public.rules_id_seq OWNED BY public.rules.id;
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
 );
-
-
---
--- Name: subs; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.subs (
-    id bigint NOT NULL,
-    url character varying NOT NULL,
-    follows_count integer DEFAULT 0 NOT NULL,
-    description character varying,
-    title character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: subs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.subs_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: subs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.subs_id_seq OWNED BY public.subs.id;
 
 
 --
@@ -532,6 +532,13 @@ ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.com
 
 
 --
+-- Name: communities id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.communities ALTER COLUMN id SET DEFAULT nextval('public.communities_id_seq'::regclass);
+
+
+--
 -- Name: follows id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -571,13 +578,6 @@ ALTER TABLE ONLY public.reports ALTER COLUMN id SET DEFAULT nextval('public.repo
 --
 
 ALTER TABLE ONLY public.rules ALTER COLUMN id SET DEFAULT nextval('public.rules_id_seq'::regclass);
-
-
---
--- Name: subs id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subs ALTER COLUMN id SET DEFAULT nextval('public.subs_id_seq'::regclass);
 
 
 --
@@ -631,6 +631,14 @@ ALTER TABLE ONLY public.bookmarks
 
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: communities communities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.communities
+    ADD CONSTRAINT communities_pkey PRIMARY KEY (id);
 
 
 --
@@ -690,14 +698,6 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
--- Name: subs subs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subs
-    ADD CONSTRAINT subs_pkey PRIMARY KEY (id);
-
-
---
 -- Name: topics topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -722,24 +722,24 @@ ALTER TABLE ONLY public.votes
 
 
 --
+-- Name: index_bans_on_community_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bans_on_community_id ON public.bans USING btree (community_id);
+
+
+--
+-- Name: index_bans_on_community_id_and_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_bans_on_community_id_and_user_id ON public.bans USING btree (community_id, user_id);
+
+
+--
 -- Name: index_bans_on_end_at; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_bans_on_end_at ON public.bans USING btree (end_at);
-
-
---
--- Name: index_bans_on_sub_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_bans_on_sub_id ON public.bans USING btree (sub_id);
-
-
---
--- Name: index_bans_on_sub_id_and_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_bans_on_sub_id_and_user_id ON public.bans USING btree (sub_id, user_id);
 
 
 --
@@ -792,6 +792,13 @@ CREATE INDEX index_comments_on_comment_id ON public.comments USING btree (commen
 
 
 --
+-- Name: index_comments_on_community_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_community_id ON public.comments USING btree (community_id);
+
+
+--
 -- Name: index_comments_on_controversy_score; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -841,13 +848,6 @@ CREATE INDEX index_comments_on_post_id ON public.comments USING btree (post_id);
 
 
 --
--- Name: index_comments_on_sub_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_comments_on_sub_id ON public.comments USING btree (sub_id);
-
-
---
 -- Name: index_comments_on_top_score; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -862,17 +862,24 @@ CREATE INDEX index_comments_on_user_id ON public.comments USING btree (user_id);
 
 
 --
--- Name: index_follows_on_sub_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_communities_on_lower_url; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_follows_on_sub_id ON public.follows USING btree (sub_id);
+CREATE UNIQUE INDEX index_communities_on_lower_url ON public.communities USING btree (lower((url)::text));
 
 
 --
--- Name: index_follows_on_sub_id_and_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_follows_on_community_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_follows_on_sub_id_and_user_id ON public.follows USING btree (sub_id, user_id);
+CREATE INDEX index_follows_on_community_id ON public.follows USING btree (community_id);
+
+
+--
+-- Name: index_follows_on_community_id_and_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_follows_on_community_id_and_user_id ON public.follows USING btree (community_id, user_id);
 
 
 --
@@ -883,17 +890,17 @@ CREATE INDEX index_follows_on_user_id ON public.follows USING btree (user_id);
 
 
 --
--- Name: index_moderators_on_sub_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_moderators_on_community_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_moderators_on_sub_id ON public.moderators USING btree (sub_id);
+CREATE INDEX index_moderators_on_community_id ON public.moderators USING btree (community_id);
 
 
 --
--- Name: index_moderators_on_sub_id_and_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_moderators_on_community_id_and_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_moderators_on_sub_id_and_user_id ON public.moderators USING btree (sub_id, user_id);
+CREATE UNIQUE INDEX index_moderators_on_community_id_and_user_id ON public.moderators USING btree (community_id, user_id);
 
 
 --
@@ -915,6 +922,13 @@ CREATE INDEX index_posts_on_approved_by_id ON public.posts USING btree (approved
 --
 
 CREATE INDEX index_posts_on_best_score ON public.posts USING btree (best_score);
+
+
+--
+-- Name: index_posts_on_community_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_community_id ON public.posts USING btree (community_id);
 
 
 --
@@ -960,13 +974,6 @@ CREATE INDEX index_posts_on_new_score ON public.posts USING btree (new_score);
 
 
 --
--- Name: index_posts_on_sub_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_posts_on_sub_id ON public.posts USING btree (sub_id);
-
-
---
 -- Name: index_posts_on_top_score; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1002,6 +1009,13 @@ CREATE INDEX index_rate_limits_on_user_id ON public.rate_limits USING btree (use
 
 
 --
+-- Name: index_reports_on_community_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reports_on_community_id ON public.reports USING btree (community_id);
+
+
+--
 -- Name: index_reports_on_reportable_type_and_reportable_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1016,13 +1030,6 @@ CREATE UNIQUE INDEX index_reports_on_reportable_type_and_reportable_id_and_user_
 
 
 --
--- Name: index_reports_on_sub_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_reports_on_sub_id ON public.reports USING btree (sub_id);
-
-
---
 -- Name: index_reports_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1030,17 +1037,10 @@ CREATE INDEX index_reports_on_user_id ON public.reports USING btree (user_id);
 
 
 --
--- Name: index_rules_on_sub_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_rules_on_community_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_rules_on_sub_id ON public.rules USING btree (sub_id);
-
-
---
--- Name: index_subs_on_lower_url; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_subs_on_lower_url ON public.subs USING btree (lower((url)::text));
+CREATE INDEX index_rules_on_community_id ON public.rules USING btree (community_id);
 
 
 --
@@ -1144,7 +1144,7 @@ ALTER TABLE ONLY public.comments
 --
 
 ALTER TABLE ONLY public.rules
-    ADD CONSTRAINT fk_rails_2acf6061a2 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
+    ADD CONSTRAINT fk_rails_2acf6061a2 FOREIGN KEY (community_id) REFERENCES public.communities(id);
 
 
 --
@@ -1208,7 +1208,7 @@ ALTER TABLE ONLY public.posts
 --
 
 ALTER TABLE ONLY public.posts
-    ADD CONSTRAINT fk_rails_5bdccabcd5 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
+    ADD CONSTRAINT fk_rails_5bdccabcd5 FOREIGN KEY (community_id) REFERENCES public.communities(id);
 
 
 --
@@ -1232,7 +1232,7 @@ ALTER TABLE ONLY public.posts
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT fk_rails_a231e25c25 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
+    ADD CONSTRAINT fk_rails_a231e25c25 FOREIGN KEY (community_id) REFERENCES public.communities(id);
 
 
 --
@@ -1240,7 +1240,7 @@ ALTER TABLE ONLY public.comments
 --
 
 ALTER TABLE ONLY public.follows
-    ADD CONSTRAINT fk_rails_b61b5b4590 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
+    ADD CONSTRAINT fk_rails_b61b5b4590 FOREIGN KEY (community_id) REFERENCES public.communities(id);
 
 
 --
@@ -1248,7 +1248,7 @@ ALTER TABLE ONLY public.follows
 --
 
 ALTER TABLE ONLY public.moderators
-    ADD CONSTRAINT fk_rails_be7d88c486 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
+    ADD CONSTRAINT fk_rails_be7d88c486 FOREIGN KEY (community_id) REFERENCES public.communities(id);
 
 
 --
@@ -1272,7 +1272,7 @@ ALTER TABLE ONLY public.reports
 --
 
 ALTER TABLE ONLY public.bans
-    ADD CONSTRAINT fk_rails_c7c525ef40 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
+    ADD CONSTRAINT fk_rails_c7c525ef40 FOREIGN KEY (community_id) REFERENCES public.communities(id);
 
 
 --
@@ -1381,6 +1381,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814140631'),
 ('20190814141100'),
 ('20190814142320'),
-('20190814142325');
+('20190814142325'),
+('20190814143945');
 
 

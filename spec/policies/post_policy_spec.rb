@@ -3,9 +3,9 @@ require "rails_helper"
 RSpec.describe PostPolicy do
   subject { described_class }
 
-  let(:sub) { create(:sub) }
-  let(:context) { Context.new(user, sub) }
-  let(:post) { create(:post, sub: sub) }
+  let(:community) { create(:community) }
+  let(:context) { Context.new(user, community) }
+  let(:post) { create(:post, community: community) }
 
   context "for visitor" do
     let(:user) { nil }
@@ -60,7 +60,7 @@ RSpec.describe PostPolicy do
   end
 
   context "for moderator" do
-    let(:user) { create(:moderator, sub: sub).user }
+    let(:user) { create(:moderator, community: community).user }
 
     permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :tag?, :explicit?, :spoiler?, :ignore_reports?, :deletion_reason? do
       it { is_expected.to permit(context, post) }

@@ -5,7 +5,7 @@ class Rule < ApplicationRecord
 
   LIMIT = 15
 
-  belongs_to :sub, touch: true
+  belongs_to :community, touch: true
 
   strip_attributes :title, :description, squish: true
 
@@ -22,6 +22,6 @@ class Rule < ApplicationRecord
   end
 
   def existent_count
-    sub.rules.count
+    community.rules.count
   end
 end

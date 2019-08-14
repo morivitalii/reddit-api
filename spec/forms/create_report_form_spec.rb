@@ -39,7 +39,7 @@ RSpec.describe CreateReportForm do
     end
 
     it "creates report" do
-      expected_attributes = { reportable: reportable, user: user, sub: reportable.sub, text: text }
+      expected_attributes = { reportable: reportable, user: user, community: reportable.community, text: text }
       result = @form.save
 
       expect(result).to have_attributes(expected_attributes)

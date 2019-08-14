@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     get :comments, action: :comments, on: :member
   end
 
-  resources :subs, only: [:show, :edit, :update] do
+  resources :communities, only: [:show, :edit, :update] do
     resources :posts, only: [:new, :create]
     resource :follows, only: [:create, :destroy]
     resources :moderators, except: [:show, :edit, :update]

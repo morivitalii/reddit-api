@@ -3,24 +3,24 @@ require "rails_helper"
 class UserNotBannedValidatorDummy
   include ActiveModel::Validations
 
-  attr_accessor :username, :sub
+  attr_accessor :username, :community
 
-  def initialize(sub)
-    @sub = sub
+  def initialize(community)
+    @community = community
   end
 
   validates :username, user_not_banned: true
 end
 
 RSpec.describe UserNotBannedValidator do
-  subject { UserNotBannedValidatorDummy.new(sub) }
+  subject { UserNotBannedValidatorDummy.new(community) }
 
   describe ".validate_each" do
-    let(:sub) { create(:sub) }
+    let(:community) { create(:community) }
     let(:user) { create(:user) }
 
     context "invalid" do
-      let!(:ban) { create(:ban, user: user, sub: sub) }
+      let!(:ban) { create(:ban, user: user, community: community) }
 
       it "adds error on username if user is banned" do
         subject.username = user.username

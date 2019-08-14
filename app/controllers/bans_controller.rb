@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class BansController < ApplicationController
-  before_action :set_sub
+  before_action :set_community
   before_action :set_facade
   before_action :set_ban, only: [:edit, :update, :destroy]
   before_action -> { authorize(Ban) }, only: [:index, :new, :create]
@@ -29,7 +29,7 @@ class BansController < ApplicationController
     @form = CreateBanForm.new(create_params)
 
     if @form.save
-      head :no_content, location: sub_bans_path(@sub)
+      head :no_content, location: community_bans_path(@community)
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -54,11 +54,11 @@ class BansController < ApplicationController
   private
 
   def context
-    Context.new(current_user, @sub)
+    Context.new(current_user, @community)
   end
 
-  def set_sub
-    @sub = SubsQuery.new.with_url(params[:sub_id]).take!
+  def set_community
+    @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
   end
 
   def set_facade
@@ -66,17 +66,17 @@ class BansController < ApplicationController
   end
 
   def set_ban
-    @ban = @sub.bans.find(params[:id])
+    @ban = @community.bans.find(params[:id])
   end
 
   def query
-    BansQuery.new(@sub.bans).search_by_username(params[:query]).includes(:user)
+    BansQuery.new(@community.bans).search_by_username(params[:query]).includes(:user)
   end
 
   def create_params
     attributes = policy(Ban).permitted_attributes_for_create
 
-    params.require(:create_ban_form).permit(attributes).merge(sub: @sub)
+    params.require(:create_ban_form).permit(attributes).merge(community: @community)
   end
 
   def update_params
