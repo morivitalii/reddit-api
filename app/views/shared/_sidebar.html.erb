@@ -20,10 +20,6 @@
           <%= link_to(t("bans"), sub_bans_path(sub), class: "dropdown-item") %>
         <% end %>
 
-        <% if policy(Contributor).index? %>
-          <%= link_to(t("contributors"), sub_contributors_path(sub), class: "dropdown-item") %>
-        <% end %>
-
         <% if policy(Rule).index? %>
           <%= link_to(t("rules"), sub_rules_path(sub), class: "dropdown-item") %>
         <% end %>

@@ -147,39 +147,6 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 
 
 --
--- Name: contributors; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.contributors (
-    id bigint NOT NULL,
-    sub_id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    approved_by_id bigint NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: contributors_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.contributors_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: contributors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.contributors_id_seq OWNED BY public.contributors.id;
-
-
---
 -- Name: follows; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -567,13 +534,6 @@ ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.com
 
 
 --
--- Name: contributors id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.contributors ALTER COLUMN id SET DEFAULT nextval('public.contributors_id_seq'::regclass);
-
-
---
 -- Name: follows id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -673,14 +633,6 @@ ALTER TABLE ONLY public.bookmarks
 
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
-
-
---
--- Name: contributors contributors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.contributors
-    ADD CONSTRAINT contributors_pkey PRIMARY KEY (id);
 
 
 --
@@ -916,34 +868,6 @@ CREATE INDEX index_comments_on_top_score ON public.comments USING btree (top_sco
 --
 
 CREATE INDEX index_comments_on_user_id ON public.comments USING btree (user_id);
-
-
---
--- Name: index_contributors_on_approved_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_contributors_on_approved_by_id ON public.contributors USING btree (approved_by_id);
-
-
---
--- Name: index_contributors_on_sub_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_contributors_on_sub_id ON public.contributors USING btree (sub_id);
-
-
---
--- Name: index_contributors_on_sub_id_and_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_contributors_on_sub_id_and_user_id ON public.contributors USING btree (sub_id, user_id);
-
-
---
--- Name: index_contributors_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_contributors_on_user_id ON public.contributors USING btree (user_id);
 
 
 --
@@ -1280,27 +1204,11 @@ ALTER TABLE ONLY public.comments
 
 
 --
--- Name: contributors fk_rails_41647502bc; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.contributors
-    ADD CONSTRAINT fk_rails_41647502bc FOREIGN KEY (approved_by_id) REFERENCES public.users(id);
-
-
---
 -- Name: rate_limits fk_rails_503ad46b83; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.rate_limits
     ADD CONSTRAINT fk_rails_503ad46b83 FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
--- Name: contributors fk_rails_50cd364c86; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.contributors
-    ADD CONSTRAINT fk_rails_50cd364c86 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
 
 
 --
@@ -1333,14 +1241,6 @@ ALTER TABLE ONLY public.posts
 
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT fk_rails_6545a5f2bc FOREIGN KEY (comment_id) REFERENCES public.comments(id);
-
-
---
--- Name: contributors fk_rails_75adfa0433; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.contributors
-    ADD CONSTRAINT fk_rails_75adfa0433 FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -1508,6 +1408,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814132903'),
 ('20190814133845'),
 ('20190814134503'),
-('20190814134909');
+('20190814134909'),
+('20190814140055');
 
 

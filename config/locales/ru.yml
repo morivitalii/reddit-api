@@ -24,7 +24,6 @@ ru:
       invalid_credentials: неправильное имя пользователя или пароль
       invalid_current_password: неправильный текущий пароль. если вы не помните его, воспользуйтесь функцией восстановления пароля
       user_moderator: пользователь модератор
-      user_contributor: пользователь контрибутор
       user_banned: пользователь забанен
       invalid_file_format: 'допустимые форматы файла: %{whitelist}'
       invalid_file_size: максимальный вес png jpg jpeg 20 мб, gif 100 мб, mp4 30 мб
@@ -81,7 +80,6 @@ ru:
   create_post: Добавить пост
   settings: Настройки
   moderators: Модераторы
-  contributors: Контрибуторы
   bans: Баны
   rules: Правила
   mod_queue: Модерация контента
@@ -100,7 +98,6 @@ ru:
   username: Имя пользователя
   invited_by: Добавил
   banned_by: Забанил
-  approved_by: Утвердил
   reply: Ответить
   approve: Одобрить
   report: Пожаловаться

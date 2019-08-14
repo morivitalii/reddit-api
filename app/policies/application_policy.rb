@@ -12,7 +12,7 @@ class ApplicationPolicy
   end
 
   def skip_rate_limiting?
-    user_signed_in? && (user_moderator? || user_contributor?)
+    user_signed_in? && user_moderator?
   end
 
   class BannedError < StandardError; end
@@ -29,10 +29,6 @@ class ApplicationPolicy
 
   def user_moderator?
     user.moderators.find { |i| i.sub_id == sub.id }.present?
-  end
-
-  def user_contributor?
-    user.contributors.find { |i| i.sub_id == sub.id }.present?
   end
 
   def user_banned?
