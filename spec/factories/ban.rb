@@ -5,7 +5,6 @@ FactoryBot.define do
     sub
     user
     association :banned_by, factory: :user
-    reason { "Reason" }
     temporary
 
     trait :temporary do
@@ -19,7 +18,13 @@ FactoryBot.define do
     end
 
     trait :stale do
+      days { 1 }
+      permanent { false }
       created_at { 1.week.ago }
     end
+
+    factory :temporary_ban, traits: [:temporary]
+    factory :permanent_ban, traits: [:permanent]
+    factory :stale_ban, traits: [:stale]
   end
 end

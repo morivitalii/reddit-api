@@ -6,17 +6,7 @@ class CreateBanForm
   attr_accessor :banned_by, :sub, :username, :reason, :days, :permanent
   attr_reader :ban
 
-  validates :username,
-            username_format: true,
-            username_existence: true,
-            user_not_banned: true,
-            user_not_moderator: true
-
   def save
-    return false if invalid?
-
-    user = UsersQuery.new.with_username(username).take!
-
     @ban = Ban.create!(
       sub: sub,
       banned_by: banned_by,
@@ -29,5 +19,11 @@ class CreateBanForm
     errors.merge!(invalid.record.errors)
 
     return false
+  end
+
+  private
+
+  def user
+    @_user ||= UsersQuery.new.with_username(username).take
   end
 end

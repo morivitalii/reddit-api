@@ -9,13 +9,14 @@ class Ban < ApplicationRecord
 
   strip_attributes :reason, squish: true
 
-  before_save :set_end_at_on_save
+  before_save :set_end_at
 
+  validates :user, presence: { message: :invalid_username }, uniqueness: { scope: :sub_id }
   validates :reason, allow_blank: true, length: { maximum: 500 }
-  validates :days, absence: true, if: ->(record) { record.permanent }
+  validates :days, absence: true, if: -> (r) { r.permanent }
   validates :days, presence: true,
             numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 365 },
-            if: ->(record) { !record.permanent }
+            unless: -> (r) { r.permanent }
 
   def stale?
     permanent? ? false : end_at < Time.current
@@ -23,7 +24,7 @@ class Ban < ApplicationRecord
 
   private
 
-  def set_end_at_on_save
+  def set_end_at
     self.created_at ||= Time.current
     self.end_at = permanent? ? nil : created_at + days.days
   end
