@@ -3,7 +3,7 @@
 class CreateModeratorForm
   include ActiveModel::Model
 
-  attr_accessor :sub, :invited_by, :username
+  attr_accessor :sub, :username
   attr_reader :moderator
 
   validates :username,
@@ -19,7 +19,6 @@ class CreateModeratorForm
 
     @moderator = Moderator.create!(
       sub: sub,
-      invited_by: invited_by,
       user: user
     )
   rescue ActiveRecord::RecordInvalid => invalid

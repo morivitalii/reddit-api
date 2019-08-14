@@ -186,7 +186,6 @@ CREATE TABLE public.moderators (
     id bigint NOT NULL,
     sub_id bigint NOT NULL,
     user_id bigint NOT NULL,
-    invited_by_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -892,13 +891,6 @@ CREATE INDEX index_follows_on_user_id ON public.follows USING btree (user_id);
 
 
 --
--- Name: index_moderators_on_invited_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_moderators_on_invited_by_id ON public.moderators USING btree (invited_by_id);
-
-
---
 -- Name: index_moderators_on_sub_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1276,14 +1268,6 @@ ALTER TABLE ONLY public.moderators
 
 
 --
--- Name: moderators fk_rails_bea2ed4b81; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.moderators
-    ADD CONSTRAINT fk_rails_bea2ed4b81 FOREIGN KEY (invited_by_id) REFERENCES public.users(id);
-
-
---
 -- Name: bookmarks fk_rails_c1ff6fa4ac; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1409,6 +1393,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814133845'),
 ('20190814134503'),
 ('20190814134909'),
-('20190814140055');
+('20190814140055'),
+('20190814140631');
 
 
