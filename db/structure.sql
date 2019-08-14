@@ -823,14 +823,14 @@ CREATE INDEX index_comments_on_edited_by_id ON public.comments USING btree (edit
 -- Name: index_comments_on_hot_score; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_comments_on_hot_score ON public.comments USING btree (hot_score DESC);
+CREATE INDEX index_comments_on_hot_score ON public.comments USING btree (hot_score);
 
 
 --
 -- Name: index_comments_on_new_score; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_comments_on_new_score ON public.comments USING btree (new_score DESC);
+CREATE INDEX index_comments_on_new_score ON public.comments USING btree (new_score);
 
 
 --
@@ -949,14 +949,14 @@ CREATE INDEX index_posts_on_edited_by_id ON public.posts USING btree (edited_by_
 -- Name: index_posts_on_hot_score; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_posts_on_hot_score ON public.posts USING btree (hot_score DESC);
+CREATE INDEX index_posts_on_hot_score ON public.posts USING btree (hot_score);
 
 
 --
 -- Name: index_posts_on_new_score; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_posts_on_new_score ON public.posts USING btree (new_score DESC);
+CREATE INDEX index_posts_on_new_score ON public.posts USING btree (new_score);
 
 
 --
@@ -1379,6 +1379,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814134909'),
 ('20190814140055'),
 ('20190814140631'),
-('20190814141100');
+('20190814141100'),
+('20190814142320'),
+('20190814142325');
 
 
