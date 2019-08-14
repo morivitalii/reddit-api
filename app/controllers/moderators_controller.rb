@@ -52,12 +52,12 @@ class ModeratorsController < ApplicationController
   end
 
   def query
-    ModeratorsQuery.new(@sub.moderators).search_by_username(params[:query]).includes(:user, :invited_by)
+    ModeratorsQuery.new(@sub.moderators).search_by_username(params[:query]).includes(:user)
   end
 
   def create_params
     attributes = policy(Moderator).permitted_attributes_for_create
 
-    params.require(:create_moderator_form).permit(attributes).merge(sub: @sub, invited_by: current_user)
+    params.require(:create_moderator_form).permit(attributes).merge(sub: @sub)
   end
 end

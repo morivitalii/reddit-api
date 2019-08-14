@@ -6,12 +6,6 @@
       <% if policy(moderator).destroy? %>
         <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: sub_moderator_path(moderator.sub, moderator) }) %>
       <% end %>
-
-      <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>
     </div>
-  </div>
-
-  <div class="details col-12 d-none">
-    <%= t('invited_by') %> <%= link_to(moderator.invited_by.username, posts_user_path(moderator.invited_by)) %> <%= datetime_tag(moderator.created_at, :short) %>.
   </div>
 </div>

@@ -47,12 +47,10 @@ RSpec.describe CreateModeratorForm do
     context "valid" do
       let(:sub) { create(:sub) }
       let(:user) { create(:user) }
-      let(:invited_by_user) { create(:user) }
 
       before do
         @form = subject.new(
           sub: sub,
-          invited_by: invited_by_user,
           username: user.username
         )
       end
@@ -61,7 +59,7 @@ RSpec.describe CreateModeratorForm do
         @form.save
         result = @form.moderator
 
-        expect(result).to have_attributes(sub: sub, user: user, invited_by: invited_by_user)
+        expect(result).to have_attributes(sub: sub, user: user)
       end
     end
   end
