@@ -51,6 +51,7 @@ group :test do
   gem "capybara", "~> 3.28"
   gem "selenium-webdriver", "~> 3.142"
   gem "webmock", "~> 3.6"
+  gem "shoulda-matchers", "~> 4.1"
 end
 
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
