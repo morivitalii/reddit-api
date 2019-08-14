@@ -70,13 +70,13 @@ class BansController < ApplicationController
   end
 
   def query
-    BansQuery.new(@sub.bans).search_by_username(params[:query]).includes(:user, :banned_by)
+    BansQuery.new(@sub.bans).search_by_username(params[:query]).includes(:user)
   end
 
   def create_params
     attributes = policy(Ban).permitted_attributes_for_create
 
-    params.require(:create_ban_form).permit(attributes).merge(sub: @sub, banned_by: current_user)
+    params.require(:create_ban_form).permit(attributes).merge(sub: @sub)
   end
 
   def update_params

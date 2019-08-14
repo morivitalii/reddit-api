@@ -4,7 +4,6 @@ FactoryBot.define do
   factory :ban do
     sub
     user
-    association :banned_by, factory: :user
     temporary
 
     trait :temporary do

@@ -5,7 +5,6 @@ class Ban < ApplicationRecord
 
   belongs_to :sub
   belongs_to :user
-  belongs_to :banned_by, class_name: "User", foreign_key: "banned_by_id"
 
   strip_attributes :reason, squish: true
 

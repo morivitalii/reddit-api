@@ -33,7 +33,6 @@ CREATE TABLE public.bans (
     id bigint NOT NULL,
     sub_id bigint NOT NULL,
     user_id bigint NOT NULL,
-    banned_by_id bigint NOT NULL,
     reason character varying,
     permanent boolean DEFAULT false NOT NULL,
     days integer,
@@ -723,13 +722,6 @@ ALTER TABLE ONLY public.votes
 
 
 --
--- Name: index_bans_on_banned_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_bans_on_banned_by_id ON public.bans USING btree (banned_by_id);
-
-
---
 -- Name: index_bans_on_end_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1132,14 +1124,6 @@ ALTER TABLE ONLY public.posts
 
 
 --
--- Name: bans fk_rails_20d480679b; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.bans
-    ADD CONSTRAINT fk_rails_20d480679b FOREIGN KEY (banned_by_id) REFERENCES public.users(id);
-
-
---
 -- Name: topics fk_rails_20d6eae1b8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1394,6 +1378,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814134503'),
 ('20190814134909'),
 ('20190814140055'),
-('20190814140631');
+('20190814140631'),
+('20190814141100');
 
 
