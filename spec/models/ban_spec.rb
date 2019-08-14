@@ -6,49 +6,69 @@ RSpec.describe Ban do
   it_behaves_like "paginatable"
   it_behaves_like "strip attributes", :reason, squish: true
 
-  it "set end_at attribute before save to nil if permanent" do
-    model = build(:ban, permanent: true, days: nil)
-    model.save!
+  describe "validations" do
+    subject { create(:ban) }
 
-    expect(model.end_at).to be_nil
+    it { is_expected.to validate_uniqueness_of(:user).scoped_to(:sub_id) }
+    it { is_expected.to validate_length_of(:reason).is_at_most(500) }
+
+    context "temporary" do
+      before do
+        allow(subject).to receive(:permanent).and_return(false)
+      end
+
+      it { is_expected.to validate_presence_of(:days) }
+      it { is_expected.to validate_numericality_of(:days).only_integer.is_greater_than(0).is_less_than_or_equal_to(365) }
+      it { is_expected.to validate_presence_of(:days) }
+    end
+
+    context "permanent" do
+      before do
+        allow(subject).to receive(:permanent).and_return(true)
+      end
+
+      it { is_expected.to validate_absence_of(:days) }
+    end
   end
 
-  it "set end_at attribute before save to calculated datetime if temporary" do
-    model = build(:ban, permanent: false, days: 1)
-    model.save!
+  it "sets end_at attribute to nil if permanent" do
+    ban = build(:permanent_ban)
+    ban.save
 
-    result = model.end_at
-    expected_result = model.created_at + 1.day
+    expect(ban.end_at).to be_nil
+  end
 
-    expect(result).to eq(expected_result)
+  it "sets end_at attribute if temporary" do
+    ban = build(:temporary_ban)
+    ban.save
+
+    expected_result = ban.created_at + ban.days.days
+
+    expect(ban.end_at).to eq(expected_result)
   end
 
   describe ".stale?" do
     context "permanent" do
       it "returns false" do
-        model = build(:ban, permanent: true, days: nil)
-        model.save!
-        result = model.stale?
+        ban = build(:permanent_ban)
 
-        expect(result).to be_falsey
+        expect(ban).to_not be_stale
       end
     end
 
     context "temporary" do
       it "returns true if end_at before current datetime" do
-        model = build(:ban, created_at: 2.days.ago, permanent: false, days: 1)
-        model.save!
-        result = model.stale?
+        ban = build(:temporary_ban, created_at: 2.days.ago, days: 1)
+        ban.save
 
-        expect(result).to be_truthy
+        expect(ban).to be_stale
       end
 
       it "returns false if end_at after current datetime" do
-        model = build(:ban, created_at: Time.current, permanent: false, days: 1)
-        model.save!
-        result = model.stale?
+        ban = build(:temporary_ban, created_at: Time.current, days: 1)
+        ban.save
 
-        expect(result).to be_falsey
+        expect(ban).to_not be_stale
       end
     end
   end

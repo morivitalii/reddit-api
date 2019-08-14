@@ -5,42 +5,31 @@ RSpec.describe ForgotPasswordForm do
 
   subject { described_class }
 
+  describe "validations" do
+    it { is_expected.to validate_presence_of(:email) }
+  end
+
   describe ".save" do
-    context "invalid" do
-      before do
-        @form = subject.new(email: double)
-      end
+    before do
+      @user = instance_double(User, email: "user@email.com", forgot_password_token: "token")
+      @form = subject.new(email: @user.email)
+    end
 
-      it "if email is blank" do
-        @form.email = ""
-        @form.validate
+    it { expect(@form).to be_valid }
 
-        expect(@form).to have_error(:blank).on(:email)
+    it "does not send email if user with given email does not exist" do
+      allow(@form).to receive(:user).and_return(nil)
+
+      assert_no_emails do
+        @form.save
       end
     end
 
-    context "valid" do
-      before do
-        @user = instance_double(User, email: "user@email.com", forgot_password_token: "token")
-        @form = subject.new(email: @user.email)
-      end
+    it "sends forgot password email if user with given email exists" do
+      allow(@form).to receive(:user).and_return(@user)
 
-      it { expect(@form).to be_valid }
-
-      it "does not send email if user with given email does not exist" do
-        allow(@form).to receive(:user).and_return(nil)
-
-        assert_no_emails do
-          @form.save
-        end
-      end
-
-      it "sends forgot password email if user with given email exists" do
-        allow(@form).to receive(:user).and_return(@user)
-
-        assert_emails(1) do
-          @form.save
-        end
+      assert_emails(1) do
+        @form.save
       end
     end
   end

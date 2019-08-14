@@ -4,16 +4,13 @@ RSpec.describe UpdateBanForm do
   subject { described_class }
 
   describe ".save" do
-    let(:ban) { instance_double(Ban, update!: "") }
+    it "updates ban" do
+      ban = instance_double(Ban)
+      form = subject.new(ban: ban)
 
-    before do
-      @form = subject.new(ban: ban)
-    end
+      expect(ban).to receive(:update!).with(any_args).once
 
-    it "calls .update! on ban" do
-      @form.save
-
-      expect(ban).to have_received(:update!).with(any_args).once
+      form.save
     end
   end
 end

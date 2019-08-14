@@ -4,46 +4,19 @@ RSpec.describe User do
   subject { described_class }
 
   describe "validations" do
-    let(:user) { build(:user) }
+    subject { create(:user) }
 
-    context "invalid" do
-      it "if username is not unique" do
-        other_user = create(:user)
-        user.username = other_user.username
-        user.validate
-
-        expect(user).to have_error(:taken).on(:username)
-      end
-
-      it "if email not unique" do
-        other_user = create(:user)
-        user.email = other_user.email
-        user.validate
-
-        expect(user).to have_error(:taken).on(:email)
-      end
-
-      it "if email format invalid"do
-        user.email = "invalid email"
-        user.validate
-
-        expect(user).to have_error(:invalid).on(:email)
-      end
-    end
-
-    context "valid" do
-      it { expect(user).to be_valid }
-    end
+    it { is_expected.to validate_uniqueness_of(:username).case_insensitive }
+    it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+    it { is_expected.to allow_value("valid@email.com").for(:email) }
+    it { is_expected.to_not allow_value("invalid_email.com").for(:email) }
   end
 
   describe ".to_param" do
     it "returns user username" do
       user = build(:user)
 
-      expected_result = user.username
-      result = user.to_param
-
-      expect(result).to eq(expected_result)
+      expect(user.to_param).to eq(user.username)
     end
   end
 end
