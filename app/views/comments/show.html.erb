@@ -24,10 +24,6 @@
         <% if @comment.spoiler? %>
           <span class="spoiler"><%= t('spoiler') %></span>
         <% end %>
-
-        <% if @comment.tag.present? %>
-          <span class="tag"><%= @comment.tag %></span>
-        <% end %>
       </div>
 
       <div class="title col-12 mt-1">

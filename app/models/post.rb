@@ -17,7 +17,7 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
 
   markdown_attributes :text
-  strip_attributes :title, :tag, squish: true
+  strip_attributes :title, squish: true
   strip_attributes :text
 
   before_create :normalize_url_on_create
@@ -26,7 +26,6 @@ class Post < ApplicationRecord
   after_create :create_topic_on_create
 
   validates :title, presence: true, length: { maximum: 350 }
-  validates :tag, allow_blank: true, length: { maximum: 30 }
 
   with_options if: ->(r) { r.text.present? } do
     validates :text, presence: true, length: { maximum: 10_000 }

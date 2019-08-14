@@ -4,11 +4,11 @@ class PostsController < ApplicationController
   include RateLimits
 
   before_action :set_sub, only: [:new, :create]
-  before_action :set_post, only: [:show, :edit, :tag, :update, :approve, :remove, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :approve, :remove, :destroy]
   before_action :set_sort_options, only: [:show]
   before_action :set_sort, only: [:show]
   before_action -> { authorize(Post) }, only: [:new, :create]
-  before_action -> { authorize(@post) }, only: [:tag, :edit, :update, :approve, :remove, :destroy]
+  before_action -> { authorize(@post) }, only: [:edit, :update, :approve, :remove, :destroy]
 
   def show
     # TODO js comments loading
@@ -17,13 +17,6 @@ class PostsController < ApplicationController
 
   def new
     @form = CreatePost.new
-  end
-
-  def tag
-    @form = UpdatePost.new(text: @post.tag)
-    @tags = TagsQuery.new(@post.sub.tags).all
-
-    render partial: "tag"
   end
 
   def edit
@@ -50,7 +43,6 @@ class PostsController < ApplicationController
 
     if @form.save
       attributes = {
-        tag: @form.post.tag,
         spoiler: @form.post.spoiler,
         explicit: @form.post.explicit,
         ignore_reports: @form.post.ignore_reports

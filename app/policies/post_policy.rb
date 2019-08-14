@@ -31,10 +31,6 @@ class PostPolicy < ApplicationPolicy
     user_signed_in? && user_author?
   end
 
-  def tag?
-    user_signed_in? && user_moderator?
-  end
-
   def explicit?
     user_signed_in? && user_moderator?
   end
@@ -56,7 +52,6 @@ class PostPolicy < ApplicationPolicy
     attributes.push(:text) if text?
     attributes.push(:explicit) if explicit?
     attributes.push(:spoiler) if spoiler?
-    attributes.push(:tag) if tag?
     attributes.push(:ignore_reports) if ignore_reports?
     attributes
   end

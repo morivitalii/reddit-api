@@ -87,8 +87,7 @@ body {
 }
 
 .post .info .explicit,
-.post .info .spoiler,
-.post .info .tag {
+.post .info .spoiler {
   background-color: #edeff1;
   font-size: 13px;
   margin-left: 3px;
@@ -108,17 +107,6 @@ body {
 .sidebar .dropdown-toggle::after,
 .userMenu .dropdown-toggle::after {
   display: none;
-}
-
-.tagForm .list {
-    height: 200px;
-    overflow-y: scroll;
-}
-
-.tagForm .tag:hover {
-    cursor: pointer;
-    color: white;
-    background-color: #006ce1;
 }
 
 .post .url a,

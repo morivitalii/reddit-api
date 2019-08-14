@@ -21,7 +21,6 @@ Rails.application.routes.draw do
     resources :blacklisted_domains, except: [:show, :edit, :update]
     resources :rules, except: [:show]
     resources :deletion_reasons, except: [:show]
-    resources :tags, except: [:show]
     resources :pages
     resources :bans, except: [:show]
 
@@ -39,7 +38,6 @@ Rails.application.routes.draw do
   resources :posts, only: [:show, :edit, :update, :destroy] do
     post :approve, action: :approve, on: :member
     get :remove, action: :remove, on: :member
-    get :tag, action: :tag, on: :member
 
     resource :comments, only: [:create]
     resource :votes, only: [:create, :destroy]
