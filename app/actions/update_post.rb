@@ -3,12 +3,11 @@
 class UpdatePost
   include ActiveModel::Model
 
-  attr_accessor :post, :current_user, :text, :tag, :explicit, :spoiler, :ignore_reports
+  attr_accessor :post, :current_user, :text, :explicit, :spoiler, :ignore_reports
 
   def save
     attributes = {
       text: @text,
-      tag: @tag,
       explicit: @explicit,
       spoiler: @spoiler,
       ignore_reports: @ignore_reports

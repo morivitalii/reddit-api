@@ -544,38 +544,6 @@ ALTER SEQUENCE public.subs_id_seq OWNED BY public.subs.id;
 
 
 --
--- Name: tags; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.tags (
-    id bigint NOT NULL,
-    sub_id bigint NOT NULL,
-    title character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.tags_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
-
-
---
 -- Name: topics; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -776,13 +744,6 @@ ALTER TABLE ONLY public.subs ALTER COLUMN id SET DEFAULT nextval('public.subs_id
 
 
 --
--- Name: tags id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id_seq'::regclass);
-
-
---
 -- Name: topics id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -929,14 +890,6 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.subs
     ADD CONSTRAINT subs_pkey PRIMARY KEY (id);
-
-
---
--- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.tags
-    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
 
 
 --
@@ -1363,20 +1316,6 @@ CREATE UNIQUE INDEX index_subs_on_lower_url ON public.subs USING btree (lower((u
 
 
 --
--- Name: index_tags_on_sub_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_tags_on_sub_id ON public.tags USING btree (sub_id);
-
-
---
--- Name: index_tags_on_sub_id_lower_title; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_tags_on_sub_id_lower_title ON public.tags USING btree (sub_id, lower((title)::text));
-
-
---
 -- Name: index_topics_on_post_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1510,14 +1449,6 @@ ALTER TABLE ONLY public.deletion_reasons
 
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT fk_rails_2fd19c0db7 FOREIGN KEY (post_id) REFERENCES public.posts(id);
-
-
---
--- Name: tags fk_rails_313e753d97; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.tags
-    ADD CONSTRAINT fk_rails_313e753d97 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
 
 
 --
@@ -1785,6 +1716,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190810135911'),
 ('20190811172834'),
 ('20190812172247'),
-('20190814110115');
+('20190814110115'),
+('20190814132903');
 
 

@@ -22,10 +22,6 @@
       <% if thing.spoiler? %>
         <span class="spoiler"><%= t('spoiler') %></span>
       <% end %>
-
-      <% if thing.tag.present? %>
-        <span class="tag"><%= thing.tag %></span>
-      <% end %>
     </div>
 
     <% if thing.title.present? %>
@@ -144,10 +140,6 @@
           <% if thing.post? %>
             <% if thing.text? && PostPolicy.new(pundit_user, thing).update? %>
               <%= link_to(t('edit'), edit_post_path(thing), class: 'dropdown-item') %>
-            <% end %>
-
-            <% if thing.post? && PostPolicy.new(pundit_user, thing).tag? %>
-              <%= link_to(t('tag'), edit_thing_path(thing), remote: true, class: 'tag dropdown-item') %>
             <% end %>
 
             <% if CommentPolicy.new(pundit_user, thing).explicit? %>

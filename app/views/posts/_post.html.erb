@@ -16,10 +16,6 @@
       <% if post.spoiler? %>
         <span class="spoiler"><%= t('spoiler') %></span>
       <% end %>
-
-      <% if post.tagged? %>
-        <span class="tag"><%= post.tag %></span>
-      <% end %>
     </div>
 
     <div class="title col-12 mt-1">
@@ -62,10 +58,6 @@
 
           <% if policy(post).text? %>
             <%= post.edit_link %>
-          <% end %>
-
-          <% if policy(post).tag? %>
-            <%= post.tag_link %>
           <% end %>
 
           <% if policy(post).explicit? %>

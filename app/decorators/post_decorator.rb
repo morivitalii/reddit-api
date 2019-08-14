@@ -13,10 +13,6 @@ class PostDecorator < ApplicationDecorator
     h.datetime_tag(model.created_at, :ago)
   end
 
-  def tagged?
-    model.tag.present?
-  end
-
   def content_processing?
     model.media_attacher.cached?
   end
@@ -31,14 +27,6 @@ class PostDecorator < ApplicationDecorator
     link_class = "dropdown-item"
 
     h.link_to(link_title, link_path, class: link_class)
-  end
-
-  def tag_link
-    link_title = h.t("tag")
-    link_path = [:tag, model]
-    link_class = "tag dropdown-item"
-
-    h.link_to(link_title, link_path, remote: true, class: link_class)
   end
 
   def spoiler_link

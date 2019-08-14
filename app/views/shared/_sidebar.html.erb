@@ -32,10 +32,6 @@
           <%= link_to(t("deletion_reasons"), sub_deletion_reasons_path(sub), class: "dropdown-item") %>
         <% end %>
 
-        <% if policy(Tag).index? %>
-          <%= link_to(t("tags"), sub_tags_path(sub), class: "dropdown-item") %>
-        <% end %>
-
         <% if policy(Page).index? %>
           <%= link_to(t("pages"), sub_pages_path(sub), class: "dropdown-item") %>
         <% end %>
