@@ -277,41 +277,6 @@ ALTER SEQUENCE public.moderators_id_seq OWNED BY public.moderators.id;
 
 
 --
--- Name: pages; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.pages (
-    id bigint NOT NULL,
-    sub_id bigint NOT NULL,
-    edited_by_id bigint,
-    title character varying NOT NULL,
-    text character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    edited_at timestamp without time zone
-);
-
-
---
--- Name: pages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.pages_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: pages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.pages_id_seq OWNED BY public.pages.id;
-
-
---
 -- Name: posts; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -662,13 +627,6 @@ ALTER TABLE ONLY public.moderators ALTER COLUMN id SET DEFAULT nextval('public.m
 
 
 --
--- Name: pages id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.pages ALTER COLUMN id SET DEFAULT nextval('public.pages_id_seq'::regclass);
-
-
---
 -- Name: posts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -786,14 +744,6 @@ ALTER TABLE ONLY public.follows
 
 ALTER TABLE ONLY public.moderators
     ADD CONSTRAINT moderators_pkey PRIMARY KEY (id);
-
-
---
--- Name: pages pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.pages
-    ADD CONSTRAINT pages_pkey PRIMARY KEY (id);
 
 
 --
@@ -1104,20 +1054,6 @@ CREATE UNIQUE INDEX index_moderators_on_sub_id_and_user_id ON public.moderators 
 --
 
 CREATE INDEX index_moderators_on_user_id ON public.moderators USING btree (user_id);
-
-
---
--- Name: index_pages_on_edited_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_pages_on_edited_by_id ON public.pages USING btree (edited_by_id);
-
-
---
--- Name: index_pages_on_sub_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_pages_on_sub_id ON public.pages USING btree (sub_id);
 
 
 --
@@ -1437,14 +1373,6 @@ ALTER TABLE ONLY public.posts
 
 
 --
--- Name: pages fk_rails_5aaf9853f4; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.pages
-    ADD CONSTRAINT fk_rails_5aaf9853f4 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
-
-
---
 -- Name: posts fk_rails_5b5ddfd518; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1565,14 +1493,6 @@ ALTER TABLE ONLY public.blacklisted_domains
 
 
 --
--- Name: pages fk_rails_fdd8b754a1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.pages
-    ADD CONSTRAINT fk_rails_fdd8b754a1 FOREIGN KEY (edited_by_id) REFERENCES public.users(id);
-
-
---
 -- PostgreSQL database dump complete
 --
 
@@ -1655,6 +1575,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190812172247'),
 ('20190814110115'),
 ('20190814132903'),
-('20190814133845');
+('20190814133845'),
+('20190814134503');
 
 

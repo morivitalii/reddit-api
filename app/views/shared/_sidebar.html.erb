@@ -28,10 +28,6 @@
           <%= link_to(t("rules"), sub_rules_path(sub), class: "dropdown-item") %>
         <% end %>
 
-        <% if policy(Page).index? %>
-          <%= link_to(t("pages"), sub_pages_path(sub), class: "dropdown-item") %>
-        <% end %>
-
         <% if policy(BlacklistedDomain).index? %>
           <%= link_to(t("blacklisted_domains"), sub_blacklisted_domains_path(sub), class: "dropdown-item") %>
         <% end %>
