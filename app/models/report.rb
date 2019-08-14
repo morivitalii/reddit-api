@@ -3,9 +3,9 @@
 class Report < ApplicationRecord
   include Paginatable
 
-  belongs_to :sub
-  belongs_to :reportable, polymorphic: true
-  belongs_to :user
+  belongs_to :sub, touch: true
+  belongs_to :reportable, polymorphic: true, touch: true
+  belongs_to :user, touch: true
 
   validates :text, presence: true, length: { maximum: 500 }
 end

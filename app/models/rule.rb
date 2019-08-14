@@ -5,7 +5,7 @@ class Rule < ApplicationRecord
 
   LIMIT = 15
 
-  belongs_to :sub
+  belongs_to :sub, touch: true
 
   strip_attributes :title, :description, squish: true
 

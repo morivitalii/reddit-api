@@ -4,7 +4,7 @@ module Editable
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", optional: true
+    belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", touch: true, optional: true
 
     before_update :undo_approve, if: ->(r) { r.respond_to?(:approvable?) && r.editing? }
 
