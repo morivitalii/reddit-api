@@ -8,7 +8,6 @@ class Sub < ApplicationRecord
   has_many :comments, dependent: :restrict_with_error
   has_many :posts, dependent: :restrict_with_error
   has_many :rules, dependent: :destroy
-  has_many :blacklisted_domains, dependent: :destroy
   has_many :reports, dependent: :destroy
 
   strip_attributes :title, :description, squish: true

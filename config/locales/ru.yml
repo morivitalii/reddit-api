@@ -30,7 +30,6 @@ ru:
       invalid_file_size: максимальный вес png jpg jpeg 20 мб, gif 100 мб, mp4 30 мб
       rules_limit: можно создать не больше 15 правил
       rate_limits: вы выполняете это действие слишком часто. подождите немного и попробуйте еще раз
-      blacklisted_domain: сайт в черном списке
   activemodel:
     attributes:
       sign_up:
@@ -83,7 +82,6 @@ ru:
   settings: Настройки
   moderators: Модераторы
   contributors: Контрибуторы
-  blacklisted_domains: Черный список доменов
   bans: Баны
   rules: Правила
   mod_queue: Модерация контента
