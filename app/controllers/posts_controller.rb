@@ -67,7 +67,6 @@ class PostsController < ApplicationController
 
   def remove
     @form = RemovePostForm.new(reason: @post.deletion_reason)
-    @deletion_reasons = @post.sub.deletion_reasons.all
 
     render partial: "remove"
   end

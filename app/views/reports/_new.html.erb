@@ -32,15 +32,6 @@
         </span>
       </div>
 
-      <div class="pt-2 collapse" id="other-reasons">
-        <% @other_reasons.each_with_index do |reason, index| %>
-          <div class="custom-control custom-radio">
-            <input id="other-rule-<%= index %>" type="radio" value="<%= reason.title %>" class="report-rule custom-control-input">
-            <label class="custom-control-label" for="other-rule-<%= index %>"><%= reason.title %></label>
-          </div>
-        <% end %>
-      </div>
-
       <div class="reportOptionsList pt-2" data-toggle="collapse" data-target="#custom-reason" aria-expanded="false">
         <span>
           <%= t('custom_report') %>

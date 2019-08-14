@@ -20,7 +20,6 @@ Rails.application.routes.draw do
     resources :contributors, except: [:show, :edit, :update]
     resources :blacklisted_domains, except: [:show, :edit, :update]
     resources :rules, except: [:show]
-    resources :deletion_reasons, except: [:show]
     resources :pages
     resources :bans, except: [:show]
 
