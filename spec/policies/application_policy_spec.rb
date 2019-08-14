@@ -28,14 +28,6 @@ RSpec.describe ApplicationPolicy do
     end
   end
 
-  context "for contributor" do
-    let(:user) { create(:contributor, sub: sub).user }
-
-    permissions :skip_rate_limiting? do
-      it { is_expected.to permit(context) }
-    end
-  end
-
   context "for moderator" do
     let(:user) { create(:moderator, sub: sub).user }
 
