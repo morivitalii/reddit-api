@@ -25,7 +25,6 @@ class ReportsController < ApplicationController
   def new
     @form = CreateReportForm.new
     @reasons = @reportable.sub.rules.all
-    @other_reasons = @reportable.sub.deletion_reasons.all
 
     render partial: "new"
   end

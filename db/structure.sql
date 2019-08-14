@@ -212,39 +212,6 @@ ALTER SEQUENCE public.contributors_id_seq OWNED BY public.contributors.id;
 
 
 --
--- Name: deletion_reasons; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.deletion_reasons (
-    id bigint NOT NULL,
-    sub_id bigint NOT NULL,
-    title character varying NOT NULL,
-    description character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: deletion_reasons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.deletion_reasons_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: deletion_reasons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.deletion_reasons_id_seq OWNED BY public.deletion_reasons.id;
-
-
---
 -- Name: follows; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -681,13 +648,6 @@ ALTER TABLE ONLY public.contributors ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
--- Name: deletion_reasons id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.deletion_reasons ALTER COLUMN id SET DEFAULT nextval('public.deletion_reasons_id_seq'::regclass);
-
-
---
 -- Name: follows id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -810,14 +770,6 @@ ALTER TABLE ONLY public.comments
 
 ALTER TABLE ONLY public.contributors
     ADD CONSTRAINT contributors_pkey PRIMARY KEY (id);
-
-
---
--- Name: deletion_reasons deletion_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.deletion_reasons
-    ADD CONSTRAINT deletion_reasons_pkey PRIMARY KEY (id);
 
 
 --
@@ -1103,13 +1055,6 @@ CREATE UNIQUE INDEX index_contributors_on_sub_id_and_user_id ON public.contribut
 --
 
 CREATE INDEX index_contributors_on_user_id ON public.contributors USING btree (user_id);
-
-
---
--- Name: index_deletion_reasons_on_sub_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_deletion_reasons_on_sub_id ON public.deletion_reasons USING btree (sub_id);
 
 
 --
@@ -1436,14 +1381,6 @@ ALTER TABLE ONLY public.comments
 
 
 --
--- Name: deletion_reasons fk_rails_2ec4f93133; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.deletion_reasons
-    ADD CONSTRAINT fk_rails_2ec4f93133 FOREIGN KEY (sub_id) REFERENCES public.subs(id);
-
-
---
 -- Name: comments fk_rails_2fd19c0db7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1717,6 +1654,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190811172834'),
 ('20190812172247'),
 ('20190814110115'),
-('20190814132903');
+('20190814132903'),
+('20190814133845');
 
 

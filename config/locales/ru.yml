@@ -12,9 +12,7 @@ ru:
     explicit: 18+
     spoiler: Спойлер
     ignore_reports: Игнорировать жалобы
-    tag: Тег
     reason: Причина
-    deletion_reason: Причина удаления
     master: Мастер
     days: Количество дней
     permanent: Перманентно
@@ -30,9 +28,7 @@ ru:
       user_banned: пользователь забанен
       invalid_file_format: 'допустимые форматы файла: %{whitelist}'
       invalid_file_size: максимальный вес png jpg jpeg 20 мб, gif 100 мб, mp4 30 мб
-      tags_limit: можно создать не больше 100 тегов
       rules_limit: можно создать не больше 15 правил
-      deletion_reasons_limit: можно создать не больше 50 причин удаления
       rate_limits: вы выполняете это действие слишком часто. подождите немного и попробуйте еще раз
       blacklisted_domain: сайт в черном списке
   activemodel:
@@ -90,8 +86,6 @@ ru:
   blacklisted_domains: Черный список доменов
   bans: Баны
   rules: Правила
-  deletion_reasons: Причины удаления
-  tags: Теги
   pages: Вики
   mod_queue: Модерация контента
   posts_mod_queue: Модерация постов
@@ -125,14 +119,11 @@ ru:
   reason: по причине
   restricted_access: У вас нету доступа к этой странице
   not_xhr_request: Эта страница недоступна по прямому запросу
-  tag_select: Выберите тег
-  deletion_reason_select: Выбрать причину удаления
   approved_details: 'Одобренно %{username} %{approved_at}'
   deletion_confirmation: 'Подтвердить удаление?'
   deletion_details: 'Удалено %{username} %{deleted_at}. Причина: "%{reason}"'
   bookmark: Сохранить
   delete_bookmark: Убрать из сохраненного
-  tag: Изменить тег
   explicit: 18+
   spoiler: Спойлер
   ignore_reports: Игнорировать жалобы

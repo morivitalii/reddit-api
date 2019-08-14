@@ -4,13 +4,6 @@ $(document).ready(function() {
         $('.modal').modal('show');
     });
 
-    $(document).on('change', '.removeForm .reasons', function() {
-        var reason = $(this).val();
-        var textarea = $("[id*=deletion_reason]");
-
-        $(textarea).val(reason);
-    });
-
     $(document).on('ajax:success', '.removeForm', function(e) {
         var approve_link_tooltip_message = e.detail[0].approve_link_tooltip_message;
         var remove_link_tooltip_message = e.detail[0].remove_link_tooltip_message;

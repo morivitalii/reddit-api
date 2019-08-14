@@ -2,16 +2,6 @@
   <%= form_with(model: @form, url: comment_path(@comment), method: :delete, class: 'removeForm') do |f| %>
     <div class="modal-body">
       <% if policy(@comment).remove? %>
-        <div class="form-group">
-          <select class="reasons form-control">
-            <option value=""><% t('deletion_reason_select') %></option>
-
-            <% @deletion_reasons.each do |deletion_reason| %>
-              <option value="<%= deletion_reason.description %>"><%= deletion_reason.title %></option>
-            <% end %>
-          </select>
-        </div>
-
         <%= f.text_area :reason %>
       <% else %>
         <%= t('deletion_confirmation') %>
