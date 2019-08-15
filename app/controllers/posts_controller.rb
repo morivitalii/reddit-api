@@ -3,13 +3,13 @@
 class PostsController < ApplicationController
   include RateLimits
 
-  before_action :set_community, only: [:new, :create]
   before_action :set_post, only: [:show, :edit, :update, :approve, :remove, :destroy]
+  before_action :set_community
   before_action :set_facade
   before_action :set_sort_options, only: [:show]
   before_action :set_sort, only: [:show]
   before_action -> { authorize(Post) }, only: [:new, :create]
-  before_action -> { authorize(@post) }, only: [:edit, :update, :approve, :remove, :destroy]
+  before_action -> { authorize(@post) }, only: [:show, :edit, :update, :approve, :remove, :destroy]
 
   def show
     # TODO js comments loading
@@ -89,13 +89,12 @@ class PostsController < ApplicationController
 
   private
 
-  def pundit_user
-    # TODO
-    Context.new(current_user, @community || @post&.community)
+  def context
+    Context.new(current_user, @community)
   end
 
   def set_community
-    @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
+    @community = @post.present? ? @post.community : CommunitiesQuery.new.with_url(params[:community_id]).take!
   end
 
   def set_post
@@ -103,7 +102,7 @@ class PostsController < ApplicationController
   end
 
   def set_facade
-    # TODO
+    @facade = PostsFacade.new(context, @post)
   end
 
   def set_sort_options
@@ -115,14 +114,17 @@ class PostsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_post).permit(:title, :text, :url, :media, :explicit, :spoiler).merge(community: @community, current_user: current_user)
+    permitted_attributes = policy(Post).permitted_attributes_for_create
+    params.require(:create_post).permit(permitted_attributes).merge(community: @community, current_user: current_user)
   end
 
   def update_params
-    params.require(:update_post).permit(policy(@post).permitted_attributes_for_update).merge(post: @post, current_user: current_user)
+    permitted_attributes = policy(@post).permitted_attributes_for_update
+    params.require(:update_post).permit(permitted_attributes).merge(post: @post, current_user: current_user)
   end
 
   def destroy_params
-    params.require(:remove_post_form).permit(policy(@post).permitted_attributes_for_destroy).merge(post: @post, user: current_user)
+    permitted_attributes = policy(@post).permitted_attributes_for_destroy
+    params.require(:remove_post_form).permit(permitted_attributes).merge(post: @post, user: current_user)
   end
 end

@@ -47,6 +47,10 @@ class PostPolicy < ApplicationPolicy
     moderator?
   end
 
+  def permitted_attributes_for_create
+    [:title, :text, :url, :media, :explicit, :spoiler]
+  end
+
   def permitted_attributes_for_update
     attributes = []
     attributes.push(:text) if text?
