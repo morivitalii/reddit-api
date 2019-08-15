@@ -14,9 +14,20 @@ RSpec.describe PostsQuery do
     end
   end
 
+  describe ".not_removed" do
+    it "returns not removed posts" do
+      create_pair(:removed_post)
+      not_removed_posts = create_pair(:post)
+
+      result = subject.new.not_removed
+
+      expect(result).to contain_exactly(*not_removed_posts)
+    end
+  end
+
   describe ".reported" do
     it "returns posts that have reports" do
-      posts_without_reports = create_pair(:post)
+      create_pair(:post)
       posts_with_reports = create_pair(:post_with_reports, reports_count: 1)
 
       result = subject.new.reported

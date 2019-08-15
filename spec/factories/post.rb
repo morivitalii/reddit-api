@@ -33,6 +33,11 @@ FactoryBot.define do
       deleted_at { nil }
     end
 
+    trait :removed do
+      deleted_at { Time.current }
+      association :deleted_by, factory: :user
+    end
+
     factory :post_with_reports do
       transient do
         reports_count { 2 }
@@ -42,5 +47,7 @@ FactoryBot.define do
         create_list(:report, evaluator.reports_count, reportable: post)
       end
     end
+
+    factory :removed_post, traits: [:removed]
   end
 end
