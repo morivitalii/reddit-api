@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Rule do
+RSpec.describe Rule, type: :model do
   subject { described_class }
 
   it_behaves_like "paginatable"
