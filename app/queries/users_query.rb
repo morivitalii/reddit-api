@@ -6,11 +6,11 @@ class UsersQuery < ApplicationQuery
   end
 
   def with_username(username)
-    relation.where("lower(users.username) = ?", username.downcase)
+    relation.where("lower(users.username) = lower(?)", username)
   end
 
   def with_email(email)
-    relation.where("lower(users.email) = ?", email.downcase)
+    relation.where("lower(users.email) = lower(?)", email)
   end
 
   def auto_moderator

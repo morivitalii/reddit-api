@@ -6,7 +6,7 @@ class BansQuery < ApplicationQuery
   end
 
   def with_username(username)
-    relation.joins(:user).where("lower(users.username) = ?", username.downcase)
+    relation.joins(:user).where("lower(users.username) = lower(?)", username)
   end
 
   def search_by_username(username)
