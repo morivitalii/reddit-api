@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe BanPolicy do
+RSpec.describe BanPolicy, type: :policy do
   subject { described_class }
 
   let(:community) { create(:community) }

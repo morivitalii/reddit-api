@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe FollowPolicy do
+RSpec.describe FollowPolicy, type: :policy do
   subject { described_class }
 
   let(:community) { create(:community) }

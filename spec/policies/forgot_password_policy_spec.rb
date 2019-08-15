@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ForgotPasswordPolicy do
+RSpec.describe ForgotPasswordPolicy, type: :policy do
   subject { described_class }
 
   let(:community) { create(:community) }

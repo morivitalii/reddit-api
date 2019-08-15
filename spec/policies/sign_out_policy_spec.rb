@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe SignOutPolicy do
+RSpec.describe SignOutPolicy, type: :policy do
   subject { described_class }
 
   let(:community) { create(:community) }
