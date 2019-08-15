@@ -4,56 +4,57 @@ RSpec.describe BansQuery do
   subject { described_class }
 
   describe ".with_user" do
-    let!(:user) { create(:user) }
-    let!(:expected) { create_pair(:ban, user: user) }
-    let!(:others) { create_pair(:ban) }
+    it "returns user bans" do
+      user = create(:user)
+      user_bans = create_pair(:ban, user: user)
+      create_pair(:ban)
 
-    it "returns results filtered by username" do
       result = subject.new.with_user(user)
 
-      expect(result).to contain_exactly(*expected)
+      expect(result).to contain_exactly(*user_bans)
     end
   end
 
   describe ".with_username" do
-    let!(:user) { create(:user) }
-    let!(:expected) { create_pair(:ban, user: user) }
-    let!(:others) { create_pair(:ban) }
+    it "returns bans with given user username" do
+      user = create(:user)
+      user_bans = create_pair(:ban, user: user)
+      create_pair(:ban)
 
-    it "returns results filtered by username" do
       result = subject.new.with_username(user.username)
 
-      expect(result).to contain_exactly(*expected)
+      expect(result).to contain_exactly(*user_bans)
     end
   end
 
   describe ".search_by_username" do
-    it "returns relation if username is blank" do
+    it "returns relation if user username is blank" do
       query = subject.new
 
-      expected_result = query.relation
       result = query.search_by_username("")
 
-      expect(result).to eq(expected_result)
+      expect(result).to eq(query.relation)
     end
 
-    it "calls .with_username if username is present" do
+    it "calls .with_username if user username is present" do
+      username = "username"
       query = subject.new
+      allow(query).to receive(:with_username)
 
-      expect(query).to receive(:with_username).with(anything)
+      query.search_by_username(username)
 
-      query.search_by_username(anything)
+      expect(query).to have_received(:with_username).with(username)
     end
   end
 
   describe ".stale" do
-    let!(:expected) { create_pair(:ban, :stale) }
-    let!(:others) { create_pair(:ban) }
+    it "returns stale bans" do
+      stale_bans = create_pair(:ban, :stale)
+      create_pair(:ban)
 
-    it "returns results filtered by stale" do
       result = subject.new.stale
 
-      expect(result).to contain_exactly(*expected)
+      expect(result).to contain_exactly(*stale_bans)
     end
   end
 end
