@@ -8,4 +8,10 @@ class SignOutController < ApplicationController
 
     redirect_to root_path
   end
+
+  private
+
+  def context
+    Context.new(current_user)
+  end
 end
