@@ -98,12 +98,4 @@ RSpec.describe ApplicationFacade do
       expect(result).to contain_exactly(*expected)
     end
   end
-
-  describe ".pagination_params" do
-    it "is empty by default" do
-      result = subject.new(context).pagination_params
-
-      expect(result).to be_blank
-    end
-  end
 end
