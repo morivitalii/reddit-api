@@ -8,9 +8,4 @@ class BookmarksFacade < ApplicationFacade
   def comments_meta_title
     "#{record.username}: #{I18n.t("comments_bookmarks")}"
   end
-
-  def pagination_params
-    # TODO
-    []
-  end
 end

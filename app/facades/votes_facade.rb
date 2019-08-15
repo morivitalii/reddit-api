@@ -8,9 +8,4 @@ class VotesFacade < ApplicationFacade
   def comments_meta_title
     "#{record.username}: #{I18n.t("comments_votes")}"
   end
-
-  def pagination_params
-    # TODO
-    []
-  end
 end

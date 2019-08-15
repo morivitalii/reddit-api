@@ -8,9 +8,4 @@ class CommunitiesFacade < ApplicationFacade
   def edit_meta_title
     "#{community.title}: #{I18n.t("settings")}"
   end
-
-  def pagination_params
-    # TODO
-    []
-  end
 end
