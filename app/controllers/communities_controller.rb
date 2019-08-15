@@ -6,12 +6,7 @@ class CommunitiesController < ApplicationController
   before_action -> { authorize(@community) }
 
   def show
-    @records, @pagination = Post.not_removed
-                                       .in_date_range(date)
-                                       .where(community: @community)
-                                       .includes(:community, :user)
-                                       .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
-
+    @records, @pagination = query.paginate(attributes: ["#{sort}_score", :id], after: params[:after])
     @records = @records.map(&:decorate)
   end
 
@@ -43,6 +38,11 @@ class CommunitiesController < ApplicationController
 
   def set_facade
     @facade = CommunitiesFacade.new(context, @community)
+  end
+
+  def query
+    query = PostsQuery.new(@community.posts).not_removed
+    PostsQuery.new(query).search_created_after(date).includes(:user, :community)
   end
 
   def update_params
