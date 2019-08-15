@@ -18,7 +18,7 @@ RSpec.describe PostPolicy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :tag?, :explicit?, :spoiler?, :ignore_reports?, :deletion_reason? do
+    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :explicit?, :spoiler?, :ignore_reports?, :deletion_reason? do
       it { is_expected.to_not permit(context, post) }
     end
   end
@@ -34,7 +34,7 @@ RSpec.describe PostPolicy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :tag?, :explicit?, :spoiler?, :ignore_reports?, :deletion_reason? do
+    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :explicit?, :spoiler?, :ignore_reports?, :deletion_reason? do
       it { is_expected.to_not permit(context, post) }
     end
   end
@@ -54,7 +54,7 @@ RSpec.describe PostPolicy do
       it { is_expected.to permit(context, post) }
     end
 
-    permissions :approve?, :tag?, :explicit?, :spoiler?, :ignore_reports?, :deletion_reason? do
+    permissions :approve?, :explicit?, :spoiler?, :ignore_reports?, :deletion_reason? do
       it { is_expected.to_not permit(context, post) }
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe PostPolicy do
   context "for moderator" do
     let(:user) { create(:moderator, community: community).user }
 
-    permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :tag?, :explicit?, :spoiler?, :ignore_reports?, :deletion_reason? do
+    permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :explicit?, :spoiler?, :ignore_reports?, :deletion_reason? do
       it { is_expected.to permit(context, post) }
     end
 
