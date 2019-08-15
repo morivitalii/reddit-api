@@ -44,11 +44,10 @@
 
     <div class="col-12 mt-2">
       <% if policy(Follow).create? %>
-        <%= link_to(t('unsubscribe'), community_follows_path(community), class: 'follow btn btn-primary btn-block', remote: true, method: :delete) %>
-      <% end %>
-
-      <% if policy(Follow).destroy? %>
         <%= link_to(t('subscribe'), community_follows_path(community), class: 'follow btn btn-primary btn-block', remote: true, method: :post) %>
+
+      <% elsif policy(Follow).destroy? %>
+        <%= link_to(t('unsubscribe'), community_follows_path(community), class: 'follow btn btn-primary btn-block', remote: true, method: :delete) %>
       <% end %>
 
       <% if user_signed_in? %>
