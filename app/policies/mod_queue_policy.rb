@@ -2,7 +2,7 @@
 
 class ModQueuePolicy < ApplicationPolicy
   def posts?
-    user_signed_in? && user_moderator?
+    moderator?
   end
 
   alias comments? posts?

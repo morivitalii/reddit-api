@@ -2,6 +2,6 @@
 
 class SignOutPolicy < ApplicationPolicy
   def destroy?
-    user_signed_in?
+    user?
   end
 end

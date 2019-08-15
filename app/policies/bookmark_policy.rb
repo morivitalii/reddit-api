@@ -2,16 +2,16 @@
 
 class BookmarkPolicy < ApplicationPolicy
   def posts?
-    user_signed_in?
+    user?
   end
 
   alias comments? posts?
 
   def create?
-    user_signed_in?
+    user?
   end
 
   def destroy?
-    user_signed_in?
+    user?
   end
 end

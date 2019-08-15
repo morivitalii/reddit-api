@@ -2,7 +2,7 @@
 
 class SignInPolicy < ApplicationPolicy
   def create?
-    user_signed_out?
+    visitor?
   end
 
   alias new? create?

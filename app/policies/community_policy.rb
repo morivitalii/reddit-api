@@ -6,7 +6,7 @@ class CommunityPolicy < ApplicationPolicy
   end
 
   def update?
-    user_signed_in? && user_moderator?
+    moderator?
   end
 
   alias edit? update?

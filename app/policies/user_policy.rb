@@ -8,7 +8,7 @@ class UserPolicy < ApplicationPolicy
   alias comments? posts?
 
   def update?
-    user_signed_in?
+    user?
   end
 
   alias edit? update?

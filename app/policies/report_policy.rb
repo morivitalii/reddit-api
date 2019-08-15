@@ -2,17 +2,17 @@
 
 class ReportPolicy < ApplicationPolicy
   def posts?
-    user_signed_in? && user_moderator?
+    moderator?
   end
 
   alias comments? posts?
 
   def show?
-    user_signed_in? && user_moderator?
+    moderator?
   end
 
   def create?
-    user_signed_in?
+    user?
   end
 
   alias new? create?

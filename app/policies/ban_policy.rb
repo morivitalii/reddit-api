@@ -6,19 +6,19 @@ class BanPolicy < ApplicationPolicy
   end
 
   def create?
-    user_signed_in? && user_moderator?
+    moderator?
   end
 
   alias new? create?
 
   def update?
-    user_signed_in? && user_moderator?
+    moderator?
   end
 
   alias edit? update?
 
   def destroy?
-    user_signed_in? && user_moderator?
+    moderator?
   end
 
   def permitted_attributes_for_create

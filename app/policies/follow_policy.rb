@@ -2,10 +2,10 @@
 
 class FollowPolicy < ApplicationPolicy
   def create?
-    user_signed_in? && !user_follower?
+    user? && !follower?
   end
 
   def destroy?
-    user_signed_in? && user_follower?
+    follower?
   end
 end

@@ -6,36 +6,36 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def create?
-    user_signed_in?
+    user?
   end
 
   def update?
-    user_signed_in? && (user_author? || user_moderator?)
+    author? || moderator?
   end
 
   alias new? create?
   alias edit? update?
 
   def approve?
-    user_signed_in? && user_moderator?
+    moderator?
   end
 
   def destroy?
-    user_signed_in? && (user_author? || user_moderator?)
+    author? || moderator?
   end
 
   alias remove? destroy?
 
   def text?
-    user_signed_in? && user_author?
+    author?
   end
 
   def ignore_reports?
-    user_signed_in? && user_moderator?
+    moderator?
   end
 
   def deletion_reason?
-    user_signed_in? && user_moderator?
+    moderator?
   end
 
   def permitted_attributes_for_update
@@ -53,7 +53,7 @@ class CommentPolicy < ApplicationPolicy
 
   private
 
-  def user_author?
-    user.id == record.user_id
+  def author?
+    user? && user.id == record.user_id
   end
 end
