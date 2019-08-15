@@ -57,20 +57,20 @@ class BansController < ApplicationController
     Context.new(current_user, @community)
   end
 
-  def set_community
-    @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
+  def query
+    BansQuery.new(@community.bans).search_by_username(params[:query]).includes(:user)
   end
 
   def set_facade
     @facade = BansFacade.new(context)
   end
 
-  def set_ban
-    @ban = @community.bans.find(params[:id])
+  def set_community
+    @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
   end
 
-  def query
-    BansQuery.new(@community.bans).search_by_username(params[:query]).includes(:user)
+  def set_ban
+    @ban = @community.bans.find(params[:id])
   end
 
   def create_params

@@ -18,7 +18,7 @@ class FollowsController < ApplicationController
 
   private
 
-  def pundit_user
+  def context
     Context.new(current_user, @community)
   end
 

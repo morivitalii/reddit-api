@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
-  before_action :set_facade
   before_action -> { authorize(:home) }
+  before_action :set_facade
 
   def index
     @records, @pagination = Post.not_removed
@@ -14,6 +14,15 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def context
+    Context.new(current_user, CommunitiesQuery.new.default.take!)
+  end
+
+  def query
+    query = PostsQuery.new.not_removed
+    query.new(query).search_created_after(date).includes(:community, :user)
+  end
 
   def set_facade
     @facade = HomeFacade.new(context)

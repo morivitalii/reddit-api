@@ -38,6 +38,10 @@ class VotesController < ApplicationController
 
   private
 
+  def context
+    Context.new(current_user, CommunitiesQuery.new.default.take!)
+  end
+
   def posts_query
     query_class = VotesQuery
     query = query_class.new(@user.votes).posts_votes

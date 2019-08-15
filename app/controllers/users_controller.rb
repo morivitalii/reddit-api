@@ -43,6 +43,10 @@ class UsersController < ApplicationController
 
   private
 
+  def context
+    Context.new(current_user)
+  end
+
   def set_user
     if params[:id].present?
       @user = UsersQuery.new.with_username(params[:id]).take!
