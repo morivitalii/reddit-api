@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Community do
+RSpec.describe Community, type: :model do
   subject { described_class }
 
   it_behaves_like "strip attributes", :title, :description, squish: true

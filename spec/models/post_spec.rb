@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Post do
+RSpec.describe Post, type: :model do
   subject { described_class }
 
   it_behaves_like "paginatable"
