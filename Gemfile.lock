@@ -329,7 +329,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   pundit (~> 2)
-  rails (~> 5.2.2)
+  rails (~> 5.2.3)
   rails-i18n (~> 5.1)
   recaptcha (~> 5.1)
   redcarpet (~> 3.5)
