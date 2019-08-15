@@ -45,6 +45,12 @@ class Post < ApplicationRecord
     validates :url, absence: true
   end
 
+  with_options if: -> (r) { r.text.blank? && r.url.blank? && r.media.blank? } do
+    validates :media, presence: true
+    validates :text, presence: true
+    validates :url, presence: true
+  end
+
   def youtube?
     @youtube ||= %w(youtube.com www.youtube.com youtu.be www.youtu.be).include?(URI(url).host)
   end
