@@ -34,8 +34,4 @@ class ApplicationFacade
   def recent_moderators
     @_recent_moderators ||= ModeratorsQuery.new(community.moderators).recent(10).includes(:user).all
   end
-
-  def pagination_params
-    []
-  end
 end
