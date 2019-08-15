@@ -13,8 +13,6 @@ class Comment < ApplicationRecord
   markdown_attributes :text
   strip_attributes :text
 
-  delegate :community, to: :post
-
   belongs_to :user, touch: true
   belongs_to :community, touch: true
   belongs_to :post, counter_cache: :comments_count, touch: true
