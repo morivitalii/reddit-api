@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe SignUpPolicy do
+RSpec.describe SignUpPolicy, type: :policy do
   subject { described_class }
 
   let(:community) { create(:community) }

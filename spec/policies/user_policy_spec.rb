@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe UserPolicy do
+RSpec.describe UserPolicy, type: :policy do
   subject { described_class }
 
   let(:community) { create(:community) }

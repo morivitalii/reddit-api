@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ModeratorPolicy do
+RSpec.describe ModeratorPolicy, type: :policy do
   subject { described_class }
 
   let(:community) { create(:community) }
