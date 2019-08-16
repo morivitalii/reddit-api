@@ -4,13 +4,13 @@ RSpec.describe ReportsQuery do
   subject { described_class }
 
   describe ".recent" do
-    let!(:reports) { create_list(:report, 3) }
+    it "returns limited recent reports" do
+      reports = create_list(:report, 3)
+      recent_reports = reports[1..-1].reverse
 
-    it "returns recent reports" do
-      expected_result = reports[1..-1].reverse
       result = subject.new.recent(2)
 
-      expect(result).to eq(expected_result)
+      expect(result).to eq(recent_reports)
     end
   end
 end
