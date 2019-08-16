@@ -8,10 +8,14 @@ RSpec.describe ModeratorsQuery do
     let!(:expected) { create_pair(:moderator, user: user) }
     let!(:others) { create_pair(:moderator) }
 
-    it "returns results filtered by username" do
+    it "returns moderators where user has given username" do
+      user = create(:user)
+      moderators = create_pair(:moderator, user: user)
+      create_pair(:moderator)
+
       result = subject.new.with_username(user.username)
 
-      expect(result).to contain_exactly(*expected)
+      expect(result).to contain_exactly(*moderators)
     end
   end
 
@@ -19,29 +23,30 @@ RSpec.describe ModeratorsQuery do
     it "returns relation if username is blank" do
       query = subject.new
 
-      expected_result = query.relation
       result = query.search_by_username("")
 
-      expect(result).to eq(expected_result)
+      expect(result).to eq(query.relation)
     end
 
     it "calls .with_username if username is present" do
+      username = "username"
       query = subject.new
+      allow(query).to receive(:with_username)
 
-      expect(query).to receive(:with_username).with(anything)
+      query.search_by_username(username)
 
-      query.search_by_username(anything)
+      expect(query).to have_received(:with_username).with(username)
     end
   end
 
   describe ".recent" do
-    let!(:moderators) { create_list(:moderator, 3) }
-    let!(:expected) { moderators[0..1] }
+    it "returns limited recent moderators" do
+      moderators = create_list(:moderator, 3)
+      expected_result = moderators[0..1]
 
-    it "returns recent moderators" do
       result = subject.new.recent(2)
 
-      expect(result).to eq(expected)
+      expect(result).to eq(expected_result)
     end
   end
 end
