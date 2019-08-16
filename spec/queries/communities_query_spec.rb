@@ -4,49 +4,48 @@ RSpec.describe CommunitiesQuery do
   subject { described_class }
 
   describe ".with_url" do
-    let!(:expected) { create(:community) }
-    let!(:others) { create_pair(:community) }
+    it "returns community with given url" do
+      community = create(:community)
+      create_pair(:community)
 
-    it "returns results filtered by url" do
-      result = subject.new.with_url(expected.url).take
+      result = subject.new.with_url(community.url).take
 
-      expect(result).to eq(expected)
+      expect(result).to eq(community)
     end
   end
 
   describe ".default" do
-    it "calls .with_url with 'all'" do
-      query = subject.new
+    it "returns default community" do
+      default_community = create(:default_community)
+      create_pair(:community)
 
-      expect(query).to receive(:with_url).with("all")
+      result = subject.new.default.take
 
-      query.default
+      expect(result).to eq(default_community)
     end
   end
 
   describe ".with_user_moderator" do
-    let!(:user) { create(:user) }
-    let!(:expected) { create(:community) }
-    let!(:moderator) { create(:moderator, community: expected, user: user) }
-    let!(:others) { create(:community) }
+    it "returns communities where user is moderator" do
+      user = create(:user)
+      communities_with_user_moderator = create_pair(:community_with_moderators, moderator_user: user, moderators_count: 1)
+      create_pair(:community_with_moderators, moderators_count: 1)
 
-    it "returns communities where user moderator" do
       result = subject.new.with_user_moderator(user)
 
-      expect(result).to eq([expected])
+      expect(result).to contain_exactly(*communities_with_user_moderator)
     end
   end
 
   describe ".with_user_follower" do
-    let!(:user) { create(:user) }
-    let!(:expected) { create(:community) }
-    let!(:moderator) { create(:follow, community: expected, user: user) }
-    let!(:others) { create(:community) }
+    it "returns communities where user is follower" do
+      user = create(:user)
+      communities_with_user_follower = create_pair(:community_with_followers, follower_user: user, followers_count: 1)
+      create_pair(:community_with_followers, followers_count: 1)
 
-    it "returns communities where user follower" do
       result = subject.new.with_user_follower(user)
 
-      expect(result).to eq([expected])
+      expect(result).to contain_exactly(*communities_with_user_follower)
     end
   end
 end
