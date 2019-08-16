@@ -4,24 +4,24 @@ RSpec.describe RateLimitsQuery do
   subject { described_class }
 
   describe ".daily" do
-    let!(:expected) { create_pair(:rate_limit) }
-    let!(:others) { create_pair(:rate_limit, :stale) }
+    it "returns daily rate limits" do
+      daily_rate_limits = create_pair(:rate_limit)
+      create_pair(:stale_rate_limit)
 
-    it "returns results filtered by daily" do
       result = subject.new.daily
 
-      expect(result).to contain_exactly(*expected)
+      expect(result).to contain_exactly(*daily_rate_limits)
     end
   end
 
   describe ".stale" do
-    let!(:expected) { create_pair(:rate_limit, :stale) }
-    let!(:others) { create_pair(:rate_limit) }
+    it "returns stale rate limits" do
+      stale_rate_limits = create_pair(:stale_rate_limit)
+      create_pair(:rate_limit)
 
-    it "returns results filtered by stale" do
       result = subject.new.stale
 
-      expect(result).to contain_exactly(*expected)
+      expect(result).to contain_exactly(*stale_rate_limits)
     end
   end
 end
