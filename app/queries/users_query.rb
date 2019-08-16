@@ -12,8 +12,4 @@ class UsersQuery < ApplicationQuery
   def with_email(email)
     relation.where("lower(users.email) = lower(?)", email)
   end
-
-  def auto_moderator
-    with_username("AutoModerator")
-  end
 end

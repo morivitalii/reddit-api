@@ -4,45 +4,35 @@ RSpec.describe UsersQuery do
   subject { described_class }
 
   describe ".with_forgot_password_token" do
-    let!(:expected) { create(:user) }
-    let!(:others) { create_pair(:user) }
+    it "returns user with given forgot_password_token" do
+      user = create(:user)
+      create_pair(:user)
 
-    it "returns result filtered by forgot_password_token" do
-      result = subject.new.with_forgot_password_token(expected.forgot_password_token).take
+      result = subject.new.with_forgot_password_token(user.forgot_password_token).take
 
-      expect(result).to eq(expected)
+      expect(result).to eq(user)
     end
   end
 
   describe ".with_username" do
-    let!(:expected) { create(:user) }
-    let!(:others) { create_pair(:user) }
+    it "returns user with given username" do
+      user = create(:user)
+      create_pair(:user)
 
-    it "returns result filtered by username" do
-      result = subject.new.with_username(expected.username).take
+      result = subject.new.with_username(user.username).take
 
-      expect(result).to eq(expected)
+      expect(result).to eq(user)
     end
   end
 
   describe ".with_email" do
-    let!(:expected) { create(:user) }
-    let!(:others) { create_pair(:user) }
+    it "returns user with given username" do
+      user = create(:user)
+      create_pair(:user)
 
-    it "returns result filtered by email" do
-      result = subject.new.with_email(expected.email).take
+      result = subject.new.with_email(user.email).take
 
-      expect(result).to eq(expected)
-    end
-  end
-
-  describe ".auto_moderator" do
-    it "calls .with_username with 'AutoModerator'" do
-      query = subject.new
-
-      expect(query).to receive(:with_username).with("AutoModerator")
-
-      query.auto_moderator
+      expect(result).to eq(user)
     end
   end
 end
