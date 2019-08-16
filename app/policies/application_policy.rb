@@ -28,14 +28,14 @@ class ApplicationPolicy
   end
 
   def moderator?
-    user? && user.moderators.find { |i| i.community_id == community.id }.present?
+    user? && user.moderators.any? { |moderator| moderator.community_id == community.id }
   end
 
   def banned?
-    user? && user.bans.find { |i| i.community_id == community.id }.present?
+    user? && user.bans.any? { |ban| ban.community_id == community.id }
   end
 
   def follower?
-    user? && user.follows.find { |i| i.community_id == community.id }.present?
+    user? && user.follows.any? { |follow| follow.community_id == community.id }
   end
 end
