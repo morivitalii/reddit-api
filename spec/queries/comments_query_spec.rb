@@ -5,8 +5,8 @@ RSpec.describe CommentsQuery do
 
   describe ".not_moderated" do
     it "returns not moderated comments" do
-      not_moderated_comments = create_pair(:comment, :not_moderated)
-      create_pair(:comment, :moderated)
+      not_moderated_comments = create_pair(:not_moderated_comment)
+      create_pair(:moderated_comment)
 
       result = subject.new.not_moderated
 

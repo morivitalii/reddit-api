@@ -24,5 +24,8 @@ FactoryBot.define do
         create_list(:report, evaluator.reports_count, reportable: comment)
       end
     end
+
+    factory :not_moderated_comment, traits: [:not_moderated]
+    factory :moderated_comment, traits: [:moderated]
   end
 end

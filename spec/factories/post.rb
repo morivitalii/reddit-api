@@ -48,6 +48,8 @@ FactoryBot.define do
       end
     end
 
+    factory :not_moderated_post, traits: [:not_moderated]
+    factory :moderated_post, traits: [:moderated]
     factory :removed_post, traits: [:removed]
   end
 end
