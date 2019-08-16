@@ -4,10 +4,6 @@ RSpec.describe ModeratorsQuery do
   subject { described_class }
 
   describe ".with_username" do
-    let!(:user) { create(:user) }
-    let!(:expected) { create_pair(:moderator, user: user) }
-    let!(:others) { create_pair(:moderator) }
-
     it "returns moderators where user has given username" do
       user = create(:user)
       moderators = create_pair(:moderator, user: user)
