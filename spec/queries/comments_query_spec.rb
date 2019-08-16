@@ -4,20 +4,20 @@ RSpec.describe CommentsQuery do
   subject { described_class }
 
   describe ".not_moderated" do
-    let!(:expected) { create_pair(:comment, :not_moderated) }
-    let!(:others) { create_pair(:comment, :moderated) }
-
     it "returns not moderated comments" do
+      not_moderated_comments = create_pair(:comment, :not_moderated)
+      create_pair(:comment, :moderated)
+
       result = subject.new.not_moderated
 
-      expect(result).to contain_exactly(*expected)
+      expect(result).to contain_exactly(*not_moderated_comments)
     end
   end
 
   describe ".reported" do
     it "returns comments that have reports" do
-      comments_without_reports = create_pair(:comment)
       comments_with_reports = create_pair(:comment_with_reports, reports_count: 1)
+      create_pair(:comment)
 
       result = subject.new.reported
 
@@ -26,14 +26,17 @@ RSpec.describe CommentsQuery do
   end
 
   describe ".created_after" do
-    let!(:datetime) { Time.current }
-    let!(:expected) { create_pair(:comment, created_at: datetime + 1.hour) }
-    let!(:others) { create_pair(:comment, created_at: datetime - 1.hour) }
+    it "returns comments created after given datetime" do
+      datetime = Time.current
+      after_datetime = datetime + 1.hour
+      before_datetime = datetime - 1.hour
 
-    it "returns results created after given datetime" do
+      comments_created_after = create_pair(:comment, created_at: after_datetime)
+      create_pair(:comment, created_at: before_datetime)
+
       result = subject.new.created_after(datetime)
 
-      expect(result).to eq(expected)
+      expect(result).to contain_exactly(*comments_created_after)
     end
   end
 
@@ -41,18 +44,19 @@ RSpec.describe CommentsQuery do
     it "returns relation if datetime is blank" do
       query = subject.new
 
-      expected_result = query.relation
       result = query.search_created_after(nil)
 
-      expect(result).to eq(expected_result)
+      expect(result).to eq(query.relation)
     end
 
     it "calls .created_after if datetime is present" do
+      datetime = Time.current
       query = subject.new
+      allow(query).to receive(:created_after)
 
-      expect(query).to receive(:created_after).with(anything)
+      query.search_created_after(datetime)
 
-      query.search_created_after(anything)
+      expect(query).to have_received(:created_after).with(datetime)
     end
   end
 end
