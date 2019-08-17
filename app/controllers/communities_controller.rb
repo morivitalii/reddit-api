@@ -38,7 +38,7 @@ class CommunitiesController < ApplicationController
 
   def query
     query = PostsQuery.new(@community.posts).not_removed
-    PostsQuery.new(query).search_created_after(date).includes(:user, :community)
+    PostsQuery.new(query).search_created_after(date_value).includes(:user, :community)
   end
 
   def update_params
@@ -49,15 +49,26 @@ class CommunitiesController < ApplicationController
 
   helper_method :sorting
   def sorting
-    sorting_options.include?(params[:sort]) ? params[:sort] : :hot
+    sorting_options.include?(params[:sort]) ? params[:sort] : "hot"
   end
 
   helper_method :sorting_options
   def sorting_options
-    [:hot, :new, :top, :controversy]
+    %w(hot new top controversy)
   end
 
+  helper_method :date
   def date
-    ThingsDates.new(params[:date]).date
+    date_options.include?(params[:date]) ? params[:date] : nil
+  end
+
+  helper_method :date_options
+  def date_options
+    %w(day week month)
+  end
+
+  def date_value
+    # Time.now.advance does not accept string keys. wat?
+    date.present? ? Time.now.advance("#{date}s".to_sym => -1) : nil
   end
 end

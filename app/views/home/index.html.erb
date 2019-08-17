@@ -17,12 +17,14 @@
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= ThingsDates.new(params[:date]).i18n %>
+      <%= t(date || "all_time") %>
     </a>
 
     <div class="dropdown-menu">
-      <% ThingsDates.new.list.each do |k, v| %>
-        <%= link_to(v, root_path(sort: params[:sort], date: k), class: 'dropdown-item') %>
+      <%= link_to(t("all_time"), root_path(sort: params[:sort], date: :all), class: 'dropdown-item') %>
+
+      <% date_options.each do |date| %>
+        <%= link_to(t(date), root_path(sort: params[:sort], date: date), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
