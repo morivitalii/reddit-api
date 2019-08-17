@@ -18,30 +18,6 @@
       <% end %>
     </div>
   </li>
-
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= ThingsSorting.new(params[:sort]).i18n %>
-    </a>
-
-    <div class="dropdown-menu">
-      <% ThingsSorting.new.list.each do |k, v| %>
-        <%= link_to(v, comments_user_path(@user, sort: k), class: 'dropdown-item') %>
-      <% end %>
-    </div>
-  </li>
-
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= ThingsDates.new(params[:date]).i18n %>
-    </a>
-
-    <div class="dropdown-menu">
-      <% ThingsDates.new.list.each do |k, v| %>
-        <%= link_to(v, comments_user_path(@user, sort: params[:sort], date: k), class: 'dropdown-item') %>
-      <% end %>
-    </div>
-  </li>
 <% end %>
 
 <%= render @records %>

@@ -1,31 +1,23 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :set_user
+  before_action :set_user, only: [:posts, :comments]
   before_action :set_facade
   before_action -> { authorize(@user) }
 
   def posts
-    @records, @pagination = Post.in_date_range(date)
-                                       .where(user: @user)
-                                       .includes(:community, :user)
-                                       .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
-
+    @records, @pagination = posts_query.paginate(after: params[:after])
     @records = @records.map(&:decorate)
   end
 
   def comments
-    @records, @pagination = Comment.in_date_range(date)
-                                       .where(user: @user)
-                                       .includes(:user, :post)
-                                       .paginate(attributes: ["#{sort}_score", :id], after: params[:after])
-
+    @records, @pagination = comments_query.paginate(after: params[:after])
     @records = @records.map(&:decorate)
-
-    render "show"
   end
 
   def edit
+    @user = current_user
+
     attributes = @user.slice(:email)
 
     @form = UpdateUserForm.new(attributes)
@@ -44,24 +36,20 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    if params[:id].present?
-      @user = UsersQuery.new.with_username(params[:id]).take!
-    else
-      @user = current_user
-    end
+    @user = UsersQuery.new.with_username(params[:id]).take!
+  end
+
+  def posts_query
+    PostsQuery.new(@user.posts).not_removed.includes(:community, :user)
+  end
+
+  def comments_query
+    CommentsQuery.new(@user.comments).not_removed.includes(:community, :post, :user)
   end
 
   def update_params
     attributes = policy(@user).permitted_attributes_for_update
 
-    params.require(:update_user_form).permit(attributes).merge(user: @user)
-  end
-
-  def sort
-    ThingsSorting.new(params[:sort]).key
-  end
-
-  def date
-    ThingsDates.new(params[:date]).date
+    params.require(:update_user_form).permit(attributes).merge(user: current_user)
   end
 end
