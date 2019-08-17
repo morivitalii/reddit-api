@@ -2,7 +2,6 @@
 
 class UsersController < ApplicationController
   before_action :set_user
-  before_action :set_facade
   before_action -> { authorize(@user) }
 
   def posts
@@ -44,7 +43,7 @@ class UsersController < ApplicationController
   private
 
   def context
-    Context.new(current_user)
+    Context.new(current_user, CommunitiesQuery.new.default.take!)
   end
 
   def set_user
@@ -53,10 +52,6 @@ class UsersController < ApplicationController
     else
       @user = current_user
     end
-  end
-
-  def set_facade
-    @facade = UsersFacade.new(context, @user)
   end
 
   def update_params

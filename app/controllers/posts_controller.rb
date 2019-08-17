@@ -5,7 +5,6 @@ class PostsController < ApplicationController
 
   before_action :set_post, only: [:show, :edit, :update, :approve, :remove, :destroy]
   before_action :set_community
-  before_action :set_facade
   before_action :set_sort_options, only: [:show]
   before_action :set_sort, only: [:show]
   before_action -> { authorize(Post) }, only: [:new, :create]
@@ -99,10 +98,6 @@ class PostsController < ApplicationController
 
   def set_post
     @post = Post.find(params[:id])
-  end
-
-  def set_facade
-    @facade = PostsFacade.new(context, @post)
   end
 
   def set_sort_options

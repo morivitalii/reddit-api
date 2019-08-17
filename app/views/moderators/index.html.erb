@@ -1,4 +1,4 @@
-<% content_for(:meta_title, @facade.index_meta_title) %>
+<% content_for(:meta_title, "#{@community.title}: #{t("moderators")}") %>
 
 <%= render 'shared/sidebar', community: @community %>
 

@@ -2,7 +2,6 @@
 
 class BansController < ApplicationController
   before_action :set_community
-  before_action :set_facade
   before_action :set_ban, only: [:edit, :update, :destroy]
   before_action -> { authorize(Ban) }, only: [:index, :new, :create]
   before_action -> { authorize(@ban) }, only: [:edit, :update, :destroy]
@@ -59,10 +58,6 @@ class BansController < ApplicationController
 
   def query
     BansQuery.new(@community.bans).search_by_username(params[:query]).includes(:user)
-  end
-
-  def set_facade
-    @facade = BansFacade.new(context)
   end
 
   def set_community

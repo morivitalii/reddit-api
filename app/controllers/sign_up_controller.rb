@@ -2,7 +2,6 @@
 
 class SignUpController < ApplicationController
   before_action -> { authorize(:sign_up) }
-  before_action :set_facade
 
   def new
     @form = SignUpForm.new
@@ -30,10 +29,6 @@ class SignUpController < ApplicationController
 
   def context
     Context.new(current_user, CommunitiesQuery.new.default.take!)
-  end
-
-  def set_facade
-    @facade = ApplicationFacade.new(context)
   end
 
   def create_params

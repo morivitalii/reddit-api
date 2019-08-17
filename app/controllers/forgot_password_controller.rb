@@ -2,7 +2,6 @@
 
 class ForgotPasswordController < ApplicationController
   before_action -> { authorize(:forgot_password) }
-  before_action :set_facade
 
   def new
     @form = ForgotPasswordForm.new
@@ -28,10 +27,6 @@ class ForgotPasswordController < ApplicationController
 
   def context
     Context.new(current_user, CommunitiesQuery.new.default.take!)
-  end
-
-  def set_facade
-    @facade = ApplicationFacade.new(context)
   end
 
   def create_params

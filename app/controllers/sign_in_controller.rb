@@ -2,7 +2,6 @@
 
 class SignInController < ApplicationController
   before_action -> { authorize(:sign_in) }, only: [:new, :create]
-  before_action :set_facade
   skip_after_action :verify_authorized, only: [:unauthenticated]
 
   def new
@@ -35,9 +34,5 @@ class SignInController < ApplicationController
 
   def context
     Context.new(current_user, CommunitiesQuery.new.default.take!)
-  end
-
-  def set_facade
-    @facade = ApplicationFacade.new(context)
   end
 end

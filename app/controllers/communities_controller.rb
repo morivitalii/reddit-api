@@ -2,7 +2,6 @@
 
 class CommunitiesController < ApplicationController
   before_action :set_community
-  before_action :set_facade
   before_action -> { authorize(@community) }
 
   def show
@@ -34,10 +33,6 @@ class CommunitiesController < ApplicationController
 
   def set_community
     @community = CommunitiesQuery.new.with_url(params[:id]).take!
-  end
-
-  def set_facade
-    @facade = CommunitiesFacade.new(context, @community)
   end
 
   def query

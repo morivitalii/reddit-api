@@ -2,7 +2,6 @@
 
 class ReportsController < ApplicationController
   before_action :set_community
-  before_action :set_facade
   before_action :set_reportable, only: [:show, :new, :create]
   before_action -> { authorize(Report) }
 
@@ -47,10 +46,6 @@ class ReportsController < ApplicationController
 
   def set_community
     @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
-  end
-
-  def set_facade
-    @facade = ReportsFacade.new(context)
   end
 
   def set_reportable

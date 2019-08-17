@@ -2,7 +2,6 @@
 
 class ModQueuesController < ApplicationController
   before_action :set_community
-  before_action :set_facade
   before_action -> { authorize(:mod_queue) }
 
   def posts
@@ -27,10 +26,6 @@ class ModQueuesController < ApplicationController
 
   def comments_query
     CommentsQuery.new(@community.comments).not_moderated.includes(:user, :post, :community)
-  end
-
-  def set_facade
-    @facade = ModQueuesFacade.new(context)
   end
 
   def set_community

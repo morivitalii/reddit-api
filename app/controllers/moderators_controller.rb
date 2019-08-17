@@ -2,7 +2,6 @@
 
 class ModeratorsController < ApplicationController
   before_action :set_community
-  before_action :set_facade
   before_action :set_moderator, only: [:destroy]
   before_action -> { authorize(Moderator) }, only: [:index, :new, :create]
   before_action -> { authorize(@moderator) }, only: [:destroy]
@@ -41,10 +40,6 @@ class ModeratorsController < ApplicationController
 
   def set_community
     @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
-  end
-
-  def set_facade
-    @facade = ModeratorsFacade.new(context)
   end
 
   def set_moderator
