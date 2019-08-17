@@ -6,4 +6,5 @@ class SignInPolicy < ApplicationPolicy
   end
 
   alias new? create?
+  alias unauthenticated? create?
 end

@@ -2,8 +2,7 @@
 
 class SignInController < ApplicationController
   before_action :set_facade
-  before_action -> { authorize(:sign_in) }, only: [:new, :create]
-  skip_after_action :verify_authorized, only: [:unauthenticated]
+  before_action -> { authorize(:sign_in) }
 
   def new
     @form = SignInForm.new

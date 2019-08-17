@@ -6,7 +6,7 @@ RSpec.describe SignInPolicy, type: :policy do
   context "for visitor" do
     include_context "visitor context"
 
-    permissions :new?, :create? do
+    permissions :new?, :create?, :unauthenticated? do
       it { is_expected.to permit(context) }
     end
   end
@@ -14,7 +14,7 @@ RSpec.describe SignInPolicy, type: :policy do
   context "for user" do
     include_context "user context"
 
-    permissions :new?, :create? do
+    permissions :new?, :create?, :unauthenticated? do
       it { is_expected.to_not permit(context) }
     end
   end
