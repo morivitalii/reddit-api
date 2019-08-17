@@ -3,31 +3,27 @@ require "rails_helper"
 RSpec.describe BookmarkPolicy, type: :policy do
   subject { described_class }
 
-  let(:community) { create(:community) }
-  let(:context) { Context.new(user, community) }
-  let(:bookmark) { create(:bookmark) }
-
   context "for visitor" do
-    let(:user) { nil }
+    include_context "visitor context"
 
     permissions :posts?, :comments?, :create? do
       it { is_expected.to_not permit(context) }
     end
 
     permissions :destroy? do
-      it { is_expected.to_not permit(context, bookmark) }
+      it { is_expected.to_not permit(context) }
     end
   end
 
   context "for user" do
-    let(:user) { create(:user) }
+    include_context "user context"
 
     permissions :posts?, :comments?, :create? do
       it { is_expected.to permit(context) }
     end
 
     permissions :destroy? do
-      it { is_expected.to permit(context, bookmark) }
+      it { is_expected.to permit(context) }
     end
   end
 end

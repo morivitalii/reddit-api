@@ -3,12 +3,10 @@ require "rails_helper"
 RSpec.describe CommentPolicy, type: :policy do
   subject { described_class }
 
-  let(:community) { create(:community) }
-  let(:context) { Context.new(user, community) }
-  let(:comment) { create(:comment, community: community) }
+  let(:comment) { create(:comment, community: context.community) }
 
   context "for visitor" do
-    let(:user) { nil }
+    include_context "visitor context"
 
     permissions :show? do
       it { is_expected.to permit(context, comment) }
@@ -24,7 +22,7 @@ RSpec.describe CommentPolicy, type: :policy do
   end
 
   context "for user" do
-    let(:user) { create(:user) }
+    include_context "user context"
 
     permissions :show? do
       it { is_expected.to permit(context, comment) }
@@ -40,7 +38,9 @@ RSpec.describe CommentPolicy, type: :policy do
   end
 
   context "for author" do
-    let(:user) { comment.user }
+    include_context "user context"
+
+    let(:comment) { create(:comment, user: context.user, community: context.community) }
 
     permissions :show? do
       it { is_expected.to permit(context, comment) }
@@ -60,7 +60,7 @@ RSpec.describe CommentPolicy, type: :policy do
   end
 
   context "for moderator" do
-    let(:user) { create(:moderator, community: community).user }
+    include_context "moderator context"
 
     permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :ignore_reports?, :deletion_reason? do
       it { is_expected.to permit(context, comment) }

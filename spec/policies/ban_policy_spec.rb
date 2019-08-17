@@ -3,12 +3,8 @@ require "rails_helper"
 RSpec.describe BanPolicy, type: :policy do
   subject { described_class }
 
-  let(:community) { create(:community) }
-  let(:context) { Context.new(user, community) }
-  let(:ban) { create(:ban, community: community) }
-
   context "for visitor" do
-    let(:user) { nil }
+    include_context "visitor context"
     
     permissions :index? do
       it { is_expected.to permit(context) }
@@ -19,12 +15,12 @@ RSpec.describe BanPolicy, type: :policy do
     end
 
     permissions :edit?, :update?, :destroy? do
-      it { is_expected.to_not permit(context, ban) }
+      it { is_expected.to_not permit(context) }
     end
   end
 
   context "for user" do
-    let(:user) { create(:user) }
+    include_context "user context"
 
     permissions :index? do
       it { is_expected.to permit(context) }
@@ -35,19 +31,19 @@ RSpec.describe BanPolicy, type: :policy do
     end
 
     permissions :edit?, :update?, :destroy? do
-      it { is_expected.to_not permit(context, ban) }
+      it { is_expected.to_not permit(context) }
     end
   end
 
   context "for moderator" do
-    let(:user) { create(:moderator, community: community).user }
+    include_context "moderator context"
 
     permissions :index?, :new?, :create? do
       it { is_expected.to permit(context) }
     end
 
     permissions :edit?, :update?, :destroy? do
-      it { is_expected.to permit(context, ban) }
+      it { is_expected.to permit(context) }
     end
   end
 end

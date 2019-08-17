@@ -3,38 +3,35 @@ require "rails_helper"
 RSpec.describe CommunityPolicy, type: :policy do
   subject { described_class }
 
-  let(:community) { create(:community) }
-  let(:context) { Context.new(user, community) }
-
   context "for visitor" do
-    let(:user) { nil }
+    include_context "visitor context"
 
     permissions :show? do
-      it { is_expected.to permit(context, community) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :edit?, :update? do
-      it { is_expected.to_not permit(context, community) }
+      it { is_expected.to_not permit(context) }
     end
   end
 
   context "for user" do
-    let(:user) { create(:user) }
+    include_context "user context"
 
     permissions :show? do
-      it { is_expected.to permit(context, community) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :edit?, :update? do
-      it { is_expected.to_not permit(context, community) }
+      it { is_expected.to_not permit(context) }
     end
   end
 
   context "for moderator" do
-    let(:user) { create(:moderator, community: community).user }
+    include_context "moderator context"
 
     permissions :show?, :edit?, :update? do
-      it { is_expected.to permit(context, community) }
+      it { is_expected.to permit(context) }
     end
   end
 end

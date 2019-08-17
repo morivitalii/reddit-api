@@ -2,39 +2,36 @@ require "rails_helper"
 
 RSpec.describe FollowPolicy, type: :policy do
   subject { described_class }
-
-  let(:community) { create(:community) }
-  let(:context) { Context.new(user, community) }
   
   context "for visitor" do
-    let(:user) { nil }
+    include_context "visitor context"
 
     permissions :create?, :destroy? do
       it { is_expected.to_not permit(context) }
     end
   end
 
-  context "for follower user" do
-    let(:user) { create(:follow, community: community).user }
+  context "for user" do
+    include_context "user context"
 
     permissions :create? do
-      it { is_expected.to_not permit(context) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :destroy? do
-      it { is_expected.to permit(context) }
+      it { is_expected.to_not permit(context) }
     end
   end
 
-  context "for not follower user" do
-    let(:user) { create(:user) }
+  context "for follower" do
+    include_context "follower context"
 
     permissions :create? do
-      it { is_expected.to permit(context) }
+      it { is_expected.to_not permit(context) }
     end
 
     permissions :destroy? do
-      it { is_expected.to_not permit(context) }
+      it { is_expected.to permit(context) }
     end
   end
 end
