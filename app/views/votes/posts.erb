@@ -32,13 +32,15 @@
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= t(vote_type || "up_and_down") %>
+      <%= t(type || "up_and_down") %>
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("up_and_down"), posts_votes_path(vote_type: :all), class: 'dropdown-item') %>
-      <%= link_to(t("up"), posts_votes_path(vote_type: :up), class: 'dropdown-item') %>
-      <%= link_to(t("down"), posts_votes_path(vote_type: :down), class: 'dropdown-item') %>
+      <%= link_to(t("up_and_down"), posts_votes_path(type: :all), class: 'dropdown-item') %>
+
+      <% type_options.each do |type| %>
+        <%= link_to(t(type), posts_votes_path(type: type), class: 'dropdown-item') %>
+      <% end %>
     </div>
   </li>
 <% end %>
