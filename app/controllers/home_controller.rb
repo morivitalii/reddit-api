@@ -2,6 +2,7 @@
 
 class HomeController < ApplicationController
   before_action -> { authorize(:home) }
+  before_action :set_community
 
   def index
     @records, @pagination = query.paginate(attributes: ["#{sort}_score", :id], after: params[:after])
@@ -9,6 +10,10 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def set_community
+    @community = CommunitiesQuery.new.default.take!
+  end
 
   def query
     query = PostsQuery.new.not_removed
