@@ -2,6 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :set_user
+  before_action :set_facade
   before_action -> { authorize(@user) }
 
   def posts

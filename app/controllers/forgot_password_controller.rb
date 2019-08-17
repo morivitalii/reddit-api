@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ForgotPasswordController < ApplicationController
+  before_action :set_facade
   before_action -> { authorize(:forgot_password) }
 
   def new

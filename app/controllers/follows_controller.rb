@@ -2,6 +2,7 @@
 
 class FollowsController < ApplicationController
   before_action :set_community
+  before_action :set_facade
   before_action -> { authorize(Follow) }
 
   def create

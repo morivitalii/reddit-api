@@ -6,6 +6,7 @@ class ApplicationFacade
   def initialize(context)
     @user = context.user
     @community = context.community
+    pp @community
   end
 
   def user_ban

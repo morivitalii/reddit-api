@@ -2,6 +2,7 @@
 
 class CommunitiesController < ApplicationController
   before_action :set_community
+  before_action :set_facade
   before_action -> { authorize(@community) }
 
   def show

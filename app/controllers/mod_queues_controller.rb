@@ -2,6 +2,7 @@
 
 class ModQueuesController < ApplicationController
   before_action :set_community
+  before_action :set_facade
   before_action -> { authorize(:mod_queue) }
 
   def posts

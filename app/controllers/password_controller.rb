@@ -2,6 +2,7 @@
 
 class PasswordController < ApplicationController
   before_action -> { authorize(:password) }
+  before_action :set_facade
 
   def edit
     @form = ChangePasswordForm.new(link_params)

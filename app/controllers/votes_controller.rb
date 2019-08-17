@@ -4,6 +4,7 @@ class VotesController < ApplicationController
   before_action -> { authorize(Vote) }
   before_action :set_user, only: [:posts, :comments]
   before_action :set_votable, only: [:create, :destroy]
+  before_action :set_facade
 
   def posts
     @records, @pagination = posts_query.paginate(after: params[:after])

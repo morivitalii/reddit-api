@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class SignUpController < ApplicationController
+  before_action :set_facade
   before_action -> { authorize(:sign_up) }
 
   def new

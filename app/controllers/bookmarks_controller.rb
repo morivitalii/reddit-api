@@ -4,6 +4,7 @@ class BookmarksController < ApplicationController
   before_action -> { authorize(Bookmark) }
   before_action :set_user, only: [:posts, :comments]
   before_action :set_bookmarkable, only: [:create, :destroy]
+  before_action :set_facade
 
   def posts
     @records, @pagination = posts_query.paginate(after: params[:after])

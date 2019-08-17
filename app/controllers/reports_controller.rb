@@ -3,6 +3,7 @@
 class ReportsController < ApplicationController
   before_action :set_community
   before_action :set_reportable, only: [:show, :new, :create]
+  before_action :set_facade
   before_action -> { authorize(Report) }
 
   def posts
