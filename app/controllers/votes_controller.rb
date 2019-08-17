@@ -39,15 +39,13 @@ class VotesController < ApplicationController
   private
 
   def posts_query
-    query_class = VotesQuery
-    query = query_class.new(@user.votes).posts_votes
-    query_class.new(query).search_by_vote_type(vote_type).includes(votable: [:user, :community])
+    query = VotesQuery.new(@user.votes).posts_votes
+    VotesQuery.new(query).search_by_vote_type(vote_type).includes(votable: [:user, :community])
   end
 
   def comments_query
-    query_class = VotesQuery
-    query = query_class.new(@user.votes).comments_votes
-    query_class.new(query).search_by_vote_type(vote_type).includes(votable: [:user, :post, :community])
+    query = VotesQuery.new(@user.votes).comments_votes
+    VotesQuery.new(query).search_by_vote_type(vote_type).includes(votable: [:user, :post, :community])
   end
 
   def set_user
@@ -74,7 +72,8 @@ class VotesController < ApplicationController
     params.require(:create_vote_form).permit(attributes).merge(votable: @votable, user: current_user)
   end
 
+  helper_method :vote_type
   def vote_type
-    VotesTypes.new(params[:vote_type]).key
+    Vote.vote_types.keys.find { |type| type.to_s == params[:vote_type]  }
   end
 end

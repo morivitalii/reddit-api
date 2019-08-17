@@ -25,20 +25,20 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("posts"), posts_votes_path(vote_type: params[:vote_type]), class: 'dropdown-item') %>
-      <%= link_to(t("comments"), comments_votes_path(vote_type: params[:vote_type]), class: 'dropdown-item') %>
+      <%= link_to(t("posts"), posts_votes_path, class: 'dropdown-item') %>
+      <%= link_to(t("comments"), comments_votes_path, class: 'dropdown-item') %>
     </div>
   </li>
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= VotesTypes.new(params[:vote_type]).i18n %>
+      <%= t(vote_type || "up_and_down") %>
     </a>
 
     <div class="dropdown-menu">
-      <% VotesTypes.new.list.each do |k, v| %>
-        <%= link_to(v, posts_votes_path(vote_type: k), class: 'dropdown-item') %>
-      <% end %>
+      <%= link_to(t("up_and_down"), posts_votes_path(vote_type: :all), class: 'dropdown-item') %>
+      <%= link_to(t("up"), posts_votes_path(vote_type: :up), class: 'dropdown-item') %>
+      <%= link_to(t("down"), posts_votes_path(vote_type: :down), class: 'dropdown-item') %>
     </div>
   </li>
 <% end %>

@@ -143,9 +143,9 @@ ru:
   votes: Голоса
   posts_votes: Голоса за посты
   comments_votes: Голоса за комментарии
-  ups_and_downs: За и против
-  ups: За
-  downs: Против
+  up_and_down: За и против
+  up: За
+  down: Против
   follows_count:
     few: подписчика
     many: подписчиков

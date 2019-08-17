@@ -6,7 +6,7 @@ class Vote < ApplicationRecord
   belongs_to :votable, polymorphic: true, touch: true
   belongs_to :user, touch: true
 
-  enum vote_type: { down: -1, up: 1 }
+  enum vote_type: { up: 1, down: -1 }
 
   validates :vote_type, presence: true, inclusion: { in: %w(down up) }
 
