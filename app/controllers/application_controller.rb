@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   include PageNotFound
 
   after_action :verify_authorized
-  after_action :set_facade
+  before_action :set_facade
 
   private
 
