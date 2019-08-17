@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe UpdateBanForm do
+RSpec.describe UpdateBanForm, type: :form do
   subject { described_class }
 
   describe ".save" do

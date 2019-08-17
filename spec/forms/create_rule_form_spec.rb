@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CreateRuleForm do
+RSpec.describe CreateRuleForm, type: :form do
   subject { described_class }
 
   describe ".save" do

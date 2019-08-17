@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe RemoveCommentForm do
+RSpec.describe RemoveCommentForm, type: :form do
   subject { described_class }
 
   describe ".save" do

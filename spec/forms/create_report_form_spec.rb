@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CreateReportForm do
+RSpec.describe CreateReportForm, type: :form do
   subject { described_class }
 
   describe ".save" do

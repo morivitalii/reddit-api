@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe RemovePostForm do
+RSpec.describe RemovePostForm, type: :form do
   subject { described_class }
 
   describe ".save" do

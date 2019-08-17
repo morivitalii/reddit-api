@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe SignUpForm do
+RSpec.describe SignUpForm, type: :form do
   subject { described_class }
 
   describe ".save" do

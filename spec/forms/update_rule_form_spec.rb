@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe UpdateRuleForm do
+RSpec.describe UpdateRuleForm, type: :form do
   subject { described_class }
 
   describe ".save" do

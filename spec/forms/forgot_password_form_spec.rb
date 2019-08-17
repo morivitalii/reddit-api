@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ForgotPasswordForm do
+RSpec.describe ForgotPasswordForm, type: :form do
   include ActionMailer::TestHelper
 
   subject { described_class }

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CreateVoteForm do
+RSpec.describe CreateVoteForm, type: :form do
   subject { described_class }
 
   describe ".save" do

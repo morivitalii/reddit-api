@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CreateModeratorForm do
+RSpec.describe CreateModeratorForm, type: :form do
   subject { described_class }
 
   describe ".save" do

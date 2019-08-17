@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ChangePasswordForm do
+RSpec.describe ChangePasswordForm, type: :form do
   subject { described_class }
 
   describe "validations" do
@@ -23,6 +23,6 @@ RSpec.describe ChangePasswordForm do
   end
 
   def build_change_password_form
-    subject.new(token: double, password: double)
+    described_class.new(token: double, password: double)
   end
 end
