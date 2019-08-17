@@ -64,7 +64,7 @@
         <% if @facade.user_ban.permanent? %>
           <%= t('banned_permanent') %>
         <% else %>
-          <%= t('banned_until_html', until: datetime_tag(@facade.user_ban.end_at, :short)) %>
+          <%= t('banned_until_html', until: datetime_short_tag(@facade.user_ban.end_at)) %>
         <% end %>
       </div>
     </div>

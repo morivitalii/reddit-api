@@ -1,6 +1,6 @@
 <div class="entry row pt-2 pb-2">
   <div class="col-12">
-    <%= link_to(report.user.username, posts_user_path(report.user)) %> <%= datetime_tag(report.created_at, :ago) %>
+    <%= link_to(report.user.username, posts_user_path(report.user)) %> <%= datetime_ago_tag(report.created_at) %>
 
     <div class="float-right">
       <span class="toggleDetails ml-1"><%= t('details') %></span>

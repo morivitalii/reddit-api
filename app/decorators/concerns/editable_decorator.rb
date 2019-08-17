@@ -5,7 +5,7 @@ module EditableDecorator
 
   included do
     def edited_message
-      edited_at = h.datetime_tag(model.edited_at, :ago)
+      edited_at = h.datetime_ago_tag(model.edited_at)
 
       h.t('edited_html', edited_at: edited_at)
     end

@@ -9,10 +9,10 @@
 
       <%= t('in') %> <%= link_to(thing.community.url, community_path(thing.community)) %>
 
-      <%= datetime_tag(thing.created_at, :ago) %>
+      <%= datetime_ago_tag(thing.created_at) %>
 
       <% if thing.edited? %>
-        <%= t('edited_html', edited_at: datetime_tag(thing.edited_at, :ago)) %>
+        <%= t('edited_html', edited_at: datetime_ago_tag(thing.edited_at)) %>
       <% end %>
 
       <% if thing.explicit? %>
@@ -33,7 +33,7 @@
     <% if thing.comment? && thing.association(:comment).loaded? && thing.comment.present? && thing.comment.comment? %>
       <div class="context col-12 mt-2">
         <% if thing.comment.removed? %>
-          <%= t("deleted_html", username: link_to(thing.comment.deleted_by.username, posts_user_path(thing.comment.deleted_by)), deleted_at: datetime_tag(thing.comment.deleted_at, :ago), reason: thing.comment.deletion_reason) %>
+          <%= t("deleted_html", username: link_to(thing.comment.deleted_by.username, posts_user_path(thing.comment.deleted_by)), deleted_at: datetime_ago_tag(thing.comment.deleted_at), reason: thing.comment.deletion_reason) %>
         <% else %>
           <%= thing.comment.text_html.html_safe %>
         <% end %>

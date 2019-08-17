@@ -16,12 +16,12 @@
   </div>
 
   <div class="details col-12 d-none">
-    <%= datetime_tag(ban.created_at, :short) %>
+    <%= datetime_short_tag(ban.created_at) %>
 
     <% if ban.permanent? %>
       <%= t('permanent') %>
     <% else %>
-      <%= t('until') %> <%= datetime_tag(ban.end_at, :short) %>
+      <%= t('until') %> <%= datetime_short_tag(ban.end_at) %>
     <% end %>
 
     <% if ban.reason.present? %>

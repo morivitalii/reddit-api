@@ -2,7 +2,7 @@
   <div class="thing comment col-12 mt-2 pr-0">
     <div class="row pr-3">
       <div class="content deletedComment col-12">
-        <%= t("deleted_html", username: link_to(item[:thing].deleted_by.username, posts_user_path(item[:thing].deleted_by)), deleted_at: datetime_tag(item[:thing].deleted_at, :ago), reason: item[:thing].deletion_reason) %>
+        <%= t("deleted_html", username: link_to(item[:thing].deleted_by.username, posts_user_path(item[:thing].deleted_by)), deleted_at: datetime_ago_tag(item[:thing].deleted_at), reason: item[:thing].deletion_reason) %>
       </div>
     </div>
 
@@ -16,10 +16,10 @@
       <div class="info col-12 pt-1">
         <span class="comment__expand"><%= fa_icon("plus-square") %></span>
         <%= link_to(item[:thing].user.username, posts_user_path(item[:thing].user), class: "author") %>
-        <%= datetime_tag(item[:thing].created_at, :ago) %>
+        <%= datetime_ago_tag(item[:thing].created_at) %>
 
         <% if item[:thing].edited? %>
-          <%= t('edited_html', edited_at: datetime_tag(item[:thing].edited_at, :ago)) %>
+          <%= t('edited_html', edited_at: datetime_ago_tag(item[:thing].edited_at)) %>
         <% end %>
 
         <span class="comment__children-info">(<span class="comment__children-num"></span> дочерних)</span>

@@ -30,7 +30,7 @@ module RemovableDecorator
 
     def removed_message
       deleted_by = model.deleted_by
-      deleted_at = h.datetime_tag(model.deleted_at, :ago)
+      deleted_at = h.datetime_ago_tag(model.deleted_at)
       reason = model.deletion_reason
 
       link_to_user_profile = h.link_to(deleted_by.username, h.posts_user_path(deleted_by))

@@ -61,14 +61,10 @@ $(document).on('ajax:success', '.confirm-deletion', function() {
 });
 
 function format_datetime() {
-    $(".datetime-long, .datetime-short, .datetime-ago").each(function (index) {
+    $(".datetime-short, .datetime-ago").each(function (index) {
         $(this).tooltip({
             title: moment($(this).data("timestamp"), "X").format("ddd, D MMMM YYYY, HH:mm:ss"),
         });
-    });
-
-    $(".datetime-long").each(function (index) {
-        $(this).html(moment($(this).data("timestamp"), "X").format("D MMMM YYYY HH:mm:ss"));
     });
 
     $(".datetime-short").each(function (index) {

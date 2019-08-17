@@ -10,7 +10,7 @@ class PostDecorator < ApplicationDecorator
   include CommentableDecorator
 
   def created_at
-    h.datetime_tag(model.created_at, :ago)
+    h.datetime_ago_tag(model.created_at)
   end
 
   def content_processing?
