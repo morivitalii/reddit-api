@@ -3,18 +3,6 @@ require "rails_helper"
 RSpec.describe BansQuery do
   subject { described_class }
 
-  describe ".with_user" do
-    it "returns user bans" do
-      user = create(:user)
-      user_bans = create_pair(:ban, user: user)
-      create_pair(:ban)
-
-      result = subject.new.with_user(user)
-
-      expect(result).to contain_exactly(*user_bans)
-    end
-  end
-
   describe ".with_username" do
     it "returns bans with given user username" do
       user = create(:user)

@@ -6,13 +6,6 @@ class ApplicationFacade
   def initialize(context)
     @user = context.user
     @community = context.community
-    pp @community
-  end
-
-  def user_ban
-    return nil if user.blank?
-
-    @_user_ban ||= BansQuery.new(community.bans).with_user(user).take
   end
 
   def communities_moderated_by_user

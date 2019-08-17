@@ -58,18 +58,6 @@
     </div>
   </div>
 
-  <% if @facade.user_ban.present? %>
-    <div class="row bg-white text-danger border rounded mt-3 mb-3 pt-2 pb-2">
-      <div class="col-12">
-        <% if @facade.user_ban.permanent? %>
-          <%= t('banned_permanent') %>
-        <% else %>
-          <%= t('banned_until_html', until: datetime_short_tag(@facade.user_ban.end_at)) %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-
   <% if @facade.rules.present? %>
     <div class="row bg-white border rounded mt-3 mb-3 pb-2">
       <div class="col-12 rounded-top bg-dark text-white pt-2 pb-2">

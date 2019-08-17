@@ -7,35 +7,6 @@ RSpec.describe ApplicationFacade, type: :facade do
   let(:community) { create(:community) }
   let(:context) { Context.new(user, community) }
 
-  describe ".user_ban" do
-    context "for visitor" do
-      it "returns nil" do
-        context = build_visitor_context
-        result = subject.new(context).user_ban
-
-        expect(result).to be_nil
-      end
-    end
-
-    context "for user" do
-      it "returns nil" do
-        context = build_user_context
-        result = subject.new(context).user_ban
-
-        expect(result).to be_nil
-      end
-    end
-
-    context "for banned user" do
-      it "returns ban" do
-        context = build_banned_context
-        result = subject.new(context).user_ban
-
-        expect(result).to_not be_nil
-      end
-    end
-  end
-
   describe ".communities_moderated_by_user" do
     context "visitor" do
       let(:user) { nil }
