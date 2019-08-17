@@ -6,7 +6,7 @@ class CommunitiesController < ApplicationController
   before_action -> { authorize(@community) }
 
   def show
-    @records, @pagination = query.paginate(attributes: ["#{sort}_score", :id], after: params[:after])
+    @records, @pagination = query.paginate(attributes: ["#{sorting}_score", :id], after: params[:after])
     @records = @records.map(&:decorate)
   end
 
@@ -47,8 +47,14 @@ class CommunitiesController < ApplicationController
     params.require(:update_community_form).permit(attributes).merge(community: @community)
   end
 
-  def sort
-    ThingsSorting.new(params[:sort]).key
+  helper_method :sorting
+  def sorting
+    sorting_options.include?(params[:sort]) ? params[:sort] : :hot
+  end
+
+  helper_method :sorting_options
+  def sorting_options
+    [:hot, :new, :top, :controversy]
   end
 
   def date

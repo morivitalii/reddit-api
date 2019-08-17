@@ -5,12 +5,12 @@
 <% content_for(:navigation) do %>
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= ThingsSorting.new(params[:sort]).i18n %>
+      <%= t(sorting) %>
     </a>
 
     <div class="dropdown-menu">
-      <% ThingsSorting.new.list.each do |k, v| %>
-        <%= link_to(v, community_path(@community, sort: k), class: 'dropdown-item') %>
+      <% sorting_options.each do |sorting| %>
+        <%= link_to(t(sorting), community_path(@community, sort: sorting), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>

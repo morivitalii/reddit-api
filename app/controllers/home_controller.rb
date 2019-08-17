@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   before_action :set_facade
 
   def index
-    @records, @pagination = query.paginate(attributes: ["#{sort}_score", :id], after: params[:after])
+    @records, @pagination = query.paginate(attributes: ["#{sorting}_score", :id], after: params[:after])
     @records = @records.map(&:decorate)
   end
 
@@ -21,8 +21,14 @@ class HomeController < ApplicationController
     PostsQuery.new(query).search_created_after(date).includes(:community, :user)
   end
 
-  def sort
-    ThingsSorting.new(params[:sort]).key
+  helper_method :sorting
+  def sorting
+    sorting_options.include?(params[:sort]) ? params[:sort] : :hot
+  end
+
+  helper_method :sorting_options
+  def sorting_options
+    [:hot, :new, :top, :controversy]
   end
 
   def date
