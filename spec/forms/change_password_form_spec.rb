@@ -4,6 +4,8 @@ RSpec.describe ChangePasswordForm, type: :form do
   subject { described_class }
 
   describe "validations" do
+    subject { build_change_password_form }
+
     it { is_expected.to validate_presence_of(:token) }
     it { is_expected.to validate_presence_of(:password) }
   end
@@ -23,6 +25,6 @@ RSpec.describe ChangePasswordForm, type: :form do
   end
 
   def build_change_password_form
-    described_class.new(token: double, password: double)
+    described_class.new(token: "token", password: "password")
   end
 end
