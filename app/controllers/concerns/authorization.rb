@@ -4,10 +4,18 @@ module Authorization
   extend ActiveSupport::Concern
 
   included do
-    helper_method :current_user
+    helper_method :current_user, :user_signed_in?, :user_signed_out?
 
     def current_user
       request.env["warden"].user
+    end
+
+    def user_signed_in?
+      current_user.present?
+    end
+
+    def user_signed_out?
+      current_user.blank?
     end
 
     def pundit_user
