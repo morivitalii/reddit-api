@@ -10,6 +10,12 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def context
+    default_community = CommunitiesQuery.new.default.take!
+
+    Context.new(current_user, default_community)
+  end
+
   def set_facade
     @facade = ApplicationFacade.new(context)
   end

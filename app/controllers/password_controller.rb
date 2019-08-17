@@ -21,10 +21,6 @@ class PasswordController < ApplicationController
 
   private
 
-  def context
-    Context.new(current_user, CommunitiesQuery.new.default.take!)
-  end
-
   def link_params
     params.permit(:token)
   end

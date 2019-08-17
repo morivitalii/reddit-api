@@ -6,10 +6,4 @@ class PageNotFoundController < ApplicationController
   def show
     render "show", status: :not_found
   end
-
-  private
-
-  def context
-    Context.new(current_user, CommunitiesQuery.new.default.take!)
-  end
 end

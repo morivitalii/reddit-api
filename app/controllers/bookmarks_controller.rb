@@ -37,10 +37,6 @@ class BookmarksController < ApplicationController
 
   private
 
-  def context
-    Context.new(current_user, CommunitiesQuery.new.default.take!)
-  end
-
   def posts_query
     BookmarksQuery.new(@user.bookmarks).posts_bookmarks.includes(bookmarkable: [:user, :community])
   end

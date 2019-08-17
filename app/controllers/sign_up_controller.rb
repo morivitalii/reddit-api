@@ -27,10 +27,6 @@ class SignUpController < ApplicationController
 
   private
 
-  def context
-    Context.new(current_user, CommunitiesQuery.new.default.take!)
-  end
-
   def create_params
     attributes = policy(:sign_up).permitted_attributes_for_create
 

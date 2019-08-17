@@ -29,10 +29,4 @@ class SignInController < ApplicationController
 
     render json: @form.errors, status: :unprocessable_entity
   end
-
-  private
-
-  def context
-    Context.new(current_user, CommunitiesQuery.new.default.take!)
-  end
 end

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class Context
-  attr_reader :user, :community
+  attr_accessor :user, :community
 
-  def initialize(user, community = nil)
+  def initialize(user, community)
     @user = user
     @community = community
   end

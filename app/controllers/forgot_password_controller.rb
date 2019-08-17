@@ -25,10 +25,6 @@ class ForgotPasswordController < ApplicationController
 
   private
 
-  def context
-    Context.new(current_user, CommunitiesQuery.new.default.take!)
-  end
-
   def create_params
     attributes = policy(:forgot_password).permitted_attributes_for_create
 
