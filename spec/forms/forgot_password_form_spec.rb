@@ -6,6 +6,8 @@ RSpec.describe ForgotPasswordForm, type: :form do
   subject { described_class }
 
   describe "validations" do
+    subject { build_forgot_password_form }
+
     it { is_expected.to validate_presence_of(:email) }
   end
 
@@ -14,8 +16,6 @@ RSpec.describe ForgotPasswordForm, type: :form do
       @user = instance_double(User, email: "user@email.com", forgot_password_token: "token")
       @form = subject.new(email: @user.email)
     end
-
-    it { expect(@form).to be_valid }
 
     it "does not send email if user with given email does not exist" do
       allow(@form).to receive(:user).and_return(nil)
@@ -32,5 +32,9 @@ RSpec.describe ForgotPasswordForm, type: :form do
         @form.save
       end
     end
+  end
+
+  def build_forgot_password_form
+    described_class.new(email: "email@email.com")
   end
 end
