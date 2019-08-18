@@ -3,13 +3,9 @@ require "rails_helper"
 RSpec.describe ApplicationFacade, type: :facade do
   subject { described_class }
 
-  let(:user) { create(:user) }
-  let(:community) { create(:community) }
-  let(:context) { Context.new(user, community) }
-
   describe ".communities_moderated_by_user" do
-    context "visitor" do
-      let(:user) { nil }
+    context "for visitor" do
+      include_context "visitor context"
 
       it "returns blank array" do
         result = subject.new(context).communities_moderated_by_user
@@ -18,22 +14,23 @@ RSpec.describe ApplicationFacade, type: :facade do
       end
     end
 
-    context "user" do
-      let!(:expected) { create(:community) }
-      let!(:others) { create_pair(:community) }
-      let!(:moderator) { create(:moderator, community: expected, user: user) }
+    context "for user" do
+      include_context "user context"
 
       it "returns communities where user is moderator" do
+        communities = create_pair(:community_with_user_moderator, user: context.user)
+        create_pair(:community)
+
         result = subject.new(context).communities_moderated_by_user
 
-        expect(result).to match_array(expected)
+        expect(result).to match_array(communities)
       end
     end
   end
 
   describe ".communities_followed_by_user" do
-    context "visitor" do
-      let!(:user) { nil }
+    context "for visitor" do
+      include_context "visitor context"
 
       it "returns blank array" do
         result = subject.new(context).communities_followed_by_user
@@ -42,38 +39,43 @@ RSpec.describe ApplicationFacade, type: :facade do
       end
     end
 
-    context "user" do
-      let!(:expected) { create(:community) }
-      let!(:others) { create_pair(:community) }
-      let!(:follow) { create(:follow, community: expected, user: user) }
+    context "for user" do
+      include_context "user context"
 
       it "returns communities where user is follower" do
+        communities = create_pair(:community_with_user_follower, user: context.user)
+        create_pair(:community)
+
         result = subject.new(context).communities_followed_by_user
 
-        expect(result).to match_array(expected)
+        expect(result).to match_array(communities)
       end
     end
   end
 
   describe ".rules" do
-    let!(:expected) { create_pair(:rule, community: community) }
-    let!(:others) { create_pair(:rule) }
+    include_context "default context"
 
-    it "returns rules" do
+    it "returns rules ordered by asc" do
+      rules = create_pair(:rule, community: context.community)
+      create_pair(:rule)
+
       result = subject.new(context).rules
 
-      expect(result).to match_array(expected)
+      expect(result).to eq(rules)
     end
   end
 
   describe ".recent_moderators" do
-    let!(:expected) { create_pair(:moderator, community: community) }
-    let!(:others) { create_pair(:moderator) }
+    include_context "default context"
 
-    it "returns moderators" do
+    it "returns limited moderators ordered by asc" do
+      moderators = create_pair(:moderator, community: context.community)
+      create_pair(:moderator)
+
       result = subject.new(context).recent_moderators
 
-      expect(result).to match_array(expected)
+      expect(result).to eq(moderators)
     end
   end
 end

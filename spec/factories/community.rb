@@ -33,5 +33,35 @@ FactoryBot.define do
         create_list(:follow, evaluator.followers_count, community: community, user: evaluator.follower_user)
       end
     end
+
+    factory :community_with_user_moderator do
+      transient do
+        user { create(:user) }
+      end
+
+      after(:create) do |community, evaluator|
+        create(:moderator, community: community, user: evaluator.user)
+      end
+    end
+
+    factory :community_with_user_follower do
+      transient do
+        user { create(:user) }
+      end
+
+      after(:create) do |community, evaluator|
+        create(:follow, community: community, user: evaluator.user)
+      end
+    end
+
+    factory :community_with_banned_user do
+      transient do
+        user { create(:user) }
+      end
+
+      after(:create) do |community, evaluator|
+        create(:ban, community: community, user: evaluator.user)
+      end
+    end
   end
 end

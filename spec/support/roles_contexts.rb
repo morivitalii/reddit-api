@@ -1,3 +1,9 @@
+RSpec.shared_context "default context" do
+  let(:context) do
+    build_default_context
+  end
+end
+
 RSpec.shared_context "visitor context" do
   let(:context) do
     build_visitor_context
