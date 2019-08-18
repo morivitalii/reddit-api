@@ -62,7 +62,7 @@ RSpec.describe CreateReportForm, type: :form do
   def build_create_report_form(reportable)
     user = create(:user)
 
-    subject.new(
+    described_class.new(
       reportable: reportable,
       user: user,
       text: "Report"

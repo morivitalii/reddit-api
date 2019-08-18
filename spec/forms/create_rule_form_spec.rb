@@ -14,7 +14,7 @@ RSpec.describe CreateRuleForm, type: :form do
   def build_create_rule_form
     community = create(:community)
 
-    subject.new(
+    described_class.new(
       community: community,
       title: "Title",
       description: "Description"

@@ -22,7 +22,7 @@ class ForgotPasswordForm
     email = user.email
     token = user.forgot_password_token
 
-    ForgotPasswordMailer.with(email: email, token: token).forgot_password.deliver_now
+    ForgotPasswordMailer.with(email: email, token: token).forgot_password.deliver_later
   end
 
   def user

@@ -15,7 +15,7 @@ RSpec.describe CreateModeratorForm, type: :form do
     community = create(:community)
     user = create(:user)
 
-    subject.new(
+    described_class.new(
       community: community,
       username: user.username
     )

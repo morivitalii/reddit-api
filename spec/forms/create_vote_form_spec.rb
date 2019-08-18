@@ -46,7 +46,7 @@ RSpec.describe CreateVoteForm, type: :form do
   def build_create_vote_form(votalbe)
     user = create(:user)
 
-    subject.new(
+    described_class.new(
       votable: votalbe,
       user: user,
       type: :up

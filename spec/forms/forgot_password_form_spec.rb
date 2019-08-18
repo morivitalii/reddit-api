@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe ForgotPasswordForm, type: :form do
-  include ActionMailer::TestHelper
-
   subject { described_class }
 
   describe "validations" do
@@ -12,24 +10,22 @@ RSpec.describe ForgotPasswordForm, type: :form do
   end
 
   describe ".save" do
-    before do
-      @user = instance_double(User, email: "user@email.com", forgot_password_token: "token")
-      @form = subject.new(email: @user.email)
-    end
+    context "when user with given email does not exist" do
+      it "does not send email" do
+        form = build_forgot_password_form
+        form.save
 
-    it "does not send email if user with given email does not exist" do
-      allow(@form).to receive(:user).and_return(nil)
-
-      assert_no_emails do
-        @form.save
+        expect { form.save }.to_not have_enqueued_job
       end
     end
 
-    it "sends forgot password email if user with given email exists" do
-      allow(@form).to receive(:user).and_return(@user)
+    context "when user with given email exists" do
+      it "sends forgot password email" do
+        user = create(:user)
+        form = build_forgot_password_form
+        form.email = user.email
 
-      assert_emails(1) do
-        @form.save
+        expect { form.save }.to have_enqueued_job
       end
     end
   end
