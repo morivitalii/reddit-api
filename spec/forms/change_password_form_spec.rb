@@ -11,20 +11,24 @@ RSpec.describe ChangePasswordForm, type: :form do
   end
 
   describe ".save" do
-    it "updates user password and forgot password token" do
-      user = instance_double(User)
+    it "updates user password" do
       form = build_change_password_form
 
-      allow(form).to receive(:user).and_return(user)
+      expect { form.save }.to change { form.user.password_digest }
+    end
 
-      expect(user).to receive(:update!).with(password: anything)
-      expect(user).to receive(:regenerate_forgot_password_token)
+    it "updates user forgot password token" do
+      form = build_change_password_form
 
-      form.save
+      expect { form.save }.to change { form.user.forgot_password_token }
     end
   end
 
   def build_change_password_form
-    described_class.new(token: "token", password: "password")
+    user = create(:user)
+    form = described_class.new(token: "token", password: "password")
+    allow(form).to receive(:user).and_return(user)
+
+    form
   end
 end
