@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   resources :communities, only: [:show, :edit, :update] do
     resources :posts, only: [:new, :create]
     resource :follows, only: [:create, :destroy]
-    resources :moderators, except: [:show, :edit, :update]
+    resources :moderators, only: [:index, :new, :create, :destroy]
     resources :rules, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :bans, only: [:index, :new, :create, :edit, :update, :destroy]
 
