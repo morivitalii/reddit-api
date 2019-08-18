@@ -6,12 +6,6 @@ class CreateModeratorForm
   attr_accessor :community, :username
   attr_reader :moderator
 
-  validates :username,
-            username_format: true,
-            username_existence: true,
-            user_not_banned: true,
-            user_not_moderator: true
-
   def save
     return false if invalid?
 
