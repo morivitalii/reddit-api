@@ -14,6 +14,17 @@ RSpec.describe CommentsQuery do
     end
   end
 
+  describe ".not_removed" do
+    it "returns not removed comments" do
+      not_removed_comments = create_pair(:comment)
+      create_pair(:removed_comment)
+
+      result = subject.new.not_removed
+
+      expect(result).to match_array(not_removed_comments)
+    end
+  end
+
   describe ".reported" do
     it "returns comments that have reports" do
       comments_with_reports = create_pair(:comment_with_reports, reports_count: 1)

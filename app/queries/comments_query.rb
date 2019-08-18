@@ -5,6 +5,10 @@ class CommentsQuery < ApplicationQuery
     relation.where(removed_at: nil, approved_at: nil)
   end
 
+  def not_removed
+    relation.where(removed_at: nil)
+  end
+
   def reported
     relation.joins(:reports)
   end

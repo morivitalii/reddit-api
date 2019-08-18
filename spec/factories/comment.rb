@@ -14,6 +14,11 @@ FactoryBot.define do
       approved_at { nil }
       removed_at { nil }
     end
+
+    trait :removed do
+      removed_at { Time.current }
+      association :removed_by, factory: :user
+    end
     
     factory :comment_with_reports do
       transient do
@@ -27,5 +32,6 @@ FactoryBot.define do
 
     factory :not_moderated_comment, traits: [:not_moderated]
     factory :moderated_comment, traits: [:moderated]
+    factory :removed_comment, traits: [:removed]
   end
 end
