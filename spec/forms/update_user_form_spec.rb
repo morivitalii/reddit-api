@@ -3,36 +3,54 @@ require "rails_helper"
 RSpec.describe UpdateUserForm, type: :form do
   subject { described_class }
 
+  describe "validations" do
+    context "when current password does not match" do
+      it "is invalid" do
+        form = build_update_user_form
+        form.password_current = "wrong_password"
+
+        expect(form).to_not be_valid
+      end
+
+      it "has error :invalid_password_current on :password_current attribute" do
+        form = build_update_user_form
+        form.password_current = "wrong_password"
+
+        form.validate
+
+        expect(form).to have_error(:invalid_current_password).on(:password_current)
+      end
+    end
+
+    context "when current password matches" do
+      it "is valid" do
+        form = build_update_user_form
+
+        expect(form).to be_valid
+      end
+    end
+  end
+
   describe ".save" do
-    context "invalid" do
-      before do
-        @form = subject.new
-      end
+    it "updates user" do
+      form = build_update_user_form
 
-      it "if current_password does not match user password" do
-        allow(@form).to receive(:current_password_match?).and_return(false)
+      form.save
 
-        @form.validate
-
-        expect(@form).to have_error(:invalid_current_password).on(:password_current)
-      end
+      user = form.user
+      expect(user.email).to eq(form.email)
+      expect(user.password).to eq(form.password)
     end
+  end
 
-    context "valid" do
-      before do
-        @user = instance_double(User)
-        @form = subject.new(user: @user, email: double, password: double, password_current: double)
+  def build_update_user_form
+    user = create(:user)
 
-        allow(@form).to receive(:current_password_match?).and_return(true)
-      end
-
-      it { expect(@form).to be_valid }
-
-      it "updates user" do
-        expect(@user).to receive(:update!).with(email: anything, password: anything)
-
-        @form.save
-      end
-    end
+    described_class.new(
+      user: user,
+      email: "email@email.com",
+      password: "new_password",
+      password_current: user.password
+    )
   end
 end

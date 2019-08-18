@@ -10,7 +10,7 @@ class UpdateUserForm
   def save
     return false if invalid?
 
-    @user.update!(email: email, password: password)
+    user.update!(email: email, password: password)
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
