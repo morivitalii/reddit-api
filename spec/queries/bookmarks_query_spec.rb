@@ -10,7 +10,7 @@ RSpec.describe BookmarksQuery do
 
       result = subject.new.posts_bookmarks
 
-      expect(result).to contain_exactly(*posts_bookmarks)
+      expect(result).to match_array(posts_bookmarks)
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe BookmarksQuery do
 
       result = subject.new.comments_bookmarks
 
-      expect(result).to contain_exactly(*comments_bookmark)
+      expect(result).to match_array(comments_bookmark)
     end
   end
 end

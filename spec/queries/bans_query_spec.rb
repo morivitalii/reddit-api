@@ -11,7 +11,7 @@ RSpec.describe BansQuery do
 
       result = subject.new.with_username(user.username)
 
-      expect(result).to contain_exactly(*user_bans)
+      expect(result).to match_array(user_bans)
     end
   end
 
@@ -42,7 +42,7 @@ RSpec.describe BansQuery do
 
       result = subject.new.stale
 
-      expect(result).to contain_exactly(*stale_bans)
+      expect(result).to match_array(stale_bans)
     end
   end
 end

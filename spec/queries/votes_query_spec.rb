@@ -10,7 +10,7 @@ RSpec.describe VotesQuery do
 
       result = subject.new.posts_votes
 
-      expect(result).to contain_exactly(*posts_votes)
+      expect(result).to match_array(posts_votes)
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe VotesQuery do
 
       result = subject.new.comments_votes
 
-      expect(result).to contain_exactly(*comments_votes)
+      expect(result).to match_array(comments_votes)
     end
   end
 
@@ -40,7 +40,7 @@ RSpec.describe VotesQuery do
 
       result = subject.new.search_by_vote_type(:up)
 
-      expect(result).to contain_exactly(*up_votes)
+      expect(result).to match_array(up_votes)
     end
   end
 end

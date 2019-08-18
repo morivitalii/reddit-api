@@ -11,7 +11,7 @@ RSpec.describe ModeratorsQuery do
 
       result = subject.new.with_username(user.username)
 
-      expect(result).to contain_exactly(*moderators)
+      expect(result).to match_array(moderators)
     end
   end
 

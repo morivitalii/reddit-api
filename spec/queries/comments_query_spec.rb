@@ -10,7 +10,7 @@ RSpec.describe CommentsQuery do
 
       result = subject.new.not_moderated
 
-      expect(result).to contain_exactly(*not_moderated_comments)
+      expect(result).to match_array(not_moderated_comments)
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe CommentsQuery do
 
       result = subject.new.reported
 
-      expect(result).to contain_exactly(*comments_with_reports)
+      expect(result).to match_array(comments_with_reports)
     end
   end
 
@@ -36,7 +36,7 @@ RSpec.describe CommentsQuery do
 
       result = subject.new.created_after(datetime)
 
-      expect(result).to contain_exactly(*comments_created_after)
+      expect(result).to match_array(comments_created_after)
     end
   end
 

@@ -10,7 +10,7 @@ RSpec.describe PostsQuery do
 
       result = subject.new.not_moderated
 
-      expect(result).to contain_exactly(*not_moderated)
+      expect(result).to match_array(not_moderated)
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe PostsQuery do
       
       result = subject.new.not_removed
 
-      expect(result).to contain_exactly(*not_removed_posts)
+      expect(result).to match_array(not_removed_posts)
     end
   end
 
@@ -32,7 +32,7 @@ RSpec.describe PostsQuery do
       
       result = subject.new.reported
 
-      expect(result).to contain_exactly(*posts_with_reports)
+      expect(result).to match_array(posts_with_reports)
     end
   end
 
@@ -47,7 +47,7 @@ RSpec.describe PostsQuery do
 
       result = subject.new.created_after(datetime)
 
-      expect(result).to contain_exactly(*posts_created_after)
+      expect(result).to match_array(posts_created_after)
     end
   end
 

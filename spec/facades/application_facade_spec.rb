@@ -26,7 +26,7 @@ RSpec.describe ApplicationFacade, type: :facade do
       it "returns communities where user is moderator" do
         result = subject.new(context).communities_moderated_by_user
 
-        expect(result).to contain_exactly(*expected)
+        expect(result).to match_array(expected)
       end
     end
   end
@@ -50,7 +50,7 @@ RSpec.describe ApplicationFacade, type: :facade do
       it "returns communities where user is follower" do
         result = subject.new(context).communities_followed_by_user
 
-        expect(result).to contain_exactly(*expected)
+        expect(result).to match_array(expected)
       end
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe ApplicationFacade, type: :facade do
     it "returns rules" do
       result = subject.new(context).rules
 
-      expect(result).to contain_exactly(*expected)
+      expect(result).to match_array(expected)
     end
   end
 
@@ -73,7 +73,7 @@ RSpec.describe ApplicationFacade, type: :facade do
     it "returns moderators" do
       result = subject.new(context).recent_moderators
 
-      expect(result).to contain_exactly(*expected)
+      expect(result).to match_array(expected)
     end
   end
 end

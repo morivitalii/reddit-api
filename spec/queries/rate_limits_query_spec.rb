@@ -10,7 +10,7 @@ RSpec.describe RateLimitsQuery do
 
       result = subject.new.daily
 
-      expect(result).to contain_exactly(*daily_rate_limits)
+      expect(result).to match_array(daily_rate_limits)
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe RateLimitsQuery do
 
       result = subject.new.stale
 
-      expect(result).to contain_exactly(*stale_rate_limits)
+      expect(result).to match_array(stale_rate_limits)
     end
   end
 end

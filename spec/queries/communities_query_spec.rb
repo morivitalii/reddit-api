@@ -33,7 +33,7 @@ RSpec.describe CommunitiesQuery do
 
       result = subject.new.with_user_moderator(user)
 
-      expect(result).to contain_exactly(*communities_with_user_moderator)
+      expect(result).to match_array(communities_with_user_moderator)
     end
   end
 
@@ -45,7 +45,7 @@ RSpec.describe CommunitiesQuery do
 
       result = subject.new.with_user_follower(user)
 
-      expect(result).to contain_exactly(*communities_with_user_follower)
+      expect(result).to match_array(communities_with_user_follower)
     end
   end
 end
