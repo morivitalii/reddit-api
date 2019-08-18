@@ -7,10 +7,6 @@ class CreateModeratorForm
   attr_reader :moderator
 
   def save
-    return false if invalid?
-
-    user = UsersQuery.new.with_username(username).take!
-
     @moderator = Moderator.create!(
       community: community,
       user: user
@@ -19,5 +15,11 @@ class CreateModeratorForm
     errors.merge!(invalid.record.errors)
 
     return false
+  end
+
+  private
+
+  def user
+    @_user = UsersQuery.new.with_username(username).take
   end
 end
