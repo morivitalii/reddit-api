@@ -17,8 +17,8 @@ Rails.application.routes.draw do
     resources :posts, only: [:new, :create]
     resource :follows, only: [:create, :destroy]
     resources :moderators, except: [:show, :edit, :update]
-    resources :rules, except: [:show]
-    resources :bans, except: [:show]
+    resources :rules, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :bans, only: [:index, :new, :create, :edit, :update, :destroy]
 
     resources :mod_queues, only: [] do
       get :posts, action: :posts, on: :collection
