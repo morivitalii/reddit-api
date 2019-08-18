@@ -6,18 +6,14 @@ class CreateReportForm
   attr_accessor :reportable, :user, :text
 
   def save
-    return true if skip?
+    return true if reportable.ignore_reports?
 
-    Report.create_with(community: reportable.community, text: text).find_or_create_by!(reportable: reportable, user: user)
+    attributes = { community: reportable.community, text: text }
+
+    Report.create_with(attributes).find_or_create_by!(reportable: reportable, user: user)
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
     return false
-  end
-
-  private
-
-  def skip?
-    reportable.ignore_reports?
   end
 end
