@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "routes for moderatorsController", type: :routing do
+RSpec.describe "routes for ModeratorsController", type: :routing do
   it "routes GET /communities/all/moderators to moderators#index" do
     expect(get("/communities/all/moderators")).to route_to(controller: "moderators", action: "index", community_id: "all")
   end
