@@ -3,29 +3,53 @@ require "rails_helper"
 RSpec.describe CreateVoteForm, type: :form do
   subject { described_class }
 
+  shared_examples "vote already exists" do
+    context "and when vote already exists" do
+      it "deletes it" do
+        form = build_create_vote_form(votable)
+        previous_vote = instance_double(Vote, destroy!: nil)
+        allow(form).to receive(:previous_vote).and_return(previous_vote)
+
+        form.save
+
+        expect(previous_vote).to have_received(:destroy!)
+      end
+    end
+  end
+
+  shared_examples "vote creation" do
+    context "and when vote does not exists" do
+      it "creates vote" do
+        form = build_create_vote_form(votable)
+
+        expect { form.save }.to change { Vote.count }.by(1)
+      end
+    end
+  end
+
   describe ".save" do
-    let(:user) { create(:user) }
-    let(:votable) { create(:comment) }
-    let(:vote_type) { "up" }
-    let!(:vote) { create(:down_vote, votable: votable, user: user) }
+    context "when votable is post" do
+      let(:votable) { create(:comment) }
 
-    before do
-      @form = subject.new(
-        votable: votable,
-        user: user,
-        type: vote_type
-      )
+      include_examples "vote already exists"
+      include_examples "vote creation"
     end
 
-    it "creates new vote" do
-      @form.save
+    context "when votable is comment" do
+      let(:votable) { create(:post) }
 
-      expected_attributes = { votable: votable, user: user, vote_type: vote_type}
-      result = @form.vote
-
-      expect(result).to have_attributes(expected_attributes)
+      include_examples "vote already exists"
+      include_examples "vote creation"
     end
+  end
 
-    # TODO Destroy previous vote if exists
+  def build_create_vote_form(votalbe)
+    user = create(:user)
+
+    subject.new(
+      votable: votalbe,
+      user: user,
+      type: :up
+    )
   end
 end
