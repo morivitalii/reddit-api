@@ -43,7 +43,7 @@ class PostPolicy < ApplicationPolicy
     moderator?
   end
 
-  def deletion_reason?
+  def removed_reason?
     moderator?
   end
 
@@ -62,7 +62,7 @@ class PostPolicy < ApplicationPolicy
 
   def permitted_attributes_for_destroy
     attributes = []
-    attributes.push(:reason) if deletion_reason?
+    attributes.push(:reason) if removed_reason?
     attributes
   end
 

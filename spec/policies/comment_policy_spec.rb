@@ -16,7 +16,7 @@ RSpec.describe CommentPolicy, type: :policy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :ignore_reports?, :deletion_reason? do
+    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :ignore_reports?, :removed_reason? do
       it { is_expected.to_not permit(context, comment) }
     end
   end
@@ -32,7 +32,7 @@ RSpec.describe CommentPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :ignore_reports?, :deletion_reason? do
+    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :ignore_reports?, :removed_reason? do
       it { is_expected.to_not permit(context, comment) }
     end
   end
@@ -54,7 +54,7 @@ RSpec.describe CommentPolicy, type: :policy do
       it { is_expected.to permit(context, comment) }
     end
 
-    permissions :approve?, :ignore_reports?, :deletion_reason? do
+    permissions :approve?, :ignore_reports?, :removed_reason? do
       it { is_expected.to_not permit(context, comment) }
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe CommentPolicy, type: :policy do
   context "for moderator" do
     include_context "moderator context"
 
-    permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :ignore_reports?, :deletion_reason? do
+    permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :ignore_reports?, :removed_reason? do
       it { is_expected.to permit(context, comment) }
     end
 

@@ -116,9 +116,9 @@ CREATE TABLE public.comments (
     edited_at timestamp without time zone,
     approved_by_id bigint,
     approved_at timestamp without time zone,
-    deleted_by_id bigint,
-    deleted_at timestamp without time zone,
-    deletion_reason character varying,
+    removed_by_id bigint,
+    removed_at timestamp without time zone,
+    removed_reason character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     comment_id bigint,
@@ -271,9 +271,9 @@ CREATE TABLE public.posts (
     edited_at timestamp without time zone,
     approved_by_id bigint,
     approved_at timestamp without time zone,
-    deleted_by_id bigint,
-    deleted_at timestamp without time zone,
-    deletion_reason character varying,
+    removed_by_id bigint,
+    removed_at timestamp without time zone,
+    removed_reason character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -813,13 +813,6 @@ CREATE INDEX index_comments_on_created_at ON public.comments USING btree (create
 
 
 --
--- Name: index_comments_on_deleted_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_comments_on_deleted_by_id ON public.comments USING btree (deleted_by_id);
-
-
---
 -- Name: index_comments_on_edited_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -845,6 +838,13 @@ CREATE INDEX index_comments_on_new_score ON public.comments USING btree (new_sco
 --
 
 CREATE INDEX index_comments_on_post_id ON public.comments USING btree (post_id);
+
+
+--
+-- Name: index_comments_on_removed_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_removed_by_id ON public.comments USING btree (removed_by_id);
 
 
 --
@@ -946,13 +946,6 @@ CREATE INDEX index_posts_on_created_at ON public.posts USING btree (created_at);
 
 
 --
--- Name: index_posts_on_deleted_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_posts_on_deleted_by_id ON public.posts USING btree (deleted_by_id);
-
-
---
 -- Name: index_posts_on_edited_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -971,6 +964,13 @@ CREATE INDEX index_posts_on_hot_score ON public.posts USING btree (hot_score);
 --
 
 CREATE INDEX index_posts_on_new_score ON public.posts USING btree (new_score);
+
+
+--
+-- Name: index_posts_on_removed_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_removed_by_id ON public.posts USING btree (removed_by_id);
 
 
 --
@@ -1176,7 +1176,7 @@ ALTER TABLE ONLY public.follows
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT fk_rails_3f25c5a043 FOREIGN KEY (deleted_by_id) REFERENCES public.users(id);
+    ADD CONSTRAINT fk_rails_3f25c5a043 FOREIGN KEY (removed_by_id) REFERENCES public.users(id);
 
 
 --
@@ -1192,7 +1192,7 @@ ALTER TABLE ONLY public.rate_limits
 --
 
 ALTER TABLE ONLY public.posts
-    ADD CONSTRAINT fk_rails_5736a68073 FOREIGN KEY (deleted_by_id) REFERENCES public.users(id);
+    ADD CONSTRAINT fk_rails_5736a68073 FOREIGN KEY (removed_by_id) REFERENCES public.users(id);
 
 
 --
@@ -1382,6 +1382,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814141100'),
 ('20190814142320'),
 ('20190814142325'),
-('20190814143945');
+('20190814143945'),
+('20190818113049'),
+('20190818113247');
 
 

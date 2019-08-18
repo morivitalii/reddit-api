@@ -113,7 +113,7 @@ ru:
   not_xhr_request: Эта страница недоступна по прямому запросу
   approved_details: 'Одобренно %{username} %{approved_at}'
   deletion_confirmation: 'Подтвердить удаление?'
-  deletion_details: 'Удалено %{username} %{deleted_at}. Причина: "%{reason}"'
+  deletion_details: 'Удалено %{username} %{removed_at}. Причина: "%{reason}"'
   bookmark: Сохранить
   delete_bookmark: Убрать из сохраненного
   explicit: 18+
@@ -123,8 +123,8 @@ ru:
   in: в
   to_branch: 'Перейти в ветку (%{comments})'
   load_more: 'Загрузить больше (%{comments})'
-  deleted: Удалено
-  deleted_html: 'Удалено %{username} %{deleted_at} по причине "%{reason}"'
+  removed: Удалено
+  removed_html: 'Удалено %{username} %{removed_at} по причине "%{reason}"'
   edited_html: '(отредактировано %{edited_at})'
   comment_page_html: 'Это ветка одного комментария. <a href="%{url}">Посмотреть все комментарии</a>'
   for_posts: за посты

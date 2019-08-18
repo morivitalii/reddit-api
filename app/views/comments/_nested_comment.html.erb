@@ -1,8 +1,8 @@
 <% if item[:thing].removed? %>
   <div class="thing comment col-12 mt-2 pr-0">
     <div class="row pr-3">
-      <div class="content deletedComment col-12">
-        <%= t("deleted_html", username: link_to(item[:thing].deleted_by.username, posts_user_path(item[:thing].deleted_by)), deleted_at: datetime_ago_tag(item[:thing].deleted_at), reason: item[:thing].deletion_reason) %>
+      <div class="content removedComment col-12">
+        <%= t("removed_html", username: link_to(item[:thing].removed_by.username, posts_user_path(item[:thing].removed_by)), removed_at: datetime_ago_tag(item[:thing].removed_at), reason: item[:thing].removed_reason) %>
       </div>
     </div>
 

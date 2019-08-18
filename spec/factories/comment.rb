@@ -7,12 +7,12 @@ FactoryBot.define do
 
     trait :moderated do
       approved_at { Time.current }
-      deleted_at { Time.current }
+      removed_at { Time.current }
     end
 
     trait :not_moderated do
       approved_at { nil }
-      deleted_at { nil }
+      removed_at { nil }
     end
     
     factory :comment_with_reports do

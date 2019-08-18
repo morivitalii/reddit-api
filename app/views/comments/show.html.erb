@@ -6,7 +6,7 @@
   <div class="thing row mt-2">
     <% if @comment.removed? %>
       <div class="content col-12 mt-2">
-        <%= t("deleted_html", username: link_to(@comment.deleted_by.username, posts_user_path(@comment.deleted_by)), deleted_at: datetime_ago_tag(@comment.deleted_at), reason: @comment.deletion_reason) %>
+        <%= t("removed_html", username: link_to(@comment.removed_by.username, posts_user_path(@comment.removed_by)), removed_at: datetime_ago_tag(@comment.removed_at), reason: @comment.removed_reason) %>
       </div>
     <% else %>
       <div class="info col-12">

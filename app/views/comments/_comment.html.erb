@@ -33,7 +33,7 @@
     <% if thing.comment? && thing.association(:comment).loaded? && thing.comment.present? && thing.comment.comment? %>
       <div class="context col-12 mt-2">
         <% if thing.comment.removed? %>
-          <%= t("deleted_html", username: link_to(thing.comment.deleted_by.username, posts_user_path(thing.comment.deleted_by)), deleted_at: datetime_ago_tag(thing.comment.deleted_at), reason: thing.comment.deletion_reason) %>
+          <%= t("removed_html", username: link_to(thing.comment.removed_by.username, posts_user_path(thing.comment.removed_by)), removed_at: datetime_ago_tag(thing.comment.removed_at), reason: thing.comment.removed_reason) %>
         <% else %>
           <%= thing.comment.text_html.html_safe %>
         <% end %>
@@ -94,9 +94,9 @@
           <% if thing.removed? %>
             <% title = t(
                 "deletion_details",
-                username: thing.deleted_by.username,
-                deleted_at: l(thing.deleted_at),
-                reason: thing.deletion_reason.present? ? thing.deletion_reason : t("deletion_reason_not_specified")
+                username: thing.removed_by.username,
+                removed_at: l(thing.removed_at),
+                reason: thing.removed_reason.present? ? thing.removed_reason : t("removed_reason_not_specified")
             ) %>
           <% else %>
             <% title = t("delete") %>
@@ -109,15 +109,15 @@
           <% if thing.removed? %>
             <% title = t(
                 "deletion_details",
-                username: thing.deleted_by.username,
-                deleted_at: l(thing.deleted_at),
-                reason: thing.deletion_reason.present? ? thing.deletion_reason : t("deletion_reason_not_specified")
+                username: thing.removed_by.username,
+                removed_at: l(thing.removed_at),
+                reason: thing.removed_reason.present? ? thing.removed_reason : t("removed_reason_not_specified")
             ) %>
           <% else %>
             <% title = t("delete") %>
           <% end %>
 
-          <%= link_to(fa_icon("trash"), remove_comment_path(thing), remote: true, class: "delete #{ "text-danger" if thing.deleted? }", data: { toggle: :tooltip }, title: title) %>
+          <%= link_to(fa_icon("trash"), remove_comment_path(thing), remote: true, class: "delete #{ "text-danger" if thing.removed? }", data: { toggle: :tooltip }, title: title) %>
         <% end %>
       <% end %>
 

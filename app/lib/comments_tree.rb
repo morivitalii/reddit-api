@@ -22,7 +22,7 @@ class CommentsTree
     @branch = @branch.with_indifferent_access.values
 
     # TODO: оптимизировать
-    @branch.reject! { |i| i[:deleted] && have_only_deleted_nested?(i[:id]) }
+    @branch.reject! { |i| i[:removed] && have_only_removed_nested?(i[:id]) }
     @branch = sort(@branch)
 
     if @thing.post?
@@ -31,7 +31,7 @@ class CommentsTree
       @branch = { id: @thing.post_id, nested: [collect_nested({ id: @thing.id }, 0)] }
     end
 
-    query = Thing.where(id: collect_ids(@branch)).includes(:community, :user, :deleted_by)
+    query = Thing.where(id: collect_ids(@branch)).includes(:community, :user, :removed_by)
 
     @things = query.all
 
@@ -47,9 +47,9 @@ class CommentsTree
 
   private
 
-  def have_only_deleted_nested?(id)
+  def have_only_removed_nested?(id)
     nested = @branch.find_all { |i| id == i[:thing_id] }
-    nested.present? ? nested.map { |i| i[:deleted] && have_only_deleted_nested?(i[:id]) }.uniq == [true] : true
+    nested.present? ? nested.map { |i| i[:removed] && have_only_removed_nested?(i[:id]) }.uniq == [true] : true
   end
 
   def sort(branch)

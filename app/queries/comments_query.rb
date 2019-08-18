@@ -2,7 +2,7 @@
 
 class CommentsQuery < ApplicationQuery
   def not_moderated
-    relation.where(deleted_at: nil, approved_at: nil)
+    relation.where(removed_at: nil, approved_at: nil)
   end
 
   def reported

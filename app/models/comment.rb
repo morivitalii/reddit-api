@@ -34,7 +34,7 @@ class Comment < ApplicationRecord
       id: id,
       # TODO fix it
       # thing_id: reply_to.id,
-      deleted: removed?,
+      removed: removed?,
       new_score: new_score,
       hot_score: hot_score,
       best_score: best_score,

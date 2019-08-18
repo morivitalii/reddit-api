@@ -112,7 +112,7 @@ class Post < ApplicationRecord
   def set_media_processing_attributes_on_media_cache
     return unless media.present? || (media_data_changed? && media_attacher.cached?)
 
-    assign_attributes(deleted_by: user, deleted_at: Time.current)
+    assign_attributes(removed_by: user, removed_at: Time.current)
   end
 
   def reset_deletion_attributes_on_media_store

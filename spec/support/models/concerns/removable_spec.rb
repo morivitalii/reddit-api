@@ -1,9 +1,9 @@
 require "rails_helper"
 
 RSpec.shared_examples_for "removable" do
-  it_behaves_like "strip attributes", :deletion_reason, squish: true
+  it_behaves_like "strip attributes", :removed_reason, squish: true
 
-  let(:deleted_by) { build(:user) }
+  let(:removed_by) { build(:user) }
   let(:reason) { "Reason" }
 
   before do
@@ -21,31 +21,31 @@ RSpec.shared_examples_for "removable" do
 
   describe ".remove!" do
     it "call .remove on self" do
-      expect(@model).to receive(:remove).with(deleted_by, reason).once
+      expect(@model).to receive(:remove).with(removed_by, reason).once
 
-      @model.remove!(deleted_by, reason)
+      @model.remove!(removed_by, reason)
     end
 
     it "call .save! on self" do
       expect(@model).to receive(:save!).once
 
-      @model.remove!(deleted_by, reason)
+      @model.remove!(removed_by, reason)
     end
   end
 
   describe ".remove" do
     it "sets remove attributes" do
-      expect { @model.remove(deleted_by, reason) }.to change { [@model.deleted_by, @model.deleted_at, @model.deletion_reason] }
+      expect { @model.remove(removed_by, reason) }.to change { [@model.removed_by, @model.removed_at, @model.removed_reason] }
     end
   end
 
   describe ".undo_remove" do
     it "sets remove attributes values to nil" do
-      @model.deleted_by = deleted_by
-      @model.deleted_at = Time.current
-      @model.deletion_reason = reason
+      @model.removed_by = removed_by
+      @model.removed_at = Time.current
+      @model.removed_reason = reason
 
-      expect { @model.undo_remove }.to change { [@model.deleted_by, @model.deleted_at, @model.deletion_reason] }
+      expect { @model.undo_remove }.to change { [@model.removed_by, @model.removed_at, @model.removed_reason] }
     end
   end
 
@@ -56,7 +56,7 @@ RSpec.shared_examples_for "removable" do
   describe ".removing?" do
     context "not removing" do
       it "returns false" do
-        @model.deleted_at = nil
+        @model.removed_at = nil
 
         result = @model.removing?
 
@@ -66,7 +66,7 @@ RSpec.shared_examples_for "removable" do
 
     context "removing" do
       it "returns true" do
-        @model.deleted_at = Time.current
+        @model.removed_at = Time.current
 
         result = @model.removing?
 
@@ -78,7 +78,7 @@ RSpec.shared_examples_for "removable" do
   describe ".removed?" do
     context "not removed" do
       it "returns false" do
-        @model.deleted_at = nil
+        @model.removed_at = nil
 
         result = @model.removed?
 
@@ -88,7 +88,7 @@ RSpec.shared_examples_for "removable" do
 
     context "removed" do
       it "returns true" do
-        @model.deleted_at = Time.current
+        @model.removed_at = Time.current
 
         result = @model.removed?
 
