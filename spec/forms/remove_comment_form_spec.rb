@@ -4,22 +4,26 @@ RSpec.describe RemoveCommentForm, type: :form do
   subject { described_class }
 
   describe ".save" do
-    let(:user) { instance_double(User) }
-    let(:comment) { instance_double(Comment) }
-    let(:reason) { "Reason" }
+    it "removes comment" do
+      form = build_remove_comment_form
+      form.save
 
-    before do
-      @form = subject.new(
-        comment: comment,
-        user: user,
-        reason: reason
-      )
+      comment = form.comment
+
+      expect(comment.removed_by).to eq(form.user)
+      expect(comment.removed_at).to be_present
+      expect(comment.removed_reason).to eq(form.reason)
     end
+  end
 
-    it "call .remove! on comment with args" do
-      expect(comment).to receive(:remove!).with(user, reason).once
+  def build_remove_comment_form
+    comment = create(:comment)
+    user = create(:user)
 
-      @form.save
-    end
+    described_class.new(
+      comment: comment,
+      user: user,
+      reason: "Reason"
+    )
   end
 end
