@@ -4,18 +4,24 @@ RSpec.describe SignUpForm, type: :form do
   subject { described_class }
 
   describe ".save" do
-    context "valid" do
-      before do
-        @attributes = { username: "username", email: "email@emal.com", password: "password" }
-        @form = subject.new(@attributes)
-      end
+    it "creates user" do
+      form = build_sign_up_form
 
-      it "creates user" do
-        @form.save
+      form.save
 
-        expect(@form.user).to be_persisted
-        expect(@form.user).to have_attributes(@attributes)
-      end
+      user = form.user
+      expect(user).to be_persisted
+      expect(user.username).to eq(form.username)
+      expect(user.password).to eq(form.password)
+      expect(user.email).to eq(form.email)
     end
+  end
+
+  def build_sign_up_form
+    described_class.new(
+      username: "username",
+      password: "password",
+      email: "email@email.com"
+    )
   end
 end
