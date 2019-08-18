@@ -4,23 +4,20 @@ RSpec.describe CreateRuleForm, type: :form do
   subject { described_class }
 
   describe ".save" do
-    let(:community) { create(:community) }
-    let(:title) { "Title" }
-    let(:description) { "Description" }
-
-    before do
-      @form = subject.new(
-        community: community,
-        title: title,
-        description: description
-      )
-    end
-
     it "creates rule" do
-      @form.save
-      result = @form.rule
+      form = build_create_rule_form
 
-      expect(result).to have_attributes(community: community, title: title, description: description)
+      expect { form.save }.to change { Rule.count }
     end
+  end
+
+  def build_create_rule_form
+    community = create(:community)
+
+    subject.new(
+      community: community,
+      title: "Title",
+      description: "Description"
+    )
   end
 end
