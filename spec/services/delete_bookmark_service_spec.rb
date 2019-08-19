@@ -3,17 +3,32 @@ require "rails_helper"
 RSpec.describe DeleteBookmarkService do
   subject { described_class }
 
+  shared_examples "bookmark deletion" do
+    it "deletes bookmark" do
+      service = build_delete_bookmark_service(bookmarkable)
+
+      expect { service.call }.to change { Bookmark.count }.by(-1)
+    end
+  end
+
   describe ".call" do
-    let!(:bookmarkable) { create(:post) }
-    let!(:user) { create(:user) }
-    let!(:bookmark) { create(:bookmark, bookmarkable: bookmarkable, user: user) }
+    context "when bookmarkable post" do
+      let(:bookmarkable) { create(:post) }
 
-    before do
-      @service = subject.new(bookmarkable, user)
+      include_examples "bookmark deletion"
     end
 
-    it "delete bookmark" do
-      expect { @service.call }.to change { Bookmark.count }.by(-1)
+    context "when bookmarkable comment" do
+      let(:bookmarkable) { create(:comment) }
+
+      include_examples "bookmark deletion"
     end
+  end
+
+  def build_delete_bookmark_service(bookmarkable)
+    user = create(:user)
+    create(:bookmark, bookmarkable: bookmarkable, user: user)
+
+    described_class.new(bookmarkable, user)
   end
 end
