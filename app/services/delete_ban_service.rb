@@ -8,6 +8,6 @@ class DeleteBanService
   end
 
   def call
-    @ban.destroy!
+    ban.destroy!
   end
 end

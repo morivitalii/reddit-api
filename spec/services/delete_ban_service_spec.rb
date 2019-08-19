@@ -5,12 +5,15 @@ RSpec.describe DeleteBanService do
 
   describe ".call" do
     it "deletes ban" do
-      ban = create(:ban)
-      service = subject.new(ban)
+      service = build_delete_ban_service
 
-      service.call
-
-      expect(ban).to be_destroyed
+      expect { service.call }.to change { Ban.count }.by(-1)
     end
+  end
+
+  def build_delete_ban_service
+    ban = create(:ban)
+
+    described_class.new(ban)
   end
 end
