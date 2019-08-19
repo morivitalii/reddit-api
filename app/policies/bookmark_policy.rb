@@ -2,7 +2,8 @@
 
 class BookmarkPolicy < ApplicationPolicy
   def posts?
-    user?
+    # record here is user object
+    user? && user.id == record.id
   end
 
   alias comments? posts?

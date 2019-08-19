@@ -16,6 +16,11 @@ Rails.application.routes.draw do
       get :posts, action: :posts, on: :collection
       get :comments, action: :comments, on: :collection
     end
+
+    resources :bookmarks, only: [] do
+      get :posts, action: :posts, on: :collection
+      get :comments, action: :comments, on: :collection
+    end
   end
 
   resources :communities, only: [:show, :edit, :update] do
@@ -59,11 +64,6 @@ Rails.application.routes.draw do
     resources :reports, only: [:new, :create] do
       get "/", action: :show, on: :collection
     end
-  end
-
-  resources :bookmarks, only: [] do
-    get :posts, action: :posts, on: :collection
-    get :comments, action: :comments, on: :collection
   end
 
   match "*path", via: :all, to: "page_not_found#show"

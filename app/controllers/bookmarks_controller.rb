@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class BookmarksController < ApplicationController
-  before_action -> { authorize(Bookmark) }
-  before_action :set_user, only: [:posts, :comments]
+  before_action :set_user
+  before_action -> { authorize(@user, policy_class: BookmarkPolicy) }, only: [:posts, :comments]
+  before_action -> { authorize(Bookmark) }, only: [:create, :destroy]
   before_action :set_bookmarkable, only: [:create, :destroy]
   before_action :set_facade
 
@@ -47,7 +48,7 @@ class BookmarksController < ApplicationController
   end
 
   def set_user
-    @user = current_user
+    @user = params[:user_id].present? ? UsersQuery.new.with_username(params[:user_id]).take! : current_user
   end
 
   def set_bookmarkable

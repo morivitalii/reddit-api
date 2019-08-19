@@ -12,8 +12,8 @@
       <%= link_to(t("posts"), posts_user_path(@user), class: 'dropdown-item') %>
       <%= link_to(t("comments"), comments_user_path(@user), class: 'dropdown-item') %>
 
-      <% if current_user.id == @user.id %>
-        <%= link_to(t("bookmarks"), posts_bookmarks_path, class: 'dropdown-item') %>
+      <% if BookmarkPolicy.new(pundit_user, @user).posts? %>
+        <%= link_to(t("bookmarks"), posts_user_bookmarks_path(@user), class: 'dropdown-item') %>
       <% end %>
 
       <% if VotePolicy.new(pundit_user, @user).posts? %>
