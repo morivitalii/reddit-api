@@ -4,17 +4,22 @@ RSpec.describe ApproveCommentService do
   subject { described_class }
 
   describe ".call" do
-    let(:user) { instance_double(User) }
-    let(:comment) { instance_double(Comment) }
+    it "approves comment" do
+      service = build_approve_comment_service
 
-    before do
-      @service = subject.new(comment, user)
+      service.call
+
+      comment = service.comment
+      user = service.user
+      expect(comment.approved_by).to eq(user)
+      expect(comment.approved_by).to be_present
     end
+  end
 
-    it "call .approve! on comment" do
-      expect(comment).to receive(:approve!).with(user).once
+  def build_approve_comment_service
+    comment = create(:comment)
+    user = create(:user)
 
-      @service.call
-    end
+    described_class.new(comment, user)
   end
 end
