@@ -9,6 +9,12 @@ class CreateFollowService
   end
 
   def call
-    Follow.find_or_create_by!(community: community, user: user)
+    follow.present? ? follow : Follow.create!(community: community, user: user)
+  end
+
+  private
+
+  def follow
+    @_follow ||= Follow.where(community: community, user: user).take
   end
 end
