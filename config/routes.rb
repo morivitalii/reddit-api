@@ -41,11 +41,9 @@ Rails.application.routes.draw do
   resources :posts, only: [:show, :edit, :update, :destroy] do
     post :approve, action: :approve, on: :member
     get :remove, action: :remove, on: :member
-
     resource :comments, only: [:create]
     resource :votes, only: [:create, :destroy]
     resource :bookmarks, only: [:create, :destroy]
-
     resources :reports, only: [:index, :new, :create]
   end
 
@@ -55,7 +53,6 @@ Rails.application.routes.draw do
     resource :comments, only: [:new, :create]
     resource :votes, only: [:create, :destroy]
     resource :bookmarks, only: [:create, :destroy]
-
     resources :reports, only: [:index, :new, :create]
   end
 
