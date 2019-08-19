@@ -6,7 +6,7 @@ RSpec.describe ReportPolicy, type: :policy do
   context "for visitor" do
     include_context "visitor context"
     
-    permissions :posts?, :comments?, :new?, :create? do
+    permissions :new?, :create? do
       it { is_expected.to_not permit(context) }
     end
 
@@ -17,10 +17,6 @@ RSpec.describe ReportPolicy, type: :policy do
 
   context "for user" do
     include_context "user context"
-
-    permissions :posts?, :comments? do
-      it { is_expected.to_not permit(context) }
-    end
 
     permissions :show? do
       it { is_expected.to_not permit(context) }
@@ -34,7 +30,7 @@ RSpec.describe ReportPolicy, type: :policy do
   context "for moderator" do
     include_context "moderator context"
 
-    permissions :posts?, :comments?, :new?, :create? do
+    permissions :new?, :create? do
       it { is_expected.to permit(context) }
     end
 

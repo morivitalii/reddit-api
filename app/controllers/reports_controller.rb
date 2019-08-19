@@ -1,20 +1,9 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
-  before_action :set_community
   before_action :set_reportable, only: [:show, :new, :create]
   before_action :set_facade
   before_action -> { authorize(Report) }
-
-  def posts
-    @records, @pagination = posts_query.paginate(after: params[:after])
-    @records.map!(&:decorate)
-  end
-
-  def comments
-    @records, @pagination = comments_query.paginate(after: params[:after])
-    @records.map!(&:decorate)
-  end
 
   def show
     @reports = reportable_query.all
@@ -41,28 +30,12 @@ class ReportsController < ApplicationController
 
   private
 
-  def context
-    Context.new(current_user, @community)
-  end
-
-  def set_community
-    @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
-  end
-
   def set_reportable
     if params[:post_id].present?
       @reportable = Post.find(params[:post_id])
     elsif params[:comment_id].present?
       @reportable = Comment.find(params[:comment_id])
     end
-  end
-
-  def posts_query
-    PostsQuery.new(@community.posts).reported.includes(:community, :user)
-  end
-
-  def comments_query
-    CommentsQuery.new(@community.comments).reported.includes(:user, :post, :community)
   end
 
   def reportable_query

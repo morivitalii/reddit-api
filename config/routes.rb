@@ -31,13 +31,10 @@ Rails.application.routes.draw do
     resources :bans, only: [:index, :new, :create, :edit, :update, :destroy]
 
     resources :mod_queues, only: [] do
-      get :posts, action: :posts, on: :collection
-      get :comments, action: :comments, on: :collection
-    end
-
-    resources :reports, only: [] do
-      get :posts, action: :posts, on: :collection
-      get :comments, action: :comments, on: :collection
+      get :new_posts, action: :not_moderated_posts, on: :collection
+      get :new_comments, action: :not_moderated_comments, on: :collection
+      get :reported_posts, action: :reported_posts, on: :collection
+      get :reported_comments, action: :reported_comments, on: :collection
     end
   end
 

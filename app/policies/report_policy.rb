@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
 class ReportPolicy < ApplicationPolicy
-  def posts?
-    moderator?
-  end
-
-  alias comments? posts?
-
   def show?
     moderator?
   end

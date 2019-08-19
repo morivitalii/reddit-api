@@ -1,4 +1,4 @@
-<% content_for(:meta_title, "#{@community.title}: #{t("posts_reports")}") %>
+<% content_for(:meta_title, "#{@community.title}: #{t("comments_reports")}") %>
 
 <%= render 'shared/sidebar', community: @community %>
 
@@ -9,19 +9,19 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("new"), posts_community_mod_queues_path(@community), class: 'dropdown-item') %>
-      <%= link_to(t("reports"), posts_community_reports_path(@community), class: 'dropdown-item') %>
+      <%= link_to(t("new"), new_posts_community_mod_queues_path(@community), class: 'dropdown-item') %>
+      <%= link_to(t("reports"), reported_posts_community_mod_queues_path(@community), class: 'dropdown-item') %>
     </div>
   </li>
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= t("posts") %>
+      <%= t("comments") %>
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("posts"), posts_community_reports_path(@community), class: 'dropdown-item') %>
-      <%= link_to(t("comments"), comments_community_reports_path(@community), class: 'dropdown-item') %>
+      <%= link_to(t("posts"), reported_posts_community_mod_queues_path(@community), class: 'dropdown-item') %>
+      <%= link_to(t("comments"), reported_comments_community_mod_queues_path(@community), class: 'dropdown-item') %>
     </div>
   </li>
 <% end %>

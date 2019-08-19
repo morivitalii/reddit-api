@@ -6,7 +6,7 @@ RSpec.describe ModQueuePolicy, type: :policy do
   context "for visitor" do
     include_context "visitor context"
     
-    permissions :posts?, :comments? do
+    permissions :new_posts?, :new_comments?, :reported_posts?, :reported_comments? do
       it { is_expected.to_not permit(context) }
     end
   end
@@ -14,7 +14,7 @@ RSpec.describe ModQueuePolicy, type: :policy do
   context "for user" do
     include_context "user context"
 
-    permissions :posts?, :comments? do
+    permissions :new_posts?, :new_comments?, :reported_posts?, :reported_comments? do
       it { is_expected.to_not permit(context) }
     end
   end
@@ -22,7 +22,7 @@ RSpec.describe ModQueuePolicy, type: :policy do
   context "for moderator" do
     include_context "moderator context"
 
-    permissions :posts?, :comments? do
+    permissions :new_posts?, :new_comments?, :reported_posts?, :reported_comments? do
       it { is_expected.to permit(context) }
     end
   end
