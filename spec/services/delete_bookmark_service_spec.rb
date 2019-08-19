@@ -12,13 +12,13 @@ RSpec.describe DeleteBookmarkService do
   end
 
   describe ".call" do
-    context "when bookmarkable post" do
+    context "when bookmarkable is post" do
       let(:bookmarkable) { create(:post) }
 
       include_examples "bookmark deletion"
     end
 
-    context "when bookmarkable comment" do
+    context "when bookmarkable is comment" do
       let(:bookmarkable) { create(:comment) }
 
       include_examples "bookmark deletion"
