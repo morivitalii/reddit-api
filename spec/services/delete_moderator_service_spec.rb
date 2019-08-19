@@ -4,14 +4,16 @@ RSpec.describe DeleteModeratorService do
   subject { described_class }
 
   describe ".call" do
-    let!(:moderator) { create(:moderator) }
+    it "deletes moderator" do
+      service = build_delete_moderator_service
 
-    before do
-      @service = subject.new(moderator)
+      expect { service.call }.to change { Moderator.count }.by(-1)
     end
+  end
 
-    it "delete moderator" do
-      expect { @service.call }.to change { Moderator.count }.by(-1)
-    end
+  def build_delete_moderator_service
+    moderator = create(:moderator)
+
+    described_class.new(moderator)
   end
 end
