@@ -4,17 +4,22 @@ RSpec.describe ApprovePostService do
   subject { described_class }
 
   describe ".call" do
-    let(:user) { instance_double(User) }
-    let(:post) { instance_double(Post) }
+    it "approves post" do
+      service = build_approve_post_service
 
-    before do
-      @service = subject.new(post, user)
+      service.call
+
+      post = service.post
+      user = service.user
+      expect(post.approved_by).to eq(user)
+      expect(post.approved_by).to be_present
     end
+  end
 
-    it "call .approve! on post" do
-      expect(post).to receive(:approve!).with(user).once
+  def build_approve_post_service
+    post = create(:post)
+    user = create(:user)
 
-      @service.call
-    end
+    described_class.new(post, user)
   end
 end
