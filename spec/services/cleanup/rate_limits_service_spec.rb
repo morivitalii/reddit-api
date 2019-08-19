@@ -4,14 +4,17 @@ RSpec.describe Cleanup::RateLimitsService do
   subject { described_class }
 
   describe ".call" do
-    let!(:stale_rate_limit) { create(:rate_limit, :stale) }
+    it "deletes stale rate limits" do
+      create_pair(:rate_limit)
+      create_pair(:stale_rate_limit)
 
-    before do
-      @service = subject.new
-    end
+      service = build_cleanup_rate_limits_service
 
-    it "delete stale rate limits" do
-      expect { @service.call }.to change { RateLimit.count }.by(-1)
+      expect { service.call }.to change { RateLimit.count }.by(-2)
     end
+  end
+
+  def build_cleanup_rate_limits_service
+    described_class.new
   end
 end
