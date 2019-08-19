@@ -4,16 +4,18 @@ RSpec.describe DeleteFollowService do
   subject { described_class }
 
   describe ".call" do
-    let!(:community) { create(:community) }
-    let!(:user) { create(:user) }
-    let!(:follow) { create(:follow, user: user, community: community) }
+    it "deletes follow" do
+      service = build_delete_follow_service
 
-    before do
-      @service = subject.new(community, user)
+      expect { service.call }.to change { Follow.count }.by(-1)
     end
+  end
 
-    it "delete follow" do
-      expect { @service.call }.to change { Follow.count }.by(-1)
-    end
+  def build_delete_follow_service
+    community = create(:community)
+    user = create(:user)
+    create(:follow, community: community, user: user)
+
+    described_class.new(community, user)
   end
 end
