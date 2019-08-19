@@ -9,6 +9,12 @@ class CreateBookmarkService
   end
 
   def call
-    Bookmark.find_or_create_by!(bookmarkable: bookmarkable, user: user)
+    bookmark.present? ? bookmark : Bookmark.create!(bookmarkable: bookmarkable, user: user)
+  end
+
+  private
+
+  def bookmark
+    @_bookmark ||= Bookmark.where(bookmarkable: bookmarkable, user: user).take
   end
 end

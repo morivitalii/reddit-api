@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe CreateVoteForm, type: :form do
   subject { described_class }
 
-  shared_examples "vote already exists" do
+  shared_examples "vote exists" do
     context "and when vote already exists" do
       it "deletes it" do
         form = build_create_vote_form(votable)
@@ -17,7 +17,7 @@ RSpec.describe CreateVoteForm, type: :form do
     end
   end
 
-  shared_examples "vote creation" do
+  shared_examples "vote does not exist" do
     context "and when vote does not exists" do
       it "creates vote" do
         form = build_create_vote_form(votable)
@@ -31,15 +31,15 @@ RSpec.describe CreateVoteForm, type: :form do
     context "when votable is post" do
       let(:votable) { create(:comment) }
 
-      include_examples "vote already exists"
-      include_examples "vote creation"
+      include_examples "vote exists"
+      include_examples "vote does not exist"
     end
 
     context "when votable is comment" do
       let(:votable) { create(:post) }
 
-      include_examples "vote already exists"
-      include_examples "vote creation"
+      include_examples "vote exists"
+      include_examples "vote does not exist"
     end
   end
 
