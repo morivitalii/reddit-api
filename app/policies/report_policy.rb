@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ReportPolicy < ApplicationPolicy
-  def show?
+  def index?
     moderator?
   end
 

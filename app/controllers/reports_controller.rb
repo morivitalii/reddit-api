@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
-  before_action :set_reportable, only: [:show, :new, :create]
+  before_action :set_reportable
   before_action :set_facade
   before_action -> { authorize(Report) }
 
-  def show
+  def index
     @reports = reportable_query.all
 
-    render partial: "show"
+    render partial: "index"
   end
 
   def new

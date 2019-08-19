@@ -31,8 +31,8 @@ Rails.application.routes.draw do
     resources :bans, only: [:index, :new, :create, :edit, :update, :destroy]
 
     resources :mod_queues, only: [] do
-      get :new_posts, action: :not_moderated_posts, on: :collection
-      get :new_comments, action: :not_moderated_comments, on: :collection
+      get :new_posts, action: :new_posts, on: :collection
+      get :new_comments, action: :new_comments, on: :collection
       get :reported_posts, action: :reported_posts, on: :collection
       get :reported_comments, action: :reported_comments, on: :collection
     end
@@ -46,9 +46,7 @@ Rails.application.routes.draw do
     resource :votes, only: [:create, :destroy]
     resource :bookmarks, only: [:create, :destroy]
 
-    resources :reports, only: [:new, :create] do
-      get "/", action: :show, on: :collection
-    end
+    resources :reports, only: [:index, :new, :create]
   end
 
   resources :comments, only: [:show, :edit, :update, :destroy] do
