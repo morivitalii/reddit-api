@@ -56,9 +56,7 @@ Rails.application.routes.draw do
     resource :votes, only: [:create, :destroy]
     resource :bookmarks, only: [:create, :destroy]
 
-    resources :reports, only: [:new, :create] do
-      get "/", action: :show, on: :collection
-    end
+    resources :reports, only: [:index, :new, :create]
   end
 
   match "*path", via: :all, to: "page_not_found#show"
