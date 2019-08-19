@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   resources :users, only: [] do
     get :posts, action: :posts, on: :member
     get :comments, action: :comments, on: :member
+
+    resources :votes, only: [] do
+      get :posts, action: :posts, on: :collection
+      get :comments, action: :comments, on: :collection
+    end
   end
 
   resources :communities, only: [:show, :edit, :update] do
@@ -57,11 +62,6 @@ Rails.application.routes.draw do
   end
 
   resources :bookmarks, only: [] do
-    get :posts, action: :posts, on: :collection
-    get :comments, action: :comments, on: :collection
-  end
-
-  resources :votes, only: [] do
     get :posts, action: :posts, on: :collection
     get :comments, action: :comments, on: :collection
   end

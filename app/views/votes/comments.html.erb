@@ -11,11 +11,8 @@
     <div class="dropdown-menu">
       <%= link_to(t("posts"), posts_user_path(@user), class: 'dropdown-item') %>
       <%= link_to(t("comments"), comments_user_path(@user), class: 'dropdown-item') %>
-
-      <% if current_user.id == @user.id %>
-        <%= link_to(t("bookmarks"), posts_bookmarks_path, class: 'dropdown-item') %>
-        <%= link_to(t("votes"), posts_votes_path, class: 'dropdown-item') %>
-      <% end %>
+      <%= link_to(t("bookmarks"), posts_bookmarks_path, class: 'dropdown-item') %>
+      <%= link_to(t("votes"), posts_user_votes_path(@user), class: 'dropdown-item') %>
     </div>
   </li>
 
@@ -25,8 +22,8 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("posts"), posts_votes_path, class: 'dropdown-item') %>
-      <%= link_to(t("comments"), comments_votes_path, class: 'dropdown-item') %>
+      <%= link_to(t("posts"), posts_user_votes_path(@user), class: 'dropdown-item') %>
+      <%= link_to(t("comments"), comments_user_votes_path(@user), class: 'dropdown-item') %>
     </div>
   </li>
 
@@ -36,10 +33,10 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("up_and_down"), comments_votes_path(type: :all), class: 'dropdown-item') %>
+      <%= link_to(t("up_and_down"), comments_user_votes_path(@user, type: :all), class: 'dropdown-item') %>
 
       <% type_options.each do |type| %>
-        <%= link_to(t(type), comments_votes_path(type: type), class: 'dropdown-item') %>
+        <%= link_to(t(type), comments_user_votes_path(@user, type: type), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>

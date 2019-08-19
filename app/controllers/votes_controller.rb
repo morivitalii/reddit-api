@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class VotesController < ApplicationController
-  before_action -> { authorize(Vote) }
-  before_action :set_user, only: [:posts, :comments]
+  before_action :set_user
+  before_action -> { authorize(@user, policy_class: VotePolicy) }, only: [:posts, :comments]
+  before_action -> { authorize(Vote) }, only: [:create, :destroy]
   before_action :set_votable, only: [:create, :destroy]
   before_action :set_facade
 
@@ -49,7 +50,7 @@ class VotesController < ApplicationController
   end
 
   def set_user
-    @user = current_user
+    @user = params[:user_id].present? ? UsersQuery.new.with_username(params[:user_id]).take! : current_user
   end
 
   def set_votable
