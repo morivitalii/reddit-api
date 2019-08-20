@@ -3,7 +3,6 @@
 class Post < ApplicationRecord
   include Paginatable
   include Editable
-  include Approvable
   include Removable
   include Reportable
   include Votable
@@ -15,6 +14,7 @@ class Post < ApplicationRecord
   has_one :topic, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :bookmarks, as: :bookmarkable, dependent: :destroy
+  belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", touch: true, optional: true
 
   markdown_attributes :text
   strip_attributes :title, squish: true
@@ -24,6 +24,8 @@ class Post < ApplicationRecord
   before_create :set_media_processing_attributes_on_media_cache
   before_update :reset_deletion_attributes_on_media_store
   after_create :create_topic_on_create
+  before_create -> { approve(user) }, if: :auto_approve?
+  before_update :undo_remove, if: :approving?
 
   validates :title, presence: true, length: { maximum: 350 }
 
@@ -101,7 +103,33 @@ class Post < ApplicationRecord
     end
   end
 
+  def approve!(user)
+    approve(user)
+    save!
+  end
+
+  def approved?
+    approved_at.present?
+  end
+
   private
+
+  def approve(user)
+    assign_attributes(approved_by: user, approved_at: Time.current)
+  end
+
+  def undo_approve
+    assign_attributes(approved_by: nil, approved_at: nil)
+  end
+
+  def approving?
+    approved_at_changed? && approved?
+  end
+
+  def auto_approve?
+    context = Context.new(user, community)
+    Pundit.policy(context, self).approve?
+  end
 
   def normalize_url_on_create
     return if url.blank?

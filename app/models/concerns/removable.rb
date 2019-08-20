@@ -8,7 +8,7 @@ module Removable
 
     strip_attributes :removed_reason, squish: true
 
-    before_update :undo_approve, if: ->(r) { r.respond_to?(:approvable?) && r.removing? }
+    before_update :undo_approve, if: ->(r) { r.removing? }
 
     validates :removed_reason, allow_blank: true, length: { maximum: 5_000 }
 

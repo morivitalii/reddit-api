@@ -5,7 +5,7 @@ RSpec.shared_examples_for "reportable" do
     @model = create(subject.to_s.underscore.to_sym)
   end
 
-  describe ".delete_reports", if: @model.respond_to?(:approvable?) || @model.respond_to?(:removable?) do
+  describe ".delete_reports", if: @model.respond_to?(:removable?) do
     let!(:report) { create(:report, reportable: model) }
 
     it "delete reports on approving" do

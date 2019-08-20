@@ -10,7 +10,7 @@ RSpec.shared_examples_for "removable" do
     @model = create(subject.to_s.underscore.to_sym)
   end
 
-  describe ".undo_approve", if: @model.respond_to?(:approvable?) do
+  describe ".undo_approve" do
     it "calls .undo_approve on remove" do
       allow(@model).to receive(:removing?).and_return(true)
       expect(@model).to receive(:undo_approve)

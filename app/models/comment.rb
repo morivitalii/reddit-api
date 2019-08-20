@@ -3,7 +3,6 @@
 class Comment < ApplicationRecord
   include Paginatable
   include Editable
-  include Approvable
   include Removable
   include Reportable
   include Votable
@@ -18,8 +17,11 @@ class Comment < ApplicationRecord
   belongs_to :parent, class_name: "Comment", foreign_key: "comment_id", counter_cache: :comments_count, optional: true
   has_many :comments, class_name: "Comment", foreign_key: "comment_id", dependent: :destroy
   has_many :bookmarks, as: :bookmarkable, dependent: :destroy
+  belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", touch: true, optional: true
 
   after_save :upsert_in_topic
+  before_create -> { approve(user) }, if: :auto_approve?
+  before_update :undo_remove, if: :approving?
 
   validates :text, presence: true, length: { maximum: 10_000 }
 
@@ -27,7 +29,33 @@ class Comment < ApplicationRecord
     text.length > 800
   end
 
+  def approve!(user)
+    approve(user)
+    save!
+  end
+
+  def approved?
+    approved_at.present?
+  end
+
   private
+
+  def approve(user)
+    assign_attributes(approved_by: user, approved_at: Time.current)
+  end
+
+  def undo_approve
+    assign_attributes(approved_by: nil, approved_at: nil)
+  end
+
+  def approving?
+    approved_at_changed? && approved?
+  end
+
+  def auto_approve?
+    context = Context.new(user, community)
+    Pundit.policy(context, self).approve?
+  end
 
   def upsert_in_topic
     json = {
