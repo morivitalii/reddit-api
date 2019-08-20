@@ -7,7 +7,6 @@ class Post < ApplicationRecord
   include Removable
   include Reportable
   include Votable
-  include Bookmarkable
   include Markdownable
   include Uploader::Attachment.new(:media)
 
@@ -15,6 +14,7 @@ class Post < ApplicationRecord
   belongs_to :user, touch: true
   has_one :topic, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :bookmarks, as: :bookmarkable, dependent: :destroy
 
   markdown_attributes :text
   strip_attributes :title, squish: true

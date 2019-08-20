@@ -7,7 +7,6 @@ class Comment < ApplicationRecord
   include Removable
   include Reportable
   include Votable
-  include Bookmarkable
   include Markdownable
 
   markdown_attributes :text
@@ -18,6 +17,7 @@ class Comment < ApplicationRecord
   belongs_to :post, counter_cache: :comments_count, touch: true
   belongs_to :parent, class_name: "Comment", foreign_key: "comment_id", counter_cache: :comments_count, optional: true
   has_many :comments, class_name: "Comment", foreign_key: "comment_id", dependent: :destroy
+  has_many :bookmarks, as: :bookmarkable, dependent: :destroy
 
   after_save :upsert_in_topic
 
