@@ -13,7 +13,7 @@ RSpec.describe Comment, type: :model do
   context "when author have permissions for approving" do
     it "approves comment on create" do
       comment = build(:comment)
-      allow(comment).to receive(:auto_approve?).and_return(true)
+      allow(comment).to receive(:author_has_permissions_to_approve?).and_return(true)
 
       comment.save!
 
@@ -25,7 +25,7 @@ RSpec.describe Comment, type: :model do
   context "when author have not permissions for approving" do
     it "does not approve comment on create" do
       comment = build(:comment)
-      allow(comment).to receive(:auto_approve?).and_return(false)
+      allow(comment).to receive(:author_has_permissions_to_approve?).and_return(false)
 
       comment.save!
 

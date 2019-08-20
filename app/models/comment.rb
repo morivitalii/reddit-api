@@ -21,7 +21,7 @@ class Comment < ApplicationRecord
   belongs_to :removed_by, class_name: "User", foreign_key: "removed_by_id", touch: true, optional: true
 
   after_save :upsert_in_topic
-  before_create -> { approve(user) }, if: :auto_approve?
+  before_create :approve_by_author, if: :author_has_permissions_to_approve?
   before_update :undo_remove, if: :approving?
   before_update :undo_approve, if: -> { editing? || removing? }
 
@@ -33,8 +33,7 @@ class Comment < ApplicationRecord
   end
 
   def approve!(user)
-    approve(user)
-    save!
+    update!(approved_by: user, approved_at: Time.current)
   end
 
   def approved?
@@ -59,7 +58,7 @@ class Comment < ApplicationRecord
 
   private
 
-  def approve(user)
+  def approve_by_author
     assign_attributes(approved_by: user, approved_at: Time.current)
   end
 
@@ -71,7 +70,7 @@ class Comment < ApplicationRecord
     approved_at.present? && approved_at_changed?
   end
 
-  def auto_approve?
+  def author_has_permissions_to_approve?
     context = Context.new(user, community)
     Pundit.policy(context, self).approve?
   end

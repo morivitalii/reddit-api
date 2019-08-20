@@ -13,7 +13,7 @@ RSpec.describe Post, type: :model do
   context "when author have permissions for approving" do
     it "approves post on create" do
       post = build(:post)
-      allow(post).to receive(:auto_approve?).and_return(true)
+      allow(post).to receive(:author_has_permissions_to_approve?).and_return(true)
 
       post.save!
 
@@ -25,7 +25,7 @@ RSpec.describe Post, type: :model do
   context "when author have not permissions for approving" do
     it "does not approve post on create" do
       post = build(:post)
-      allow(post).to receive(:auto_approve?).and_return(false)
+      allow(post).to receive(:author_has_permissions_to_approve?).and_return(false)
 
       post.save!
 

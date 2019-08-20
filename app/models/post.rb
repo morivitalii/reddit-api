@@ -24,7 +24,7 @@ class Post < ApplicationRecord
   before_create :set_media_processing_attributes_on_media_cache
   before_update :reset_deletion_attributes_on_media_store
   after_create :create_topic_on_create
-  before_create -> { approve(user) }, if: :auto_approve?
+  before_create :approve_by_author, if: :author_has_permissions_to_approve?
   before_update :undo_remove, if: :approving?
   before_update :undo_approve, if: -> { editing? || removing? }
 
@@ -106,8 +106,7 @@ class Post < ApplicationRecord
   end
 
   def approve!(user)
-    approve(user)
-    save!
+    update!(approved_by: user, approved_at: Time.current)
   end
 
   def approved?
@@ -132,7 +131,7 @@ class Post < ApplicationRecord
 
   private
 
-  def approve(user)
+  def approve_by_author
     assign_attributes(approved_by: user, approved_at: Time.current)
   end
 
@@ -144,7 +143,7 @@ class Post < ApplicationRecord
     approved_at.present? && approved_at_changed?
   end
 
-  def auto_approve?
+  def author_has_permissions_to_approve?
     context = Context.new(user, community)
     Pundit.policy(context, self).approve?
   end
