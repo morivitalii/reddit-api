@@ -2,7 +2,6 @@
 
 class Post < ApplicationRecord
   include Paginatable
-  include Reportable
   include Votable
   include Markdownable
   include Uploader::Attachment.new(:media)
@@ -12,6 +11,7 @@ class Post < ApplicationRecord
   has_one :topic, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :bookmarks, as: :bookmarkable, dependent: :destroy
+  has_many :reports, as: :reportable, dependent: :destroy
   belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", touch: true, optional: true
   belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", touch: true, optional: true
   belongs_to :removed_by, class_name: "User", foreign_key: "removed_by_id", touch: true, optional: true
@@ -27,6 +27,7 @@ class Post < ApplicationRecord
   before_create :approve_by_author, if: :author_has_permissions_to_approve?
   before_update :undo_remove, if: :approving?
   before_update :undo_approve, if: -> { editing? || removing? }
+  after_update :destroy_reports, if: -> { approving? || removing? }
 
   validates :title, presence: true, length: { maximum: 350 }
   validates :removed_reason, allow_blank: true, length: { maximum: 5_000 }
@@ -158,6 +159,10 @@ class Post < ApplicationRecord
 
   def removing?
     removed_at.present? && removed_at_changed?
+  end
+
+  def destroy_reports
+    reports.destroy_all
   end
 
   def normalize_url_on_create

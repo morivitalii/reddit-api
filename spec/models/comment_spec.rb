@@ -84,6 +84,28 @@ RSpec.describe Comment, type: :model do
     end
   end
 
+  context "when it is approving" do
+    it "destroys reports" do
+      comment = create(:comment_with_reports, reports_count: 2)
+      allow(comment).to receive(:approving?).and_return(true)
+
+      comment.save!
+
+      expect(comment.reports).to be_blank
+    end
+  end
+
+  context "when it is removing" do
+    it "destroys reports" do
+      comment = create(:comment_with_reports, reports_count: 2)
+      allow(comment).to receive(:removing?).and_return(true)
+
+      comment.save!
+
+      expect(comment.reports).to be_blank
+    end
+  end
+
   describe ".approve!" do
     it "approves comment" do
       comment = create(:comment)
