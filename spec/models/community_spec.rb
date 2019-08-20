@@ -3,8 +3,6 @@ require "rails_helper"
 RSpec.describe Community, type: :model do
   subject { described_class }
 
-  it_behaves_like "strip attributes", :title, :description, squish: true
-
   describe ".to_param" do
     it "returns url attribute" do
       url = "url"

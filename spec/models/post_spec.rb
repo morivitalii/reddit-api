@@ -5,8 +5,6 @@ RSpec.describe Post, type: :model do
 
   it_behaves_like "paginatable"
   it_behaves_like "markdownable", :text
-  it_behaves_like "strip attributes", :title, :removed_reason, squish: true
-  it_behaves_like "strip attributes", :text
 
   context "when author have permissions for approving" do
     it "approves post on create" do

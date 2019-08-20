@@ -20,8 +20,6 @@ class Comment < ApplicationRecord
   attribute :vote, default: nil
 
   markdown_attributes :text
-  strip_attributes :text
-  strip_attributes :removed_reason, squish: true
 
   after_save :upsert_in_topic
   before_create :approve_by_author, if: :author_has_permissions_to_approve?

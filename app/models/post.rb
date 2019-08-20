@@ -20,8 +20,6 @@ class Post < ApplicationRecord
   attribute :vote, default: nil
 
   markdown_attributes :text
-  strip_attributes :title, :removed_reason, squish: true
-  strip_attributes :text
 
   before_create :normalize_url_on_create
   before_create :set_media_processing_attributes_on_media_cache

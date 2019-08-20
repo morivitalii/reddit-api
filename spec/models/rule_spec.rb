@@ -4,7 +4,6 @@ RSpec.describe Rule, type: :model do
   subject { described_class }
 
   it_behaves_like "paginatable"
-  it_behaves_like "strip attributes", :title, :description, squish: true
 
   describe "limits validation on create" do
     it "adds error on title attribute if out of limit" do

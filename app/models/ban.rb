@@ -6,8 +6,6 @@ class Ban < ApplicationRecord
   belongs_to :community, touch: true
   belongs_to :user, touch: true
 
-  strip_attributes :reason, squish: true
-
   before_save :set_end_at
 
   validates :user, presence: { message: :invalid_username }, uniqueness: { scope: :community_id }
