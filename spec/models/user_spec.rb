@@ -6,6 +6,8 @@ RSpec.describe User, type: :model do
   describe "validations" do
     subject { create(:user) }
 
+    it { is_expected.to have_secure_password }
+    it { is_expected.to have_secure_token(:forgot_password_token) }
     it { is_expected.to validate_uniqueness_of(:username).case_insensitive }
     it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
     it { is_expected.to allow_value("valid@email.com").for(:email) }
@@ -13,7 +15,7 @@ RSpec.describe User, type: :model do
   end
 
   describe ".to_param" do
-    it "returns user username" do
+    it "returns username" do
       user = build(:user)
 
       expect(user.to_param).to eq(user.username)
