@@ -13,7 +13,7 @@ RSpec.describe Ban, type: :model do
     it { is_expected.to validate_uniqueness_of(:user).scoped_to(:community_id) }
     it { is_expected.to validate_length_of(:reason).is_at_most(500) }
 
-    context "temporary" do
+    context "when ban is temporary" do
       before do
         allow(subject).to receive(:permanent).and_return(false)
       end
@@ -23,7 +23,7 @@ RSpec.describe Ban, type: :model do
       it { is_expected.to validate_presence_of(:days) }
     end
 
-    context "permanent" do
+    context "when ban is permanent" do
       before do
         allow(subject).to receive(:permanent).and_return(true)
       end
@@ -32,44 +32,26 @@ RSpec.describe Ban, type: :model do
     end
   end
 
-  it "sets end_at attribute to nil if permanent" do
-    ban = build(:permanent_ban)
-    ban.save
+  context "when ban is permanent" do
+    context "ending date" do
+      it "is blank" do
+        ban = create(:permanent_ban)
 
-    expect(ban.end_at).to be_nil
-  end
-
-  it "sets end_at attribute if temporary" do
-    ban = build(:temporary_ban)
-    ban.save
-
-    expected_result = ban.created_at + ban.days.days
-
-    expect(ban.end_at).to eq(expected_result)
-  end
-
-  describe ".stale?" do
-    context "permanent" do
-      it "returns false" do
-        ban = build(:permanent_ban)
-
-        expect(ban).to_not be_stale
+        expect(ban.end_at).to be_blank
       end
     end
+  end
 
-    context "temporary" do
-      it "returns true if end_at before current datetime" do
-        ban = build(:temporary_ban, created_at: 2.days.ago, days: 1)
-        ban.save
+  context "when ban is temporary" do
+    context "ending date" do
+      it "is :days in the future" do
+        created_at = Time.current
+        days = 2
+        ban_ending_date = created_at + days.days
 
-        expect(ban).to be_stale
-      end
+        ban = create(:temporary_ban, created_at: created_at, days: days)
 
-      it "returns false if end_at after current datetime" do
-        ban = build(:temporary_ban, created_at: Time.current, days: 1)
-        ban.save
-
-        expect(ban).to_not be_stale
+        expect(ban.end_at).to eq(ban_ending_date)
       end
     end
   end

@@ -17,10 +17,6 @@ class Ban < ApplicationRecord
             numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 365 },
             unless: -> (r) { r.permanent }
 
-  def stale?
-    permanent? ? false : end_at < Time.current
-  end
-
   private
 
   def set_end_at
