@@ -18,6 +18,7 @@ class Post < ApplicationRecord
 
   alias_attribute :score, :top_score
   attribute :vote, default: nil
+  attribute :bookmark, default: nil
 
   markdown_attributes :text
 
