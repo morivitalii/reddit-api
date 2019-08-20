@@ -16,7 +16,7 @@ class CreateComment
         text: @text
       )
 
-      @comment.create_self_up_vote!
+      @comment.votes.create!(vote_type: :up, user: @current_user)
     end
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)

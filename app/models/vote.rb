@@ -56,7 +56,7 @@ class Vote < ApplicationRecord
   end
 
   def update_scores
-    votable.update_scores!
+    votable.recalculate_scores!
   end
 
   def user_points_attribute

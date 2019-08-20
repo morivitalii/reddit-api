@@ -2,12 +2,7 @@
 
 class Comment < ApplicationRecord
   include Paginatable
-  include Votable
   include Markdownable
-
-  markdown_attributes :text
-  strip_attributes :text
-  strip_attributes :removed_reason, squish: true
 
   belongs_to :user, touch: true
   belongs_to :community, touch: true
@@ -16,9 +11,17 @@ class Comment < ApplicationRecord
   has_many :comments, class_name: "Comment", foreign_key: "comment_id", dependent: :destroy
   has_many :bookmarks, as: :bookmarkable, dependent: :destroy
   has_many :reports, as: :reportable, dependent: :destroy
+  has_many :votes, as: :votable, dependent: :destroy
   belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", touch: true, optional: true
   belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", touch: true, optional: true
   belongs_to :removed_by, class_name: "User", foreign_key: "removed_by_id", touch: true, optional: true
+
+  alias_attribute :score, :top_score
+  attribute :vote, default: nil
+
+  markdown_attributes :text
+  strip_attributes :text
+  strip_attributes :removed_reason, squish: true
 
   after_save :upsert_in_topic
   before_create :approve_by_author, if: :author_has_permissions_to_approve?
@@ -55,6 +58,16 @@ class Comment < ApplicationRecord
 
   def removed?
     removed_at.present?
+  end
+
+  def recalculate_scores!
+    update!(
+      new_score: ScoreCalculator.new_score(created_at),
+      hot_score: ScoreCalculator.hot_score(up_votes_count, down_votes_count, created_at),
+      best_score: ScoreCalculator.best_score(up_votes_count, down_votes_count),
+      top_score: ScoreCalculator.top_score(up_votes_count, down_votes_count),
+      controversy_score: ScoreCalculator.controversy_score(up_votes_count, down_votes_count),
+    )
   end
 
   private

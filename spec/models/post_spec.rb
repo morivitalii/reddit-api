@@ -4,8 +4,6 @@ RSpec.describe Post, type: :model do
   subject { described_class }
 
   it_behaves_like "paginatable"
-  it_behaves_like "votable"
-  it_behaves_like "reportable"
   it_behaves_like "markdownable", :text
   it_behaves_like "strip attributes", :title, :removed_reason, squish: true
   it_behaves_like "strip attributes", :text
@@ -196,6 +194,22 @@ RSpec.describe Post, type: :model do
 
         expect(post).to be_removed
       end
+    end
+  end
+
+  describe ".recalculate_scores!" do
+    it "updates post scores" do
+      post = create(:post)
+      allow(post).to receive(:update!)
+
+      post.recalculate_scores!
+
+      expect(post).to have_received(:update!).with(
+        new_score: anything,
+        hot_score: anything,
+        top_score: anything,
+        controversy_score: anything
+      )
     end
   end
 end

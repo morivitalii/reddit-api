@@ -2,7 +2,6 @@
 
 class Post < ApplicationRecord
   include Paginatable
-  include Votable
   include Markdownable
   include Uploader::Attachment.new(:media)
 
@@ -12,9 +11,13 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :bookmarks, as: :bookmarkable, dependent: :destroy
   has_many :reports, as: :reportable, dependent: :destroy
+  has_many :votes, as: :votable, dependent: :destroy
   belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", touch: true, optional: true
   belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", touch: true, optional: true
   belongs_to :removed_by, class_name: "User", foreign_key: "removed_by_id", touch: true, optional: true
+
+  alias_attribute :score, :top_score
+  attribute :vote, default: nil
 
   markdown_attributes :text
   strip_attributes :title, :removed_reason, squish: true
@@ -128,6 +131,15 @@ class Post < ApplicationRecord
 
   def removed?
     removed_at.present?
+  end
+
+  def recalculate_scores!
+    update!(
+      new_score: ScoreCalculator.new_score(created_at),
+      hot_score: ScoreCalculator.hot_score(up_votes_count, down_votes_count, created_at),
+      top_score: ScoreCalculator.top_score(up_votes_count, down_votes_count),
+      controversy_score: ScoreCalculator.controversy_score(up_votes_count, down_votes_count),
+    )
   end
 
   private

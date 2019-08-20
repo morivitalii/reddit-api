@@ -264,7 +264,6 @@ CREATE TABLE public.posts (
     down_votes_count integer DEFAULT 0 NOT NULL,
     new_score integer DEFAULT 0 NOT NULL,
     hot_score double precision DEFAULT 0.0 NOT NULL,
-    best_score double precision DEFAULT 0.0 NOT NULL,
     top_score integer DEFAULT 0 NOT NULL,
     controversy_score integer DEFAULT 0 NOT NULL,
     edited_by_id bigint,
@@ -918,13 +917,6 @@ CREATE INDEX index_posts_on_approved_by_id ON public.posts USING btree (approved
 
 
 --
--- Name: index_posts_on_best_score; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_posts_on_best_score ON public.posts USING btree (best_score);
-
-
---
 -- Name: index_posts_on_community_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1384,6 +1376,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814142325'),
 ('20190814143945'),
 ('20190818113049'),
-('20190818113247');
+('20190818113247'),
+('20190820140446');
 
 
