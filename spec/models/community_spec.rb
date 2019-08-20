@@ -3,15 +3,22 @@ require "rails_helper"
 RSpec.describe Community, type: :model do
   subject { described_class }
 
+  describe "validations" do
+    subject { create(:community) }
+
+    it { is_expected.to validate_presence_of(:url) }
+    it { is_expected.to validate_length_of(:url).is_at_most(20) }
+    it { is_expected.to validate_uniqueness_of(:url) }
+    it { is_expected.to validate_presence_of(:title) }
+    it { is_expected.to validate_length_of(:title).is_at_most(30) }
+    it { is_expected.to validate_length_of(:description).is_at_most(200) }
+  end
+
   describe ".to_param" do
-    it "returns url attribute" do
-      url = "url"
+    it "returns :url attribute" do
+      community = build(:community)
 
-      model = subject.new(url: url)
-      expected_result = url
-      result = model.url
-
-      expect(result).to eq(expected_result)
+      expect(community.to_param).to eq(community.url)
     end
   end
 end

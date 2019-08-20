@@ -9,7 +9,7 @@ class Community < ApplicationRecord
   has_many :rules, dependent: :destroy
   has_many :reports, dependent: :destroy
 
-  validates :url, presence: true, length: { maximum: 20 }
+  validates :url, presence: true, length: { maximum: 20 }, uniqueness: true
   validates :title, presence: true, length: { maximum: 30 }
   validates :description, allow_blank: true, length: { maximum: 200 }
 
