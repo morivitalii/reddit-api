@@ -40,9 +40,7 @@
       </div>
     <% end %>
 
-    <% cut = thing.cut_text_preview? %>
-
-    <div class="content <%= "cutCommentText" if cut %> col-12 mt-2 mb-2">
+    <div class="content col-12 mt-2 mb-2">
       <%= thing.text_html.html_safe %>
     </div>
 

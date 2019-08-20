@@ -30,10 +30,6 @@ class Comment < ApplicationRecord
   validates :text, presence: true, length: { maximum: 10_000 }
   validates :removed_reason, allow_blank: true, length: { maximum: 5_000 }
 
-  def cut_text_preview?
-    text.length > 800
-  end
-
   def approve!(user)
     update!(approved_by: user, approved_at: Time.current)
   end

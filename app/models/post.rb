@@ -79,10 +79,6 @@ class Post < ApplicationRecord
     media[:original].type == "gif"
   end
 
-  def cut_text_preview?
-    text.length > 800
-  end
-
   def cut_image_preview?
     _, height = image_content_dimensions
     height > 550
