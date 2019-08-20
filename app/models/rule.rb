@@ -14,12 +14,8 @@ class Rule < ApplicationRecord
   private
 
   def validate_limits
-    if existent_count >= LIMIT
+    if community.rules.count >= LIMIT
       errors.add(:title, :rules_limit)
     end
-  end
-
-  def existent_count
-    community.rules.count
   end
 end

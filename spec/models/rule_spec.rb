@@ -5,21 +5,36 @@ RSpec.describe Rule, type: :model do
 
   it_behaves_like "paginatable"
 
-  describe "limits validation on create" do
-    it "adds error on title attribute if out of limit" do
-      model = subject.new
-      allow(model).to receive(:existent_count).and_return(described_class::LIMIT)
-      model.validate
+  it { expect(described_class::LIMIT).to eq(15) }
 
-      expect(model).to have_error(:rules_limit).on(:title)
-    end
+  describe "validations" do
+    subject { build(:rule) }
 
-    it "is valid if within limit" do
-      model = subject.new
-      allow(model).to receive(:existent_count).and_return(described_class::LIMIT - 1)
-      model.validate
+    it { is_expected.to validate_presence_of(:title) }
+    it { is_expected.to validate_length_of(:title).is_at_most(100) }
+    it { is_expected.to validate_length_of(:description).is_at_most(500) }
 
-      expect(model).to_not have_error(:rules_limit).on(:title)
+    context "on create" do
+      context "limit per community" do
+        context "above" do
+          it "is invalid" do
+            stub_const("#{described_class}::LIMIT", 0)
+            rule = build(:rule)
+            rule.validate
+
+            expect(rule).to have_error(:rules_limit).on(:title)
+          end
+        end
+
+        context "under" do
+          it "is valid" do
+            stub_const("#{described_class}::LIMIT", 1)
+            rule = build(:rule)
+
+            expect(rule).to be_valid
+          end
+        end
+      end
     end
   end
 end
