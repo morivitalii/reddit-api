@@ -449,8 +449,6 @@ CREATE TABLE public.users (
     email character varying,
     password_digest character varying NOT NULL,
     forgot_password_token character varying NOT NULL,
-    posts_points integer DEFAULT 0 NOT NULL,
-    comments_points integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -1377,6 +1375,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814143945'),
 ('20190818113049'),
 ('20190818113247'),
-('20190820140446');
+('20190820140446'),
+('20190820202154');
 
 

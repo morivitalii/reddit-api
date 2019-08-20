@@ -156,11 +156,6 @@ ru:
     many: комментариев
     one: комментарий
     other: комментариев
-  points_count:
-    few: поинта
-    many: поинтов
-    one: поинт
-    other: поинта
   forgot_password_mailer:
     subject: Восстановление пароля
     body_html: 'Для восстановления пароля проследуйте по <a href="%{url}">этой ссылке</a>'

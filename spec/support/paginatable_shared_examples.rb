@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.shared_examples_for "paginatable" do
+RSpec.shared_examples "paginatable" do
   context "when there is records after last one in collection" do
     it "sets it as a pagination record" do
       create_list(factory_name, 2)

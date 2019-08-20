@@ -8,10 +8,5 @@
       <%= t('signed_up_at') %><br>
       <%= datetime_short_tag(user.created_at) %>
     </div>
-
-    <div class="col-12 mt-2">
-      <%= number_with_delimiter(user.posts_points) %> <%= t('points_count', count: user.posts_points) %> <%= t('for_posts') %><br>
-      <%= number_with_delimiter(user.comments_points) %> <%= t('points_count', count: user.comments_points) %> <%= t('for_comments') %>
-    </div>
   </div>
 <% end %>
