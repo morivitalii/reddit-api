@@ -2,7 +2,6 @@
 
 class Comment < ApplicationRecord
   include Paginatable
-  include Editable
   include Removable
   include Reportable
   include Votable
@@ -18,10 +17,12 @@ class Comment < ApplicationRecord
   has_many :comments, class_name: "Comment", foreign_key: "comment_id", dependent: :destroy
   has_many :bookmarks, as: :bookmarkable, dependent: :destroy
   belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", touch: true, optional: true
+  belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", touch: true, optional: true
 
   after_save :upsert_in_topic
   before_create -> { approve(user) }, if: :auto_approve?
   before_update :undo_remove, if: :approving?
+  before_update :undo_approve, if: :editing?
 
   validates :text, presence: true, length: { maximum: 10_000 }
 
@@ -38,6 +39,14 @@ class Comment < ApplicationRecord
     approved_at.present?
   end
 
+  def edit(user)
+    assign_attributes(edited_by: user, edited_at: Time.current)
+  end
+
+  def edited?
+    edited_at.present?
+  end
+
   private
 
   def approve(user)
@@ -49,12 +58,16 @@ class Comment < ApplicationRecord
   end
 
   def approving?
-    approved_at_changed? && approved?
+    approved_at.present? && approved_at_changed?
   end
 
   def auto_approve?
     context = Context.new(user, community)
     Pundit.policy(context, self).approve?
+  end
+
+  def editing?
+    edited_at.present? && edited_at_changed?
   end
 
   def upsert_in_topic
