@@ -5,9 +5,9 @@ RSpec.describe Comment, type: :model do
 
   it_behaves_like "paginatable"
   it_behaves_like "votable"
-  it_behaves_like "removable"
   it_behaves_like "reportable"
   it_behaves_like "markdownable", :text
+  it_behaves_like "strip attributes", :removed_reason, squish: true
   it_behaves_like "strip attributes", :text
 
   context "when author have permissions for approving" do
@@ -34,9 +34,9 @@ RSpec.describe Comment, type: :model do
     end
   end
 
-  describe "when comment approved" do
+  context "when comment is approved" do
     context "and when it is editing" do
-      it "resets approved attributes on update" do
+      it "resets approved attributes" do
         comment = create(:approved_comment)
         allow(comment).to receive(:editing?).and_return(true)
 
@@ -48,9 +48,33 @@ RSpec.describe Comment, type: :model do
     end
 
     context "and when it is not editing" do
-      it "does not reset approved attributes on update" do
+      it "does not reset approved attributes" do
         comment = create(:approved_comment)
         allow(comment).to receive(:editing?).and_return(false)
+
+        comment.save!
+
+        expect(comment.approved_by).to be_present
+        expect(comment.approved_at).to be_present
+      end
+    end
+
+    context "and when it is removing" do
+      it "resets approved attributes" do
+        comment = create(:approved_comment)
+        allow(comment).to receive(:removing?).and_return(true)
+
+        comment.save!
+
+        expect(comment.approved_by).to be_blank
+        expect(comment.approved_at).to be_blank
+      end
+    end
+
+    context "and when it is not removing" do
+      it "does not reset approved attributes" do
+        comment = create(:approved_comment)
+        allow(comment).to receive(:removing?).and_return(false)
 
         comment.save!
 
@@ -117,6 +141,38 @@ RSpec.describe Comment, type: :model do
         comment = build(:not_edited_comment)
 
         expect(comment).to_not be_edited
+      end
+    end
+  end
+
+  describe ".remove" do
+    it "removes comment" do
+      comment = create(:comment)
+      removed_by = create(:user)
+      reason = "Reason"
+
+      comment.remove!(removed_by, reason)
+
+      expect(comment.removed_by).to eq(removed_by)
+      expect(comment.removed_at).to be_present
+      expect(comment.removed_reason).to eq(reason)
+    end
+  end
+
+  describe ".removed?" do
+    context "when comment is not removed" do
+      it "returns false" do
+        comment = build(:not_removed_comment)
+
+        expect(comment).to_not be_removed
+      end
+    end
+
+    context "when comment is removed" do
+      it "returns true" do
+        comment = build(:removed_comment)
+
+        expect(comment).to be_removed
       end
     end
   end

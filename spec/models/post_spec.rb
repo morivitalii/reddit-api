@@ -5,10 +5,9 @@ RSpec.describe Post, type: :model do
 
   it_behaves_like "paginatable"
   it_behaves_like "votable"
-  it_behaves_like "removable"
   it_behaves_like "reportable"
   it_behaves_like "markdownable", :text
-  it_behaves_like "strip attributes", :title, squish: true
+  it_behaves_like "strip attributes", :title, :removed_reason, squish: true
   it_behaves_like "strip attributes", :text
 
   context "when author have permissions for approving" do
@@ -37,7 +36,7 @@ RSpec.describe Post, type: :model do
 
   context "when post is approved" do
     context "and when it is editing" do
-      it "resets approved attributes on update" do
+      it "resets approved attributes" do
         post = create(:approved_post)
         allow(post).to receive(:editing?).and_return(true)
 
@@ -49,9 +48,33 @@ RSpec.describe Post, type: :model do
     end
 
     context "and when it is not editing" do
-      it "does not reset approved attributes on update" do
+      it "does not reset approved attributes" do
         post = create(:approved_post)
         allow(post).to receive(:editing?).and_return(false)
+
+        post.save!
+
+        expect(post.approved_by).to be_present
+        expect(post.approved_at).to be_present
+      end
+    end
+
+    context "and when it is removing" do
+      it "resets approved attributes" do
+        post = create(:approved_post)
+        allow(post).to receive(:removing?).and_return(true)
+
+        post.save!
+
+        expect(post.approved_by).to be_blank
+        expect(post.approved_at).to be_blank
+      end
+    end
+
+    context "and when it is not removing" do
+      it "does not reset approved attributes" do
+        post = create(:approved_post)
+        allow(post).to receive(:removing?).and_return(false)
 
         post.save!
 
@@ -118,6 +141,38 @@ RSpec.describe Post, type: :model do
         post = build(:not_edited_post)
 
         expect(post).to_not be_edited
+      end
+    end
+  end
+
+  describe ".remove" do
+    it "removes post" do
+      post = create(:post)
+      removed_by = create(:user)
+      reason = "Reason"
+
+      post.remove!(removed_by, reason)
+
+      expect(post.removed_by).to eq(removed_by)
+      expect(post.removed_at).to be_present
+      expect(post.removed_reason).to eq(reason)
+    end
+  end
+
+  describe ".removed?" do
+    context "when post is not removed" do
+      it "returns false" do
+        post = build(:not_removed_post)
+
+        expect(post).to_not be_removed
+      end
+    end
+
+    context "when post is removed" do
+      it "returns true" do
+        post = build(:removed_post)
+
+        expect(post).to be_removed
       end
     end
   end

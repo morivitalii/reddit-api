@@ -2,13 +2,13 @@
 
 class Comment < ApplicationRecord
   include Paginatable
-  include Removable
   include Reportable
   include Votable
   include Markdownable
 
   markdown_attributes :text
   strip_attributes :text
+  strip_attributes :removed_reason, squish: true
 
   belongs_to :user, touch: true
   belongs_to :community, touch: true
@@ -18,13 +18,15 @@ class Comment < ApplicationRecord
   has_many :bookmarks, as: :bookmarkable, dependent: :destroy
   belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", touch: true, optional: true
   belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", touch: true, optional: true
+  belongs_to :removed_by, class_name: "User", foreign_key: "removed_by_id", touch: true, optional: true
 
   after_save :upsert_in_topic
   before_create -> { approve(user) }, if: :auto_approve?
   before_update :undo_remove, if: :approving?
-  before_update :undo_approve, if: :editing?
+  before_update :undo_approve, if: -> { editing? || removing? }
 
   validates :text, presence: true, length: { maximum: 10_000 }
+  validates :removed_reason, allow_blank: true, length: { maximum: 5_000 }
 
   def cut_text_preview?
     text.length > 800
@@ -45,6 +47,14 @@ class Comment < ApplicationRecord
 
   def edited?
     edited_at.present?
+  end
+
+  def remove!(user, reason = nil)
+    update!(removed_by: user, removed_at: Time.current, removed_reason: reason)
+  end
+
+  def removed?
+    removed_at.present?
   end
 
   private
@@ -68,6 +78,14 @@ class Comment < ApplicationRecord
 
   def editing?
     edited_at.present? && edited_at_changed?
+  end
+
+  def undo_remove
+    assign_attributes(removed_by: nil, removed_at: nil, removed_reason: nil)
+  end
+
+  def removing?
+    removed_at.present? && removed_at_changed?
   end
 
   def upsert_in_topic

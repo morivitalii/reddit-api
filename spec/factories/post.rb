@@ -53,6 +53,11 @@ FactoryBot.define do
       edited_at { Time.current }
     end
 
+    trait :not_removed do
+      removed_at { nil }
+      removed_by { nil }
+    end
+
     trait :removed do
       removed_at { Time.current }
       association :removed_by, factory: :user
@@ -70,6 +75,7 @@ FactoryBot.define do
 
     factory :not_moderated_post, traits: [:not_moderated]
     factory :moderated_post, traits: [:moderated]
+    factory :not_removed_post, traits: [:not_removed]
     factory :removed_post, traits: [:removed]
     factory :not_approved_post, traits: [:not_approved]
     factory :approved_post, traits: [:approved]

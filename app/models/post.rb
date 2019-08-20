@@ -2,7 +2,6 @@
 
 class Post < ApplicationRecord
   include Paginatable
-  include Removable
   include Reportable
   include Votable
   include Markdownable
@@ -15,9 +14,10 @@ class Post < ApplicationRecord
   has_many :bookmarks, as: :bookmarkable, dependent: :destroy
   belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", touch: true, optional: true
   belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", touch: true, optional: true
+  belongs_to :removed_by, class_name: "User", foreign_key: "removed_by_id", touch: true, optional: true
 
   markdown_attributes :text
-  strip_attributes :title, squish: true
+  strip_attributes :title, :removed_reason, squish: true
   strip_attributes :text
 
   before_create :normalize_url_on_create
@@ -26,9 +26,10 @@ class Post < ApplicationRecord
   after_create :create_topic_on_create
   before_create -> { approve(user) }, if: :auto_approve?
   before_update :undo_remove, if: :approving?
-  before_update :undo_approve, if: :editing?
+  before_update :undo_approve, if: -> { editing? || removing? }
 
   validates :title, presence: true, length: { maximum: 350 }
+  validates :removed_reason, allow_blank: true, length: { maximum: 5_000 }
 
   with_options if: ->(r) { r.text.present? } do
     validates :text, presence: true, length: { maximum: 10_000 }
@@ -121,6 +122,14 @@ class Post < ApplicationRecord
     edited_at.present?
   end
 
+  def remove!(user, reason = nil)
+    update!(removed_by: user, removed_at: Time.current, removed_reason: reason)
+  end
+
+  def removed?
+    removed_at.present?
+  end
+
   private
 
   def approve(user)
@@ -142,6 +151,14 @@ class Post < ApplicationRecord
 
   def editing?
     edited_at.present? && edited_at_changed?
+  end
+
+  def undo_remove
+    assign_attributes(removed_by: nil, removed_at: nil, removed_reason: nil)
+  end
+
+  def removing?
+    removed_at.present? && removed_at_changed?
   end
 
   def normalize_url_on_create
