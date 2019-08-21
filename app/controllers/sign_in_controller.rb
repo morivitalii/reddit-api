@@ -32,6 +32,7 @@ class SignInController < ApplicationController
   private
 
   def pundit_user
-    Context.new(current_user, CommunitiesQuery.new.default.take!)
+    @_default_community ||= CommunitiesQuery.new.default.take!
+    Context.new(current_user, @_default_community)
   end
 end
