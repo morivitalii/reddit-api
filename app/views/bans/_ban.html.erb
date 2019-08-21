@@ -4,28 +4,18 @@
 
     <div class="actions">
       <% if policy(ban).update? %>
-        <%= link_to(fa_icon('pencil'), edit_community_ban_path(ban.community, ban), remote: true, class: 'update') %>
+        <%= link_to(fa_icon("pencil"), edit_community_ban_path(ban.community, ban), remote: true, class: "update") %>
       <% end %>
 
       <% if policy(ban).destroy? %>
-        <%= link_to(fa_icon('trash'), "#", class: 'delete', data: { url: community_ban_path(ban.community, ban) }) %>
+        <%= link_to(fa_icon("trash"), "#", class: "delete", data: { url: community_ban_path(ban.community, ban) }) %>
       <% end %>
 
-      <span class="toggleDetails"><%= fa_icon('ellipsis-h') %></span>
+      <span class="toggleDetails"><%= fa_icon("ellipsis-h") %></span>
     </div>
   </div>
 
   <div class="details col-12 d-none">
-    <%= datetime_short_tag(ban.created_at) %>
-
-    <% if ban.permanent? %>
-      <%= t('permanent') %>
-    <% else %>
-      <%= t('until') %> <%= datetime_short_tag(ban.end_at) %>
-    <% end %>
-
-    <% if ban.reason.present? %>
-      <%= t('reason') %>: <%= ban.reason %>
-    <% end %>
+    <%= ban.details %>
   </div>
 </div>

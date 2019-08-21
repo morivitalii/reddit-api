@@ -1,16 +1,16 @@
 <% content_for(:meta_title, "#{@community.title}: #{t("bans")}") %>
 
-<%= render 'shared/sidebar', community: @community %>
+<%= render("shared/sidebar", community: @community) %>
 
 <div id="bans" class="entries row">
   <div class="head col-12">
     <div class="title">
-      <%= link_to(t('bans'), community_bans_path(@community)) %>
+      <%= link_to(t("bans"), community_bans_path(@community)) %>
     </div>
 
     <div class="actions">
       <% if policy(Ban).create? %>
-        <%= link_to(t('create'), new_community_ban_path(@community), remote: true, class: 'create') %>
+        <%= link_to(t("create"), new_community_ban_path(@community), remote: true, class: 'create') %>
       <% end %>
     </div>
   </div>
@@ -25,9 +25,9 @@
 
   <div class="col-12">
     <div class="body col-12">
-      <%= render partial: "ban", collection: @records %>
+      <%= render(bans) %>
     </div>
   </div>
 </div>
 
-<%= render 'shared/pagination', pagination: @pagination %>
+<%= render("shared/pagination", pagination: @pagination) %>

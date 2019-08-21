@@ -23,8 +23,6 @@ ru:
       invalid_username: пользователь с таким именем не зарегистрирован
       invalid_credentials: неправильное имя пользователя или пароль
       invalid_current_password: неправильный текущий пароль. если вы не помните его, воспользуйтесь функцией восстановления пароля
-      user_moderator: пользователь модератор
-      user_banned: пользователь забанен
       invalid_file_format: 'допустимые форматы файла: %{whitelist}'
       invalid_file_size: максимальный вес png jpg jpeg 20 мб, gif 100 мб, mp4 30 мб
       rules_limit: можно создать не больше 15 правил
@@ -103,12 +101,11 @@ ru:
   rules_violation: Нарушение правил сообщества
   other_violation: Другие причины
   custom_report: Произвольная жалоба
-  banned_until_html: 'Вы забанены в этом сабе до %{until}'
-  banned_permanent: Вы забанены в этом сабе перманентно
   forward: вперед
-  permanent: перманентно
-  until: до
-  reason: по причине
+  ban_created_at_html: 'Забанен %{created_at}'
+  banned_permanently: перманентно
+  ban_end_at_html: 'до %{end_at}'
+  ban_reason: 'по причине: "%{reason}"'
   restricted_access: У вас нету доступа к этой странице
   not_xhr_request: Эта страница недоступна по прямому запросу
   approved_details: 'Одобренно %{username} %{approved_at}'

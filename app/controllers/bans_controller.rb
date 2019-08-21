@@ -5,9 +5,10 @@ class BansController < ApplicationController
   before_action :set_ban, only: [:edit, :update, :destroy]
   before_action -> { authorize(Ban) }, only: [:index, :new, :create]
   before_action -> { authorize(@ban) }, only: [:edit, :update, :destroy]
+  decorates_assigned :bans, :ban
 
   def index
-    @records, @pagination = query.paginate(after: params[:after])
+    @bans, @pagination = query.paginate(after: params[:after])
   end
 
   def new
@@ -38,7 +39,7 @@ class BansController < ApplicationController
     @form = UpdateBanForm.new(update_params)
 
     if @form.save
-      render partial: "ban", object: @form.ban
+      render partial: "ban"
     else
       render json: @form.errors, status: :unprocessable_entity
     end
