@@ -8,7 +8,7 @@
       <%= link_to(@post.user.username, posts_user_path(@post.user)) %> <%= @post.created_at %>
 
       <% if @post.edited? %>
-        <%= @post.edited_message %>
+        <%= @post.edited_at %>
       <% end %>
 
       <% if @post.explicit? %>
