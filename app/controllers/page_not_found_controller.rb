@@ -2,6 +2,7 @@
 
 class PageNotFoundController < ApplicationController
   before_action -> { authorize(:page_not_found) }
+  before_action :set_community
 
   def show
     render status: :not_found
@@ -9,8 +10,11 @@ class PageNotFoundController < ApplicationController
 
   private
 
+  def set_community
+    @community = CommunitiesQuery.new.default.take!
+  end
+
   def pundit_user
-    @_default_community ||= CommunitiesQuery.new.default.take!
-    Context.new(current_user, @_default_community)
+    Context.new(current_user, @community)
   end
 end
