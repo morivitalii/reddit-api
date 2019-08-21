@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class CommentDecorator < ApplicationDecorator
-  include ReportableDecorator
   include CommentableDecorator
 
   def edited_at
@@ -112,5 +111,33 @@ class CommentDecorator < ApplicationDecorator
     link_to_user_profile = h.link_to(removed_by.username, h.posts_user_path(removed_by))
 
     h.t("removed_html", username: link_to_user_profile, removed_at: removed_at, reason: reason)
+  end
+
+  def report_link
+    link_title = h.t('report')
+    link_path = [:new, model, :report]
+    link_class = "report dropdown-item"
+
+    h.link_to(link_title, link_path, remote: true, class: link_class)
+  end
+
+  def reports_link
+    link_title = h.t('reports')
+    link_path = [model, :reports]
+    link_class = "reports dropdown-item"
+
+    h.link_to(link_title, link_path, remote: true, class: link_class)
+  end
+
+  def ignore_reports_link
+    ignore_reports = model.ignore_reports?
+    model_name = model.class.name.camelize(:lower)
+
+    link_title = ignore_reports ? h.fa_icon('check-square-o', text: h.t('ignore_reports')) : h.fa_icon('square-o', text: h.t('ignore_reports'))
+    link_class = "ignore_reports dropdown-item"
+    link_data_params = "update_#{model_name}[ignore_reports]=#{ignore_reports ? false : true}"
+    link_path = [model]
+
+    h.link_to(link_title, link_path, data: { params: link_data_params }, remote: true, method: :put, class: link_class)
   end
 end
