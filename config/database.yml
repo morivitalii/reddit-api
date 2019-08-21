@@ -7,18 +7,14 @@ default: &default
 development:
   <<: *default
   database: app_development
-  host: postgresql
-  username: postgres
 
 test:
   <<: *default
   database: app_test
-  host: postgresql
-  username: postgres
 
 production:
   <<: *default
-  database: <%= ENV.fetch("DB_NAME") %>
-  username: <%= ENV.fetch("DB_USERNAME") %>
-  password: <%= ENV.fetch("DB_PASSWORD") %>
-  pool: <%= ENV.fetch("DB_CONNECTIONS_POOL") %>
+  database: <%= ENV["DB_NAME"] %>
+  username: <%= ENV["DB_USERNAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
+  pool: <%= ENV["DB_CONNECTIONS_POOL"] %>
