@@ -52,6 +52,7 @@ group :test do
   gem "selenium-webdriver", "~> 3.142"
   gem "webmock", "~> 3.6"
   gem "shoulda-matchers", "~> 4.1"
+  gem "rails-controller-testing"
 end
 
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]

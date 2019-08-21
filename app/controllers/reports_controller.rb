@@ -2,7 +2,6 @@
 
 class ReportsController < ApplicationController
   before_action :set_reportable
-  before_action :set_facade
   before_action -> { authorize(Report) }
 
   def index

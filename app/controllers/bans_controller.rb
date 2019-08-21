@@ -3,7 +3,6 @@
 class BansController < ApplicationController
   before_action :set_community
   before_action :set_ban, only: [:edit, :update, :destroy]
-  before_action :set_facade
   before_action -> { authorize(Ban) }, only: [:index, :new, :create]
   before_action -> { authorize(@ban) }, only: [:edit, :update, :destroy]
 
@@ -53,7 +52,7 @@ class BansController < ApplicationController
 
   private
 
-  def context
+  def pundit_user
     Context.new(current_user, @community)
   end
 

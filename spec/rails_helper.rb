@@ -68,8 +68,8 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include Shoulda::Matchers::ActiveModel, type: :form
+  config.include ContextHelper, type: :controller
   config.include ContextHelper, type: :policy
-  config.include ContextHelper, type: :facade
 end
 
 Shoulda::Matchers.configure do |config|

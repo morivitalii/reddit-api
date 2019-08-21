@@ -2,7 +2,6 @@
 
 class CommunitiesController < ApplicationController
   before_action :set_community
-  before_action :set_facade
   before_action -> { authorize(@community) }
 
   def show
@@ -28,7 +27,7 @@ class CommunitiesController < ApplicationController
 
   private
 
-  def context
+  def pundit_user
     Context.new(current_user, @community)
   end
 

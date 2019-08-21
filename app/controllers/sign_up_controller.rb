@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class SignUpController < ApplicationController
-  before_action :set_facade
   before_action -> { authorize(:sign_up) }
 
   def new
@@ -27,6 +26,10 @@ class SignUpController < ApplicationController
   end
 
   private
+
+  def pundit_user
+    Context.new(current_user, CommunitiesQuery.new.default.take!)
+  end
 
   def create_params
     attributes = policy(:sign_up).permitted_attributes_for_create

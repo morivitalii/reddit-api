@@ -2,7 +2,6 @@
 
 class ModQueuesController < ApplicationController
   before_action :set_community
-  before_action :set_facade
   before_action -> { authorize(:mod_queue) }
 
   def new_posts
@@ -27,7 +26,7 @@ class ModQueuesController < ApplicationController
 
   private
 
-  def context
+  def pundit_user
     Context.new(current_user, @community)
   end
 

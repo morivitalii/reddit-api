@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class SignInController < ApplicationController
-  before_action :set_facade
   before_action -> { authorize(:sign_in) }
 
   def new
@@ -28,5 +27,11 @@ class SignInController < ApplicationController
     @form = request.env["warden.options"][:form]
 
     render json: @form.errors, status: :unprocessable_entity
+  end
+
+  private
+
+  def pundit_user
+    Context.new(current_user, CommunitiesQuery.new.default.take!)
   end
 end

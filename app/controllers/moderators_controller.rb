@@ -3,7 +3,6 @@
 class ModeratorsController < ApplicationController
   before_action :set_community
   before_action :set_moderator, only: [:destroy]
-  before_action :set_facade
   before_action -> { authorize(Moderator) }, only: [:index, :new, :create]
   before_action -> { authorize(@moderator) }, only: [:destroy]
 
@@ -35,7 +34,7 @@ class ModeratorsController < ApplicationController
 
   private
 
-  def context
+  def pundit_user
     Context.new(current_user, @community)
   end
 

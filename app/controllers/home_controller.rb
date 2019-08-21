@@ -3,7 +3,6 @@
 class HomeController < ApplicationController
   before_action -> { authorize(:home) }
   before_action :set_community
-  before_action :set_facade
 
   def index
     @records, @pagination = query.paginate(attributes: ["#{sorting}_score", :id], after: params[:after])
@@ -11,6 +10,10 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def pundit_user
+    Context.new(current_user, CommunitiesQuery.new.default.take!)
+  end
 
   def set_community
     @community = CommunitiesQuery.new.default.take!

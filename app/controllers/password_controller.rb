@@ -2,7 +2,6 @@
 
 class PasswordController < ApplicationController
   before_action -> { authorize(:password) }
-  before_action :set_facade
 
   def edit
     @form = ChangePasswordForm.new(link_params)
@@ -21,6 +20,10 @@ class PasswordController < ApplicationController
   end
 
   private
+
+  def pundit_user
+    Context.new(current_user, CommunitiesQuery.new.default.take!)
+  end
 
   def link_params
     params.permit(:token)

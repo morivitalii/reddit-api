@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class SignOutController < ApplicationController
-  before_action :set_facade
   before_action -> { authorize(:sign_out) }
 
   def destroy

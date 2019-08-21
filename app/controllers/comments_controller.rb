@@ -7,7 +7,6 @@ class CommentsController < ApplicationController
   before_action :set_commentable, only: [:new, :create]
   before_action :set_sort_options, only: [:show]
   before_action :set_sort, only: [:show]
-  before_action :set_facade
   before_action -> { authorize(Comment) }, only: [:new, :create]
   before_action -> { authorize(@comment) }, only: [:edit, :update, :approve, :remove, :destroy]
 
@@ -110,7 +109,7 @@ class CommentsController < ApplicationController
 
   private
 
-  def context
+  def pundit_user
     # TODO
   end
 

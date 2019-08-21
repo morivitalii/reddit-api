@@ -111,7 +111,7 @@ document.addEventListener('ajax:error', function (e) {
         $('.modal').modal('hide');
         $('body').append(e.detail[0].activeElement.innerHTML);
         $('.modal').modal('show');
-    } else if (e.detail[2].status === 406) {
+    } else if (e.detail[2].status === 403) {
         notification('У вас нету доступа к этому действию');
     } else if (e.detail[2].status === 422) {
         var form = $(this);

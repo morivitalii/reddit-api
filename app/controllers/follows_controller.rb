@@ -2,7 +2,6 @@
 
 class FollowsController < ApplicationController
   before_action :set_community
-  before_action :set_facade
   before_action -> { authorize(Follow) }
 
   def create
@@ -19,7 +18,7 @@ class FollowsController < ApplicationController
 
   private
 
-  def context
+  def pundit_user
     Context.new(current_user, @community)
   end
 

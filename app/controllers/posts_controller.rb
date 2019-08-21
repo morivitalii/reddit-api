@@ -7,7 +7,6 @@ class PostsController < ApplicationController
   before_action :set_community
   before_action :set_sort_options, only: [:show]
   before_action :set_sort, only: [:show]
-  before_action :set_facade
   before_action -> { authorize(Post) }, only: [:new, :create]
   before_action -> { authorize(@post) }, only: [:show, :edit, :update, :approve, :remove, :destroy]
 
@@ -89,7 +88,7 @@ class PostsController < ApplicationController
 
   private
 
-  def context
+  def pundit_user
     Context.new(current_user, @community)
   end
 

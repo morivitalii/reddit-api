@@ -1,21 +1,35 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include PageNotFound
   include Authorization
   include Pundit
-  include PageNotFound
 
   after_action :verify_authorized
 
   private
 
-  def context
-    @default_community ||= CommunitiesQuery.new.default.take!
+  helper_method :communities_moderated_by_user
+  def communities_moderated_by_user
+    return [] if current_user.blank?
 
-    Context.new(current_user, @default_community)
+    @communities_moderated_by_user ||= CommunitiesQuery.new.with_user_moderator(current_user).all
   end
 
-  def set_facade
-    @facade = ApplicationFacade.new(context)
+  helper_method :communities_followed_by_user
+  def communities_followed_by_user
+    return [] if current_user.blank?
+
+    @communities_followed_by_user ||= CommunitiesQuery.new.with_user_follower(current_user).all
+  end
+
+  helper_method :sidebar_rules
+  def sidebar_rules
+    @sidebar_rules ||= pundit_user.community.rules.order(id: :asc).all
+  end
+
+  helper_method :sidebar_moderators
+  def sidebar_moderators
+    @sidebar_moderators ||= ModeratorsQuery.new(pundit_user.community.moderators).recent(10).includes(:user).all
   end
 end

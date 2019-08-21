@@ -5,7 +5,6 @@ class BookmarksController < ApplicationController
   before_action -> { authorize(@user, policy_class: BookmarkPolicy) }, only: [:posts, :comments]
   before_action -> { authorize(Bookmark) }, only: [:create, :destroy]
   before_action :set_bookmarkable, only: [:create, :destroy]
-  before_action :set_facade
 
   def posts
     @records, @pagination = posts_query.paginate(after: params[:after])

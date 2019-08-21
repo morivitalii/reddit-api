@@ -3,7 +3,7 @@
 class Context
   attr_accessor :user, :community
 
-  def initialize(user, community)
+  def initialize(user, community = nil)
     @user = user
     @community = community
   end

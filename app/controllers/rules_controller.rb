@@ -3,7 +3,6 @@
 class RulesController < ApplicationController
   before_action :set_community
   before_action :set_rule, only: [:edit, :update, :destroy]
-  before_action :set_facade
   before_action -> { authorize(Rule) }, only: [:index, :new, :create]
   before_action -> { authorize(rule) }, only: [:edit, :update, :destroy]
 
@@ -53,7 +52,7 @@ class RulesController < ApplicationController
 
   private
 
-  def context
+  def pundit_user
     Context.new(current_user, @community)
   end
 
