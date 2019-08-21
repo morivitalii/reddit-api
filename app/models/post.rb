@@ -41,7 +41,8 @@ class Post < ApplicationRecord
   end
 
   with_options if: ->(r) { r.url.present? } do
-    validates :url, presence: true, length: { maximum: 2048 }, url_format: true
+    validates :url, presence: true, length: { maximum: 2048 }
+    validate :validate_url_format
     validates :text, absence: true
     validates :media, absence: true
   end
@@ -138,6 +139,16 @@ class Post < ApplicationRecord
   end
 
   private
+
+  def validate_url_format
+    uri = Addressable::URI.parse(url).normalize
+
+    unless uri.present? && uri.host.present? && uri.scheme.in?(%w(http https))
+      errors.add(:url, :invalid)
+    end
+  rescue StandardError
+    errors.add(:url, :invalid)
+  end
 
   def approve_by_author
     assign_attributes(approved_by: user, approved_at: Time.current)
