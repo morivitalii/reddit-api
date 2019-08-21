@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
-  include RateLimits
-
   before_action :set_post, only: [:show, :edit, :update, :approve, :remove, :destroy]
   before_action :set_community
   before_action :set_sort_options, only: [:show]
@@ -26,11 +24,11 @@ class PostsController < ApplicationController
   def create
     @form = CreatePost.new(create_params)
 
-    rate_limit_key = :posts
-    rate_limits = 100
+    rate_limit_action = :create_post
+    rate_limit = 100
 
-    if check_rate_limits(@form, attribute: :title, key: rate_limit_key, limit: rate_limits) && @form.save
-      hit_rate_limits(key: rate_limit_key)
+    if validate_rate_limit(@form, attribute: :title, action: rate_limit_action, limit: rate_limit) && @form.save
+      hit_rate_limit(rate_limit_action)
 
       head :no_content, location: post_path(@form.post)
     else

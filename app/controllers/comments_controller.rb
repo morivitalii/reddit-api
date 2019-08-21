@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
-  include RateLimits
-
   before_action :set_comment, only: [:edit, :update, :approve, :remove, :destroy]
   before_action :set_commentable, only: [:new, :create]
   before_action :set_sort_options, only: [:show]
@@ -48,11 +46,11 @@ class CommentsController < ApplicationController
   def create
     @form = CreateComment.new(create_params)
 
-    rate_limit_key = :comments
-    rate_limits = 200
+    rate_limit_action = :create_comment
+    rate_limit = 200
 
-    if check_rate_limits(@form, attribute: :text, key: rate_limit_key, limit: rate_limits) && @form.save
-      hit_rate_limits(key: rate_limit_key)
+    if validate_rate_limit(@form, attribute: :text, action: rate_limit_action, limit: rate_limit) && @form.save
+      hit_rate_limit(rate_limit_action)
 
       render partial: "nested_comment", locals: { comment: @form.comment }
     else

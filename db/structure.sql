@@ -304,7 +304,7 @@ ALTER SEQUENCE public.posts_id_seq OWNED BY public.posts.id;
 CREATE TABLE public.rate_limits (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
-    key character varying NOT NULL,
+    action character varying NOT NULL,
     hits integer DEFAULT 0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -978,17 +978,17 @@ CREATE INDEX index_posts_on_user_id ON public.posts USING btree (user_id);
 
 
 --
+-- Name: index_rate_limits_on_action; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_rate_limits_on_action ON public.rate_limits USING btree (action);
+
+
+--
 -- Name: index_rate_limits_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_rate_limits_on_created_at ON public.rate_limits USING btree (created_at);
-
-
---
--- Name: index_rate_limits_on_key; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_rate_limits_on_key ON public.rate_limits USING btree (key);
 
 
 --
@@ -1376,6 +1376,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190818113049'),
 ('20190818113247'),
 ('20190820140446'),
-('20190820202154');
+('20190820202154'),
+('20190821105247');
 
 

@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   include PageNotFound
   include Authorization
+  include RateLimits
   include Pundit
 
   after_action :verify_authorized

@@ -6,16 +6,16 @@ module RateLimits
   included do
     private
 
-    def check_rate_limits(model, options)
+    def validate_rate_limit(model, options)
       return true if skip_rate_limiting?
 
       attribute = options.fetch(:attribute)
-      key = options.fetch(:key)
+      action = options.fetch(:action)
       limit = options.fetch(:limit)
 
-      rate_limit = current_user_rate_limit(key)
+      rate_limit = get_rate_limit(action)
 
-      if rate_limit.hits > limit
+      if rate_limit.hits >= limit
         model.errors.add(attribute, :rate_limits)
 
         false
@@ -24,23 +24,19 @@ module RateLimits
       end
     end
 
-    def hit_rate_limits(options)
-      return true if skip_rate_limiting?
-
-      key = options.fetch(:key)
-
-      rate_limit = current_user_rate_limit(key)
+    def hit_rate_limit(action)
+      rate_limit = get_rate_limit(action)
       rate_limit.increment!(:hits)
     end
 
-    def current_user_rate_limit(key)
-      query = RateLimitsQuery.new(current_user.rate_limits).daily
+    protected
 
-      @current_user_rate_limit ||= query.find_or_create_by!(key: key)
+    def get_rate_limit(action)
+      @get_rate_limit ||= RateLimitsQuery.new(current_user.rate_limits).daily.find_or_create_by!(action: action)
     end
 
     def skip_rate_limiting?
-      ApplicationPolicy.new(context, nil).skip_rate_limiting?
+      ApplicationPolicy.new(pundit_user, nil).skip_rate_limiting?
     end
   end
 end

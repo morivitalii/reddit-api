@@ -187,13 +187,53 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  describe "rate limiting" do
-    describe ".check_rate_limits" do
+  describe ".validate_rate_limit" do
+    context "when rate limiting is skipped" do
+      it "returns true" do
+        allow(controller).to receive(:skip_rate_limiting?).and_return(true)
 
+        result = controller.send(:validate_rate_limit, double, double)
+
+        expect(result).to be_truthy
+      end
     end
 
-    describe ".hit_rate_limits" do
+    context "when user above action limits" do
+      it "returns false and set error to provided model attribute" do
+        model = build(:rate_limit)
+        rate_limit = instance_double(RateLimit)
+        allow(rate_limit).to receive(:hits).and_return(1)
+        allow(controller).to receive(:get_rate_limit).with(:action).and_return(rate_limit)
+        allow(controller).to receive(:skip_rate_limiting?).and_return(false)
 
+        result = controller.send(:validate_rate_limit, model, { attribute: :action, action: :action, limit: 1 })
+
+        expect(result).to be_falsey
+        expect(model).to have_error(:rate_limits).on(:action)
+      end
+    end
+
+    context "when user under action limits" do
+      it "returns true" do
+        model = build(:rate_limit)
+        rate_limit = instance_double(RateLimit)
+        allow(rate_limit).to receive(:hits).and_return(1)
+        allow(controller).to receive(:get_rate_limit).with(:action).and_return(rate_limit)
+        allow(controller).to receive(:skip_rate_limiting?).and_return(false)
+
+        result = controller.send(:validate_rate_limit, model, { attribute: :action, action: :action, limit: 2 })
+
+        expect(result).to be_truthy
+      end
+    end
+  end
+
+  describe ".hit_rate_limit" do
+    it "increment user rate limit hits" do
+      rate_limit = create(:rate_limit)
+      allow(controller).to receive(:get_rate_limit).and_return(rate_limit)
+
+      expect { controller.send(:hit_rate_limit, :action) }.to change { rate_limit.hits }.by(1)
     end
   end
 
