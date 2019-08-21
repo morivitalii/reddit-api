@@ -7,10 +7,14 @@ default: &default
 development:
   <<: *default
   database: app_development
+  username: app
+  password: password
 
 test:
   <<: *default
   database: app_test
+  username: app
+  password: password
 
 production:
   <<: *default
