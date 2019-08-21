@@ -14,12 +14,21 @@ class User < ApplicationRecord
   has_many :reports, dependent: :destroy
   has_many :rate_limits, dependent: :destroy
 
-  validates :username, presence: true, username_format: true, uniqueness: { case_sensitive: false }
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validate :validate_username_format
   validates :email, allow_blank: true,
             format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,64})\z/i },
             uniqueness: { case_sensitive: false }
 
   def to_param
     username
+  end
+
+  private
+
+  def validate_username_format
+    unless /\A[a-z0-9_-]{2,16}\z/i.match?(username)
+      errors.add(:username, :invalid_username_format)
+    end
   end
 end
