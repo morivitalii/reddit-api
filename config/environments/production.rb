@@ -20,8 +20,8 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
   config.active_record.dump_schema_after_migration = false
   config.session_store :cookie_store, expire_after: 1.month, secure: true
-  config.action_mailer.default_url_options = { host: "reedma.ru" }
-  config.action_mailer.default_options = { from: "no-reply@reedma.ru" }
+  config.action_mailer.default_url_options = { host: "readma.ru" }
+  config.action_mailer.default_options = { from: "no-reply@readma.ru" }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     user_name: ENV.fetch("SMTP_USER_NAME"),

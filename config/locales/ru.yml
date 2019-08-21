@@ -40,7 +40,7 @@ ru:
       update_user_settings:
         email: Email (необязательно)
         password: Пароль (оставьте пустым если не хотите изменять)
-  app_name: Reedma.ru
+  app_name: Readma.ru
   home: Главная
   create: Добавить
   edit: Редактировать
