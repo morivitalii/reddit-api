@@ -24,11 +24,11 @@ Rails.application.configure do
   config.action_mailer.default_options = { from: "no-reply@reedma.ru" }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    user_name: Rails.application.credentials.mailer_smtp_user_name,
-    password: Rails.application.credentials.mailer_smtp_password,
-    address: Rails.application.credentials.mailer_smtp_address,
-    domain: Rails.application.credentials.mailer_smtp_domain,
-    port: Rails.application.credentials.mailer_smtp_port,
+    user_name: ENV.fetch("SMTP_USER_NAME"),
+    password: ENV.fetch("SMTP_PASSWORD"),
+    address: ENV.fetch("SMTP_ADDRESS"),
+    domain: ENV.fetch("SMTP_DOMAIN"),
+    port: ENV.fetch("SMTP_PORT"),
     authentication: "login",
     enable_starttls_auto: true
   }
