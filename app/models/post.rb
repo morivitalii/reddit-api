@@ -5,16 +5,16 @@ class Post < ApplicationRecord
   include Markdownable
   include Uploader::Attachment.new(:media)
 
-  belongs_to :community, touch: true
-  belongs_to :user, touch: true
+  belongs_to :community
+  belongs_to :user
   has_one :topic, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :bookmarks, as: :bookmarkable, dependent: :destroy
   has_many :reports, as: :reportable, dependent: :destroy
   has_many :votes, as: :votable, dependent: :destroy
-  belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", touch: true, optional: true
-  belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", touch: true, optional: true
-  belongs_to :removed_by, class_name: "User", foreign_key: "removed_by_id", touch: true, optional: true
+  belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", optional: true
+  belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", optional: true
+  belongs_to :removed_by, class_name: "User", foreign_key: "removed_by_id", optional: true
 
   alias_attribute :score, :top_score
   attribute :vote, default: nil

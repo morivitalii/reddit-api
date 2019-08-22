@@ -3,8 +3,8 @@
 class Ban < ApplicationRecord
   include Paginatable
 
-  belongs_to :community, touch: true
-  belongs_to :user, touch: true
+  belongs_to :community
+  belongs_to :user
 
   before_save :set_end_at
 
