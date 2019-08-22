@@ -35,7 +35,7 @@
     </div>
 
     <div class="col-12 mt-2">
-      <%= number_with_delimiter(community.follows_count) %> <%= t('follows_count', count: community.follows_count) %>
+      <%= community.followers_count %>
     </div>
 
     <div class="col-12 mt-2">
@@ -43,11 +43,15 @@
     </div>
 
     <div class="col-12 mt-2">
-      <% if policy(Follow).create? %>
-        <%= link_to(t('subscribe'), community_follows_path(community), class: 'follow btn btn-primary btn-block', remote: true, method: :post) %>
+      <% if user_signed_in? %>
+        <% if policy(Follow).create? %>
+          <%= link_to(t('follow'), community_follows_path(community), class: 'follow btn btn-primary btn-block', remote: true, method: :post) %>
 
-      <% elsif policy(Follow).destroy? %>
-        <%= link_to(t('unsubscribe'), community_follows_path(community), class: 'follow btn btn-primary btn-block', remote: true, method: :delete) %>
+        <% elsif policy(Follow).destroy? %>
+          <%= link_to(t('unfollow'), community_follows_path(community), class: 'follow btn btn-primary btn-block', remote: true, method: :delete) %>
+        <% end %>
+      <% else %>
+        <%= link_to(t('follow'), new_sign_in_path, remote: true, class: 'signIn btn btn-primary btn-block') %>
       <% end %>
 
       <% if user_signed_in? %>

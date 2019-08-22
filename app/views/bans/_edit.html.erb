@@ -1,5 +1,5 @@
 <%= render 'shared/modal', title: t('edit') do %>
-  <%= form_with(model: @form, url: community_ban_path(@ban.community, @ban), method: :put, class: 'updateForm') do |f| %>
+  <%= form_with(model: @form, url: community_ban_path(ban.community, ban), method: :put, class: 'updateForm') do |f| %>
     <div class="modal-body">
       <%= f.text_area :reason %>
       <%= f.text_field :days %>

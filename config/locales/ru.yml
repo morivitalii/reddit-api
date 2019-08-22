@@ -91,8 +91,8 @@ ru:
   posts_bookmarks: Закладки постов
   comments_bookmarks: Закладки комментариев
   profile: Профиль
-  subscribe: Подписаться
-  unsubscribe: Отписаться
+  follow: Подписаться
+  unfollow: Отписаться
   username: Имя пользователя
   reply: Ответить
   approve: Одобрить
@@ -142,15 +142,15 @@ ru:
   up_and_down: За и против
   up: За
   down: Против
-  follows_count:
-    few: подписчика
-    many: подписчиков
-    one: подписчик
-    other: подписчиков
+  followers:
+    one: '%{count_formatted} подписчик'
+    few: '%{count_formatted} подписчика'
+    many: '%{count_formatted} подписчиков'
+    other: '%{count_formatted} подписчиков'
   comments_count:
+    one: комментарий
     few: комментария
     many: комментариев
-    one: комментарий
     other: комментариев
   forgot_password_mailer:
     subject: Восстановление пароля

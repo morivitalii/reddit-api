@@ -5,6 +5,7 @@ class ModeratorsController < ApplicationController
   before_action :set_moderator, only: [:destroy]
   before_action -> { authorize(Moderator) }, only: [:index, :new, :create]
   before_action -> { authorize(@moderator) }, only: [:destroy]
+  decorates_assigned :community
 
   def index
     @records, @pagination = query.paginate(after: params[:after])

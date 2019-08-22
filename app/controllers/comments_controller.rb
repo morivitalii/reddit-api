@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
   before_action :set_sort, only: [:show]
   before_action -> { authorize(Comment) }, only: [:new, :create]
   before_action -> { authorize(@comment) }, only: [:edit, :update, :approve, :remove, :destroy]
+  decorates_assigned :community
 
   def show
     # TODO

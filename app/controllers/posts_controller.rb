@@ -7,6 +7,7 @@ class PostsController < ApplicationController
   before_action :set_sort, only: [:show]
   before_action -> { authorize(Post) }, only: [:new, :create]
   before_action -> { authorize(@post) }, only: [:show, :edit, :update, :approve, :remove, :destroy]
+  decorates_assigned :community
 
   def show
     # TODO js comments loading

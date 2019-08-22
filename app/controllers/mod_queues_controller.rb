@@ -3,6 +3,7 @@
 class ModQueuesController < ApplicationController
   before_action :set_community
   before_action -> { authorize(:mod_queue) }
+  decorates_assigned :community
 
   def new_posts
     @records, @pagination = new_posts_query.paginate(after: params[:after])

@@ -5,7 +5,7 @@ class BansController < ApplicationController
   before_action :set_ban, only: [:edit, :update, :destroy]
   before_action -> { authorize(Ban) }, only: [:index, :new, :create]
   before_action -> { authorize(@ban) }, only: [:edit, :update, :destroy]
-  decorates_assigned :bans, :ban
+  decorates_assigned :bans, :ban, :community
 
   def index
     @bans, @pagination = query.paginate(after: params[:after])

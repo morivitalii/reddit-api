@@ -2,6 +2,8 @@
 
 class SignInController < ApplicationController
   before_action -> { authorize(:sign_in) }
+  before_action :set_community
+  decorates_assigned :community
 
   def new
     @form = SignInForm.new
@@ -32,7 +34,10 @@ class SignInController < ApplicationController
   private
 
   def pundit_user
-    @_default_community ||= CommunitiesQuery.new.default.take!
-    Context.new(current_user, @_default_community)
+    Context.new(current_user, @community)
+  end
+
+  def set_community
+    @community = CommunitiesQuery.new.default.take!
   end
 end
