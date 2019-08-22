@@ -152,7 +152,7 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 CREATE TABLE public.communities (
     id bigint NOT NULL,
     url character varying NOT NULL,
-    follows_count integer DEFAULT 0 NOT NULL,
+    followers_count integer DEFAULT 0 NOT NULL,
     description character varying,
     title character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -1377,6 +1377,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190818113247'),
 ('20190820140446'),
 ('20190820202154'),
-('20190821105247');
+('20190821105247'),
+('20190822173713');
 
 
