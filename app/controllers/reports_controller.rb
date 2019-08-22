@@ -2,7 +2,9 @@
 
 class ReportsController < ApplicationController
   before_action :set_reportable
+  before_action :set_community
   before_action -> { authorize(Report) }
+  decorates_assigned :reports
 
   def index
     @reports = reportable_query.all
@@ -12,7 +14,7 @@ class ReportsController < ApplicationController
 
   def new
     @form = CreateReportForm.new
-    @reasons = @reportable.community.rules.all
+    @rules = @community.rules.all
 
     render partial: "new"
   end
@@ -30,7 +32,11 @@ class ReportsController < ApplicationController
   private
 
   def pundit_user
-    Context.new(current_user, @reportable.community)
+    Context.new(current_user, @community)
+  end
+
+  def set_community
+    @community = @reportable.community
   end
 
   def set_reportable

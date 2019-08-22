@@ -8,7 +8,7 @@ class RulesController < ApplicationController
   decorates_assigned :community
 
   def index
-    @records, @pagination = @community.rules.paginate(after: params[:after])
+    @rules, @pagination = @community.rules.paginate(after: params[:after])
   end
 
   def new

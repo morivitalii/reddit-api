@@ -1,7 +1,7 @@
 <%= render 'shared/modal', title: t('report') do %>
   <%= form_with(model: @form, url: [@reportable, :reports], class: 'reportForm') do |f| %>
     <div class="modal-body">
-      <% if @reasons.present? %>
+      <% if @rules.present? %>
         <div class="pt-2" data-toggle="collapse" data-target="#reasons" aria-expanded="false">
           <span>
             <%= t('rules_violation') %>
@@ -13,7 +13,7 @@
         </div>
 
         <div class="pt-2 collapse" id="reasons">
-          <% @reasons.each_with_index do |reason, index| %>
+          <% @rules.each_with_index do |reason, index| %>
             <div class="custom-control custom-radio">
               <input id="reason-<%= index %>" type="radio" value="<%= reason.title %>" class="reason custom-control-input">
               <label class="custom-control-label" for="reason-<%= index %>"><%= reason.title %></label>
