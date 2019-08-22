@@ -35,6 +35,6 @@ class Vote < ApplicationRecord
   end
 
   def recalculate_scores
-    votable.recalculate_scores!
+    votable.reload.recalculate_scores!
   end
 end
