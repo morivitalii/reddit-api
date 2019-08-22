@@ -5,15 +5,16 @@ class VotesController < ApplicationController
   before_action -> { authorize(@user, policy_class: VotePolicy) }, only: [:posts, :comments]
   before_action -> { authorize(Vote) }, only: [:create, :destroy]
   before_action :set_votable, only: [:create, :destroy]
+  decorates_assigned :posts, :comments, :votable
 
   def posts
-    @records, @pagination = posts_query.paginate(after: params[:after])
-    @records = @records.map(&:votable).map(&:decorate)
+    @votes, @pagination = posts_query.paginate(after: params[:after])
+    @records = @votes.map(&:votable)
   end
 
   def comments
-    @records, @pagination = comments_query.paginate(after: params[:after])
-    @records = @records.map(&:votable).map(&:decorate)
+    @votes, @pagination = comments_query.paginate(after: params[:after])
+    @comments = @votes.map(&:votable)
   end
 
   def create
@@ -23,7 +24,7 @@ class VotesController < ApplicationController
       @votable = @votable.reload
       @votable.vote = @form.vote
 
-      render json: serialized_response(@votable)
+      render json: { score: votable.score, up_vote_link: votable.up_vote_link, down_vote_link: votable.down_vote_link }
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -33,7 +34,7 @@ class VotesController < ApplicationController
     DeleteVoteService.new(@votable, current_user).call
     @votable = @votable.reload
 
-    render json: serialized_response(@votable)
+    render json: { score: votable.score, up_vote_link: votable.up_vote_link, down_vote_link: votable.down_vote_link }
   end
 
   private
@@ -58,12 +59,6 @@ class VotesController < ApplicationController
     elsif params[:comment_id].present?
       @votable = Comment.find(params[:comment_id])
     end
-  end
-
-  def serialized_response(votable)
-    serializer_class = "#{votable.class.name}Serializer".constantize
-    serializer = serializer_class.new(votable)
-    serializer.serializable_hash
   end
 
   def vote_params
