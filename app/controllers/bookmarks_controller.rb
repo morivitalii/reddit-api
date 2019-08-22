@@ -5,35 +5,31 @@ class BookmarksController < ApplicationController
   before_action -> { authorize(@user, policy_class: BookmarkPolicy) }, only: [:posts, :comments]
   before_action -> { authorize(Bookmark) }, only: [:create, :destroy]
   before_action :set_bookmarkable, only: [:create, :destroy]
+  decorates_assigned :posts, :comments, :bookmarkable
 
   def posts
-    @records, @pagination = posts_query.paginate(after: params[:after])
-    @records = @records.map(&:bookmarkable).map(&:decorate)
+    @bookmarks, @pagination = posts_query.paginate(after: params[:after])
+    @posts = @bookmarks.map(&:bookmarkable)
   end
 
   def comments
-    @records, @pagination = comments_query.paginate(after: params[:after])
-    @records = @records.map(&:bookmarkable).map(&:decorate)
+    @bookmarks, @pagination = comments_query.paginate(after: params[:after])
+    @comments = @bookmarks.map(&:bookmarkable)
   end
 
   def create
-    CreateBookmarkService.new(@bookmarkable, current_user).call
+    @bookmarkable.bookmark = CreateBookmarkService.new(@bookmarkable, current_user).call
     @bookmarkable = @bookmarkable.decorate
 
-    render json: {
-      bookmarked: true,
-      bookmark_link_tooltip_message: @bookmarkable.bookmark_link_tooltip_message
-    }
+    render json: { bookmark_link: @bookmarkable.bookmark_link }
   end
 
   def destroy
     DeleteBookmarkService.new(@bookmarkable, current_user).call
+    @bookmarkable.bookmark = nil
     @bookmarkable = @bookmarkable.decorate
 
-    render json: {
-      bookmarked: false,
-      bookmark_link_tooltip_message: @bookmarkable.bookmark_link_tooltip_message
-    }
+    render json: { bookmark_link: @bookmarkable.bookmark_link }
   end
 
   private

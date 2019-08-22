@@ -89,14 +89,9 @@ class PostDecorator < ApplicationDecorator
     link_path = [model, :bookmarks]
     link_method = bookmarked ? :delete : :post
     link_class = "bookmark"
+    link_tooltip_message = bookmarked ? h.t('delete_bookmark') : h.t('bookmark')
 
-    h.link_to(link_icon, link_path, remote: true, method: link_method, class: link_class, title: bookmark_link_tooltip_message, data: { toggle: :tooltip })
-  end
-
-  def bookmark_link_tooltip_message
-    bookmarked = model.bookmark.present?
-
-    bookmarked ? h.t('delete_bookmark') : h.t('bookmark')
+    h.link_to(link_icon, link_path, remote: true, method: link_method, class: link_class, title: link_tooltip_message, data: { toggle: :tooltip })
   end
 
   def remove_link
