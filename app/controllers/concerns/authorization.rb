@@ -31,7 +31,7 @@ module Authorization
       if request.xhr?
         head :forbidden
       else
-        @community = CommunitiesQuery.new.default.take!
+        @community = CommunitiesQuery.new.default.take
 
         render "/authorization_error", status: :forbidden
       end
