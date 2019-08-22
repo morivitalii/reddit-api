@@ -31,6 +31,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :sidebar_moderators
   def sidebar_moderators
-    @sidebar_moderators ||= ModeratorsQuery.new(pundit_user.community.moderators).recent(10).includes(:user).all
+    @sidebar_moderators ||= ModeratorsQuery.new(pundit_user.community.moderators).recent(10).includes(:user).decorate
   end
 end
