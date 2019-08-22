@@ -5,11 +5,11 @@ class VotesController < ApplicationController
   before_action -> { authorize(@user, policy_class: VotePolicy) }, only: [:posts, :comments]
   before_action -> { authorize(Vote) }, only: [:create, :destroy]
   before_action :set_votable, only: [:create, :destroy]
-  decorates_assigned :posts, :comments, :votable
+  decorates_assigned :user, :posts, :comments, :votable
 
   def posts
     @votes, @pagination = posts_query.paginate(after: params[:after])
-    @records = @votes.map(&:votable)
+    @posts = @votes.map(&:votable)
   end
 
   def comments

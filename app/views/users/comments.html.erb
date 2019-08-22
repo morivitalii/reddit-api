@@ -1,6 +1,6 @@
-<% content_for(:meta_title, "#{@user.username}: #{t("comments")}") %>
+<% content_for(:meta_title, "#{user.username}: #{t("comments")}") %>
 
-<%= render "users/sidebar", user: @user %>
+<%= render "users/sidebar", user: user %>
 
 <% content_for(:navigation) do %>
   <li class="nav-item dropdown">
@@ -9,19 +9,19 @@
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("posts"), posts_user_path(@user), class: 'dropdown-item') %>
-      <%= link_to(t("comments"), comments_user_path(@user), class: 'dropdown-item') %>
+      <%= link_to(t("posts"), posts_user_path(user), class: 'dropdown-item') %>
+      <%= link_to(t("comments"), comments_user_path(user), class: 'dropdown-item') %>
 
-      <% if BookmarkPolicy.new(pundit_user, @user).posts? %>
-        <%= link_to(t("bookmarks"), posts_user_bookmarks_path(@user), class: 'dropdown-item') %>
+      <% if BookmarkPolicy.new(pundit_user, user).posts? %>
+        <%= link_to(t("bookmarks"), posts_user_bookmarks_path(user), class: 'dropdown-item') %>
       <% end %>
 
-      <% if VotePolicy.new(pundit_user, @user).posts? %>
-        <%= link_to(t("votes"), posts_user_votes_path(@user), class: 'dropdown-item') %>
+      <% if VotePolicy.new(pundit_user, user).posts? %>
+        <%= link_to(t("votes"), posts_user_votes_path(user), class: 'dropdown-item') %>
       <% end %>
     </div>
   </li>
 <% end %>
 
-<%= render @records %>
+<%= render(partial: "comments/comment", collection: comments) %>
 <%= render 'shared/pagination', pagination: @pagination %>

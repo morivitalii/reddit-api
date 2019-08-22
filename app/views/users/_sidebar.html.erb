@@ -5,8 +5,7 @@
     </div>
 
     <div class="col-12 mt-2">
-      <%= t('signed_up_at') %><br>
-      <%= datetime_short_tag(user.created_at) %>
+      <%= user.created_at %>
     </div>
   </div>
 <% end %>

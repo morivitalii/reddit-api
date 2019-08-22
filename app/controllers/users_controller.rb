@@ -3,15 +3,14 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:posts, :comments]
   before_action -> { authorize(@user) }
+  decorates_assigned :user, :posts, :comments
 
   def posts
-    @records, @pagination = posts_query.paginate(after: params[:after])
-    @records = @records.map(&:decorate)
+    @posts, @pagination = posts_query.paginate(after: params[:after])
   end
 
   def comments
-    @records, @pagination = comments_query.paginate(after: params[:after])
-    @records = @records.map(&:decorate)
+    @comments, @pagination = comments_query.paginate(after: params[:after])
   end
 
   def edit

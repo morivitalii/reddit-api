@@ -125,7 +125,7 @@ ru:
   comment_page_html: 'Это ветка одного комментария. <a href="%{url}">Посмотреть все комментарии</a>'
   for_posts: за посты
   for_comments: за комментарии
-  signed_up_at: Дата регистрации
+  signed_up_at_html: 'Дата регистрации: %{created_at}'
   content_processing: После завершения обработки файл станет доступен для просмотра, а пост появится в ленте.
   home_sidebar_welcoming_text: Добро пожаловать на readmaru!
   page_not_found: Страница не существует
