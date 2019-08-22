@@ -54,20 +54,16 @@ class CommentDecorator < ApplicationDecorator
     link_class = approved ? "approve text-success" : "approve"
     link_path = [:approve, model]
 
-    h.link_to(link_icon, link_path, remote: true, method: :post, class: link_class, data: { toggle: :tooltip }, title: approve_link_tooltip_message)
-  end
-
-  def approve_link_tooltip_message
-    approved = model.approved?
-
     if approved
       approved_by_user = model.approved_by.username
       approved_at = h.l(model.approved_at)
 
-      h.t('approved_details', username: approved_by_user, approved_at: approved_at)
+      link_tooltip_message = h.t('approved_details', username: approved_by_user, approved_at: approved_at)
     else
-      h.t('approve')
+      link_tooltip_message = h.t('approve')
     end
+
+    h.link_to(link_icon, link_path, remote: true, method: :post, class: link_class, data: { toggle: :tooltip }, title: link_tooltip_message)
   end
 
   def bookmark_link
@@ -89,21 +85,17 @@ class CommentDecorator < ApplicationDecorator
     link_path = [:remove, model]
     link_class = removed ? "remove text-danger" : "remove"
 
-    h.link_to(link_icon, link_path, remote: true, class: link_class, data: { toggle: :tooltip }, title: remove_link_tooltip_message)
-  end
-
-  def remove_link_tooltip_message
-    removed = model.removed?
-
     if removed
       username = model.removed_by.username
       reason = model.removed_reason
       removed_at = h.l(model.removed_at)
 
-      h.t("deletion_details", username: username, removed_at: removed_at, reason: reason)
+      link_tooltip_message = h.t("deletion_details", username: username, removed_at: removed_at, reason: reason)
     else
-      h.t("delete")
+      link_tooltip_message = h.t("delete")
     end
+
+    h.link_to(link_icon, link_path, remote: true, class: link_class, data: { toggle: :tooltip }, title: link_tooltip_message)
   end
 
   def removed_message

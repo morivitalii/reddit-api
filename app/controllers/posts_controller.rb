@@ -57,10 +57,7 @@ class PostsController < ApplicationController
 
     @post = @post.decorate
 
-    render json: {
-      approve_link_tooltip_message: @post.approve_link_tooltip_message,
-      remove_link_tooltip_message: @post.remove_link_tooltip_message
-    }
+    render json: { approve_link: @post.approve_link, remove_link: @post.remove_link }
   end
 
   def remove
@@ -75,10 +72,7 @@ class PostsController < ApplicationController
     if @form.save
       @post = @post.decorate
 
-      render json: {
-        approve_link_tooltip_message: @post.approve_link_tooltip_message,
-        remove_link_tooltip_message: @post.remove_link_tooltip_message
-      }
+      render json: { approve_link: @post.approve_link, remove_link: @post.remove_link }
     else
       render json: @form.errors, status: :unprocessable_entity
     end

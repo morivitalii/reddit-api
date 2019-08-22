@@ -78,10 +78,7 @@ class CommentsController < ApplicationController
 
     @comment = @comment.decorate
 
-    render json: {
-      approve_link_tooltip_message: @comment.approve_link_tooltip_message,
-      remove_link_tooltip_message: @comment.remove_link_tooltip_message
-    }
+    render json: { approve_link: @comment.approve_link, remove_link: @comment.remove_link }
   end
 
   def remove
@@ -96,10 +93,7 @@ class CommentsController < ApplicationController
     if @form.save
       @comment = @comment.decorate
 
-      render json: {
-        approve_link_tooltip_message: @comment.approve_link_tooltip_message,
-        remove_link_tooltip_message: @comment.remove_link_tooltip_message
-      }
+      render json: { approve_link: @comment.approve_link, remove_link: @comment.remove_link }
     else
       render json: @form.errors, status: :unprocessable_entity
     end
