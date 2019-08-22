@@ -18,9 +18,9 @@ $(document).ready(function() {
         notification(notification_text);
     });
 
-    $(document).on('change', '.reportForm .report-rule', function() {
+    $(document).on('change', '.reportForm .reason', function() {
         $('.reportForm').find('input[type="radio"]').prop('checked', false);
         $(this).prop('checked', true);
-        $('#create_report_text').val($(this).val());
+        $('#create_report_form_text').val($(this).val());
     });
 });

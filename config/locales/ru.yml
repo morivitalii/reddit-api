@@ -99,7 +99,6 @@ ru:
   report: Пожаловаться
   thanks_for_report: Спасибо за активное участие
   rules_violation: Нарушение правил сообщества
-  other_violation: Другие причины
   custom_report: Произвольная жалоба
   forward: вперед
   ban_created_at_html: 'Забанен %{created_at}'

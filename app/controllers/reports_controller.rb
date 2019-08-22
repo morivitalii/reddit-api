@@ -29,6 +29,10 @@ class ReportsController < ApplicationController
 
   private
 
+  def pundit_user
+    Context.new(current_user, @reportable.community)
+  end
+
   def set_reportable
     if params[:post_id].present?
       @reportable = Post.find(params[:post_id])
