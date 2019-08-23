@@ -89,22 +89,6 @@ RSpec.describe CommentPolicy, type: :policy do
   end
 
   describe ".permitted_attributes_for_update" do
-    context "for user", context: :user do
-      it "contains attributes" do
-        comment = create(:comment)
-        policy = build_policy(comment)
-        expect(policy.permitted_attributes_for_update).to be_blank
-      end
-    end
-
-    context "for follower", context: :follower do
-      it "contains attributes" do
-        comment = create(:comment, community: context.community)
-        policy = build_policy(comment)
-        expect(policy.permitted_attributes_for_update).to be_blank
-      end
-    end
-
     context "for moderator", context: :moderator do
       it "contains attributes" do
         comment = create(:comment, community: context.community)
@@ -123,22 +107,6 @@ RSpec.describe CommentPolicy, type: :policy do
   end
 
   describe ".permitted_attributes_for_destroy" do
-    context "for user", context: :user do
-      it "contains attributes" do
-        comment = create(:comment)
-        policy = build_policy(comment)
-        expect(policy.permitted_attributes_for_destroy).to be_blank
-      end
-    end
-
-    context "for follower", context: :follower do
-      it "contains attributes" do
-        comment = create(:comment, community: context.community)
-        policy = build_policy(comment)
-        expect(policy.permitted_attributes_for_destroy).to be_blank
-      end
-    end
-
     context "for moderator", context: :moderator do
       it "contains attributes" do
         comment = create(:comment, community: context.community)

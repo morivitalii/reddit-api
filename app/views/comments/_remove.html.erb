@@ -1,7 +1,7 @@
 <%= render 'shared/modal', title: t('delete') do %>
   <%= form_with(model: @form, url: comment_path(@comment), method: :delete, class: 'removeForm') do |f| %>
     <div class="modal-body">
-      <% if policy(@comment).remove? %>
+      <% if policy(@comment).update_removed_reason? %>
         <%= f.text_area :reason %>
       <% else %>
         <%= t('deletion_confirmation') %>

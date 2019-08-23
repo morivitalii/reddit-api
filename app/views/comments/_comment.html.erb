@@ -136,27 +136,11 @@
           <% end %>
 
           <% if thing.post? %>
-            <% if thing.text? && PostPolicy.new(pundit_user, thing).update? %>
+            <% if thing.text? && PostPolicy.new(pundit_user, thing).update_text? %>
               <%= link_to(t('edit'), edit_post_path(thing), class: 'dropdown-item') %>
             <% end %>
 
-            <% if CommentPolicy.new(pundit_user, thing).explicit? %>
-              <% if thing.explicit? %>
-                <%= link_to(fa_icon('check-square-o', text: t('explicit')), thing_path(thing, update_thing: { explicit: false }), remote: true, method: :put, class: 'explicit dropdown-item') %>
-              <% else %>
-                <%= link_to(fa_icon('square-o', text: t('explicit')), thing_path(thing, update_thing: { explicit: true }), remote: true, method: :put, class: 'explicit dropdown-item') %>
-              <% end %>
-            <% end %>
-
-            <% if CommentPolicy.new(pundit_user, thing).spoiler? %>
-              <% if thing.spoiler? %>
-                <%= link_to(fa_icon('check-square-o', text: t('spoiler')), thing_path(thing, update_thing: { spoiler: false }), remote: true, method: :put, class: 'spoiler dropdown-item') %>
-              <% else %>
-                <%= link_to(fa_icon('square-o', text: t('spoiler')), thing_path(thing, update_thing: { spoiler: true }), remote: true, method: :put, class: 'spoiler dropdown-item') %>
-              <% end %>
-            <% end %>
-
-            <% if CommentPolicy.new(pundit_user, thing).ignore_reports? %>
+            <% if CommentPolicy.new(pundit_user, thing).update_ignore_reports? %>
               <% if thing.ignore_reports? %>
                 <%= link_to(fa_icon('check-square-o', text: t('ignore_reports')), thing_path(thing, update_thing: { ignore_reports: false }), remote: true, method: :put, class: 'ignore_reports dropdown-item') %>
               <% else %>

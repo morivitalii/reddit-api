@@ -14,7 +14,7 @@ RSpec.describe PostPolicy, type: :policy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :explicit?, :spoiler?, :ignore_reports?, :removed_reason? do
+    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :update_text?, :update_explicit?, :update_spoiler?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to_not permit(context, post) }
     end
   end
@@ -28,7 +28,7 @@ RSpec.describe PostPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :explicit?, :spoiler?, :ignore_reports?, :removed_reason? do
+    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :update_text?, :update_explicit?, :update_spoiler?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to_not permit(context, post) }
     end
   end
@@ -42,13 +42,13 @@ RSpec.describe PostPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :explicit?, :spoiler?, :ignore_reports?, :removed_reason? do
+    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :update_text?, :update_explicit?, :update_spoiler?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to_not permit(context, post) }
     end
   end
 
   context "for moderator", context: :moderator do
-    permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :explicit?, :spoiler?, :ignore_reports?, :removed_reason? do
+    permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :update_explicit?, :update_spoiler?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to permit(context, post) }
     end
 
@@ -56,7 +56,7 @@ RSpec.describe PostPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :text? do
+    permissions :update_text? do
       it { is_expected.to_not permit(context, post) }
     end
   end
@@ -72,12 +72,59 @@ RSpec.describe PostPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :edit?, :update?, :remove?, :destroy?, :text? do
+    permissions :edit?, :update?, :remove?, :destroy?, :update_text? do
       it { is_expected.to permit(context, post) }
     end
 
-    permissions :approve?, :explicit?, :spoiler?, :ignore_reports?, :removed_reason? do
+    permissions :approve?, :update_explicit?, :update_spoiler?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to_not permit(context, post) }
     end
+  end
+
+  describe ".permitted_attributes_for_create", context: :user do
+    it "contains attributes" do
+      policy = build_policy
+      expect(policy.permitted_attributes_for_create).to contain_exactly(:title, :text, :url, :media, :explicit, :spoiler)
+    end
+  end
+
+  describe ".permitted_attributes_for_update" do
+    context "for moderator", context: :moderator do
+      it "contains attributes" do
+        post = create(:post, community: context.community)
+        policy = build_policy(post)
+        expect(policy.permitted_attributes_for_update).to contain_exactly(:explicit, :spoiler, :ignore_reports)
+      end
+    end
+
+    context "for author", context: :user do
+      it "contains attributes" do
+        post = create(:post, community: context.community, user: context.user)
+        policy = build_policy(post)
+        expect(policy.permitted_attributes_for_update).to contain_exactly(:text)
+      end
+    end
+  end
+
+  describe ".permitted_attributes_for_destroy" do
+    context "for moderator", context: :moderator do
+      it "contains attributes" do
+        post = create(:post, community: context.community)
+        policy = build_policy(post)
+        expect(policy.permitted_attributes_for_destroy).to contain_exactly(:reason)
+      end
+    end
+
+    context "for author", context: :user do
+      it "contains attributes" do
+        post = create(:post, community: context.community, user: context.user)
+        policy = build_policy(post)
+        expect(policy.permitted_attributes_for_destroy).to be_blank
+      end
+    end
+  end
+
+  def build_policy(post = nil)
+    described_class.new(context, post)
   end
 end

@@ -68,19 +68,19 @@
             <%= @post.reports_link %>
           <% end %>
 
-          <% if policy(@post).text? %>
+          <% if policy(@post).update_text? %>
             <%= @post.edit_link %>
           <% end %>
 
-          <% if policy(@post).explicit? %>
+          <% if policy(@post).update_explicit? %>
             <%= @post.explicit_link %>
           <% end %>
 
-          <% if policy(@post).spoiler? %>
+          <% if policy(@post).update_spoiler? %>
             <%= @post.spoiler_link %>
           <% end %>
 
-          <% if policy(@post).ignore_reports? %>
+          <% if policy(@post).update_ignore_reports? %>
             <%= @post.ignore_reports_link %>
           <% end %>
         </div>
