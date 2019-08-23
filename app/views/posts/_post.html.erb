@@ -22,7 +22,7 @@
       <%= link_to(post.title, post_path(post)) %>
     </div>
 
-    <%= render post.preview_partial, post: post %>
+    <%= render post.content_partial, post: post %>
 
     <div class="actions col-12">
       <span class="vote">

@@ -30,5 +30,5 @@
 <% end %>
 
 <%= render "users/sidebar", user: user %>
-<%= render(partial: "posts/post", collection: posts) %>
+<%= render(posts) %>
 <%= render 'shared/pagination', pagination: @pagination %>

@@ -201,28 +201,4 @@ class PostDecorator < ApplicationDecorator
       end
     end
   end
-
-  def preview_partial
-    if model.text?
-      "posts/content/text_preview"
-    elsif model.url?
-      if model.youtube?
-        "posts/content/link_youtube_preview"
-      else
-        "posts/content/link_content"
-      end
-    elsif model.media?
-      if model.media_attacher.cached?
-        "posts/content/media_processing"
-      else
-        if model.image?
-          "posts/content/media_image_preview"
-        elsif model.video?
-          "posts/content/media_video_preview"
-        elsif model.gif?
-          "posts/content/media_gif_preview"
-        end
-      end
-    end
-  end
 end
