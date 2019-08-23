@@ -15,7 +15,7 @@
         </li>
 
         <li class="nav-item">
-          <%= link_to(t('media'), "#", class: 'nav-link h6 border-bottom rounded-0 p-3', data: { target: "media" }) %>
+          <%= link_to(t('image'), "#", class: 'nav-link h6 border-bottom rounded-0 p-3', data: { target: "image" }) %>
         </li>
       </ul>
     </div>
@@ -25,7 +25,7 @@
         <%= f.text_area :title, rows: 3 %>
         <%= f.text_area :text %>
         <%= f.text_area :url, rows: 3 %>
-        <%= f.file_field :media %>
+        <%= f.file_field :image %>
         <%= f.check_box :explicit %>
         <%= f.check_box :spoiler %>
         <%= f.submit t('create') %>

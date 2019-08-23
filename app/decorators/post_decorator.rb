@@ -51,14 +51,6 @@ class PostDecorator < ApplicationDecorator
     h.link_to(link_icon, link_path, data: { params: link_data_params }, remote: true, method: link_method, class: link_class)
   end
 
-  def content_processing?
-    model.media_attacher.cached?
-  end
-
-  def content_processing_message
-    h.t("content_processing")
-  end
-
   def approve_link
     approved = model.approved?
 
@@ -187,18 +179,8 @@ class PostDecorator < ApplicationDecorator
       else
         "posts/content/link_content"
       end
-    elsif model.media?
-      if model.media_attacher.cached?
-        "posts/content/media_processing"
-      else
-        if model.image?
-          "posts/content/media_image_content"
-        elsif model.video?
-          "posts/content/media_video_content"
-        elsif model.gif?
-          "posts/content/media_gif_content"
-        end
-      end
+    elsif model.image?
+      "posts/content/image_content"
     end
   end
 end

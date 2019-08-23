@@ -84,7 +84,7 @@ RSpec.describe PostPolicy, type: :policy do
   describe ".permitted_attributes_for_create", context: :user do
     it "contains attributes" do
       policy = build_policy
-      expect(policy.permitted_attributes_for_create).to contain_exactly(:title, :text, :url, :media, :explicit, :spoiler)
+      expect(policy.permitted_attributes_for_create).to contain_exactly(:title, :text, :url, :image, :explicit, :spoiler)
     end
   end
 

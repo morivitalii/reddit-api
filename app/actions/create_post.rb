@@ -3,7 +3,7 @@
 class CreatePost
   include ActiveModel::Model
 
-  attr_accessor :community, :current_user, :title, :text, :url, :media, :explicit, :spoiler
+  attr_accessor :community, :current_user, :title, :text, :url, :image, :explicit, :spoiler
   attr_reader :post
 
   def save
@@ -14,7 +14,7 @@ class CreatePost
         title: @title,
         text: @text,
         url: @url,
-        media: @media,
+        image: @image,
         explicit: @explicit,
         spoiler: @spoiler
       )

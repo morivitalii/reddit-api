@@ -8,16 +8,16 @@ FactoryBot.define do
     trait :text do
       text { "Text" }
       url { nil }
-      media { nil }
+      image { nil }
     end
 
     trait :url do
       text { nil }
       url { "http://example.com/" }
-      media { nil }
+      image { nil }
     end
 
-    trait :media do
+    trait :image do
       text { nil }
       url { nil }
       # TODO

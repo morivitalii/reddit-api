@@ -24,7 +24,7 @@ ru:
       invalid_credentials: неправильное имя пользователя или пароль
       invalid_current_password: неправильный текущий пароль. если вы не помните его, воспользуйтесь функцией восстановления пароля
       invalid_file_format: 'допустимые форматы файла: %{whitelist}'
-      invalid_file_size: максимальный вес png jpg jpeg 20 мб, gif 100 мб, mp4 30 мб
+      invalid_file_size: максимальный вес файла 20 МБ
       rules_limit: можно создать не больше 15 правил
       rate_limits: вы выполняете это действие слишком часто. подождите немного и попробуйте еще раз
   activemodel:
@@ -68,7 +68,7 @@ ru:
   comment: комментарий
   text: Текст
   link: Ссылка
-  media: Медиа
+  image: Картинка
   sign_up: Регистрация
   sign_in: Войти
   sign_out: Выйти
@@ -126,7 +126,6 @@ ru:
   for_posts: за посты
   for_comments: за комментарии
   signed_up_at_html: 'Дата регистрации: %{created_at}'
-  content_processing: После завершения обработки файл станет доступен для просмотра, а пост появится в ленте.
   home_sidebar_welcoming_text: Добро пожаловать на readmaru!
   page_not_found: Страница не существует
   other_communities: Другие комьюнити

@@ -6,7 +6,6 @@
 //= require bootstrap/dist/js/bootstrap
 //= require bootstrap-select/dist/js/bootstrap-select
 //= require bootstrap-select/dist/js/i18n/defaults-ru_RU
-//= require plyr/dist/plyr
 //= require_tree .
 
 function notification(text) {
@@ -83,14 +82,6 @@ $(document).ready(function() {
         if(e.detail[2].getResponseHeader('Location') !== null) {
             window.location.href = e.detail[2].getResponseHeader('Location');
         }
-    });
-
-    $('video').each(function( index ) {
-        var player = new Plyr($(this));
-
-        player.on('ready', function (e) {
-            player.toggleControls(false);
-        });
     });
 
     // Trigger tooltips after page load

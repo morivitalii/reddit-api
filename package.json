@@ -6,7 +6,6 @@
     "bootstrap-select": "^1.13.5",
     "jquery": "^3.4.0",
     "moment": "^2.24.0",
-    "plyr": "^3.4.7",
     "popper.js": "^1.14.4"
   }
 }

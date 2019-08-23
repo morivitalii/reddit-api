@@ -24,11 +24,7 @@
       <%= link_to(@post.title, post_path(@post)) %>
     </div>
 
-    <% if @post.content_processing? %>
-      <div class="content col-12 mt-2">
-        <%= @post.content_processing_message %>
-      </div>
-    <% elsif @post.removed? %>
+    <% if @post.removed? %>
       <div class="content col-12 mt-2">
         <%= @post.removed_message %>
       </div>

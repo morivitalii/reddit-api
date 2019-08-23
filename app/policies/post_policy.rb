@@ -48,7 +48,7 @@ class PostPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_create
-    [:title, :text, :url, :media, :explicit, :spoiler]
+    [:title, :text, :url, :image, :explicit, :spoiler]
   end
 
   def permitted_attributes_for_update
