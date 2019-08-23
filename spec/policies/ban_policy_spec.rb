@@ -54,4 +54,22 @@ RSpec.describe BanPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
   end
+
+  describe ".permitted_attributes_for_create" do
+    it "contains attributes" do
+      policy = build_policy
+      expect(policy.permitted_attributes_for_create).to contain_exactly(:username, :reason, :days, :permanent)
+    end
+  end
+
+  describe ".permitted_attributes_for_update" do
+    it "contains attributes" do
+      policy = build_policy
+      expect(policy.permitted_attributes_for_update).to contain_exactly(:reason, :days, :permanent)
+    end
+  end
+
+  def build_policy
+    described_class.new(Context.new(nil), nil)
+  end
 end
