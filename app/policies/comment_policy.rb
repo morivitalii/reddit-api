@@ -38,6 +38,10 @@ class CommentPolicy < ApplicationPolicy
     moderator?
   end
 
+  def permitted_attributes_for_create
+    [:text]
+  end
+
   def permitted_attributes_for_update
     attributes = []
     attributes.push(:text) if text?

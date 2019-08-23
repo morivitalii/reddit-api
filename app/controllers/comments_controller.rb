@@ -127,7 +127,8 @@ class CommentsController < ApplicationController
   end
 
   def create_params
-    params.require(:create_comment).permit(:text).merge(model: @commentable, current_user: current_user)
+    attributes = policy(Comment).permitted_attributes_for_create
+    params.require(:create_comment).permit(attributes).merge(model: @commentable, current_user: current_user)
   end
 
   def update_params
