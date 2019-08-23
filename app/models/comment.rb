@@ -26,7 +26,7 @@ class Comment < ApplicationRecord
   before_create :approve_by_author, if: :author_has_permissions_to_approve?
   before_update :undo_remove, if: :approving?
   before_update :undo_approve, if: -> { editing? || removing? }
-  after_update :destroy_reports, if: -> { approving? || removing? }
+  before_update :destroy_reports, if: -> { approving? || removing? }
 
   validates :text, presence: true, length: { maximum: 10_000 }
   validates :removed_reason, allow_blank: true, length: { maximum: 5_000 }
