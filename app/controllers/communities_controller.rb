@@ -3,11 +3,10 @@
 class CommunitiesController < ApplicationController
   before_action :set_community
   before_action -> { authorize(@community) }
-  decorates_assigned :community
+  decorates_assigned :community, :posts
 
   def show
-    @records, @pagination = query.paginate(attributes: ["#{sorting}_score", :id], after: params[:after])
-    @records = @records.map(&:decorate)
+    @posts, @pagination = query.paginate(attributes: ["#{sorting}_score", :id], after: params[:after])
   end
 
   def edit
