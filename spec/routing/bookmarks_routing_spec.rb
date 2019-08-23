@@ -3,6 +3,14 @@ require "rails_helper"
 RSpec.describe "routes for BookmarksController", type: :routing do
   # users
 
+  it "routes GET /users/username/bookmarks/posts to bookmarks#posts_index" do
+    expect(get("/users/username/bookmarks/posts")).to route_to(controller: "bookmarks", action: "posts_index", user_id: "username")
+  end
+
+  it "routes GET /users/username/bookmarks/comments to bookmarks#comments_index" do
+    expect(get("/users/username/bookmarks/comments")).to route_to(controller: "bookmarks", action: "comments_index", user_id: "username")
+  end
+
   it "routes GET /users/username/bookmarks to page_not_found#show" do
     expect(get("/users/username/bookmarks")).to route_to(controller: "page_not_found", action: "show", path: "users/username/bookmarks")
   end

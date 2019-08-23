@@ -5,12 +5,12 @@ RSpec.describe "routes for UsersController", type: :routing do
     expect(get("/users")).to route_to(controller: "page_not_found", action: "show", path: "users")
   end
 
-  it "routes GET /users to users#posts" do
-    expect(get("/users/username/posts")).to route_to(controller: "users", action: "posts", id: "username")
+  it "routes GET /users/username/posts to users#posts_index" do
+    expect(get("/users/username/posts")).to route_to(controller: "users", action: "posts_index", id: "username")
   end
 
-  it "routes GET /users to users#comments" do
-    expect(get("/users/username/comments")).to route_to(controller: "users", action: "comments", id: "username")
+  it "routes GET /users/username/comments to users#comments_index" do
+    expect(get("/users/username/comments")).to route_to(controller: "users", action: "comments_index", id: "username")
   end
 
   it "routes GET /users/username to page_not_found#show" do

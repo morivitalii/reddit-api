@@ -1,4 +1,4 @@
-<% content_for(:meta_title, "#{user.username}: #{t("posts_bookmarks")}") %>
+<% content_for(:meta_title, "#{user.username}: #{t("comments_bookmarks")}") %>
 
 <% content_for(:navigation) do %>
   <li class="nav-item dropdown">
@@ -11,7 +11,7 @@
       <%= link_to(t("comments"), comments_user_path(user), class: 'dropdown-item') %>
       <%= link_to(t("bookmarks"), posts_user_bookmarks_path(user), class: 'dropdown-item') %>
 
-      <% if VotePolicy.new(pundit_user, user).posts? %>
+      <% if VotePolicy.new(pundit_user, user).posts_index? %>
         <%= link_to(t("votes"), posts_user_votes_path(user), class: 'dropdown-item') %>
       <% end %>
     </div>
@@ -19,7 +19,7 @@
 
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= t("posts") %>
+      <%= t("comments") %>
     </a>
 
     <div class="dropdown-menu">
@@ -30,5 +30,5 @@
 <% end %>
 
 <%= render "users/sidebar", user: user %>
-<%= render(posts) %>
+<%= render(partial: "comments/comment", collection: comments) %>
 <%= render 'shared/pagination', pagination: @pagination %>

@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :set_user, only: [:posts, :comments]
+  before_action :set_user, only: [:posts_index, :comments_index]
   before_action -> { authorize(@user) }
   decorates_assigned :user, :posts, :comments
 
-  def posts
+  def posts_index
     @posts, @pagination = posts_query.paginate(after: params[:after])
   end
 
-  def comments
+  def comments_index
     @comments, @pagination = comments_query.paginate(after: params[:after])
   end
 

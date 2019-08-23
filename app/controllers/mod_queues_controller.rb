@@ -5,19 +5,19 @@ class ModQueuesController < ApplicationController
   before_action -> { authorize(:mod_queue) }
   decorates_assigned :community, :posts, :comments
 
-  def new_posts
+  def new_posts_index
     @posts, @pagination = new_posts_query.paginate(after: params[:after])
   end
 
-  def new_comments
+  def new_comments_index
     @comments, @pagination = new_comments_query.paginate(after: params[:after])
   end
 
-  def reported_posts
+  def reported_posts_index
     @posts, @pagination = reported_posts_query.paginate(after: params[:after])
   end
 
-  def reported_comments
+  def reported_comments_index
     @comments, @pagination = reported_comments_query.paginate(after: params[:after])
   end
 

@@ -1,12 +1,12 @@
 # frozen_string_literal
 
 class VotePolicy < ApplicationPolicy
-  def posts?
+  def posts_index?
     # record here is user object
     user? && user.id == record.id
   end
 
-  alias comments? posts?
+  alias comments_index? posts_index?
 
   def create?
     user?

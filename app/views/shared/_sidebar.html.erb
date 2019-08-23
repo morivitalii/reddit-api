@@ -8,7 +8,7 @@
       </span>
 
       <div class="dropdown-menu dropdown-menu-right">
-        <% if policy(:mod_queue).new_posts? %>
+        <% if policy(:mod_queue).new_posts_index? %>
           <%= link_to(t("mod_queue"), new_posts_community_mod_queues_path(community), class: "dropdown-item") %>
         <% end %>
 

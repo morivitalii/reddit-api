@@ -9,17 +9,17 @@ Rails.application.routes.draw do
   resource :users, only: [:edit, :update]
 
   resources :users, only: [] do
-    get :posts, action: :posts, on: :member
-    get :comments, action: :comments, on: :member
+    get :posts, action: :posts_index, on: :member
+    get :comments, action: :comments_index, on: :member
 
     resources :votes, only: [] do
-      get :posts, action: :posts, on: :collection
-      get :comments, action: :comments, on: :collection
+      get :posts, action: :posts_index, on: :collection
+      get :comments, action: :comments_index, on: :collection
     end
 
     resources :bookmarks, only: [] do
-      get :posts, action: :posts, on: :collection
-      get :comments, action: :comments, on: :collection
+      get :posts, action: :posts_index, on: :collection
+      get :comments, action: :comments_index, on: :collection
     end
   end
 
@@ -31,10 +31,10 @@ Rails.application.routes.draw do
     resources :bans, only: [:index, :new, :create, :edit, :update, :destroy]
 
     resources :mod_queues, only: [] do
-      get :new_posts, action: :new_posts, on: :collection
-      get :new_comments, action: :new_comments, on: :collection
-      get :reported_posts, action: :reported_posts, on: :collection
-      get :reported_comments, action: :reported_comments, on: :collection
+      get :new_posts, action: :new_posts_index, on: :collection
+      get :new_comments, action: :new_comments_index, on: :collection
+      get :reported_posts, action: :reported_posts_index, on: :collection
+      get :reported_comments, action: :reported_comments_index, on: :collection
     end
   end
 

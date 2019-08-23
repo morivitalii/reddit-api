@@ -3,6 +3,14 @@ require "rails_helper"
 RSpec.describe "routes for VotesController", type: :routing do
   # users
 
+  it "routes GET /users/username/votes/posts to votes#posts_index" do
+    expect(get("/users/username/votes/posts")).to route_to(controller: "votes", action: "posts_index", user_id: "username")
+  end
+
+  it "routes GET /users/username/votes/comments to votes#comments_index" do
+    expect(get("/users/username/votes/comments")).to route_to(controller: "votes", action: "comments_index", user_id: "username")
+  end
+  
   it "routes GET /users/username/votes to page_not_found#show" do
     expect(get("/users/username/votes")).to route_to(controller: "page_not_found", action: "show", path: "users/username/votes")
   end

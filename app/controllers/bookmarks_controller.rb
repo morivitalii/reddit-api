@@ -2,17 +2,17 @@
 
 class BookmarksController < ApplicationController
   before_action :set_user
-  before_action -> { authorize(@user, policy_class: BookmarkPolicy) }, only: [:posts, :comments]
+  before_action -> { authorize(@user, policy_class: BookmarkPolicy) }, only: [:posts_index, :comments_index]
   before_action -> { authorize(Bookmark) }, only: [:create, :destroy]
   before_action :set_bookmarkable, only: [:create, :destroy]
   decorates_assigned :user, :posts, :comments, :bookmarkable
 
-  def posts
+  def posts_index
     @bookmarks, @pagination = posts_query.paginate(after: params[:after])
     @posts = @bookmarks.map(&:bookmarkable)
   end
 
-  def comments
+  def comments_index
     @bookmarks, @pagination = comments_query.paginate(after: params[:after])
     @comments = @bookmarks.map(&:bookmarkable)
   end

@@ -1,20 +1,20 @@
 require "rails_helper"
 
 RSpec.describe "routes for mod_queuesController", type: :routing do
-  it "routes GET /communities/all/mod_queues/new_posts to mod_queues#new_posts" do
-    expect(get("/communities/all/mod_queues/new_posts")).to route_to(controller: "mod_queues", action: "new_posts", community_id: "all")
+  it "routes GET /communities/all/mod_queues/new_posts to mod_queues#new_posts_index" do
+    expect(get("/communities/all/mod_queues/new_posts")).to route_to(controller: "mod_queues", action: "new_posts_index", community_id: "all")
   end
 
-  it "routes GET /communities/all/mod_queues/new_comments to mod_queues#new_comments" do
-    expect(get("/communities/all/mod_queues/new_comments")).to route_to(controller: "mod_queues", action: "new_comments", community_id: "all")
+  it "routes GET /communities/all/mod_queues/new_comments to mod_queues#new_comments_index" do
+    expect(get("/communities/all/mod_queues/new_comments")).to route_to(controller: "mod_queues", action: "new_comments_index", community_id: "all")
   end
 
-  it "routes GET /communities/all/mod_queues/reported_posts to mod_queues#reported_posts" do
-    expect(get("/communities/all/mod_queues/reported_posts")).to route_to(controller: "mod_queues", action: "reported_posts", community_id: "all")
+  it "routes GET /communities/all/mod_queues/reported_posts to mod_queues#reported_posts_index" do
+    expect(get("/communities/all/mod_queues/reported_posts")).to route_to(controller: "mod_queues", action: "reported_posts_index", community_id: "all")
   end
 
-  it "routes GET /communities/all/mod_queues/reported_comments to mod_queues#reported_comments" do
-    expect(get("/communities/all/mod_queues/reported_comments")).to route_to(controller: "mod_queues", action: "reported_comments", community_id: "all")
+  it "routes GET /communities/all/mod_queues/reported_comments to mod_queues#reported_comments_index" do
+    expect(get("/communities/all/mod_queues/reported_comments")).to route_to(controller: "mod_queues", action: "reported_comments_index", community_id: "all")
   end
 
   it "routes GET /communities/all/mod_queues to page_not_found#show" do
