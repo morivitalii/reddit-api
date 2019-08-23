@@ -26,15 +26,15 @@ class CommentPolicy < ApplicationPolicy
 
   alias remove? destroy?
 
-  def text?
+  def update_text?
     author?
   end
 
-  def ignore_reports?
+  def update_ignore_reports?
     moderator?
   end
 
-  def removed_reason?
+  def update_removed_reason?
     moderator?
   end
 
@@ -44,14 +44,14 @@ class CommentPolicy < ApplicationPolicy
 
   def permitted_attributes_for_update
     attributes = []
-    attributes.push(:text) if text?
-    attributes.push(:ignore_reports) if ignore_reports?
+    attributes.push(:text) if update_text?
+    attributes.push(:ignore_reports) if update_ignore_reports?
     attributes
   end
 
   def permitted_attributes_for_destroy
     attributes = []
-    attributes.push(:reason) if removed_reason?
+    attributes.push(:reason) if update_removed_reason?
     attributes
   end
 

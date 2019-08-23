@@ -14,7 +14,7 @@ RSpec.describe CommentPolicy, type: :policy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :ignore_reports?, :removed_reason? do
+    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :update_text?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to_not permit(context, comment) }
     end
   end
@@ -28,7 +28,7 @@ RSpec.describe CommentPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :ignore_reports?, :removed_reason? do
+    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :update_text?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to_not permit(context, comment) }
     end
   end
@@ -42,13 +42,13 @@ RSpec.describe CommentPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :text?, :ignore_reports?, :removed_reason? do
+    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :update_text?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to_not permit(context, comment) }
     end
   end
 
   context "for moderator", context: :moderator do
-    permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :ignore_reports?, :removed_reason? do
+    permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to permit(context, comment) }
     end
 
@@ -56,7 +56,7 @@ RSpec.describe CommentPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :text? do
+    permissions :update_text? do
       it { is_expected.to_not permit(context, comment) }
     end
   end
@@ -72,11 +72,11 @@ RSpec.describe CommentPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :edit?, :update?, :remove?, :destroy?, :text? do
+    permissions :edit?, :update?, :remove?, :destroy?, :update_text? do
       it { is_expected.to permit(context, comment) }
     end
 
-    permissions :approve?, :ignore_reports?, :removed_reason? do
+    permissions :approve?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to_not permit(context, comment) }
     end
   end
