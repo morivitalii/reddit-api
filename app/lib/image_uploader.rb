@@ -3,11 +3,8 @@
 require "image_processing/vips"
 
 class ImageUploader < Shrine
-  Attacher.promote do |data|
-    StoreFileJob.perform_now(data)
-  end
-
-  Attacher.delete { |data| DeleteFileJob.perform_later(data) }
+  Attacher.promote { |data| Shrine::Attacher.promote(data) }
+  Attacher.delete { |data| Shrine::Attacher.delete(data) }
 
   plugin :validation_helpers, default_messages: {
     max_size: ->(_) { I18n.t("errors.messages.invalid_file_size") },
