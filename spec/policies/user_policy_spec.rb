@@ -3,9 +3,7 @@ require "rails_helper"
 RSpec.describe UserPolicy, type: :policy do
   subject { described_class }
 
-  context "for visitor" do
-    include_context "visitor context"
-
+  context "for visitor", context: :visitor do
     permissions :posts?, :comments? do
       it { is_expected.to permit(context) }
     end
@@ -15,9 +13,7 @@ RSpec.describe UserPolicy, type: :policy do
     end
   end
 
-  context "for user" do
-    include_context "user context"
-
+  context "for user", context: :user do
     permissions :posts?, :comments?, :edit?, :update? do
       it { is_expected.to permit(context) }
     end

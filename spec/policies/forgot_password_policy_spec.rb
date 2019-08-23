@@ -3,17 +3,13 @@ require "rails_helper"
 RSpec.describe ForgotPasswordPolicy, type: :policy do
   subject { described_class }
 
-  context "for visitor" do
-    include_context "visitor context"
-
+  context "for visitor", context: :visitor do
     permissions :new?, :create? do
       it { is_expected.to permit(context) }
     end
   end
 
-  context "for user" do
-    include_context "user context"
-
+  context "for user", context: :user do
     permissions :new?, :create? do
       it { is_expected.to permit(context) }
     end

@@ -3,9 +3,7 @@ require "rails_helper"
 RSpec.describe PageNotFoundPolicy do
   subject { described_class }
 
-  context "for visitor" do
-    include_context "visitor context"
-
+  context "for visitor", context: :visitor do
     permissions :show? do
       it { is_expected.to permit(context) }
     end

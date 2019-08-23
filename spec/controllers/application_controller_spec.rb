@@ -49,9 +49,7 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  describe ".pundit_user" do
-    include_context "default context"
-
+  describe ".pundit_user", context: :user do
     it "returns context class instance" do
       stub_pundit_user
 
@@ -60,9 +58,7 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   describe ".user_signed_in?" do
-    context "for visitor" do
-      include_context "visitor context"
-
+    context "for visitor", context: :visitor do
       it "returns false" do
         stub_pundit_user
         stub_current_user
@@ -71,9 +67,7 @@ RSpec.describe ApplicationController, type: :controller do
       end
     end
 
-    context "for user" do
-      include_context "user context"
-
+    context "for user", context: :user do
       it "returns true" do
         stub_pundit_user
         stub_current_user
@@ -84,9 +78,7 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   describe ".user_signed_out?" do
-    context "for visitor" do
-      include_context "visitor context"
-
+    context "for visitor", context: :visitor do
       it "returns true" do
         stub_pundit_user
         stub_current_user
@@ -95,9 +87,7 @@ RSpec.describe ApplicationController, type: :controller do
       end
     end
 
-    context "for user" do
-      include_context "user context"
-
+    context "for user", context: :user do
       it "returns false" do
         stub_pundit_user
         stub_current_user
@@ -108,9 +98,7 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   describe ".communities_moderated_by_user" do
-    context "for visitor" do
-      include_context "visitor context"
-
+    context "for visitor", context: :visitor do
       it "returns blank array" do
         stub_pundit_user
         stub_current_user
@@ -119,9 +107,7 @@ RSpec.describe ApplicationController, type: :controller do
       end
     end
 
-    context "for user" do
-      include_context "user context"
-
+    context "for user", context: :user do
       it "returns communities where user is moderator" do
         stub_pundit_user
         stub_current_user
@@ -135,9 +121,7 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   describe ".communities_followed_by_user" do
-    context "for visitor" do
-      include_context "visitor context"
-
+    context "for visitor", context: :visitor do
       it "returns blank array" do
         stub_pundit_user
         stub_current_user
@@ -146,9 +130,7 @@ RSpec.describe ApplicationController, type: :controller do
       end
     end
 
-    context "for user" do
-      include_context "user context"
-
+    context "for user", context: :user do
       it "returns communities where user is follower" do
         stub_pundit_user
         stub_current_user
@@ -161,9 +143,7 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  describe ".sidebar_rules" do
-    include_context "default context"
-
+  describe ".sidebar_rules", context: :user do
     it "returns rules" do
       stub_pundit_user
 
@@ -174,9 +154,7 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  describe ".sidebar_moderators" do
-    include_context "default context"
-
+  describe ".sidebar_moderators", context: :user do
     it "returns moderators" do
       stub_pundit_user
 

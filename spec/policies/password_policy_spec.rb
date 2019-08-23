@@ -3,17 +3,13 @@ require "rails_helper"
 RSpec.describe PasswordPolicy, type: :policy do
   subject { described_class }
 
-  context "for visitor" do
-    include_context "visitor context"
-
+  context "for visitor", context: :visitor do
     permissions :edit?, :update? do
       it { is_expected.to permit(context) }
     end
   end
 
-  context "for user" do
-    include_context "user context"
-
+  context "for user", context: :user do
     permissions :edit?, :update? do
       it { is_expected.to permit(context) }
     end

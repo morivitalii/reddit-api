@@ -5,9 +5,7 @@ RSpec.describe PostPolicy, type: :policy do
 
   let(:post) { create(:post, community: context.community) }
 
-  context "for visitor" do
-    include_context "visitor context"
-
+  context "for visitor", context: :visitor do
     permissions :show? do
       it { is_expected.to permit(context, post) }
     end
@@ -21,9 +19,7 @@ RSpec.describe PostPolicy, type: :policy do
     end
   end
 
-  context "for user" do
-    include_context "user context"
-
+  context "for user", context: :user do
     permissions :show? do
       it { is_expected.to permit(context, post) }
     end
@@ -37,9 +33,7 @@ RSpec.describe PostPolicy, type: :policy do
     end
   end
 
-  context "for author" do
-    include_context "user context"
-
+  context "for author", context: :user do
     let(:post) { create(:post, user: context.user, community: context.community) }
 
     permissions :show? do
@@ -59,9 +53,7 @@ RSpec.describe PostPolicy, type: :policy do
     end
   end
 
-  context "for moderator" do
-    include_context "moderator context"
-
+  context "for moderator", context: :moderator do
     permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :explicit?, :spoiler?, :ignore_reports?, :removed_reason? do
       it { is_expected.to permit(context, post) }
     end
