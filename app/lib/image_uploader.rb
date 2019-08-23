@@ -2,7 +2,7 @@
 
 require "image_processing/vips"
 
-class Uploader < Shrine
+class ImageUploader < Shrine
   Attacher.promote do |data|
     StoreFileJob.perform_now(data)
   end

@@ -3,7 +3,7 @@
 class Post < ApplicationRecord
   include Paginatable
   include Markdownable
-  include Uploader::Attachment.new(:image)
+  include ImageUploader::Attachment.new(:image)
 
   belongs_to :community
   belongs_to :user
