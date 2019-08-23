@@ -54,4 +54,15 @@ RSpec.describe RulePolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
   end
+
+  describe ".permitted_attributes" do
+    it "contains attributes" do
+      policy = build_policy
+      expect(policy.permitted_attributes).to contain_exactly(:title, :description)
+    end
+  end
+
+  def build_policy
+    described_class.new(Context.new(nil), nil)
+  end
 end

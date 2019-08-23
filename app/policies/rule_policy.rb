@@ -21,11 +21,7 @@ class RulePolicy < ApplicationPolicy
     moderator?
   end
 
-  def permitted_attributes_for_create
-    [:title, :description]
-  end
-
-  def permitted_attributes_for_update
+  def permitted_attributes
     [:title, :description]
   end
 end
