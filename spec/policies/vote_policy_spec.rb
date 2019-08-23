@@ -32,4 +32,15 @@ RSpec.describe VotePolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
   end
+
+  describe ".permitted_attributes_for_create" do
+    it "contains attributes" do
+      policy = build_policy
+      expect(policy.permitted_attributes_for_create).to contain_exactly(:type)
+    end
+  end
+
+  def build_policy
+    described_class.new(Context.new(nil), nil)
+  end
 end
