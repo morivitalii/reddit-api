@@ -3,26 +3,22 @@
 class ModQueuesController < ApplicationController
   before_action :set_community
   before_action -> { authorize(:mod_queue) }
-  decorates_assigned :community
+  decorates_assigned :community, :posts, :comments
 
   def new_posts
-    @records, @pagination = new_posts_query.paginate(after: params[:after])
-    @records.map!(&:decorate)
+    @posts, @pagination = new_posts_query.paginate(after: params[:after])
   end
 
   def new_comments
-    @records, @pagination = new_comments_query.paginate(after: params[:after])
-    @records.map!(&:decorate)
+    @comments, @pagination = new_comments_query.paginate(after: params[:after])
   end
 
   def reported_posts
-    @records, @pagination = reported_posts_query.paginate(after: params[:after])
-    @records.map!(&:decorate)
+    @posts, @pagination = reported_posts_query.paginate(after: params[:after])
   end
 
   def reported_comments
-    @records, @pagination = reported_comments_query.paginate(after: params[:after])
-    @records.map!(&:decorate)
+    @comments, @pagination = reported_comments_query.paginate(after: params[:after])
   end
 
   private
