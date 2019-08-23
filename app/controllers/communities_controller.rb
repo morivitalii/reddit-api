@@ -42,7 +42,6 @@ class CommunitiesController < ApplicationController
 
   def update_params
     attributes = policy(@community).permitted_attributes_for_update
-
     params.require(:update_community_form).permit(attributes).merge(community: @community)
   end
 

@@ -53,7 +53,6 @@ class ModeratorsController < ApplicationController
 
   def create_params
     attributes = policy(Moderator).permitted_attributes_for_create
-
     params.require(:create_moderator_form).permit(attributes).merge(community: @community)
   end
 end

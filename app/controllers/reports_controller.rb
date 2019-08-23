@@ -53,7 +53,6 @@ class ReportsController < ApplicationController
 
   def create_params
     attributes = policy(Report).permitted_attributes_for_create
-
     params.require(:create_report_form).permit(attributes).merge(reportable: @reportable, user: current_user)
   end
 end

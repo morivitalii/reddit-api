@@ -39,7 +39,6 @@ class SignUpController < ApplicationController
 
   def create_params
     attributes = policy(:sign_up).permitted_attributes_for_create
-
     params.require(:sign_up_form).permit(attributes)
   end
 end

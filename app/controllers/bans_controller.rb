@@ -71,13 +71,11 @@ class BansController < ApplicationController
 
   def create_params
     attributes = policy(Ban).permitted_attributes_for_create
-
     params.require(:create_ban_form).permit(attributes).merge(community: @community)
   end
 
   def update_params
     attributes = policy(@ban).permitted_attributes_for_update
-
     params.require(:update_ban_form).permit(attributes).merge(ban: @ban)
   end
 end

@@ -47,7 +47,6 @@ class UsersController < ApplicationController
 
   def update_params
     attributes = policy(@user).permitted_attributes_for_update
-
     params.require(:update_user_form).permit(attributes).merge(user: current_user)
   end
 end

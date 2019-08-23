@@ -131,10 +131,12 @@ class CommentsController < ApplicationController
   end
 
   def update_params
-    params.require(:update_comment).permit(policy(@comment).permitted_attributes_for_update).merge(comment: @comment, current_user: current_user)
+    attributes = policy(@comment).permitted_attributes_for_update
+    params.require(:update_comment).permit(attributes).merge(comment: @comment, current_user: current_user)
   end
 
   def destroy_params
-    params.require(:remove_comment_form).permit(policy(@comment).permitted_attributes_for_destroy).merge(comment: @comment, current_user: current_user)
+    attributes = policy(@comment).permitted_attributes_for_destroy
+    params.require(:remove_comment_form).permit(attributes).merge(comment: @comment, current_user: current_user)
   end
 end

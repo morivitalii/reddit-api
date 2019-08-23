@@ -37,7 +37,6 @@ class PasswordController < ApplicationController
 
   def create_params
     attributes = policy(:password).permitted_attributes_for_update
-
     params.require(:change_password_form).permit(attributes)
   end
 end

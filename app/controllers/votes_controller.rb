@@ -63,7 +63,6 @@ class VotesController < ApplicationController
 
   def vote_params
     attributes = policy(Vote).permitted_attributes_for_create
-
     params.require(:create_vote_form).permit(attributes).merge(votable: @votable, user: current_user)
   end
 

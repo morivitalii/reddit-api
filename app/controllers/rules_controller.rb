@@ -67,13 +67,11 @@ class RulesController < ApplicationController
 
   def create_params
     attributes = policy(Rule).permitted_attributes_for_create
-
     params.require(:create_rule_form).permit(attributes).merge(community: @community)
   end
 
   def update_params
     attributes = policy(@rule).permitted_attributes_for_update
-
     params.require(:update_rule_form).permit(attributes).merge(rule: @rule)
   end
 end

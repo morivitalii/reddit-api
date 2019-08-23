@@ -37,7 +37,6 @@ class ForgotPasswordController < ApplicationController
 
   def create_params
     attributes = policy(:forgot_password).permitted_attributes_for_create
-
     params.require(:forgot_password_form).permit(attributes)
   end
 end

@@ -102,17 +102,17 @@ class PostsController < ApplicationController
   end
 
   def create_params
-    permitted_attributes = policy(Post).permitted_attributes_for_create
-    params.require(:create_post).permit(permitted_attributes).merge(community: @community, current_user: current_user)
+    attributes = policy(Post).permitted_attributes_for_create
+    params.require(:create_post).permit(attributes).merge(community: @community, current_user: current_user)
   end
 
   def update_params
-    permitted_attributes = policy(@post).permitted_attributes_for_update
-    params.require(:update_post).permit(permitted_attributes).merge(post: @post, current_user: current_user)
+    attributes = policy(@post).permitted_attributes_for_update
+    params.require(:update_post).permit(attributes).merge(post: @post, current_user: current_user)
   end
 
   def destroy_params
-    permitted_attributes = policy(@post).permitted_attributes_for_destroy
-    params.require(:remove_post_form).permit(permitted_attributes).merge(post: @post, user: current_user)
+    attributes = policy(@post).permitted_attributes_for_destroy
+    params.require(:remove_post_form).permit(attributes).merge(post: @post, user: current_user)
   end
 end
