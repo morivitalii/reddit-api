@@ -33,20 +33,19 @@ class Post < ApplicationRecord
   validates :removed_reason, allow_blank: true, length: { maximum: 5_000 }
 
   with_options if: ->(r) { r.text.present? } do
-    validates :text, presence: true, length: { maximum: 10_000 }
+    validates :text, length: { maximum: 10_000 }
     validates :url, absence: true
     validates :image, absence: true
   end
 
   with_options if: ->(r) { r.url.present? } do
-    validates :url, presence: true, length: { maximum: 2048 }
+    validates :url, length: { maximum: 2048 }
     validate :validate_url_format
     validates :text, absence: true
     validates :image, absence: true
   end
 
   with_options if: ->(r) { r.image.present? } do
-    validates :image, presence: true
     validates :text, absence: true
     validates :url, absence: true
   end

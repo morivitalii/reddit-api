@@ -70,16 +70,16 @@ class FormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def file_field(method, options = {})
-    @template.content_tag(:div, class: "form-group") do
-      classes = options[:class].is_a?(String) ? [options[:class]] : options[:class].to_a
-      options[:class] = Array.new(classes).push("form-control-file")
-
-      @template.concat(
-        @template.file_field(@object_name, method, objectify_options(options))
-      )
-    end
-  end
+  # def file_field(method, options = {})
+  #   @template.content_tag(:div, class: "form-group") do
+  #     classes = options[:class].is_a?(String) ? [options[:class]] : options[:class].to_a
+  #     options[:class] = Array.new(classes).push("form-control-file")
+  #
+  #     @template.concat(
+  #       @template.file_field(@object_name, method, objectify_options(options))
+  #     )
+  #   end
+  # end
 
   def submit(value, options = {})
     classes = options[:class].is_a?(String) ? [options[:class]] : options[:class].to_a

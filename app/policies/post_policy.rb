@@ -9,7 +9,9 @@ class PostPolicy < ApplicationPolicy
     user?
   end
 
-  alias new? create?
+  alias new_text? create?
+  alias new_link? create?
+  alias new_image? create?
 
   def update?
     author? || moderator?

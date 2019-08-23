@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   before_action :set_community
   before_action :set_sort_options, only: [:show]
   before_action :set_sort, only: [:show]
-  before_action -> { authorize(Post) }, only: [:new, :create]
+  before_action -> { authorize(Post) }, only: [:new_text, :new_link, :new_image, :create]
   before_action -> { authorize(@post) }, only: [:show, :edit, :update, :approve, :remove, :destroy]
   decorates_assigned :community
 
@@ -14,7 +14,15 @@ class PostsController < ApplicationController
     @post = @post.decorate
   end
 
-  def new
+  def new_text
+    @form = CreatePost.new
+  end
+
+  def new_link
+    @form = CreatePost.new
+  end
+
+  def new_image
     @form = CreatePost.new
   end
 

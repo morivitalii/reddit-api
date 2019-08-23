@@ -24,11 +24,16 @@ Rails.application.routes.draw do
   end
 
   resources :communities, only: [:show, :edit, :update] do
-    resources :posts, only: [:new, :create]
     resource :follows, only: [:create, :destroy]
     resources :moderators, only: [:index, :new, :create, :destroy]
     resources :rules, only: [:index, :new, :create, :edit, :update, :destroy]
     resources :bans, only: [:index, :new, :create, :edit, :update, :destroy]
+
+    resources :posts, only: [:create] do
+      get "/new/text", action: :new_text, on: :collection
+      get "/new/link", action: :new_link, on: :collection
+      get "/new/image", action: :new_image, on: :collection
+    end
 
     resources :mod_queues, only: [] do
       get :new_posts, action: :new_posts_index, on: :collection

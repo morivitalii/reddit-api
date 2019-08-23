@@ -179,7 +179,7 @@ class PostDecorator < ApplicationDecorator
       else
         "posts/content/link_content"
       end
-    elsif model.image?
+    elsif model.image.present?
       "posts/content/image_content"
     end
   end

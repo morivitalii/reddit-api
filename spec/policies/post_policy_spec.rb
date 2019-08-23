@@ -10,7 +10,7 @@ RSpec.describe PostPolicy, type: :policy do
       it { is_expected.to permit(context, post) }
     end
 
-    permissions :new?, :create? do
+    permissions :new_text?, :new_link?, :new_image?, :create? do
       it { is_expected.to_not permit(context) }
     end
 
@@ -24,7 +24,7 @@ RSpec.describe PostPolicy, type: :policy do
       it { is_expected.to permit(context, post) }
     end
 
-    permissions :new?, :create? do
+    permissions :new_text?, :new_link?, :new_image?, :create? do
       it { is_expected.to permit(context) }
     end
 
@@ -38,7 +38,7 @@ RSpec.describe PostPolicy, type: :policy do
       it { is_expected.to permit(context, post) }
     end
 
-    permissions :new?, :create? do
+    permissions :new_text?, :new_link?, :new_image?, :create? do
       it { is_expected.to permit(context) }
     end
 
@@ -52,7 +52,7 @@ RSpec.describe PostPolicy, type: :policy do
       it { is_expected.to permit(context, post) }
     end
 
-    permissions :new?, :create? do
+    permissions :new_text?, :new_link?, :new_image?, :create? do
       it { is_expected.to permit(context) }
     end
 
