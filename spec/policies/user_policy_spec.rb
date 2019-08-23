@@ -18,4 +18,15 @@ RSpec.describe UserPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
   end
+
+  describe ".permitted_attributes_for_update" do
+    it "contains attributes" do
+      policy = build_policy
+      expect(policy.permitted_attributes_for_update).to contain_exactly(:email, :password, :password_current)
+    end
+  end
+
+  def build_policy
+    described_class.new(Context.new(nil), nil)
+  end
 end
