@@ -53,6 +53,7 @@ group :test do
   gem "webmock", "~> 3.6"
   gem "shoulda-matchers", "~> 4.1"
   gem "rails-controller-testing"
+  gem "simplecov", require: false
 end
 
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
