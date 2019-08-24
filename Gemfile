@@ -32,25 +32,25 @@ gem "pundit", "~> 2"
 gem "draper", "~> 3"
 
 group :development, :test do
-  gem "rubocop", "~> 0.74.0", require: false
-  gem "rspec-rails", "~> 3.8"
-  gem "puma", "~> 4.1"
+  gem "rspec-rails"
+  gem "puma"
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
 end
 
 group :development do
-  gem "web-console", ">= 3.3.0"
-  gem "listen", ">= 3.0.5", "< 3.2"
+  gem "web-console"
+  gem "listen"
   gem "spring"
-  gem "spring-watcher-listen", "~> 2.0.0"
+  gem "spring-watcher-listen"
+  gem "rubocop", require: false
 end
 
 group :test do
-  gem "factory_bot_rails", "~> 5"
-  gem "capybara", "~> 3.28"
-  gem "selenium-webdriver", "~> 3.142"
-  gem "webmock", "~> 3.6"
-  gem "shoulda-matchers", "~> 4.1"
+  gem "factory_bot_rails"
+  gem "capybara"
+  gem "selenium-webdriver"
+  gem "webmock"
+  gem "shoulda-matchers"
   gem "rails-controller-testing"
   gem "simplecov", require: false
 end
