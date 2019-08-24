@@ -49,7 +49,6 @@ group :test do
   gem "factory_bot_rails"
   gem "capybara"
   gem "selenium-webdriver"
-  gem "webmock"
   gem "shoulda-matchers"
   gem "rails-controller-testing"
   gem "simplecov", require: false
