@@ -6,6 +6,38 @@ RSpec.describe Post, type: :model do
   it_behaves_like "paginatable"
   it_behaves_like "markdownable", :text
 
+  describe "validations" do
+    subject { build(:post) }
+
+    it { is_expected.to validate_presence_of(:title) }
+    it { is_expected.to validate_length_of(:removed_reason).is_at_most(5_000) }
+
+    context "text post" do
+      subject { build(:text_post) }
+
+      it { is_expected.to validate_length_of(:text).is_at_most(10_000) }
+      it { is_expected.to validate_absence_of(:url) }
+      # it { is_expected.to validate_absence_of(:image) }
+    end
+
+    context "link post" do
+      subject { build(:link_post) }
+
+      it { is_expected.to validate_length_of(:url).is_at_most(2048) }
+      it { is_expected.to allow_value("http://example.com/").for(:url) }
+      it { is_expected.to_not allow_value("http://invalid . link/").for(:url) }
+      it { is_expected.to validate_absence_of(:text) }
+      # it { is_expected.to validate_absence_of(:image) }
+    end
+
+    context "image post" do
+      subject { build(:image_post) }
+
+      it { is_expected.to validate_absence_of(:text) }
+      it { is_expected.to validate_absence_of(:url) }
+    end
+  end
+
   context "when author have permissions for approving" do
     it "approves post on create" do
       post = build(:post)
