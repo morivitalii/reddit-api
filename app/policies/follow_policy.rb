@@ -6,6 +6,12 @@ class FollowPolicy < ApplicationPolicy
   end
 
   def destroy?
-    follower?
+    user? && follower?
+  end
+
+  private
+
+  def follower?
+    user.follows.any? { |follow| follow.community_id == community.id }
   end
 end

@@ -15,12 +15,6 @@ RSpec.describe ModQueuePolicy, type: :policy do
     end
   end
 
-  context "for follower", context: :follower do
-    permissions :new_posts_index?, :new_comments_index?, :reported_posts_index?, :reported_comments_index? do
-      it { is_expected.to_not permit(context) }
-    end
-  end
-
   context "for moderator", context: :moderator do
     permissions :new_posts_index?, :new_comments_index?, :reported_posts_index?, :reported_comments_index? do
       it { is_expected.to permit(context) }

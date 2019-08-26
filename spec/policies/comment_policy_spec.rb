@@ -33,20 +33,6 @@ RSpec.describe CommentPolicy, type: :policy do
     end
   end
 
-  context "for follower", context: :follower do
-    permissions :show? do
-      it { is_expected.to permit(context, comment) }
-    end
-
-    permissions :new?, :create? do
-      it { is_expected.to permit(context) }
-    end
-
-    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :update_text?, :update_ignore_reports?, :update_removed_reason? do
-      it { is_expected.to_not permit(context, comment) }
-    end
-  end
-
   context "for moderator", context: :moderator do
     permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to permit(context, comment) }

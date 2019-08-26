@@ -19,23 +19,15 @@ RSpec.describe FollowPolicy, type: :policy do
     end
   end
 
-  context "for follower", context: :follower do
+  context "for follower", context: :user do
+    before { create(:follow, user: context.user, community: context.community) }
+
     permissions :create? do
       it { is_expected.to_not permit(context) }
     end
 
     permissions :destroy? do
       it { is_expected.to permit(context) }
-    end
-  end
-
-  context "for moderator", context: :moderator do
-    permissions :create? do
-      it { is_expected.to permit(context) }
-    end
-
-    permissions :destroy? do
-      it { is_expected.to_not permit(context) }
     end
   end
 end

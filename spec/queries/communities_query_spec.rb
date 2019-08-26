@@ -40,7 +40,7 @@ RSpec.describe CommunitiesQuery do
   describe ".with_user_follower" do
     it "returns communities where user is follower" do
       user = create(:user)
-      communities_with_user_follower = create_pair(:community_with_followers, follower_user: user, followers_count: 1)
+      communities_with_user_follower = create_pair(:community_with_followers, user: user, followers_count: 1)
       create_pair(:community_with_followers, followers_count: 1)
 
       result = subject.new.with_user_follower(user)

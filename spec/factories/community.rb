@@ -26,11 +26,11 @@ FactoryBot.define do
     factory :community_with_followers do
       transient do
         followers_count { 2 }
-        follower_user { create(:user) }
+        user { create(:user) }
       end
 
       after(:create) do |community, evaluator|
-        create_list(:follow, evaluator.followers_count, community: community, user: evaluator.follower_user)
+        create_list(:follow, evaluator.followers_count, community: community, user: evaluator.user)
       end
     end
 

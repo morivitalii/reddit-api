@@ -33,20 +33,6 @@ RSpec.describe PostPolicy, type: :policy do
     end
   end
 
-  context "for follower", context: :follower do
-    permissions :show? do
-      it { is_expected.to permit(context, post) }
-    end
-
-    permissions :new_text?, :new_link?, :new_image?, :create? do
-      it { is_expected.to permit(context) }
-    end
-
-    permissions :edit?, :update?, :approve?, :remove?, :destroy?, :update_text?, :update_explicit?, :update_spoiler?, :update_ignore_reports?, :update_removed_reason? do
-      it { is_expected.to_not permit(context, post) }
-    end
-  end
-
   context "for moderator", context: :moderator do
     permissions :show?, :update?, :approve?, :remove?, :destroy?, :update_explicit?, :update_spoiler?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to permit(context, post) }

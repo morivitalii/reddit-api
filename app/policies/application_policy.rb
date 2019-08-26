@@ -34,8 +34,4 @@ class ApplicationPolicy
   def banned?
     user? && user.bans.any? { |ban| ban.community_id == community.id }
   end
-
-  def follower?
-    user? && user.follows.any? { |follow| follow.community_id == community.id }
-  end
 end
