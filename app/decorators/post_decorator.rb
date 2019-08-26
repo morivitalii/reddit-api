@@ -164,7 +164,7 @@ class PostDecorator < ApplicationDecorator
 
     link_title = ignore_reports ? h.fa_icon('check-square-o', text: h.t('ignore_reports')) : h.fa_icon('square-o', text: h.t('ignore_reports'))
     link_class = "ignore_reports dropdown-item"
-    link_data_params = "update_#{model_name}[ignore_reports]=#{ignore_reports ? false : true}"
+    link_data_params = "update_#{model_name}_form[ignore_reports]=#{ignore_reports ? false : true}"
     link_path = [model]
 
     h.link_to(link_title, link_path, data: { params: link_data_params }, remote: true, method: :put, class: link_class)
