@@ -56,16 +56,6 @@ class Post < ApplicationRecord
     validates :url, presence: true
   end
 
-  def youtube?
-    @youtube ||= %w(youtube.com www.youtube.com youtu.be www.youtu.be).include?(URI(url).host)
-  end
-
-  def youtube_id
-    @youtube_id ||= url.to_s.gsub(/(https?:\/\/)?(www.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/watch\?feature=player_embedded&v=)([A-Za-z0-9_-]*)(\&\S+)?(\?\S+)?/) do
-      Regexp.last_match(4).to_s
-    end
-  end
-
   def cut_image_preview?
     _, height = image_content_dimensions
     height > 550

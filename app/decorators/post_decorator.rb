@@ -174,11 +174,7 @@ class PostDecorator < ApplicationDecorator
     if model.text?
       "posts/content/text_content"
     elsif model.url?
-      if model.youtube?
-        "posts/content/link_youtube_content"
-      else
-        "posts/content/link_content"
-      end
+      "posts/content/link_content"
     elsif model.image.present?
       "posts/content/image_content"
     end
