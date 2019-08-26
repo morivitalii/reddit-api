@@ -3,8 +3,8 @@ $(document).ready(function() {
         var explicit = e.detail[0].explicit;
         var explicit_link = $(this);
         var explicit_link_icon = $(explicit_link).find("i");
-        var explicit_data = "update_post[explicit]=true";
-        var not_explicit_data = "update_post[explicit]=false";
+        var explicit_data = "update_post_form[explicit]=true";
+        var not_explicit_data = "update_post_form[explicit]=false";
         var explicit_icon = "fa-check-square-o";
         var not_explicit_icon = "fa-square-o";
         var data_attribute = "data-params";

@@ -125,7 +125,7 @@ class PostDecorator < ApplicationDecorator
 
     link_title = spoiler ? h.fa_icon('check-square-o', text: h.t('spoiler')) : h.fa_icon('square-o', text: h.t('spoiler'))
     link_class = "spoiler dropdown-item"
-    link_data_params = "update_post[spoiler]=#{spoiler ? false : true}"
+    link_data_params = "update_post_form[spoiler]=#{spoiler ? false : true}"
     link_path = [model]
 
     h.link_to(link_title, link_path, data: { params: link_data_params }, remote: true, method: :put, class: link_class)
@@ -136,7 +136,7 @@ class PostDecorator < ApplicationDecorator
 
     link_title = explicit ? h.fa_icon('check-square-o', text: h.t('explicit')) : h.fa_icon('square-o', text: h.t('explicit'))
     link_class = "explicit dropdown-item"
-    link_data_params = "update_post[explicit]=#{explicit ? false : true}"
+    link_data_params = "update_post_form[explicit]=#{explicit ? false : true}"
     link_path = [model]
 
     h.link_to(link_title, link_path, data: { params: link_data_params }, remote: true, method: :put, class: link_class)

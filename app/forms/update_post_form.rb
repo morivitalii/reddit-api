@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
-class UpdatePost
+class UpdatePostForm
   include ActiveModel::Model
 
-  attr_accessor :post, :current_user, :text, :explicit, :spoiler, :ignore_reports
+  attr_accessor :post, :user, :text, :explicit, :spoiler, :ignore_reports
 
   def save
     attributes = {
-      text: @text,
-      explicit: @explicit,
-      spoiler: @spoiler,
-      ignore_reports: @ignore_reports
+      text: text,
+      explicit: explicit,
+      spoiler: spoiler,
+      ignore_reports: ignore_reports
     }.compact
 
     if edited?
-      @post.edit(@current_user)
+      post.edit(user)
     end
 
     @post.update!(attributes)
@@ -27,6 +27,6 @@ class UpdatePost
   private
 
   def edited?
-    @text.present? && @post.text != @text
+    text.present? && post.text != text
   end
 end

@@ -48,7 +48,7 @@ RSpec.describe PostPolicy, type: :policy do
   end
 
   context "for moderator", context: :moderator do
-    permissions :show?, :edit?, :update?, :approve?, :remove?, :destroy?, :update_explicit?, :update_spoiler?, :update_ignore_reports?, :update_removed_reason? do
+    permissions :show?, :update?, :approve?, :remove?, :destroy?, :update_explicit?, :update_spoiler?, :update_ignore_reports?, :update_removed_reason? do
       it { is_expected.to permit(context, post) }
     end
 
@@ -56,7 +56,7 @@ RSpec.describe PostPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :update_text? do
+    permissions :edit?, :update_text? do
       it { is_expected.to_not permit(context, post) }
     end
   end
@@ -72,7 +72,31 @@ RSpec.describe PostPolicy, type: :policy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :edit?, :update?, :remove?, :destroy?, :update_text? do
+    context "text post" do
+      let(:post) { create(:text_post, user: context.user, community: context.community) }
+
+      permissions :edit?, :update_text? do
+        it { is_expected.to permit(context, post) }
+      end
+    end
+
+    context "link post" do
+      let(:post) { create(:link_post, user: context.user, community: context.community) }
+
+      permissions :edit?, :update_text? do
+        it { is_expected.to_not permit(context, post) }
+      end
+    end
+
+    context "image post" do
+      let(:post) { create(:image_post, user: context.user, community: context.community) }
+
+      permissions :edit?, :update_text? do
+        it { is_expected.to_not permit(context, post) }
+      end
+    end
+
+    permissions :update?, :remove?, :destroy? do
       it { is_expected.to permit(context, post) }
     end
 

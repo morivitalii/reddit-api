@@ -27,7 +27,7 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @form = UpdatePost.new(text: @post.text)
+    @form = UpdatePostForm.new(text: @post.text)
   end
 
   def create
@@ -46,7 +46,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    @form = UpdatePost.new(update_params)
+    @form = UpdatePostForm.new(update_params)
 
     if @form.save
       attributes = {
@@ -111,12 +111,12 @@ class PostsController < ApplicationController
 
   def create_params
     attributes = policy(Post).permitted_attributes_for_create
-    params.require(:create_post).permit(attributes).merge(community: @community, user: current_user)
+    params.require(:create_post_form).permit(attributes).merge(community: @community, user: current_user)
   end
 
   def update_params
     attributes = policy(@post).permitted_attributes_for_update
-    params.require(:update_post).permit(attributes).merge(post: @post, current_user: current_user)
+    params.require(:update_post_form).permit(attributes).merge(post: @post, user: current_user)
   end
 
   def destroy_params

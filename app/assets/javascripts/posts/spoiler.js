@@ -3,8 +3,8 @@ $(document).ready(function() {
         var spoiler = e.detail[0].spoiler;
         var spoiler_link = $(this);
         var spoiler_link_icon = $(spoiler_link).find("i");
-        var spoiler_data = "update_post[spoiler]=true";
-        var not_spoiler_data = "update_post[spoiler]=false";
+        var spoiler_data = "update_post_form[spoiler]=true";
+        var not_spoiler_data = "update_post_form[spoiler]=false";
         var spoiler_icon = "fa-check-square-o";
         var not_spoiler_icon = "fa-square-o";
         var data_attribute = "data-params";

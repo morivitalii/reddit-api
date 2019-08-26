@@ -17,7 +17,9 @@ class PostPolicy < ApplicationPolicy
     author? || moderator?
   end
 
-  alias edit? update?
+  def edit?
+    author? && record.text?
+  end
 
   def approve?
     moderator?
@@ -30,7 +32,7 @@ class PostPolicy < ApplicationPolicy
   alias remove? destroy?
 
   def update_text?
-    author?
+    author? && record.text?
   end
 
   def update_explicit?

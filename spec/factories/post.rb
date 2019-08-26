@@ -1,3 +1,5 @@
+include ActionDispatch::TestProcess
+
 FactoryBot.define do
   factory :post do
     user
@@ -11,7 +13,7 @@ FactoryBot.define do
       image { nil }
     end
 
-    trait :url do
+    trait :link do
       text { nil }
       url { "http://example.com/" }
       image { nil }
@@ -20,7 +22,7 @@ FactoryBot.define do
     trait :image do
       text { nil }
       url { nil }
-      # TODO
+      image { fixture_file_upload(Rails.root.join("spec/fixtures/files/post_image.jpg")) }
     end
 
     trait :moderated do
@@ -81,5 +83,8 @@ FactoryBot.define do
     factory :approved_post, traits: [:approved]
     factory :not_edited_post, traits: [:not_edited]
     factory :edited_post, traits: [:edited]
+    factory :text_post, traits: [:text]
+    factory :link_post, traits: [:link]
+    factory :image_post, traits: [:image]
   end
 end
