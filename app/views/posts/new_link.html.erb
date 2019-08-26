@@ -21,7 +21,7 @@
     </div>
 
     <div class="col-12 mt-2 mb-3 type">
-      <%= form_with(model: @form, url: community_posts_path(community), class: 'createPostForm') do |f| %>
+      <%= form_with(model: @form, url: community_posts_path(community)) do |f| %>
         <%= f.text_area :title, rows: 3 %>
         <%= f.text_area :url, rows: 3 %>
         <%= f.check_box :explicit %>

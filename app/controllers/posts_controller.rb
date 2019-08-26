@@ -15,15 +15,15 @@ class PostsController < ApplicationController
   end
 
   def new_text
-    @form = CreatePost.new
+    @form = CreatePostForm.new
   end
 
   def new_link
-    @form = CreatePost.new
+    @form = CreatePostForm.new
   end
 
   def new_image
-    @form = CreatePost.new
+    @form = CreatePostForm.new
   end
 
   def edit
@@ -31,7 +31,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @form = CreatePost.new(create_params)
+    @form = CreatePostForm.new(create_params)
 
     rate_limit_action = :create_post
     rate_limit = 100
@@ -111,7 +111,7 @@ class PostsController < ApplicationController
 
   def create_params
     attributes = policy(Post).permitted_attributes_for_create
-    params.require(:create_post).permit(attributes).merge(community: @community, current_user: current_user)
+    params.require(:create_post).permit(attributes).merge(community: @community, user: current_user)
   end
 
   def update_params
