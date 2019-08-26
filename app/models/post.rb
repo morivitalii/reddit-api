@@ -56,11 +56,6 @@ class Post < ApplicationRecord
     validates :url, presence: true
   end
 
-  def cut_image_preview?
-    _, height = image_content_dimensions
-    height > 550
-  end
-
   def image_content_dimensions
     variant = :desktop
 
