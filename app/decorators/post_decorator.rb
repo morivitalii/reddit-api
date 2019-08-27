@@ -169,14 +169,4 @@ class PostDecorator < ApplicationDecorator
 
     h.link_to(link_title, link_path, data: { params: link_data_params }, remote: true, method: :put, class: link_class)
   end
-
-  def content_partial
-    if model.text?
-      "posts/content/text_content"
-    elsif model.url?
-      "posts/content/link_content"
-    elsif model.image.present?
-      "posts/content/image_content"
-    end
-  end
 end

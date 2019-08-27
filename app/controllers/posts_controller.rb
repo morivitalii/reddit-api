@@ -3,15 +3,11 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :approve, :remove, :destroy]
   before_action :set_community
-  before_action :set_sort_options, only: [:show]
-  before_action :set_sort, only: [:show]
   before_action -> { authorize(Post) }, only: [:new_text, :new_link, :new_image, :create]
   before_action -> { authorize(@post) }, only: [:show, :edit, :update, :approve, :remove, :destroy]
-  decorates_assigned :community
+  decorates_assigned :community, :post
 
   def show
-    # TODO js comments loading
-    @post = @post.decorate
   end
 
   def new_text
@@ -64,9 +60,7 @@ class PostsController < ApplicationController
   def approve
     ApprovePostService.new(@post, current_user).call
 
-    @post = @post.decorate
-
-    render json: { approve_link: @post.approve_link, remove_link: @post.remove_link }
+    render json: { approve_link: post.approve_link, remove_link: post.remove_link }
   end
 
   def remove
@@ -79,9 +73,7 @@ class PostsController < ApplicationController
     @form = RemovePostForm.new(destroy_params)
 
     if @form.save
-      @post = @post.decorate
-
-      render json: { approve_link: @post.approve_link, remove_link: @post.remove_link }
+      render json: { approve_link: post.approve_link, remove_link: post.remove_link }
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -101,12 +93,14 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
   end
 
-  def set_sort_options
-    @sort_options = { best: t("best"), top: t("top"), new: t("new"), controversy: t("controversy"), old: t("old") }.with_indifferent_access
+  helper_method :sort
+  def sort
+    sort_options.include?(params[:sort]) ? params[:sort] : :best
   end
 
-  def set_sort
-    @sort = params[:sort].in?(@sort_options.keys) ? params[:sort].to_sym : :best
+  helper_method :sort_options
+  def sort_options
+    %w(best top new controversy old)
   end
 
   def create_params

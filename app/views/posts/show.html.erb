@@ -1,53 +1,65 @@
-<% content_for(:meta_title, @post.title) %>
+<% content_for(:meta_title, post.title) %>
 
-<%= render 'shared/sidebar', community: @post.community %>
+<%= render 'shared/sidebar', community: post.community %>
 
 <div class="col-12 bg-white border rounded pb-3 mb-3">
   <div class="post row mt-2">
     <div class="info col-12">
-      <%= link_to(@post.user.username, posts_user_path(@post.user)) %> <%= @post.created_at %>
+      <%= link_to(post.user.username, posts_user_path(post.user)) %> <%= post.created_at %>
 
-      <% if @post.edited? %>
-        <%= @post.edited_at %>
+      <% if post.edited? %>
+        <%= post.edited_at %>
       <% end %>
 
-      <% if @post.explicit? %>
+      <% if post.explicit? %>
         <span class="explicit"><%= t('explicit') %></span>
       <% end %>
 
-      <% if @post.spoiler? %>
+      <% if post.spoiler? %>
         <span class="spoiler"><%= t('spoiler') %></span>
       <% end %>
     </div>
 
     <div class="title col-12 mt-1">
-      <%= link_to(@post.title, post_path(@post)) %>
+      <%= link_to(post.title, post_path(post)) %>
     </div>
 
-    <% if @post.removed? %>
+    <% if post.removed? %>
       <div class="content col-12 mt-2">
-        <%= @post.removed_message %>
+        <%= post.removed_message %>
       </div>
-    <% else %>
-      <%= render @post.content_partial, post: @post %>
+    <% elsif post.text? %>
+      <div class="content col-12 mt-2 mb-2">
+        <%= post.text_html.html_safe %>
+      </div>
+    <% elsif post.url? %>
+      <div class="url col-12 mt-1 mb-1">
+        <%= link_to(truncate(post.url, length: 40), post.url, target: "_blank", rel: "nofollow") %>
+      </div>
+    <% elsif post.image.present? %>
+      <div class="content col-12 mt-2 mb-2 pl-0 pr-0 text-center">
+        <a href="<%= post.image_url(:original) %>" target="_blank">
+          <%= image_tag(post.image_url(:desktop), class: "img-fluid", width: post.image_width, height: post.image_height) %>
+        </a>
+      </div>
     <% end %>
 
     <div class="actions col-12">
       <span class="vote">
-        <%= @post.up_vote_link %>
-        <%= @post.score %>
-        <%= @post.down_vote_link %>
+        <%= post.up_vote_link %>
+        <%= post.score %>
+        <%= post.down_vote_link %>
       </span>
 
-      <%= @post.comments_link %>
-      <%= @post.bookmark_link %>
+      <%= post.comments_link %>
+      <%= post.bookmark_link %>
 
-      <% if policy(@post).approve? %>
-        <%= @post.approve_link %>
+      <% if policy(post).approve? %>
+        <%= post.approve_link %>
       <% end %>
 
-      <% if policy(@post).destroy? %>
-        <%= @post.remove_link %>
+      <% if policy(post).destroy? %>
+        <%= post.remove_link %>
       <% end %>
 
       <span class="menu dropdown">
@@ -57,27 +69,27 @@
 
         <div class="dropdown-menu">
           <% if policy(Report).create? %>
-            <%= @post.report_link %>
+            <%= post.report_link %>
           <% end %>
 
           <% if policy(Report).index? %>
-            <%= @post.reports_link %>
+            <%= post.reports_link %>
           <% end %>
 
-          <% if policy(@post).update_text? %>
-            <%= @post.edit_link %>
+          <% if policy(post).update_text? %>
+            <%= post.edit_link %>
           <% end %>
 
-          <% if policy(@post).update_explicit? %>
-            <%= @post.explicit_link %>
+          <% if policy(post).update_explicit? %>
+            <%= post.explicit_link %>
           <% end %>
 
-          <% if policy(@post).update_spoiler? %>
-            <%= @post.spoiler_link %>
+          <% if policy(post).update_spoiler? %>
+            <%= post.spoiler_link %>
           <% end %>
 
-          <% if policy(@post).update_ignore_reports? %>
-            <%= @post.ignore_reports_link %>
+          <% if policy(post).update_ignore_reports? %>
+            <%= post.ignore_reports_link %>
           <% end %>
         </div>
       </span>
@@ -87,7 +99,7 @@
   <% if policy(Comment).create? %>
     <div class="row mt-3">
       <div class="col-12">
-        <%= form_with(model: CreateComment.new, url: post_comments_path(@post), class: 'createCommentForm') do |f| %>
+        <%= form_with(model: CreateComment.new, url: post_comments_path(post), class: 'createCommentForm') do |f| %>
           <%= f.text_area :text, label: false %>
           <%= f.submit t('reply'), class: 'btn-sm' %>
 
@@ -123,16 +135,14 @@
   <div class="row mt-3">
     <div class="col-12">
       <span id="sort" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <%= @sort_options.fetch(@sort, @sort_options['best']) %>
+        <%= t(sort) %>
       </span>
 
       <div class="dropdown-menu">
-        <% @sort_options.each do |k, v| %>
-          <%= link_to(v, post_path(@post, sort: k, anchor: 'sort'), class: 'dropdown-item') %>
+        <% sort_options.each do |option| %>
+          <%= link_to(t(option), post_path(post, sort: option), class: 'dropdown-item') %>
         <% end %>
       </div>
     </div>
   </div>
-
-  <!--  <#%= render partial: "comments/nested", locals: { item: @topic.branch } %>-->
 </div>

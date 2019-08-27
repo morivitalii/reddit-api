@@ -1,6 +1,0 @@
-<div class="content col-12 mt-2 mb-2 pl-0 pr-0 text-center">
-  <a href="<%= post.image_url(:original) %>" target="_blank">
-    <% width, height = post.image_content_dimensions %>
-    <%= image_tag(post.image_url(:desktop), class: "img-fluid", width: width, height: height) %>
-  </a>
-</div>

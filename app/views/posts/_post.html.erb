@@ -27,7 +27,25 @@
       <%= link_to(post.title, post_path(post)) %>
     </div>
 
-    <%= render post.content_partial, post: post %>
+    <% if post.removed? %>
+      <div class="content col-12 mt-2">
+        <%= post.removed_message %>
+      </div>
+    <% elsif post.text? %>
+      <div class="content col-12 mt-2 mb-2">
+        <%= post.text_html.html_safe %>
+      </div>
+    <% elsif post.url? %>
+      <div class="url col-12 mt-1 mb-1">
+        <%= link_to(truncate(post.url, length: 40), post.url, target: "_blank", rel: "nofollow") %>
+      </div>
+    <% elsif post.image.present? %>
+      <div class="content col-12 mt-2 mb-2 pl-0 pr-0 text-center">
+        <a href="<%= post.image_url(:original) %>" target="_blank">
+          <%= image_tag(post.image_url(:desktop), class: "img-fluid", width: post.image_width, height: post.image_height) %>
+        </a>
+      </div>
+    <% end %>
 
     <div class="actions col-12">
       <span class="vote">

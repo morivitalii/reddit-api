@@ -56,25 +56,6 @@ class Post < ApplicationRecord
     validates :url, presence: true
   end
 
-  def image_content_dimensions
-    variant = :desktop
-
-    if image[variant].height > 550
-      coefficient_by_max_height = 550 / image[variant].height.to_f
-      width_calculated_with_coefficient_by_max_height = (image[variant].width * coefficient_by_max_height).round
-
-      if width_calculated_with_coefficient_by_max_height < 350
-        coefficient_by_min_width = 350 / image[variant].width.to_f
-
-        [(image[variant].width * coefficient_by_min_width).round, (image[variant].height * coefficient_by_min_width).round]
-      else
-        [width_calculated_with_coefficient_by_max_height, (image[variant].height * coefficient_by_max_height).round]
-      end
-    else
-      [image[variant].width, image[variant].height]
-    end
-  end
-
   def approve!(user)
     update!(approved_by: user, approved_at: Time.current)
   end
@@ -106,6 +87,16 @@ class Post < ApplicationRecord
       top_score: ScoreCalculator.top_score(up_votes_count, down_votes_count),
       controversy_score: ScoreCalculator.controversy_score(up_votes_count, down_votes_count),
     )
+  end
+
+  def image_width
+    width, _height = image_content_dimensions
+    width
+  end
+
+  def image_height
+    _width, height = image_content_dimensions
+    height
   end
 
   private
@@ -161,5 +152,28 @@ class Post < ApplicationRecord
 
   def create_topic_on_create
     create_topic!
+  end
+
+  def image_content_dimensions
+    return @_image_content_dimensions if defined?(@_image_content_dimensions)
+
+    variant = :desktop
+
+    if image[variant].height > 550
+      coefficient_by_max_height = 550 / image[variant].height.to_f
+      width_calculated_with_coefficient_by_max_height = (image[variant].width * coefficient_by_max_height).round
+
+      if width_calculated_with_coefficient_by_max_height < 350
+        coefficient_by_min_width = 350 / image[variant].width.to_f
+
+        @_image_content_dimensions = [(image[variant].width * coefficient_by_min_width).round, (image[variant].height * coefficient_by_min_width).round]
+      else
+        @_image_content_dimensions = [width_calculated_with_coefficient_by_max_height, (image[variant].height * coefficient_by_max_height).round]
+      end
+    else
+      @_image_content_dimensions = [image[variant].width, image[variant].height]
+    end
+
+    @_image_content_dimensions
   end
 end
