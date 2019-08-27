@@ -11,15 +11,15 @@ $(document).ready(function() {
         $('.modal').modal('show');
     });
 
-    $(document).on('ajax:success', '.reportForm', function (e) {
+    $(document).on('ajax:success', '.new_create_report_form', function (e) {
         var notification_text = e.detail[0];
 
         $('.modal').modal('hide');
         notification(notification_text);
     });
 
-    $(document).on('change', '.reportForm .reason', function() {
-        $('.reportForm').find('input[type="radio"]').prop('checked', false);
+    $(document).on('change', '.new_create_report_form .reason', function() {
+        $('.new_create_report_form').find('input[type="radio"]').prop('checked', false);
         $(this).prop('checked', true);
         $('#create_report_form_text').val($(this).val());
     });

@@ -17,6 +17,10 @@ class CreateModeratorForm
     return false
   end
 
+  def persisted?
+    false
+  end
+
   private
 
   def user

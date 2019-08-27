@@ -16,6 +16,10 @@ class ForgotPasswordForm
     true
   end
 
+  def persisted?
+    false
+  end
+
   private
 
   def send_email

@@ -19,6 +19,10 @@ class CreateVoteForm
     return false
   end
 
+  def persisted?
+    false
+  end
+
   private
 
   def previous_vote

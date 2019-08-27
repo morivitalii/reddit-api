@@ -22,4 +22,8 @@ class ChangePasswordForm
   def user
     @_user ||= UsersQuery.new.with_forgot_password_token(token).take!
   end
+
+  def persisted?
+    true
+  end
 end

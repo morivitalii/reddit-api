@@ -1,15 +1,15 @@
 <%= render 'shared/modal', title: t('create') do %>
-  <%= form_with(model: @form, url: community_bans_path(community)) do |f| %>
+  <%= simple_form_for(@form, remote: true) do |f| %>
     <div class="modal-body">
-      <%= f.text_field :username %>
-      <%= f.text_area :reason %>
-      <%= f.text_field :days %>
-      <%= f.check_box :permanent %>
+      <%= f.input :username %>
+      <%= f.input :reason, as: :text %>
+      <%= f.input :days, as: :integer %>
+      <%= f.input :permanent, as: :boolean %>
     </div>
 
     <div class="modal-footer">
       <button type="button" class="btn btn-primary" data-dismiss="modal"><%= t('cancel') %></button>
-      <%= f.submit t('create') %>
+      <%= f.button :submit, t('create') %>
     </div>
   <% end %>
 <% end %>

@@ -25,7 +25,6 @@ module App
     config.i18n.available_locales = :ru
     config.i18n.default_locale = :ru
     config.filter_parameters += [:username, :email, :password]
-    config.action_view.default_form_builder = "FormBuilder"
 
     ActionView::Base.field_error_proc = Proc.new do |html_tag, _|
       html_tag.html_safe

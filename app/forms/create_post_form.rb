@@ -26,4 +26,8 @@ class CreatePostForm
 
     return false
   end
+
+  def persisted?
+    false
+  end
 end

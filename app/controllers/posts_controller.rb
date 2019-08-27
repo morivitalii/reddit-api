@@ -23,7 +23,9 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @form = UpdatePostForm.new(text: @post.text)
+    attributes = @post.slice(:text)
+
+    @form = UpdatePostForm.new(attributes)
   end
 
   def create

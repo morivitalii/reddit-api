@@ -16,4 +16,8 @@ class UpdateBanForm
 
     return false
   end
+
+  def persisted?
+    true
+  end
 end

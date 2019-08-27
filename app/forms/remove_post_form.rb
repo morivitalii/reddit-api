@@ -12,4 +12,8 @@ class RemovePostForm
 
     return false
   end
+
+  def persisted?
+    true
+  end
 end

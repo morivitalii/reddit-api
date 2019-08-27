@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe UpdatePostForm, type: :form do
+  it { expect(described_class.new).to be_persisted }
+
   it "updates post" do
     form = build_update_post_form
 

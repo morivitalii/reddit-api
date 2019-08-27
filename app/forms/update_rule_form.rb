@@ -15,4 +15,8 @@ class UpdateRuleForm
 
     return false
   end
+
+  def persisted?
+    true
+  end
 end

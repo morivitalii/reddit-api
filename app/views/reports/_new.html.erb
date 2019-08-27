@@ -1,5 +1,5 @@
 <%= render 'shared/modal', title: t('report') do %>
-  <%= form_with(model: @form, url: [@reportable, :reports], class: 'reportForm') do |f| %>
+  <%= simple_form_for(@form, url: [@reportable, :reports], remote: true) do |f| %>
     <div class="modal-body">
       <% if @rules.present? %>
         <div class="pt-2" data-toggle="collapse" data-target="#reasons" aria-expanded="false">
@@ -33,13 +33,13 @@
       </div>
 
       <div class="pt-2 collapse" id="custom-reason">
-        <%= f.text_area :text %>
+        <%= f.input :text, as: :text %>
       </div>
     </div>
 
     <div class="modal-footer">
       <button type="button" class="btn btn-primary" data-dismiss="modal"><%= t('cancel') %></button>
-      <%= f.submit t('report') %>
+      <%= f.button :submit, t('report') %>
     </div>
   <% end %>
 <% end %>

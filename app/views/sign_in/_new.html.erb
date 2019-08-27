@@ -1,24 +1,22 @@
 <%= render 'shared/modal', title: t('sign_in') do %>
-  <%= form_with(model: @form, url: sign_in_path, class: 'signInForm') do |f| %>
-    <div class="modal-body">
-      <%= f.text_field :username %>
-      <%= f.password_field :password %>
+  <div class="modal-body">
+    <%= simple_form_for(@form, url: sign_in_path, remote: true) do |f| %>
+      <%= f.input :username %>
+      <%= f.input :password %>
 
       <div class="form-group">
         <%= recaptcha_tags %>
       </div>
 
-      <div class="row">
-        <div class="col-12">
-          <%= f.submit t('sign_in') %>
-        </div>
+      <%= f.button :submit, t('sign_in') %>
+    <% end %>
 
-        <div class="col-12 mt-3">
-          <%= link_to(t('sign_up'), new_sign_up_path, remote: true, class: 'signUp') %>
-          <br>
-          <%= link_to(t('forgot_password'), new_forgot_password_path, remote: true, class: 'forgotPassword') %>
-        </div>
+    <div class="row">
+      <div class="col-12 mt-3">
+        <%= link_to(t('sign_up'), new_sign_up_path, remote: true, class: 'sign_up') %>
+        <br>
+        <%= link_to(t('forgot_password'), new_forgot_password_path, remote: true, class: 'forgot_password') %>
       </div>
     </div>
-  <% end %>
+  </div>
 <% end %>

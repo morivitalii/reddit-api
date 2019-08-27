@@ -15,11 +15,11 @@
     </div>
   </div>
 
-  <div class="search col-12">
-    <%= form_with(url: community_bans_path(community), local: true, method: :get, class: "form-inline") do |f| %>
-      <%= f.text_field :query, value: params[:query], placeholder: t("username") %>
-      <%= f.submit t("search") %>
-      <%= link_to(t("reset"), community_bans_path(community), class: "btn btn-primary") %>
+  <div class="col-12">
+    <%= simple_form_for(:search, method: :get, wrapper: :inline_form, html: { class: "form-inline" }) do |f| %>
+      <%= f.input :query, as: :string, required: false, label: false, input_html: { value: params.dig(:search, :query), class: "mb-2 mr-2" }, placeholder: t("username") %>
+      <%= f.button :submit, t("search"), class: "mb-2 mr-2" %>
+      <%= link_to(t("reset"), community_moderators_path(community), class: "btn btn-primary mb-2") %>
     <% end %>
   </div>
 

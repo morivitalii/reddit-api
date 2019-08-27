@@ -16,4 +16,8 @@ class CreateReportForm
 
     return false
   end
+
+  def persisted?
+    false
+  end
 end

@@ -8,7 +8,7 @@ ru:
     description: Описание
     text: Текст
     url: Ссылка
-    file: Файл
+    image: Изображение
     explicit: 18+
     spoiler: Спойлер
     ignore_reports: Игнорировать жалобы

@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe CreatePostForm, type: :form do
+  it { expect(described_class.new).to_not be_persisted }
+
   context "with text content" do
     it "creates post" do
       form = build_create_post_form_with_text

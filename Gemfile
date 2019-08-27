@@ -25,6 +25,7 @@ gem "recaptcha", "~> 5.1"
 gem "whenever", "1.0.0", require: false
 gem "pundit", "~> 2"
 gem "draper", "~> 3"
+gem "simple_form", "~> 4"
 
 group :development, :test do
   gem "rspec-rails"

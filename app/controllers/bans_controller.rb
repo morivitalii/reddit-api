@@ -58,7 +58,7 @@ class BansController < ApplicationController
   end
 
   def query
-    BansQuery.new(@community.bans).search_by_username(params[:query]).includes(:user)
+    BansQuery.new(@community.bans).search_by_username(params.dig(:search, :query)).includes(:user)
   end
 
   def set_community

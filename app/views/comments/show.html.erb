@@ -52,9 +52,9 @@
         <% if CommentPolicy.new(pundit_user, @comment).create? %>
           <div class="row mt-3">
             <div class="col-12">
-              <%= form_with(model: CreateComment.new, url: thing_comment_path(@comment), class: 'createCommentForm') do |f| %>
-                <%= f.text_area :text, label: false %>
-                <%= f.submit t('reply'), class: 'btn-sm' %>
+              <%= simple_form_for(CreateComment.new, url: thing_comment_path(@comment), remote: true) do |f| %>
+                <%= f.input :text, as: :text, label: false %>
+                <%= f.button :submit, t('reply'), class: 'btn-sm' %>
 
                 <span class="formatting float-right mt-2" data-toggle="collapse" data-target="#formatting" aria-expanded="false">
                   <%= t('formatting') %>
@@ -76,8 +76,8 @@
               </div>
 
               <div class="col-6 text-right">
-                <%= link_to(t('sign_in'), new_sign_in_path, remote: true, class: 'signIn btn btn-primary') %>
-                <%= link_to(t('sign_up'), new_sign_up_path, remote: true, class: 'signUp btn btn-primary') %>
+                <%= link_to(t('sign_in'), new_sign_in_path, remote: true, class: 'sign_in btn btn-primary') %>
+                <%= link_to(t('sign_up'), new_sign_up_path, remote: true, class: 'sign_up btn btn-primary') %>
               </div>
             </div>
           </div>

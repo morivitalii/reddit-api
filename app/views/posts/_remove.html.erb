@@ -1,8 +1,13 @@
+<%
+  # We need this because post partial renders not only in own community context, but in many different contexts
+  post_context = ::Context.new(current_user, post.community)
+%>
+
 <%= render 'shared/modal', title: t('delete') do %>
-  <%= form_with(model: @form, url: post_path(@post), method: :delete, class: 'removeForm') do |f| %>
+  <%= simple_form_for(@form, url: post_path(post), method: :delete, remote: true) do |f| %>
     <div class="modal-body">
-      <% if policy(@post).update_removed_reason? %>
-        <%= f.text_area :reason %>
+      <% if PostPolicy.new(post_context, post).update_removed_reason? %>
+        <%= f.input :reason, as: :text %>
       <% else %>
         <%= t('deletion_confirmation') %>
       <% end %>
@@ -10,7 +15,7 @@
 
     <div class="modal-footer">
       <button type="button" class="btn btn-primary" data-dismiss="modal"><%= t('cancel') %></button>
-      <%= f.submit t('delete') %>
+      <%= f.button :submit, t('delete') %>
     </div>
   <% end %>
 <% end %>

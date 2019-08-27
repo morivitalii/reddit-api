@@ -11,10 +11,10 @@
     <div class="col-12 bg-white border rounded mt-2">
       <div class="row">
         <div class="col-12 pt-3 pb-3">
-          <%= form_with(model: @form, url: community_path(community), method: :put, class: 'subSettingsForm') do |f| %>
-            <%= f.text_field :title %>
-            <%= f.text_area :description %>
-            <%= f.submit t('update') %>
+          <%= simple_form_for(@form, url: community_path(community), remote: true) do |f| %>
+            <%= f.input :title %>
+            <%= f.input :description, as: :text %>
+            <%= f.button :submit, t('update') %>
           <% end %>
         </div>
       </div>

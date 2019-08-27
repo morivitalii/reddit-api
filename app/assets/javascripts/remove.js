@@ -4,7 +4,7 @@ $(document).ready(function() {
     $('.modal').modal('show');
   });
 
-  $(document).on('ajax:success', '.removeForm', function(e) {
+  $(document).on('ajax:success', '.edit_remove_post_form, .edit_remove_comment_form', function(e) {
     var new_approve_link = e.detail[0].approve_link;
     var new_remove_link = e.detail[0].remove_link;
     var approve_link = $(this).closest(".row").find(".approve");

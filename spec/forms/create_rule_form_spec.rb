@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe CreateRuleForm, type: :form do
-  subject { described_class }
+  it { expect(described_class.new).to_not be_persisted }
 
   describe ".save" do
     it "creates rule" do

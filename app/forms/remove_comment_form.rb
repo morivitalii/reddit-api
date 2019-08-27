@@ -12,4 +12,8 @@ class RemoveCommentForm
 
     return false
   end
+
+  def persisted?
+    true
+  end
 end

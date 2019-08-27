@@ -17,4 +17,8 @@ class CreateRuleForm
 
     return false
   end
+
+  def persisted?
+    false
+  end
 end

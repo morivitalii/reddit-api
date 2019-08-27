@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe CreateReportForm, type: :form do
-  subject { described_class }
+  it { expect(described_class.new).to_not be_persisted }
 
   shared_examples "ignore reports" do
     context "and ignores reports" do

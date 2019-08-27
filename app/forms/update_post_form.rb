@@ -22,7 +22,11 @@ class UpdatePostForm
     errors.merge!(invalid.record.errors)
 
     return false
-    end
+  end
+
+  def persisted?
+    true
+  end
 
   private
 

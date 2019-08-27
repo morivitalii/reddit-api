@@ -9,7 +9,7 @@ $(document).ready(function() {
         $('.modal').modal('show');
     });
 
-    $(document).on('ajax:success', '.entries .updateForm', function (e) {
+    $(document).on('ajax:success', '.entries .edit_update_rule_form, .entries .edit_update_ban_form', function (e) {
         var entry = $(this).closest('.entry');
         $('.modal').modal('hide');
         entry.replaceWith(e.detail[0].activeElement.innerHTML);

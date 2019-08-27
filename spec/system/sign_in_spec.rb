@@ -6,7 +6,7 @@ RSpec.describe "Visitor signing in", type: :system do
       visit(root_path)
       open_and_submit_sign_in_form_with("wrong@email.com", "wrong_password")
 
-      within(".signInForm") do
+      within(".new_sign_in_form") do
         expect(page).to have_css("span.text-danger")
       end
     end
@@ -28,7 +28,7 @@ RSpec.describe "Visitor signing in", type: :system do
   def open_and_submit_sign_in_form_with(username, password)
     click_on(I18n.t("sign_in"))
 
-    within(".signInForm") do
+    within(".new_sign_in_form") do
       fill_in(I18n.t("attributes.username"), with: username)
       fill_in(I18n.t("attributes.password"), with: password)
 

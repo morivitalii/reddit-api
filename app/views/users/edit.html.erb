@@ -7,11 +7,11 @@
     <div class="col-12 bg-white border rounded">
       <div class="row">
         <div class="col-12 pt-3 pb-3">
-          <%= form_with(model: @form, url: users_path, method: :put, class: 'userSettingsForm') do |f| %>
-            <%= f.text_field :email %>
-            <%= f.password_field :password %>
-            <%= f.password_field :password_current %>
-            <%= f.submit t('update') %>
+          <%= simple_form_for(@form, url: users_path, remote: true) do |f| %>
+            <%= f.input :email, as: :email %>
+            <%= f.input :password, as: :password %>
+            <%= f.input :password_current, as: :password %>
+            <%= f.button :submit, t('update') %>
           <% end %>
         </div>
       </div>

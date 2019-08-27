@@ -17,6 +17,10 @@ class UpdateUserForm
     return false
   end
 
+  def persisted?
+    true
+  end
+
   private
 
   def validate_current_password

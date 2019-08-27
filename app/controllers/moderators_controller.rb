@@ -48,7 +48,7 @@ class ModeratorsController < ApplicationController
   end
 
   def query
-    ModeratorsQuery.new(@community.moderators).search_by_username(params[:query]).includes(:user)
+    ModeratorsQuery.new(@community.moderators).search_by_username(params.dig(:search, :query)).includes(:user)
   end
 
   def create_params
