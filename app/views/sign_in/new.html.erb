@@ -1,25 +1,25 @@
 <% content_for(:meta_title, t("sign_in")) %>
 
-<div class="row">
-  <div class="col-12 bg-white border rounded p-3">
-    <div class="row">
-      <div class="col-6">
-        <%= form_with(model: @form, url: sign_in_path, class: 'signInForm') do |f| %>
-          <%= f.text_field :username %>
-          <%= f.password_field :password %>
+<%= render 'shared/sidebar', community: community %>
 
-          <div class="form-group">
-            <%= recaptcha_tags %>
-          </div>
+<div class="col-12 bg-white border rounded p-3">
+  <div class="row">
+    <div class="col-6">
+      <%= form_with(model: @form, url: sign_in_path, class: 'signInForm') do |f| %>
+        <%= f.text_field :username %>
+        <%= f.password_field :password %>
 
-          <%= f.submit t('sign_in'), class: 'mr-auto' %>
+        <div class="form-group">
+          <%= recaptcha_tags %>
+        </div>
 
-          <span class="float-right pt-2">
-            <%= link_to(t('sign_up'), new_sign_up_path) %>
-            <%= link_to(t('forgot_password'), new_forgot_password_path) %>
-          </span>
-        <% end %>
-      </div>
+        <%= f.submit t('sign_in'), class: 'mr-auto' %>
+
+        <span class="float-right pt-2">
+          <%= link_to(t('sign_up'), new_sign_up_path) %>
+          <%= link_to(t('forgot_password'), new_forgot_password_path) %>
+        </span>
+      <% end %>
     </div>
   </div>
 </div>
