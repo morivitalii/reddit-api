@@ -79,6 +79,11 @@ RSpec.configure do |config|
   config.include_context "user context", context: :user
   config.include_context "moderator context", context: :moderator
   config.include_context "banned context", context: :banned
+
+  # Seed database with necessary data before each test
+  config.before(:example, type: :system) do
+    Rails.application.load_seed
+  end
 end
 
 Shoulda::Matchers.configure do |config|
