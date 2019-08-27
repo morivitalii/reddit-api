@@ -11,7 +11,7 @@ Rails.application.configure do
   config.force_ssl = true
   config.log_level = :error
   config.log_tags = [:request_id]
-  config.cache_store = :mem_cache_store
+  config.cache_store = :memory_store
   config.active_job.queue_adapter = :sidekiq
   config.active_job.queue_name_prefix = Rails.env
   config.action_mailer.perform_caching = false
