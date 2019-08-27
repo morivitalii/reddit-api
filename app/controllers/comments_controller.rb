@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
   before_action :set_sort, only: [:show]
   before_action -> { authorize(Comment) }, only: [:new, :create]
   before_action -> { authorize(@comment) }, only: [:edit, :update, :approve, :remove, :destroy]
-  decorates_assigned :community
+  decorates_assigned :community, :comment
 
   def show
     # TODO
@@ -63,9 +63,10 @@ class CommentsController < ApplicationController
     @form = UpdateComment.new(update_params)
 
     if @form.save
+      @comment = @form.comment
       attributes = {
-        text: @form.comment.text_html,
-        ignore_reports: @form.comment.ignore_reports
+        text: comment.text_html,
+        ignore_reports_link: comment.ignore_reports_link
       }
 
       render json: attributes

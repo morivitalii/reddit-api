@@ -45,10 +45,13 @@ class PostsController < ApplicationController
     @form = UpdatePostForm.new(update_params)
 
     if @form.save
+      @post = @form.post
       attributes = {
-        spoiler: @form.post.spoiler,
-        explicit: @form.post.explicit,
-        ignore_reports: @form.post.ignore_reports
+        spoiler: post.spoiler,
+        spoiler_link: post.spoiler_link,
+        explicit: post.explicit,
+        explicit_link: post.explicit_link,
+        ignore_reports_link: post.ignore_reports_link
       }
 
       render json: attributes, location: post_path(@form.post)
