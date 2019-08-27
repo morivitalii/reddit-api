@@ -5,7 +5,9 @@ class FormBuilder < ActionView::Helpers::FormBuilder
     @template.content_tag(:div, class: "form-group") do
       if @object.present?
         @template.concat(
-          @template.content_tag(:label, @object.class.human_attribute_name(method))
+          @template.content_tag(:label, for: "#{@object_name}_#{method}") do
+            @object.class.human_attribute_name(method)
+          end
         )
       end
 
@@ -22,7 +24,9 @@ class FormBuilder < ActionView::Helpers::FormBuilder
     @template.content_tag(:div, class: "form-group") do
       if options[:label] != false
         @template.concat(
-          @template.content_tag(:label, @object.class.human_attribute_name(method))
+          @template.content_tag(:label, for: "#{@object_name}_#{method}") do
+            @object.class.human_attribute_name(method)
+          end
         )
       end
 
@@ -58,7 +62,9 @@ class FormBuilder < ActionView::Helpers::FormBuilder
   def password_field(method, options = {})
     @template.content_tag(:div, class: "form-group") do
       @template.concat(
-        @template.content_tag(:label, @object.class.human_attribute_name(method))
+        @template.content_tag(:label, for: "#{@object_name}_#{method}") do
+          @object.class.human_attribute_name(method)
+        end
       )
 
       classes = options[:class].is_a?(String) ? [options[:class]] : options[:class].to_a
