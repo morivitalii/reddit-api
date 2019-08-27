@@ -12,7 +12,7 @@ Rails.application.configure do
   config.log_level = :error
   config.log_tags = [:request_id]
   config.cache_store = :memory_store
-  config.active_job.queue_adapter = :sidekiq
+  config.active_job.queue_adapter = :inline
   config.active_job.queue_name_prefix = Rails.env
   config.action_mailer.perform_caching = false
   config.i18n.fallbacks = true
