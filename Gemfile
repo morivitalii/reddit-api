@@ -8,8 +8,6 @@ gem "bootsnap", ">= 1.3", require: false
 gem "rails", "~> 5.2.3"
 gem "rails-i18n", "~> 5.1"
 gem "pg", ">= 0.18", "< 2.0"
-gem "hiredis", "~> 0.6"
-gem "redis", "~> 4.1", require: %w(redis redis/connection/hiredis)
 gem "bcrypt", "~> 3.1.13"
 gem "uglifier", ">= 1.3.0"
 gem "sass-rails", "~> 5.0"
