@@ -2,17 +2,11 @@
 
 class SignUpController < ApplicationController
   before_action -> { authorize(:sign_up) }
-  before_action :set_community
-  decorates_assigned :community
 
   def new
     @form = SignUpForm.new
 
-    if request.xhr?
-      render partial: "new"
-    else
-      render "new"
-    end
+    render partial: "new"
   end
 
   def create
@@ -30,11 +24,7 @@ class SignUpController < ApplicationController
   private
 
   def pundit_user
-    Context.new(current_user, @community)
-  end
-
-  def set_community
-    @community = CommunitiesQuery.new.default.take!
+    Context.new(current_user, nil)
   end
 
   def create_params
