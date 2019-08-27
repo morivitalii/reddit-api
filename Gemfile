@@ -21,7 +21,6 @@ gem "image_optim", "~> 0.26"
 gem "image_optim_pack"
 gem "redcarpet", "~> 3.5"
 gem "font-awesome-rails", "~> 4.7"
-gem "browser", "~> 2.6"
 gem "recaptcha", "~> 5.1"
 gem "whenever", "1.0.0", require: false
 gem "pundit", "~> 2"
