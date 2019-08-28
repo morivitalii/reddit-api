@@ -1,5 +1,5 @@
 ActiveRecord::Base.transaction do
-  SignUpForm.new(username: "readmaru", password: "password").save
-
-  Community.create!(url: "all", title: "All")
+  user = User.create!(username: "readmaru", password: "password")
+  community = Community.create!(url: "all", title: "Все")
+  Moderator.create!(community: community, user: user)
 end
