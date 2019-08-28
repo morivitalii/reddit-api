@@ -21,7 +21,7 @@ class ImageUploader < Shrine
     validate_extension_inclusion %w(png jpg jpeg)
   end
 
-  process(:store) do |io, context|
+  process(:store) do |io, _context|
     versions = { original: io }
 
     io.download do |original|

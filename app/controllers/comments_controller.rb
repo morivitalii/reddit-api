@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# TODO Legacy
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:edit, :update, :approve, :remove, :destroy]
   before_action :set_commentable, only: [:new, :create]
@@ -11,25 +12,6 @@ class CommentsController < ApplicationController
 
   def show
     # TODO
-    # @topic = CommentsTree.new(
-    #     thing: @thing,
-    #     sort: @sort,
-    #     after: params[:after].present? ? @community.things.find_by_id(params[:after]) : nil
-    # ).build
-    #
-    # @post = @topic.post
-    # @comment = @topic.comment
-    # @community = @post.community
-    #
-    # if request.xhr?
-    #   if @comment.present?
-    #     render partial: "nested", locals: { item: @topic.branch[:nested].first }
-    #   else
-    #     render partial: "nested", locals: { item: @topic.branch }
-    #   end
-    # else
-    #   render "show", status: @thing.removed? ? :not_found : :ok
-    # end
   end
 
   def new

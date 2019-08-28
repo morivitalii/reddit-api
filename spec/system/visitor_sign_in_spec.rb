@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Visitor signing in", type: :system do
+RSpec.describe "Visitor signs in", type: :system do
   context "with wrong credentials" do
     it "and see errors" do
       visit(root_path)
@@ -13,7 +13,7 @@ RSpec.describe "Visitor signing in", type: :system do
   end
 
   context "with right credentials" do
-    it "and signs in successfully" do
+    it "successfully" do
       user = create(:user)
 
       visit(root_path)
