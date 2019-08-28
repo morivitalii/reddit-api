@@ -3,6 +3,7 @@
 require "image_processing/mini_magick"
 
 class ImageUploader < Shrine
+  plugin :determine_mime_type
   plugin :store_dimensions, analyzer: :mini_magick
   plugin :processing
   plugin :versions

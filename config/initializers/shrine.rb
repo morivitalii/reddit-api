@@ -26,4 +26,3 @@ else
 end
 
 Shrine.plugin :activerecord
-Shrine.plugin :determine_mime_type
