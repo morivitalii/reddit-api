@@ -73,6 +73,7 @@ RSpec.configure do |config|
     driven_by :selenium, using: :headless_chrome
   end
 
+  config.include CapybaraHelpers::SignInHelper, type: :system
   config.include FactoryBot::Syntax::Methods
   config.include Shoulda::Matchers::ActiveModel, type: :form
   config.include_context "visitor context", context: :visitor

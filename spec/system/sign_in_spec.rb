@@ -17,7 +17,7 @@ RSpec.describe "Visitor signing in", type: :system do
       user = create(:user)
 
       visit(root_path)
-      open_and_submit_sign_in_form_with(user.username, user.password)
+      sign_in_as(user)
 
       within(".first-top-menu") do
         expect(page).to have_content(user.username)
