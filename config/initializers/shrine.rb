@@ -27,6 +27,5 @@ end
 Shrine.plugin :activerecord
 Shrine.plugin :determine_mime_type
 Shrine.plugin :remove_invalid
-Shrine.plugin :logging
 Shrine.plugin :upload_options, store: { cache_control: "max-age=2592000" }
 Shrine.plugin :backgrounding
