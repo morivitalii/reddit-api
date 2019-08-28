@@ -27,4 +27,3 @@ end
 
 Shrine.plugin :activerecord
 Shrine.plugin :determine_mime_type
-Shrine.plugin :remove_invalid
