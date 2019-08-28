@@ -17,6 +17,7 @@ if Rails.env.production?
   }
 
   Shrine.plugin :default_url_options, store: { host: ENV.fetch("S3_CDN") }
+  Shrine.plugin :upload_options, store: { cache_control: "max-age=2592000" }
 else
   Shrine.storages = {
     cache: Shrine::Storage::FileSystem.new("public", prefix: "uploads/cache"),
@@ -27,4 +28,3 @@ end
 Shrine.plugin :activerecord
 Shrine.plugin :determine_mime_type
 Shrine.plugin :remove_invalid
-Shrine.plugin :upload_options, store: { cache_control: "max-age=2592000" }
