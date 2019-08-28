@@ -24,5 +24,3 @@ else
     store: Shrine::Storage::FileSystem.new("public", prefix: "uploads"),
   }
 end
-
-Shrine.plugin :activerecord
