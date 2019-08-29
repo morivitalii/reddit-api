@@ -93,3 +93,6 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
+# Run server in silent mode to prevent breaking tests output
+Capybara.server = :puma, { Silent: true }
