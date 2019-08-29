@@ -6,7 +6,7 @@ RSpec.describe "User signs in", type: :system do
       visit(root_path)
       open_and_submit_sign_in_form_with(nil, nil)
 
-      expect(page).to have_errors_on_form(".new_sign_in_form")
+      expect(page).to have_form_errors_on(".new_sign_in_form")
     end
   end
 

@@ -6,7 +6,7 @@ RSpec.describe "User sets new password after restoration procedure", type: :syst
       visit(edit_change_password_path(token: "wrong_token"))
       fill_password_form_with("new_password")
 
-      expect(page).to have_errors_on_form(".edit_change_password_form")
+      expect(page).to have_form_errors_on(".edit_change_password_form")
     end
   end
 

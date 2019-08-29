@@ -1,6 +1,6 @@
 require "rspec/expectations"
 
-RSpec::Matchers.define :have_errors_on_form do |form_selector|
+RSpec::Matchers.define :have_form_errors_on do |form_selector|
   match do |page|
     page.within(form_selector) do
       expect(page).to have_css("span.text-danger")
