@@ -6,6 +6,7 @@ class ChangePasswordForm
   attr_accessor :token, :password
 
   validates :token, presence: true
+  validate :validate_token
   validates :password, presence: true
 
   def save
@@ -25,5 +26,13 @@ class ChangePasswordForm
 
   def persisted?
     true
+  end
+
+  private
+
+  def validate_token
+    unless UsersQuery.new.with_forgot_password_token(token).exists?
+      errors.add(:password, :invalid_forgot_password_token)
+    end
   end
 end
