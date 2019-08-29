@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PasswordPolicy < ApplicationPolicy
+class ChangePasswordPolicy < ApplicationPolicy
   def update?
     true
   end

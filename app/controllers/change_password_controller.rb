@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class PasswordController < ApplicationController
-  before_action -> { authorize(:password) }
+class ChangePasswordController < ApplicationController
+  before_action -> { authorize(:change_password) }
   before_action :set_community
   decorates_assigned :community
 
@@ -36,7 +36,7 @@ class PasswordController < ApplicationController
   end
 
   def create_params
-    attributes = policy(:password).permitted_attributes_for_update
+    attributes = policy(:change_password).permitted_attributes_for_update
     params.require(:change_password_form).permit(attributes)
   end
 end

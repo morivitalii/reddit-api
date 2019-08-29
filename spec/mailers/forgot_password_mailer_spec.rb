@@ -10,7 +10,7 @@ RSpec.describe ForgotPasswordMailer, type: :mailer do
 
   it "renders the body" do
     mail = build_forgot_password_mailer
-    expected_body = I18n.t("forgot_password_mailer.body_html", url: edit_password_url(token: "token"))
+    expected_body = I18n.t("forgot_password_mailer.body_html", url: edit_change_password_url(token: "token"))
 
     expect(mail.body.encoded).to match(expected_body)
   end

@@ -5,7 +5,7 @@ class ForgotPasswordMailer < ActionMailer::Base
     mail(
       to: params[:email],
       subject: t("forgot_password_mailer.subject"),
-      body: t("forgot_password_mailer.body_html", url: edit_password_url(token: params[:token])),
+      body: t("forgot_password_mailer.body_html", url: edit_change_password_url(token: params[:token])),
       content_type: "text/html"
     )
   end
