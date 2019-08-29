@@ -1,17 +1,17 @@
 require "rails_helper"
 
 RSpec.describe "User signs in", type: :system do
-  context "with wrong credentials" do
-    it "and see errors" do
+  context "with form filled by invalid data" do
+    it "see errors in form" do
       visit(root_path)
-      open_and_submit_sign_in_form_with("wrong@email.com", "wrong_password")
+      open_and_submit_sign_in_form_with(nil, nil)
 
       expect(page).to have_errors_on_form(".new_sign_in_form")
     end
   end
 
-  context "with right credentials" do
-    it "successfully" do
+  context "with form filled by valid data" do
+    it "successfully signs in" do
       user = create(:user)
 
       visit(root_path)
