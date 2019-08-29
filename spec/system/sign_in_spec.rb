@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "User signs in", type: :system do
   context "with form filled by invalid data" do
-    it "see errors in form" do
+    it "shows errors" do
       visit(root_path)
       open_and_submit_sign_in_form_with(nil, nil)
 
@@ -11,7 +11,7 @@ RSpec.describe "User signs in", type: :system do
   end
 
   context "with form filled by valid data" do
-    it "successfully signs in" do
+    it "signs in user" do
       user = create(:user)
 
       visit(root_path)
@@ -22,13 +22,13 @@ RSpec.describe "User signs in", type: :system do
   end
 
   def open_and_submit_sign_in_form_with(username, password)
-    click_on(I18n.t("sign_in"))
+    click_link(I18n.t("sign_in"))
 
     within(".new_sign_in_form") do
       fill_in(I18n.t("attributes.username"), with: username)
       fill_in(I18n.t("attributes.password"), with: password)
 
-      click_on(I18n.t("sign_in"))
+      click_button(I18n.t("sign_in"))
     end
   end
 end

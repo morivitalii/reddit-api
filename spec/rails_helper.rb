@@ -74,13 +74,14 @@ RSpec.configure do |config|
   end
 
   # Include all capybara helpers at once
-  CapybaraHelpers.constants.each do |constant|
-    instance = CapybaraHelpers.const_get(constant)
-    if instance.instance_of?(Module)
-      config.include instance, type: :system
-    end
-  end
+  # CapybaraHelpers.constants.each do |constant|
+  #   instance = CapybaraHelpers.const_get(constant)
+  #   if instance.instance_of?(Module)
+  #     config.include instance, type: :system
+  #   end
+  # end
 
+  config.include Warden::Test::Helpers, type: :system
   config.include FactoryBot::Syntax::Methods
   config.include Shoulda::Matchers::ActiveModel, type: :form
   config.include_context "visitor context", context: :visitor
@@ -88,9 +89,14 @@ RSpec.configure do |config|
   config.include_context "moderator context", context: :moderator
   config.include_context "banned context", context: :banned
 
-  # Seed database with necessary data before each test
+  # Seed database with necessary data before each system test
   config.before(:example, type: :system) do
     Rails.application.load_seed
+  end
+
+  # Reset warden after each system test
+  config.after(:each, type: :system) do
+    Warden.test_reset!
   end
 end
 
