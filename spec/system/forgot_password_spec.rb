@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "User restore forgotten password" do
+RSpec.describe "User restores forgotten password", type: :system do
   it "see notification with success text" do
     visit(root_path)
     open_and_submit_forgot_password_form_with("email@example.com")

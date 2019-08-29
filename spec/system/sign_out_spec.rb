@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "User signs out" do
+RSpec.describe "User signs out", type: :system do
   it "successfully" do
     user = create(:user)
 
