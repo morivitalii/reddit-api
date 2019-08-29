@@ -1,14 +1,12 @@
 require "rails_helper"
 
-RSpec.describe "Visitor signs in", type: :system do
+RSpec.describe "User signs in", type: :system do
   context "with wrong credentials" do
     it "and see errors" do
       visit(root_path)
       open_and_submit_sign_in_form_with("wrong@email.com", "wrong_password")
 
-      within(".new_sign_in_form") do
-        expect(page).to have_css("span.text-danger")
-      end
+      expect(page).to have_errors_on_form(".new_sign_in_form")
     end
   end
 
@@ -17,11 +15,9 @@ RSpec.describe "Visitor signs in", type: :system do
       user = create(:user)
 
       visit(root_path)
-      sign_in_as(user)
+      open_and_submit_sign_in_form_with(user.username, user.password)
 
-      within(".first-top-menu") do
-        expect(page).to have_content(user.username)
-      end
+      expect(page).to have_signed_in_user(user)
     end
   end
 

@@ -73,7 +73,14 @@ RSpec.configure do |config|
     driven_by :selenium, using: :headless_chrome
   end
 
-  config.include CapybaraHelpers::SignInHelper, type: :system
+  # Include all capybara helpers at once
+  CapybaraHelpers.constants.each do |constant|
+    instance = CapybaraHelpers.const_get(constant)
+    if instance.instance_of?(Module)
+      config.include instance, type: :system
+    end
+  end
+
   config.include FactoryBot::Syntax::Methods
   config.include Shoulda::Matchers::ActiveModel, type: :form
   config.include_context "visitor context", context: :visitor
