@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ForgotPasswordMailer, type: :mailer do
+RSpec.describe ForgotPasswordMailer do
   it "renders the headers" do
     mail = build_forgot_password_mailer
     expect(mail.subject).to eq(I18n.t("forgot_password_mailer.subject"))
