@@ -79,20 +79,9 @@ RSpec.configure do |config|
     driven_by :selenium, using: :headless_chrome
   end
 
-  # Shoulda-matchers helper methods for form specs
-  config.include Shoulda::Matchers::ActiveModel, type: :form
-
   # Seed database with necessary data before each system test
   config.before(:example, type: :system) do
     Rails.application.load_seed
-  end
-end
-
-# Shoulda-matchers configuration
-Shoulda::Matchers.configure do |config|
-  config.integrate do |with|
-    with.test_framework :rspec
-    with.library :rails
   end
 end
 
