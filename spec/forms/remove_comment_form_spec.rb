@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe RemoveCommentForm, type: :form do
+RSpec.describe RemoveCommentForm do
   it { expect(described_class.new).to be_persisted }
 
   describe ".save" do

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CreateVoteForm, type: :form do
+RSpec.describe CreateVoteForm do
   it { expect(described_class.new).to_not be_persisted }
 
   shared_examples "vote exists" do

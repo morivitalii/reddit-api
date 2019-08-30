@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe UpdateCommunityForm, type: :form do
+RSpec.describe UpdateCommunityForm do
   it { expect(described_class.new).to be_persisted }
 
   describe ".save" do

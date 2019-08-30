@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe UpdateUserForm, type: :form do
+RSpec.describe UpdateUserForm do
   it { expect(described_class.new).to be_persisted }
 
   describe "validations" do

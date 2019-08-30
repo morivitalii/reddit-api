@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CreateBanForm, type: :form do
+RSpec.describe CreateBanForm do
   it { expect(described_class.new).to_not be_persisted }
 
   describe ".save" do
