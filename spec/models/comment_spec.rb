@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Comment, type: :model do
+RSpec.describe Comment do
   subject { described_class }
 
   it_behaves_like "paginatable"

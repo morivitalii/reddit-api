@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Moderator, type: :model do
+RSpec.describe Moderator do
   subject { described_class }
 
   it_behaves_like "paginatable"

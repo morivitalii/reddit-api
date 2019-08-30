@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Ban, type: :model do
+RSpec.describe Ban do
   subject { described_class }
 
   it_behaves_like "paginatable"
