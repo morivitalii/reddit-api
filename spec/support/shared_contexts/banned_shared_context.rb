@@ -6,3 +6,7 @@ RSpec.shared_context "banned context" do
     Context.new(user, community)
   end
 end
+
+RSpec.configure do |config|
+  config.include_context "banned context", context: :banned
+end

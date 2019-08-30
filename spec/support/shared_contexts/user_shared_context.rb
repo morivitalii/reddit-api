@@ -6,3 +6,7 @@ RSpec.shared_context "user context" do
     Context.new(user, community)
   end
 end
+
+RSpec.configure do |config|
+  config.include_context "user context", context: :user
+end
