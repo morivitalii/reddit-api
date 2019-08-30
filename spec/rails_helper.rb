@@ -79,9 +79,6 @@ RSpec.configure do |config|
     driven_by :selenium, using: :headless_chrome
   end
 
-  # Factory bot helper methods
-  config.include FactoryBot::Syntax::Methods
-
   # Shoulda-matchers helper methods for form specs
   config.include Shoulda::Matchers::ActiveModel, type: :form
 
