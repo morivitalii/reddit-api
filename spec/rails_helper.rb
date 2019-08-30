@@ -7,13 +7,8 @@ require File.expand_path("../../config/environment", __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 
-# Rspec rails
 require "rspec/rails"
-
-# Capybara rspec matchers
 require "capybara/rspec"
-
-# Pundit rspec matchers
 require "pundit/rspec"
 
 # Require each file from support directory
@@ -74,16 +69,8 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  # Change default capybara driver for system specs
-  config.before(:each, type: :system) do
-    driven_by :selenium, using: :headless_chrome
-  end
-
   # Seed database with necessary data before each system test
   config.before(:example, type: :system) do
     Rails.application.load_seed
   end
 end
-
-# Run server in silent mode to prevent breaking tests output with puma start message
-Capybara.server = :puma, { Silent: true }
