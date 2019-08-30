@@ -7,13 +7,17 @@ require File.expand_path("../../config/environment", __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 
+# Rspec rails
 require "rspec/rails"
+
+# Capybara rspec matchers
 require "capybara/rspec"
+
+# Pundit rspec matchers
 require "pundit/rspec"
 
+# Require each file from support directory
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
-
-include ActionDispatch::TestProcess
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -40,6 +44,7 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -69,33 +74,32 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
+  # Change default capybara driver for system specs
   config.before(:each, type: :system) do
     driven_by :selenium, using: :headless_chrome
   end
 
-  # Include all capybara helpers at once
-  # CapybaraHelpers.constants.each do |constant|
-  #   instance = CapybaraHelpers.const_get(constant)
-  #   if instance.instance_of?(Module)
-  #     config.include instance, type: :system
-  #   end
-  # end
-
-  config.include Warden::Test::Helpers, type: :system
+  # Factory bot helper methods
   config.include FactoryBot::Syntax::Methods
+
+  # Shoulda-matchers helper methods for form specs
   config.include Shoulda::Matchers::ActiveModel, type: :form
 
-  # Seed database with necessary data before each system test
-  config.before(:example, type: :system) do
-    Rails.application.load_seed
-  end
+  # Warden test helpers for system specs
+  config.include Warden::Test::Helpers, type: :system
 
   # Reset warden after each system test
   config.after(:each, type: :system) do
     Warden.test_reset!
   end
+
+  # Seed database with necessary data before each system test
+  config.before(:example, type: :system) do
+    Rails.application.load_seed
+  end
 end
 
+# Shoulda-matchers configuration
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec
@@ -103,5 +107,5 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
-# Run server in silent mode to prevent breaking tests output
+# Run server in silent mode to prevent breaking tests output with puma start message
 Capybara.server = :puma, { Silent: true }
