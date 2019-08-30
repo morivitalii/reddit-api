@@ -68,9 +68,4 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-
-  # Seed database with necessary data before each system test
-  config.before(:example, type: :system) do
-    Rails.application.load_seed
-  end
 end
