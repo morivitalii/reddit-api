@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe BookmarkPolicy, type: :policy do
+RSpec.describe BookmarkPolicy do
   subject { described_class }
 
   context "for visitor", context: :visitor do

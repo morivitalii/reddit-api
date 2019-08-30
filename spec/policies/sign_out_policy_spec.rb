@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe SignOutPolicy, type: :policy do
+RSpec.describe SignOutPolicy do
   subject { described_class }
 
   context "for visitor", context: :visitor do

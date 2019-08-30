@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CommentPolicy, type: :policy do
+RSpec.describe CommentPolicy do
   subject { described_class }
 
   let(:comment) { create(:comment, community: context.community) }

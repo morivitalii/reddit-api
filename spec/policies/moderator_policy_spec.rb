@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ModeratorPolicy, type: :policy do
+RSpec.describe ModeratorPolicy do
   subject { described_class }
 
   context "for visitor", context: :visitor do

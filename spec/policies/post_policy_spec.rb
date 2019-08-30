@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe PostPolicy, type: :policy do
+RSpec.describe PostPolicy do
   subject { described_class }
 
   let(:post) { create(:post, community: context.community) }

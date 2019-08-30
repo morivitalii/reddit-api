@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe VotePolicy, type: :policy do
+RSpec.describe VotePolicy do
   subject { described_class }
 
   context "for visitor", context: :visitor do

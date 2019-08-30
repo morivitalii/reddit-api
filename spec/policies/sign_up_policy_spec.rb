@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe SignUpPolicy, type: :policy do
+RSpec.describe SignUpPolicy do
   subject { described_class }
 
   context "for visitor", context: :visitor do

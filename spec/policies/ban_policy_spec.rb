@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe BanPolicy, type: :policy do
+RSpec.describe BanPolicy do
   subject { described_class }
 
   context "for visitor", context: :visitor do

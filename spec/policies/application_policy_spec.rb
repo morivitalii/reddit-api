@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ApplicationPolicy, type: :policy do
+RSpec.describe ApplicationPolicy do
   subject { described_class }
 
   context "for visitor", context: :visitor do

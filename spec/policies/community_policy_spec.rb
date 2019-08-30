@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CommunityPolicy, type: :policy do
+RSpec.describe CommunityPolicy do
   subject { described_class }
 
   context "for visitor", context: :visitor do

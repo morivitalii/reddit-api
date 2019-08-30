@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ChangePasswordPolicy, type: :policy do
+RSpec.describe ChangePasswordPolicy do
   subject { described_class }
 
   context "for visitor", context: :visitor do
