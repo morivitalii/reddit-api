@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe DateTimeHelper, type: :helper do
+RSpec.describe DateTimeHelper do
   describe "#datetime_ago_tag" do
     it "has datetime ago in words as content" do
       datetime = Time.current
