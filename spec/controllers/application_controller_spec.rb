@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ApplicationController, type: :controller do
+RSpec.describe ApplicationController do
   it { is_expected.to rescue_from(ActiveRecord::RecordNotFound).with(:page_not_found) }
 
   describe ".page_not_found" do
