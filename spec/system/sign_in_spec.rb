@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "User signs in", type: :system do
+RSpec.describe "User signs in" do
   context "with form filled by invalid data" do
     it "shows errors" do
       visit(root_path)

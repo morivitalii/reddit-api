@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "User sets new password after restoration procedure", type: :system do
+RSpec.describe "User sets new password after restoration procedure" do
   context "with form filled by invalid data" do
     it "show errors" do
       visit(edit_change_password_path(token: "wrong_token"))

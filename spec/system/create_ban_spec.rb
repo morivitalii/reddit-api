@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "User creates ban", type: :system do
+RSpec.describe "User creates ban" do
   context "with form filled by invalid data" do
     it "shows errors" do
       moderator_user = create(:user)
