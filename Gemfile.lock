@@ -46,8 +46,8 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    addressable (2.6.0)
-      public_suffix (>= 2.0.2, < 4.0)
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
     arel (9.0.0)
     ast (2.4.0)
     aws-eventstream (1.0.3)
@@ -155,7 +155,7 @@ GEM
       ast (~> 2.4.0)
     pg (1.1.4)
     progress (3.5.2)
-    public_suffix (3.1.1)
+    public_suffix (4.0.1)
     puma (4.1.0)
       nio4r (~> 2.0)
     pundit (2.1.0)
@@ -298,7 +298,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  addressable (~> 2.5)
+  addressable (~> 2.7)
   aws-sdk-s3 (~> 1.48)
   bcrypt (~> 3.1.13)
   bootsnap (>= 1.3)
