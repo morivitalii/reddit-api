@@ -38,7 +38,6 @@ group :development do
   gem "listen"
   gem "spring"
   gem "spring-watcher-listen"
-  gem "rubocop", require: false
 end
 
 group :test do
