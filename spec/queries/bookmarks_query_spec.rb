@@ -3,25 +3,14 @@ require "rails_helper"
 RSpec.describe BookmarksQuery do
   subject { described_class }
 
-  describe ".posts_bookmarks" do
-    it "returns posts bookmarks" do
+  describe ".with_bookmarkable_type" do
+    it "returns bookmarks by given bookmarkable_type" do
       posts_bookmarks = create_pair(:post_bookmark)
-      create_pair(:comment_bookmark)
+      _comments_bookmarks = create_pair(:comment_bookmark)
 
-      result = subject.new.posts_bookmarks
+      result = subject.new.with_bookmarkable_type("Post")
 
       expect(result).to match_array(posts_bookmarks)
-    end
-  end
-
-  describe ".comments_bookmarks" do
-    it "returns comments bookmarks" do
-      comments_bookmark = create_pair(:comment_bookmark)
-      create_pair(:post_bookmark)
-
-      result = subject.new.comments_bookmarks
-
-      expect(result).to match_array(comments_bookmark)
     end
   end
 end

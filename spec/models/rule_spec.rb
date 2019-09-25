@@ -22,7 +22,7 @@ RSpec.describe Rule do
             rule = build(:rule)
             rule.validate
 
-            expect(rule).to have_error(:rules_limit).on(:title)
+            expect(rule).to have_error(:limit).on(:title)
           end
         end
 

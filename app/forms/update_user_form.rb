@@ -25,7 +25,7 @@ class UpdateUserForm
 
   def validate_current_password
     unless current_password_match?
-      errors.add(:password_current, :invalid_current_password)
+      errors.add(:password_current, :invalid)
     end
   end
 

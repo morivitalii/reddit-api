@@ -23,7 +23,7 @@ class ReportsController < ApplicationController
     @form = CreateReportForm.new(create_params)
 
     if @form.save
-      render json: t("thanks_for_report")
+      render json: t(".success")
     else
       render json: @form.errors, status: :unprocessable_entity
     end

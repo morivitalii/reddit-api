@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "User creates ban" do
+RSpec.describe "Create ban" do
   context "with form filled by invalid data" do
     it "shows errors" do
       moderator_user = create(:user)
@@ -24,22 +24,18 @@ RSpec.describe "User creates ban" do
       visit(community_bans_path(community))
       open_and_submit_create_ban_form_with(user_to_ban.username)
 
-      within("#bans") do
-        expect(page).to have_content(user_to_ban.username)
-      end
+      expect(page).to have_content(user_to_ban.username)
     end
   end
 
   def open_and_submit_create_ban_form_with(username)
-    within("#bans .head") do
-      click_link(I18n.t("create"))
-    end
+    click_link(I18n.t("bans.index.create"))
 
     within(".new_create_ban_form") do
-      fill_in(I18n.t("attributes.username"), with: username)
-      check(I18n.t("attributes.permanent"), allow_label_click: true)
+      fill_in(I18n.t("activemodel.attributes.create_ban_form.username"), with: username)
+      check(I18n.t("activemodel.attributes.create_ban_form.permanent"), allow_label_click: true)
 
-      click_button(I18n.t("create"))
+      click_button(I18n.t("bans.new.submit"))
     end
   end
 end

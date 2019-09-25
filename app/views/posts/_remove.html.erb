@@ -3,19 +3,14 @@
   post_context = ::Context.new(current_user, post.community)
 %>
 
-<%= render 'shared/modal', title: t('delete') do %>
+<%= render 'shared/modal', title: t('.title') do %>
   <%= simple_form_for(@form, url: post_path(post), method: :delete, remote: true) do |f| %>
-    <div class="modal-body">
-      <% if PostPolicy.new(post_context, post).update_removed_reason? %>
-        <%= f.input :reason, as: :text %>
-      <% else %>
-        <%= t('deletion_confirmation') %>
-      <% end %>
-    </div>
+    <% if PostPolicy.new(post_context, post).update_removed_reason? %>
+      <%= f.input :reason, as: :text %>
+    <% else %>
+      <%= t('posts.remove.confirmation') %>
+    <% end %>
 
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" data-dismiss="modal"><%= t('cancel') %></button>
-      <%= f.button :submit, t('delete') %>
-    </div>
+    <%= f.button :submit, t('posts.remove.submit') %>
   <% end %>
 <% end %>

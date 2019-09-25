@@ -1,20 +1,20 @@
 <% content_for(:meta_title, post.title) %>
 
-<%= render 'shared/sidebar', community: post.community %>
+<%= render("shared/sidebar", community: post.community) %>
 
-<div class="col-12 bg-white border rounded mb-3 pt-2 pb-3">
+<div class="edit-post-page col-12">
   <h6><%= post.title %></h6>
 
   <%= simple_form_for(@form, url: post_path(post), remote: true) do |f| %>
-    <%= f.input :text, as: :text, label: false %>
-    <%= f.button :submit, t('update') %>
+    <%= f.input :text, as: :text, label: false, input_html: { rows: 10 } %>
+    <%= f.button :submit %>
 
-    <span class="formatting float-right mt-2" data-toggle="collapse" data-target="#formatting" aria-expanded="false">
-      <%= t('formatting') %>
+    <span class="edit-post-page__formatting-help-link" data-toggle="collapse" data-target="#formatting-help" aria-expanded="false">
+      <%= t('formatting_help') %>
     </span>
 
-    <div class="collapse mt-2" id="formatting">
-      <%= t('formatting_body_html') %>
+    <div class="edit-post-page__formatting-help-description collapse" id="formatting-help">
+      <%= t('formatting_help_html') %>
     </div>
   <% end %>
 </div>

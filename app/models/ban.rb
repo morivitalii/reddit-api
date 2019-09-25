@@ -8,7 +8,7 @@ class Ban < ApplicationRecord
 
   before_save :set_end_at
 
-  validates :user, presence: { message: :invalid_username }, uniqueness: { scope: :community_id }
+  validates :user, presence: true, uniqueness: { scope: :community_id }
   validates :reason, allow_blank: true, length: { maximum: 500 }
   validates :days, absence: true, if: -> (r) { r.permanent }
   validates :days, presence: true,

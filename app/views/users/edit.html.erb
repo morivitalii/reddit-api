@@ -1,20 +1,14 @@
-<% content_for(:meta_title, "#{user.username}: #{t("settings")}") %>
+<% content_for(:meta_title, t(".meta_title")) %>
 
-<%= render "users/sidebar", user: user %>
+<%= render("users/sidebar", user: user) %>
 
-<div class="row mb-3">
-  <div class="col-12">
-    <div class="col-12 bg-white border rounded">
-      <div class="row">
-        <div class="col-12 pt-3 pb-3">
-          <%= simple_form_for(@form, url: users_path, remote: true) do |f| %>
-            <%= f.input :email, as: :email %>
-            <%= f.input :password, as: :password %>
-            <%= f.input :password_current, as: :password %>
-            <%= f.button :submit, t('update') %>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
+<%= link_to(t(".title"), edit_users_path, class: "h5") %>
+
+<div class="edit-user-page col-12">
+  <%= simple_form_for(@form, url: users_path, remote: true) do |f| %>
+    <%= f.input :email, as: :email %>
+    <%= f.input :password, as: :password %>
+    <%= f.input :password_current, as: :password %>
+    <%= f.button :submit %>
+  <% end %>
 </div>

@@ -16,7 +16,7 @@ module RateLimits
       rate_limit = get_rate_limit(action)
 
       if rate_limit.hits >= limit
-        model.errors.add(attribute, :rate_limits)
+        model.errors.add(attribute, :rate_limit)
 
         false
       else

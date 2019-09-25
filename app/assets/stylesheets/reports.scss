@@ -1,0 +1,31 @@
+.new-report-modal {
+  &__reasons-group-title {
+    padding-bottom: 0.5rem;
+  }
+
+  &__reasons-group-content {
+    padding-bottom: 0.5rem;
+  }
+}
+
+.reports {
+  &__item {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  &__item-details-link {
+    float: right;
+    margin-left: 0.25rem;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__item-details {
+    padding-top: 0.5rem;
+    display: none;
+  }
+}

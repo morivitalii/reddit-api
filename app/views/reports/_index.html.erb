@@ -1,13 +1,7 @@
-<%= render 'shared/modal', title: t('reports') do %>
-  <div class="modal-body pt-0 pb-0">
-    <div class="row entries">
-      <div class="col-12">
-        <%= render(reports) %>
-      </div>
+<%= render("shared/modal", title: t(".title")) do %>
+  <div class="reports row">
+    <div class="col-12">
+      <%= render(reports) %>
     </div>
-  </div>
-
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary" data-dismiss="modal"><%= t('close') %></button>
   </div>
 <% end %>

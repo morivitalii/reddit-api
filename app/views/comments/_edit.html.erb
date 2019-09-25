@@ -1,6 +1,0 @@
-<%= simple_form_for(@form, url: thing_comment_path(@thing), class: 'updateCommentForm col-12 mt-2 mb-2', remote: true) do |f| %>
-  <%= f.input :text, as: :text, label: false %>
-
-  <%= f.button :submit, t('update'), class: 'btn-sm' %>
-  <button type="button" class="updateCommentCancel btn btn-sm btn-primary"><%= t('cancel') %></button>
-<% end %>

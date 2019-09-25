@@ -14,183 +14,7 @@ body {
   line-height: 1.4;
   font-family: 'Roboto', sans-serif;
   color: #161617;
-}
-
-.tooltip-inner {
-    max-width: 400px;
-    text-align: left;
-}
-
-[data-toggle="tooltip"]:not(a) {
-  cursor: default;
-}
-
-[data-toggle="collapse"], .dropdown-toggle, .formatting, .toggleDetails {
-    cursor: pointer;
-}
-
-.formatting:hover, .toggleDetails:hover {
-  text-decoration: underline;
-}
-
-.custom-file-input ~ .custom-file-label::after {
-  content: "Выбрать";
-}
-
-.post .title {
-  font-size: 17px;
-  line-height: 1.2;
-  font-weight: 500;
-}
-
-.post .title a {
-  color: #202021;
-}
-
-.post .title a:hover {
-  text-decoration: none;
-}
-
-.post .content.cutPostImage {
-  position: relative;
-  max-height: 500px;
-  overflow: hidden;
-}
-
-.post .seeFullImage {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  z-index: 2;
-  padding: 7px 14px;
-  transform: translateX(-50%);
-  border-radius: 4px;
-  background: rgba(50, 50, 50, .8);
-  color: #fff;
-  font-weight: 500;
-}
-
-.post .url,
-.post .info,
-.post .actions {
-  font-size: 13px;
-}
-
-.post .info,
-.post .info a {
-  color: #848485;
-}
-
-.post .info .author {
-  color: #006ce1;
-}
-
-.post .info .explicit,
-.post .info .spoiler {
-  background-color: #edeff1;
-  font-size: 13px;
-  margin-left: 3px;
-  border-radius: 0.25rem;
-  padding: 0.25em;
-}
-
-.post .actions * + * {
-  margin-left: 5px;
-}
-
-.post .actions .menu * {
-  margin-left: 0;
-}
-
-.post .actions .menu .dropdown-toggle::after,
-.sidebar .dropdown-toggle::after,
-.userMenu .dropdown-toggle::after {
-  display: none;
-}
-
-.post .url a,
-.post .content a {
-  color: #006ce1;
-}
-
-.loadMore a, .toBranch a {
-  color: #006ce1;
-}
-
-.post .context {
-  background: #f8f9fa;
-}
-
-.post .content p {
-  margin-bottom: 0.75rem;
-}
-
-.post .content p:last-child,
-.post .context p:last-child {
-  margin-bottom: 0;
-}
-
-#reports .entry:not(:last-child) {
-  border-bottom: 1px solid #dee2e6 !important;
-}
-
-.first-top-menu {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-
-.second-top-menu {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-
-.second-top-menu .navbar-nav li:first-child > a:first-child {
-  padding-left: 0;
-}
-
-.entries {
-  margin-bottom: 1rem;
-
-  .head {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-
-    .title {
-      font-size: 1.25rem;
-      font-family: inherit;
-      font-weight: 500;
-      line-height: 1.2;
-      color: inherit;
-    }
-  }
-
-  .body {
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: 0.25rem;
-    border-bottom: 0;
-
-    .entry {
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid #dee2e6;
-
-      .title {
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .actions * {
-        margin-left: 0.25rem;
-      }
-
-      .details {
-        padding-top: 0.25rem;
-      }
-    }
-  }
+  background-color: #f8f9fa;
 }
 
 .dropdown-header {
@@ -209,58 +33,19 @@ body {
   color: #212529;
 }
 
-body.cursorPointer {
+.tooltip-inner {
+  max-width: 400px;
+  text-align: left;
+}
+
+[data-toggle="tooltip"]:not(a) {
+  cursor: default;
+}
+
+[data-toggle="collapse"], .dropdown-toggle {
   cursor: pointer;
 }
 
-.comments .comments {
-  position: relative;
-  padding-left: 10px;
-}
-
-.comments .comments::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 5px;
-  width: 2px;
-  background-color: #e8e9ea;
-  transition: background-color 100ms ease-out;
-}
-
-.comments.highlighted::after {
-  background-color: #3170b3;
-}
-
-.comment.comment_collapsed .content,
-.comment.comment_collapsed .actions {
-  display: none;
-}
-
-.comment.comment_collapsed .comments {
-  display: none;
-}
-
-.comment__expand {
-  display: none;
-  margin-right: 5px;
-  cursor: pointer;
-}
-
-.comment_collapsed .comment__expand {
-  display: inline-block;
-}
-
-.comment__children-info {
-  display: none;
-  margin-left: 5px;
-}
-
-.comment_collapsed .comment__children-info {
-  display: inline-block;
-}
-
-.replyCommentForm {
-  flex: 0 1 auto !important;
+form .hidden {
+  margin-bottom: 0;
 }

@@ -1,13 +1,8 @@
-<%= render 'shared/modal', title: t('edit') do %>
+<%= render("shared/modal", title: t(".title")) do %>
   <%= simple_form_for(@form, url: community_rule_path(@rule.community, @rule), remote: true) do |f| %>
-    <div class="modal-body">
-      <%= f.input :title %>
-      <%= f.input :description, as: :text %>
-    </div>
+    <%= f.input :title %>
+    <%= f.input :description, as: :text %>
 
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" data-dismiss="modal"><%= t('cancel') %></button>
-      <%= f.button :submit, t('update') %>
-    </div>
+    <%= f.button :submit %>
   <% end %>
 <% end %>

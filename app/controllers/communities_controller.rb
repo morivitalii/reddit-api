@@ -6,7 +6,7 @@ class CommunitiesController < ApplicationController
   decorates_assigned :community, :posts
 
   def show
-    @posts, @pagination = query.paginate(attributes: ["#{sorting}_score", :id], after: params[:after])
+    @posts, @pagination = query.paginate(attributes: [sort_attribute, :id], after: params[:after])
   end
 
   def edit
@@ -45,24 +45,28 @@ class CommunitiesController < ApplicationController
     params.require(:update_community_form).permit(attributes).merge(community: @community)
   end
 
-  helper_method :sorting
-  def sorting
-    sorting_options.include?(params[:sort]) ? params[:sort] : "hot"
+  helper_method :sorts
+  def sorts
+    %w(hot new top controversy)
   end
 
-  helper_method :sorting_options
-  def sorting_options
-    %w(hot new top controversy)
+  helper_method :sort
+  def sort
+    sorts.include?(params[:sort]) ? params[:sort] : "hot"
+  end
+
+  def sort_attribute
+    "#{sort}_score"
+  end
+
+  helper_method :dates
+  def dates
+    %w(day week month)
   end
 
   helper_method :date
   def date
-    date_options.include?(params[:date]) ? params[:date] : nil
-  end
-
-  helper_method :date_options
-  def date_options
-    %w(day week month)
+    dates.include?(params[:date]) ? params[:date] : nil
   end
 
   def date_value

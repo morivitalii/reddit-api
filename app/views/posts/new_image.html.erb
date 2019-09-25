@@ -1,33 +1,15 @@
-<% content_for(:meta_title, t("create_post")) %>
+<% content_for(:meta_title, t(".meta_title")) %>
 
-<%= render 'shared/sidebar', community: community %>
+<%= render("shared/sidebar", community: community) %>
 
-<div class="col-12 bg-white border rounded mb-3">
-  <div class="row">
-    <div class="col-12 p-0">
-      <ul class="nav nav-pills nav-fill">
-        <li class="nav-item">
-          <%= link_to(t('text'), new_text_community_posts_path(community), class: 'nav-link h6 border-bottom rounded-0 p-3') %>
-        </li>
+<div class="new-post-page col-12">
+  <%= render("new_navigation") %>
 
-        <li class="nav-item">
-          <%= link_to(t('link'), new_link_community_posts_path(community), class: 'nav-link active h6 border-bottom border-left border-right rounded-0 p-3') %>
-        </li>
-
-        <li class="nav-item">
-          <%= link_to(t('image'), new_image_community_posts_path(community), class: 'nav-link h6 border-bottom rounded-0 p-3') %>
-        </li>
-      </ul>
-    </div>
-
-    <div class="col-12 mt-2 mb-3 type">
-      <%= simple_form_for(@form, url: community_posts_path(community), remote: true) do |f| %>
-        <%= f.input :title, as: :text %>
-        <%= f.input :image, as: :file %>
-        <%= f.input :explicit, as: :boolean %>
-        <%= f.input :spoiler, as: :boolean %>
-        <%= f.button :submit, t('create') %>
-      <% end %>
-    </div>
-  </div>
+  <%= simple_form_for(@form, url: community_posts_path(community), remote: true) do |f| %>
+    <%= f.input :title, as: :text %>
+    <%= f.input :image, as: :file %>
+    <%= f.input :explicit, as: :boolean %>
+    <%= f.input :spoiler, as: :boolean %>
+    <%= f.button :submit %>
+  <% end %>
 </div>

@@ -14,7 +14,7 @@ class PostsQuery < ApplicationQuery
   end
 
   def created_after(datetime)
-    relation.where("created_at > ?", datetime)
+    relation.where("posts.created_at > ?", datetime)
   end
 
   def search_created_after(datetime)

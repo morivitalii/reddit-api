@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $(document).on('ajax:success', '.forgot_password', function (e) {
+  $(document).on('ajax:success', '.sign-in__forgot-password-link, .sign-up__forgot-password-link', function (e) {
     $('.modal').modal('hide');
     $('body').append(e.detail[0].activeElement.innerHTML);
     $('.modal').modal('show');

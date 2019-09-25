@@ -12,6 +12,6 @@ class BansQuery < ApplicationQuery
   end
 
   def stale
-    relation.where("end_at < ?", Time.current)
+    relation.where("bans.end_at < ?", Time.current)
   end
 end

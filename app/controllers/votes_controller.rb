@@ -2,19 +2,14 @@
 
 class VotesController < ApplicationController
   before_action :set_user
-  before_action -> { authorize(@user, policy_class: VotePolicy) }, only: [:posts_index, :comments_index]
+  before_action -> { authorize(@user, policy_class: VotePolicy) }, only: [:index]
   before_action -> { authorize(Vote) }, only: [:create, :destroy]
   before_action :set_votable, only: [:create, :destroy]
-  decorates_assigned :user, :posts, :comments, :votable
+  decorates_assigned :user, :votables, :votable
 
-  def posts_index
-    @votes, @pagination = posts_query.paginate(after: params[:after])
-    @posts = @votes.map(&:votable)
-  end
-
-  def comments_index
-    @votes, @pagination = comments_query.paginate(after: params[:after])
-    @comments = @votes.map(&:votable)
+  def index
+    votes, @pagination = query.paginate(after: params[:after])
+    @votables = votes.map(&:votable)
   end
 
   def create
@@ -39,14 +34,15 @@ class VotesController < ApplicationController
 
   private
 
-  def posts_query
-    query = VotesQuery.new(@user.votes).posts_votes
-    VotesQuery.new(query).search_by_vote_type(type).includes(votable: [:user, :community])
-  end
+  def query
+    query = VotesQuery.new(@user.votes).with_votable_type(votable_type_value)
+    query = VotesQuery.new(query).search_by_vote_type(vote_type_value)
 
-  def comments_query
-    query = VotesQuery.new(@user.votes).comments_votes
-    VotesQuery.new(query).search_by_vote_type(type).includes(votable: [:user, :post, :community])
+    if votable_type == "posts"
+      query.includes(votable: [:user, :community])
+    elsif votable_type == "comments"
+      query.includes(votable: [:user, :post, :community])
+    end
   end
 
   def set_user
@@ -66,13 +62,31 @@ class VotesController < ApplicationController
     params.require(:create_vote_form).permit(attributes).merge(votable: @votable, user: current_user)
   end
 
-  helper_method :type
-  def type
-    type_options.include?(params[:type]) ? params[:type] : nil
+  helper_method :votable_types
+  def votable_types
+    %w(posts comments)
   end
 
-  helper_method :type_options
-  def type_options
-    %w(up down)
+  helper_method :votable_type
+  def votable_type
+    votable_types.include?(params[:votable_type]) ? params[:votable_type] : "posts"
+  end
+
+  def votable_type_value
+    votable_type.upcase_first.singularize
+  end
+
+  helper_method :vote_types
+  def vote_types
+    %w(ups downs)
+  end
+
+  helper_method :vote_type
+  def vote_type
+    vote_types.include?(params[:vote_type]) ? params[:vote_type] : nil
+  end
+
+  def vote_type_value
+    vote_type&.singularize
   end
 end

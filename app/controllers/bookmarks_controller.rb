@@ -2,19 +2,14 @@
 
 class BookmarksController < ApplicationController
   before_action :set_user
-  before_action -> { authorize(@user, policy_class: BookmarkPolicy) }, only: [:posts_index, :comments_index]
+  before_action -> { authorize(@user, policy_class: BookmarkPolicy) }, only: [:index]
   before_action -> { authorize(Bookmark) }, only: [:create, :destroy]
   before_action :set_bookmarkable, only: [:create, :destroy]
-  decorates_assigned :user, :posts, :comments, :bookmarkable
+  decorates_assigned :user, :bookmarkables, :bookmarkable
 
-  def posts_index
-    @bookmarks, @pagination = posts_query.paginate(after: params[:after])
-    @posts = @bookmarks.map(&:bookmarkable)
-  end
-
-  def comments_index
-    @bookmarks, @pagination = comments_query.paginate(after: params[:after])
-    @comments = @bookmarks.map(&:bookmarkable)
+  def index
+    bookmarks, @pagination = query.paginate(after: params[:after])
+    @bookmarkables = bookmarks.map(&:bookmarkable)
   end
 
   def create
@@ -34,12 +29,14 @@ class BookmarksController < ApplicationController
 
   private
 
-  def posts_query
-    BookmarksQuery.new(@user.bookmarks).posts_bookmarks.includes(bookmarkable: [:user, :community])
-  end
+  def query
+    query = BookmarksQuery.new(@user.bookmarks).with_bookmarkable_type(bookmarkable_type_value)
 
-  def comments_query
-    BookmarksQuery.new(@user.bookmarks).comments_bookmarks.includes(bookmarkable: [:user, :post, :community])
+    if bookmarkable_type == "posts"
+      query.includes(bookmarkable: [:user, :community])
+    elsif bookmarkable_type == "comments"
+      query.includes(bookmarkable: [:user, :post, :community])
+    end
   end
 
   def set_user
@@ -52,5 +49,19 @@ class BookmarksController < ApplicationController
     elsif params[:comment_id].present?
       @bookmarkable = Comment.find(params[:comment_id])
     end
+  end
+
+  helper_method :bookmarkable_types
+  def bookmarkable_types
+    %w(posts comments)
+  end
+
+  helper_method :bookmarkable_type
+  def bookmarkable_type
+    bookmarkable_types.include?(params[:bookmarkable_type]) ? params[:bookmarkable_type] : "posts"
+  end
+
+  def bookmarkable_type_value
+    bookmarkable_type.upcase_first.singularize
   end
 end

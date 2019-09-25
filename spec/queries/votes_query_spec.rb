@@ -3,25 +3,14 @@ require "rails_helper"
 RSpec.describe VotesQuery do
   subject { described_class }
 
-  describe ".posts_votes" do
-    it "returns posts votes" do
+  describe ".with_votable_type" do
+    it "returns votes by given votable_type" do
       posts_votes = create_pair(:post_vote)
-      create_pair(:comment_vote)
+      _comments_votes = create_pair(:comment_vote)
 
-      result = subject.new.posts_votes
+      result = subject.new.with_votable_type("Post")
 
       expect(result).to match_array(posts_votes)
-    end
-  end
-
-  describe ".comments_votes" do
-    it "returns comments votes" do
-      comments_votes = create_pair(:comment_vote)
-      create_pair(:post_vote)
-
-      result = subject.new.comments_votes
-
-      expect(result).to match_array(comments_votes)
     end
   end
 
@@ -36,7 +25,7 @@ RSpec.describe VotesQuery do
 
     it "returns votes by given vote_type" do
       up_votes = create_pair(:up_vote)
-      create_pair(:down_vote)
+      _down_votes = create_pair(:down_vote)
 
       result = subject.new.search_by_vote_type(:up)
 

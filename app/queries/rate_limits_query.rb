@@ -2,10 +2,10 @@
 
 class RateLimitsQuery < ApplicationQuery
   def daily
-    relation.where("created_at > ?", 1.day.ago)
+    relation.where("rate_limits.created_at > ?", 1.day.ago)
   end
 
   def stale
-    relation.where("created_at < ?", 1.day.ago)
+    relation.where("rate_limits.created_at < ?", 1.day.ago)
   end
 end

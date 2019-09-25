@@ -1,0 +1,54 @@
+.rules {
+  margin-bottom: 1rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit;
+  }
+
+  &__items {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    border-bottom: 0;
+  }
+
+  &__item {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  &__item-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__item-actions * {
+    margin-left: 0.15rem;
+  }
+
+  &__item-details-link {
+    cursor: pointer;
+    padding-top: 0.25rem;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__item-details {
+    padding-top: 0.5rem;
+    display: none;
+  }
+}

@@ -4,7 +4,7 @@ class RulesController < ApplicationController
   before_action :set_community
   before_action :set_rule, only: [:edit, :update, :destroy]
   before_action -> { authorize(Rule) }, only: [:index, :new, :create]
-  before_action -> { authorize(rule) }, only: [:edit, :update, :destroy]
+  before_action -> { authorize(@rule) }, only: [:edit, :update, :destroy]
   decorates_assigned :community
 
   def index

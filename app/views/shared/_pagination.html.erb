@@ -1,9 +1,9 @@
 <% if pagination.present? %>
-  <div class="row mt-3 mb-3">
+  <div class="pagination row">
     <div class="col-12">
       <% params[:after] = pagination.to_param %>
       <% params.permit! %>
-      <%= link_to(t('forward'), params, class: 'btn btn-sm btn-primary') %>
+      <%= link_to(t('.forward'), params, class: 'btn btn-sm btn-primary') %>
     </div>
   </div>
 <% end %>

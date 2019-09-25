@@ -9,7 +9,7 @@ class CreateFollowService
   end
 
   def call
-    follow.present? ? follow : Follow.create!(community: community, user: user)
+    follow.present? ? follow : community.follows.create!(user: user)
   end
 
   private

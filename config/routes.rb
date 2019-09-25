@@ -12,15 +12,8 @@ Rails.application.routes.draw do
     get :posts, action: :posts_index, on: :member
     get :comments, action: :comments_index, on: :member
 
-    resources :votes, only: [] do
-      get :posts, action: :posts_index, on: :collection
-      get :comments, action: :comments_index, on: :collection
-    end
-
-    resources :bookmarks, only: [] do
-      get :posts, action: :posts_index, on: :collection
-      get :comments, action: :comments_index, on: :collection
-    end
+    resources :votes, only: [:index]
+    resources :bookmarks, only: [:index]
   end
 
   resources :communities, only: [:show, :edit, :update] do

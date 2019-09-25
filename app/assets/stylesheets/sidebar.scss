@@ -1,0 +1,34 @@
+.sidebar {
+  margin-top: 1rem;
+
+  &__item {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  &__item-header {
+    color: #fff;
+    background-color: #343a40;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+
+    .dropdown-toggle::after {
+      display: none;
+    }
+  }
+
+  &__item-header-menu-link {
+    float: right;
+  }
+
+  &__item-content {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+}

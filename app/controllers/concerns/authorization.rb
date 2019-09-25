@@ -6,21 +6,6 @@ module Authorization
   included do
     private
 
-    helper_method :current_user
-    def current_user
-      request.env["warden"].user
-    end
-
-    helper_method :user_signed_in?
-    def user_signed_in?
-      current_user.present?
-    end
-
-    helper_method :user_signed_out?
-    def user_signed_out?
-      current_user.blank?
-    end
-
     def pundit_user
       Context.new(current_user)
     end
@@ -29,7 +14,13 @@ module Authorization
 
     def authorization_error
       if request.xhr?
-        head :forbidden
+        if user_signed_in?
+          @form = SignInForm.new
+
+          render partial: "/sign_in/new", status: :unauthorized
+        else
+          head :forbidden
+        end
       else
         @community = CommunitiesQuery.new.default.take
 

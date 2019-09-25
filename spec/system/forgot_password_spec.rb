@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "User restores forgotten password" do
+RSpec.describe "Forgot password" do
   it "shows notification with success text" do
     visit(root_path)
     open_and_submit_forgot_password_form_with("email@example.com")
@@ -9,13 +9,13 @@ RSpec.describe "User restores forgotten password" do
   end
 
   def open_and_submit_forgot_password_form_with(email)
-    click_link(I18n.t("sign_in"))
-    click_link(I18n.t("forgot_password"))
+    click_link(I18n.t("layouts.application.sign_in"))
+    click_link(I18n.t("sign_in.new.forgot_password"))
 
     within(".new_forgot_password_form") do
-      fill_in(I18n.t("attributes.email"), with: email)
+      fill_in(I18n.t("activemodel.attributes.forgot_password_form.email"), with: email)
 
-      click_button(I18n.t("forgot_password"))
+      click_button(I18n.t("forgot_password.new.submit"))
     end
   end
 

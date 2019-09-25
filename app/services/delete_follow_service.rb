@@ -9,6 +9,6 @@ class DeleteFollowService
   end
 
   def call
-    Follow.where(community: community, user: user).destroy_all
+    community.follows.where(user: user).destroy_all
   end
 end

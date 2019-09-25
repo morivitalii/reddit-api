@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ChangePasswordForm do
+RSpec.describe ChangePasswordForm, type: :form do
   it { expect(described_class.new).to be_persisted }
 
   describe "validations" do

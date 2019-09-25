@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
 class VotesQuery < ApplicationQuery
-  def posts_votes
-    relation.where(votable_type: "Post")
-  end
-
-  def comments_votes
-    relation.where(votable_type: "Comment")
+  def with_votable_type(type)
+    relation.where(votable_type: type)
   end
 
   def search_by_vote_type(type)

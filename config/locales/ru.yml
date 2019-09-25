@@ -1,162 +1,374 @@
 ru:
-  attributes:
-    username: Имя пользователя
-    email: Email
-    password: Пароль
-    password_current: Текущий пароль
-    title: Название
-    description: Описание
-    text: Текст
-    url: Ссылка
-    image: Изображение
-    explicit: 18+
-    spoiler: Спойлер
-    ignore_reports: Игнорировать жалобы
-    reason: Причина
-    master: Мастер
-    days: Количество дней
-    permanent: Перманентно
-    domain: Домен
   errors:
     messages:
-      invalid_username_format: от 2 до 16 символов. только английские буквы, цифры и символ подчёркивания
-      invalid_username: пользователь с таким именем не зарегистрирован
-      invalid_credentials: неправильное имя пользователя или пароль
-      invalid_current_password: неправильный текущий пароль. если вы не помните его, воспользуйтесь функцией восстановления пароля
-      invalid_forgot_password_token: ссылка на восстановление пароля устарела. пройдите процедуру восстановления еще раз
-      invalid_file_format: 'допустимые форматы файла: %{whitelist}'
-      invalid_file_size: максимальный вес файла 20 МБ
-      rules_limit: можно создать не больше 15 правил
-      rate_limits: вы выполняете это действие слишком часто. подождите немного и попробуйте еще раз
+      rate_limit: вы выполняете это действие слишком часто. подождите немного и попробуйте еще раз
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            username:
+              invalid: от 2 до 16 символов. только английские буквы, цифры и символ подчёркивания
+        ban:
+          attributes:
+            user:
+              blank: пользователь с таким именем не зарегистрирован
+        moderator:
+          attributes:
+            user:
+              blank: пользователь с таким именем не зарегистрирован
+        rule:
+          attributes:
+            title:
+              limit:
+                one: "можно создать не больше %{count} правила"
+                few: "можно создать не больше %{count} правил"
+                many: "можно создать не больше %{count} правил"
+                other: "можно создать не больше %{count} правила"
+        post:
+          attributes:
+            file:
+              mime_type: "допустимые форматы файла %{formats}"
+              extension: "допустимые форматы файла %{formats}"
+              size: "максимальный вес файла %{size}"
   activemodel:
+    errors:
+      models:
+        sign_in_form:
+          attributes:
+            username:
+              invalid_credentials: неправильное имя пользователя или пароль
+        change_password_form:
+          attributes:
+            password:
+              invalid_forgot_password_token: ссылка на восстановление пароля устарела. пройдите процедуру восстановления еще раз
     attributes:
-      sign_up:
+      sign_up_form:
+        username: Имя пользователя
+        password: Пароль
         email: Email (необязательно)
-      create_thing_comment:
-        text: Комментарий
-      change_password:
+      sign_in_form:
+        username: Имя пользователя
+        password: Пароль
+      forgot_password_form:
+        email: Email
+      change_password_form:
         password: Новый пароль
-      update_user_settings:
+      update_user_form:
         email: Email (необязательно)
         password: Пароль (оставьте пустым если не хотите изменять)
-  app_name: Readma.ru
-  home: Главная
-  create: Добавить
-  edit: Редактировать
-  update: Сохранить
-  delete: Удалить
-  confirm: Подтвердить
-  cancel: Отменить
-  close: Закрыть
-  search: Поиск
-  reset: Сбросить
-  confirmation: Подтверждение
-  details: Подробности
-  all: Все
-  best: Лучшее
-  hot: Горячее
-  new: Новое
-  top: Топ
-  controversy: Спорное
-  old: Старое
-  all_time: Все время
-  day: Сутки
-  week: Неделя
-  month: Месяц
-  posts: Посты
-  post: пост
-  comments: Комментарии
-  comment: комментарий
-  text: Текст
-  link: Ссылка
-  image: Картинка
-  sign_up: Регистрация
-  sign_in: Войти
-  sign_out: Выйти
-  forgot_password: Восстановить пароль
-  change_password: Изменить пароль
-  login_or_sign_up: Что думаете? Войдите или зарегистрируйтесь
-  create_post: Добавить пост
-  settings: Настройки
-  moderators: Модераторы
-  bans: Баны
-  rules: Правила
-  mod_queue: Модерация контента
-  posts_mod_queue: Модерация постов
-  comments_mod_queue: Модерация комментариев
-  reports: Жалобы
-  posts_reports: Жалобы на посты
-  comments_reports: Жалобы на комментарии
-  trash: Удаленное
-  bookmarks: Закладки
-  posts_bookmarks: Закладки постов
-  comments_bookmarks: Закладки комментариев
-  profile: Профиль
-  follow: Подписаться
-  unfollow: Отписаться
-  username: Имя пользователя
-  reply: Ответить
-  approve: Одобрить
-  report: Пожаловаться
-  thanks_for_report: Спасибо за активное участие
-  rules_violation: Нарушение правил сообщества
-  custom_report: Произвольная жалоба
-  forward: вперед
-  ban_created_at_html: 'Забанен %{created_at}'
-  banned_permanently: перманентно
-  ban_end_at_html: 'до %{end_at}'
-  ban_reason: 'по причине: "%{reason}"'
-  restricted_access: У вас нету доступа к этой странице
-  not_xhr_request: Эта страница недоступна по прямому запросу
-  approved_details: 'Одобренно %{username} %{approved_at}'
-  deletion_confirmation: 'Подтвердить удаление?'
-  deletion_details: 'Удалено %{username} %{removed_at}. Причина: "%{reason}"'
-  bookmark: Сохранить
-  delete_bookmark: Убрать из сохраненного
-  explicit: 18+
-  spoiler: Спойлер
-  ignore_reports: Игнорировать жалобы
-  to: к
-  in: в
-  to_branch: 'Перейти в ветку (%{comments})'
-  load_more: 'Загрузить больше (%{comments})'
-  removed: Удалено
-  removed_html: 'Удалено %{username} %{removed_at} по причине "%{reason}"'
-  edited_html: '(отредактировано %{edited_at})'
-  comment_page_html: 'Это ветка одного комментария. <a href="%{url}">Посмотреть все комментарии</a>'
-  for_posts: за посты
-  for_comments: за комментарии
-  signed_up_at_html: 'Дата регистрации: %{created_at}'
-  home_sidebar_welcoming_text: Добро пожаловать на readmaru!
-  page_not_found: Страница не существует
-  other_communities: Другие комьюнити
-  follows: Подписки
-  other: Другое
-  view_full: смотреть полностью
-  domain: Домен
-  community: Комьюнити
-  communities: Комьюнити
-  votes: Голоса
-  posts_votes: Голоса за посты
-  comments_votes: Голоса за комментарии
-  up_and_down: За и против
-  up: За
-  down: Против
-  followers:
-    one: '%{count_formatted} подписчик'
-    few: '%{count_formatted} подписчика'
-    many: '%{count_formatted} подписчиков'
-    other: '%{count_formatted} подписчиков'
-  comments_count:
-    one: комментарий
-    few: комментария
-    many: комментариев
-    other: комментариев
-  forgot_password_mailer:
-    subject: Восстановление пароля
-    body_html: 'Для восстановления пароля проследуйте по <a href="%{url}">этой ссылке</a>'
-  formatting: Форматирование
-  formatting_body_html: |
+        password_current: Текущий пароль
+      create_ban_form:
+        username: Имя пользователя
+        reason: Причина
+        days: Количество дней
+        permanent: Перманентно
+      update_ban_form:
+        reason: Причина
+        days: Количество дней
+        permanent: Перманентно
+      update_community_form:
+        title: Название
+        description: Описание
+      create_moderator_form:
+        username: Имя пользователя
+      create_report_form:
+        text: Текст жалобы
+      create_rule_form:
+        title: Название
+        description: Описание
+      update_rule_form:
+        title: Название
+        description: Описание
+      create_post_form:
+        title: Название
+        text: Текст
+        url: Ссылка
+        image: Изображение
+        explicit: 18+
+        spoiler: Спойлер
+      update_post_form:
+        text: Текст
+      remove_post_form:
+        reason: Причина
+      remove_comment_form:
+        reason: Причина
+  simple_form:
+    "yes": Да
+    "no": Нет
+    required:
+      text: Обязательно
+      mark: "*"
+    error_notification:
+      default_message: "Ошибки:"
+    placeholders:
+      search_ban_form:
+        username: Имя пользователя
+      search_moderator_form:
+        username: Имя пользователя
+  recaptcha:
+    errors:
+      verification_failed: Ошибка валидации рекапчи. Попробуйте еще раз
+      recaptcha_unreachable: Ошибка соединения с сервером рекапчи. Попробуйте еще раз
+  helpers:
+    submit:
+      create: Добавить
+      update: Сохранить
+  shared:
+    pagination:
+      forward: вперед
+    sidebar:
+      community: Сообщество
+      follow: Подписатся
+      unfollow: Отписатся
+      create_post: Добавить пост
+      rules: Правила
+      moderators: Модераторы
+      community_menu:
+        mod_queue: Модерация контента
+        moderators: Модераторы
+        bans: Баны
+        rules: Правила
+        settings: Настройки
+      followers:
+        one: "%{count_formatted} подписчик"
+        few: "%{count_formatted} подписчика"
+        many: "%{count_formatted} подписчиков"
+        other: "%{count_formatted} подписчиков"
+  layouts:
+    application:
+      title: Readmaru
+      communities_navigation:
+        title: Список сообществ
+        mod_queues: Модерация контента
+        follows: Подписки
+      user_navigation:
+        profile: Профиль
+        settings: Настройки
+        sign_out: Выйти
+      sign_up: Регистрация
+      sign_in: Войти
+  home:
+    navigation:
+      sorts:
+        hot: Горячее
+        new: Новое
+        top: Топ
+        controversy: Спорное
+      dates:
+        all: Все время
+        day: Сутки
+        week: Неделя
+        month: Месяц
+    index:
+      meta_title: Readmaru
+  sign_up:
+    new:
+      title: Зарегистрироватся
+      forgot_password: Восстановить пароль
+      submit: Зарегистрироватся
+  sign_in:
+    new:
+      title: Войти
+      forgot_password: Восстановить пароль
+      submit: Войти
+  forgot_password:
+    new:
+      title: Восстановить пароль
+      submit: Восстановить пароль
+  change_password:
+    edit:
+      meta_title: Изменить пароль
+      title: Изменить пароль
+  users:
+    navigation:
+      posts: Посты
+      comments: Комментарии
+      bookmarks: Закладки
+      votes: Голоса
+    posts_index:
+      meta_title: "%{username}: Посты"
+    comments_index:
+      meta_title: "%{username}: Комментарии"
+    edit:
+      meta_title: Настройки
+      title: Настройки
+  communities:
+    navigation:
+      sorts:
+        hot: Горячее
+        new: Новое
+        top: Топ
+        controversy: Спорное
+      dates:
+        all: Все время
+        day: Сутки
+        week: Неделя
+        month: Месяц
+    edit:
+      meta_title: "%{community_title}: Настройки"
+      title: Настройки
+    show:
+      meta_title: "%{community_title}"
+  mod_queues:
+    navigation:
+      new: Новое
+      reports: Жалобы
+      posts: Посты
+      comments: Комментарии
+    new_posts_index:
+      meta_title: "%{community_title}: Новые посты"
+    new_comments_index:
+      meta_title: "%{community_title}: Новые комментарии"
+    reported_posts_index:
+      meta_title: "%{community_title}: Жалобы на посты"
+    reported_comments_index:
+      meta_title: "%{community_title}: Жалобы на комментарии"
+  bans:
+    index:
+      meta_title: "%{community_title}: Баны"
+      title: Баны
+      create: Забанить пользователя
+      search: Поиск
+      reset: Сбросить
+    new:
+      title: Забанить пользователя
+      submit: Забанить
+    edit:
+      title: Изменить бан
+    ban:
+      created_at_html: 'Забанен %{created_at}'
+      end_at_html: 'до %{end_at}'
+      permanent: перманентно
+      reason: 'по причине: "%{reason}"'
+  moderators:
+    index:
+      meta_title: "%{community_title}: Модераторы"
+      title: Модераторы
+      create: Добавить модератора
+      search: Поиск
+      reset: Сбросить
+    new:
+      title: Добавить модератора
+  rules:
+    index:
+      meta_title: "%{community_title}: Правила"
+      title: Правила
+      create: Добавить правило
+    new:
+      title: Добавить правило
+    edit:
+      title: Изменить правило
+  bookmarks:
+    navigation:
+      bookmarkable_types:
+        posts: Посты
+        comments: Комментарии
+    index:
+      meta_title: "%{username}: Закладки"
+  votes:
+    index:
+      meta_title: "%{username}: Голоса"
+    navigation:
+      votable_types:
+        posts: Посты
+        comments: Комментарии
+      vote_types:
+        all: За и против
+        ups: За
+        downs: Против
+  reports:
+    index:
+      title: Жалобы
+    create:
+      success: Спасибо за активное участие!
+    new:
+      title: Пожаловатся
+      rules: Нарушение правил сообщества
+      custom: Произвольная жалоба
+      submit: Пожаловатся
+    report:
+      details: Подробности
+  posts:
+    show:
+      reply: Ответить
+      sign_in: Войдите
+      sign_up: зарегистрируйтесь
+      sign_in_or_sign_up_html: "%{sign_in_link} или %{sign_up_link} чтобы принять участие в обсуждении"
+      sorts:
+        best: Лучшее
+        top: Топ
+        new: Новое
+        old: Старое
+        controversy: Спорное
+    post:
+      posted_in: в
+      explicit_label: 18+
+      spoiler_label: Спойлер
+      edited_at_html: "(отредактировано %{edited_at})"
+      approved_tooltip: "Одобренно %{username} %{approved_at}"
+      approve_tooltip: Одобрить
+      bookmark: Добавить в закладки
+      delete_bookmark: Убрать из закладок
+      removed_tooltip: "Удалено %{username} %{removed_at} по причине \"%{reason}\""
+      remove_tooltip: Удалить
+      removed_message_html: 'Удалено %{link_to_user_profile} %{removed_at} по причине "%{reason}"'
+      edit: Редактировать
+      mark_explicit: 18+
+      mark_spoiler: Спойлер
+      report: Пожаловатся
+      reports: Жалобы
+      ignore_reports: Игнорировать жалобы
+      comments_count:
+        one: "%{count_formatted} комментарий"
+        few: "%{count_formatted} комментария"
+        many: "%{count_formatted} комментариев"
+        other: "%{count_formatted} комментариев"
+    new_navigation:
+      text: Текст
+      link: Ссылка
+      image: Изображение
+    new_text:
+      meta_title: Добавить текст
+    new_link:
+      meta_title: Добавить ссылку
+    new_image:
+      meta_title: Добавить изображение
+    remove:
+      title: Удалить пост
+      confirmation: Подтвердить удаление поста?
+      submit: Удалить
+  comments:
+    comment:
+      edited_at_html: "(отредактировано %{edited_at})"
+      approved_tooltip: "Одобренно %{username} %{approved_at}"
+      approve_tooltip: Одобрить
+      bookmark: Добавить в закладки
+      delete_bookmark: Убрать из закладок
+      removed_tooltip: "Удалено %{username} %{removed_at} по причине \"%{reason}\""
+      remove_tooltip: Удалить
+      removed_message_html: 'Удалено %{link_to_user_profile} %{removed_at} по причине "%{reason}"'
+      report: Пожаловатся
+      reports: Жалобы
+      ignore_reports: Игнорировать жалобы
+      comments_count:
+        one: "%{count_formatted} комментарий"
+        few: "%{count_formatted} комментария"
+        many: "%{count_formatted} комментариев"
+        other: "%{count_formatted} комментариев"
+    remove:
+      title: Удалить комментарий
+      confirmation: Подтвердить удаление комментария?
+      submit: Удалить
+  page_not_found:
+    show:
+      meta_title: Страница не найдена
+      title: Страница не найдена
+  authorization_error:
+    meta_title: У вас нету доступа к этой странице
+    title: У вас нету доступа к этой странице
+  formatting_help: Форматирование
+  formatting_help_html: |
       <span>
         <table class="table table-sm mb-0">
           <thead class="thead-dark">
@@ -215,6 +427,6 @@ ru:
           </tbody>
         </table>
       </span>
-  recaptcha:
-    errors:
-      verification_failed: Ошибка капчи. Повторите попытку
+  forgot_password_mailer:
+    subject: Восстановление пароля
+    body_html: "Для восстановления пароля проследуйте по <a href=\"%{url}\">этой ссылке</a>"

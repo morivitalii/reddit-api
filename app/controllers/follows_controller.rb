@@ -3,17 +3,18 @@
 class FollowsController < ApplicationController
   before_action :set_community
   before_action -> { authorize(Follow) }
+  decorates_assigned :community
 
   def create
     CreateFollowService.new(@community, current_user).call
 
-    head :no_content
+    render json: { follow: true, followers_count: community.followers_count }
   end
 
   def destroy
     DeleteFollowService.new(@community, current_user).call
 
-    head :no_content
+    render json: { follow: false, followers_count: community.followers_count }
   end
 
   private

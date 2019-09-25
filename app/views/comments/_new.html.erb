@@ -1,6 +1,0 @@
-<%= simple_form_for(@form, url: thing_comment_path(@thing), class: 'replyCommentForm col-12 pl-0 ml-3 mt-2', remote: true) do |f| %>
-  <%= f.input :text, as: :text, label: false %>
-
-  <%= f.button :submit, t('reply'), class: 'btn-sm' %>
-  <button type="button" class="replyCommentCancel btn btn-sm btn-primary"><%= t('cancel') %></button>
-<% end %>

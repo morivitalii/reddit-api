@@ -2,7 +2,7 @@
 
 class CommunitiesQuery < ApplicationQuery
   def with_url(url)
-    relation.where("lower(url) = lower(?)", url)
+    relation.where("lower(communities.url) = lower(?)", url)
   end
 
   def default

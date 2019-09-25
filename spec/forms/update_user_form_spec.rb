@@ -12,13 +12,13 @@ RSpec.describe UpdateUserForm do
         expect(form).to_not be_valid
       end
 
-      it "has error :invalid_password_current on :password_current attribute" do
+      it "has error :invalid on :password_current attribute" do
         form = build_update_user_form
         form.password_current = "wrong_password"
 
         form.validate
 
-        expect(form).to have_error(:invalid_current_password).on(:password_current)
+        expect(form).to have_error(:invalid).on(:password_current)
       end
     end
 

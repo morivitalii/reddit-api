@@ -1,0 +1,13 @@
+<%= render("users/navigation", user: user, title: t("users.navigation.bookmarks")) do %>
+  <li class="nav-item dropdown">
+    <a class="second-header__bookmarkable-types-link nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= t(bookmarkable_type, scope: "bookmarks.navigation.bookmarkable_types") %>
+    </a>
+
+    <div class="dropdown-menu">
+      <% bookmarkable_types.each do |type| %>
+        <%= link_to(t(type, scope: "bookmarks.navigation.bookmarkable_types"), user_bookmarks_path(user, bookmarkable_type: type), class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+<% end %>

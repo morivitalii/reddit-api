@@ -1,10 +1,10 @@
 <% content_for(:meta_title, post.title) %>
 
-<%= render 'shared/sidebar', community: post.community %>
+<%= render("shared/sidebar", community: post.community) %>
 
-<div class="col-12 bg-white border rounded pb-3 mb-3">
-  <div class="post row mt-2">
-    <div class="info col-12">
+<div class="post-page col-12">
+  <div class="row">
+    <div class="post__information col-12">
       <%= link_to(post.user.username, posts_user_path(post.user)) %> <%= post.created_at %>
 
       <% if post.edited? %>
@@ -12,46 +12,46 @@
       <% end %>
 
       <% if post.explicit? %>
-        <span class="explicit"><%= t('explicit') %></span>
+        <span class="post__explicit-label"><%= t("posts.post.explicit_label") %></span>
       <% end %>
 
       <% if post.spoiler? %>
-        <span class="spoiler"><%= t('spoiler') %></span>
+        <span class="post__spoiler-label"><%= t("posts.post.spoiler_label") %></span>
       <% end %>
     </div>
 
-    <div class="title col-12 mt-1">
-      <%= link_to(post.title, post_path(post)) %>
+    <div class="post__title col-12">
+      <%= post.title %>
     </div>
 
     <% if post.removed? %>
-      <div class="content col-12 mt-2">
+      <div class="post__removed-content col-12">
         <%= post.removed_message %>
       </div>
     <% elsif post.text? %>
-      <div class="content col-12 mt-2 mb-2">
+      <div class="post__text-content col-12">
         <%= post.text_html.html_safe %>
       </div>
     <% elsif post.url? %>
-      <div class="url col-12 mt-1 mb-1">
-        <%= link_to(truncate(post.url, length: 40), post.url, target: "_blank", rel: "nofollow") %>
+      <div class="post__link-content col-12">
+        <%= link_to(post.url_title, post.url, target: "_blank", rel: "nofollow") %>
       </div>
     <% elsif post.image.present? %>
-      <div class="content col-12 mt-2 mb-2 pl-0 pr-0 text-center">
-        <a href="<%= post.image_url(:original) %>" target="_blank">
+      <div class="post__image-content col-12">
+        <%= link_to(post.image_url(:original), target: "_blank") do %>
           <%= image_tag(post.image_url(:desktop), class: "img-fluid", width: post.image_width, height: post.image_height) %>
-        </a>
+        <% end %>
       </div>
     <% end %>
 
-    <div class="actions col-12">
-      <span class="vote">
+    <div class="post__actions col-12">
+      <span class="post__votes">
         <%= post.up_vote_link %>
         <%= post.score %>
         <%= post.down_vote_link %>
       </span>
 
-      <%= post.comments_link %>
+      <%= post.comments_count_text %>
       <%= post.bookmark_link %>
 
       <% if policy(post).approve? %>
@@ -62,7 +62,7 @@
         <%= post.remove_link %>
       <% end %>
 
-      <span class="menu dropdown">
+      <span class="dropdown">
         <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <%= fa_icon("ellipsis-h") %>
         </span>
@@ -97,18 +97,18 @@
   </div>
 
   <% if policy(Comment).create? %>
-    <div class="row mt-3">
-      <div class="col-12">
+    <div class="row">
+      <div class="post-page__comment-form col-12">
         <%= simple_form_for(CreateComment.new, url: post_comments_path(post), remote: true) do |f| %>
-          <%= f.input :text, as: :text %>
-          <%= f.button :submit, t('reply'), class: 'btn-sm' %>
+          <%= f.input :text, as: :text, label: false, input_html: { rows: 5 } %>
+          <%= f.button :submit, t(".reply"), class: "btn-sm" %>
 
-          <span class="formatting float-right mt-2" data-toggle="collapse" data-target="#formatting" aria-expanded="false">
-            <%= t('formatting') %>
+          <span class="post-page__formatting-help-link" data-toggle="collapse" data-target="#formatting-help" aria-expanded="false">
+            <%= t("formatting_help") %>
           </span>
 
-          <div class="collapse mt-2" id="formatting">
-            <%= t('formatting_body_html') %>
+          <div class="post-page__formatting-help-description collapse" id="formatting-help">
+            <%= t("formatting_help_html") %>
           </div>
         <% end %>
       </div>
@@ -116,31 +116,25 @@
   <% end %>
 
   <% if user_signed_out? %>
-    <div class="row mt-3">
-      <div class="col-12">
-        <div class="row">
-          <div class="col-6 mt-2">
-            <%= t('login_or_sign_up') %>
-          </div>
-
-          <div class="col-6 text-right">
-            <%= link_to(t('sign_in'), new_sign_in_path, remote: true, class: 'sign_in btn btn-primary') %>
-            <%= link_to(t('sign_up'), new_sign_up_path, remote: true, class: 'sign_up btn btn-primary') %>
-          </div>
-        </div>
+    <div class="row">
+      <div class="post-page__sign-in-or-sign-up col-12">
+        <%= t(".sign_in_or_sign_up_html",
+              sign_in_link: link_to(t(".sign_in"), new_sign_in_path, remote: true, class: "post-page__sign-in-link"),
+              sign_up_link: link_to(t(".sign_up"), new_sign_up_path, remote: true, class: "post-page__sign-up-link")
+            ) %>
       </div>
     </div>
   <% end %>
 
-  <div class="row mt-3">
-    <div class="col-12">
-      <span id="sort" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <%= t(sort) %>
+  <div class="row">
+    <div class="post-page__sorts-menu col-12">
+      <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <%= t(sort, scope: "posts.show.sorts") %>
       </span>
 
       <div class="dropdown-menu">
-        <% sort_options.each do |option| %>
-          <%= link_to(t(option), post_path(post, sort: option), class: 'dropdown-item') %>
+        <% sorts.each do |sort| %>
+          <%= link_to(t(sort, scope: "posts.show.sorts"), post_path(post, sort: sort), class: "dropdown-item") %>
         <% end %>
       </div>
     </div>

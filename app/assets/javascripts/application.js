@@ -9,7 +9,6 @@
 //= require_tree ./errors
 //= require datetime
 //= require notification
-//= require deletion_confirmation_modal
 //= require_tree .
 
 $(document).ready(function() {
@@ -29,6 +28,11 @@ $(document).ready(function() {
     if(e.detail[2].getResponseHeader('Location') !== null) {
       window.location.href = e.detail[2].getResponseHeader('Location');
     }
+  });
+
+  // Header navigation
+  $('.first-header__communities-navigation').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+    window.location.href = $('.first-header__communities-navigation option').eq(clickedIndex).data("href");
   });
 });
 

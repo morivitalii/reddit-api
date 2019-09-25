@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "User signs up" do
+RSpec.describe "Sign up" do
   context "with form filled by invalid data" do
     it "shows errors" do
       visit(root_path)
@@ -22,15 +22,14 @@ RSpec.describe "User signs up" do
   end
 
   def open_and_submit_sign_up_form_with(username, password, email)
-    click_link(I18n.t("sign_in"))
-    click_link(I18n.t("sign_up"))
+    click_link(I18n.t("layouts.application.sign_up"))
 
     within(".new_sign_up_form") do
-      fill_in(I18n.t("attributes.username"), with: username)
-      fill_in(I18n.t("attributes.password"), with: password)
-      fill_in(I18n.t("attributes.email"), with: email)
+      fill_in(I18n.t("activemodel.attributes.sign_up_form.username"), with: username)
+      fill_in(I18n.t("activemodel.attributes.sign_up_form.password"), with: password)
+      fill_in(I18n.t("activemodel.attributes.sign_up_form.email"), with: email)
 
-      click_button(I18n.t("sign_up"))
+      click_button(I18n.t("sign_up.new.submit"))
     end
   end
 end

@@ -100,11 +100,11 @@ class PostsController < ApplicationController
 
   helper_method :sort
   def sort
-    sort_options.include?(params[:sort]) ? params[:sort] : :best
+    sorts.include?(params[:sort]) ? params[:sort] : :best
   end
 
-  helper_method :sort_options
-  def sort_options
+  helper_method :sorts
+  def sorts
     %w(best top new controversy old)
   end
 

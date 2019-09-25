@@ -14,7 +14,7 @@ class CommentsQuery < ApplicationQuery
   end
 
   def created_after(datetime)
-    relation.where("created_at > ?", datetime)
+    relation.where("comments.created_at > ?", datetime)
   end
 
   def search_created_after(datetime)

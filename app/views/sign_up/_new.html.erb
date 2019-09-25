@@ -1,23 +1,15 @@
-<%= render 'shared/modal', title: t('sign_up') do %>
-  <div class="modal-body">
-    <%= simple_form_for(@form, url: sign_up_path, remote: true) do |f| %>
-      <%= f.input :username %>
-      <%= f.input :password, as: :password %>
-      <%= f.input :email, as: :email %>
+<%= render("shared/modal", title: t(".title")) do %>
+  <%= simple_form_for(@form, url: sign_up_path, remote: true) do |f| %>
+    <%= f.input :username %>
+    <%= f.input :password, as: :password %>
+    <%= f.input :email, as: :email %>
 
-      <div class="form-group">
-        <%= recaptcha_tags %>
-      </div>
-
-      <%= f.button :submit, t('sign_up') %>
-    <% end %>
-
-    <div class="row">
-      <div class="col-12 mt-3">
-        <%= link_to(t('sign_in'), new_sign_in_path, remote: true, class: 'sign_in') %>
-        <br>
-        <%= link_to(t('forgot_password'), new_forgot_password_path, remote: true, class: 'forgot_password') %>
-      </div>
+    <div class="form-group">
+      <%= recaptcha_tags %>
     </div>
-  </div>
+
+    <%= f.button :submit, t('sign_up.new.submit') %>
+  <% end %>
+
+  <%= link_to(t("sign_up.new.forgot_password"), new_forgot_password_path, remote: true, class: 'sign-up__forgot-password-link') %>
 <% end %>

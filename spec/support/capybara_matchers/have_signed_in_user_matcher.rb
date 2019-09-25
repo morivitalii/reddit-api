@@ -2,7 +2,7 @@ require "rspec/expectations"
 
 RSpec::Matchers.define :have_signed_in_user do |user|
   match do |page|
-    page.within(".first-top-menu") do
+    page.within(".first-header") do
       expect(page).to have_content(user.username)
     end
   end
@@ -12,8 +12,8 @@ RSpec::Matchers.define :have_signed_in_user do |user|
   end
 
   match_when_negated do |page|
-    page.within(".first-top-menu") do
-      expect(page).to have_content(I18n.t("sign_in"))
+    page.within(".first-header") do
+      expect(page).to have_content(I18n.t("layouts.application.sign_in"))
     end
   end
   

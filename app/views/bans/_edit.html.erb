@@ -1,14 +1,9 @@
-<%= render 'shared/modal', title: t('edit') do %>
+<%= render 'shared/modal', title: t('.title') do %>
   <%= simple_form_for(@form, url: community_ban_path(ban.community, ban), remote: true) do |f| %>
-    <div class="modal-body">
-      <%= f.input :reason, as: :text %>
-      <%= f.input :days, as: :integer %>
-      <%= f.input :permanent, as: :boolean %>
-    </div>
+    <%= f.input :reason, as: :text %>
+    <%= f.input :days, as: :integer %>
+    <%= f.input :permanent, as: :boolean %>
 
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" data-dismiss="modal"><%= t('cancel') %></button>
-      <%= f.button :submit, t('update') %>
-    </div>
+    <%= f.button :submit %>
   <% end %>
 <% end %>

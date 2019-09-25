@@ -34,18 +34,39 @@ RSpec.describe ApplicationController do
       end
     end
 
-    context "when request is xhr" do
-      before { get :index, xhr: true }
+    before { stub_pundit_user }
+    before { stub_current_user }
 
-      it { is_expected.to_not render_template("/authorization_error") }
-      it { is_expected.to respond_with(403) }
+    context "for visitor", context: :visitor do
+      context "when request is xhr" do
+        before { get :index, xhr: true }
+
+        it { is_expected.to render_template("/sign_in/_new") }
+        it { is_expected.to respond_with(:unauthorized) }
+      end
+
+      context "when request is not xhr" do
+        before { get :index }
+
+        it { is_expected.to render_template("/authorization_error") }
+        it { is_expected.to respond_with(:forbidden) }
+      end
     end
 
-    context "when request is not xhr" do
-      before { get :index }
+    context "for user", context: :user do
+      context "when request is xhr" do
+        before { get :index, xhr: true }
 
-      it { is_expected.to_not render_template("/authorization_error") }
-      it { is_expected.to respond_with(403) }
+        it { expect(response.body).to be_blank }
+        it { is_expected.to respond_with(:forbidden) }
+      end
+
+      context "when request is not xhr" do
+        before { get :index }
+
+        it { is_expected.to render_template("/authorization_error") }
+        it { is_expected.to respond_with(:forbidden) }
+      end
     end
   end
 
@@ -111,8 +132,9 @@ RSpec.describe ApplicationController do
       it "returns communities where user is moderator" do
         stub_pundit_user
         stub_current_user
+        current_user = controller.view_context.current_user
 
-        communities = create_pair(:community_with_user_moderator, user: controller.view_context.current_user)
+        communities = create_pair(:community_with_user_moderator, user: current_user)
         create_pair(:community)
 
         expect(controller.view_context.communities_moderated_by_user).to match_array(communities)
@@ -131,14 +153,16 @@ RSpec.describe ApplicationController do
     end
 
     context "for user", context: :user do
-      it "returns communities where user is follower" do
+      it "returns communities where user is follower except those where user is moderator" do
         stub_pundit_user
         stub_current_user
+        current_user = controller.view_context.current_user
 
-        communities = create_pair(:community_with_user_follower, user: controller.view_context.current_user)
-        create_pair(:community)
+        communities_with_user_follower = create_pair(:community_with_user_follower, user: current_user)
+        community_with_user_moderator_and_follower = create(:community_with_user_follower, user: current_user)
+        create(:moderator, community: community_with_user_moderator_and_follower, user: current_user)
 
-        expect(controller.view_context.communities_followed_by_user).to match_array(communities)
+        expect(controller.view_context.communities_followed_by_user).to match_array(communities_with_user_follower)
       end
     end
   end
@@ -146,8 +170,9 @@ RSpec.describe ApplicationController do
   describe ".sidebar_rules", context: :user do
     it "returns rules" do
       stub_pundit_user
+      community = controller.view_context.pundit_user.community
 
-      rules = create_pair(:rule, community: controller.view_context.pundit_user.community)
+      rules = create_pair(:rule, community: community)
       create_pair(:rule)
 
       expect(controller.view_context.sidebar_rules).to eq(rules)
@@ -157,8 +182,9 @@ RSpec.describe ApplicationController do
   describe ".sidebar_moderators", context: :user do
     it "returns moderators" do
       stub_pundit_user
+      community = controller.view_context.pundit_user.community
 
-      moderators = create_pair(:moderator, community: controller.view_context.pundit_user.community)
+      moderators = create_pair(:moderator, community: community)
       create_pair(:moderator)
 
       expect(controller.view_context.sidebar_moderators).to eq(moderators)
@@ -187,7 +213,7 @@ RSpec.describe ApplicationController do
         result = controller.send(:validate_rate_limit, model, { attribute: :action, action: :action, limit: 1 })
 
         expect(result).to be_falsey
-        expect(model).to have_error(:rate_limits).on(:action)
+        expect(model).to have_error(:rate_limit).on(:action)
       end
     end
 

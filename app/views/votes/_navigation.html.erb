@@ -1,0 +1,27 @@
+<%= render("users/navigation", user: user, title: t("users.navigation.votes")) do %>
+  <li class="nav-item dropdown">
+    <a class="second-header__votable-types-link nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= t(votable_type, scope: "votes.navigation.votable_types") %>
+    </a>
+
+    <div class="dropdown-menu">
+      <% votable_types.each do |type| %>
+        <%= link_to(t(type, scope: "votes.navigation.votable_types"), user_votes_path(user, votable_type: type), class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="second-header__vote-types-link nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= vote_type.present? ? t(vote_type, scope: "votes.navigation.vote_types") : t("votes.navigation.vote_types.all") %>
+    </a>
+
+    <div class="dropdown-menu">
+      <%= link_to(t("votes.navigation.vote_types.all"), user_votes_path(user, votable_type: votable_type), class: 'dropdown-item') %>
+
+      <% vote_types.each do |type| %>
+        <%= link_to(t(type, scope: "votes.navigation.vote_types"), user_votes_path(user, votable_type: votable_type, vote_type: type), class: 'dropdown-item') %>
+      <% end %>
+    </div>
+  </li>
+<% end %>

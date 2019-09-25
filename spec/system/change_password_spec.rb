@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "User sets new password after restoration procedure" do
+RSpec.describe "Change password after restoration procedure" do
   context "with form filled by invalid data" do
     it "show errors" do
       visit(edit_change_password_path(token: "wrong_token"))
@@ -24,9 +24,9 @@ RSpec.describe "User sets new password after restoration procedure" do
 
   def fill_password_form_with(password)
     within(".edit_change_password_form") do
-      fill_in(I18n.t("attributes.password"), with: password)
+      fill_in(I18n.t("activemodel.attributes.change_password_form.password"), with: password)
 
-      click_button(I18n.t("update"))
+      click_button(I18n.t("helpers.submit.update"))
     end
   end
 end

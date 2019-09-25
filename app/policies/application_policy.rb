@@ -32,6 +32,6 @@ class ApplicationPolicy
   end
 
   def banned?
-    user? && user.bans.any? { |ban| ban.community_id == community.id }
+    user? && community.present? && user.bans.any? { |ban| ban.community_id == community.id }
   end
 end

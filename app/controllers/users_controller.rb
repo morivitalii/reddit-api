@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :set_user, only: [:posts_index, :comments_index]
+  before_action :set_user
   before_action -> { authorize(@user) }
   decorates_assigned :user, :posts, :comments
 
@@ -14,8 +14,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = current_user
-
     attributes = @user.slice(:email)
 
     @form = UpdateUserForm.new(attributes)
@@ -34,7 +32,7 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = UsersQuery.new.with_username(params[:id]).take!
+    @user = params[:id].present? ? UsersQuery.new.with_username(params[:id]).take! : current_user
   end
 
   def posts_query
@@ -47,6 +45,6 @@ class UsersController < ApplicationController
 
   def update_params
     attributes = policy(@user).permitted_attributes_for_update
-    params.require(:update_user_form).permit(attributes).merge(user: current_user)
+    params.require(:update_user_form).permit(attributes).merge(user: @user)
   end
 end

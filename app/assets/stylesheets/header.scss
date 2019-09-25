@@ -1,0 +1,17 @@
+.first-header {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: #ffff;
+  border-bottom: 1px solid #dee2e6;
+
+  &__sign-in-link {
+    margin-left: 0.5rem;
+  }
+}
+
+.second-header {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  background-color: #ffff;
+  border-bottom: 1px solid #dee2e6;
+}
