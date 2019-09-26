@@ -28,6 +28,7 @@ gem "draper", "~> 3"
 gem "simple_form", "~> 4"
 
 group :development, :test do
+  gem "standard"
   gem "rspec-rails"
   gem "puma"
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]

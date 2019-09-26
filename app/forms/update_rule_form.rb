@@ -13,7 +13,7 @@ class UpdateRuleForm
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    return false
+    false
   end
 
   def persisted?

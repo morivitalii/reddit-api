@@ -1,17 +1,15 @@
 require_relative "boot"
 
-%w(
+%w[
   active_record/railtie
   action_controller/railtie
   action_view/railtie
   action_mailer/railtie
   active_job/railtie
   sprockets/railtie
-).each do |railtie|
-  begin
-    require railtie
-  rescue LoadError
-  end
+].each do |railtie|
+  require railtie
+rescue LoadError
 end
 
 Bundler.require(*Rails.groups)
@@ -26,7 +24,7 @@ module App
     config.i18n.default_locale = :ru
     config.filter_parameters += [:username, :email, :password]
 
-    ActionView::Base.field_error_proc = Proc.new do |html_tag, _|
+    ActionView::Base.field_error_proc = proc do |html_tag, _|
       html_tag.html_safe
     end
   end

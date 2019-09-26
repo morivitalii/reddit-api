@@ -35,7 +35,7 @@ class CommentsController < ApplicationController
     if validate_rate_limit(@form, attribute: :text, action: rate_limit_action, limit: rate_limit) && @form.save
       hit_rate_limit(rate_limit_action)
 
-      render partial: "nested_comment", locals: { comment: @form.comment }
+      render partial: "nested_comment", locals: {comment: @form.comment}
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -48,7 +48,7 @@ class CommentsController < ApplicationController
       @comment = @form.comment
       attributes = {
         text: comment.text_html,
-        ignore_reports_link: comment.ignore_reports_link
+        ignore_reports_link: comment.ignore_reports_link,
       }
 
       render json: attributes
@@ -62,7 +62,7 @@ class CommentsController < ApplicationController
 
     @comment = @comment.decorate
 
-    render json: { approve_link: @comment.approve_link, remove_link: @comment.remove_link }
+    render json: {approve_link: @comment.approve_link, remove_link: @comment.remove_link}
   end
 
   def remove
@@ -77,7 +77,7 @@ class CommentsController < ApplicationController
     if @form.save
       @comment = @comment.decorate
 
-      render json: { approve_link: @comment.approve_link, remove_link: @comment.remove_link }
+      render json: {approve_link: @comment.approve_link, remove_link: @comment.remove_link}
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -102,7 +102,7 @@ class CommentsController < ApplicationController
   end
 
   def set_sort_options
-    @sort_options = { best: t("best"), top: t("top"), new: t("new"), controversy: t("controversy"), old: t("old") }.with_indifferent_access
+    @sort_options = {best: t("best"), top: t("top"), new: t("new"), controversy: t("controversy"), old: t("old")}.with_indifferent_access
   end
 
   def set_sort

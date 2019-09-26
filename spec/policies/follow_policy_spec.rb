@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe FollowPolicy do
   subject { described_class }
-  
+
   context "for visitor", context: :visitor do
     permissions :create?, :destroy? do
       it { is_expected.to_not permit(context) }

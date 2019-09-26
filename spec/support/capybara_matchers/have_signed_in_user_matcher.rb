@@ -6,7 +6,7 @@ RSpec::Matchers.define :have_signed_in_user do |user|
       expect(page).to have_content(user.username)
     end
   end
-  
+
   failure_message do |_page|
     "expected #{user.username} to be signed in"
   end
@@ -16,7 +16,7 @@ RSpec::Matchers.define :have_signed_in_user do |user|
       expect(page).to have_content(I18n.t("layouts.application.sign_in"))
     end
   end
-  
+
   failure_message_when_negated do |_page|
     "expected #{user.username} to be signed out"
   end

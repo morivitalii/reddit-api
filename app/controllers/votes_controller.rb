@@ -19,7 +19,7 @@ class VotesController < ApplicationController
       @votable = @votable.reload
       @votable.vote = @form.vote
 
-      render json: { score: votable.score, up_vote_link: votable.up_vote_link, down_vote_link: votable.down_vote_link }
+      render json: {score: votable.score, up_vote_link: votable.up_vote_link, down_vote_link: votable.down_vote_link}
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class VotesController < ApplicationController
     DeleteVoteService.new(@votable, current_user).call
     @votable = @votable.reload
 
-    render json: { score: votable.score, up_vote_link: votable.up_vote_link, down_vote_link: votable.down_vote_link }
+    render json: {score: votable.score, up_vote_link: votable.up_vote_link, down_vote_link: votable.down_vote_link}
   end
 
   private
@@ -64,7 +64,7 @@ class VotesController < ApplicationController
 
   helper_method :votable_types
   def votable_types
-    %w(posts comments)
+    %w[posts comments]
   end
 
   helper_method :votable_type
@@ -78,7 +78,7 @@ class VotesController < ApplicationController
 
   helper_method :vote_types
   def vote_types
-    %w(ups downs)
+    %w[ups downs]
   end
 
   helper_method :vote_type

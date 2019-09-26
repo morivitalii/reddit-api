@@ -10,10 +10,10 @@ class CommunitiesQuery < ApplicationQuery
   end
 
   def with_user_moderator(user)
-    relation.joins(:moderators).where(moderators: { user: user })
+    relation.joins(:moderators).where(moderators: {user: user})
   end
 
   def with_user_follower(user)
-    relation.joins(:follows).where(follows: { user: user })
+    relation.joins(:follows).where(follows: {user: user})
   end
 end

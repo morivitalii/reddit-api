@@ -8,13 +8,13 @@ class CreateReportForm
   def save
     return true if reportable.ignore_reports?
 
-    attributes = { community: reportable.community, text: text }
+    attributes = {community: reportable.community, text: text}
 
     Report.create_with(attributes).find_or_create_by!(reportable: reportable, user: user)
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    return false
+    false
   end
 
   def persisted?

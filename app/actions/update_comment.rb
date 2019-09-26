@@ -8,7 +8,7 @@ class UpdateComment
   def save
     attributes = {
       text: @text,
-      ignore_reports: @ignore_reports
+      ignore_reports: @ignore_reports,
     }.compact
 
     if edited?
@@ -19,7 +19,7 @@ class UpdateComment
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    return false
+    false
   end
 
   private

@@ -53,7 +53,7 @@ class PostsController < ApplicationController
         spoiler_link: post.spoiler_link,
         explicit: post.explicit,
         explicit_link: post.explicit_link,
-        ignore_reports_link: post.ignore_reports_link
+        ignore_reports_link: post.ignore_reports_link,
       }
 
       render json: attributes, location: post_path(@form.post)
@@ -65,7 +65,7 @@ class PostsController < ApplicationController
   def approve
     ApprovePostService.new(@post, current_user).call
 
-    render json: { approve_link: post.approve_link, remove_link: post.remove_link }
+    render json: {approve_link: post.approve_link, remove_link: post.remove_link}
   end
 
   def remove
@@ -78,7 +78,7 @@ class PostsController < ApplicationController
     @form = RemovePostForm.new(destroy_params)
 
     if @form.save
-      render json: { approve_link: post.approve_link, remove_link: post.remove_link }
+      render json: {approve_link: post.approve_link, remove_link: post.remove_link}
     else
       render json: @form.errors, status: :unprocessable_entity
     end
@@ -105,7 +105,7 @@ class PostsController < ApplicationController
 
   helper_method :sorts
   def sorts
-    %w(best top new controversy old)
+    %w[best top new controversy old]
   end
 
   def create_params

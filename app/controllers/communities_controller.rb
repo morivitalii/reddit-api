@@ -47,7 +47,7 @@ class CommunitiesController < ApplicationController
 
   helper_method :sorts
   def sorts
-    %w(hot new top controversy)
+    %w[hot new top controversy]
   end
 
   helper_method :sort
@@ -61,7 +61,7 @@ class CommunitiesController < ApplicationController
 
   helper_method :dates
   def dates
-    %w(day week month)
+    %w[day week month]
   end
 
   helper_method :date

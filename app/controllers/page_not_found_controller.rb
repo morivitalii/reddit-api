@@ -4,7 +4,7 @@ class PageNotFoundController < ApplicationController
   before_action -> { authorize(:page_not_found) }
   before_action :set_community
   decorates_assigned :community
-  
+
   def show
     render status: :not_found
   end

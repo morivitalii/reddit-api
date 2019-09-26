@@ -16,7 +16,7 @@ class BookmarksController < ApplicationController
     @bookmarkable.bookmark = CreateBookmarkService.new(@bookmarkable, current_user).call
     @bookmarkable = @bookmarkable.decorate
 
-    render json: { bookmark_link: @bookmarkable.bookmark_link }
+    render json: {bookmark_link: @bookmarkable.bookmark_link}
   end
 
   def destroy
@@ -24,7 +24,7 @@ class BookmarksController < ApplicationController
     @bookmarkable.bookmark = nil
     @bookmarkable = @bookmarkable.decorate
 
-    render json: { bookmark_link: @bookmarkable.bookmark_link }
+    render json: {bookmark_link: @bookmarkable.bookmark_link}
   end
 
   private
@@ -53,7 +53,7 @@ class BookmarksController < ApplicationController
 
   helper_method :bookmarkable_types
   def bookmarkable_types
-    %w(posts comments)
+    %w[posts comments]
   end
 
   helper_method :bookmarkable_type

@@ -7,8 +7,8 @@ class Rule < ApplicationRecord
 
   belongs_to :community
 
-  validates :title, presence: true, length: { maximum: 100 }
-  validates :description, allow_blank: true, length: { maximum: 500 }
+  validates :title, presence: true, length: {maximum: 100}
+  validates :description, allow_blank: true, length: {maximum: 500}
   validate :validate_limits, on: :create
 
   private

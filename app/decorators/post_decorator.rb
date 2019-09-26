@@ -15,9 +15,9 @@ class PostDecorator < ApplicationDecorator
 
   def comments_count
     comments_count = model.comments_count
-    comments_count_formatted = h.number_to_human(comments_count, separator: '.', strip_insignificant_zeros: true, units: { thousand: 'k' })
+    comments_count_formatted = h.number_to_human(comments_count, separator: ".", strip_insignificant_zeros: true, units: {thousand: "k"})
 
-    h.t('posts.post.comments_count', count: comments_count, count_formatted: comments_count_formatted)
+    h.t("posts.post.comments_count", count: comments_count, count_formatted: comments_count_formatted)
   end
 
   def created_at
@@ -27,7 +27,7 @@ class PostDecorator < ApplicationDecorator
   def edited_at
     edited_at = h.datetime_ago_tag(model.edited_at)
 
-    h.t('posts.post.edited_at_html', edited_at: edited_at)
+    h.t("posts.post.edited_at_html", edited_at: edited_at)
   end
 
   def url_title
@@ -40,7 +40,7 @@ class PostDecorator < ApplicationDecorator
     h.link_to(
       h.fa_icon("arrow-up"),
       h.post_votes_path(model),
-      data: { params: up_voted ? "" : "create_vote_form[type]=up" },
+      data: {params: up_voted ? "" : "create_vote_form[type]=up"},
       remote: true,
       method: up_voted ? :delete : :post,
       class: up_voted ? "post__up-vote-link post__up-vote-link_up-voted" : "post__up-vote-link"
@@ -48,7 +48,7 @@ class PostDecorator < ApplicationDecorator
   end
 
   def score
-    score = h.number_to_human(model.score, separator: ".", strip_insignificant_zeros: true, units: { thousand: "k" }, format: "%n%u")
+    score = h.number_to_human(model.score, separator: ".", strip_insignificant_zeros: true, units: {thousand: "k"}, format: "%n%u")
 
     h.content_tag(:span, score, class: "post__score")
   end
@@ -59,7 +59,7 @@ class PostDecorator < ApplicationDecorator
     h.link_to(
       h.fa_icon("arrow-down"),
       h.post_votes_path(model),
-      data: { params: down_voted ? "" : "create_vote_form[type]=down" },
+      data: {params: down_voted ? "" : "create_vote_form[type]=down"},
       remote: true,
       method: down_voted ? :delete : :post,
       class: down_voted ? "post__down-vote-link post__down-vote-link_down-voted" : "post__down-vote-link"
@@ -73,18 +73,18 @@ class PostDecorator < ApplicationDecorator
       approved_by_user = model.approved_by.username
       approved_at = h.l(model.approved_at)
 
-      tooltip_message = h.t('posts.post.approved_tooltip', username: approved_by_user, approved_at: approved_at)
+      tooltip_message = h.t("posts.post.approved_tooltip", username: approved_by_user, approved_at: approved_at)
     else
-      tooltip_message = h.t('posts.post.approve_tooltip')
+      tooltip_message = h.t("posts.post.approve_tooltip")
     end
 
     h.link_to(
-      h.fa_icon('check'),
+      h.fa_icon("check"),
       h.approve_post_path(model),
       remote: true,
       method: :post,
       class: approved ? "post__approve-link post__approve-link_approved" : "post__approve-link",
-      data: { toggle: :tooltip },
+      data: {toggle: :tooltip},
       title: tooltip_message
     )
   end
@@ -93,13 +93,13 @@ class PostDecorator < ApplicationDecorator
     bookmarked = model.bookmark.present?
 
     h.link_to(
-      bookmarked ? h.fa_icon('bookmark') : h.fa_icon('bookmark-o'),
+      bookmarked ? h.fa_icon("bookmark") : h.fa_icon("bookmark-o"),
       h.post_bookmarks_path(model),
       remote: true,
       method: bookmarked ? :delete : :post,
       class: "post__bookmark-link",
-      title: bookmarked ? h.t('posts.post.delete_bookmark') : h.t('posts.post.bookmark'),
-      data: { toggle: :tooltip }
+      title: bookmarked ? h.t("posts.post.delete_bookmark") : h.t("posts.post.bookmark"),
+      data: {toggle: :tooltip}
     )
   end
 
@@ -121,7 +121,7 @@ class PostDecorator < ApplicationDecorator
       h.remove_post_path(model),
       remote: true,
       class: removed ? "post__remove-link post__remove-link_removed" : "post__remove-link",
-      data: { toggle: :tooltip },
+      data: {toggle: :tooltip},
       title: link_tooltip_message
     )
   end
@@ -148,9 +148,9 @@ class PostDecorator < ApplicationDecorator
     spoiler = model.spoiler?
 
     h.link_to(
-      spoiler ? h.fa_icon("check-square-o", text: h.t('posts.post.mark_spoiler')) : h.fa_icon("square-o", text: h.t('posts.post.mark_spoiler')),
+      spoiler ? h.fa_icon("check-square-o", text: h.t("posts.post.mark_spoiler")) : h.fa_icon("square-o", text: h.t("posts.post.mark_spoiler")),
       h.post_path(model),
-      data: { params: "update_post_form[spoiler]=#{!spoiler}" },
+      data: {params: "update_post_form[spoiler]=#{!spoiler}"},
       remote: true,
       method: :put,
       class: "post__spoiler-link dropdown-item"
@@ -161,9 +161,9 @@ class PostDecorator < ApplicationDecorator
     explicit = model.explicit?
 
     h.link_to(
-      explicit ? h.fa_icon("check-square-o", text: h.t('posts.post.mark_explicit')) : h.fa_icon("square-o", text: h.t('posts.post.mark_explicit')),
+      explicit ? h.fa_icon("check-square-o", text: h.t("posts.post.mark_explicit")) : h.fa_icon("square-o", text: h.t("posts.post.mark_explicit")),
       h.post_path(model),
-      data: { params: "update_post_form[explicit]=#{!explicit}" },
+      data: {params: "update_post_form[explicit]=#{!explicit}"},
       remote: true,
       method: :put,
       class: "post__explicit-link dropdown-item"
@@ -172,7 +172,7 @@ class PostDecorator < ApplicationDecorator
 
   def report_link
     h.link_to(
-      h.t('posts.post.report'),
+      h.t("posts.post.report"),
       h.new_post_report_path(model),
       remote: true,
       class: "post__report-link dropdown-item"
@@ -181,7 +181,7 @@ class PostDecorator < ApplicationDecorator
 
   def reports_link
     h.link_to(
-      h.t('posts.post.reports'),
+      h.t("posts.post.reports"),
       h.post_reports_path(model),
       remote: true,
       class: "post__reports-link dropdown-item"
@@ -192,9 +192,9 @@ class PostDecorator < ApplicationDecorator
     ignore_reports = model.ignore_reports?
 
     h.link_to(
-      ignore_reports ? h.fa_icon("check-square-o", text: h.t('posts.post.ignore_reports')) : h.fa_icon("square-o", text: h.t('posts.post.ignore_reports')),
+      ignore_reports ? h.fa_icon("check-square-o", text: h.t("posts.post.ignore_reports")) : h.fa_icon("square-o", text: h.t("posts.post.ignore_reports")),
       h.post_path(model),
-      data: { params: "update_post_form[ignore_reports]=#{!ignore_reports}" },
+      data: {params: "update_post_form[ignore_reports]=#{!ignore_reports}"},
       remote: true,
       method: :put,
       class: "post__ignore-reports-link dropdown-item"

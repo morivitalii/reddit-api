@@ -8,13 +8,13 @@ class FollowsController < ApplicationController
   def create
     CreateFollowService.new(@community, current_user).call
 
-    render json: { follow: true, followers_count: community.followers_count }
+    render json: {follow: true, followers_count: community.followers_count}
   end
 
   def destroy
     DeleteFollowService.new(@community, current_user).call
 
-    render json: { follow: false, followers_count: community.followers_count }
+    render json: {follow: false, followers_count: community.followers_count}
   end
 
   private

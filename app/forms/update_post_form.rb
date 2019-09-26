@@ -10,7 +10,7 @@ class UpdatePostForm
       text: text,
       explicit: explicit,
       spoiler: spoiler,
-      ignore_reports: ignore_reports
+      ignore_reports: ignore_reports,
     }.compact
 
     if edited?
@@ -21,7 +21,7 @@ class UpdatePostForm
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    return false
+    false
   end
 
   def persisted?

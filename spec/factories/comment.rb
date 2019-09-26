@@ -44,7 +44,7 @@ FactoryBot.define do
       removed_at { nil }
       removed_by { nil }
     end
-    
+
     factory :comment_with_reports do
       transient do
         reports_count { 2 }

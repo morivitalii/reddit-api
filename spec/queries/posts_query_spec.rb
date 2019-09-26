@@ -18,7 +18,7 @@ RSpec.describe PostsQuery do
     it "returns not removed posts" do
       not_removed_posts = create_pair(:post)
       create_pair(:removed_post)
-      
+
       result = subject.new.not_removed
 
       expect(result).to match_array(not_removed_posts)
@@ -29,7 +29,7 @@ RSpec.describe PostsQuery do
     it "returns posts that have reports" do
       posts_with_reports = create_pair(:post_with_reports, reports_count: 1)
       create_pair(:post)
-      
+
       result = subject.new.reported
 
       expect(result).to match_array(posts_with_reports)

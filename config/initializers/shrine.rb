@@ -8,7 +8,7 @@ if Rails.env.production?
     secret_access_key: ENV.fetch("S3_SECRET_ACCESS_KEY"),
     region: ENV.fetch("S3_REGION"),
     bucket: ENV.fetch("S3_BUCKET"),
-    endpoint: ENV.fetch("S3_ENDPOINT")
+    endpoint: ENV.fetch("S3_ENDPOINT"),
   }
 
   Shrine.storages = {
@@ -16,8 +16,8 @@ if Rails.env.production?
     store: Shrine::Storage::S3.new(public: true, **s3_options),
   }
 
-  Shrine.plugin :default_url_options, store: { host: ENV.fetch("S3_CDN") }
-  Shrine.plugin :upload_options, store: { cache_control: "max-age=2592000" }
+  Shrine.plugin :default_url_options, store: {host: ENV.fetch("S3_CDN")}
+  Shrine.plugin :upload_options, store: {cache_control: "max-age=2592000"}
 else
   Shrine.storages = {
     cache: Shrine::Storage::FileSystem.new("public", prefix: "uploads/cache"),

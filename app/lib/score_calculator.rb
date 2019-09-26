@@ -27,12 +27,12 @@ class ScoreCalculator
       order = Math.log10([score.abs, 1].max)
 
       sign = if score.positive?
-               1
-             elsif score.negative?
-               -1
-             else
-               0
-             end
+        1
+      elsif score.negative?
+        -1
+      else
+        0
+      end
 
       seconds = created_at.to_i - 1509818664
 

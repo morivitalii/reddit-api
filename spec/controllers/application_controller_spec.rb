@@ -210,7 +210,7 @@ RSpec.describe ApplicationController do
         allow(controller).to receive(:get_rate_limit).with(:action).and_return(rate_limit)
         allow(controller).to receive(:skip_rate_limiting?).and_return(false)
 
-        result = controller.send(:validate_rate_limit, model, { attribute: :action, action: :action, limit: 1 })
+        result = controller.send(:validate_rate_limit, model, {attribute: :action, action: :action, limit: 1})
 
         expect(result).to be_falsey
         expect(model).to have_error(:rate_limit).on(:action)
@@ -225,7 +225,7 @@ RSpec.describe ApplicationController do
         allow(controller).to receive(:get_rate_limit).with(:action).and_return(rate_limit)
         allow(controller).to receive(:skip_rate_limiting?).and_return(false)
 
-        result = controller.send(:validate_rate_limit, model, { attribute: :action, action: :action, limit: 2 })
+        result = controller.send(:validate_rate_limit, model, {attribute: :action, action: :action, limit: 2})
 
         expect(result).to be_truthy
       end

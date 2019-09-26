@@ -28,8 +28,8 @@ class Comment < ApplicationRecord
   before_update :undo_approve, if: -> { editing? || removing? }
   before_update :destroy_reports, if: -> { approving? || removing? }
 
-  validates :text, presence: true, length: { maximum: 10_000 }
-  validates :removed_reason, allow_blank: true, length: { maximum: 5_000 }
+  validates :text, presence: true, length: {maximum: 10_000}
+  validates :removed_reason, allow_blank: true, length: {maximum: 5_000}
 
   def approve!(user)
     update!(approved_by: user, approved_at: Time.current)
@@ -110,12 +110,12 @@ class Comment < ApplicationRecord
       hot_score: hot_score,
       best_score: best_score,
       top_score: top_score,
-      controversy_score: controversy_score
+      controversy_score: controversy_score,
     }.to_json
 
     query = "UPDATE topics
              SET branch = jsonb_set(branch, '{#{id}}', '#{json}', true),
-                 updated_at = '#{Time.current.strftime('%Y-%m-%d %H:%M:%S.%N')}'
+                 updated_at = '#{Time.current.strftime("%Y-%m-%d %H:%M:%S.%N")}'
              WHERE post_id = #{post_id};"
 
     ActiveRecord::Base.connection.execute(query)

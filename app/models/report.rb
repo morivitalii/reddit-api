@@ -7,5 +7,5 @@ class Report < ApplicationRecord
   belongs_to :reportable, polymorphic: true
   belongs_to :user
 
-  validates :text, presence: true, length: { maximum: 500 }
+  validates :text, presence: true, length: {maximum: 500}
 end

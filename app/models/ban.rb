@@ -8,12 +8,12 @@ class Ban < ApplicationRecord
 
   before_save :set_end_at
 
-  validates :user, presence: true, uniqueness: { scope: :community_id }
-  validates :reason, allow_blank: true, length: { maximum: 500 }
-  validates :days, absence: true, if: -> (r) { r.permanent }
+  validates :user, presence: true, uniqueness: {scope: :community_id}
+  validates :reason, allow_blank: true, length: {maximum: 500}
+  validates :days, absence: true, if: ->(r) { r.permanent }
   validates :days, presence: true,
-            numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 365 },
-            unless: -> (r) { r.permanent }
+                   numericality: {only_integer: true, greater_than: 0, less_than_or_equal_to: 365},
+                   unless: ->(r) { r.permanent }
 
   private
 

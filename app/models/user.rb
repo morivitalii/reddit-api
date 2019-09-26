@@ -15,12 +15,12 @@ class User < ApplicationRecord
   has_many :rate_limits, dependent: :destroy
 
   validates :username, presence: true,
-            format: { with: /\A[a-z0-9_-]{2,16}\z/i },
-            uniqueness: { case_sensitive: false }
+                       format: {with: /\A[a-z0-9_-]{2,16}\z/i},
+                       uniqueness: {case_sensitive: false}
 
   validates :email, allow_blank: true,
-            format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,64})\z/i },
-            uniqueness: { case_sensitive: false }
+                    format: {with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,64})\z/i},
+                    uniqueness: {case_sensitive: false}
 
   def to_param
     username

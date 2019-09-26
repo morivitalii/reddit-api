@@ -29,17 +29,17 @@ class Post < ApplicationRecord
   before_update :undo_approve, if: -> { editing? || removing? }
   before_update :destroy_reports, if: -> { approving? || removing? }
 
-  validates :title, presence: true, length: { maximum: 350 }
-  validates :removed_reason, allow_blank: true, length: { maximum: 5_000 }
+  validates :title, presence: true, length: {maximum: 350}
+  validates :removed_reason, allow_blank: true, length: {maximum: 5_000}
 
   with_options if: ->(r) { r.text.present? } do
-    validates :text, length: { maximum: 10_000 }
+    validates :text, length: {maximum: 10_000}
     validates :url, absence: true
     validates :image, absence: true
   end
 
   with_options if: ->(r) { r.url.present? } do
-    validates :url, length: { maximum: 2048 }
+    validates :url, length: {maximum: 2048}
     validate :validate_url_format
     validates :text, absence: true
     validates :image, absence: true
@@ -50,7 +50,7 @@ class Post < ApplicationRecord
     validates :url, absence: true
   end
 
-  with_options if: -> (r) { r.text.blank? && r.url.blank? && r.image.blank? } do
+  with_options if: ->(r) { r.text.blank? && r.url.blank? && r.image.blank? } do
     validates :image, presence: true
     validates :text, presence: true
     validates :url, presence: true
@@ -104,10 +104,10 @@ class Post < ApplicationRecord
   def validate_url_format
     uri = Addressable::URI.parse(url).normalize
 
-    unless uri.present? && uri.host.present? && uri.scheme.in?(%w(http https))
+    unless uri.present? && uri.host.present? && uri.scheme.in?(%w[http https])
       errors.add(:url, :invalid)
     end
-  rescue StandardError
+  rescue
     errors.add(:url, :invalid)
   end
 
@@ -147,7 +147,7 @@ class Post < ApplicationRecord
   def normalize_url_on_create
     return if url.blank?
 
-    self.url = Addressable::URI.parse(self.url).normalize.to_s
+    self.url = Addressable::URI.parse(url).normalize.to_s
   end
 
   def create_topic_on_create
