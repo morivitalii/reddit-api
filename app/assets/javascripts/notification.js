@@ -1,4 +1,4 @@
-function notification(text) {
+function notification (text) {
   $('body').append(
     '<div class="notification container fixed-bottom">\n' +
     '  <div class="row">\n' +
@@ -12,9 +12,9 @@ function notification(text) {
     '    </div>\n' +
     '  </div>\n' +
     '</div>'
-  );
+  )
 
-  window.setTimeout(function() {
-    $('.notification').remove();
-  }, 5500);
+  window.setTimeout(function () {
+    $('.notification').remove()
+  }, 5500)
 }

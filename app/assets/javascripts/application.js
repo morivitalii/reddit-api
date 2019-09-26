@@ -11,28 +11,27 @@
 //= require notification
 //= require_tree .
 
-$(document).ready(function() {
-    // Format datetime after page load
-    format_datetime();
+$(document).ready(function () {
+  // Format datetime after page load
+  format_datetime()
 
   // Trigger tooltips after page load
-  $('[data-toggle="tooltip"]').tooltip();
+  $('[data-toggle="tooltip"]').tooltip()
 
   // Remove modal after close
   $(document).on('hidden.bs.modal', '.modal', function (e) {
-    $('.modal').remove();
-  });
+    $('.modal').remove()
+  })
 
   // Redirect after form successful confirmation
   $(document).on('ajax:success', 'form', function (e) {
-    if(e.detail[2].getResponseHeader('Location') !== null) {
-      window.location.href = e.detail[2].getResponseHeader('Location');
+    if (e.detail[2].getResponseHeader('Location') !== null) {
+      window.location.href = e.detail[2].getResponseHeader('Location')
     }
-  });
+  })
 
   // Header navigation
   $('.first-header__communities-navigation').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-    window.location.href = $('.first-header__communities-navigation option').eq(clickedIndex).data("href");
-  });
-});
-
+    window.location.href = $('.first-header__communities-navigation option').eq(clickedIndex).data('href')
+  })
+})

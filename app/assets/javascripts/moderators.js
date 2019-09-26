@@ -1,11 +1,11 @@
-$(document).ready(function() {
-  $(document).on('ajax:success', '.moderators__create-link', function(e) {
-    $('.moderators').append(e.detail[0].activeElement.innerHTML);
-    $('.modal').modal('show');
-  });
+$(document).ready(function () {
+  $(document).on('ajax:success', '.moderators__create-link', function (e) {
+    $('.moderators').append(e.detail[0].activeElement.innerHTML)
+    $('.modal').modal('show')
+  })
 
-  $(document).on('click', '.moderators__item-delete-link', function(e) {
-    var url = $(this).data("url");
+  $(document).on('click', '.moderators__item-delete-link', function (e) {
+    var url = $(this).data('url')
     var modal = '<div class="modal" tabindex="-1" role="dialog">\n' +
       '  <div class="modal-dialog role="document">\n' +
       '    <div class="modal-content">\n' +
@@ -21,15 +21,15 @@ $(document).ready(function() {
       '      </div>\n' +
       '    </div>\n' +
       '  </div>\n' +
-      '</div>';
+      '</div>'
 
-    $(this).closest('.moderators__item').append(modal);
-    $('.modal').modal('show');
-  });
+    $(this).closest('.moderators__item').append(modal)
+    $('.modal').modal('show')
+  })
 
-  $(document).on('ajax:success', '.moderators__item-confirm-deletion-link', function() {
-    var item = $(this).closest('.moderators__item');
-    $('.modal').modal('hide');
-    item.remove();
-  });
-});
+  $(document).on('ajax:success', '.moderators__item-confirm-deletion-link', function () {
+    var item = $(this).closest('.moderators__item')
+    $('.modal').modal('hide')
+    item.remove()
+  })
+})

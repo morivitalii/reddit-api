@@ -1,23 +1,23 @@
-$(document).ready(function() {
-  $(document).on('ajax:success', '.rules__create-link', function(e) {
-    $('.rules').append(e.detail[0].activeElement.innerHTML);
-    $('.modal').modal('show');
-  });
+$(document).ready(function () {
+  $(document).on('ajax:success', '.rules__create-link', function (e) {
+    $('.rules').append(e.detail[0].activeElement.innerHTML)
+    $('.modal').modal('show')
+  })
 
-  $(document).on('ajax:success', '.rules__item-update-link', function(e) {
-    $(this).closest('.rules__item').append(e.detail[0].activeElement.innerHTML);
-    $('.modal').modal('show');
-  });
+  $(document).on('ajax:success', '.rules__item-update-link', function (e) {
+    $(this).closest('.rules__item').append(e.detail[0].activeElement.innerHTML)
+    $('.modal').modal('show')
+  })
 
   $(document).on('ajax:success', '.edit_update_rule_form', function (e) {
-    var item = $(this).closest('.rules__item');
-    $('.modal').modal('hide');
-    item.replaceWith(e.detail[0].activeElement.innerHTML);
-    format_datetime();
-  });
+    var item = $(this).closest('.rules__item')
+    $('.modal').modal('hide')
+    item.replaceWith(e.detail[0].activeElement.innerHTML)
+    format_datetime()
+  })
 
-  $(document).on('click', '.rules__item-delete-link', function(e) {
-    var url = $(this).data("url");
+  $(document).on('click', '.rules__item-delete-link', function (e) {
+    var url = $(this).data('url')
     var modal = '<div class="modal" tabindex="-1" role="dialog">\n' +
       '  <div class="modal-dialog role="document">\n' +
       '    <div class="modal-content">\n' +
@@ -33,19 +33,19 @@ $(document).ready(function() {
       '      </div>\n' +
       '    </div>\n' +
       '  </div>\n' +
-      '</div>';
+      '</div>'
 
-    $(this).closest('.rules__item').append(modal);
-    $('.modal').modal('show');
-  });
+    $(this).closest('.rules__item').append(modal)
+    $('.modal').modal('show')
+  })
 
-  $(document).on('ajax:success', '.rules__item-confirm-deletion-link', function() {
-    var item = $(this).closest('.rules__item');
-    $('.modal').modal('hide');
-    item.remove();
-  });
+  $(document).on('ajax:success', '.rules__item-confirm-deletion-link', function () {
+    var item = $(this).closest('.rules__item')
+    $('.modal').modal('hide')
+    item.remove()
+  })
 
-  $(document).on('click', '.rules__item-details-link', function() {
-    $(this).closest('.rules__item').find('.rules__item-details').toggle();
-  });
-});
+  $(document).on('click', '.rules__item-details-link', function () {
+    $(this).closest('.rules__item').find('.rules__item-details').toggle()
+  })
+})
