@@ -6,7 +6,7 @@
     "bootstrap-select": "^1.13.5",
     "jquery": "^3.4.0",
     "moment": "^2.24.0",
-    "popper.js": "^1.14.4"
+    "popper.js": "^1.15.0"
   },
   "devDependencies": {
     "standard": "^14.3.1",
