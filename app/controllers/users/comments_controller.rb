@@ -16,6 +16,6 @@ class Users::CommentsController < ApplicationController
   end
 
   def query
-    CommentsQuery.new(@user.comments).not_removed.includes(:community, :user)
+    CommentsQuery.new(@user.comments).not_removed.includes(:community, :user, :post)
   end
 end
