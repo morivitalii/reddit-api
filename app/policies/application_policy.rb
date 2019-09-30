@@ -3,7 +3,7 @@ class ApplicationPolicy
 
   def initialize(context, record)
     @user = context.user
-    @community = context.community
+    @community = record.respond_to?(:community) && record.community.present? ? record.community : context.community
     @record = record
 
     if banned?

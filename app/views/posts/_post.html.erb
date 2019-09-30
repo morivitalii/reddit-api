@@ -1,8 +1,3 @@
-<%
-  # We need this because post partial renders not only in own community context, but in many different contexts
-  post_context = ::Context.new(current_user, post.community)
-%>
-
 <div class="post col-12">
   <div class="row">
     <div class="post__information col-12">
@@ -57,11 +52,11 @@
       <%= post.comments_link %>
       <%= post.bookmark_link %>
 
-      <% if PostPolicy.new(post_context, post).approve? %>
+      <% if policy(post).approve? %>
         <%= post.approve_link %>
       <% end %>
 
-      <% if PostPolicy.new(post_context, post).destroy? %>
+      <% if policy(post).destroy? %>
         <%= post.remove_link %>
       <% end %>
 
@@ -71,27 +66,27 @@
         </span>
 
         <div class="dropdown-menu">
-          <% if ReportPolicy.new(post_context, Report).create? %>
+          <% if policy(Report).create? %>
             <%= post.report_link %>
           <% end %>
 
-          <% if ReportPolicy.new(post_context, Report).index? %>
+          <% if policy(Report).index? %>
             <%= post.reports_link %>
           <% end %>
 
-          <% if PostPolicy.new(post_context, post).update_text? %>
+          <% if policy(post).update_text? %>
             <%= post.edit_link %>
           <% end %>
 
-          <% if PostPolicy.new(post_context, post).update_explicit? %>
+          <% if policy(post).update_explicit? %>
             <%= post.explicit_link %>
           <% end %>
 
-          <% if PostPolicy.new(post_context, post).update_spoiler? %>
+          <% if policy(post).update_spoiler? %>
             <%= post.spoiler_link %>
           <% end %>
 
-          <% if PostPolicy.new(post_context, post).update_ignore_reports? %>
+          <% if policy(post).update_ignore_reports? %>
             <%= post.ignore_reports_link %>
           <% end %>
         </div>

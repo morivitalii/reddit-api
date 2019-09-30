@@ -1,11 +1,6 @@
-<%
-  # We need this because comment partial renders not only in own community context, but in many different contexts
-  comment_context = ::Context.new(current_user, comment.community)
-%>
-
 <%= render 'shared/modal', title: t('.title') do %>
   <%= simple_form_for(@form, url: comment_path(comment), method: :delete, remote: true) do |f| %>
-    <% if CommentPolicy.new(comment_context, comment).update_removed_reason? %>
+    <% if policy(comment).update_removed_reason? %>
       <%= f.input :reason, as: :text %>
     <% else %>
       <%= t('comments.remove.confirmation') %>
