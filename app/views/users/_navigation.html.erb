@@ -6,8 +6,8 @@
       </a>
 
       <div class="dropdown-menu">
-        <%= link_to(t(".posts"), posts_user_path(user), class: 'dropdown-item') %>
-        <%= link_to(t(".comments"), comments_user_path(user), class: 'dropdown-item') %>
+        <%= link_to(t(".posts"), user_posts_path(user), class: 'dropdown-item') %>
+        <%= link_to(t(".comments"), user_comments_path(user), class: 'dropdown-item') %>
 
         <% if BookmarkPolicy.new(pundit_user, user).index? %>
         <%= link_to(t(".bookmarks"), user_bookmarks_path(user), class: 'dropdown-item') %>

@@ -1,6 +1,6 @@
 <div class="bans__item row">
   <div class="bans__item-title col-12">
-    <%= link_to(ban.username, posts_user_path(ban.user)) %>
+    <%= link_to(ban.username, user_posts_path(ban.user)) %>
 
     <div class="bans__item-actions">
       <% if policy(ban).update? %>

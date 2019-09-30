@@ -186,10 +186,12 @@ ru:
       comments: Комментарии
       bookmarks: Закладки
       votes: Голоса
-    posts_index:
-      meta_title: "%{username}: Посты"
-    comments_index:
-      meta_title: "%{username}: Комментарии"
+    posts:
+      index:
+        meta_title: "%{username}: Посты"
+    comments:
+      index:
+        meta_title: "%{username}: Комментарии"
     edit:
       meta_title: Настройки
       title: Настройки

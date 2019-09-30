@@ -1,6 +1,6 @@
 <div class="moderators__item row">
   <div class="moderators__item-title col-12">
-    <%= link_to(moderator.username, posts_user_path(moderator.user)) %>
+    <%= link_to(moderator.username, user_posts_path(moderator.user)) %>
 
     <div class="moderators__item-actions">
       <% if policy(moderator).destroy? %>

@@ -9,9 +9,8 @@ Rails.application.routes.draw do
   resource :users, only: [:edit, :update]
 
   resources :users, only: [] do
-    get :posts, action: :posts_index, on: :member
-    get :comments, action: :comments_index, on: :member
-
+    resources :posts, only: [:index], module: :users
+    resources :comments, only: [:index], module: :users
     resources :votes, only: [:index]
     resources :bookmarks, only: [:index]
   end

@@ -98,7 +98,7 @@
         <div class="row">
           <% sidebar_moderators.each do |moderator| %>
             <div class="col-12">
-              <%= link_to(moderator.username, posts_user_path(moderator.user)) %>
+              <%= link_to(moderator.username, user_posts_path(moderator.user)) %>
             </div>
           <% end %>
         </div>

@@ -3,15 +3,7 @@
 class UsersController < ApplicationController
   before_action :set_user
   before_action -> { authorize(@user) }
-  decorates_assigned :user, :posts, :comments
-
-  def posts_index
-    @posts, @pagination = posts_query.paginate(after: params[:after])
-  end
-
-  def comments_index
-    @comments, @pagination = comments_query.paginate(after: params[:after])
-  end
+  decorates_assigned :user
 
   def edit
     attributes = @user.slice(:email)
@@ -32,15 +24,7 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = params[:id].present? ? UsersQuery.new.with_username(params[:id]).take! : current_user
-  end
-
-  def posts_query
-    PostsQuery.new(@user.posts).not_removed.includes(:community, :user)
-  end
-
-  def comments_query
-    CommentsQuery.new(@user.comments).not_removed.includes(:community, :post, :user)
+    @user = current_user
   end
 
   def update_params

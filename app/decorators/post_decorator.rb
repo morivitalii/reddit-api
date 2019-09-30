@@ -131,7 +131,7 @@ class PostDecorator < ApplicationDecorator
     removed_at = h.datetime_ago_tag(model.removed_at)
     reason = model.removed_reason
 
-    link_to_user_profile = h.link_to(removed_by.username, h.posts_user_path(removed_by))
+    link_to_user_profile = h.link_to(removed_by.username, h.user_posts_path(removed_by))
 
     h.t("posts.post.removed_message_html", link_to_user_profile: link_to_user_profile, removed_at: removed_at, reason: reason)
   end

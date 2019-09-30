@@ -1,6 +1,6 @@
 <% content_for(:meta_title, t(".meta_title", username: user.username)) %>
 
-<%= render("navigation", user: user, title: t("users.navigation.comments")) %>
-<%= render(comments) %>
+<%= render("users/navigation", user: user, title: t("users.navigation.comments")) %>
+<%= render(partial: "comments/comment", collection: comments) %>
 <%= render("users/sidebar", user: user) %>
 <%= render("shared/pagination", pagination: @pagination) %>

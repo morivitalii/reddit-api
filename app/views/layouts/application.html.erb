@@ -50,7 +50,7 @@
                 </span>
 
                 <div class="dropdown-menu">
-                  <%= link_to(t('.user_navigation.profile'), posts_user_path(current_user), class: 'dropdown-item') %>
+                  <%= link_to(t('.user_navigation.profile'), user_posts_path(current_user), class: 'dropdown-item') %>
                   <%= link_to(t('.user_navigation.settings'), edit_users_path, class: 'dropdown-item') %>
                   <div class="dropdown-divider ml-2"></div>
                   <%= link_to(t('.user_navigation.sign_out'), sign_out_path, method: :delete, class: 'dropdown-item') %>

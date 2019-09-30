@@ -1,6 +1,6 @@
 <div class="reports__item row">
   <div class="col-12">
-    <%= link_to(report.username, posts_user_path(report.user)) %> <%= report.created_at %>
+    <%= link_to(report.username, user_posts_path(report.user)) %> <%= report.created_at %>
 
     <span class="reports__item-details-link"><%= t('reports.report.details') %></span>
   </div>

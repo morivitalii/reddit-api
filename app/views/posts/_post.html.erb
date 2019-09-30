@@ -1,7 +1,7 @@
 <div class="post col-12">
   <div class="row">
     <div class="post__information col-12">
-      <%= link_to(post.user.username, posts_user_path(post.user)) %>
+      <%= link_to(post.user.username, user_posts_path(post.user)) %>
       <%= t('.posted_in') %> <%= link_to(post.community.url, community_path(post.community)) %>
       <%= post.created_at %>
 
@@ -66,11 +66,11 @@
         </span>
 
         <div class="dropdown-menu">
-          <% if policy(Report).create? %>
+          <% if ReportPolicy.new(::Context.new(current_user), post).create? %>
             <%= post.report_link %>
           <% end %>
 
-          <% if policy(Report).index? %>
+          <% if ReportPolicy.new(::Context.new(current_user), post).index? %>
             <%= post.reports_link %>
           <% end %>
 
