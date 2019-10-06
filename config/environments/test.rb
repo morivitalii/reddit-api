@@ -15,5 +15,5 @@ Rails.application.configure do
   config.public_file_server.headers = {"Cache-Control" => "public, max-age=#{1.hour.to_i}"}
   config.i18n.available_locales = [:ru, :en]
   config.i18n.default_locale = :en
-  config.i18n.fallbacks = [:ru]
+  config.i18n.fallbacks = [I18n.default_locale]
 end
