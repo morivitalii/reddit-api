@@ -2,7 +2,7 @@
 
 class Users::CommentsController < ApplicationController
   before_action :set_user
-  before_action -> { authorize(@user, policy_class: Users::CommentsPolicy) }
+  before_action -> { authorize(@user, policy_class: User::CommentPolicy) }
   decorates_assigned :user, :comments
 
   def index

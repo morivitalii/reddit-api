@@ -2,7 +2,7 @@
 
 class Users::PostsController < ApplicationController
   before_action :set_user
-  before_action -> { authorize(@user, policy_class: Users::PostsPolicy) }
+  before_action -> { authorize(@user, policy_class: User::PostPolicy) }
   decorates_assigned :user, :posts
 
   def index

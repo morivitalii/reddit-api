@@ -1,6 +1,8 @@
 require "rails_helper"
 
-RSpec.describe Users::CommentsPolicy do
+RSpec.describe User::CommentPolicy do
+  subject { described_class }
+
   context "for visitor", context: :visitor do
     permissions :index? do
       it { is_expected.to permit(context) }

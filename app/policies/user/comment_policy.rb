@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Users::CommentsPolicy < ApplicationPolicy
+class User::CommentPolicy < ApplicationPolicy
   def index?
     true
   end

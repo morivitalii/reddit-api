@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Users::PostsPolicy < ApplicationPolicy
+class User::PostPolicy < ApplicationPolicy
   def index?
     true
   end

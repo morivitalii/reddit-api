@@ -1,6 +1,8 @@
 require "rails_helper"
 
-RSpec.describe Users::PostsPolicy do
+RSpec.describe User::PostPolicy do
+  subject { described_class }
+
   context "for visitor", context: :visitor do
     permissions :index? do
       it { is_expected.to permit(context) }
