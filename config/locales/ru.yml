@@ -192,6 +192,17 @@ ru:
     comments:
       index:
         meta_title: "%{username}: Комментарии"
+    bookmarks:
+      posts:
+        index:
+          meta_title: "%{username}: Закладки постов"
+          posts: Посты
+          comments: Комментарии
+      comments:
+        index:
+          meta_title: "%{username}: Закладки комментариев"
+          posts: Посты
+          comments: Комментарии
     edit:
       meta_title: Настройки
       title: Настройки
@@ -261,13 +272,6 @@ ru:
       title: Добавить правило
     edit:
       title: Изменить правило
-  bookmarks:
-    navigation:
-      bookmarkable_types:
-        posts: Посты
-        comments: Комментарии
-    index:
-      meta_title: "%{username}: Закладки"
   votes:
     index:
       meta_title: "%{username}: Голоса"

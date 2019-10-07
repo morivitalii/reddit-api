@@ -75,6 +75,16 @@ FactoryBot.define do
       end
     end
 
+    factory :post_with_bookmark do
+      transient do
+        bookmarked_by { create(:user) }
+      end
+
+      after(:create) do |post, evaluator|
+        create(:bookmark, bookmarkable: post, user: evaluator.bookmarked_by)
+      end
+    end
+
     factory :not_moderated_post, traits: [:not_moderated]
     factory :moderated_post, traits: [:moderated]
     factory :not_removed_post, traits: [:not_removed]

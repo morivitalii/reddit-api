@@ -9,8 +9,8 @@
         <%= link_to(t(".posts"), user_posts_path(user), class: 'dropdown-item') %>
         <%= link_to(t(".comments"), user_comments_path(user), class: 'dropdown-item') %>
 
-        <% if BookmarkPolicy.new(pundit_user, user).index? %>
-        <%= link_to(t(".bookmarks"), user_bookmarks_path(user), class: 'dropdown-item') %>
+        <% if User::Bookmark::PostPolicy.new(pundit_user, user).index? %>
+        <%= link_to(t(".bookmarks"), user_bookmarks_posts_path(user), class: 'dropdown-item') %>
         <% end %>
 
         <% if VotePolicy.new(pundit_user, user).index? %>

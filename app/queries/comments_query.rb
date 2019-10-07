@@ -22,4 +22,8 @@ class CommentsQuery < ApplicationQuery
 
     created_after(datetime)
   end
+
+  def bookmarked_by_user(user)
+    relation.joins(:bookmarks).where(bookmarks: { user: user }).order("bookmarks.id desc")
+  end
 end

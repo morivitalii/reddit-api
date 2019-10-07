@@ -70,4 +70,16 @@ RSpec.describe PostsQuery do
       expect(query).to have_received(:created_after).with(datetime)
     end
   end
+
+  describe ".bookmarked_by_user" do
+    it "returns posts that bookmarked by given user" do
+      user = create(:user)
+      posts_bookmarked_by_user = create_pair(:post_with_bookmark, bookmarked_by: user)
+      _other_bookmarked_posts = create_pair(:post_with_bookmark)
+
+      result = described_class.new.bookmarked_by_user(user)
+
+      expect(result).to match_array(posts_bookmarked_by_user)
+    end
+  end
 end

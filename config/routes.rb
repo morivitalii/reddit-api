@@ -9,10 +9,17 @@ Rails.application.routes.draw do
   resource :users, only: [:edit, :update]
 
   resources :users, only: [] do
-    resources :posts, only: [:index], module: :users
-    resources :comments, only: [:index], module: :users
+    scope module: :users do
+      resources :posts, only: [:index]
+      resources :comments, only: [:index]
+
+      namespace :bookmarks do
+        resources :posts, only: [:index]
+        resources :comments, only: [:index]
+      end
+    end
+
     resources :votes, only: [:index]
-    resources :bookmarks, only: [:index]
   end
 
   resources :communities, only: [:show, :edit, :update] do

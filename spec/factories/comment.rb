@@ -55,6 +55,16 @@ FactoryBot.define do
       end
     end
 
+    factory :comment_with_bookmark do
+      transient do
+        bookmarked_by { create(:user) }
+      end
+
+      after(:create) do |comment, evaluator|
+        create(:bookmark, bookmarkable: comment, user: evaluator.bookmarked_by)
+      end
+    end
+
     factory :not_moderated_comment, traits: [:not_moderated]
     factory :moderated_comment, traits: [:moderated]
     factory :not_removed_comment, traits: [:not_removed]
