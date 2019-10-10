@@ -197,7 +197,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    recaptcha (5.1.1)
+    recaptcha (5.2.1)
       json
     redcarpet (3.5.0)
     regexp_parser (1.6.0)
@@ -320,7 +320,7 @@ DEPENDENCIES
   rails (~> 5.2.3)
   rails-controller-testing
   rails-i18n (~> 5.1)
-  recaptcha (~> 5.1)
+  recaptcha (~> 5.2)
   redcarpet (~> 3.5)
   rspec-rails
   sass-rails (~> 6.0)
