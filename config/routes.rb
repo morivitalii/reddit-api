@@ -8,18 +8,29 @@ Rails.application.routes.draw do
   resource :sign_out, only: [:destroy], controller: :sign_out
   resource :users, only: [:edit, :update]
 
-  resources :users, only: [] do
-    scope module: :users do
+  resources :users, module: :users, only: [] do
+    resources :posts, only: [:index]
+    resources :comments, only: [:index]
+
+    namespace :bookmarks do
+      resources :posts, only: [:index]
+      resources :comments, only: [:index]
+    end
+
+    namespace :votes do
       resources :posts, only: [:index]
       resources :comments, only: [:index]
 
-      namespace :bookmarks do
+      namespace :ups do
+        resources :posts, only: [:index]
+        resources :comments, only: [:index]
+      end
+
+      namespace :downs do
         resources :posts, only: [:index]
         resources :comments, only: [:index]
       end
     end
-
-    resources :votes, only: [:index]
   end
 
   resources :communities, only: [:show, :edit, :update] do

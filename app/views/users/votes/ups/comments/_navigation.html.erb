@@ -1,0 +1,24 @@
+<%= render("users/navigation", user: user, title: t("users.navigation.votes")) do %>
+  <li class="nav-item dropdown">
+    <a class="second-header__votable-types-link nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= t("users.votes.navigation.votable_types.comments") %>
+    </a>
+
+    <div class="dropdown-menu">
+      <%= link_to(t("users.votes.navigation.votable_types.posts"), user_votes_posts_path(user), class: "dropdown-item") %>
+      <%= link_to(t("users.votes.navigation.votable_types.comments"), user_votes_comments_path(user), class: "dropdown-item") %>
+    </div>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="second-header__vote-types-link nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= t("users.votes.navigation.vote_types.ups") %>
+    </a>
+
+    <div class="dropdown-menu">
+      <%= link_to(t("users.votes.navigation.vote_types.ups_and_downs"), user_votes_comments_path(user), class: "dropdown-item") %>
+      <%= link_to(t("users.votes.navigation.vote_types.ups"), user_votes_ups_comments_path(user), class: "dropdown-item") %>
+      <%= link_to(t("users.votes.navigation.vote_types.downs"), user_votes_downs_comments_path(user), class: "dropdown-item") %>
+    </div>
+  </li>
+<% end %>

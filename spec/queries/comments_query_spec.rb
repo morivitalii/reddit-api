@@ -82,4 +82,42 @@ RSpec.describe CommentsQuery do
       expect(result).to match_array(comments_bookmarked_by_user)
     end
   end
+
+  describe ".voted_by_user" do
+    it "returns comments that voted by given user" do
+      user = create(:user)
+      comments_voted_by_user = create_pair(:comment_with_vote, voted_by: user)
+      _other_voted_comments = create_pair(:comment_with_vote)
+
+      result = described_class.new.voted_by_user(user)
+
+      expect(result).to match_array(comments_voted_by_user)
+    end
+  end
+
+  describe ".up_voted_by_user" do
+    it "returns comments that up voted by given user" do
+      user = create(:user)
+      comments_up_voted_by_user = create_pair(:comment_with_up_vote, voted_by: user)
+      _comments_down_voted_by_user = create_pair(:comment_with_down_vote, voted_by: user)
+      _other_voted_comments = create_pair(:comment_with_vote)
+
+      result = described_class.new.up_voted_by_user(user)
+
+      expect(result).to match_array(comments_up_voted_by_user)
+    end
+  end
+
+  describe ".down_voted_by_user" do
+    it "returns comments that down voted by given user" do
+      user = create(:user)
+      comments_down_voted_by_user = create_pair(:comment_with_down_vote, voted_by: user)
+      _comments_up_voted_by_user = create_pair(:comment_with_up_vote, voted_by: user)
+      _other_voted_comments = create_pair(:comment_with_vote)
+
+      result = described_class.new.down_voted_by_user(user)
+
+      expect(result).to match_array(comments_down_voted_by_user)
+    end
+  end
 end

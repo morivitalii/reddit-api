@@ -13,8 +13,8 @@
         <%= link_to(t(".bookmarks"), user_bookmarks_posts_path(user), class: 'dropdown-item') %>
         <% end %>
 
-        <% if VotePolicy.new(pundit_user, user).index? %>
-          <%= link_to(t(".votes"), user_votes_path(user), class: 'dropdown-item') %>
+        <% if User::Vote::PostPolicy.new(pundit_user, user).index? %>
+          <%= link_to(t(".votes"), user_votes_posts_path(user), class: 'dropdown-item') %>
         <% end %>
       </div>
     </li>

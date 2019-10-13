@@ -11,7 +11,8 @@ class User < ApplicationRecord
   has_many :comments, dependent: :restrict_with_error
   # Specify class name explicitly because policies class names
   has_many :bookmarks, dependent: :destroy, class_name: "::Bookmark"
-  has_many :votes, dependent: :destroy
+  # Specify class name explicitly because policies class names
+  has_many :votes, dependent: :destroy, class_name: "::Vote"
   has_many :reports, dependent: :destroy
   has_many :rate_limits, dependent: :destroy
 

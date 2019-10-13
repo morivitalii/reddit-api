@@ -85,6 +85,36 @@ FactoryBot.define do
       end
     end
 
+    factory :post_with_vote do
+      transient do
+        voted_by { create(:user) }
+      end
+
+      after(:create) do |post, evaluator|
+        create(:vote, votable: post, user: evaluator.voted_by)
+      end
+    end
+
+    factory :post_with_up_vote do
+      transient do
+        voted_by { create(:user) }
+      end
+
+      after(:create) do |post, evaluator|
+        create(:vote, votable: post, user: evaluator.voted_by, vote_type: :up)
+      end
+    end
+
+    factory :post_with_down_vote do
+      transient do
+        voted_by { create(:user) }
+      end
+
+      after(:create) do |post, evaluator|
+        create(:vote, votable: post, user: evaluator.voted_by, vote_type: :down)
+      end
+    end
+
     factory :not_moderated_post, traits: [:not_moderated]
     factory :moderated_post, traits: [:moderated]
     factory :not_removed_post, traits: [:not_removed]

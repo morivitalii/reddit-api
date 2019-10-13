@@ -186,6 +186,9 @@ ru:
       comments: Комментарии
       bookmarks: Закладки
       votes: Голоса
+    edit:
+      meta_title: Настройки
+      title: Настройки
     posts:
       index:
         meta_title: "%{username}: Посты"
@@ -203,9 +206,47 @@ ru:
           meta_title: "%{username}: Закладки комментариев"
           posts: Посты
           comments: Комментарии
-    edit:
-      meta_title: Настройки
-      title: Настройки
+    votes:
+      navigation:
+        votable_types:
+          posts: Посты
+          comments: Комментарии
+        vote_types:
+          ups_and_downs: За и против
+          ups: За
+          downs: Против
+      posts:
+        index:
+          meta_title: "%{username}: Голоса за и против постов"
+          posts: Посты
+          comments: Комментарии
+      comments:
+        index:
+          meta_title: "%{username}: Голоса за и против комментариев"
+          posts: Посты
+          comments: Комментарии
+      ups:
+        posts:
+          index:
+            meta_title: "%{username}: Голоса за посты"
+            posts: Посты
+            comments: Комментарии
+        comments:
+          index:
+            meta_title: "%{username}: Голоса за комментарии"
+            posts: Посты
+            comments: Комментарии
+      downs:
+        posts:
+          index:
+            meta_title: "%{username}: Голоса против постов"
+            posts: Посты
+            comments: Комментарии
+        comments:
+          index:
+            meta_title: "%{username}: Голоса против комментариев"
+            posts: Посты
+            comments: Комментарии
   communities:
     navigation:
       sorts:
@@ -272,17 +313,6 @@ ru:
       title: Добавить правило
     edit:
       title: Изменить правило
-  votes:
-    index:
-      meta_title: "%{username}: Голоса"
-    navigation:
-      votable_types:
-        posts: Посты
-        comments: Комментарии
-      vote_types:
-        all: За и против
-        ups: За
-        downs: Против
   reports:
     index:
       title: Жалобы

@@ -24,6 +24,18 @@ class PostsQuery < ApplicationQuery
   end
 
   def bookmarked_by_user(user)
-    relation.joins(:bookmarks).where(bookmarks: { user: user }).order("bookmarks.id desc")
+    relation.joins(:bookmarks).where(bookmarks: {user: user}).order("bookmarks.id desc")
+  end
+
+  def voted_by_user(user)
+    relation.joins(:votes).where(votes: {user: user}).order("votes.id desc")
+  end
+
+  def up_voted_by_user(user)
+    relation.joins(:votes).where(votes: {user: user, vote_type: :up}).order("votes.id desc")
+  end
+
+  def down_voted_by_user(user)
+    relation.joins(:votes).where(votes: {user: user, vote_type: :down}).order("votes.id desc")
   end
 end
