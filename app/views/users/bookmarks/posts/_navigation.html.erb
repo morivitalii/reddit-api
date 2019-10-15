@@ -1,12 +1,12 @@
 <%= render("users/navigation", user: user, title: t("users.navigation.bookmarks")) do %>
   <li class="nav-item dropdown">
     <a class="second-header__bookmarkable-types-link nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= t("users.bookmarks.posts.index.posts") %>
+      <%= t("users.bookmarks.navigation.posts") %>
     </a>
 
     <div class="dropdown-menu">
-      <%= link_to(t("users.bookmarks.posts.index.posts"), user_bookmarks_posts_path(user), class: 'dropdown-item') %>
-      <%= link_to(t("users.bookmarks.posts.index.comments"), user_bookmarks_comments_path(user), class: 'dropdown-item') %>
+      <%= link_to(t("users.bookmarks.navigation.posts"), user_bookmarks_posts_path(user), class: 'dropdown-item') %>
+      <%= link_to(t("users.bookmarks.navigation.comments"), user_bookmarks_comments_path(user), class: 'dropdown-item') %>
     </div>
   </li>
 <% end %>

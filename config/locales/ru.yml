@@ -196,57 +196,42 @@ ru:
       index:
         meta_title: "%{username}: Комментарии"
     bookmarks:
+      navigation:
+        posts: Посты
+        comments: Комментарии
       posts:
         index:
           meta_title: "%{username}: Закладки постов"
-          posts: Посты
-          comments: Комментарии
       comments:
         index:
           meta_title: "%{username}: Закладки комментариев"
-          posts: Посты
-          comments: Комментарии
     votes:
       navigation:
-        votable_types:
-          posts: Посты
-          comments: Комментарии
-        vote_types:
-          ups_and_downs: За и против
-          ups: За
-          downs: Против
+        posts: Посты
+        comments: Комментарии
+        ups_and_downs: За и против
+        ups: За
+        downs: Против
       posts:
         index:
           meta_title: "%{username}: Голоса за и против постов"
-          posts: Посты
-          comments: Комментарии
       comments:
         index:
           meta_title: "%{username}: Голоса за и против комментариев"
-          posts: Посты
-          comments: Комментарии
       ups:
         posts:
           index:
             meta_title: "%{username}: Голоса за посты"
-            posts: Посты
-            comments: Комментарии
         comments:
           index:
             meta_title: "%{username}: Голоса за комментарии"
-            posts: Посты
-            comments: Комментарии
       downs:
         posts:
           index:
             meta_title: "%{username}: Голоса против постов"
-            posts: Посты
-            comments: Комментарии
         comments:
           index:
             meta_title: "%{username}: Голоса против комментариев"
-            posts: Посты
-            comments: Комментарии
   communities:
     navigation:
       sorts:
@@ -264,20 +249,26 @@ ru:
       title: Настройки
     show:
       meta_title: "%{community_title}"
-  mod_queues:
-    navigation:
-      new: Новое
-      reports: Жалобы
-      posts: Посты
-      comments: Комментарии
-    new_posts_index:
-      meta_title: "%{community_title}: Новые посты"
-    new_comments_index:
-      meta_title: "%{community_title}: Новые комментарии"
-    reported_posts_index:
-      meta_title: "%{community_title}: Жалобы на посты"
-    reported_comments_index:
-      meta_title: "%{community_title}: Жалобы на комментарии"
+    mod_queues:
+      navigation:
+        new: Новое
+        reports: Жалобы
+        posts: Посты
+        comments: Комментарии
+      new:
+        posts:
+          index:
+            meta_title: "%{community_title}: Новые посты"
+        comments:
+          index:
+            meta_title: "%{community_title}: Новые комментарии"
+      reports:
+        posts:
+          index:
+            meta_title: "%{community_title}: Жалобы на посты"
+        comments:
+          index:
+            meta_title: "%{community_title}: Жалобы на комментарии"
   bans:
     index:
       meta_title: "%{community_title}: Баны"
