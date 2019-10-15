@@ -45,12 +45,23 @@ Rails.application.routes.draw do
       get "/new/image", action: :new_image, on: :collection
     end
 
-    resources :mod_queues, only: [] do
-      get :new_posts, action: :new_posts_index, on: :collection
-      get :new_comments, action: :new_comments_index, on: :collection
-      get :reported_posts, action: :reported_posts_index, on: :collection
-      get :reported_comments, action: :reported_comments_index, on: :collection
+    namespace :mod_queues, module: "communities/mod_queues" do
+      namespace :new do
+        resources :posts, only: [:index]
+        resources :comments, only: [:index]
+      end
+
+      namespace :reports do
+        resources :posts, only: [:index]
+        resources :comments, only: [:index]
+      end
     end
+    # resources :mod_queues, only: [] do
+    #   get :new_posts, action: :new_posts_index, on: :collection
+    #   get :new_comments, action: :new_comments_index, on: :collection
+    #   get :reported_posts, action: :reported_posts_index, on: :collection
+    #   get :reported_comments, action: :reported_comments_index, on: :collection
+    # end
   end
 
   resources :posts, only: [:show, :edit, :update, :destroy] do

@@ -1,0 +1,12 @@
+<%= render("communities/mod_queues/navigation", community: community, title: t("communities.mod_queues.navigation.new")) do %>
+  <li class="nav-item dropdown">
+    <a class="second-header__new-types-link nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= t("communities.mod_queues.navigation.posts") %>
+    </a>
+
+    <div class="dropdown-menu">
+      <%= link_to(t("communities.mod_queues.navigation.posts"), community_mod_queues_new_posts_path(community), class: 'dropdown-item') %>
+      <%= link_to(t("communities.mod_queues.navigation.comments"), community_mod_queues_new_comments_path(community), class: 'dropdown-item') %>
+    </div>
+  </li>
+<% end %>
