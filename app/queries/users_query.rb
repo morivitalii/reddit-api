@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class UsersQuery < ApplicationQuery
   def with_forgot_password_token(token)
     relation.where(forgot_password_token: token)

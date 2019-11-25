@@ -1,0 +1,23 @@
+<% content_for(:meta_title, t(".meta_title")) %>
+
+<%= render("shared/sidebar", community: community) %>
+
+<div class="new-post-page col-12">
+  <%= render("new_navigation") %>
+
+  <%= simple_form_for(@form, url: community_posts_path(community), method: :post, remote: true) do |f| %>
+    <%= f.input :title, as: :text %>
+    <%= f.input :text, as: :text, input_html: { rows: 10 } %>
+    <%= f.input :explicit, as: :boolean %>
+    <%= f.input :spoiler, as: :boolean %>
+    <%= f.button :submit %>
+
+    <span class="new-post-page__formatting-help-link float-right mt-2" data-toggle="collapse" data-target="#formatting-help" aria-expanded="false">
+      <%= t('formatting_help') %>
+    </span>
+
+    <div class="new-post-page__formatting-help-description collapse" id="formatting-help">
+      <%= t('formatting_help_html') %>
+    </div>
+  <% end %>
+</div>

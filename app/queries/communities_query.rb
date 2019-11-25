@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CommunitiesQuery < ApplicationQuery
   def with_url(url)
     relation.where("lower(communities.url) = lower(?)", url)

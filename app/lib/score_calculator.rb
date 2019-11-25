@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ScoreCalculator
   class << self
     def new_score(created_at)

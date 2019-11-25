@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class SignInController < ApplicationController
   before_action -> { authorize(:sign_in) }
 

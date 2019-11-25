@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe SignInForm do
-  it { expect(described_class.new).to_not be_persisted }
-
   context "when user with given username does not exist" do
     it "is invalid" do
       form = build_sign_in_form

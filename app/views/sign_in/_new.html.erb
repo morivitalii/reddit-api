@@ -1,5 +1,5 @@
 <%= render("shared/modal", title: t(".title")) do %>
-  <%= simple_form_for(@form, url: sign_in_path, remote: true) do |f| %>
+  <%= simple_form_for(@form, url: sign_in_path, method: :post, remote: true) do |f| %>
     <%= f.input :username %>
     <%= f.input :password %>
 

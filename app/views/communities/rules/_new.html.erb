@@ -1,0 +1,8 @@
+<%= render("shared/modal", title: t(".title")) do %>
+  <%= simple_form_for(@form, url: community_rules_path(community), method: :post, remote: true) do |f| %>
+    <%= f.input :title %>
+    <%= f.input :description, as: :text %>
+
+    <%= f.button :submit %>
+  <% end %>
+<% end %>

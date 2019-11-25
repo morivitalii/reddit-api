@@ -53,24 +53,24 @@ RSpec.describe Vote do
 
   shared_examples "votable scores update" do
     context "on create" do
-      it "calls .recalculate_scores! on votable" do
+      it "calls .update_scores! on votable" do
         vote = build(:vote, votable: votable)
-        allow(votable).to receive(:recalculate_scores!)
+        allow(votable).to receive(:update_scores!)
 
         vote.save!
 
-        expect(votable).to have_received(:recalculate_scores!).once
+        expect(votable).to have_received(:update_scores!).once
       end
     end
 
     context "on destroy" do
-      it "calls .recalculate_scores! on votable" do
+      it "calls .update_scores! on votable" do
         vote = create(:vote, votable: votable)
-        allow(votable).to receive(:recalculate_scores!)
+        allow(votable).to receive(:update_scores!)
 
         vote.destroy!
 
-        expect(votable).to have_received(:recalculate_scores!).once
+        expect(votable).to have_received(:update_scores!).once
       end
     end
   end

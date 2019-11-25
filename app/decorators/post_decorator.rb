@@ -1,10 +1,8 @@
-# frozen_string_literal: true
-
 class PostDecorator < ApplicationDecorator
   def comments_link
     h.link_to(
       comments_count,
-      h.post_path(model),
+      h.community_post_path(model.community, model),
       class: "post__comments-link"
     )
   end
@@ -17,7 +15,7 @@ class PostDecorator < ApplicationDecorator
     comments_count = model.comments_count
     comments_count_formatted = h.number_to_human(comments_count, separator: ".", strip_insignificant_zeros: true, units: {thousand: "k"})
 
-    h.t("posts.post.comments_count", count: comments_count, count_formatted: comments_count_formatted)
+    h.t("communities.posts.post.comments_count", count: comments_count, count_formatted: comments_count_formatted)
   end
 
   def created_at
@@ -27,7 +25,7 @@ class PostDecorator < ApplicationDecorator
   def edited_at
     edited_at = h.datetime_ago_tag(model.edited_at)
 
-    h.t("posts.post.edited_at_html", edited_at: edited_at)
+    h.t("communities.posts.post.edited_at_html", edited_at: edited_at)
   end
 
   def url_title
@@ -39,8 +37,7 @@ class PostDecorator < ApplicationDecorator
 
     h.link_to(
       h.fa_icon("arrow-up"),
-      h.post_votes_path(model),
-      data: {params: up_voted ? "" : "create_vote_form[type]=up"},
+      h.community_post_vote_up_path(model.community, model),
       remote: true,
       method: up_voted ? :delete : :post,
       class: up_voted ? "post__up-vote-link post__up-vote-link_up-voted" : "post__up-vote-link"
@@ -58,8 +55,7 @@ class PostDecorator < ApplicationDecorator
 
     h.link_to(
       h.fa_icon("arrow-down"),
-      h.post_votes_path(model),
-      data: {params: down_voted ? "" : "create_vote_form[type]=down"},
+      h.community_post_vote_down_path(model.community, model),
       remote: true,
       method: down_voted ? :delete : :post,
       class: down_voted ? "post__down-vote-link post__down-vote-link_down-voted" : "post__down-vote-link"
@@ -73,16 +69,16 @@ class PostDecorator < ApplicationDecorator
       approved_by_user = model.approved_by.username
       approved_at = h.l(model.approved_at)
 
-      tooltip_message = h.t("posts.post.approved_tooltip", username: approved_by_user, approved_at: approved_at)
+      tooltip_message = h.t("communities.posts.post.approved_tooltip", username: approved_by_user, approved_at: approved_at)
     else
-      tooltip_message = h.t("posts.post.approve_tooltip")
+      tooltip_message = h.t("communities.posts.post.approve_tooltip")
     end
 
     h.link_to(
       h.fa_icon("check"),
-      h.approve_post_path(model),
+      h.community_post_approve_path(model.community, model),
       remote: true,
-      method: :post,
+      method: :put,
       class: approved ? "post__approve-link post__approve-link_approved" : "post__approve-link",
       data: {toggle: :tooltip},
       title: tooltip_message
@@ -94,11 +90,11 @@ class PostDecorator < ApplicationDecorator
 
     h.link_to(
       bookmarked ? h.fa_icon("bookmark") : h.fa_icon("bookmark-o"),
-      h.post_bookmarks_path(model),
+      h.community_post_bookmarks_path(model.community, model),
       remote: true,
       method: bookmarked ? :delete : :post,
       class: "post__bookmark-link",
-      title: bookmarked ? h.t("posts.post.delete_bookmark") : h.t("posts.post.bookmark"),
+      title: bookmarked ? h.t("communities.posts.post.delete_bookmark") : h.t("communities.posts.post.bookmark"),
       data: {toggle: :tooltip}
     )
   end
@@ -111,14 +107,14 @@ class PostDecorator < ApplicationDecorator
       reason = model.removed_reason
       removed_at = h.l(model.removed_at)
 
-      link_tooltip_message = h.t("posts.post.removed_tooltip", username: username, removed_at: removed_at, reason: reason)
+      link_tooltip_message = h.t("communities.posts.post.removed_tooltip", username: username, removed_at: removed_at, reason: reason)
     else
-      link_tooltip_message = h.t("posts.post.remove_tooltip")
+      link_tooltip_message = h.t("communities.posts.post.remove_tooltip")
     end
 
     h.link_to(
       h.fa_icon("trash"),
-      h.remove_post_path(model),
+      h.edit_community_post_remove_path(model.community, model),
       remote: true,
       class: removed ? "post__remove-link post__remove-link_removed" : "post__remove-link",
       data: {toggle: :tooltip},
@@ -133,13 +129,13 @@ class PostDecorator < ApplicationDecorator
 
     link_to_user_profile = h.link_to(removed_by.username, h.user_posts_path(removed_by))
 
-    h.t("posts.post.removed_message_html", link_to_user_profile: link_to_user_profile, removed_at: removed_at, reason: reason)
+    h.t("communities.posts.post.removed_message_html", link_to_user_profile: link_to_user_profile, removed_at: removed_at, reason: reason)
   end
 
   def edit_link
     h.link_to(
-      h.t("posts.post.edit"),
-      h.edit_post_path(model),
+      h.t("communities.posts.post.edit"),
+      h.edit_community_post_path(model.community, model),
       class: "post__edit-link dropdown-item"
     )
   end
@@ -148,11 +144,10 @@ class PostDecorator < ApplicationDecorator
     spoiler = model.spoiler?
 
     h.link_to(
-      spoiler ? h.fa_icon("check-square-o", text: h.t("posts.post.mark_spoiler")) : h.fa_icon("square-o", text: h.t("posts.post.mark_spoiler")),
-      h.post_path(model),
-      data: {params: "update_post_form[spoiler]=#{!spoiler}"},
+      spoiler ? h.fa_icon("check-square-o", text: h.t("communities.posts.post.mark_spoiler")) : h.fa_icon("square-o", text: h.t("communities.posts.post.mark_spoiler")),
+      h.community_post_spoiler_path(model.community, model),
       remote: true,
-      method: :put,
+      method: spoiler ? :delete : :post,
       class: "post__spoiler-link dropdown-item"
     )
   end
@@ -161,19 +156,18 @@ class PostDecorator < ApplicationDecorator
     explicit = model.explicit?
 
     h.link_to(
-      explicit ? h.fa_icon("check-square-o", text: h.t("posts.post.mark_explicit")) : h.fa_icon("square-o", text: h.t("posts.post.mark_explicit")),
-      h.post_path(model),
-      data: {params: "update_post_form[explicit]=#{!explicit}"},
+      explicit ? h.fa_icon("check-square-o", text: h.t("communities.posts.post.mark_explicit")) : h.fa_icon("square-o", text: h.t("communities.posts.post.mark_explicit")),
+      h.community_post_explicit_path(model.community, model),
       remote: true,
-      method: :put,
+      method: explicit ? :delete : :post,
       class: "post__explicit-link dropdown-item"
     )
   end
 
   def report_link
     h.link_to(
-      h.t("posts.post.report"),
-      h.new_post_report_path(model),
+      h.t("communities.posts.post.report"),
+      h.new_community_post_report_path(model.community, model),
       remote: true,
       class: "post__report-link dropdown-item"
     )
@@ -181,8 +175,8 @@ class PostDecorator < ApplicationDecorator
 
   def reports_link
     h.link_to(
-      h.t("posts.post.reports"),
-      h.post_reports_path(model),
+      h.t("communities.posts.post.reports"),
+      h.community_post_reports_path(model.community, model),
       remote: true,
       class: "post__reports-link dropdown-item"
     )
@@ -192,11 +186,10 @@ class PostDecorator < ApplicationDecorator
     ignore_reports = model.ignore_reports?
 
     h.link_to(
-      ignore_reports ? h.fa_icon("check-square-o", text: h.t("posts.post.ignore_reports")) : h.fa_icon("square-o", text: h.t("posts.post.ignore_reports")),
-      h.post_path(model),
-      data: {params: "update_post_form[ignore_reports]=#{!ignore_reports}"},
+      ignore_reports ? h.fa_icon("check-square-o", text: h.t("communities.posts.post.ignore_reports")) : h.fa_icon("square-o", text: h.t("communities.posts.post.ignore_reports")),
+      h.community_post_reports_ignore_path(model.community, model),
       remote: true,
-      method: :put,
+      method: ignore_reports ? :delete : :post,
       class: "post__ignore-reports-link dropdown-item"
     )
   end

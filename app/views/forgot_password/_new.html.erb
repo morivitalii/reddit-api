@@ -1,5 +1,5 @@
 <%= render 'shared/modal', title: t('.title') do %>
-  <%= simple_form_for(@form, url: forgot_password_path, remote: true) do |f| %>
+  <%= simple_form_for(@form, url: forgot_password_path, method: :post, remote: true) do |f| %>
     <%= f.input :email, as: :email %>
 
     <div class="form-group">

@@ -1,0 +1,11 @@
+<%= render 'shared/modal', title: t('.title') do %>
+  <%= simple_form_for(@form, url: community_post_remove_path(post.community, post), method: :put, remote: true) do |f| %>
+    <% if Communities::Posts::RemovePolicy.new(pundit_user, post).update_reason? %>
+      <%= f.input :reason, as: :text %>
+    <% else %>
+      <%= t('communities.posts.remove.edit.confirmation') %>
+    <% end %>
+
+    <%= f.button :submit, t('communities.posts.remove.edit.submit') %>
+  <% end %>
+<% end %>

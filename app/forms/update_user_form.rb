@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class UpdateUserForm
   include ActiveModel::Model
 
@@ -15,10 +13,6 @@ class UpdateUserForm
     errors.merge!(invalid.record.errors)
 
     false
-  end
-
-  def persisted?
-    true
   end
 
   private

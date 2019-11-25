@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 class Users::CommentsController < ApplicationController
   before_action :set_user
-  before_action -> { authorize(@user, policy_class: User::CommentPolicy) }
+  before_action -> { authorize(@user, policy_class: Users::CommentsPolicy) }
   decorates_assigned :user, :comments
 
   def index
@@ -17,5 +15,9 @@ class Users::CommentsController < ApplicationController
 
   def query
     CommentsQuery.new(@user.comments).not_removed.includes(:community, :user, :post)
+  end
+
+  def pundit_user
+    Context.new(current_user, nil)
   end
 end

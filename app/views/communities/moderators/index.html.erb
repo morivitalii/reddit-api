@@ -1,0 +1,31 @@
+<% content_for(:meta_title, t(".meta_title", community_title: community.title)) %>
+
+<%= render("shared/sidebar", community: community) %>
+
+<div class="moderators row">
+  <div class="moderators__header col-12">
+    <div class="moderators__title">
+      <%= link_to(t(".title"), community_moderators_path(community)) %>
+    </div>
+
+    <% if Communities::ModeratorsPolicy.new(pundit_user, nil).create? %>
+      <%= link_to(t(".create"), new_community_moderator_path(community), remote: true, class: "moderators__create-link") %>
+    <% end %>
+  </div>
+
+  <div class="col-12">
+    <%= simple_form_for(:search_moderator_form, method: :get, wrapper: :inline_form, html: { class: "moderators__search-form form-inline" }) do |f| %>
+      <%= f.input :username, as: :string, label: false, input_html: { value: search_param } %>
+      <%= f.button :submit, t(".search") %>
+      <%= link_to(t(".reset"), community_moderators_path(community), class: "btn btn-primary") %>
+    <% end %>
+  </div>
+
+  <div class="col-12">
+    <div class="moderators__items col-12">
+      <%= render(moderators) %>
+    </div>
+  </div>
+</div>
+
+<%= render("shared/pagination", pagination: @pagination) %>

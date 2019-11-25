@@ -2,5 +2,5 @@
 
 <%= render("navigation") %>
 <%= render("shared/sidebar", community: community) %>
-<%= render(posts) %>
+<%= render(partial: "communities/posts/post", collection: posts) %>
 <%= render("shared/pagination", pagination: @pagination) %>

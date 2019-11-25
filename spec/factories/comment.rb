@@ -45,6 +45,14 @@ FactoryBot.define do
       removed_by { nil }
     end
 
+    trait :ignore_reports do
+      ignore_reports { true }
+    end
+
+    trait :not_ignore_reports do
+      ignore_reports { false }
+    end
+
     factory :comment_with_reports do
       transient do
         reports_count { 2 }
@@ -72,6 +80,8 @@ FactoryBot.define do
 
       after(:create) do |comment, evaluator|
         create(:vote, votable: comment, user: evaluator.voted_by)
+
+        comment.update_attributes!({up_votes_count: 1})
       end
     end
 
@@ -82,6 +92,8 @@ FactoryBot.define do
 
       after(:create) do |comment, evaluator|
         create(:vote, votable: comment, user: evaluator.voted_by, vote_type: :up)
+
+        comment.update_attributes!({up_votes_count: 1})
       end
     end
 
@@ -92,9 +104,13 @@ FactoryBot.define do
 
       after(:create) do |comment, evaluator|
         create(:vote, votable: comment, user: evaluator.voted_by, vote_type: :down)
+
+        comment.update_attributes!({down_votes_count: 1})
       end
     end
 
+    factory :ignore_reports_comment, traits: [:ignore_reports]
+    factory :not_ignore_reports_comment, traits: [:not_ignore_reports]
     factory :not_moderated_comment, traits: [:not_moderated]
     factory :moderated_comment, traits: [:moderated]
     factory :not_removed_comment, traits: [:not_removed]

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class SignUpForm
   include ActiveModel::Model
 
@@ -15,10 +13,6 @@ class SignUpForm
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
 
-    false
-  end
-
-  def persisted?
     false
   end
 end

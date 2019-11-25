@@ -65,6 +65,30 @@ FactoryBot.define do
       association :removed_by, factory: :user
     end
 
+    trait :explicit do
+      explicit { true }
+    end
+
+    trait :not_explicit do
+      explicit { false }
+    end
+
+    trait :spoiler do
+      spoiler { true }
+    end
+
+    trait :not_spoiler do
+      spoiler { false }
+    end
+
+    trait :ignore_reports do
+      ignore_reports { true }
+    end
+
+    trait :not_ignore_reports do
+      ignore_reports { false }
+    end
+
     factory :post_with_reports do
       transient do
         reports_count { 2 }
@@ -91,7 +115,9 @@ FactoryBot.define do
       end
 
       after(:create) do |post, evaluator|
-        create(:vote, votable: post, user: evaluator.voted_by)
+        create(:vote, votable: post, user: evaluator.voted_by, vote_type: :up)
+
+        post.update_attributes!({up_votes_count: 1})
       end
     end
 
@@ -102,6 +128,8 @@ FactoryBot.define do
 
       after(:create) do |post, evaluator|
         create(:vote, votable: post, user: evaluator.voted_by, vote_type: :up)
+
+        post.update_attributes!({up_votes_count: 1})
       end
     end
 
@@ -112,9 +140,17 @@ FactoryBot.define do
 
       after(:create) do |post, evaluator|
         create(:vote, votable: post, user: evaluator.voted_by, vote_type: :down)
+
+        post.update_attributes!({down_votes_count: 1})
       end
     end
 
+    factory :explicit_post, traits: [:explicit]
+    factory :not_explicit_post, traits: [:explicit]
+    factory :spoiler_post, traits: [:spoiler]
+    factory :not_spoiler_post, traits: [:spoiler]
+    factory :ignore_reports_post, traits: [:ignore_reports]
+    factory :not_ignore_reports_post, traits: [:not_ignore_reports]
     factory :not_moderated_post, traits: [:not_moderated]
     factory :moderated_post, traits: [:moderated]
     factory :not_removed_post, traits: [:not_removed]

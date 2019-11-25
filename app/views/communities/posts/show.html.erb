@@ -1,0 +1,142 @@
+<% content_for(:meta_title, post.title) %>
+
+<%= render("shared/sidebar", community: post.community) %>
+
+<div class="post-page col-12">
+  <div class="row">
+    <div class="post__information col-12">
+      <%= link_to(post.user.username, user_posts_path(post.user)) %> <%= post.created_at %>
+
+      <% if post.edited? %>
+        <%= post.edited_at %>
+      <% end %>
+
+      <% if post.explicit? %>
+        <span class="post__explicit-label"><%= t("posts.post.explicit_label") %></span>
+      <% end %>
+
+      <% if post.spoiler? %>
+        <span class="post__spoiler-label"><%= t("posts.post.spoiler_label") %></span>
+      <% end %>
+    </div>
+
+    <div class="post__title col-12">
+      <%= post.title %>
+    </div>
+
+    <% if post.removed? %>
+      <div class="post__removed-content col-12">
+        <%= post.removed_message %>
+      </div>
+    <% elsif post.text? %>
+      <div class="post__text-content col-12">
+        <%= post.text_html.html_safe %>
+      </div>
+    <% elsif post.url? %>
+      <div class="post__link-content col-12">
+        <%= link_to(post.url_title, post.url, target: "_blank", rel: "nofollow") %>
+      </div>
+    <% elsif post.image.present? %>
+      <div class="post__image-content col-12">
+        <%= link_to(post.image_url(:original), target: "_blank") do %>
+          <%= image_tag(post.image_url(:desktop), class: "img-fluid", width: post.image_width, height: post.image_height) %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="post__actions col-12">
+      <span class="post__votes">
+        <%= post.up_vote_link %>
+        <%= post.score %>
+        <%= post.down_vote_link %>
+      </span>
+
+      <%= post.comments_count_text %>
+      <%= post.bookmark_link %>
+
+      <% if Communities::Posts::ApprovePolicy.new(pundit_user, post).update? %>
+        <%= post.approve_link %>
+      <% end %>
+
+      <% if Communities::Posts::RemovePolicy.new(pundit_user, post).edit? %>
+        <%= post.remove_link %>
+      <% end %>
+
+      <span class="dropdown">
+        <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <%= fa_icon("ellipsis-h") %>
+        </span>
+
+        <div class="dropdown-menu">
+          <% if Communities::Posts::ReportsPolicy.new(pundit_user, post).create? %>
+            <%= post.report_link %>
+          <% end %>
+
+          <% if Communities::Posts::ReportsPolicy.new(pundit_user, post).index? %>
+            <%= post.reports_link %>
+          <% end %>
+
+          <% if Communities::PostsPolicy.new(pundit_user, post).update? %>
+            <%= post.edit_link %>
+          <% end %>
+
+          <% if Communities::Posts::ExplicitPolicy.new(pundit_user, post).create? %>
+            <%= post.explicit_link %>
+          <% end %>
+
+          <% if Communities::Posts::SpoilerPolicy.new(pundit_user, post).create? %>
+            <%= post.spoiler_link %>
+          <% end %>
+
+          <% if Communities::Posts::Reports::IgnorePolicy.new(pundit_user, post).create? %>
+            <%= post.ignore_reports_link %>
+          <% end %>
+        </div>
+      </span>
+    </div>
+  </div>
+
+<!--  <#% if policy(Comment).create? %>-->
+    <div class="row">
+      <div class="post-page__comment-form col-12">
+<!--        <#%= simple_form_for(CreateComment.new, url: community_post_comments_path(post.community, post), method: :post, remote: true) do |f| %>-->
+<!--          <#%= f.input :text, as: :text, label: false, input_html: { rows: 5 } %>-->
+<!--          <#%= f.button :submit, t(".reply"), class: "btn-sm" %>-->
+
+<!--          <span class="post-page__formatting-help-link" data-toggle="collapse" data-target="#formatting-help" aria-expanded="false">-->
+<!--            <#%= t("formatting_help") %>-->
+<!--          </span>-->
+
+<!--          <div class="post-page__formatting-help-description collapse" id="formatting-help">-->
+<!--            <#%= t("formatting_help_html") %>-->
+<!--          </div>-->
+<!--        <#% end %>-->
+      </div>
+    </div>
+<!--  <#% end %>-->
+
+  <% if user_signed_out? %>
+    <div class="row">
+      <div class="post-page__sign-in-or-sign-up col-12">
+        <%= t(".sign_in_or_sign_up_html",
+              sign_in_link: link_to(t(".sign_in"), new_sign_in_path, remote: true, class: "post-page__sign-in-link"),
+              sign_up_link: link_to(t(".sign_up"), new_sign_up_path, remote: true, class: "post-page__sign-up-link")
+            ) %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="post-page__sorts-menu col-12">
+      <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <%= t(sort, scope: "posts.show.sorts") %>
+      </span>
+
+      <div class="dropdown-menu">
+        <% sorts.each do |sort| %>
+          <%= link_to(t(sort, scope: "posts.show.sorts"), community_post_path(post.community, post, sort: sort), class: "dropdown-item") %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

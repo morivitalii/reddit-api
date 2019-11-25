@@ -1,13 +1,11 @@
-# frozen_string_literal: true
-
 class ChangePasswordForm
   include ActiveModel::Model
 
   attr_accessor :token, :password
 
   validates :token, presence: true
-  validate :validate_token
   validates :password, presence: true
+  validate :validate_token
 
   def save
     return false if invalid?
@@ -22,10 +20,6 @@ class ChangePasswordForm
 
   def user
     @_user ||= UsersQuery.new.with_forgot_password_token(token).take!
-  end
-
-  def persisted?
-    true
   end
 
   private

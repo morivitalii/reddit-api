@@ -5,7 +5,7 @@
 <%= link_to(t('.title'), edit_community_path(community), class: "h5") %>
 
 <div class="edit-community-page col-12">
-  <%= simple_form_for(@form, url: community_path(community), remote: true) do |f| %>
+  <%= simple_form_for(@form, url: community_path(community), method: :put, remote: true) do |f| %>
     <%= f.input :title %>
     <%= f.input :description, as: :text %>
     <%= f.button :submit %>

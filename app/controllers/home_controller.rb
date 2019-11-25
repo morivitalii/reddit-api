@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class HomeController < ApplicationController
   before_action :set_community
   before_action -> { authorize(:home) }
@@ -10,10 +8,6 @@ class HomeController < ApplicationController
   end
 
   private
-
-  def pundit_user
-    Context.new(current_user, @community)
-  end
 
   def set_community
     @community = CommunitiesQuery.new.default.take!
@@ -51,5 +45,9 @@ class HomeController < ApplicationController
   def date_value
     # Time.now.advance does not accept string keys. wat?
     date.present? ? Time.now.advance("#{date}s".to_sym => -1) : nil
+  end
+
+  def pundit_user
+    Context.new(current_user, @community)
   end
 end

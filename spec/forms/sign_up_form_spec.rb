@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe SignUpForm do
-  it { expect(described_class.new).to_not be_persisted }
-
   describe ".save" do
     it "creates user" do
       form = build_sign_up_form

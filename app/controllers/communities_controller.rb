@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 class CommunitiesController < ApplicationController
   before_action :set_community
-  before_action -> { authorize(@community) }
+  before_action -> { authorize(@community, policy_class: CommunitiesPolicy) }
   decorates_assigned :community, :posts
 
   def show
@@ -12,11 +10,11 @@ class CommunitiesController < ApplicationController
   def edit
     attributes = @community.slice(:title, :description)
 
-    @form = UpdateCommunityForm.new(attributes)
+    @form = Communities::UpdateForm.new(attributes)
   end
 
   def update
-    @form = UpdateCommunityForm.new(update_params)
+    @form = Communities::UpdateForm.new(update_params)
 
     if @form.save
       head :no_content, location: edit_community_path(@community)
@@ -26,10 +24,6 @@ class CommunitiesController < ApplicationController
   end
 
   private
-
-  def pundit_user
-    Context.new(current_user, @community)
-  end
 
   def set_community
     @community = CommunitiesQuery.new.with_url(params[:id]).take!
@@ -41,7 +35,7 @@ class CommunitiesController < ApplicationController
   end
 
   def update_params
-    attributes = policy(@community).permitted_attributes_for_update
+    attributes = CommunitiesPolicy.new(pundit_user, @community).permitted_attributes_for_update
     params.require(:update_community_form).permit(attributes).merge(community: @community)
   end
 
@@ -72,5 +66,9 @@ class CommunitiesController < ApplicationController
   def date_value
     # Time.now.advance does not accept string keys. wat?
     date.present? ? Time.now.advance("#{date}s".to_sym => -1) : nil
+  end
+
+  def pundit_user
+    Context.new(current_user, @community)
   end
 end

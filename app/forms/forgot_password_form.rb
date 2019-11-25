@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ForgotPasswordForm
   include ActiveModel::Model
 
@@ -14,10 +12,6 @@ class ForgotPasswordForm
 
     # No matter if user with email exists or not, we always return successful result
     true
-  end
-
-  def persisted?
-    false
   end
 
   private

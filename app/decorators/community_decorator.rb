@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CommunityDecorator < ApplicationDecorator
   def followers_count
     followers_count_formatted = h.number_with_delimiter(model.followers_count)

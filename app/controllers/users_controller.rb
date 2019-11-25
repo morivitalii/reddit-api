@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 class UsersController < ApplicationController
   before_action :set_user
-  before_action -> { authorize(@user) }
+  before_action -> { authorize(@user, policy_class: UsersPolicy) }
   decorates_assigned :user
 
   def edit
@@ -28,7 +26,11 @@ class UsersController < ApplicationController
   end
 
   def update_params
-    attributes = policy(@user).permitted_attributes_for_update
+    attributes = UsersPolicy.new(pundit_user, @user).permitted_attributes_for_update
     params.require(:update_user_form).permit(attributes).merge(user: @user)
+  end
+
+  def pundit_user
+    Context.new(current_user, nil)
   end
 end

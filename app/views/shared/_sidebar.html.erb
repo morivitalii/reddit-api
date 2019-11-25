@@ -8,23 +8,23 @@
       </span>
 
       <div class="sidebar__item-header-menu dropdown-menu dropdown-menu-right">
-        <% if Community::ModQueue::New::PostPolicy.new(pundit_user, nil).index? %>
+        <% if Communities::ModQueues::New::PostsPolicy.new(pundit_user, nil).index? %>
           <%= link_to(t(".community_menu.mod_queue"), community_mod_queues_new_posts_path(community), class: "dropdown-item") %>
         <% end %>
 
-        <% if policy(Moderator).index? %>
+        <% if Communities::ModeratorsPolicy.new(pundit_user, nil).index? %>
           <%= link_to(t(".community_menu.moderators"), community_moderators_path(community), class: "dropdown-item") %>
         <% end %>
 
-        <% if policy(Ban).index? %>
+        <% if Communities::BansPolicy.new(pundit_user, nil).index? %>
           <%= link_to(t(".community_menu.bans"), community_bans_path(community), class: "dropdown-item") %>
         <% end %>
 
-        <% if policy(Rule).index? %>
+        <% if Communities::RulesPolicy.new(pundit_user, nil).index? %>
           <%= link_to(t(".community_menu.rules"), community_rules_path(community), class: "dropdown-item") %>
         <% end %>
 
-        <% if policy(community).update? %>
+        <% if CommunitiesPolicy.new(pundit_user, community).update? %>
           <%= link_to(t(".community_menu.settings"), edit_community_path(community), class: "dropdown-item") %>
         <% end %>
       </div>
@@ -45,10 +45,10 @@
     <% end %>
 
     <div class="sidebar__item-content col-12">
-      <% if policy(Follow).create? %>
-        <%= link_to(t('.follow'), community_follows_path(community), class: 'sidebar__community-follow-link btn btn-primary btn-block', remote: true, method: :post) %>
-      <% elsif policy(Follow).destroy? %>
-        <%= link_to(t('.unfollow'), community_follows_path(community), class: 'sidebar__community-follow-link btn btn-primary btn-block', remote: true, method: :delete) %>
+      <% if Communities::FollowsPolicy.new(pundit_user, nil).create? %>
+        <%= link_to(t('.follow'), community_follow_path(community), class: 'sidebar__community-follow-link btn btn-primary btn-block', remote: true, method: :post) %>
+      <% elsif Communities::FollowsPolicy.new(pundit_user, nil).destroy? %>
+        <%= link_to(t('.unfollow'), community_follow_path(community), class: 'sidebar__community-follow-link btn btn-primary btn-block', remote: true, method: :delete) %>
       <% end %>
 
       <% if user_signed_in? %>

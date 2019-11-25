@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class SignInForm
   include ActiveModel::Model
 
@@ -15,9 +13,5 @@ class SignInForm
 
   def user
     @_user ||= UsersQuery.new.with_username(username).take
-  end
-
-  def persisted?
-    false
   end
 end

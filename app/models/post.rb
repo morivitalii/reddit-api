@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Post < ApplicationRecord
   include Paginatable
   include Markdownable
@@ -80,7 +78,7 @@ class Post < ApplicationRecord
     removed_at.present?
   end
 
-  def recalculate_scores!
+  def update_scores!
     update!(
       new_score: ScoreCalculator.new_score(created_at),
       hot_score: ScoreCalculator.hot_score(up_votes_count, down_votes_count, created_at),
@@ -125,7 +123,7 @@ class Post < ApplicationRecord
 
   def author_has_permissions_to_approve?
     context = Context.new(user, community)
-    Pundit.policy(context, self).approve?
+    Communities::Posts::ApprovePolicy.new(context, self).update?
   end
 
   def editing?

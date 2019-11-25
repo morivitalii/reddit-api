@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CommentsQuery < ApplicationQuery
   def not_moderated
     relation.where(removed_at: nil, approved_at: nil)

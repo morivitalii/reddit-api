@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Cleanup::BansService do
-  subject { described_class }
-
   describe ".call" do
     it "deletes stale bans" do
       create_pair(:ban)

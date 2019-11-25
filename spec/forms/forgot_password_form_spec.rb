@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe ForgotPasswordForm, type: :form do
-  it { expect(described_class.new).to_not be_persisted }
-
   describe "validations" do
     subject { build_forgot_password_form }
 

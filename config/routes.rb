@@ -8,78 +8,94 @@ Rails.application.routes.draw do
   resource :sign_out, only: [:destroy], controller: :sign_out
   resource :users, only: [:edit, :update]
 
-  resources :users, module: :users, only: [] do
-    resources :posts, only: [:index]
-    resources :comments, only: [:index]
-
-    namespace :bookmarks do
-      resources :posts, only: [:index]
-      resources :comments, only: [:index]
-    end
-
-    namespace :votes do
+  resources :users, only: [] do
+    scope module: :users do
       resources :posts, only: [:index]
       resources :comments, only: [:index]
 
-      namespace :ups do
+      namespace :bookmarks do
         resources :posts, only: [:index]
         resources :comments, only: [:index]
       end
 
-      namespace :downs do
+      namespace :votes do
         resources :posts, only: [:index]
         resources :comments, only: [:index]
+
+        namespace :ups do
+          resources :posts, only: [:index]
+          resources :comments, only: [:index]
+        end
+
+        namespace :downs do
+          resources :posts, only: [:index]
+          resources :comments, only: [:index]
+        end
       end
     end
   end
 
   resources :communities, only: [:show, :edit, :update] do
-    resource :follows, only: [:create, :destroy]
-    resources :moderators, only: [:index, :new, :create, :destroy]
-    resources :rules, only: [:index, :new, :create, :edit, :update, :destroy]
-    resources :bans, only: [:index, :new, :create, :edit, :update, :destroy]
+    scope module: :communities do
+      resource :follow, only: [:create, :destroy], controller: :follow
+      resources :moderators, only: [:index, :new, :create, :destroy]
+      resources :rules, only: [:index, :new, :create, :edit, :update, :destroy]
+      resources :bans, only: [:index, :new, :create, :edit, :update, :destroy]
 
-    resources :posts, only: [:create] do
-      get "/new/text", action: :new_text, on: :collection
-      get "/new/link", action: :new_link, on: :collection
-      get "/new/image", action: :new_image, on: :collection
-    end
+      namespace :mod_queues do
+        namespace :new do
+          resources :posts, only: [:index]
+          resources :comments, only: [:index]
+        end
 
-    namespace :mod_queues, module: "communities/mod_queues" do
-      namespace :new do
-        resources :posts, only: [:index]
-        resources :comments, only: [:index]
+        namespace :reports do
+          resources :posts, only: [:index]
+          resources :comments, only: [:index]
+        end
       end
 
-      namespace :reports do
-        resources :posts, only: [:index]
-        resources :comments, only: [:index]
+      resources :posts, only: [:show, :create, :edit, :update] do
+        scope module: :posts do
+          get "/new/text", action: :new_text, on: :collection
+          get "/new/link", action: :new_link, on: :collection
+          get "/new/image", action: :new_image, on: :collection
+
+          resource :approve, only: [:update], controller: :approve
+          resource :remove, only: [:edit, :update], controller: :remove
+          resource :explicit, only: [:create, :destroy], controller: :explicit
+          resource :spoiler, only: [:create, :destroy], controller: :spoiler
+          resource :bookmarks, only: [:create, :destroy]
+          resources :reports, only: [:index, :new, :create]
+
+          namespace :reports do
+            resource :ignore, only: [:create, :destroy], controller: :ignore
+          end
+
+          namespace :vote do
+            resource :up, only: [:create, :destroy], controller: :up
+            resource :down, only: [:create, :destroy], controller: :down
+          end
+
+          resources :comments, only: [:show, :create, :edit, :update] do
+            scope module: :comments do
+              resource :approve, only: [:update], controller: :approve
+              resource :remove, only: [:edit, :update], controller: :remove
+              resource :bookmarks, only: [:create, :destroy]
+              resources :reports, only: [:index, :new, :create]
+
+              namespace :reports do
+                resource :ignore, only: [:create, :destroy], controller: :ignore
+              end
+
+              namespace :vote do
+                resource :up, only: [:create, :destroy], controller: :up
+                resource :down, only: [:create, :destroy], controller: :down
+              end
+            end
+          end
+        end
       end
     end
-    # resources :mod_queues, only: [] do
-    #   get :new_posts, action: :new_posts_index, on: :collection
-    #   get :new_comments, action: :new_comments_index, on: :collection
-    #   get :reported_posts, action: :reported_posts_index, on: :collection
-    #   get :reported_comments, action: :reported_comments_index, on: :collection
-    # end
-  end
-
-  resources :posts, only: [:show, :edit, :update, :destroy] do
-    post :approve, action: :approve, on: :member
-    get :remove, action: :remove, on: :member
-    resource :comments, only: [:create]
-    resource :votes, only: [:create, :destroy]
-    resource :bookmarks, only: [:create, :destroy]
-    resources :reports, only: [:index, :new, :create]
-  end
-
-  resources :comments, only: [:show, :edit, :update, :destroy] do
-    post :approve, action: :approve, on: :member
-    get :remove, action: :remove, on: :member
-    resource :comments, only: [:new, :create]
-    resource :votes, only: [:create, :destroy]
-    resource :bookmarks, only: [:create, :destroy]
-    resources :reports, only: [:index, :new, :create]
   end
 
   match "*path", via: :all, to: "page_not_found#show"

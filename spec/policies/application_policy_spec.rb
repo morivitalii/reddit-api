@@ -4,7 +4,7 @@ RSpec.describe ApplicationPolicy do
   subject { described_class }
 
   describe ".initialize" do
-    it "sets record instance variable" do
+    it "sets user and record instance variables" do
       user = instance_double(User)
       context = instance_double(Context, user: user, community: nil)
       record = double(:record, community: nil)
@@ -12,14 +12,6 @@ RSpec.describe ApplicationPolicy do
       policy = described_class.new(context, record)
 
       expect(policy.record).to eq(record)
-    end
-
-    it "sets user instance variable" do
-      user = instance_double(User)
-      context = instance_double(Context, user: user, community: nil)
-
-      policy = described_class.new(context, nil)
-
       expect(policy.user).to eq(user)
     end
 

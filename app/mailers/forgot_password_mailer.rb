@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ForgotPasswordMailer < ActionMailer::Base
   def forgot_password
     mail(

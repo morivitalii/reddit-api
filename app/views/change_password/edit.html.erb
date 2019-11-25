@@ -5,7 +5,7 @@
 <h5><%= t('.title') %></h5>
 
 <div class="change-password-page col-12">
-  <%= simple_form_for(@form, url: change_password_path, remote: true) do |f| %>
+  <%= simple_form_for(@form, url: change_password_path, method: :put, remote: true) do |f| %>
     <%= f.input :token, as: :hidden %>
     <%= f.input :password, as: :password %>
     <%= f.button :submit %>

@@ -195,12 +195,12 @@ RSpec.describe Comment do
     end
   end
 
-  describe ".recalculate_scores!" do
+  describe ".update_scores!" do
     it "updates comment scores" do
       comment = create(:comment)
       allow(comment).to receive(:update!)
 
-      comment.recalculate_scores!
+      comment.update_scores!
 
       expect(comment).to have_received(:update!).with(
         new_score: anything,

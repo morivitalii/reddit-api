@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe UpdateUserForm do
-  it { expect(described_class.new).to be_persisted }
-
   describe "validations" do
     context "when current password does not match" do
       it "is invalid" do

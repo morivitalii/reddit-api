@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 namespace :cleanup do |namespace|
   desc "Run all cleanup tasks"
   task all: :environment do

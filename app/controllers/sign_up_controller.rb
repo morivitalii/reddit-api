@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class SignUpController < ApplicationController
   before_action -> { authorize(:sign_up) }
 
@@ -23,12 +21,12 @@ class SignUpController < ApplicationController
 
   private
 
-  def pundit_user
-    Context.new(current_user, nil)
+  def create_params
+    attributes = SignUpPolicy.new(pundit_user, nil).permitted_attributes_for_create
+    params.require(:sign_up_form).permit(attributes)
   end
 
-  def create_params
-    attributes = policy(:sign_up).permitted_attributes_for_create
-    params.require(:sign_up_form).permit(attributes)
+  def pundit_user
+    Context.new(current_user, nil)
   end
 end

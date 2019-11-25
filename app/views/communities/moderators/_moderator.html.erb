@@ -1,0 +1,11 @@
+<div class="moderators__item row">
+  <div class="moderators__item-title col-12">
+    <%= link_to(moderator.username, user_posts_path(moderator.user)) %>
+
+    <div class="moderators__item-actions">
+      <% if Communities::ModeratorsPolicy.new(pundit_user, moderator).destroy? %>
+        <%= link_to(fa_icon('trash'), "#", class: 'moderators__item-delete-link', data: { url: community_moderator_path(moderator.community, moderator) }) %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -227,12 +227,12 @@ RSpec.describe Post do
     end
   end
 
-  describe ".recalculate_scores!" do
+  describe ".update_scores!" do
     it "updates post scores" do
       post = create(:post)
       allow(post).to receive(:update!)
 
-      post.recalculate_scores!
+      post.update_scores!
 
       expect(post).to have_received(:update!).with(
         new_score: anything,

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class BanDecorator < ApplicationDecorator
   def username
     model.user.username

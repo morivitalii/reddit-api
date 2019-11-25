@@ -1,6 +1,0 @@
-<%= render 'shared/modal', title: t('.title') do %>
-  <%= simple_form_for(@form, url: community_moderators_path(community), remote: true) do |f| %>
-    <%= f.input :username %>
-    <%= f.button :submit %>
-  <% end %>
-<% end %>

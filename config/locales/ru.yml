@@ -269,6 +269,56 @@ ru:
         comments:
           index:
             meta_title: "%{community_title}: Жалобы на комментарии"
+    posts:
+      show:
+        reply: Ответить
+        sign_in: Войдите
+        sign_up: зарегистрируйтесь
+        sign_in_or_sign_up_html: "%{sign_in_link} или %{sign_up_link} чтобы принять участие в обсуждении"
+        sorts:
+          best: Лучшее
+          top: Топ
+          new: Новое
+          old: Старое
+          controversy: Спорное
+      post:
+        posted_in: в
+        explicit_label: 18+
+        spoiler_label: Спойлер
+        edited_at_html: "(отредактировано %{edited_at})"
+        approved_tooltip: "Одобренно %{username} %{approved_at}"
+        approve_tooltip: Одобрить
+        bookmark: Добавить в закладки
+        delete_bookmark: Убрать из закладок
+        removed_tooltip: "Удалено %{username} %{removed_at} по причине \"%{reason}\""
+        remove_tooltip: Удалить
+        removed_message_html: 'Удалено %{link_to_user_profile} %{removed_at} по причине "%{reason}"'
+        edit: Редактировать
+        mark_explicit: 18+
+        mark_spoiler: Спойлер
+        report: Пожаловатся
+        reports: Жалобы
+        ignore_reports: Игнорировать жалобы
+        comments_count:
+          one: "%{count_formatted} комментарий"
+          few: "%{count_formatted} комментария"
+          many: "%{count_formatted} комментариев"
+          other: "%{count_formatted} комментариев"
+      new_navigation:
+        text: Текст
+        link: Ссылка
+        image: Изображение
+      new_text:
+        meta_title: Добавить текст
+      new_link:
+        meta_title: Добавить ссылку
+      new_image:
+        meta_title: Добавить изображение
+      remove:
+        edit:
+          title: Удалить пост
+          confirmation: Подтвердить удаление поста?
+          submit: Удалить
   bans:
     index:
       meta_title: "%{community_title}: Баны"
@@ -316,55 +366,6 @@ ru:
       submit: Пожаловатся
     report:
       details: Подробности
-  posts:
-    show:
-      reply: Ответить
-      sign_in: Войдите
-      sign_up: зарегистрируйтесь
-      sign_in_or_sign_up_html: "%{sign_in_link} или %{sign_up_link} чтобы принять участие в обсуждении"
-      sorts:
-        best: Лучшее
-        top: Топ
-        new: Новое
-        old: Старое
-        controversy: Спорное
-    post:
-      posted_in: в
-      explicit_label: 18+
-      spoiler_label: Спойлер
-      edited_at_html: "(отредактировано %{edited_at})"
-      approved_tooltip: "Одобренно %{username} %{approved_at}"
-      approve_tooltip: Одобрить
-      bookmark: Добавить в закладки
-      delete_bookmark: Убрать из закладок
-      removed_tooltip: "Удалено %{username} %{removed_at} по причине \"%{reason}\""
-      remove_tooltip: Удалить
-      removed_message_html: 'Удалено %{link_to_user_profile} %{removed_at} по причине "%{reason}"'
-      edit: Редактировать
-      mark_explicit: 18+
-      mark_spoiler: Спойлер
-      report: Пожаловатся
-      reports: Жалобы
-      ignore_reports: Игнорировать жалобы
-      comments_count:
-        one: "%{count_formatted} комментарий"
-        few: "%{count_formatted} комментария"
-        many: "%{count_formatted} комментариев"
-        other: "%{count_formatted} комментариев"
-    new_navigation:
-      text: Текст
-      link: Ссылка
-      image: Изображение
-    new_text:
-      meta_title: Добавить текст
-    new_link:
-      meta_title: Добавить ссылку
-    new_image:
-      meta_title: Добавить изображение
-    remove:
-      title: Удалить пост
-      confirmation: Подтвердить удаление поста?
-      submit: Удалить
   comments:
     comment:
       edited_at_html: "(отредактировано %{edited_at})"

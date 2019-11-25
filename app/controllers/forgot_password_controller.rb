@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ForgotPasswordController < ApplicationController
   before_action -> { authorize(:forgot_password) }
 
@@ -21,12 +19,12 @@ class ForgotPasswordController < ApplicationController
 
   private
 
-  def pundit_user
-    Context.new(current_user, nil)
+  def create_params
+    attributes = ForgotPasswordPolicy.new(pundit_user, nil).permitted_attributes_for_create
+    params.require(:forgot_password_form).permit(attributes)
   end
 
-  def create_params
-    attributes = policy(:forgot_password).permitted_attributes_for_create
-    params.require(:forgot_password_form).permit(attributes)
+  def pundit_user
+    Context.new(current_user, nil)
   end
 end

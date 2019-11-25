@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class BansQuery < ApplicationQuery
   def with_username(username)
     relation.joins(:user).where("lower(users.username) = lower(?)", username)

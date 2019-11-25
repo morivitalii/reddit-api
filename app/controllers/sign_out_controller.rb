@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class SignOutController < ApplicationController
   before_action -> { authorize(:sign_out) }
 
@@ -7,5 +5,11 @@ class SignOutController < ApplicationController
     request.env["warden"].logout
 
     redirect_to root_path
+  end
+
+  private
+
+  def pundit_user
+    Context.new(current_user, nil)
   end
 end

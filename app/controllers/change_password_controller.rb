@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ChangePasswordController < ApplicationController
   before_action -> { authorize(:change_password) }
   before_action :set_community
@@ -23,10 +21,6 @@ class ChangePasswordController < ApplicationController
 
   private
 
-  def pundit_user
-    Context.new(current_user, @community)
-  end
-
   def set_community
     @community = CommunitiesQuery.new.default.take!
   end
@@ -36,7 +30,11 @@ class ChangePasswordController < ApplicationController
   end
 
   def create_params
-    attributes = policy(:change_password).permitted_attributes_for_update
+    attributes = ChangePasswordPolicy.new(pundit_user, nil).permitted_attributes_for_update
     params.require(:change_password_form).permit(attributes)
+  end
+
+  def pundit_user
+    Context.new(current_user, @community)
   end
 end
