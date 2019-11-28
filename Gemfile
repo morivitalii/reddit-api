@@ -3,7 +3,7 @@ source "https://rubygems.org"
 ruby "2.6.3"
 
 gem "bootsnap", ">= 1.3", require: false
-gem "rails", "~> 5.2.3"
+gem "rails", "~> 5.2.4"
 gem "rails-i18n", "~> 5.1"
 gem "pg", ">= 0.18", "< 2.0"
 gem "bcrypt", "~> 3.1.13"
