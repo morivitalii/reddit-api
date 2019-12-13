@@ -1,8 +1,8 @@
-class Communities::Posts::Comments::Vote::UpController < ApplicationController
+class Communities::Posts::Comments::Votes::UpsController < ApplicationController
   before_action :set_community
   before_action :set_post
   before_action :set_comment
-  before_action -> { authorize(@comment, policy_class: Communities::Posts::Comments::Votes::UpPolicy) }
+  before_action -> { authorize(@comment, policy_class: Communities::Posts::Comments::Votes::UpsPolicy) }
   decorates_assigned :comment
 
   def create

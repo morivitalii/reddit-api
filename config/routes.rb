@@ -71,9 +71,9 @@ Rails.application.routes.draw do
             resource :ignore, only: [:create, :destroy], controller: :ignore
           end
 
-          namespace :vote do
-            resource :up, only: [:create, :destroy], controller: :up
-            resource :down, only: [:create, :destroy], controller: :down
+          namespace :votes do
+            resource :ups, only: [:create, :destroy]
+            resource :downs, only: [:create, :destroy]
           end
 
           resources :comments, only: [:show, :create, :edit, :update] do
@@ -87,9 +87,9 @@ Rails.application.routes.draw do
                 resource :ignore, only: [:create, :destroy], controller: :ignore
               end
 
-              namespace :vote do
-                resource :up, only: [:create, :destroy], controller: :up
-                resource :down, only: [:create, :destroy], controller: :down
+              namespace :votes do
+                resource :ups, only: [:create, :destroy]
+                resource :downs, only: [:create, :destroy]
               end
             end
           end

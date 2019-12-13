@@ -1,11 +1,11 @@
-class Communities::Posts::Vote::UpController < ApplicationController
+class Communities::Posts::Votes::DownsController < ApplicationController
   before_action :set_community
   before_action :set_post
-  before_action -> { authorize(@post, policy_class: Communities::Posts::Votes::UpPolicy) }
+  before_action -> { authorize(@post, policy_class: Communities::Posts::Votes::DownsPolicy) }
   decorates_assigned :post
 
   def create
-    vote = Communities::Posts::Votes::CreateUpVoteService.new(@post, current_user).call
+    vote = Communities::Posts::Votes::CreateDownVoteService.new(@post, current_user).call
 
     # TODO remove two following lines after transition to frontend framework
     @post.reload
@@ -15,7 +15,7 @@ class Communities::Posts::Vote::UpController < ApplicationController
   end
 
   def destroy
-    Communities::Posts::Votes::DeleteUpVoteService.new(@post, current_user).call
+    Communities::Posts::Votes::DeleteDownVoteService.new(@post, current_user).call
 
     # TODO remove following line after transition to frontend framework
     @post.reload

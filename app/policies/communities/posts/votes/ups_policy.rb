@@ -1,4 +1,4 @@
-class Communities::Posts::Votes::UpPolicy < ApplicationPolicy
+class Communities::Posts::Votes::UpsPolicy < ApplicationPolicy
   def create?
     user?
   end

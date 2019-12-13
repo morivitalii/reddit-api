@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Communities::Posts::Comments::Votes::DownPolicy do
+RSpec.describe Communities::Posts::Comments::Votes::UpsPolicy do
   subject { described_class }
 
   context "for visitor", context: :visitor do

@@ -1,4 +1,4 @@
-class Communities::Posts::Votes::DownPolicy < ApplicationPolicy
+class Communities::Posts::Votes::DownsPolicy < ApplicationPolicy
   def create?
     user?
   end
