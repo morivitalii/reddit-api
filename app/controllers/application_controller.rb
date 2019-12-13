@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  include PageNotFound
   include Authentication
   include Authorization
   include RateLimits

@@ -388,10 +388,6 @@ ru:
       title: Удалить комментарий
       confirmation: Подтвердить удаление комментария?
       submit: Удалить
-  page_not_found:
-    show:
-      meta_title: Страница не найдена
-      title: Страница не найдена
   authorization_error:
     meta_title: У вас нету доступа к этой странице
     title: У вас нету доступа к этой странице

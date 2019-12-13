@@ -1,30 +1,6 @@
 require "rails_helper"
 
 RSpec.describe ApplicationController do
-  it { is_expected.to rescue_from(ActiveRecord::RecordNotFound).with(:page_not_found) }
-
-  describe ".page_not_found" do
-    controller do
-      def index
-        raise ActiveRecord::RecordNotFound
-      end
-    end
-
-    context "when request is xhr" do
-      before { get :index, xhr: true }
-
-      it { is_expected.to_not render_template("page_not_found/show") }
-      it { is_expected.to respond_with(404) }
-    end
-
-    context "when request is not xhr" do
-      before { get :index }
-
-      it { is_expected.to render_template("page_not_found/show") }
-      it { is_expected.to respond_with(404) }
-    end
-  end
-
   it { is_expected.to rescue_from(Pundit::NotAuthorizedError).with(:authorization_error) }
 
   describe ".authorization_error" do
