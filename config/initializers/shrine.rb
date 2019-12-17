@@ -16,7 +16,7 @@ if Rails.env.production?
     store: Shrine::Storage::S3.new(public: true, **s3_options),
   }
 
-  Shrine.plugin :default_url_options, store: {host: ENV.fetch("S3_CDN")}
+  Shrine.plugin :default_url_options, store: {host: ENV.fetch("CDN_HOST")}
   Shrine.plugin :upload_options, store: {cache_control: "max-age=2592000"}
 else
   Shrine.storages = {
