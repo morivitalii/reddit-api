@@ -34,7 +34,7 @@ ru:
   activemodel:
     errors:
       models:
-        sign_in_form:
+        sign_in:
           attributes:
             username:
               invalid_credentials: неправильное имя пользователя или пароль
@@ -47,9 +47,6 @@ ru:
         username: Имя пользователя
         password: Пароль
         email: Email (необязательно)
-      sign_in_form:
-        username: Имя пользователя
-        password: Пароль
       forgot_password_form:
         email: Email
       change_password_form:

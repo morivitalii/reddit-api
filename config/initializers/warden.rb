@@ -14,9 +14,9 @@ end
 
 Warden::Strategies.add(:password) do
   def authenticate!
-    form = SignInForm.new(
-      username: params.dig("sign_in_form", "username"),
-      password: params.dig("sign_in_form", "password")
+    form = SignIn.new(
+      username: params.dig("username"),
+      password: params.dig("password")
     )
 
     form.valid? ? success!(form.user) : throw(:warden, form: form)

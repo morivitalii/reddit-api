@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root "home#index"
 
   resource :sign_up, only: [:new, :create], controller: :sign_up
-  resource :sign_in, only: [:new, :create], controller: :sign_in
+  resource :sign_in, only: [:create], controller: :sign_in
   resource :forgot_password, only: [:new, :create], controller: :forgot_password
   resource :change_password, only: [:edit, :update], controller: :change_password
   resource :sign_out, only: [:destroy], controller: :sign_out

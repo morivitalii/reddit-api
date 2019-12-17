@@ -3,6 +3,5 @@ class SignInPolicy < ApplicationPolicy
     visitor?
   end
 
-  alias new? create?
   alias unauthenticated? create?
 end
