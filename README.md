@@ -16,9 +16,3 @@ Simple reddit-like application.
 * Clone repository, ie. https://github.com/dev1vitaly/readmaru
 * Run bin/setup
 * Run rails s to start the application and head to http://localhost:3000/
-
-### Default user
-
-* username: readmaru
-* password: password
-
