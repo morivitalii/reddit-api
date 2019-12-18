@@ -115,7 +115,7 @@ GEM
     image_optim_pack (0.6.0.20191208)
       fspath (>= 2.1, < 4)
       image_optim (~> 0.19)
-    image_processing (1.9.3)
+    image_processing (1.10.0)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.13, < 3)
     image_size (2.0.2)
@@ -299,7 +299,7 @@ DEPENDENCIES
   font-awesome-rails (~> 4.7)
   image_optim (~> 0.26)
   image_optim_pack
-  image_processing (~> 1.9)
+  image_processing (~> 1.10)
   listen
   mini_magick (~> 4.9)
   pg (>= 0.18, < 2.0)
