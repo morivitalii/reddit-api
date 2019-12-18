@@ -7,7 +7,7 @@ Simple reddit-like application.
 
 * Ruby 2.6.5
 * Yarn
-* PostgreSQL 9.4 or higher
+* PostgreSQL 12
 
 ### Installation
 
