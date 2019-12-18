@@ -8,6 +8,7 @@ Simple reddit-like application.
 * Ruby 2.6.5
 * Yarn
 * PostgreSQL 12
+* ImageMagick
 
 ### Installation
 
