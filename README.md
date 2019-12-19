@@ -1,4 +1,4 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/fbc4fb2100e75266b192/maintainability)](https://codeclimate.com/github/dev1vitaly/readmaru/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8eda76ca4d3e41ccd830/maintainability)](https://codeclimate.com/github/readmaru/readmaru/maintainability)
 
 ## What is readma.ru?
 Simple reddit-like application.
