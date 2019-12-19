@@ -4,8 +4,8 @@ ruby "2.6.5"
 
 gem "dotenv-rails", groups: [:development, :test]
 gem "bootsnap", ">= 1.3", require: false
-gem "rails", "~> 5.2.4"
-gem "rails-i18n", "~> 5.1"
+gem "rails", "~> 6.0.2"
+gem "rails-i18n", "~> 6.0"
 gem "pg", ">= 0.18", "< 2.0"
 gem "bcrypt", "~> 3.1.13"
 gem "uglifier", ">= 1.3.0"
