@@ -3,7 +3,7 @@ class UserSerializer < ApplicationSerializer
     {
       id: model.id,
       username: model.username,
-      created_at: model.created_at
+      created_at: model.created_at,
     }
   end
 end
