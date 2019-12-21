@@ -210,7 +210,7 @@ GEM
     recaptcha (5.2.1)
       json
     redcarpet (3.5.0)
-    request_store (1.4.1)
+    request_store (1.5.0)
       rack (>= 1.4)
     rspec-core (3.9.0)
       rspec-support (~> 3.9.0)
