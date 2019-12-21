@@ -7,12 +7,8 @@ Rails.application.configure do
   config.active_support.deprecation = :log
   config.active_record.migration_error = :page_load
   config.active_record.verbose_query_logs = true
-  config.assets.debug = true
-  config.assets.quiet = true
   config.session_store :cookie_store, expire_after: 1.month
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-  config.action_controller.asset_host = "http://localhost:3000"
-  config.action_mailer.asset_host = "http://localhost:3000"
   config.action_mailer.default_url_options = {host: "localhost", port: 3000}
   config.action_mailer.default_options = {from: "no-reply@localhost"}
   config.action_mailer.raise_delivery_errors = true
@@ -21,6 +17,7 @@ Rails.application.configure do
 
   if Rails.root.join("tmp", "caching-dev.txt").exist?
     config.action_controller.perform_caching = true
+    config.action_controller.enable_fragment_cache_logging = true
     config.cache_store = :memory_store
     config.public_file_server.headers = {
       "Cache-Control" => "public, max-age=#{2.days.to_i}",

@@ -6,10 +6,15 @@
 /node_modules
 /coverage
 /yarn-error.log
-/public/assets
 /public/uploads
 .byebug_history
 /config/master.key
 .env.development.local
 .env.test.local
 .env.production.local
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

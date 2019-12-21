@@ -1,4 +1,4 @@
-class Communities::Posts::Comments::Boomarks::BookmarksController < ApplicationController
+class Communities::Posts::Comments::BookmarksController < ApplicationController
   before_action :set_community
   before_action :set_post
   before_action :set_comment
