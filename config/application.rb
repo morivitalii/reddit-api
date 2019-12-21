@@ -11,7 +11,7 @@ require "action_mailer/railtie"
 # require "action_mailbox/engine"
 # require "action_text/engine"
 # require "action_cable/engine"
-# require "action_view/railtie"
+require "action_view/railtie"
 
 Bundler.require(*Rails.groups)
 
@@ -19,6 +19,16 @@ module App
   class Application < Rails::Application
     config.load_defaults 6.0
     config.active_record.schema_format = :sql
+    config.api_only = true
+
+    # We need cookies for sessions
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+    config.middleware.use ActionDispatch::ContentSecurityPolicy::Middleware
+
+    # Api only mode does not include this useful middleware
+    config.middleware.use Rack::TempfileReaper
+
     # Fuck those useless queries. Database will throw error if shit happens. That's fine
     config.active_record.belongs_to_required_by_default = false
     config.active_job.queue_adapter = :inline
