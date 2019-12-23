@@ -123,7 +123,7 @@ class Post < ApplicationRecord
 
   def author_has_permissions_to_approve?
     context = Context.new(user, community)
-    Communities::Posts::ApprovePolicy.new(context, self).update?
+    Api::Communities::Posts::ApprovePolicy.new(context, self).update?
   end
 
   def editing?

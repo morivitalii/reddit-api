@@ -79,7 +79,7 @@ class Comment < ApplicationRecord
 
   def author_has_permissions_to_approve?
     context = Context.new(user, community)
-    Communities::Posts::Comments::ApprovePolicy.new(context, self).update?
+    Api::Communities::Posts::Comments::ApprovePolicy.new(context, self).update?
   end
 
   def editing?
