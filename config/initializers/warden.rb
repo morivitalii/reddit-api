@@ -1,7 +1,7 @@
 Rails.application.config.middleware.use(Warden::Manager) do |manager|
   manager.intercept_401 = false
   manager.default_strategies(:password)
-  manager.failure_app = lambda { |env| SignInController.action(env["warden.options"][:action]).call(env) }
+  manager.failure_app = lambda { |env| Api::SignInController.action(env["warden.options"][:action]).call(env) }
 end
 
 Warden::Manager.serialize_into_session do |user|
