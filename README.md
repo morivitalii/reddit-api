@@ -5,7 +5,7 @@ Simple reddit-like application.
 
 ### Prerequisites
 
-* Ruby 2.6.5
+* Ruby 2.7.0
 * Yarn
 * PostgreSQL 12
 * ImageMagick
