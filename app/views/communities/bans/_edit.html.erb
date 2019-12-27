@@ -1,9 +1,0 @@
-<%= render 'shared/modal', title: t('.title') do %>
-  <%= simple_form_for(@form, url: community_ban_path(ban.community, ban), method: :put, remote: true) do |f| %>
-    <%= f.input :reason, as: :text %>
-    <%= f.input :days, as: :integer %>
-    <%= f.input :permanent, as: :boolean %>
-
-    <%= f.button :submit %>
-  <% end %>
-<% end %>

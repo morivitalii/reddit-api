@@ -1,6 +1,0 @@
-<% content_for(:meta_title, t(".meta_title", community_title: community.title)) %>
-
-<%= render("navigation", community: community) %>
-<%= render("shared/sidebar", community: community) %>
-<%= render(partial: "communities/posts/post", collection: posts) %>
-<%= render("shared/pagination", pagination: @pagination) %>
