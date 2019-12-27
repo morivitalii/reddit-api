@@ -1,5 +1,5 @@
 class UserDecorator < ApplicationDecorator
   def created_at
-    h.datetime_short_tag(model.created_at)
+    model.created_at
   end
 end

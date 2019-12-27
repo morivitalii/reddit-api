@@ -4,6 +4,6 @@ class ReportDecorator < ApplicationDecorator
   end
 
   def created_at
-    h.datetime_ago_tag(model.created_at)
+    model.created_at
   end
 end

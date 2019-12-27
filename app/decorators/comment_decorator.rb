@@ -19,9 +19,7 @@ class CommentDecorator < ApplicationDecorator
   end
 
   def edited_at
-    edited_at = h.datetime_ago_tag(model.edited_at)
-
-    h.t("comments.comment.edited_at_html", edited_at: edited_at)
+    h.t("comments.comment.edited_at_html", edited_at: model.edited_at)
   end
 
   def up_vote_link
@@ -118,12 +116,11 @@ class CommentDecorator < ApplicationDecorator
 
   def removed_message
     removed_by = model.removed_by
-    removed_at = h.datetime_ago_tag(model.removed_at)
     reason = model.removed_reason
 
     link_to_user_profile = h.link_to(removed_by.username, h.user_posts_path(removed_by))
 
-    h.t("comments.comment.removed_message_html", link_to_user_profile: link_to_user_profile, removed_at: removed_at, reason: reason)
+    h.t("comments.comment.removed_message_html", link_to_user_profile: link_to_user_profile, removed_at: model.removed_at, reason: reason)
   end
 
   def report_link
