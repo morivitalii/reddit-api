@@ -7,6 +7,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 
 require "rspec/rails"
 require "pundit/rspec"
+require "json_matchers/rspec"
 
 # Require each file from support directory
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
