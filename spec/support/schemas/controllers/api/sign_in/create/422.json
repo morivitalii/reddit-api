@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "required": [
+    "username"
+  ],
+  "properties": {
+    "username": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

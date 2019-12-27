@@ -1,0 +1,21 @@
+{
+  "id": "file:/serializers/user_serializer.json#",
+  "type": "object",
+  "required": [
+    "id",
+    "username",
+    "created_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "username": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
