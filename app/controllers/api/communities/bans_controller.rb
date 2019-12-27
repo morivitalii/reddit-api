@@ -69,7 +69,7 @@ class Api::Communities::BansController < ApplicationController
   end
 
   def create_params
-    attributes = Api::Communities::BansPolicy.new(pundit_user, nil).permitted_attributes_for_create
+    attributes = Api::Communities::BansPolicy.new(pundit_user).permitted_attributes_for_create
     params.require(:communities_create_ban_form).permit(attributes).merge(community: @community)
   end
 

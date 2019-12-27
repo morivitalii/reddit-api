@@ -6,10 +6,4 @@ class Api::SignOutController < ApplicationController
 
     redirect_to root_path
   end
-
-  private
-
-  def pundit_user
-    Context.new(current_user, nil)
-  end
 end

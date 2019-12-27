@@ -20,11 +20,7 @@ class Api::ForgotPasswordController < ApplicationController
   private
 
   def create_params
-    attributes = Api::ForgotPasswordPolicy.new(pundit_user, nil).permitted_attributes_for_create
+    attributes = Api::ForgotPasswordPolicy.new(pundit_user).permitted_attributes_for_create
     params.require(:forgot_password_form).permit(attributes)
-  end
-
-  def pundit_user
-    Context.new(current_user, nil)
   end
 end

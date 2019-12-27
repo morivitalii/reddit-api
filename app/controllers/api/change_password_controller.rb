@@ -30,7 +30,7 @@ class Api::ChangePasswordController < ApplicationController
   end
 
   def create_params
-    attributes = Api::ChangePasswordPolicy.new(pundit_user, nil).permitted_attributes_for_update
+    attributes = Api::ChangePasswordPolicy.new(pundit_user).permitted_attributes_for_update
     params.require(:change_password_form).permit(attributes)
   end
 

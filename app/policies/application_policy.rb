@@ -1,9 +1,9 @@
 class ApplicationPolicy
   attr_reader :user, :community, :record
 
-  def initialize(context, record)
-    @user = context.user
-    @community = record.respond_to?(:community) && record.community.present? ? record.community : context.community
+  def initialize(pundit_user, record = nil)
+    @user = pundit_user.is_a?(Context) ? pundit_user.user : pundit_user
+    @community = pundit_user.is_a?(Context) ? pundit_user.community : nil
     @record = record
 
     if banned?

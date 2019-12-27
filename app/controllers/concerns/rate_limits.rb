@@ -34,7 +34,7 @@ module RateLimits
     end
 
     def skip_rate_limiting?
-      ApplicationPolicy.new(pundit_user, nil).skip_rate_limiting?
+      ApplicationPolicy.new(pundit_user).skip_rate_limiting?
     end
   end
 end

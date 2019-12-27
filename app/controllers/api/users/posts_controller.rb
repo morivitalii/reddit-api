@@ -16,8 +16,4 @@ class Api::Users::PostsController < ApplicationController
   def query
     PostsQuery.new(@user.posts).not_removed.includes(:community, :user)
   end
-
-  def pundit_user
-    Context.new(current_user, nil)
-  end
 end

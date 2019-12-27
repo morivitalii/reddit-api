@@ -16,8 +16,4 @@ class Api::Users::CommentsController < ApplicationController
   def query
     CommentsQuery.new(@user.comments).not_removed.includes(:community, :user, :post)
   end
-
-  def pundit_user
-    Context.new(current_user, nil)
-  end
 end

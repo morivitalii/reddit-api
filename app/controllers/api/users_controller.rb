@@ -29,8 +29,4 @@ class Api::UsersController < ApplicationController
     attributes = Api::UsersPolicy.new(pundit_user, @user).permitted_attributes_for_update
     params.require(:update_user_form).permit(attributes).merge(user: @user)
   end
-
-  def pundit_user
-    Context.new(current_user, nil)
-  end
 end

@@ -16,10 +16,4 @@ class Api::SignInController < ApiApplicationController
 
     render json: @form.errors, status: :unprocessable_entity
   end
-
-  private
-
-  def pundit_user
-    Context.new(current_user, nil)
-  end
 end

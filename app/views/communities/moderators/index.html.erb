@@ -8,7 +8,7 @@
       <%= link_to(t(".title"), community_moderators_path(community)) %>
     </div>
 
-    <% if Communities::ModeratorsPolicy.new(pundit_user, nil).create? %>
+    <% if Communities::ModeratorsPolicy.new(pundit_user).create? %>
       <%= link_to(t(".create"), new_community_moderator_path(community), remote: true, class: "moderators__create-link") %>
     <% end %>
   </div>

@@ -60,7 +60,7 @@ class Api::Communities::RulesController < ApplicationController
   end
 
   def create_params
-    attributes = Api::Communities::RulesPolicy.new(pundit_user, nil).permitted_attributes
+    attributes = Api::Communities::RulesPolicy.new(pundit_user).permitted_attributes
     params.require(:communities_create_rule_form).permit(attributes).merge(community: @community)
   end
 

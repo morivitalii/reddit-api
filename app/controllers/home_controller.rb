@@ -4,8 +4,4 @@ class HomeController < ApplicationController
   def index
     request.variant = Browser.new(request.user_agent).device.mobile? ? :mobile : :desktop
   end
-
-  def pundit_user
-    Context.new(current_user, nil)
-  end
 end

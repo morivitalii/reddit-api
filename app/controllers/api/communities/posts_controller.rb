@@ -74,7 +74,7 @@ class Api::Communities::PostsController < ApplicationController
   end
 
   def create_params
-    attributes = Api::Communities::PostsPolicy.new(pundit_user, nil).permitted_attributes_for_create
+    attributes = Api::Communities::PostsPolicy.new(pundit_user).permitted_attributes_for_create
     params.require(:communities_posts_create_form).permit(attributes).merge(community: @community, user: current_user)
   end
 
