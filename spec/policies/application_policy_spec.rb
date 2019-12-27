@@ -31,12 +31,6 @@ RSpec.describe ApplicationPolicy do
         expect(policy.record).to eq(record)
       end
     end
-
-    context "for banned", context: :banned do
-      it "raises ApplicationPolicy::BannedError if user is banned" do
-        expect { described_class.new(context, nil) }.to raise_error(ApplicationPolicy::BannedError)
-      end
-    end
   end
 
   describe ".skip_rate_limiting?" do
