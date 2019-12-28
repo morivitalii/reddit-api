@@ -3,7 +3,7 @@ class Api::Communities::ModeratorsController < ApplicationController
   before_action :set_moderator, only: [:destroy]
   before_action -> { authorize(nil, policy_class: Api::Communities::ModeratorsPolicy) }, only: [:index, :new, :create]
   before_action -> { authorize(@moderator, policy_class: Api::Communities::ModeratorsPolicy) }, only: [:destroy]
-  decorates_assigned :moderators, :community
+  decorates_assigned :moderators
 
   def index
     @moderators, @pagination = query.paginate(after: params[:after])

@@ -3,7 +3,6 @@ class Api::Communities::RulesController < ApplicationController
   before_action :set_rule, only: [:edit, :update, :destroy]
   before_action -> { authorize(nil, policy_class: Api::Communities::RulesPolicy) }, only: [:index, :new, :create]
   before_action -> { authorize(@rule, policy_class: Api::Communities::RulesPolicy) }, only: [:edit, :update, :destroy]
-  decorates_assigned :community
 
   def index
     @rules, @pagination = @community.rules.paginate(after: params[:after])

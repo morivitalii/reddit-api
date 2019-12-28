@@ -1,7 +1,6 @@
 class Api::ChangePasswordController < ApplicationController
   before_action -> { authorize(nil, policy_class: Api::ChangePasswordPolicy) }
   before_action :set_community
-  decorates_assigned :community
 
   def edit
     @form = ChangePasswordForm.new(link_params)

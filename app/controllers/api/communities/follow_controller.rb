@@ -1,7 +1,6 @@
 class Api::Communities::FollowController < ApplicationController
   before_action :set_community
   before_action -> { authorize(nil, policy_class: Api::Communities::FollowsPolicy) }
-  decorates_assigned :community
 
   def create
     Communities::CreateFollowService.new(@community, current_user).call
