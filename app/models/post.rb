@@ -13,8 +13,6 @@ class Post < ApplicationRecord
   belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", optional: true
   belongs_to :removed_by, class_name: "User", foreign_key: "removed_by_id", optional: true
 
-  markdown_attributes :text
-
   before_create :normalize_url_on_create
   after_create :create_topic_on_create
   before_create :approve_by_author, if: :author_has_permissions_to_approve?
