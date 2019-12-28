@@ -1,7 +1,6 @@
 class Api::Users::Votes::CommentsController < ApplicationController
   before_action :set_user
   before_action -> { authorize(@user, policy_class: Api::Users::Votes::CommentsPolicy) }
-  decorates_assigned :user
 
   def index
     @comments, @pagination = query.paginate(after: params[:after])
