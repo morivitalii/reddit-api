@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root "home#index"
 
   namespace :api, constraints: ->(request) { request.format == :json } do
-    resource :sign_up, only: [:new, :create], controller: :sign_up
+    resource :sign_up, only: [:create], controller: :sign_up
     resource :sign_in, only: [:create], controller: :sign_in
     resource :forgot_password, only: [:new, :create], controller: :forgot_password
     resource :change_password, only: [:update], controller: :change_password

@@ -1,21 +1,15 @@
-class Api::SignUpController < ApplicationController
+class Api::SignUpController < ApiApplicationController
   before_action -> { authorize(Api::SignUpPolicy) }
 
-  def new
-    @form = SignUpForm.new
-
-    render partial: "new"
-  end
-
   def create
-    @form = SignUpForm.new(create_params)
+    service = SignUp.new(create_params)
 
-    if verify_recaptcha(model: @form, attribute: :username) && @form.save
-      request.env["warden"].set_user(@form.user)
+    if verify_recaptcha(model: service, attribute: :username) && service.save
+      request.env["warden"].set_user(service.user)
 
-      head :no_content, location: root_path
+      render json: UserSerializer.new(service.user), status: :ok
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
@@ -23,6 +17,7 @@ class Api::SignUpController < ApplicationController
 
   def create_params
     attributes = Api::SignUpPolicy.new(pundit_user).permitted_attributes_for_create
-    params.require(:sign_up_form).permit(attributes)
+
+    params.permit(attributes)
   end
 end

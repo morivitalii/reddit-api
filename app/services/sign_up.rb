@@ -1,4 +1,4 @@
-class SignUpForm
+class SignUp
   include ActiveModel::Model
 
   attr_accessor :username, :email, :password
