@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Api::SignInController do
   describe ".create" do
-    context "with right credentials" do
+    context "with valid params" do
       it "signs in user and returns user object" do
         user = create(:user)
 
@@ -14,7 +14,7 @@ RSpec.describe Api::SignInController do
       end
     end
 
-    context "with wrong credentials" do
+    context "with invalid params" do
       it "does not sign in user and returns error messages" do
         post "/api/sign_in.json", params: {username: "username", password: "password"}
 
@@ -23,9 +23,5 @@ RSpec.describe Api::SignInController do
         expect(response).to match_json_schema("controllers/api/sign_in/create/422")
       end
     end
-  end
-
-  def response_body
-    JSON.parse(response.body)
   end
 end
