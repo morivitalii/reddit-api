@@ -79,7 +79,7 @@ RSpec.describe Api::Communities::PostsPolicy do
     context "for author", context: :user do
       it "contains :text attribute" do
         post = create(:post, community: context.community, user: context.user)
-        policy = described_class.new(post)
+        policy = described_class.new(context, post)
 
         expect(policy.permitted_attributes_for_update).to contain_exactly(:text)
       end
