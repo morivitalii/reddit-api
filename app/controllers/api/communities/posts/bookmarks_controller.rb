@@ -2,7 +2,6 @@ class Api::Communities::Posts::BookmarksController < ApplicationController
   before_action :set_community
   before_action :set_post
   before_action -> { authorize(@post, policy_class: Api::Communities::Posts::BookmarksPolicy) }
-  decorates_assigned :post
 
   def create
     @post.bookmark = Communities::Posts::CreateBookmarkService.new(@post, current_user).call

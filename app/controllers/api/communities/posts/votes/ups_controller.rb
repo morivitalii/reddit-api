@@ -2,7 +2,6 @@ class Api::Communities::Posts::Votes::UpsController < ApplicationController
   before_action :set_community
   before_action :set_post
   before_action -> { authorize(@post, policy_class: Api::Communities::Posts::Votes::UpsPolicy) }
-  decorates_assigned :post
 
   def create
     vote = Communities::Posts::Votes::CreateUpVoteService.new(@post, current_user).call

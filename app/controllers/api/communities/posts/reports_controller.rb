@@ -2,7 +2,7 @@ class Api::Communities::Posts::ReportsController < ApplicationController
   before_action :set_community
   before_action :set_post
   before_action -> { authorize(@post, policy_class: Api::Communities::Posts::ReportsPolicy) }
-  decorates_assigned :post, :reports
+  decorates_assigned :reports
 
   def index
     @reports = query.all

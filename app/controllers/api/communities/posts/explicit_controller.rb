@@ -2,7 +2,6 @@ class Api::Communities::Posts::ExplicitController < ApplicationController
   before_action :set_community
   before_action :set_post
   before_action -> { authorize(@post, policy_class: Api::Communities::Posts::ExplicitPolicy) }
-  decorates_assigned :post
 
   def create
     Communities::Posts::MarkAsExplicitService.new(@post).call

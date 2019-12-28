@@ -2,7 +2,6 @@ class Api::Communities::Posts::ApproveController < ApplicationController
   before_action :set_community
   before_action :set_post
   before_action -> { authorize(@post, policy_class: Api::Communities::Posts::ApprovePolicy) }
-  decorates_assigned :post
 
   def update
     Communities::Posts::ApproveService.new(@post, current_user).call
