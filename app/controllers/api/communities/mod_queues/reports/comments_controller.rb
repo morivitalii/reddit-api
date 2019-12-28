@@ -1,6 +1,6 @@
 class Api::Communities::ModQueues::Reports::CommentsController < ApplicationController
   before_action :set_community
-  before_action -> { authorize(nil, policy_class: Api::Communities::ModQueues::Reports::CommentsPolicy) }
+  before_action -> { authorize(Api::Communities::ModQueues::Reports::CommentsPolicy) }
 
   def index
     @comments, @pagination = query.paginate(after: params[:after])

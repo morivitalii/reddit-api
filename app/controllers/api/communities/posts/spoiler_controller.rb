@@ -1,7 +1,7 @@
 class Api::Communities::Posts::SpoilerController < ApplicationController
   before_action :set_community
   before_action :set_post
-  before_action -> { authorize(@post, policy_class: Api::Communities::Posts::SpoilerPolicy) }
+  before_action -> { authorize(Api::Communities::Posts::SpoilerPolicy, @post) }
 
   def create
     Communities::Posts::MarkAsSpoilerService.new(@post).call

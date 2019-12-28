@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
   before_action :set_user
-  before_action -> { authorize(@user, policy_class: Api::UsersPolicy) }
+  before_action -> { authorize(Api::UsersPolicy, @user) }
 
   def edit
     attributes = @user.slice(:email)

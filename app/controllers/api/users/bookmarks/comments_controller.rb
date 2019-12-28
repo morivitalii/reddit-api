@@ -1,6 +1,6 @@
 class Api::Users::Bookmarks::CommentsController < ApplicationController
   before_action :set_user
-  before_action -> { authorize(@user, policy_class: Api::Users::Bookmarks::CommentsPolicy) }
+  before_action -> { authorize(Api::Users::Bookmarks::CommentsPolicy, @user) }
 
   def index
     @comments, @pagination = query.paginate(after: params[:after])

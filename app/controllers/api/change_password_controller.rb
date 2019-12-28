@@ -1,5 +1,5 @@
 class Api::ChangePasswordController < ApplicationController
-  before_action -> { authorize(nil, policy_class: Api::ChangePasswordPolicy) }
+  before_action -> { authorize(Api::ChangePasswordPolicy) }
   before_action :set_community
 
   def edit

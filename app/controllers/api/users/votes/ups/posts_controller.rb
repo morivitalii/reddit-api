@@ -1,6 +1,6 @@
 class Api::Users::Votes::Ups::PostsController < ApplicationController
   before_action :set_user
-  before_action -> { authorize(@user, policy_class: Api::Users::Votes::Ups::PostsPolicy) }
+  before_action -> { authorize(Api::Users::Votes::Ups::PostsPolicy, @user) }
 
   def index
     @posts, @pagination = query.paginate(after: params[:after])

@@ -1,8 +1,8 @@
 class Api::Communities::PostsController < ApplicationController
   before_action :set_community
   before_action :set_post, only: [:show, :edit, :update]
-  before_action -> { authorize(nil, policy_class: Api::Communities::PostsPolicy) }, only: [:new_text, :new_link, :new_image, :create]
-  before_action -> { authorize(@post, policy_class: Api::Communities::PostsPolicy) }, only: [:show, :edit, :update]
+  before_action -> { authorize(Api::Communities::PostsPolicy) }, only: [:new_text, :new_link, :new_image, :create]
+  before_action -> { authorize(Api::Communities::PostsPolicy, @post) }, only: [:show, :edit, :update]
 
   def show
   end

@@ -2,7 +2,7 @@ class Api::Communities::Posts::Comments::ReportsController < ApplicationControll
   before_action :set_community
   before_action :set_post
   before_action :set_comment
-  before_action -> { authorize(@comment, policy_class: Api::Communities::Posts::Comments::ReportsPolicy) }
+  before_action -> { authorize(Api::Communities::Posts::Comments::ReportsPolicy, @comment) }
 
   def index
     @reports = ReportsQuery.new(@comment.reports).recent(25).includes(:user).all

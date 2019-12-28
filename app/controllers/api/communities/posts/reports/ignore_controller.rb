@@ -1,7 +1,7 @@
 class Api::Communities::Posts::Reports::IgnoreController < ApplicationController
   before_action :set_community
   before_action :set_post
-  before_action -> { authorize(@post, policy_class: Api::Communities::Posts::Reports::IgnorePolicy) }
+  before_action -> { authorize(Api::Communities::Posts::Reports::IgnorePolicy, @post) }
 
   def create
     Communities::Posts::Reports::IgnoreService.new(@post).call

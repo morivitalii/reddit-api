@@ -2,7 +2,7 @@ class Api::Communities::Posts::Comments::BookmarksController < ApplicationContro
   before_action :set_community
   before_action :set_post
   before_action :set_comment
-  before_action -> { authorize(@comment, policy_class: Api::Communities::Posts::Comments::BookmarksPolicy) }
+  before_action -> { authorize(Api::Communities::Posts::Comments::BookmarksPolicy, @comment) }
 
   def create
     @comment.bookmark = Communities::Posts::Comments::CreateBookmarkService.new(@comment, current_user).call

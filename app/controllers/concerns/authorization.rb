@@ -9,5 +9,9 @@ module Authorization
     def authorization_error
       head :forbidden
     end
+
+    def authorize(policy_class, record = nil)
+      super(record, policy_class: policy_class)
+    end
   end
 end

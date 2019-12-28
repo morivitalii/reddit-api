@@ -2,7 +2,7 @@ class Api::Communities::Posts::Comments::Votes::DownsController < ApplicationCon
   before_action :set_community
   before_action :set_post
   before_action :set_comment
-  before_action -> { authorize(@comment, policy_class: Api::Communities::Posts::Comments::Votes::DownsPolicy) }
+  before_action -> { authorize(Api::Communities::Posts::Comments::Votes::DownsPolicy, @comment) }
 
   def create
     vote = Communities::Posts::Comments::Votes::CreateDownVoteService.new(@comment, current_user).call

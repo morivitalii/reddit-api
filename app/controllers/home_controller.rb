@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  before_action -> { authorize(:home) }
+  before_action -> { authorize(HomePolicy) }
 
   def index
     request.variant = Browser.new(request.user_agent).device.mobile? ? :mobile : :desktop

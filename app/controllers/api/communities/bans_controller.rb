@@ -1,8 +1,8 @@
 class Api::Communities::BansController < ApplicationController
   before_action :set_community
   before_action :set_ban, only: [:edit, :update, :destroy]
-  before_action -> { authorize(nil, policy_class: Api::Communities::BansPolicy) }, only: [:index, :new, :create]
-  before_action -> { authorize(@ban, policy_class: Api::Communities::BansPolicy) }, only: [:edit, :update, :destroy]
+  before_action -> { authorize(Api::Communities::BansPolicy) }, only: [:index, :new, :create]
+  before_action -> { authorize(Api::Communities::BansPolicy, @ban) }, only: [:edit, :update, :destroy]
 
   def index
     @bans, @pagination = query.paginate(after: params[:after])

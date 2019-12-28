@@ -1,5 +1,5 @@
 class Api::ForgotPasswordController < ApplicationController
-  before_action -> { authorize(nil, policy_class: Api::ForgotPasswordPolicy) }
+  before_action -> { authorize(Api::ForgotPasswordPolicy) }
 
   def new
     @form = ForgotPasswordForm.new

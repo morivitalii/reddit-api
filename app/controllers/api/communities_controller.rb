@@ -1,6 +1,6 @@
 class Api::CommunitiesController < ApplicationController
   before_action :set_community
-  before_action -> { authorize(@community, policy_class: Api::CommunitiesPolicy) }
+  before_action -> { authorize(Api::CommunitiesPolicy, @community) }
 
   def show
     @posts, @pagination = query.paginate(attributes: [sort_attribute, :id], after: params[:after])

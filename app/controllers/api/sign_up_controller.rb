@@ -1,5 +1,5 @@
 class Api::SignUpController < ApplicationController
-  before_action -> { authorize(nil, policy_class: Api::SignUpPolicy) }
+  before_action -> { authorize(Api::SignUpPolicy) }
 
   def new
     @form = SignUpForm.new

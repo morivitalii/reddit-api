@@ -1,7 +1,7 @@
 class Api::Communities::Posts::Votes::DownsController < ApplicationController
   before_action :set_community
   before_action :set_post
-  before_action -> { authorize(@post, policy_class: Api::Communities::Posts::Votes::DownsPolicy) }
+  before_action -> { authorize(Api::Communities::Posts::Votes::DownsPolicy, @post) }
 
   def create
     vote = Communities::Posts::Votes::CreateDownVoteService.new(@post, current_user).call

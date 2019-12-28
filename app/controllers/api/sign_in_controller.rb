@@ -1,5 +1,5 @@
 class Api::SignInController < ApiApplicationController
-  before_action -> { authorize(nil, policy_class: Api::SignInPolicy) }
+  before_action -> { authorize(Api::SignInPolicy) }
 
   def create
     @form = SignIn.new

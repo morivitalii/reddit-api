@@ -1,5 +1,5 @@
 class Api::SignOutController < ApplicationController
-  before_action -> { authorize(nil, policy_class: Api::SignOutPolicy) }
+  before_action -> { authorize(Api::SignOutPolicy) }
 
   def destroy
     request.env["warden"].logout
