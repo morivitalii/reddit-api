@@ -8,9 +8,9 @@ RSpec.describe Api::SignInController do
 
         post "/api/sign_in.json", params: {username: user.username, password: user.password}
 
-        expect(response).to have_http_status(200)
         expect(session["warden.user.default.key"]).to eq(user.id)
-        expect(response).to match_json_schema("controllers/api/sign_in/create/200", strict: true)
+        expect(response).to have_http_status(200)
+        expect(response).to match_json_schema("controllers/api/sign_in/create/200")
       end
     end
 
@@ -18,8 +18,8 @@ RSpec.describe Api::SignInController do
       it "does not sign in user and returns error messages" do
         post "/api/sign_in.json", params: {username: "username", password: "password"}
 
-        expect(response).to have_http_status(422)
         expect(session["warden.user.default.key"]).to be_nil
+        expect(response).to have_http_status(422)
         expect(response).to match_json_schema("controllers/api/sign_in/create/422")
       end
     end

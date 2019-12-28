@@ -1,39 +1,23 @@
-class Api::ChangePasswordController < ApplicationController
+class Api::ChangePasswordController < ApiApplicationController
   before_action -> { authorize(Api::ChangePasswordPolicy) }
-  before_action :set_community
-
-  def edit
-    @form = ChangePasswordForm.new(link_params)
-  end
 
   def update
-    @form = ChangePasswordForm.new(create_params)
+    service = ChangePassword.new(update_params)
 
-    if @form.save
-      request.env["warden"].set_user(@form.user)
+    if service.save
+      request.env["warden"].set_user(service.user)
 
-      head :no_content, location: root_path
+      render json: UserSerializer.serialize(service.user), status: :ok
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
   private
 
-  def set_community
-    @community = CommunitiesQuery.new.default.take!
-  end
-
-  def link_params
-    params.permit(:token)
-  end
-
-  def create_params
+  def update_params
     attributes = Api::ChangePasswordPolicy.new(pundit_user).permitted_attributes_for_update
-    params.require(:change_password_form).permit(attributes)
-  end
 
-  def pundit_user
-    Context.new(current_user, @community)
+    params.permit(attributes)
   end
 end

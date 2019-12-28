@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "required": [
+    "password"
+  ],
+  "properties": {
+    "password": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
