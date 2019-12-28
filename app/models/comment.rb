@@ -14,10 +14,6 @@ class Comment < ApplicationRecord
   belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", optional: true
   belongs_to :removed_by, class_name: "User", foreign_key: "removed_by_id", optional: true
 
-  alias_attribute :score, :top_score
-  attribute :vote, default: nil
-  attribute :bookmark, default: nil
-
   markdown_attributes :text
 
   after_save :upsert_in_topic
