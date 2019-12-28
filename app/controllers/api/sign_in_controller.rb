@@ -2,18 +2,18 @@ class Api::SignInController < ApiApplicationController
   before_action -> { authorize(Api::SignInPolicy) }
 
   def create
-    @form = SignIn.new
+    service = SignIn.new
 
-    if verify_recaptcha(model: @form, attribute: :username) && request.env["warden"].authenticate!(:password)
+    if verify_recaptcha(model: service, attribute: :username) && request.env["warden"].authenticate!(:password)
       render json: UserSerializer.serialize(current_user), status: :ok
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
   def unauthenticated
-    @form = request.env["warden.options"][:form]
+    service = request.env["warden.options"][:service]
 
-    render json: @form.errors, status: :unprocessable_entity
+    render json: service.errors, status: :unprocessable_entity
   end
 end

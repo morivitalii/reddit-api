@@ -14,11 +14,11 @@ end
 
 Warden::Strategies.add(:password) do
   def authenticate!
-    form = SignIn.new(
+    service = SignIn.new(
       username: params.dig("username"),
       password: params.dig("password")
     )
 
-    form.valid? ? success!(form.user) : throw(:warden, form: form)
+    service.valid? ? success!(service.user) : throw(:warden, service: service)
   end
 end
