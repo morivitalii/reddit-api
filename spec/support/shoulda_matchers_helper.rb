@@ -6,6 +6,5 @@ Shoulda::Matchers.configure do |config|
 end
 
 RSpec.configure do |config|
-  # Shoulda-matchers helper methods for form specs
-  config.include Shoulda::Matchers::ActiveModel, type: :form
+  config.include Shoulda::Matchers::ActiveModel
 end
