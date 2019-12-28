@@ -8,13 +8,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  helper_method :communities_moderated_by_user
-  def communities_moderated_by_user
-    return [] if current_user.blank?
-
-    @communities_moderated_by_user ||= CommunitiesQuery.new.with_user_moderator(current_user).all.to_a
-  end
-
   helper_method :communities_followed_by_user
   def communities_followed_by_user
     return @communities_followed_by_user if defined?(@communities_followed_by_user)
