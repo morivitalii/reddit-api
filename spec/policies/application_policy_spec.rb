@@ -4,7 +4,7 @@ RSpec.describe ApplicationPolicy do
   subject { described_class }
 
   describe ".initialize" do
-    context "when pundit_user is current_user" do
+    context "when pundit_user is User instance" do
       it "sets user and record instance variables" do
         user = create(:user)
         record = double(:record)

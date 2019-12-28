@@ -39,7 +39,7 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
     context "for moderator", context: :moderator do
       it "contains attributes" do
         comment = create(:comment, community: context.community)
-        policy = build_policy(comment)
+        policy = described_class.new(context, comment)
 
         expect(policy.permitted_attributes_for_update).to contain_exactly(:reason)
       end
@@ -48,14 +48,10 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
     context "for author", context: :user do
       it "does not contain attributes" do
         comment = create(:comment, community: context.community, user: context.user)
-        policy = build_policy(comment)
+        policy = described_class.new(context, comment)
 
         expect(policy.permitted_attributes_for_update).to be_blank
       end
     end
-  end
-
-  def build_policy(comment = nil)
-    described_class.new(context, comment)
   end
 end

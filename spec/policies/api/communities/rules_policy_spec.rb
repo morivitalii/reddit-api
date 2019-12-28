@@ -43,12 +43,9 @@ RSpec.describe Api::Communities::RulesPolicy do
 
   describe ".permitted_attributes" do
     it "contains attributes" do
-      policy = build_policy
+      policy = described_class.new(nil)
+
       expect(policy.permitted_attributes).to contain_exactly(:title, :description)
     end
-  end
-
-  def build_policy
-    described_class.new(Context.new(nil, nil), nil)
   end
 end

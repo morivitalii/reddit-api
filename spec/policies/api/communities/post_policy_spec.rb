@@ -67,9 +67,10 @@ RSpec.describe Api::Communities::PostsPolicy do
     end
   end
 
-  describe ".permitted_attributes_for_create", context: :user do
+  describe ".permitted_attributes_for_create" do
     it "contains :title, :text, :url, :image, :explicit and :spoiler attributes" do
-      policy = build_policy
+      policy = described_class.new(nil)
+
       expect(policy.permitted_attributes_for_create).to contain_exactly(:title, :text, :url, :image, :explicit, :spoiler)
     end
   end
@@ -78,13 +79,10 @@ RSpec.describe Api::Communities::PostsPolicy do
     context "for author", context: :user do
       it "contains :text attribute" do
         post = create(:post, community: context.community, user: context.user)
-        policy = build_policy(post)
+        policy = described_class.new(post)
+
         expect(policy.permitted_attributes_for_update).to contain_exactly(:text)
       end
     end
-  end
-
-  def build_policy(post = nil)
-    described_class.new(context, post)
   end
 end

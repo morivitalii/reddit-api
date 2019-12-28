@@ -35,12 +35,9 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
 
   describe ".permitted_attributes_for_create" do
     it "contains attributes" do
-      policy = build_policy
+      policy = described_class.new(nil)
+
       expect(policy.permitted_attributes_for_create).to contain_exactly(:text)
     end
-  end
-
-  def build_policy
-    described_class.new(Context.new(nil, nil), nil)
   end
 end
