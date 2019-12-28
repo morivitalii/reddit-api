@@ -3,7 +3,6 @@ class Api::Communities::Posts::Comments::ApproveController < ApplicationControll
   before_action :set_post
   before_action :set_comment
   before_action -> { authorize(@comment, policy_class: Api::Communities::Posts::Comments::ApprovePolicy) }
-  decorates_assigned :comment
 
   def update
     Communities::Posts::Comments::ApproveService.new(@comment, current_user).call

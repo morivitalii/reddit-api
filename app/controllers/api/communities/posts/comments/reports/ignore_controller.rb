@@ -3,7 +3,6 @@ class Api::Communities::Posts::Comments::Reports::IgnoreController < Application
   before_action :set_post
   before_action :set_comment
   before_action -> { authorize(@comment, policy_class: Api::Communities::Posts::Comments::Reports::IgnorePolicy) }
-  decorates_assigned :comment
 
   def create
     Communities::Posts::Comments::Reports::IgnoreService.new(@comment).call

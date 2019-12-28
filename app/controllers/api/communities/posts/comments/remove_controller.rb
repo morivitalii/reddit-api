@@ -3,7 +3,6 @@ class Api::Communities::Posts::Comments::RemoveController < ApplicationControlle
   before_action :set_post
   before_action :set_comment
   before_action -> { authorize(@comment, policy_class: Api::Communities::Posts::Comments::RemovePolicy) }
-  decorates_assigned :comment
 
   def edit
     @form = Communities::Posts::Comments::RemoveForm.new(reason: @comment.removed_reason)
