@@ -5,11 +5,4 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   after_action :verify_authorized
-
-  private
-
-  helper_method :sidebar_moderators
-  def sidebar_moderators
-    @sidebar_moderators ||= ModeratorsQuery.new(pundit_user.community.moderators).recent(10).includes(:user)
-  end
 end
