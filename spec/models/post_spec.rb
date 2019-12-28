@@ -4,7 +4,6 @@ RSpec.describe Post do
   subject { described_class }
 
   it_behaves_like "paginatable"
-  it_behaves_like "markdownable", :text
 
   describe "validations" do
     subject { build(:post) }

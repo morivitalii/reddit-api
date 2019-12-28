@@ -1,6 +1,5 @@
 class Comment < ApplicationRecord
   include Paginatable
-  include Markdownable
 
   belongs_to :user
   belongs_to :community

@@ -4,7 +4,6 @@ RSpec.describe Comment do
   subject { described_class }
 
   it_behaves_like "paginatable"
-  it_behaves_like "markdownable", :text
 
   context "when author have permissions for approving" do
     it "approves comment on create" do
