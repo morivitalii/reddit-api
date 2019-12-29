@@ -1,11 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Api::SignOutController do
-  describe ".destroy" do
+  describe ".destroy", context: :as_signed_in_user do
     it "signs out user" do
-      user = create(:user)
-      login_as(user)
-
       delete "/api/sign_out.json"
 
       expect(response).to have_http_status(204)

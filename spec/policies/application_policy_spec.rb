@@ -34,27 +34,27 @@ RSpec.describe ApplicationPolicy do
   end
 
   describe ".skip_rate_limiting?" do
-    context "for visitor", context: :visitor do
+    context "for signed out user", context: :as_signed_out_user do
       permissions :skip_rate_limiting? do
-        it { is_expected.to_not permit(context) }
+        it { is_expected.to_not permit(user) }
       end
     end
 
-    context "for user", context: :user do
+    context "for signed in user", context: :as_signed_in_user do
       permissions :skip_rate_limiting? do
-        it { is_expected.to_not permit(context) }
+        it { is_expected.to_not permit(user) }
       end
     end
 
-    context "for moderator", context: :moderator do
+    context "for moderator", context: :as_moderator_user do
       permissions :skip_rate_limiting? do
-        it { is_expected.to permit(context) }
+        it { is_expected.to permit(user_context) }
       end
     end
 
-    context "for banned", context: :banned do
+    context "for banned", context: :as_banned_user do
       permissions :skip_rate_limiting? do
-        it { is_expected.to_not permit(context) }
+        it { is_expected.to_not permit(user_context) }
       end
     end
   end

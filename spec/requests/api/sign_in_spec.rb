@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Api::SignInController do
-  describe ".create" do
+  describe ".create", context: :as_signed_out_user do
     context "with valid params" do
       it "signs in user and returns user object" do
         user = create(:user)

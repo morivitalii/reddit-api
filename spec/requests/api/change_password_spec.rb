@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Api::ChangePasswordController do
-  describe ".update" do
+  describe ".update", context: :as_signed_out_user do
     context "with valid params" do
       it "changes user password, signs him in user and returns user object" do
         user = create(:user, forgot_password_token: "token")

@@ -3,15 +3,15 @@ require "rails_helper"
 RSpec.describe Api::ChangePasswordPolicy do
   subject { described_class }
 
-  context "for visitor", context: :visitor do
+  context "for signed out user", context: :as_signed_out_user do
     permissions :update? do
-      it { is_expected.to permit(context) }
+      it { is_expected.to permit(user) }
     end
   end
 
-  context "for user", context: :user do
+  context "for signed in user", context: :as_signed_in_user do
     permissions :update? do
-      it { is_expected.to permit(context) }
+      it { is_expected.to permit(user) }
     end
   end
 

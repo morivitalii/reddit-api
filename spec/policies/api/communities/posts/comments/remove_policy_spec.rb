@@ -3,52 +3,56 @@ require "rails_helper"
 RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
   subject { described_class }
 
-  let(:comment) { create(:comment, community: context.community) }
+  context "for signed out user", context: :as_signed_out_user do
+    let(:comment) { create(:comment) }
 
-  context "for visitor", context: :visitor do
     permissions :edit?, :update?, :update_reason? do
-      it { is_expected.to_not permit(context, comment) }
+      it { is_expected.to_not permit(user, comment) }
     end
   end
 
-  context "for user", context: :user do
+  context "for signed in user", context: :as_signed_in_user do
+    let(:comment) { create(:comment) }
+
     permissions :edit?, :update?, :update_reason? do
-      it { is_expected.to_not permit(context, comment) }
+      it { is_expected.to_not permit(user, comment) }
     end
   end
 
-  context "for moderator", context: :moderator do
+  context "for moderator", context: :as_moderator_user do
+    let(:comment) { create(:comment, community: user_context.community) }
+
     permissions :edit?, :update?, :update_reason? do
-      it { is_expected.to permit(context, comment) }
+      it { is_expected.to permit(user_context, comment) }
     end
   end
 
-  context "for author", context: :user do
-    let(:comment) { create(:comment, user: context.user, community: context.community) }
+  context "for author", context: :as_signed_in_user do
+    let(:comment) { create(:comment, user: user) }
 
     permissions :edit?, :update? do
-      it { is_expected.to permit(context, comment) }
+      it { is_expected.to permit(user, comment) }
     end
 
     permissions :update_reason? do
-      it { is_expected.to_not permit(context, comment) }
+      it { is_expected.to_not permit(user, comment) }
     end
   end
 
   describe ".permitted_attributes_for_update" do
-    context "for moderator", context: :moderator do
+    context "for moderator", context: :as_moderator_user do
       it "contains attributes" do
-        comment = create(:comment, community: context.community)
-        policy = described_class.new(context, comment)
+        comment = create(:comment, community: user_context.community)
+        policy = described_class.new(user_context, comment)
 
         expect(policy.permitted_attributes_for_update).to contain_exactly(:reason)
       end
     end
 
-    context "for author", context: :user do
+    context "for author", context: :as_signed_in_user do
       it "does not contain attributes" do
-        comment = create(:comment, community: context.community, user: context.user)
-        policy = described_class.new(context, comment)
+        comment = create(:comment, user: user)
+        policy = described_class.new(user, comment)
 
         expect(policy.permitted_attributes_for_update).to be_blank
       end
