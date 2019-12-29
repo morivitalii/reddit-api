@@ -4,6 +4,6 @@ class Api::SignOutController < ApplicationController
   def destroy
     request.env["warden"].logout
 
-    redirect_to root_path
+    head :no_content
   end
 end
