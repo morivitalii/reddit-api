@@ -14,7 +14,7 @@ RSpec.describe Api::SignUpController do
 
     context "with invalid params" do
       it "returns error messages" do
-        post "/api/sign_up.json", params: {username: "", email: "wrong_email", password: ""}
+        post "/api/sign_up.json", params: {username: "", email: "invalid email", password: ""}
 
         expect(session["warden.user.default.key"]).to be_nil
         expect(response).to have_http_status(422)

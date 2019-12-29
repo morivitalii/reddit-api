@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resource :forgot_password, only: [:new, :create], controller: :forgot_password
     resource :change_password, only: [:update], controller: :change_password
     resource :sign_out, only: [:destroy], controller: :sign_out
-    resource :users, only: [:edit, :update]
+    resource :users, only: [:update]
 
     resources :users, only: [] do
       scope module: :users do

@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "password": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

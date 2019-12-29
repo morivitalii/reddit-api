@@ -4,13 +4,13 @@ RSpec.describe Api::UsersPolicy do
   subject { described_class }
 
   context "for visitor", context: :visitor do
-    permissions :edit?, :update? do
+    permissions :update? do
       it { is_expected.to_not permit(context) }
     end
   end
 
   context "for user", context: :user do
-    permissions :edit?, :update? do
+    permissions :update? do
       it { is_expected.to permit(context) }
     end
   end

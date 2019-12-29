@@ -1,31 +1,21 @@
 class Api::UsersController < ApplicationController
-  before_action :set_user
   before_action -> { authorize(Api::UsersPolicy, @user) }
 
-  def edit
-    attributes = @user.slice(:email)
-
-    @form = UpdateUserForm.new(attributes)
-  end
-
   def update
-    @form = UpdateUserForm.new(update_params)
+    service = UpdateUser.new(update_params)
 
-    if @form.save
-      head :no_content, location: edit_users_path
+    if service.call
+      render json: UserSerializer.serialize(service.user)
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
   private
 
-  def set_user
-    @user = current_user
-  end
-
   def update_params
-    attributes = Api::UsersPolicy.new(pundit_user, @user).permitted_attributes_for_update
-    params.require(:update_user_form).permit(attributes).merge(user: @user)
+    attributes = Api::UsersPolicy.new(pundit_user, current_user).permitted_attributes_for_update
+
+    params.permit(attributes).merge(user: current_user)
   end
 end
