@@ -5,7 +5,7 @@ class Api::SignInController < ApiApplicationController
     service = SignIn.new
 
     if verify_recaptcha(model: service, attribute: :username) && request.env["warden"].authenticate!(:password)
-      render json: UserSerializer.serialize(current_user), status: :ok
+      render json: UserSerializer.serialize(current_user)
     else
       render json: service.errors, status: :unprocessable_entity
     end

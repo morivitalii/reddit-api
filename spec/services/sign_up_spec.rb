@@ -10,7 +10,7 @@ RSpec.describe SignUp do
           email: ""
         )
 
-        service.save
+        service.call
 
         expect(service.errors).to_not be_blank
       end
@@ -24,14 +24,14 @@ RSpec.describe SignUp do
           email: "email@example.com"
         )
 
-        service.save
+        service.call
 
         expect(service.errors).to be_blank
       end
     end
   end
 
-  describe ".save" do
+  describe ".call" do
     it "creates user" do
       service = described_class.new(
         username: "username",
@@ -39,7 +39,7 @@ RSpec.describe SignUp do
         email: "email@example.com"
       )
 
-      expect { service.save }.to change { User.count }.by(1)
+      expect { service.call }.to change { User.count }.by(1)
     end
   end
 end

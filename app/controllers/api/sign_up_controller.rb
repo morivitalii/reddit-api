@@ -4,10 +4,10 @@ class Api::SignUpController < ApiApplicationController
   def create
     service = SignUp.new(create_params)
 
-    if verify_recaptcha(model: service, attribute: :username) && service.save
+    if verify_recaptcha(model: service, attribute: :username) && service.call
       request.env["warden"].set_user(service.user)
 
-      render json: UserSerializer.new(service.user), status: :ok
+      render json: UserSerializer.new(service.user)
     else
       render json: service.errors, status: :unprocessable_entity
     end

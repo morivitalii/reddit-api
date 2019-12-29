@@ -4,10 +4,10 @@ class Api::ChangePasswordController < ApiApplicationController
   def update
     service = ChangePassword.new(update_params)
 
-    if service.save
+    if service.call
       request.env["warden"].set_user(service.user)
 
-      render json: UserSerializer.serialize(service.user), status: :ok
+      render json: UserSerializer.serialize(service.user)
     else
       render json: service.errors, status: :unprocessable_entity
     end

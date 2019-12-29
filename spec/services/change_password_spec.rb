@@ -23,12 +23,12 @@ RSpec.describe ChangePassword do
     end
   end
 
-  describe ".save" do
+  describe ".call" do
     it "updates user password and forgot password token" do
       create(:user, forgot_password_token: "token")
       service = described_class.new(token: "token", password: "password")
 
-      service.save
+      service.call
 
       expect(service.user.forgot_password_token).to_not eq("token")
       expect(service.user.password).to eq("password")
