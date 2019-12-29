@@ -1,19 +1,13 @@
 class Api::ForgotPasswordController < ApplicationController
   before_action -> { authorize(Api::ForgotPasswordPolicy) }
 
-  def new
-    @form = ForgotPasswordForm.new
-
-    render partial: "new"
-  end
-
   def create
-    @form = ForgotPasswordForm.new(create_params)
+    service = ForgotPassword.new(create_params)
 
-    if verify_recaptcha(model: @form, attribute: :email) && @form.save
+    if verify_recaptcha(model: service, attribute: :email) && service.call
       head :no_content
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
@@ -21,6 +15,7 @@ class Api::ForgotPasswordController < ApplicationController
 
   def create_params
     attributes = Api::ForgotPasswordPolicy.new(pundit_user).permitted_attributes_for_create
-    params.require(:forgot_password_form).permit(attributes)
+
+    params.permit(attributes)
   end
 end

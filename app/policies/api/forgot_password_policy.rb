@@ -3,8 +3,6 @@ class Api::ForgotPasswordPolicy < ApplicationPolicy
     true
   end
 
-  alias new? create?
-
   def permitted_attributes_for_create
     [:email]
   end
