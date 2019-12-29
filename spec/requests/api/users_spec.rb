@@ -1,9 +1,20 @@
 require "rails_helper"
 
 RSpec.describe Api::UsersController do
+  describe ".show", context: :as_signed_in_user do
+    it "returns user object" do
+      user = create(:user)
+
+      get "/api/users/#{user.to_param}.json"
+
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/users/show/200")
+    end
+  end
+
   describe ".update", context: :as_signed_in_user do
     context "with valid params" do
-      it "updates user" do
+      it "updates user and returns user object" do
         put "/api/users.json", params: {email: "email@example.com", password: "password"}
 
         expect(response).to have_http_status(200)

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resource :sign_out, only: [:destroy], controller: :sign_out
     resource :users, only: [:update]
 
-    resources :users, only: [] do
+    resources :users, only: [:show] do
       scope module: :users do
         resources :posts, only: [:index]
         resources :comments, only: [:index]
