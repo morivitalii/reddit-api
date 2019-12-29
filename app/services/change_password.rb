@@ -5,7 +5,7 @@ class ChangePassword
 
   validate :validate_token
 
-  def save
+  def call
     return false if invalid?
 
     ActiveRecord::Base.transaction do

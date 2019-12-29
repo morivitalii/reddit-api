@@ -4,7 +4,7 @@ class SignUp
   attr_accessor :username, :email, :password
   attr_reader :user
 
-  def save
+  def call
     @user = User.create!(
       username: username,
       email: email,
