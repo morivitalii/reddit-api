@@ -3,11 +3,17 @@ class Api::CommunitiesPolicy < ApplicationPolicy
     true
   end
 
+  def create?
+    user?
+  end
+
   def update?
     moderator?
   end
 
-  alias edit? update?
+  def permitted_attributes_for_create
+    [:url, :title, :description]
+  end
 
   def permitted_attributes_for_update
     [:title, :description]

@@ -1,0 +1,33 @@
+{
+  "id": "file:/serializers/community_serializer.json#",
+  "type": "object",
+  "required": [
+    "id",
+    "url",
+    "title",
+    "description",
+    "followers_count",
+    "created_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "url": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "followers_count": {
+      "type": "integer"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

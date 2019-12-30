@@ -8,24 +8,32 @@ RSpec.describe Api::CommunitiesPolicy do
       it { is_expected.to permit(user) }
     end
 
-    permissions :edit?, :update? do
+    permissions :create?, :update? do
       it { is_expected.to_not permit(user) }
     end
   end
 
   context "for signed in user", context: :as_signed_in_user do
-    permissions :show? do
+    permissions :show?, :create? do
       it { is_expected.to permit(user) }
     end
 
-    permissions :edit?, :update? do
+    permissions :update? do
       it { is_expected.to_not permit(user) }
     end
   end
 
   context "for moderator", context: :as_moderator_user do
-    permissions :show?, :edit?, :update? do
+    permissions :show?, :create?, :update? do
       it { is_expected.to permit(user_context) }
+    end
+  end
+
+  describe ".permitted_attributes_for_create" do
+    it "contains attributes" do
+      policy = described_class.new(nil)
+
+      expect(policy.permitted_attributes_for_create).to contain_exactly(:url, :title, :description)
     end
   end
 

@@ -1,24 +1,28 @@
 class Api::CommunitiesController < ApplicationController
-  before_action :set_community
-  before_action -> { authorize(Api::CommunitiesPolicy, @community) }
+  before_action :set_community, only: [:show, :update]
+  before_action -> { authorize(Api::CommunitiesPolicy) }
 
   def show
-    @posts, @pagination = query.paginate(attributes: [sort_attribute, :id], after: params[:after])
+    render json: CommunitySerializer.serialize(@community)
   end
 
-  def edit
-    attributes = @community.slice(:title, :description)
+  def create
+    service = CreateCommunity.new(create_params)
 
-    @form = Communities::UpdateForm.new(attributes)
+    if service.call
+      render json: CommunitySerializer.serialize(service.community)
+    else
+      render json: service.errors, status: :unprocessable_entity
+    end
   end
 
   def update
-    @form = Communities::UpdateForm.new(update_params)
+    service = UpdateCommunity.new(update_params)
 
-    if @form.save
-      head :no_content, location: edit_community_path(@community)
+    if service.call
+      render json: CommunitySerializer.serialize(service.community)
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
@@ -28,43 +32,16 @@ class Api::CommunitiesController < ApplicationController
     @community = CommunitiesQuery.new.with_url(params[:id]).take!
   end
 
-  def query
-    query = PostsQuery.new(@community.posts).not_removed
-    PostsQuery.new(query).search_created_after(date_value).includes(:user, :community)
+  def create_params
+    attributes = Api::CommunitiesPolicy.new(pundit_user).permitted_attributes_for_create
+
+    params.permit(attributes).merge(user: current_user)
   end
 
   def update_params
     attributes = Api::CommunitiesPolicy.new(pundit_user, @community).permitted_attributes_for_update
-    params.require(:update_community_form).permit(attributes).merge(community: @community)
-  end
 
-  helper_method :sorts
-  def sorts
-    %w[hot new top controversy]
-  end
-
-  helper_method :sort
-  def sort
-    sorts.include?(params[:sort]) ? params[:sort] : "hot"
-  end
-
-  def sort_attribute
-    "#{sort}_score"
-  end
-
-  helper_method :dates
-  def dates
-    %w[day week month]
-  end
-
-  helper_method :date
-  def date
-    dates.include?(params[:date]) ? params[:date] : nil
-  end
-
-  def date_value
-    # Time.now.advance does not accept string keys. wat?
-    date.present? ? Time.now.advance("#{date}s".to_sym => -1) : nil
+    params.permit(attributes).merge(community: @community)
   end
 
   def pundit_user

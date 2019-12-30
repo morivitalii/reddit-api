@@ -1,9 +1,9 @@
-class Communities::UpdateForm
+class UpdateCommunity
   include ActiveModel::Model
 
   attr_accessor :community, :title, :description
 
-  def save
+  def call
     community.update!(
       title: title,
       description: description
