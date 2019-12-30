@@ -117,7 +117,7 @@ FactoryBot.define do
       after(:create) do |post, evaluator|
         create(:vote, votable: post, user: evaluator.voted_by, vote_type: :up)
 
-        post.update_attributes!({up_votes_count: 1})
+        post.update!({up_votes_count: 1})
       end
     end
 
@@ -129,7 +129,7 @@ FactoryBot.define do
       after(:create) do |post, evaluator|
         create(:vote, votable: post, user: evaluator.voted_by, vote_type: :up)
 
-        post.update_attributes!({up_votes_count: 1})
+        post.update!({up_votes_count: 1})
       end
     end
 
@@ -141,7 +141,7 @@ FactoryBot.define do
       after(:create) do |post, evaluator|
         create(:vote, votable: post, user: evaluator.voted_by, vote_type: :down)
 
-        post.update_attributes!({down_votes_count: 1})
+        post.update!({down_votes_count: 1})
       end
     end
 
