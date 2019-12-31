@@ -7,6 +7,7 @@ class CommunitySerializer < ApplicationSerializer
       description: model.description,
       followers_count: model.followers_count,
       created_at: model.created_at,
+      updated_at: model.updated_at
     }
   end
 end
