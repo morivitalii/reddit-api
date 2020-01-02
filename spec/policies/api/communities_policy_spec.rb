@@ -4,17 +4,33 @@ RSpec.describe Api::CommunitiesPolicy do
   subject { described_class }
 
   context "for signed out user", context: :as_signed_out_user do
-    permissions :show? do
+    let(:community) { create(:community) }
+
+    permissions :index? do
       it { is_expected.to permit(user) }
     end
 
-    permissions :create?, :update? do
+    permissions :show? do
+      it { is_expected.to permit(user, community) }
+    end
+
+    permissions :create? do
       it { is_expected.to_not permit(user) }
+    end
+
+    permissions :update? do
+      it { is_expected.to_not permit(user, community) }
     end
   end
 
   context "for signed in user", context: :as_signed_in_user do
-    permissions :show?, :create? do
+    let(:community) { create(:community) }
+
+    permissions :index?, :create? do
+      it { is_expected.to permit(user) }
+    end
+
+    permissions :show? do
       it { is_expected.to permit(user) }
     end
 
@@ -24,8 +40,12 @@ RSpec.describe Api::CommunitiesPolicy do
   end
 
   context "for moderator", context: :as_moderator_user do
-    permissions :show?, :create?, :update? do
+    permissions :index?, :create? do
       it { is_expected.to permit(user_context) }
+    end
+
+    permissions :show?, :update? do
+      it { is_expected.to permit(user_context, user_context.community) }
     end
   end
 

@@ -36,7 +36,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :communities, only: [:show, :create, :update] do
+    resources :communities, only: [:index, :show, :create, :update] do
       scope module: :communities do
         resource :follow, only: [:create, :destroy], controller: :follow
         resources :moderators, only: [:index, :new, :create, :destroy]

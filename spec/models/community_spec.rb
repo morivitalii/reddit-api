@@ -3,6 +3,8 @@ require "rails_helper"
 RSpec.describe Community do
   subject { described_class }
 
+  it_behaves_like "paginatable"
+
   describe "validations" do
     subject { create(:community) }
 

@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Api::Communities::PostsController do
   describe ".index", context: :as_signed_in_user do
-    it "returns posts object" do
+    it "returns posts objects" do
       community = create(:community)
       create_list(:text_post, 2, community: community)
 

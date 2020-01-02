@@ -1,6 +1,13 @@
 class Api::CommunitiesController < ApplicationController
   before_action :set_community, only: [:show, :update]
-  before_action -> { authorize(Api::CommunitiesPolicy) }
+  before_action -> { authorize(Api::CommunitiesPolicy) }, only: [:index, :create]
+  before_action -> { authorize(Api::CommunitiesPolicy, @community) }, only: [:show, :update]
+
+  def index
+    communities = Community.paginate(attributes: [:id], after: params[:after])
+
+    render json: CommunitySerializer.serialize(communities)
+  end
 
   def show
     render json: CommunitySerializer.serialize(@community)

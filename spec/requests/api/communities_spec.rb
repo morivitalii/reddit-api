@@ -1,6 +1,17 @@
 require "rails_helper"
 
 RSpec.describe Api::CommunitiesController do
+  describe ".index", context: :as_signed_in_user do
+    it "returns posts objects" do
+      create_list(:community, 2)
+
+      get "/api/communities.json"
+
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities_controller/index/200")
+    end
+  end
+
   describe ".show", context: :as_signed_in_user do
     it "returns community object" do
       community = create(:community)
