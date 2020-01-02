@@ -2,12 +2,12 @@ class Comment < ApplicationRecord
   include Paginatable
 
   belongs_to :community
+  belongs_to :post, counter_cache: :comments_count
+  belongs_to :comment, class_name: "Comment", foreign_key: "comment_id", counter_cache: :comments_count, optional: true
   belongs_to :created_by, class_name: "User", foreign_key: "created_by_id"
   belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id", optional: true
   belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", optional: true
   belongs_to :removed_by, class_name: "User", foreign_key: "removed_by_id", optional: true
-  belongs_to :post, counter_cache: :comments_count
-  belongs_to :parent, class_name: "Comment", foreign_key: "comment_id", counter_cache: :comments_count, optional: true
   has_many :comments, class_name: "Comment", foreign_key: "comment_id", dependent: :destroy
   has_many :bookmarks, as: :bookmarkable, dependent: :destroy
   has_many :reports, as: :reportable, dependent: :destroy

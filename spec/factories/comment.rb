@@ -110,6 +110,14 @@ FactoryBot.define do
       end
     end
 
+    factory :comment_with_parent_comment do
+      after(:create) do |comment, evaluator|
+        parent_comment = create(:comment)
+        comment.comment = parent_comment
+        comment.save!
+      end
+    end
+
     factory :ignore_reports_comment, traits: [:ignore_reports]
     factory :not_ignore_reports_comment, traits: [:not_ignore_reports]
     factory :not_moderated_comment, traits: [:not_moderated]

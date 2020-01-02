@@ -1,26 +1,25 @@
 {
-  "id": "file:/serializers/post_serializer.json",
+  "id": "file:/serializers/comment_serializer.json#",
   "type": "object",
   "required": [
     "id",
     "community",
+    "post",
+    "comment",
     "created_by",
     "edited_by",
     "approved_by",
     "removed_by",
-    "title",
-    "tag",
     "text",
-    "file",
     "removed_reason",
-    "explicit",
-    "spoiler",
     "ignore_reports",
     "comments_count",
     "up_votes_count",
     "down_votes_count",
+    "reports_count",
     "new_score",
     "hot_score",
+    "best_score",
     "top_score",
     "controversy_score",
     "edited_at",
@@ -40,6 +39,26 @@
         },
         {
           "$ref": "file:/serializers/community_serializer.json#"
+        }
+      ]
+    },
+    "post": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "file:/serializers/post_serializer.json#"
+        }
+      ]
+    },
+    "comment": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "file:/serializers/comment_serializer.json#"
         }
       ]
     },
@@ -83,87 +102,11 @@
         }
       ]
     },
-    "title": {
-      "type": "string"
-    },
-    "tag": {
-      "type": ["null", "string"]
-    },
     "text": {
-      "type": ["null", "string"]
-    },
-    "file": {
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "desktop": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "url": {
-                  "type": "string"
-                },
-                "filename": {
-                  "type": "string"
-                },
-                "size": {
-                  "type": "integer"
-                },
-                "mime_type": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "integer"
-                },
-                "height": {
-                  "type": "integer"
-                }
-              }
-            },
-            "mobile": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "url": {
-                  "type": "string"
-                },
-                "filename": {
-                  "type": "string"
-                },
-                "size": {
-                  "type": "integer"
-                },
-                "mime_type": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "integer"
-                },
-                "height": {
-                  "type": "integer"
-                }
-              }
-            }
-          }
-        }
-      ]
+      "type": ["string"]
     },
     "removed_reason": {
       "type": ["null", "string"]
-    },
-    "explicit": {
-      "type": "boolean"
-    },
-    "spoiler": {
-      "type": "boolean"
     },
     "ignore_reports": {
       "type": "boolean"
@@ -177,10 +120,16 @@
     "down_votes_count": {
       "type": "integer"
     },
+    "reports_count": {
+      "type": "integer"
+    },
     "new_score": {
       "type": "integer"
     },
     "hot_score": {
+      "type": "number"
+    },
+    "best_score": {
       "type": "number"
     },
     "top_score": {
