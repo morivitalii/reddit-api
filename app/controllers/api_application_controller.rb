@@ -1,4 +1,6 @@
 class ApiApplicationController < ActionController::API
+  include ActionController::Cookies
+  include ActionController::RequestForgeryProtection
   include ForgeryProtection
   include Authentication
   include Pundit

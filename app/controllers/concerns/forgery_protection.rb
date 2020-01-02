@@ -2,7 +2,7 @@ module ForgeryProtection
   extend ActiveSupport::Concern
 
   included do
-    after_action :set_csrf_cookie
+    before_action :set_csrf_cookie
 
     private
 
