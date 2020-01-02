@@ -2,11 +2,11 @@ class PostSerializer < ApplicationSerializer
   def attributes
     {
       id: model.id,
-      community: model.community.present? ? CommunitySerializer.serialize(model.community) : nil,
-      created_by: model.created_by.present? ? UserSerializer.serialize(model.created_by) : nil,
-      edited_by: model.edited_by.present? ? UserSerializer.serialize(model.edited_by) : nil,
-      approved_by: model.approved_by.present? ? UserSerializer.serialize(model.approved_by) : nil,
-      removed_by: model.removed_by.present? ? UserSerializer.serialize(model.removed_by) : nil,
+      community: community,
+      created_by: created_by,
+      edited_by: edited_by,
+      approved_by: approved_by,
+      removed_by: removed_by,
       title: model.title,
       tag: model.tag,
       text: model.text,
@@ -31,6 +31,26 @@ class PostSerializer < ApplicationSerializer
   end
 
   private
+
+  def community
+    model.association(:community).loaded? && model.community.present? ? CommunitySerializer.serialize(model.community) : nil
+  end
+
+  def created_by
+    model.association(:created_by).loaded? && model.created_by.present? ? UserSerializer.serialize(model.created_by) : nil
+  end
+
+  def edited_by
+    model.association(:edited_by).loaded? && model.edited_by.present? ? UserSerializer.serialize(model.edited_by) : nil
+  end
+
+  def approved_by
+    model.association(:approved_by).loaded? && model.approved_by.present? ? UserSerializer.serialize(model.approved_by) : nil
+  end
+
+  def removed_by
+    model.association(:removed_by).loaded? && model.removed_by.present? ? UserSerializer.serialize(model.removed_by) : nil
+  end
 
   def file
     return nil if model.file.blank?
