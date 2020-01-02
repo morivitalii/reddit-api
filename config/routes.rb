@@ -55,12 +55,8 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :posts, only: [:show, :create, :edit, :update] do
+        resources :posts, only: [:index, :show, :create, :update] do
           scope module: :posts do
-            get "/new/text", action: :new_text, on: :collection
-            get "/new/link", action: :new_link, on: :collection
-            get "/new/image", action: :new_image, on: :collection
-
             resource :approve, only: [:update], controller: :approve
             resource :remove, only: [:edit, :update], controller: :remove
             resource :explicit, only: [:create, :destroy], controller: :explicit

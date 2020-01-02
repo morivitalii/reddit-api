@@ -8,7 +8,7 @@ RSpec.describe Api::CommunitiesController do
       get "/api/communities/#{community.to_param}.json"
 
       expect(response).to have_http_status(200)
-      expect(response).to match_json_schema("controllers/api/communities/show/200")
+      expect(response).to match_json_schema("controllers/api/communities_controller/show/200")
     end
   end
 
@@ -18,7 +18,7 @@ RSpec.describe Api::CommunitiesController do
         post "/api/communities.json", params: {url: "Url", title: "Title", description: "Description"}
 
         expect(response).to have_http_status(200)
-        expect(response).to match_json_schema("controllers/api/communities/create/200")
+        expect(response).to match_json_schema("controllers/api/communities_controller/create/200")
       end
     end
 
@@ -27,7 +27,7 @@ RSpec.describe Api::CommunitiesController do
         post "/api/communities.json", params: {url: "", title: "", description: ""}
 
         expect(response).to have_http_status(422)
-        expect(response).to match_json_schema("controllers/api/communities/create/422")
+        expect(response).to match_json_schema("controllers/api/communities_controller/create/422")
       end
     end
   end
@@ -40,7 +40,7 @@ RSpec.describe Api::CommunitiesController do
         put "/api/communities/#{community.to_param}.json", params: {title: "New title", description: "New description"}
 
         expect(response).to have_http_status(200)
-        expect(response).to match_json_schema("controllers/api/communities/update/200")
+        expect(response).to match_json_schema("controllers/api/communities_controller/update/200")
       end
     end
 
@@ -51,7 +51,7 @@ RSpec.describe Api::CommunitiesController do
         put "/api/communities/#{community.to_param}.json", params: {title: "", description: ""}
 
         expect(response).to have_http_status(422)
-        expect(response).to match_json_schema("controllers/api/communities/update/422")
+        expect(response).to match_json_schema("controllers/api/communities_controller/update/422")
       end
     end
   end

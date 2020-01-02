@@ -15,25 +15,13 @@ RSpec.describe Post do
       subject { build(:text_post) }
 
       it { is_expected.to validate_length_of(:text).is_at_most(10_000) }
-      it { is_expected.to validate_absence_of(:url) }
-      # it { is_expected.to validate_absence_of(:image) }
-    end
-
-    context "link post" do
-      subject { build(:link_post) }
-
-      it { is_expected.to validate_length_of(:url).is_at_most(2048) }
-      it { is_expected.to allow_value("http://example.com/").for(:url) }
-      it { is_expected.to_not allow_value("http://invalid . link/").for(:url) }
-      it { is_expected.to validate_absence_of(:text) }
-      # it { is_expected.to validate_absence_of(:image) }
+      # it { is_expected.to validate_absence_of(:file) }
     end
 
     context "image post" do
       subject { build(:image_post) }
 
       it { is_expected.to validate_absence_of(:text) }
-      it { is_expected.to validate_absence_of(:url) }
     end
   end
 
@@ -44,7 +32,7 @@ RSpec.describe Post do
 
       post.save!
 
-      expect(post.approved_by).to eq(post.user)
+      expect(post.approved_by).to eq(post.created_by)
       expect(post.approved_at).to be_present
     end
   end
@@ -159,37 +147,6 @@ RSpec.describe Post do
         post = build(:not_approved_post)
 
         expect(post).to_not be_approved
-      end
-    end
-  end
-
-  describe ".edit" do
-    it "edits post" do
-      post = create(:post)
-      edited_by = create(:user)
-
-      post.edit(edited_by)
-      post.save!
-
-      expect(post.edited_by).to eq(edited_by)
-      expect(post.edited_at).to be_present
-    end
-  end
-
-  describe ".edited?" do
-    context "when post is edited" do
-      it "returns true" do
-        post = build(:edited_post)
-
-        expect(post).to be_edited
-      end
-    end
-
-    context "when post is not edited" do
-      it "returns false" do
-        post = build(:not_edited_post)
-
-        expect(post).to_not be_edited
       end
     end
   end

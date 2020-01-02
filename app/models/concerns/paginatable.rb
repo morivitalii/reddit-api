@@ -8,7 +8,7 @@ module Paginatable
       limit = options.fetch(:limit, 50)
       pagination_record = options[:after].present? ? unscoped.find_by_id(options[:after]) : nil
 
-      pagination_scope(attributes, order, limit, pagination_record).to_a
+      pagination_scope(attributes, order, limit, pagination_record)
     end
 
     private

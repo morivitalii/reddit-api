@@ -28,7 +28,7 @@ RSpec.describe Api::Communities::Posts::RemovePolicy do
   end
 
   context "for author", context: :as_signed_in_user do
-    let(:post) { create(:post, user: user) }
+    let(:post) { create(:post, created_by: user) }
 
     permissions :edit?, :update? do
       it { is_expected.to permit(user, post) }
@@ -51,7 +51,7 @@ RSpec.describe Api::Communities::Posts::RemovePolicy do
 
     context "for author", context: :as_signed_in_user do
       it "does not contain attributes" do
-        post = create(:post, user: user)
+        post = create(:post, created_by: user)
         policy = described_class.new(user, post)
 
         expect(policy.permitted_attributes_for_update).to be_blank

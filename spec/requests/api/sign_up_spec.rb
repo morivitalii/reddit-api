@@ -8,7 +8,7 @@ RSpec.describe Api::SignUpController do
 
         expect(session["warden.user.default.key"]).to_not be_nil
         expect(response).to have_http_status(200)
-        expect(response).to match_json_schema("controllers/api/sign_up/create/200")
+        expect(response).to match_json_schema("controllers/api/sign_up_controller/create/200")
       end
     end
 
@@ -18,7 +18,7 @@ RSpec.describe Api::SignUpController do
 
         expect(session["warden.user.default.key"]).to be_nil
         expect(response).to have_http_status(422)
-        expect(response).to match_json_schema("controllers/api/sign_up/create/422")
+        expect(response).to match_json_schema("controllers/api/sign_up_controller/create/422")
       end
     end
   end

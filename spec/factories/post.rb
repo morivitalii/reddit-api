@@ -2,27 +2,19 @@ include ActionDispatch::TestProcess
 
 FactoryBot.define do
   factory :post do
-    user
-    community
+    association :created_by, factory: :user
+    association :community
     title { "Title" }
     text
 
     trait :text do
       text { "Text" }
-      url { nil }
-      image { nil }
-    end
-
-    trait :link do
-      text { nil }
-      url { "http://example.com/" }
-      image { nil }
+      file { nil }
     end
 
     trait :image do
       text { nil }
-      url { nil }
-      image { fixture_file_upload(Rails.root.join("spec/fixtures/files/post_image.jpg")) }
+      file { fixture_file_upload(Rails.root.join("spec/fixtures/files/post_image.jpg")) }
     end
 
     trait :moderated do
@@ -56,13 +48,13 @@ FactoryBot.define do
     end
 
     trait :not_removed do
-      removed_at { nil }
       removed_by { nil }
+      removed_at { nil }
     end
 
     trait :removed do
-      removed_at { Time.current }
       association :removed_by, factory: :user
+      removed_at { Time.current }
     end
 
     trait :explicit do
@@ -145,6 +137,12 @@ FactoryBot.define do
       end
     end
 
+    factory :post_with_topic do
+      after(:create) do |post, _evaluator|
+        post.create_topic!
+      end
+    end
+
     factory :explicit_post, traits: [:explicit]
     factory :not_explicit_post, traits: [:explicit]
     factory :spoiler_post, traits: [:spoiler]
@@ -160,7 +158,6 @@ FactoryBot.define do
     factory :not_edited_post, traits: [:not_edited]
     factory :edited_post, traits: [:edited]
     factory :text_post, traits: [:text]
-    factory :link_post, traits: [:link]
     factory :image_post, traits: [:image]
   end
 end

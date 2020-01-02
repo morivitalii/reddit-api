@@ -10,7 +10,7 @@ RSpec.describe Api::ChangePasswordController do
 
         expect(session["warden.user.default.key"]).to eq(user.id)
         expect(response).to have_http_status(200)
-        expect(response).to match_json_schema("controllers/api/change_password/update/200", strict: true)
+        expect(response).to match_json_schema("controllers/api/change_password_controller/update/200", strict: true)
       end
     end
 
@@ -20,7 +20,7 @@ RSpec.describe Api::ChangePasswordController do
 
         expect(session["warden.user.default.key"]).to be_nil
         expect(response).to have_http_status(422)
-        expect(response).to match_json_schema("controllers/api/change_password/update/422")
+        expect(response).to match_json_schema("controllers/api/change_password_controller/update/422")
       end
     end
   end

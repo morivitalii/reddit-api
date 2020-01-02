@@ -1,0 +1,207 @@
+{
+  "id": "file:/serializers/post_serializer.json",
+  "type": "object",
+  "required": [
+    "id",
+    "community",
+    "created_by",
+    "edited_by",
+    "approved_by",
+    "removed_by",
+    "title",
+    "tag",
+    "text",
+    "file",
+    "removed_reason",
+    "explicit",
+    "spoiler",
+    "ignore_reports",
+    "comments_count",
+    "up_votes_count",
+    "down_votes_count",
+    "new_score",
+    "hot_score",
+    "top_score",
+    "controversy_score",
+    "edited_at",
+    "approved_at",
+    "removed_at",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "community": {
+      "allOf": [
+        {
+          "$ref": "file:/serializers/community_serializer.json#"
+        }
+      ]
+    },
+    "created_by": {
+      "allOf": [
+        {
+          "$ref": "file:/serializers/user_serializer.json#"
+        }
+      ]
+    },
+    "edited_by": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "file:/serializers/user_serializer.json#"
+        }
+      ]
+    },
+    "approved_by": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "file:/serializers/user_serializer.json#"
+        }
+      ]
+    },
+    "removed_by": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "file:/serializers/user_serializer.json#"
+        }
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "tag": {
+      "type": ["null", "string"]
+    },
+    "text": {
+      "type": ["null", "string"]
+    },
+    "file": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "desktop": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "filename": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "integer"
+                },
+                "mime_type": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "integer"
+                },
+                "height": {
+                  "type": "integer"
+                }
+              }
+            },
+            "mobile": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "filename": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "integer"
+                },
+                "mime_type": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "integer"
+                },
+                "height": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "removed_reason": {
+      "type": ["null", "string"]
+    },
+    "explicit": {
+      "type": "boolean"
+    },
+    "spoiler": {
+      "type": "boolean"
+    },
+    "ignore_reports": {
+      "type": "boolean"
+    },
+    "comments_count": {
+      "type": "integer"
+    },
+    "up_votes_count": {
+      "type": "integer"
+    },
+    "down_votes_count": {
+      "type": "integer"
+    },
+    "new_score": {
+      "type": "integer"
+    },
+    "hot_score": {
+      "type": "number"
+    },
+    "top_score": {
+      "type": "integer"
+    },
+    "controversy_score": {
+      "type": "number"
+    },
+    "edited_at": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "approved_at": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "removed_at": {
+      "type": ["null", "string"],
+      "format": "date-time"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

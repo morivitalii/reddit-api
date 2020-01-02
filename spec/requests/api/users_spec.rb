@@ -8,7 +8,7 @@ RSpec.describe Api::UsersController do
       get "/api/users/#{user.to_param}.json"
 
       expect(response).to have_http_status(200)
-      expect(response).to match_json_schema("controllers/api/users/show/200")
+      expect(response).to match_json_schema("controllers/api/users_controller/show/200")
     end
   end
 
@@ -18,7 +18,7 @@ RSpec.describe Api::UsersController do
         put "/api/users.json", params: {email: "email@example.com", password: "password"}
 
         expect(response).to have_http_status(200)
-        expect(response).to match_json_schema("controllers/api/users/update/200")
+        expect(response).to match_json_schema("controllers/api/users_controller/update/200")
       end
     end
 
@@ -27,7 +27,7 @@ RSpec.describe Api::UsersController do
         put "/api/users.json", params: {email: "invalid email", password: ""}
 
         expect(response).to have_http_status(422)
-        expect(response).to match_json_schema("controllers/api/users/update/422")
+        expect(response).to match_json_schema("controllers/api/users_controller/update/422")
       end
     end
   end

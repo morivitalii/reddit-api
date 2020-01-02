@@ -1,4 +1,8 @@
 class Api::Communities::PostsPolicy < ApplicationPolicy
+  def index?
+    true
+  end
+
   def show?
     true
   end
@@ -7,18 +11,12 @@ class Api::Communities::PostsPolicy < ApplicationPolicy
     user?
   end
 
-  alias new_text? create?
-  alias new_link? create?
-  alias new_image? create?
-
-  def edit?
+  def update?
     author? && record.text?
   end
 
-  alias update? edit?
-
   def permitted_attributes_for_create
-    [:title, :text, :url, :image, :explicit, :spoiler]
+    [:title, :text, :file, :explicit, :spoiler]
   end
 
   def permitted_attributes_for_update
@@ -30,6 +28,6 @@ class Api::Communities::PostsPolicy < ApplicationPolicy
   private
 
   def author?
-    user? && user.id == record.user_id
+    user? && user.id == record.created_by_id
   end
 end

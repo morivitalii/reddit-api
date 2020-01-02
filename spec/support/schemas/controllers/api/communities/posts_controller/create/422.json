@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "required": [
+    "title",
+    "text",
+    "file"
+  ],
+  "properties": {
+    "title": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "text": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "file": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "explicit": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "spoiler": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

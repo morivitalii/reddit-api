@@ -11,8 +11,6 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
-
 --
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
@@ -122,7 +120,8 @@ CREATE TABLE public.comments (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     comment_id bigint,
-    community_id bigint NOT NULL
+    community_id bigint NOT NULL,
+    reports_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -249,13 +248,12 @@ ALTER SEQUENCE public.moderators_id_seq OWNED BY public.moderators.id;
 
 CREATE TABLE public.posts (
     id bigint NOT NULL,
-    user_id bigint NOT NULL,
+    created_by_id bigint NOT NULL,
     community_id bigint NOT NULL,
     title character varying NOT NULL,
     tag character varying,
     text text,
-    url character varying,
-    image_data character varying,
+    file_data character varying,
     explicit boolean DEFAULT false NOT NULL,
     spoiler boolean DEFAULT false NOT NULL,
     ignore_reports boolean DEFAULT false NOT NULL,
@@ -274,7 +272,8 @@ CREATE TABLE public.posts (
     removed_at timestamp without time zone,
     removed_reason character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    reports_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -936,6 +935,13 @@ CREATE INDEX index_posts_on_created_at ON public.posts USING btree (created_at);
 
 
 --
+-- Name: index_posts_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_created_by_id ON public.posts USING btree (created_by_id);
+
+
+--
 -- Name: index_posts_on_edited_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -968,13 +974,6 @@ CREATE INDEX index_posts_on_removed_by_id ON public.posts USING btree (removed_b
 --
 
 CREATE INDEX index_posts_on_top_score ON public.posts USING btree (top_score);
-
-
---
--- Name: index_posts_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_posts_on_user_id ON public.posts USING btree (user_id);
 
 
 --
@@ -1190,7 +1189,7 @@ ALTER TABLE ONLY public.posts
 --
 
 ALTER TABLE ONLY public.posts
-    ADD CONSTRAINT fk_rails_5b5ddfd518 FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT fk_rails_5b5ddfd518 FOREIGN KEY (created_by_id) REFERENCES public.users(id);
 
 
 --
@@ -1379,6 +1378,11 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190820202154'),
 ('20190821105247'),
 ('20190822173713'),
-('20190823145005');
+('20190823145005'),
+('20191230181216'),
+('20191230181302'),
+('20191231035003'),
+('20191231040111'),
+('20191231040128');
 
 
