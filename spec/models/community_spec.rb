@@ -7,8 +7,7 @@ RSpec.describe Community do
     subject { create(:community) }
 
     it { is_expected.to validate_presence_of(:url) }
-    it { is_expected.to validate_length_of(:url).is_at_most(20) }
-    it { is_expected.to validate_uniqueness_of(:url) }
+    it { is_expected.to validate_uniqueness_of(:url).case_insensitive }
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_length_of(:title).is_at_most(30) }
     it { is_expected.to validate_length_of(:description).is_at_most(200) }
