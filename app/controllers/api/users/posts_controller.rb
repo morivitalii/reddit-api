@@ -3,16 +3,16 @@ class Api::Users::PostsController < ApplicationController
   before_action -> { authorize(Api::Users::PostsPolicy, @user) }
 
   def index
-    @posts, @pagination = query.paginate(after: params[:after])
+    query = PostsQuery.new(@user.posts).not_removed
+    query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
+    posts = query.paginate(after: params[:after])
+
+    render json: PostSerializer.serialize(posts)
   end
 
   private
 
   def set_user
     @user = UsersQuery.new.with_username(params[:user_id]).take!
-  end
-
-  def query
-    PostsQuery.new(@user.posts).not_removed.includes(:community, :user)
   end
 end
