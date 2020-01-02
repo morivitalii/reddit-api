@@ -1,6 +1,7 @@
 class ApiApplicationController < ActionController::API
-  include Pundit
+  include ForgeryProtection
   include Authentication
+  include Pundit
   include Authorization
   include RateLimits
 
