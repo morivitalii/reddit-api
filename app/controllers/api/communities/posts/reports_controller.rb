@@ -1,4 +1,4 @@
-class Api::Communities::Posts::ReportsController < ApplicationController
+class Api::Communities::Posts::ReportsController < ApiApplicationController
   before_action :set_community
   before_action :set_post
   before_action -> { authorize(Api::Communities::Posts::ReportsPolicy, @post) }

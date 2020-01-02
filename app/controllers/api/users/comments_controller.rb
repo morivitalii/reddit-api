@@ -1,4 +1,4 @@
-class Api::Users::CommentsController < ApplicationController
+class Api::Users::CommentsController < ApiApplicationController
   before_action :set_user
   before_action -> { authorize(Api::Users::CommentsPolicy, @user) }
 

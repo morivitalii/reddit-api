@@ -1,4 +1,4 @@
-class Api::CommunitiesController < ApplicationController
+class Api::CommunitiesController < ApiApplicationController
   before_action :set_community, only: [:show, :update]
   before_action -> { authorize(Api::CommunitiesPolicy) }
 

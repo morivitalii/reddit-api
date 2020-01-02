@@ -1,4 +1,4 @@
-class Api::Communities::Posts::RemoveController < ApplicationController
+class Api::Communities::Posts::RemoveController < ApiApplicationController
   before_action :set_community
   before_action :set_post
   before_action -> { authorize(Api::Communities::Posts::RemovePolicy, @post) }

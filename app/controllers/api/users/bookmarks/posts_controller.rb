@@ -1,4 +1,4 @@
-class Api::Users::Bookmarks::PostsController < ApplicationController
+class Api::Users::Bookmarks::PostsController < ApiApplicationController
   before_action :set_user
   before_action -> { authorize(Api::Users::Bookmarks::PostsPolicy, @user) }
 

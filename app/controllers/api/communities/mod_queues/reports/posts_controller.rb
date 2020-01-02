@@ -1,4 +1,4 @@
-class Api::Communities::ModQueues::Reports::PostsController < ApplicationController
+class Api::Communities::ModQueues::Reports::PostsController < ApiApplicationController
   before_action :set_community
   before_action -> { authorize(Api::Communities::ModQueues::Reports::PostsPolicy) }
 

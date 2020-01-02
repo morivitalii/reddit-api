@@ -1,4 +1,4 @@
-class Api::ForgotPasswordController < ApplicationController
+class Api::ForgotPasswordController < ApiApplicationController
   before_action -> { authorize(Api::ForgotPasswordPolicy) }
 
   def create

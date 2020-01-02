@@ -1,4 +1,4 @@
-class Api::Users::PostsController < ApplicationController
+class Api::Users::PostsController < ApiApplicationController
   before_action :set_user
   before_action -> { authorize(Api::Users::PostsPolicy, @user) }
 

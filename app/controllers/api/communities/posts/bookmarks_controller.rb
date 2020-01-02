@@ -1,4 +1,4 @@
-class Api::Communities::Posts::BookmarksController < ApplicationController
+class Api::Communities::Posts::BookmarksController < ApiApplicationController
   before_action :set_community
   before_action :set_post
   before_action -> { authorize(Api::Communities::Posts::BookmarksPolicy, @post) }

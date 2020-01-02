@@ -1,4 +1,4 @@
-class Api::Communities::Posts::SpoilerController < ApplicationController
+class Api::Communities::Posts::SpoilerController < ApiApplicationController
   before_action :set_community
   before_action :set_post
   before_action -> { authorize(Api::Communities::Posts::SpoilerPolicy, @post) }

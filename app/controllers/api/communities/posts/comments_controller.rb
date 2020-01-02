@@ -1,3 +1,3 @@
-class Api::Communities::Posts::CommentsController < ApplicationController
+class Api::Communities::Posts::CommentsController < ApiApplicationController
   # TODO
 end

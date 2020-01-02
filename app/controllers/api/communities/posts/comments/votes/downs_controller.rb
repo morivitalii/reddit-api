@@ -1,4 +1,4 @@
-class Api::Communities::Posts::Comments::Votes::DownsController < ApplicationController
+class Api::Communities::Posts::Comments::Votes::DownsController < ApiApplicationController
   before_action :set_community
   before_action :set_post
   before_action :set_comment
