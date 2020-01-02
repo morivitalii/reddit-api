@@ -1,8 +1,9 @@
 FactoryBot.define do
   factory :comment do
-    user
     post
     community { post.community }
+    association :created_by, factory: :user
+
     text { "Text" }
 
     trait :moderated do

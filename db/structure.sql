@@ -98,7 +98,7 @@ ALTER SEQUENCE public.bookmarks_id_seq OWNED BY public.bookmarks.id;
 
 CREATE TABLE public.comments (
     id bigint NOT NULL,
-    user_id bigint NOT NULL,
+    created_by_id bigint NOT NULL,
     post_id bigint NOT NULL,
     text text NOT NULL,
     ignore_reports boolean DEFAULT false NOT NULL,
@@ -809,6 +809,13 @@ CREATE INDEX index_comments_on_created_at ON public.comments USING btree (create
 
 
 --
+-- Name: index_comments_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_created_by_id ON public.comments USING btree (created_by_id);
+
+
+--
 -- Name: index_comments_on_edited_by_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -848,13 +855,6 @@ CREATE INDEX index_comments_on_removed_by_id ON public.comments USING btree (rem
 --
 
 CREATE INDEX index_comments_on_top_score ON public.comments USING btree (top_score);
-
-
---
--- Name: index_comments_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_comments_on_user_id ON public.comments USING btree (user_id);
 
 
 --
@@ -1093,7 +1093,7 @@ CREATE INDEX index_votes_on_vote_type ON public.votes USING btree (vote_type);
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT fk_rails_03de2dc08c FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT fk_rails_03de2dc08c FOREIGN KEY (created_by_id) REFERENCES public.users(id);
 
 
 --
@@ -1383,6 +1383,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191230181302'),
 ('20191231035003'),
 ('20191231040111'),
-('20191231040128');
+('20191231040128'),
+('20200102204219');
 
 

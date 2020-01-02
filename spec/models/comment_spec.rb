@@ -12,7 +12,7 @@ RSpec.describe Comment do
 
       comment.save!
 
-      expect(comment.approved_by).to eq(comment.user)
+      expect(comment.approved_by).to eq(comment.created_by)
       expect(comment.approved_at).to be_present
     end
   end

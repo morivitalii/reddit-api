@@ -18,6 +18,6 @@ class Api::Communities::Posts::Comments::RemovePolicy < ApplicationPolicy
   private
 
   def author?
-    user? && user.id == record.user_id
+    user? && user.id == record.created_by_id
   end
 end
