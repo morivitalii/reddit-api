@@ -1,4 +1,4 @@
-module RateLimits
+module RateLimiting
   extend ActiveSupport::Concern
 
   included do
