@@ -7,7 +7,11 @@ module Authorization
     rescue_from Pundit::NotAuthorizedError, with: :authorization_error
 
     def authorization_error
-      head :forbidden
+      if current_user.present?
+        head :forbidden
+      else
+        head :unauthorized
+      end
     end
 
     def authorize(policy_class, record = nil)
