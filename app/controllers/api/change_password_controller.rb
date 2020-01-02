@@ -1,4 +1,4 @@
-class Api::ChangePasswordController < ApiApplicationController
+class Api::ChangePasswordController < ApplicationController
   before_action -> { authorize(Api::ChangePasswordPolicy) }
 
   def update

@@ -1,4 +1,4 @@
-class Api::Communities::Posts::Votes::DownsController < ApiApplicationController
+class Api::Communities::Posts::Votes::DownsController < ApplicationController
   before_action :set_community
   before_action :set_post
   before_action -> { authorize(Api::Communities::Posts::Votes::DownsPolicy, @post) }

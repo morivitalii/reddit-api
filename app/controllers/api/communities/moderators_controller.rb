@@ -1,4 +1,4 @@
-class Api::Communities::ModeratorsController < ApiApplicationController
+class Api::Communities::ModeratorsController < ApplicationController
   before_action :set_community
   before_action :set_moderator, only: [:destroy]
   before_action -> { authorize(Api::Communities::ModeratorsPolicy) }, only: [:index, :new, :create]

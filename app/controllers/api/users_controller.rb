@@ -1,4 +1,4 @@
-class Api::UsersController < ApiApplicationController
+class Api::UsersController < ApplicationController
   before_action :set_user, only: [:show]
   before_action -> { authorize(Api::UsersPolicy, @user) }, only: [:show]
   before_action -> { authorize(Api::UsersPolicy) }, only: [:update]

@@ -1,4 +1,4 @@
-class Api::Communities::FollowController < ApiApplicationController
+class Api::Communities::FollowController < ApplicationController
   before_action :set_community
   before_action -> { authorize(Api::Communities::FollowsPolicy) }
 

@@ -1,4 +1,4 @@
-class Api::Communities::Posts::Comments::ReportsController < ApiApplicationController
+class Api::Communities::Posts::Comments::ReportsController < ApplicationController
   before_action :set_community
   before_action :set_post
   before_action :set_comment

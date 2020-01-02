@@ -1,4 +1,4 @@
-class Api::Communities::Posts::Comments::RemoveController < ApiApplicationController
+class Api::Communities::Posts::Comments::RemoveController < ApplicationController
   before_action :set_community
   before_action :set_post
   before_action :set_comment

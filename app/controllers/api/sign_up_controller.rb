@@ -1,4 +1,4 @@
-class Api::SignUpController < ApiApplicationController
+class Api::SignUpController < ApplicationController
   before_action -> { authorize(Api::SignUpPolicy) }
 
   def create

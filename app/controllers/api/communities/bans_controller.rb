@@ -1,4 +1,4 @@
-class Api::Communities::BansController < ApiApplicationController
+class Api::Communities::BansController < ApplicationController
   before_action :set_community
   before_action :set_ban, only: [:edit, :update, :destroy]
   before_action -> { authorize(Api::Communities::BansPolicy) }, only: [:index, :new, :create]

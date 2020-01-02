@@ -1,4 +1,4 @@
-class Api::SignOutController < ApiApplicationController
+class Api::SignOutController < ApplicationController
   before_action -> { authorize(Api::SignOutPolicy) }
 
   def destroy

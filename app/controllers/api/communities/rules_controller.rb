@@ -1,4 +1,4 @@
-class Api::Communities::RulesController < ApiApplicationController
+class Api::Communities::RulesController < ApplicationController
   before_action :set_community
   before_action :set_rule, only: [:edit, :update, :destroy]
   before_action -> { authorize(Api::Communities::RulesPolicy) }, only: [:index, :new, :create]

@@ -1,4 +1,4 @@
-class Api::Communities::Posts::ExplicitController < ApiApplicationController
+class Api::Communities::Posts::ExplicitController < ApplicationController
   before_action :set_community
   before_action :set_post
   before_action -> { authorize(Api::Communities::Posts::ExplicitPolicy, @post) }

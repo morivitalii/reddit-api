@@ -1,4 +1,4 @@
-class Api::Users::Votes::Ups::PostsController < ApiApplicationController
+class Api::Users::Votes::Ups::PostsController < ApplicationController
   before_action :set_user
   before_action -> { authorize(Api::Users::Votes::Ups::PostsPolicy, @user) }
 
