@@ -24,9 +24,10 @@ gem "pundit", "~> 2"
 gem "draper", "~> 3"
 
 group :development, :test do
+  gem "puma"
   gem "standard"
   gem "rspec-rails"
-  gem "puma"
+  gem "factory_bot_rails"
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
 end
 
@@ -38,7 +39,6 @@ group :development do
 end
 
 group :test do
-  gem "factory_bot_rails"
   gem "shoulda-matchers"
   gem "json_matchers"
   gem "simplecov", require: false
