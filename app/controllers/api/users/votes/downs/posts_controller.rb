@@ -3,14 +3,14 @@ class Api::Users::Votes::Downs::PostsController < ApplicationController
   before_action -> { authorize(Api::Users::Votes::Downs::PostsPolicy, @user) }
 
   def index
-    @posts, @pagination = query.paginate(after: params[:after])
+    query = PostsQuery.new.down_voted_by_user(@user)
+    query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
+    posts = query.paginate(after: params[:after])
+
+    render json: PostSerializer.serialize(posts)
   end
 
   private
-
-  def query
-    PostsQuery.new.down_voted_by_user(@user).includes(:user, :community)
-  end
 
   def set_user
     @user = UsersQuery.new.with_username(params[:user_id]).take!
