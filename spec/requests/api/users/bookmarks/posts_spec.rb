@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Api::Users::Bookmarks::PostsController do
   describe ".index", context: :as_signed_in_user do
     it "returns posts objects" do
-      create_list(:post, 2, created_by: user)
+      create_list(:post_with_bookmark, 2, bookmarked_by: user)
 
       get "/api/users/#{user.to_param}/bookmarks/posts.json"
 

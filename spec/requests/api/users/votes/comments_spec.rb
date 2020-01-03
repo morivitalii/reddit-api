@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Api::Users::Votes::CommentsController do
   describe ".index", context: :as_signed_in_user do
     it "returns comments objects" do
-      create_list(:comment, 2, created_by: user)
+      create_list(:comment_with_vote, 2, voted_by: user)
 
       get "/api/users/#{user.to_param}/votes/comments.json"
 
