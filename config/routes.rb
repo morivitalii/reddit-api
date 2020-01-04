@@ -15,6 +15,7 @@ Rails.application.routes.draw do
           namespace :hot do
             resources :day, only: [:index]
             resources :week, only: [:index]
+            resources :month, only: [:index]
           end
 
           namespace :new do
