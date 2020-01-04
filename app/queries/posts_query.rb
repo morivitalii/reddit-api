@@ -15,6 +15,10 @@ class PostsQuery < ApplicationQuery
     relation.where("posts.created_at > ?", 1.day.ago)
   end
 
+  def for_the_last_week
+    relation.where("posts.created_at > ?", 1.week.ago)
+  end
+
   def created_after(datetime)
     relation.where("posts.created_at > ?", datetime)
   end
