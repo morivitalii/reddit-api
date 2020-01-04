@@ -36,6 +36,17 @@ RSpec.describe PostsQuery do
     end
   end
 
+  describe ".for_the_last_day" do
+    it "returns posts created for the last day" do
+      posts_created_for_the_last_day = create_pair(:post)
+      _other_posts = create_pair(:post, created_at: 1.week.ago)
+
+      result = subject.new.for_the_last_day
+
+      expect(result).to match_array(posts_created_for_the_last_day)
+    end
+  end
+
   describe ".created_after" do
     it "returns posts created after given datetime" do
       datetime = Time.current
