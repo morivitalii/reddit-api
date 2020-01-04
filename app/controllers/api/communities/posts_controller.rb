@@ -6,7 +6,7 @@ class Api::Communities::PostsController < ApplicationController
 
   def index
     query = PostsQuery.new(@community.posts).not_removed
-    query = query.search_created_after(date_value)
+    query = PostsQuery.new(query).search_created_after(date_value)
     query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
     posts = query.paginate(attributes: [sort_attribute, :id], after: params[:after])
 
