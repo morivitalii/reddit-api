@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::Users::Posts::Controversy::AllPolicy do
+RSpec.describe Api::Users::Posts::Controversial::DayPolicy do
   subject { described_class }
 
   context "for signed out user", context: :as_signed_out_user do

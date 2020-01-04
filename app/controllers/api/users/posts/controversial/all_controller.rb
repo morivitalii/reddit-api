@@ -1,10 +1,9 @@
-class Api::Users::Posts::Controversy::DayController < ApplicationController
+class Api::Users::Posts::Controversial::AllController < ApplicationController
   before_action :set_user
-  before_action -> { authorize(Api::Users::Posts::Controversy::DayPolicy, @user) }
+  before_action -> { authorize(Api::Users::Posts::Controversial::AllPolicy, @user) }
 
   def index
     query = PostsQuery.new(@user.posts).not_removed
-    query = PostsQuery.new(query).for_the_last_day
     query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
     posts = query.paginate(attributes: [:controversy_score, :id], after: params[:after])
 

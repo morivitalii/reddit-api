@@ -1,10 +1,10 @@
-class Api::Users::Posts::Controversy::WeekController < ApplicationController
+class Api::Users::Posts::Controversial::MonthController < ApplicationController
   before_action :set_user
-  before_action -> { authorize(Api::Users::Posts::Controversy::WeekPolicy, @user) }
+  before_action -> { authorize(Api::Users::Posts::Controversial::MonthPolicy, @user) }
 
   def index
     query = PostsQuery.new(@user.posts).not_removed
-    query = PostsQuery.new(query).for_the_last_week
+    query = PostsQuery.new(query).for_the_last_month
     query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
     posts = query.paginate(attributes: [:controversy_score, :id], after: params[:after])
 
