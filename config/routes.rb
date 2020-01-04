@@ -33,7 +33,7 @@ Rails.application.routes.draw do
             resources :all, only: [:index]
           end
 
-          namespace :controversy do
+          namespace :controversial do
             resources :day, only: [:index]
             resources :week, only: [:index]
             resources :month, only: [:index]
