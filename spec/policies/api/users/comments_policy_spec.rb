@@ -12,10 +12,18 @@ RSpec.describe Api::Users::CommentsPolicy do
   end
 
   context "for signed in user", context: :as_signed_in_user do
-    let(:another_user) { create(:user) }
+    context "another user" do
+      let(:another_user) { create(:user) }
 
-    permissions :index? do
-      it { is_expected.to permit(user, another_user) }
+      permissions :index? do
+        it { is_expected.to permit(user, another_user) }
+      end
+    end
+
+    context "account owner" do
+      permissions :index? do
+        it { is_expected.to permit(user, user) }
+      end
     end
   end
 end
