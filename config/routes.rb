@@ -117,6 +117,7 @@ Rails.application.routes.draw do
 
           namespace :top do
             resources :day, only: [:index]
+            resources :week, only: [:index]
           end
         end
 
