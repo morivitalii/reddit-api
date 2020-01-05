@@ -963,13 +963,6 @@ CREATE INDEX index_rules_on_community_id ON public.rules USING btree (community_
 
 
 --
--- Name: index_topics_on_post_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_topics_on_post_id ON public.topics USING btree (post_id);
-
-
---
 -- Name: index_users_on_forgot_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1318,6 +1311,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105140052'),
 ('20200105140257'),
 ('20200105140549'),
-('20200105140805');
+('20200105140805'),
+('20200105141320');
 
 
