@@ -19,6 +19,10 @@ class CommentsQuery < ApplicationQuery
     relation.where("comments.created_at > ?", 1.week.ago)
   end
 
+  def for_the_last_month
+    relation.where("comments.created_at > ?", 1.month.ago)
+  end
+
   def created_after(datetime)
     relation.where("comments.created_at > ?", datetime)
   end

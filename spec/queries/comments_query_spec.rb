@@ -58,6 +58,17 @@ RSpec.describe CommentsQuery do
     end
   end
 
+  describe ".for_the_last_month" do
+    it "returns comments created for the last month" do
+      comments_created_for_the_last_month = create_pair(:comment)
+      _other_comments = create_pair(:comment, created_at: 1.year.ago)
+
+      result = subject.new.for_the_last_month
+
+      expect(result).to match_array(comments_created_for_the_last_month)
+    end
+  end
+
   describe ".created_after" do
     it "returns comments created after given datetime" do
       datetime = Time.current
