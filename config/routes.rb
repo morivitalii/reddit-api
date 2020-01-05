@@ -71,8 +71,6 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :comments, only: [:index]
-
         namespace :bookmarks do
           resources :posts, only: [:index]
           resources :comments, only: [:index]
