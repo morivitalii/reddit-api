@@ -746,13 +746,6 @@ CREATE INDEX index_bans_on_user_id ON public.bans USING btree (user_id);
 
 
 --
--- Name: index_bookmarks_on_bookmarkable_type_and_bookmarkable_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_bookmarks_on_bookmarkable_type_and_bookmarkable_id ON public.bookmarks USING btree (bookmarkable_type, bookmarkable_id);
-
-
---
 -- Name: index_bookmarks_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1336,6 +1329,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105132223'),
 ('20200105135417'),
 ('20200105135906'),
-('20200105140052');
+('20200105140052'),
+('20200105140257');
 
 
