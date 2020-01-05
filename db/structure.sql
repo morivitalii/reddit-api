@@ -872,13 +872,6 @@ CREATE INDEX index_moderators_on_user_id ON public.moderators USING btree (user_
 
 
 --
--- Name: index_posts_on_approved_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_posts_on_approved_by_id ON public.posts USING btree (approved_by_id);
-
-
---
 -- Name: index_posts_on_community_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1354,6 +1347,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105131635'),
 ('20200105131738'),
 ('20200105132129'),
-('20200105132223');
+('20200105132223'),
+('20200105135417');
 
 
