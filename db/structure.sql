@@ -942,17 +942,17 @@ CREATE INDEX index_reports_on_reportable_type_and_reportable_id ON public.report
 
 
 --
--- Name: index_reports_on_reportable_type_and_reportable_id_and_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_reports_on_reportable_type_and_reportable_id_and_user_id ON public.reports USING btree (reportable_type, reportable_id, user_id);
-
-
---
 -- Name: index_reports_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_reports_on_user_id ON public.reports USING btree (user_id);
+
+
+--
+-- Name: index_reports_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_reports_uniqueness ON public.reports USING btree (reportable_type, reportable_id, user_id);
 
 
 --
@@ -1322,6 +1322,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105141320'),
 ('20200105141429'),
 ('20200105142203'),
-('20200105142414');
+('20200105142414'),
+('20200105142545');
 
 
