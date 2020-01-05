@@ -100,6 +100,12 @@ Rails.application.routes.draw do
         resources :rules, only: [:index, :new, :create, :edit, :update, :destroy]
         resources :bans, only: [:index, :new, :create, :edit, :update, :destroy]
 
+        namespace :posts do
+          namespace :hot do
+            resources :day, only: [:index]
+          end
+        end
+
         namespace :mod_queues do
           namespace :new do
             resources :posts, only: [:index]
