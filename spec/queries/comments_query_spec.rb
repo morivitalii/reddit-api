@@ -69,21 +69,6 @@ RSpec.describe CommentsQuery do
     end
   end
 
-  describe ".created_after" do
-    it "returns comments created after given datetime" do
-      datetime = Time.current
-      after_datetime = datetime + 1.hour
-      before_datetime = datetime - 1.hour
-
-      comments_created_after = create_pair(:comment, created_at: after_datetime)
-      create_pair(:comment, created_at: before_datetime)
-
-      result = subject.new.created_after(datetime)
-
-      expect(result).to match_array(comments_created_after)
-    end
-  end
-
   describe ".bookmarked_by_user" do
     it "returns comments that bookmarked by given user" do
       user = create(:user)
