@@ -41,6 +41,12 @@ Rails.application.routes.draw do
           end
         end
 
+        namespace :comments do
+          namespace :hot do
+            resources :day, only: [:index]
+          end
+        end
+
         resources :posts, only: [:index]
         resources :comments, only: [:index]
 
