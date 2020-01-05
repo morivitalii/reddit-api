@@ -816,13 +816,6 @@ CREATE INDEX index_comments_on_new_score ON public.comments USING btree (new_sco
 
 
 --
--- Name: index_comments_on_post_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_comments_on_post_id ON public.comments USING btree (post_id);
-
-
---
 -- Name: index_comments_on_top_score; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1360,6 +1353,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105131241'),
 ('20200105131635'),
 ('20200105131738'),
-('20200105132129');
+('20200105132129'),
+('20200105132223');
 
 
