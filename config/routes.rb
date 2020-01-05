@@ -44,6 +44,7 @@ Rails.application.routes.draw do
         namespace :comments do
           namespace :hot do
             resources :day, only: [:index]
+            resources :week, only: [:index]
           end
         end
 
