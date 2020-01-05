@@ -48,6 +48,10 @@ Rails.application.routes.draw do
             resources :month, only: [:index]
             resources :all, only: [:index]
           end
+
+          namespace :new do
+            resources :day, only: [:index]
+          end
         end
 
         resources :posts, only: [:index]
