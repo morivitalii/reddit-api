@@ -46,6 +46,7 @@ Rails.application.routes.draw do
             resources :day, only: [:index]
             resources :week, only: [:index]
             resources :month, only: [:index]
+            resources :all, only: [:index]
           end
         end
 
