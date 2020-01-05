@@ -844,17 +844,17 @@ CREATE INDEX index_moderators_on_community_id ON public.moderators USING btree (
 
 
 --
--- Name: index_moderators_on_community_id_and_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_moderators_on_community_id_and_user_id ON public.moderators USING btree (community_id, user_id);
-
-
---
 -- Name: index_moderators_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_moderators_on_user_id ON public.moderators USING btree (user_id);
+
+
+--
+-- Name: index_moderators_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_moderators_uniqueness ON public.moderators USING btree (community_id, user_id);
 
 
 --
@@ -1321,6 +1321,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105140805'),
 ('20200105141320'),
 ('20200105141429'),
-('20200105142203');
+('20200105142203'),
+('20200105142414');
 
 
