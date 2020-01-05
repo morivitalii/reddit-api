@@ -914,13 +914,6 @@ CREATE INDEX index_posts_on_new_score ON public.posts USING btree (new_score);
 
 
 --
--- Name: index_posts_on_removed_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_posts_on_removed_by_id ON public.posts USING btree (removed_by_id);
-
-
---
 -- Name: index_posts_on_top_score; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1342,6 +1335,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105132129'),
 ('20200105132223'),
 ('20200105135417'),
-('20200105135906');
+('20200105135906'),
+('20200105140052');
 
 
