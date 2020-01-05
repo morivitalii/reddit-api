@@ -830,13 +830,6 @@ CREATE INDEX index_comments_on_post_id ON public.comments USING btree (post_id);
 
 
 --
--- Name: index_comments_on_removed_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_comments_on_removed_by_id ON public.comments USING btree (removed_by_id);
-
-
---
 -- Name: index_comments_on_top_score; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1372,6 +1365,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191231040128'),
 ('20200102204219'),
 ('20200105131241'),
-('20200105131635');
+('20200105131635'),
+('20200105131738');
 
 
