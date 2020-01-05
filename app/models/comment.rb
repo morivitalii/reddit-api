@@ -106,7 +106,7 @@ class Comment < ApplicationRecord
     }.to_json
 
     query = "UPDATE topics
-             SET branch = jsonb_set(branch, '{#{id}}', '#{json}', true),
+             SET tree = jsonb_set(tree, '{#{id}}', '#{json}', true),
                  updated_at = '#{Time.current.strftime("%Y-%m-%d %H:%M:%S.%N")}'
              WHERE post_id = #{post_id};"
 

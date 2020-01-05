@@ -412,7 +412,7 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.topics (
     id bigint NOT NULL,
-    branch jsonb DEFAULT '{}'::jsonb NOT NULL,
+    tree jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     post_id bigint NOT NULL
@@ -1324,6 +1324,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105142203'),
 ('20200105142414'),
 ('20200105142545'),
-('20200105142742');
+('20200105142742'),
+('20200105143003');
 
 
