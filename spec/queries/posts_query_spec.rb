@@ -84,26 +84,6 @@ RSpec.describe PostsQuery do
     end
   end
 
-  describe ".search_created_after" do
-    it "returns relation if datetime is blank" do
-      query = subject.new
-
-      result = query.search_created_after(nil)
-
-      expect(result).to eq(query.relation)
-    end
-
-    it "calls .created_after if datetime is present" do
-      datetime = Time.current
-      query = subject.new
-      allow(query).to receive(:created_after)
-
-      query.search_created_after(datetime)
-
-      expect(query).to have_received(:created_after).with(datetime)
-    end
-  end
-
   describe ".bookmarked_by_user" do
     it "returns posts that bookmarked by given user" do
       user = create(:user)
