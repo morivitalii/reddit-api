@@ -125,6 +125,7 @@ Rails.application.routes.draw do
           namespace :controversial do
             resources :day, only: [:index]
             resources :week, only: [:index]
+            resources :month, only: [:index]
           end
         end
 
