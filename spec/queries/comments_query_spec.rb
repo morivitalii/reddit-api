@@ -36,6 +36,17 @@ RSpec.describe CommentsQuery do
     end
   end
 
+  describe ".for_the_last_day" do
+    it "returns comments created for the last day" do
+      comments_created_for_the_last_day = create_pair(:comment)
+      _other_comments = create_pair(:comment, created_at: 1.week.ago)
+
+      result = subject.new.for_the_last_day
+
+      expect(result).to match_array(comments_created_for_the_last_day)
+    end
+  end
+
   describe ".created_after" do
     it "returns comments created after given datetime" do
       datetime = Time.current

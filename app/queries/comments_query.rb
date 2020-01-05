@@ -11,6 +11,10 @@ class CommentsQuery < ApplicationQuery
     relation.joins(:reports)
   end
 
+  def for_the_last_day
+    relation.where("comments.created_at > ?", 1.day.ago)
+  end
+
   def created_after(datetime)
     relation.where("comments.created_at > ?", datetime)
   end
