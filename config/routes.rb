@@ -103,6 +103,7 @@ Rails.application.routes.draw do
         namespace :posts do
           namespace :hot do
             resources :day, only: [:index]
+            resources :week, only: [:index]
           end
         end
 
