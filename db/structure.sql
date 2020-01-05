@@ -900,13 +900,6 @@ CREATE INDEX index_posts_on_created_by_id ON public.posts USING btree (created_b
 
 
 --
--- Name: index_posts_on_edited_by_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_posts_on_edited_by_id ON public.posts USING btree (edited_by_id);
-
-
---
 -- Name: index_posts_on_hot_score; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1348,6 +1341,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105131738'),
 ('20200105132129'),
 ('20200105132223'),
-('20200105135417');
+('20200105135417'),
+('20200105135906');
 
 
