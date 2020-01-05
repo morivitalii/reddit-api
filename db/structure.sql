@@ -823,17 +823,17 @@ CREATE UNIQUE INDEX index_communities_on_lower_url ON public.communities USING b
 
 
 --
--- Name: index_follows_on_community_id_and_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_follows_on_community_id_and_user_id ON public.follows USING btree (community_id, user_id);
-
-
---
 -- Name: index_follows_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_follows_on_user_id ON public.follows USING btree (user_id);
+
+
+--
+-- Name: index_follows_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_follows_uniqueness ON public.follows USING btree (community_id, user_id);
 
 
 --
@@ -1320,6 +1320,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105140549'),
 ('20200105140805'),
 ('20200105141320'),
-('20200105141429');
+('20200105141429'),
+('20200105142203');
 
 
