@@ -1,17 +1,8 @@
 class Api::Communities::PostsController < ApplicationController
   before_action :set_community
   before_action :set_post, only: [:show, :update]
-  before_action -> { authorize(Api::Communities::PostsPolicy) }, only: [:index, :create]
+  before_action -> { authorize(Api::Communities::PostsPolicy) }, only: [:create]
   before_action -> { authorize(Api::Communities::PostsPolicy, @post) }, only: [:show, :update]
-
-  def index
-    query = PostsQuery.new(@community.posts).not_removed
-    query = PostsQuery.new(query).search_created_after(date_value)
-    query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
-    posts = query.paginate(attributes: [sort_attribute, :id], after: params[:after])
-
-    render json: PostSerializer.serialize(posts)
-  end
 
   def show
     render json: PostSerializer.serialize(@post)

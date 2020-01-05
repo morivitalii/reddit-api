@@ -6,10 +6,6 @@ RSpec.describe Api::Communities::PostsPolicy do
   context "for signed out user", context: :as_signed_out_user do
     let(:post) { create(:post) }
 
-    permissions :index? do
-      it { is_expected.to permit(user) }
-    end
-
     permissions :show? do
       it { is_expected.to permit(user, post) }
     end
@@ -26,7 +22,7 @@ RSpec.describe Api::Communities::PostsPolicy do
   context "for signed in user", context: :as_signed_in_user do
     let(:post) { create(:post) }
 
-    permissions :index?, :create? do
+    permissions :create? do
       it { is_expected.to permit(user) }
     end
 
@@ -42,7 +38,7 @@ RSpec.describe Api::Communities::PostsPolicy do
   context "for moderator", context: :as_moderator_user do
     let(:post) { create(:post, community: user_context.community) }
 
-    permissions :index?, :create? do
+    permissions :create? do
       it { is_expected.to permit(user_context) }
     end
 
@@ -58,7 +54,7 @@ RSpec.describe Api::Communities::PostsPolicy do
   context "for author", context: :as_signed_in_user do
     let(:post) { create(:post, created_by: user) }
 
-    permissions :index?, :create? do
+    permissions :create? do
       it { is_expected.to permit(user) }
     end
 

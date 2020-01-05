@@ -1,8 +1,4 @@
 class Api::Communities::PostsPolicy < ApplicationPolicy
-  def index?
-    true
-  end
-
   def show?
     true
   end

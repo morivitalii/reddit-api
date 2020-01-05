@@ -141,7 +141,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :posts, only: [:index, :show, :create, :update] do
+        resources :posts, only: [:show, :create, :update] do
           scope module: :posts do
             resource :approve, only: [:update], controller: :approve
             resource :remove, only: [:edit, :update], controller: :remove
