@@ -1005,13 +1005,6 @@ CREATE INDEX index_votes_on_user_id ON public.votes USING btree (user_id);
 
 
 --
--- Name: index_votes_on_votable_type_and_votable_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_votes_on_votable_type_and_votable_id ON public.votes USING btree (votable_type, votable_id);
-
-
---
 -- Name: index_votes_on_votable_type_and_votable_id_and_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1330,6 +1323,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105135417'),
 ('20200105135906'),
 ('20200105140052'),
-('20200105140257');
+('20200105140257'),
+('20200105140549');
 
 
