@@ -27,12 +27,6 @@ class CommentsQuery < ApplicationQuery
     relation.where("comments.created_at > ?", datetime)
   end
 
-  def search_created_after(datetime)
-    return relation if datetime.blank?
-
-    created_after(datetime)
-  end
-
   def bookmarked_by_user(user)
     relation.joins(:bookmarks).where(bookmarks: {user: user}).order("bookmarks.id desc")
   end
