@@ -3,10 +3,13 @@ class Api::Users::Bookmarks::PostsController < ApplicationController
   before_action -> { authorize(Api::Users::Bookmarks::PostsPolicy, @user) }
 
   def index
-    posts_ids = BookmarksQuery.new(@user.bookmarks).for_posts.paginate(after: after).map(&:bookmarkable_id)
-    query = Post.where(id: posts_ids)
-    query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
-    posts = query.sort_by { |post| posts_ids.index(post.id) }
+    posts_ids_query = BookmarksQuery.new(@user.bookmarks).for_posts
+    posts_ids_query = posts_ids_query.paginate(after: after)
+    posts_ids = posts_ids_query.map(&:bookmarkable_id)
+
+    posts_query = Post.where(id: posts_ids)
+    posts_query = posts_query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
+    posts = posts_query.sort_by { |post| posts_ids.index(post.id) }
 
     render json: PostSerializer.serialize(posts)
   end
@@ -19,7 +22,9 @@ class Api::Users::Bookmarks::PostsController < ApplicationController
 
   def after
     if params[:after].present?
-      BookmarksQuery.new(@user.bookmarks).for_posts.where(bookmarkable_id: params[:after]).take
+      query = BookmarksQuery.new(@user.bookmarks).for_posts
+
+      query.where(bookmarkable_id: params[:after]).take
     else
       nil
     end

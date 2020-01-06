@@ -3,10 +3,13 @@ class Api::Users::Votes::CommentsController < ApplicationController
   before_action -> { authorize(Api::Users::Votes::CommentsPolicy, @user) }
 
   def index
-    comments_ids = VotesQuery.new(@user.votes).for_comments.paginate(after: after).map(&:votable_id)
-    query = Comment.where(id: comments_ids)
-    query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by, post: [:created_by], comment: [:created_by])
-    comments = query.sort_by { |comment| comments_ids.index(comment.id) }
+    comments_ids_query = VotesQuery.new(@user.votes).for_comments
+    comments_ids_query = comments_ids_query.paginate(after: after)
+    comments_ids = comments_ids_query.map(&:votable_id)
+
+    comments_query = Comment.where(id: comments_ids)
+    comments_query = comments_query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by, post: [:created_by], comment: [:created_by])
+    comments = comments_query.sort_by { |comment| comments_ids.index(comment.id) }
 
     render json: CommentSerializer.serialize(comments)
   end
@@ -19,7 +22,9 @@ class Api::Users::Votes::CommentsController < ApplicationController
 
   def after
     if params[:after].present?
-      VotesQuery.new(@user.votes).for_comments.where(votable_id: params[:after]).take
+      query = VotesQuery.new(@user.votes).for_comments
+
+      query.where(votable_id: params[:after]).take
     else
       nil
     end
