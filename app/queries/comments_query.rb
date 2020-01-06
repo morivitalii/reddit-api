@@ -22,8 +22,4 @@ class CommentsQuery < ApplicationQuery
   def for_the_last_month
     relation.where("comments.created_at > ?", 1.month.ago)
   end
-
-  def down_voted_by_user(user)
-    relation.joins(:votes).where(votes: {user: user, vote_type: :down}).order("votes.id desc")
-  end
 end
