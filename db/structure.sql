@@ -760,6 +760,13 @@ CREATE UNIQUE INDEX index_bookmarks_uniqueness ON public.bookmarks USING btree (
 
 
 --
+-- Name: index_comments_on_approved_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_approved_at ON public.comments USING btree (approved_at);
+
+
+--
 -- Name: index_comments_on_best_score; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1353,6 +1360,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200106064158'),
 ('20200106104836'),
 ('20200106105154'),
-('20200106105306');
+('20200106105306'),
+('20200106105406');
 
 
