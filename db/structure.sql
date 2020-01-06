@@ -340,7 +340,7 @@ CREATE TABLE public.reports (
     updated_at timestamp without time zone NOT NULL,
     text character varying NOT NULL,
     reportable_type character varying NOT NULL,
-    reportable_id bigint,
+    reportable_id bigint NOT NULL,
     community_id bigint NOT NULL
 );
 
@@ -1328,6 +1328,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105143003'),
 ('20200106063848'),
 ('20200106064030'),
-('20200106064109');
+('20200106064109'),
+('20200106064158');
 
 
