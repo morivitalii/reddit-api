@@ -69,18 +69,6 @@ RSpec.describe CommentsQuery do
     end
   end
 
-  describe ".voted_by_user" do
-    it "returns comments that voted by given user" do
-      user = create(:user)
-      comments_voted_by_user = create_pair(:comment_with_vote, voted_by: user)
-      _other_voted_comments = create_pair(:comment_with_vote)
-
-      result = described_class.new.voted_by_user(user)
-
-      expect(result).to match_array(comments_voted_by_user)
-    end
-  end
-
   describe ".up_voted_by_user" do
     it "returns comments that up voted by given user" do
       user = create(:user)
