@@ -3,9 +3,9 @@ module Paginatable
 
   included do
     def self.paginate(options)
-      attributes = options.fetch(:attributes, [:id]).map(&:to_s)
-      limit = options.fetch(:limit, 50)
-      order = options.fetch(:order, :desc)
+      attributes = options[:attributes].map(&:to_s)
+      limit = options[:limit]
+      order = options[:order]
       order_options = Hash[attributes.map { |attribute| [attribute, order] }]
       scope = limit(limit).order(order_options)
 

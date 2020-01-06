@@ -3,7 +3,12 @@ class Api::Communities::ModQueues::Reports::CommentsController < ApplicationCont
   before_action -> { authorize(Api::Communities::ModQueues::Reports::CommentsPolicy) }
 
   def index
-    @comments, @pagination = query.paginate(after: params[:after])
+    @comments, @pagination = query.paginate(
+      attributes: [:id],
+      order: :desc,
+      limit: 25,
+      after: params[:after]
+    )
   end
 
   private

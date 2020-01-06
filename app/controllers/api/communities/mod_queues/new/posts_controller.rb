@@ -3,7 +3,12 @@ class Api::Communities::ModQueues::New::PostsController < ApplicationController
   before_action -> { authorize(Api::Communities::ModQueues::New::PostsPolicy) }
 
   def index
-    @posts, @pagination = query.paginate(after: params[:after])
+    @posts, @pagination = query.paginate(
+      attributes: [:id],
+      order: :desc,
+      limit: 25,
+      after: params[:after]
+    )
   end
 
   private

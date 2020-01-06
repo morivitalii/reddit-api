@@ -4,7 +4,13 @@ class Api::Users::Bookmarks::CommentsController < ApplicationController
 
   def index
     comments_ids_query = BookmarksQuery.new(@user.bookmarks).for_comments
-    comments_ids_query.paginate(after: after)
+    comments_ids_query.paginate(
+      attributes: [:id],
+      order: :desc,
+      limit: 25,
+      after: after
+    )
+
     comments_ids = comments_ids_query.map(&:bookmarkable_id)
 
     comments_query = Comment.where(id: comments_ids)

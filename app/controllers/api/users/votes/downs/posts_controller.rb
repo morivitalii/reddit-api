@@ -5,7 +5,13 @@ class Api::Users::Votes::Downs::PostsController < ApplicationController
   def index
     posts_ids_query = VotesQuery.new(@user.votes).for_posts
     posts_ids_query = VotesQuery.new(posts_ids_query).down_votes
-    posts_ids_query = posts_ids_query.paginate(after: after)
+    posts_ids_query = posts_ids_query.paginate(
+      attributes: [:id],
+      order: :desc,
+      limit: 25,
+      after: after
+    )
+
     posts_ids = posts_ids_query.map(&:votable_id)
 
     posts_query = Post.where(id: posts_ids)

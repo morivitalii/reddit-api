@@ -4,7 +4,12 @@ class Api::CommunitiesController < ApplicationController
   before_action -> { authorize(Api::CommunitiesPolicy, @community) }, only: [:show, :update]
 
   def index
-    communities = Community.paginate(attributes: [:url], after: params[:after])
+    communities = Community.paginate(
+      attributes: [:url],
+      order: :asc,
+      limit: 25,
+      after: params[:after]
+    )
 
     render json: CommunitySerializer.serialize(communities)
   end

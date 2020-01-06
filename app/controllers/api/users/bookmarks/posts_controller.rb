@@ -4,7 +4,13 @@ class Api::Users::Bookmarks::PostsController < ApplicationController
 
   def index
     posts_ids_query = BookmarksQuery.new(@user.bookmarks).for_posts
-    posts_ids_query = posts_ids_query.paginate(after: after)
+    posts_ids_query = posts_ids_query.paginate(
+      attributes: [:id],
+      order: :desc,
+      limit: 25,
+      after: after
+    )
+
     posts_ids = posts_ids_query.map(&:bookmarkable_id)
 
     posts_query = Post.where(id: posts_ids)

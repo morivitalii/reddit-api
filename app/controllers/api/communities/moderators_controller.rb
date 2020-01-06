@@ -5,7 +5,12 @@ class Api::Communities::ModeratorsController < ApplicationController
   before_action -> { authorize(Api::Communities::ModeratorsPolicy, @moderator) }, only: [:destroy]
 
   def index
-    @moderators, @pagination = query.paginate(after: params[:after])
+    @moderators, @pagination = query.paginate(
+      attributes: [:id],
+      order: :desc,
+      limit: 25,
+      after: params[:after]
+    )
   end
 
   def new

@@ -5,7 +5,12 @@ class Api::Communities::RulesController < ApplicationController
   before_action -> { authorize(Api::Communities::RulesPolicy, @rule) }, only: [:edit, :update, :destroy]
 
   def index
-    @rules, @pagination = @community.rules.paginate(after: params[:after])
+    @rules, @pagination = @community.rules.paginate(
+      attributes: [:id],
+      order: :desc,
+      limit: 25,
+      after: params[:after]
+    )
   end
 
   def new

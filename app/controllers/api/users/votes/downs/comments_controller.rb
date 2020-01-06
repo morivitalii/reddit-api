@@ -5,7 +5,13 @@ class Api::Users::Votes::Downs::CommentsController < ApplicationController
   def index
     comments_ids_query = VotesQuery.new(@user.votes).for_comments
     comments_ids_query = VotesQuery.new(comments_ids_query).down_votes
-    comments_ids_query = comments_ids_query.paginate(after: after)
+    comments_ids_query = comments_ids_query.paginate(
+      attributes: [:id],
+      order: :desc,
+      limit: 25,
+      after: after
+    )
+
     comments_ids = comments_ids_query.map(&:votable_id)
 
     comments_query = Comment.where(id: comments_ids)

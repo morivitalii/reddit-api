@@ -5,7 +5,12 @@ class Api::Communities::BansController < ApplicationController
   before_action -> { authorize(Api::Communities::BansPolicy, @ban) }, only: [:edit, :update, :destroy]
 
   def index
-    @bans, @pagination = query.paginate(after: params[:after])
+    @bans, @pagination = query.paginate(
+      attributes: [:id],
+      order: :desc,
+      limit: 25,
+      after: params[:after]
+    )
   end
 
   def new

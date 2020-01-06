@@ -6,7 +6,12 @@ class Api::Communities::Posts::New::WeekController < ApplicationController
     query = PostsQuery.new(@community.posts).not_removed
     query = PostsQuery.new(query).for_the_last_week
     query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
-    posts = query.paginate(attributes: [:new_score, :id], after: params[:after])
+    posts = query.paginate(
+      attributes: [:new_score, :id],
+      order: :desc,
+      limit: 25,
+      after: params[:after]
+    )
 
     render json: PostSerializer.serialize(posts)
   end
