@@ -69,18 +69,6 @@ RSpec.describe PostsQuery do
     end
   end
 
-  describe ".voted_by_user" do
-    it "returns posts that voted by given user" do
-      user = create(:user)
-      posts_voted_by_user = create_pair(:post_with_vote, voted_by: user)
-      _other_voted_posts = create_pair(:post_with_vote)
-
-      result = described_class.new.voted_by_user(user)
-
-      expect(result).to match_array(posts_voted_by_user)
-    end
-  end
-
   describe ".up_voted_by_user" do
     it "returns posts that up voted by given user" do
       user = create(:user)
