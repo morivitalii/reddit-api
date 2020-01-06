@@ -1,6 +1,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/8eda76ca4d3e41ccd830/maintainability)](https://codeclimate.com/github/readmaru/readmaru/maintainability)
 
-## What is readma.ru?
+## What is readmaru?
 Simple reddit-like application.
 
 ### Prerequisites
