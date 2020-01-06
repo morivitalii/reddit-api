@@ -858,6 +858,13 @@ CREATE UNIQUE INDEX index_moderators_uniqueness ON public.moderators USING btree
 
 
 --
+-- Name: index_posts_on_approved_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_posts_on_approved_at ON public.posts USING btree (approved_at);
+
+
+--
 -- Name: index_posts_on_community_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1337,6 +1344,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200106064030'),
 ('20200106064109'),
 ('20200106064158'),
-('20200106104836');
+('20200106104836'),
+('20200106105154');
 
 
