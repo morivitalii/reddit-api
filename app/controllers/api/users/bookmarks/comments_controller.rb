@@ -3,9 +3,10 @@ class Api::Users::Bookmarks::CommentsController < ApplicationController
   before_action -> { authorize(Api::Users::Bookmarks::CommentsPolicy, @user) }
 
   def index
-    query = CommentsQuery.new.bookmarked_by_user(@user)
+    comments_ids = BookmarksQuery.new(@user.bookmarks).for_comments.paginate(after: after).map(&:bookmarkable_id)
+    query = Comment.where(id: comments_ids)
     query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by, post: [:created_by], comment: [:created_by])
-    comments = query.paginate(after: params[:after])
+    comments = query.sort_by { |comment| comments_ids.index(comment.id) }
 
     render json: CommentSerializer.serialize(comments)
   end
@@ -14,5 +15,13 @@ class Api::Users::Bookmarks::CommentsController < ApplicationController
 
   def set_user
     @user = UsersQuery.new.with_username(params[:user_id]).take!
+  end
+
+  def after
+    if params[:after].present?
+      BookmarksQuery.new(@user.bookmarks).for_comments.where(bookmarkable_id: params[:after]).take
+    else
+      nil
+    end
   end
 end
