@@ -4,19 +4,18 @@ module Paginatable
   included do
     def self.paginate(options)
       attributes = options.fetch(:attributes, [:id]).map(&:to_s)
-      order = options.fetch(:order, :desc)
       limit = options.fetch(:limit, 50)
-      after_record = options[:after].present? ? unscoped.find_by_id(options[:after]) : nil
-
-      pagination_scope(attributes, order, limit, after_record)
-    end
-
-    private
-
-    def self.pagination_scope(attributes, order, limit, after_record = nil)
+      order = options.fetch(:order, :desc)
       order_options = Hash[attributes.map { |attribute| [attribute, order] }]
-
       scope = limit(limit).order(order_options)
+
+      if options[:after].kind_of?(ActiveRecord::Base)
+        after_record = options[:after]
+      elsif options[:after].present?
+        after_record = unscoped.find_by_id(options[:after])
+      else
+        after_record = nil
+      end
 
       if after_record.present?
         columns = attributes.map { |attribute| "#{table_name}.#{attribute}" }.join(",")
