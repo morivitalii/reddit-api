@@ -23,10 +23,6 @@ class PostsQuery < ApplicationQuery
     relation.where("posts.created_at > ?", 1.month.ago)
   end
 
-  def bookmarked_by_user(user)
-    relation.joins(:bookmarks).where(bookmarks: {user: user}).order("bookmarks.id desc")
-  end
-
   def voted_by_user(user)
     relation.joins(:votes).where(votes: {user: user}).order("votes.id desc")
   end
