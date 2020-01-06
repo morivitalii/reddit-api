@@ -23,10 +23,6 @@ class PostsQuery < ApplicationQuery
     relation.where("posts.created_at > ?", 1.month.ago)
   end
 
-  def up_voted_by_user(user)
-    relation.joins(:votes).where(votes: {user: user, vote_type: :up}).order("votes.id desc")
-  end
-
   def down_voted_by_user(user)
     relation.joins(:votes).where(votes: {user: user, vote_type: :down}).order("votes.id desc")
   end
