@@ -35,8 +35,8 @@ CREATE TABLE public.bans (
     permanent boolean DEFAULT false NOT NULL,
     days integer,
     end_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    created_at timestamp without time zone
+    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL
 );
 
 
@@ -339,7 +339,7 @@ CREATE TABLE public.reports (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     text character varying NOT NULL,
-    reportable_type character varying,
+    reportable_type character varying NOT NULL,
     reportable_id bigint,
     community_id bigint NOT NULL
 );
@@ -1325,6 +1325,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200105142414'),
 ('20200105142545'),
 ('20200105142742'),
-('20200105143003');
+('20200105143003'),
+('20200106063848');
 
 
