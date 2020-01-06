@@ -3,6 +3,10 @@ class VotesQuery < ApplicationQuery
     relation.where(vote_type: :up)
   end
 
+  def down_votes
+    relation.where(vote_type: :down)
+  end
+
   def for_posts
     relation.where(votable_type: "Post")
   end

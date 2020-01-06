@@ -14,6 +14,17 @@ RSpec.describe VotesQuery do
     end
   end
 
+  describe ".down_votes" do
+    it "returns down votes" do
+      down_votes = create_pair(:down_vote)
+      _up_votes = create_pair(:up_vote)
+
+      result = subject.new.down_votes
+
+      expect(result).to match_array(down_votes)
+    end
+  end
+
   describe ".for_posts" do
     it "returns votes for posts" do
       votes_for_posts = create_pair(:post_vote)
