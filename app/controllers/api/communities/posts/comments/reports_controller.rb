@@ -11,16 +11,16 @@ class Api::Communities::Posts::Comments::ReportsController < ApplicationControll
   end
 
   def new
-    @form = Communities::Posts::Comments::CreateReportForm.new
+    @form = Communities::Posts::Comments::CreateReport.new
     @rules = @community.rules.all
 
     render partial: "new"
   end
 
   def create
-    @form = Communities::Posts::Comments::CreateReportForm.new(create_params)
+    @form = Communities::Posts::Comments::CreateReport.new(create_params)
 
-    if @form.save
+    if @form.call
       render json: t(".success")
     else
       render json: @form.errors, status: :unprocessable_entity

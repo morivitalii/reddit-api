@@ -1,9 +1,9 @@
-class Communities::Posts::Comments::CreateReportForm
+class Communities::Posts::Comments::CreateReport
   include ActiveModel::Model
 
   attr_accessor :comment, :user, :text
 
-  def save
+  def call
     return true if comment.ignore_reports?
 
     attributes = {community: comment.community, text: text}
