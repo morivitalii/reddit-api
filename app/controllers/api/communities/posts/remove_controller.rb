@@ -4,15 +4,15 @@ class Api::Communities::Posts::RemoveController < ApplicationController
   before_action -> { authorize(Api::Communities::Posts::RemovePolicy, @post) }
 
   def edit
-    @form = Communities::Posts::RemoveForm.new(reason: @post.removed_reason)
+    @form = Communities::RemovePost.new(reason: @post.removed_reason)
 
     render partial: "edit"
   end
 
   def update
-    @form = Communities::Posts::RemoveForm.new(update_params)
+    @form = Communities::RemovePost.new(update_params)
 
-    if @form.save
+    if @form.call
       render json: {approve_link: post.approve_link, remove_link: post.remove_link}
     else
       render json: @form.errors, status: :unprocessable_entity

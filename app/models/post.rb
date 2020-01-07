@@ -43,10 +43,6 @@ class Post < ApplicationRecord
     approved_at.present?
   end
 
-  def remove!(user, reason = nil)
-    update!(removed_by: user, removed_at: Time.current, removed_reason: reason)
-  end
-
   def removed?
     removed_at.present?
   end

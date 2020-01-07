@@ -151,20 +151,6 @@ RSpec.describe Post do
     end
   end
 
-  describe ".remove" do
-    it "removes post" do
-      post = create(:post)
-      removed_by = create(:user)
-      reason = "Reason"
-
-      post.remove!(removed_by, reason)
-
-      expect(post.removed_by).to eq(removed_by)
-      expect(post.removed_at).to be_present
-      expect(post.removed_reason).to eq(reason)
-    end
-  end
-
   describe ".removed?" do
     context "when post is not removed" do
       it "returns false" do
