@@ -49,28 +49,6 @@ RSpec.describe Post do
     end
   end
 
-  context "when it is approving" do
-    it "destroys reports" do
-      post = create(:post_with_reports, reports_count: 2)
-      allow(post).to receive(:approving?).and_return(true)
-
-      post.save!
-
-      expect(post.reports).to be_blank
-    end
-  end
-
-  context "when it is removing" do
-    it "destroys reports" do
-      post = create(:post_with_reports, reports_count: 2)
-      allow(post).to receive(:removing?).and_return(true)
-
-      post.save!
-
-      expect(post.reports).to be_blank
-    end
-  end
-
   describe ".update_scores!" do
     it "updates post scores" do
       post = create(:post)
