@@ -126,24 +126,6 @@ RSpec.describe Comment do
     end
   end
 
-  describe ".edited?" do
-    context "when comment is edited" do
-      it "returns true" do
-        comment = build(:edited_comment)
-
-        expect(comment).to be_edited
-      end
-    end
-
-    context "when comment is not edited" do
-      it "returns false" do
-        comment = build(:not_edited_comment)
-
-        expect(comment).to_not be_edited
-      end
-    end
-  end
-
   describe ".update_scores!" do
     it "updates comment scores" do
       comment = create(:comment)

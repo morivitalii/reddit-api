@@ -30,10 +30,6 @@ class Comment < ApplicationRecord
     assign_attributes(edited_by: user, edited_at: Time.current)
   end
 
-  def edited?
-    edited_at.present?
-  end
-
   def update_scores!
     update!(
       new_score: ScoreCalculator.new_score(created_at),
