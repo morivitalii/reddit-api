@@ -15,7 +15,7 @@ class Post < ApplicationRecord
 
   before_create :approve_by_author, if: :author_has_permissions_to_approve?
   before_update :undo_remove, if: :approving?
-  before_update :undo_approve, if: -> { editing? || removing? }
+  before_update :undo_approve, if: -> { removing? }
   before_update :destroy_reports, if: -> { approving? || removing? }
 
   validates :title, presence: true, length: {maximum: 350}
@@ -72,10 +72,6 @@ class Post < ApplicationRecord
     context = Context.new(created_by, community)
 
     Api::Communities::Posts::ApprovePolicy.new(context, self).update?
-  end
-
-  def editing?
-    edited_at.present? && edited_at_changed?
   end
 
   def undo_remove

@@ -50,30 +50,6 @@ RSpec.describe Post do
   end
 
   context "when post is approved" do
-    context "and when it is editing" do
-      it "resets approved attributes" do
-        post = create(:approved_post)
-        allow(post).to receive(:editing?).and_return(true)
-
-        post.save!
-
-        expect(post.approved_by).to be_blank
-        expect(post.approved_at).to be_blank
-      end
-    end
-
-    context "and when it is not editing" do
-      it "does not reset approved attributes" do
-        post = create(:approved_post)
-        allow(post).to receive(:editing?).and_return(false)
-
-        post.save!
-
-        expect(post.approved_by).to be_present
-        expect(post.approved_at).to be_present
-      end
-    end
-
     context "and when it is removing" do
       it "resets approved attributes" do
         post = create(:approved_post)
