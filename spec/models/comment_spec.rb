@@ -162,20 +162,6 @@ RSpec.describe Comment do
     end
   end
 
-  describe ".remove" do
-    it "removes comment" do
-      comment = create(:comment)
-      removed_by = create(:user)
-      reason = "Reason"
-
-      comment.remove!(removed_by, reason)
-
-      expect(comment.removed_by).to eq(removed_by)
-      expect(comment.removed_at).to be_present
-      expect(comment.removed_reason).to eq(reason)
-    end
-  end
-
   describe ".removed?" do
     context "when comment is not removed" do
       it "returns false" do
