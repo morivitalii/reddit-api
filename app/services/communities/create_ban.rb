@@ -1,10 +1,10 @@
-class Communities::CreateBanForm
+class Communities::CreateBan
   include ActiveModel::Model
 
   attr_accessor :community, :username, :reason, :days, :permanent
   attr_reader :ban
 
-  def save
+  def call
     @ban = community.bans.create!(
       user: user,
       reason: reason,

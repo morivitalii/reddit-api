@@ -14,7 +14,7 @@ class Api::Communities::BansController < ApplicationController
   end
 
   def new
-    @form = Communities::CreateBanForm.new
+    @form = Communities::CreateBan.new
 
     render partial: "new"
   end
@@ -28,9 +28,9 @@ class Api::Communities::BansController < ApplicationController
   end
 
   def create
-    @form = Communities::CreateBanForm.new(create_params)
+    @form = Communities::CreateBan.new(create_params)
 
-    if @form.save
+    if @form.call
       head :no_content, location: community_bans_path(@community)
     else
       render json: @form.errors, status: :unprocessable_entity
