@@ -13,8 +13,6 @@ class Post < ApplicationRecord
   has_many :reports, as: :reportable, dependent: :destroy
   has_many :votes, as: :votable, dependent: :destroy
 
-  before_create :approve_by_author, if: :author_has_permissions_to_approve?
-
   validates :title, presence: true, length: {maximum: 350}
   validates :removed_reason, allow_blank: true, length: {maximum: 5_000}
 
@@ -50,18 +48,6 @@ class Post < ApplicationRecord
   #   _width, height = image_content_dimensions
   #   height
   # end
-
-  private
-
-  def approve_by_author
-    assign_attributes(approved_by: created_by, approved_at: Time.current)
-  end
-
-  def author_has_permissions_to_approve?
-    context = Context.new(created_by, community)
-
-    Api::Communities::Posts::ApprovePolicy.new(context, self).update?
-  end
 
   # def image_content_dimensions
   #   return @_image_content_dimensions if defined?(@_image_content_dimensions)

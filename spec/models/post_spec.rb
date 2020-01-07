@@ -25,30 +25,6 @@ RSpec.describe Post do
     end
   end
 
-  context "when author have permissions for approving" do
-    it "approves post on create" do
-      post = build(:post)
-      allow(post).to receive(:author_has_permissions_to_approve?).and_return(true)
-
-      post.save!
-
-      expect(post.approved_by).to eq(post.created_by)
-      expect(post.approved_at).to be_present
-    end
-  end
-
-  context "when author have not permissions for approving" do
-    it "does not approve post on create" do
-      post = build(:post)
-      allow(post).to receive(:author_has_permissions_to_approve?).and_return(false)
-
-      post.save!
-
-      expect(post.approved_by).to be_blank
-      expect(post.approved_at).to be_blank
-    end
-  end
-
   describe ".update_scores!" do
     it "updates post scores" do
       post = create(:post)
