@@ -14,15 +14,15 @@ class Api::Communities::ModeratorsController < ApplicationController
   end
 
   def new
-    @form = Communities::CreateModeratorForm.new
+    @form = Communities::CreateModerator.new
 
     render partial: "new"
   end
 
   def create
-    @form = Communities::CreateModeratorForm.new(create_params)
+    @form = Communities::CreateModerator.new(create_params)
 
-    if @form.save
+    if @form.call
       head :no_content, location: community_moderators_path(@community)
     else
       render json: @form.errors, status: :unprocessable_entity
