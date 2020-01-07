@@ -1,4 +1,4 @@
-class Communities::DeleteBanService
+class Communities::DeleteBan
   attr_reader :ban
 
   def initialize(ban)
