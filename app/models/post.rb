@@ -14,7 +14,7 @@ class Post < ApplicationRecord
   has_many :votes, as: :votable, dependent: :destroy
 
   before_create :approve_by_author, if: :author_has_permissions_to_approve?
-  before_update :destroy_reports, if: -> { approving? || removing? }
+  before_update :destroy_reports, if: -> { approving? }
 
   validates :title, presence: true, length: {maximum: 350}
   validates :removed_reason, allow_blank: true, length: {maximum: 5_000}
@@ -66,10 +66,6 @@ class Post < ApplicationRecord
     context = Context.new(created_by, community)
 
     Api::Communities::Posts::ApprovePolicy.new(context, self).update?
-  end
-
-  def removing?
-    removed_at.present? && removed_at_changed?
   end
 
   def destroy_reports
