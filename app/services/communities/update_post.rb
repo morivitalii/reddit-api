@@ -7,7 +7,9 @@ class Communities::UpdatePost
     post.update!(
       text: text,
       edited_by: edited_by,
-      edited_at: Time.current
+      approved_by: nil,
+      edited_at: Time.current,
+      approved_at: nil
     )
   rescue ActiveRecord::RecordInvalid => invalid
     errors.merge!(invalid.record.errors)
