@@ -14,7 +14,7 @@ class Api::Communities::RulesController < ApplicationController
   end
 
   def new
-    @form = Communities::CreateRuleForm.new
+    @form = Communities::CreateRule.new
 
     render partial: "new"
   end
@@ -28,7 +28,7 @@ class Api::Communities::RulesController < ApplicationController
   end
 
   def create
-    @form = Communities::CreateRuleForm.new(create_params)
+    @form = Communities::CreateRule.new(create_params)
 
     if @form.save
       head :no_content, location: community_rules_path(@community)

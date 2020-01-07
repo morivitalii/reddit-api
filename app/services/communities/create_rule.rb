@@ -1,10 +1,10 @@
-class Communities::CreateRuleForm
+class Communities::CreateRule
   include ActiveModel::Model
 
   attr_accessor :community, :title, :description
   attr_reader :rule
 
-  def save
+  def call
     @rule = community.rules.create!(
       title: title,
       description: description
