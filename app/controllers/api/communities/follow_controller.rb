@@ -9,7 +9,7 @@ class Api::Communities::FollowController < ApplicationController
   end
 
   def destroy
-    Communities::DeleteFollowService.new(@community, current_user).call
+    Communities::DeleteFollow.new(@community, current_user).call
 
     render json: {follow: false, followers_count: community.followers_count}
   end

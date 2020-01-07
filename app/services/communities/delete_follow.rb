@@ -1,4 +1,4 @@
-class Communities::DeleteFollowService
+class Communities::DeleteFollow
   attr_reader :community, :user
 
   def initialize(community, user)
