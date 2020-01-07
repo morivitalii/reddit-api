@@ -113,24 +113,6 @@ RSpec.describe Comment do
     end
   end
 
-  describe ".approved?" do
-    context "when comment is approved" do
-      it "returns true" do
-        comment = build(:approved_comment)
-
-        expect(comment).to be_approved
-      end
-    end
-
-    context "when comment is not approved" do
-      it "returns false" do
-        comment = build(:not_approved_comment)
-
-        expect(comment).to_not be_approved
-      end
-    end
-  end
-
   describe ".edit" do
     it "edits comment" do
       comment = create(:comment)

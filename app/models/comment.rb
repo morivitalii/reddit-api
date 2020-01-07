@@ -26,10 +26,6 @@ class Comment < ApplicationRecord
     update!(approved_by: user, approved_at: Time.current)
   end
 
-  def approved?
-    approved_at.present?
-  end
-
   def edit(user)
     assign_attributes(edited_by: user, edited_at: Time.current)
   end
