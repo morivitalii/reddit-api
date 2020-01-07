@@ -121,18 +121,6 @@ RSpec.describe Post do
     end
   end
 
-  describe ".approve!" do
-    it "approves post" do
-      post = create(:post)
-      approved_by = create(:user)
-
-      post.approve!(approved_by)
-
-      expect(post.approved_by).to eq(approved_by)
-      expect(post.approved_at).to be_present
-    end
-  end
-
   describe ".approved?" do
     context "when post is approved" do
       it "returns true" do

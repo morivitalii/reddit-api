@@ -35,10 +35,6 @@ class Post < ApplicationRecord
     validates :text, presence: true
   end
 
-  def approve!(user)
-    update!(approved_by: user, approved_at: Time.current)
-  end
-
   def approved?
     approved_at.present?
   end

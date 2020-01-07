@@ -1,4 +1,4 @@
-class Communities::Posts::ApproveService
+class Communities::ApprovePost
   attr_reader :post, :user
 
   def initialize(post, user)
@@ -7,6 +7,9 @@ class Communities::Posts::ApproveService
   end
 
   def call
-    post.approve!(user)
+    post.update!(
+      approved_by: user,
+      approved_at: Time.current
+    )
   end
 end
