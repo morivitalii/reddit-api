@@ -9,7 +9,10 @@ class Communities::ApprovePost
   def call
     post.update!(
       approved_by: user,
-      approved_at: Time.current
+      removed_by: nil,
+      removed_reason: nil,
+      approved_at: Time.current,
+      removed_at: nil
     )
   end
 end

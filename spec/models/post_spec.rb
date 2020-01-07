@@ -49,32 +49,6 @@ RSpec.describe Post do
     end
   end
 
-  context "when post is approved" do
-    context "and when it is removing" do
-      it "resets approved attributes" do
-        post = create(:approved_post)
-        allow(post).to receive(:removing?).and_return(true)
-
-        post.save!
-
-        expect(post.approved_by).to be_blank
-        expect(post.approved_at).to be_blank
-      end
-    end
-
-    context "and when it is not removing" do
-      it "does not reset approved attributes" do
-        post = create(:approved_post)
-        allow(post).to receive(:removing?).and_return(false)
-
-        post.save!
-
-        expect(post.approved_by).to be_present
-        expect(post.approved_at).to be_present
-      end
-    end
-  end
-
   context "when it is approving" do
     it "destroys reports" do
       post = create(:post_with_reports, reports_count: 2)

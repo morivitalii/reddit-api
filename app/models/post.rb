@@ -14,7 +14,6 @@ class Post < ApplicationRecord
   has_many :votes, as: :votable, dependent: :destroy
 
   before_create :approve_by_author, if: :author_has_permissions_to_approve?
-  before_update :undo_remove, if: :approving?
   before_update :destroy_reports, if: -> { approving? || removing? }
 
   validates :title, presence: true, length: {maximum: 350}
@@ -67,10 +66,6 @@ class Post < ApplicationRecord
     context = Context.new(created_by, community)
 
     Api::Communities::Posts::ApprovePolicy.new(context, self).update?
-  end
-
-  def undo_remove
-    assign_attributes(removed_by: nil, removed_at: nil, removed_reason: nil)
   end
 
   def removing?
