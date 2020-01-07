@@ -15,7 +15,6 @@ class Post < ApplicationRecord
 
   before_create :approve_by_author, if: :author_has_permissions_to_approve?
   before_update :undo_remove, if: :approving?
-  before_update :undo_approve, if: -> { removing? }
   before_update :destroy_reports, if: -> { approving? || removing? }
 
   validates :title, presence: true, length: {maximum: 350}
@@ -58,10 +57,6 @@ class Post < ApplicationRecord
 
   def approve_by_author
     assign_attributes(approved_by: created_by, approved_at: Time.current)
-  end
-
-  def undo_approve
-    assign_attributes(approved_by: nil, approved_at: nil)
   end
 
   def approving?
