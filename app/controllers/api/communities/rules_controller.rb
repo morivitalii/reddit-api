@@ -22,7 +22,7 @@ class Api::Communities::RulesController < ApplicationController
   def edit
     attributes = @rule.slice(:title, :description)
 
-    @form = Communities::UpdateRuleForm.new(attributes)
+    @form = Communities::UpdateRule.new(attributes)
 
     render partial: "edit"
   end
@@ -38,9 +38,9 @@ class Api::Communities::RulesController < ApplicationController
   end
 
   def update
-    @form = Communities::UpdateRuleForm.new(update_params)
+    @form = Communities::UpdateRule.new(update_params)
 
-    if @form.save
+    if @form.call
       render partial: "rule", object: @form.rule
     else
       render json: @form.errors, status: :unprocessable_entity

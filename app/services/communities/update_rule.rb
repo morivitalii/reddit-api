@@ -1,9 +1,9 @@
-class Communities::UpdateRuleForm
+class Communities::UpdateRule
   include ActiveModel::Model
 
   attr_accessor :rule, :title, :description
 
-  def save
+  def call
     rule.update!(
       title: title,
       description: description
