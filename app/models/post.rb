@@ -35,10 +35,6 @@ class Post < ApplicationRecord
     validates :text, presence: true
   end
 
-  def removed?
-    removed_at.present?
-  end
-
   def update_scores!
     update!(
       new_score: ScoreCalculator.new_score(created_at),

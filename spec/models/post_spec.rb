@@ -121,24 +121,6 @@ RSpec.describe Post do
     end
   end
 
-  describe ".removed?" do
-    context "when post is not removed" do
-      it "returns false" do
-        post = build(:not_removed_post)
-
-        expect(post).to_not be_removed
-      end
-    end
-
-    context "when post is removed" do
-      it "returns true" do
-        post = build(:removed_post)
-
-        expect(post).to be_removed
-      end
-    end
-  end
-
   describe ".update_scores!" do
     it "updates post scores" do
       post = create(:post)
