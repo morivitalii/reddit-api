@@ -1,4 +1,4 @@
-class Communities::DeleteRuleService
+class Communities::DeleteRule
   attr_reader :rule
 
   def initialize(rule)

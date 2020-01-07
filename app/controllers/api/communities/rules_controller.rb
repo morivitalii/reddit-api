@@ -48,7 +48,7 @@ class Api::Communities::RulesController < ApplicationController
   end
 
   def destroy
-    Communities::DeleteRuleService.new(@rule).call
+    Communities::DeleteRule.new(@rule).call
 
     head :no_content
   end
