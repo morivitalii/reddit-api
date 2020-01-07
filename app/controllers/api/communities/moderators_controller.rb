@@ -30,7 +30,7 @@ class Api::Communities::ModeratorsController < ApplicationController
   end
 
   def destroy
-    Communities::DeleteModeratorService.new(@moderator).call
+    Communities::DeleteModerator.new(@moderator).call
 
     head :no_content
   end

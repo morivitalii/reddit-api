@@ -1,4 +1,4 @@
-class Communities::DeleteModeratorService
+class Communities::DeleteModerator
   attr_reader :moderator
 
   def initialize(moderator)
