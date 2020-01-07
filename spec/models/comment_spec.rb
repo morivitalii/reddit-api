@@ -144,24 +144,6 @@ RSpec.describe Comment do
     end
   end
 
-  describe ".removed?" do
-    context "when comment is not removed" do
-      it "returns false" do
-        comment = build(:not_removed_comment)
-
-        expect(comment).to_not be_removed
-      end
-    end
-
-    context "when comment is removed" do
-      it "returns true" do
-        comment = build(:removed_comment)
-
-        expect(comment).to be_removed
-      end
-    end
-  end
-
   describe ".update_scores!" do
     it "updates comment scores" do
       comment = create(:comment)

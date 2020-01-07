@@ -34,10 +34,6 @@ class Comment < ApplicationRecord
     edited_at.present?
   end
 
-  def removed?
-    removed_at.present?
-  end
-
   def update_scores!
     update!(
       new_score: ScoreCalculator.new_score(created_at),
@@ -89,7 +85,7 @@ class Comment < ApplicationRecord
       id: id,
       # TODO fix it
       # thing_id: reply_to.id,
-      removed: removed?,
+      removed: removed_at.present?,
       new_score: new_score,
       hot_score: hot_score,
       best_score: best_score,
