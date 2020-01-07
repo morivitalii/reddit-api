@@ -1,4 +1,4 @@
-class Communities::CreateFollowService
+class Communities::CreateFollow
   attr_reader :community, :user
 
   def initialize(community, user)

@@ -3,7 +3,7 @@ class Api::Communities::FollowController < ApplicationController
   before_action -> { authorize(Api::Communities::FollowsPolicy) }
 
   def create
-    Communities::CreateFollowService.new(@community, current_user).call
+    Communities::CreateFollow.new(@community, current_user).call
 
     render json: {follow: true, followers_count: community.followers_count}
   end
