@@ -1,9 +1,9 @@
-class Communities::Posts::CreateReportForm
+class Communities::Posts::CreateReport
   include ActiveModel::Model
 
   attr_accessor :post, :user, :text
 
-  def save
+  def call
     return true if post.ignore_reports?
 
     attributes = {community: post.community, text: text}
