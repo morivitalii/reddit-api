@@ -3,10 +3,6 @@ class CommunitiesQuery < ApplicationQuery
     relation.where("lower(communities.url) = lower(?)", url)
   end
 
-  def default
-    with_url("all")
-  end
-
   def with_user_moderator(user)
     relation.joins(:moderators).where(moderators: {user: user})
   end

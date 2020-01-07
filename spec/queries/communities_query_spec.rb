@@ -14,17 +14,6 @@ RSpec.describe CommunitiesQuery do
     end
   end
 
-  describe ".default" do
-    it "returns default community" do
-      default_community = create(:default_community)
-      create_pair(:community)
-
-      result = subject.new.default.take
-
-      expect(result).to eq(default_community)
-    end
-  end
-
   describe ".with_user_moderator" do
     it "returns communities where user is moderator" do
       user = create(:user)
