@@ -22,7 +22,7 @@ class Api::Communities::BansController < ApplicationController
   def edit
     attributes = @ban.slice(:reason, :days, :permanent)
 
-    @form = Communities::UpdateBanForm.new(attributes)
+    @form = Communities::UpdateBan.new(attributes)
 
     render partial: "edit"
   end
@@ -38,9 +38,9 @@ class Api::Communities::BansController < ApplicationController
   end
 
   def update
-    @form = Communities::UpdateBanForm.new(update_params)
+    @form = Communities::UpdateBan.new(update_params)
 
-    if @form.save
+    if @form.call
       render partial: "ban"
     else
       render json: @form.errors, status: :unprocessable_entity

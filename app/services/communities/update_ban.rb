@@ -1,9 +1,9 @@
-class Communities::UpdateBanForm
+class Communities::UpdateBan
   include ActiveModel::Model
 
   attr_accessor :ban, :reason, :days, :permanent
 
-  def save
+  def call
     ban.update!(
       reason: reason,
       days: days,
