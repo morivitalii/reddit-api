@@ -35,10 +35,6 @@ class Post < ApplicationRecord
     validates :text, presence: true
   end
 
-  def approved?
-    approved_at.present?
-  end
-
   def removed?
     removed_at.present?
   end

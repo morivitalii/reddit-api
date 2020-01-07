@@ -121,24 +121,6 @@ RSpec.describe Post do
     end
   end
 
-  describe ".approved?" do
-    context "when post is approved" do
-      it "returns true" do
-        post = build(:approved_post)
-
-        expect(post).to be_approved
-      end
-    end
-
-    context "when post is not approved" do
-      it "returns false" do
-        post = build(:not_approved_post)
-
-        expect(post).to_not be_approved
-      end
-    end
-  end
-
   describe ".removed?" do
     context "when post is not removed" do
       it "returns false" do
