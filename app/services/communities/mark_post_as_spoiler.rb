@@ -1,4 +1,4 @@
-class Communities::Posts::MarkAsSpoilerService
+class Communities::MarkPostAsSpoiler
   attr_reader :post
 
   def initialize(post)
