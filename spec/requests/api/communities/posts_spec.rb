@@ -22,7 +22,7 @@ RSpec.describe Api::Communities::PostsController do
           title: "Title",
           text: "Text",
           explicit: true,
-          spoiler: true
+          spoiler: true,
         }
 
         expect(response).to have_http_status(200)
@@ -37,7 +37,7 @@ RSpec.describe Api::Communities::PostsController do
         post "/api/communities/#{community.to_param}/posts.json", params: {
           title: "",
           text: "",
-          file: ""
+          file: "",
         }
 
         expect(response).to have_http_status(422)
@@ -67,7 +67,7 @@ RSpec.describe Api::Communities::PostsController do
         post = create(:text_post, community: community, created_by: user)
 
         put "/api/communities/#{community.to_param}/posts/#{post.to_param}.json", params: {
-          text: ""
+          text: "",
         }
 
         expect(response).to have_http_status(422)

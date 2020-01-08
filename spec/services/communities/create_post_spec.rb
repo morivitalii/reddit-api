@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Communities::CreatePost do
-  describe ".call"do
+  describe ".call" do
     it "creates post" do
       user = create(:user)
       community = create(:community)

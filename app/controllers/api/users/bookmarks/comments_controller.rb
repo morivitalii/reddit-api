@@ -31,8 +31,6 @@ class Api::Users::Bookmarks::CommentsController < ApplicationController
       query = BookmarksQuery.new(@user.bookmarks).for_comments
 
       query.where(bookmarkable_id: params[:after]).take
-    else
-      nil
     end
   end
 end

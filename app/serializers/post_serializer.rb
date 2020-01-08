@@ -57,7 +57,7 @@ class PostSerializer < ApplicationSerializer
 
     {
       desktop: file_attributes(:desktop),
-      mobile: file_attributes(:mobile)
+      mobile: file_attributes(:mobile),
     }
   end
 
@@ -72,7 +72,7 @@ class PostSerializer < ApplicationSerializer
       size: file_metadata.dig("size"),
       mime_type: file_metadata.dig("mime_type"),
       width: file_metadata.dig("width"),
-      height: file_metadata.dig("height")
+      height: file_metadata.dig("height"),
     }
   end
 end

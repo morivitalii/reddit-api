@@ -33,8 +33,6 @@ class Api::Users::Votes::Ups::PostsController < ApplicationController
       query = VotesQuery.new(query).up_votes
 
       query.where(votable_id: params[:after]).take
-    else
-      nil
     end
   end
 end

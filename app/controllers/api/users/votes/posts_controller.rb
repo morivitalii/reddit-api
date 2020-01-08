@@ -31,8 +31,6 @@ class Api::Users::Votes::PostsController < ApplicationController
       query = VotesQuery.new(@user.votes).for_posts
 
       query.where(votable_id: params[:after]).take
-    else
-      nil
     end
   end
 end

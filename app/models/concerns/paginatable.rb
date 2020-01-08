@@ -9,12 +9,10 @@ module Paginatable
       order_options = Hash[attributes.map { |attribute| [attribute, order] }]
       scope = limit(limit).order(order_options)
 
-      if options[:after].kind_of?(ActiveRecord::Base)
-        after_record = options[:after]
+      after_record = if options[:after].is_a?(ActiveRecord::Base)
+        options[:after]
       elsif options[:after].present?
-        after_record = unscoped.find_by_id(options[:after])
-      else
-        after_record = nil
+        unscoped.find_by_id(options[:after])
       end
 
       if after_record.present?
