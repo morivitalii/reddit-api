@@ -5,7 +5,7 @@ class Api::Communities::Posts::Comments::Reports::IgnoreController < Application
   before_action -> { authorize(Api::Communities::Posts::Comments::Reports::IgnorePolicy, @comment) }
 
   def create
-    Communities::Posts::Comments::Reports::IgnoreService.new(@comment).call
+    Communities::Posts::IgnoreCommentReports.new(@comment).call
 
     render json: {ignore_reports_link: comment.ignore_reports_link}
   end
