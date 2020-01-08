@@ -14,7 +14,6 @@ class Comment < ApplicationRecord
   has_many :votes, as: :votable, dependent: :destroy
 
   after_save :upsert_in_topic
-  before_create :approve_by_author, if: :author_has_permissions_to_approve?
 
   validates :text, presence: true, length: {maximum: 10_000}
   validates :removed_reason, allow_blank: true, length: {maximum: 5_000}
@@ -30,16 +29,6 @@ class Comment < ApplicationRecord
   end
 
   private
-
-  def approve_by_author
-    assign_attributes(approved_by: created_by, approved_at: Time.current)
-  end
-
-  def author_has_permissions_to_approve?
-    context = Context.new(created_by, community)
-
-    Api::Communities::Posts::Comments::ApprovePolicy.new(context, self).update?
-  end
 
   def upsert_in_topic
     json = {
