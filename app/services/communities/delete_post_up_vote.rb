@@ -1,4 +1,4 @@
-class Communities::Posts::Votes::DeleteUpVoteService
+class Communities::DeletePostUpVote
   attr_accessor :post, :user
 
   def initialize(post, user)
