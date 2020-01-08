@@ -1,5 +1,5 @@
 namespace :cleanup do
-  desc "Cleanup bans"
+  desc "Cleanup stale bans"
   task bans: :environment do
     Cleanup::StaleBans.new.call
   end

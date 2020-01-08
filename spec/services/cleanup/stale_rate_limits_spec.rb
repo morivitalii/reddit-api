@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Cleanup::RateLimitsService do
+RSpec.describe Cleanup::StaleRateLimits do
   describe ".call" do
     it "deletes stale rate limits" do
       create_pair(:rate_limit)
