@@ -10,7 +10,7 @@ class Api::Communities::Posts::BookmarksController < ApplicationController
   end
 
   def destroy
-    Communities::Posts::DeleteBookmarkService.new(@post, current_user).call
+    Communities::Posts::DeleteBookmark.new(@post, current_user).call
 
     render json: {bookmark_link: post.bookmark_link}
   end
