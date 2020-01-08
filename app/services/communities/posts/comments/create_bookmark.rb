@@ -1,4 +1,4 @@
-class Communities::Posts::Comments::CreateBookmarkService
+class Communities::Posts::Comments::CreateBookmark
   attr_reader :comment, :user
 
   def initialize(comment, user)
