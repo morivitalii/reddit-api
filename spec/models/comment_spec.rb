@@ -30,30 +30,6 @@ RSpec.describe Comment do
   end
 
   context "when comment is approved" do
-    context "and when it is editing" do
-      it "resets approved attributes" do
-        comment = create(:approved_comment)
-        allow(comment).to receive(:editing?).and_return(true)
-
-        comment.save!
-
-        expect(comment.approved_by).to be_blank
-        expect(comment.approved_at).to be_blank
-      end
-    end
-
-    context "and when it is not editing" do
-      it "does not reset approved attributes" do
-        comment = create(:approved_comment)
-        allow(comment).to receive(:editing?).and_return(false)
-
-        comment.save!
-
-        expect(comment.approved_by).to be_present
-        expect(comment.approved_at).to be_present
-      end
-    end
-
     context "and when it is removing" do
       it "resets approved attributes" do
         comment = create(:approved_comment)
@@ -87,19 +63,6 @@ RSpec.describe Comment do
       comment.save!
 
       expect(comment.reports).to be_blank
-    end
-  end
-
-  describe ".edit" do
-    it "edits comment" do
-      comment = create(:comment)
-      edited_by = create(:user)
-
-      comment.edit(edited_by)
-      comment.save!
-
-      expect(comment.edited_by).to eq(edited_by)
-      expect(comment.edited_at).to be_present
     end
   end
 

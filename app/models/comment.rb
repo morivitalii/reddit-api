@@ -15,15 +15,11 @@ class Comment < ApplicationRecord
 
   after_save :upsert_in_topic
   before_create :approve_by_author, if: :author_has_permissions_to_approve?
-  before_update :undo_approve, if: -> { editing? || removing? }
-  before_update :destroy_reports, if: -> { approving? || removing? }
+  before_update :undo_approve, if: -> { removing? }
+  before_update :destroy_reports, if: -> { removing? }
 
   validates :text, presence: true, length: {maximum: 10_000}
   validates :removed_reason, allow_blank: true, length: {maximum: 5_000}
-
-  def edit(user)
-    assign_attributes(edited_by: user, edited_at: Time.current)
-  end
 
   def update_scores!
     update!(
@@ -45,18 +41,10 @@ class Comment < ApplicationRecord
     assign_attributes(approved_by: nil, approved_at: nil)
   end
 
-  def approving?
-    approved_at.present? && approved_at_changed?
-  end
-
   def author_has_permissions_to_approve?
     context = Context.new(created_by, community)
 
     Api::Communities::Posts::Comments::ApprovePolicy.new(context, self).update?
-  end
-
-  def editing?
-    edited_at.present? && edited_at_changed?
   end
 
   def removing?
