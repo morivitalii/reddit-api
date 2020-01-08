@@ -14,7 +14,7 @@ class Api::Communities::Posts::Votes::DownsController < ApplicationController
   end
 
   def destroy
-    Communities::Posts::Votes::DeleteDownVoteService.new(@post, current_user).call
+    Communities::DeletePostDownVote.new(@post, current_user).call
 
     # TODO remove following line after transition to frontend framework
     @post.reload
