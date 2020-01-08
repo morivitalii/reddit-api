@@ -1,4 +1,4 @@
-class Communities::Posts::CreateBookmarkService
+class Communities::Posts::CreateBookmark
   attr_reader :post, :user
 
   def initialize(post, user)

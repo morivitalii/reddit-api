@@ -9,7 +9,7 @@ RSpec.describe Communities::Posts::DeleteBookmark do
 
       service.call
 
-      expect(post.bookmarks.count).to eq(0)
+      expect(service.post.bookmarks.count).to eq(0)
     end
   end
 end
