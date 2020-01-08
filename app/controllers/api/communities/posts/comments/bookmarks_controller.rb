@@ -11,7 +11,7 @@ class Api::Communities::Posts::Comments::BookmarksController < ApplicationContro
   end
 
   def destroy
-    Communities::Posts::Comments::DeleteBookmarkService.new(@comment, current_user).call
+    Communities::Posts::Comments::DeleteBookmark.new(@comment, current_user).call
 
     render json: {bookmark_link: comment.bookmark_link}
   end
