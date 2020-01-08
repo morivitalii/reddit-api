@@ -1,4 +1,4 @@
-class Communities::Posts::Comments::Reports::DoNotIgnoreService
+class Communities::Posts::DoNotIgnoreCommentReports
   attr_reader :comment
 
   def initialize(comment)

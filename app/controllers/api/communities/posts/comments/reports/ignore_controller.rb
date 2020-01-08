@@ -11,7 +11,7 @@ class Api::Communities::Posts::Comments::Reports::IgnoreController < Application
   end
 
   def destroy
-    Communities::Posts::Comments::Reports::DoNotIgnoreService.new(@comment).call
+    Communities::Posts::DoNotIgnoreCommentReports.new(@comment).call
 
     render json: {ignore_reports_link: comment.ignore_reports_link}
   end
