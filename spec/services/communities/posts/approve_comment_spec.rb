@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Communities::Posts::Comments::ApproveService do
+RSpec.describe Communities::Posts::ApproveComment do
   describe ".call" do
     it "approves comment" do
       comment = create(:comment_with_reports, :removed)

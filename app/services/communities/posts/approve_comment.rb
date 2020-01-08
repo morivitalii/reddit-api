@@ -1,4 +1,4 @@
-class Communities::Posts::Comments::ApproveService
+class Communities::Posts::ApproveComment
   attr_reader :comment, :user
 
   def initialize(comment, user)
