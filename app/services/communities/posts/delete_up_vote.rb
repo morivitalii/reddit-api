@@ -1,4 +1,4 @@
-class Communities::DeletePostDownVote
+class Communities::Posts::DeleteUpVote
   attr_accessor :post, :user
 
   def initialize(post, user)
@@ -11,7 +11,7 @@ class Communities::DeletePostDownVote
 
     ActiveRecord::Base.transaction do
       vote.destroy!
-      post.decrement!(:down_votes_count)
+      post.decrement!(:up_votes_count)
       post.reload.update_scores!
     end
   end
@@ -19,6 +19,6 @@ class Communities::DeletePostDownVote
   private
 
   def vote
-    @_vote ||= post.votes.where(user: user, vote_type: :down).take
+    @_vote ||= post.votes.where(user: user, vote_type: :up).take
   end
 end

@@ -4,7 +4,7 @@ class Api::Communities::Posts::Votes::DownsController < ApplicationController
   before_action -> { authorize(Api::Communities::Posts::Votes::DownsPolicy, @post) }
 
   def create
-    vote = Communities::CreatePostDownVote.new(@post, current_user).call
+    vote = Communities::Posts::CreateDownVote.new(@post, current_user).call
 
     # TODO remove two following lines after transition to frontend framework
     @post.reload
@@ -14,7 +14,7 @@ class Api::Communities::Posts::Votes::DownsController < ApplicationController
   end
 
   def destroy
-    Communities::DeletePostDownVote.new(@post, current_user).call
+    Communities::Posts::DeleteDownVote.new(@post, current_user).call
 
     # TODO remove following line after transition to frontend framework
     @post.reload

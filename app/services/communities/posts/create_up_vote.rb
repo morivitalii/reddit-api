@@ -1,4 +1,4 @@
-class Communities::CreatePostDownVote
+class Communities::Posts::CreateUpVote
   attr_accessor :post, :user
 
   def initialize(post, user)
@@ -14,12 +14,12 @@ class Communities::CreatePostDownVote
         previous_vote.destroy!
       end
 
-      vote = post.votes.create!(user: user, vote_type: :down)
+      vote = post.votes.create!(user: user, vote_type: :up)
 
       if user_changed_opinion?
-        Post.update_counters(post.id, {up_votes_count: -1, down_votes_count: 1})
+        Post.update_counters(post.id, {up_votes_count: 1, down_votes_count: -1})
       else
-        post.increment!(:down_votes_count)
+        post.increment!(:up_votes_count)
       end
 
       post.reload.update_scores!
@@ -35,10 +35,10 @@ class Communities::CreatePostDownVote
   end
 
   def user_have_same_opinion?
-    previous_vote.present? && previous_vote.down?
+    previous_vote.present? && previous_vote.up?
   end
 
   def user_changed_opinion?
-    previous_vote.present? && previous_vote.up?
+    previous_vote.present? && previous_vote.down?
   end
 end

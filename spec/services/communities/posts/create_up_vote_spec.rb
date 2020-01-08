@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Communities::CreatePostUpVote do
+RSpec.describe Communities::Posts::CreateUpVote do
   describe ".call" do
     context "when user up vote post with existing up vote" do
       it "does nothing to post and does not create vote" do

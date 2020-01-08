@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Communities::DeletePostDownVote do
+RSpec.describe Communities::Posts::DeleteDownVote do
   describe ".call" do
     context "when user has no vote on post" do
       it "does nothing to post" do

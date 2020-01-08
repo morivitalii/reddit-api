@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Communities::CreatePostDownVote do
+RSpec.describe Communities::Posts::CreateDownVote do
   describe ".call" do
     context "when user down vote post with existing down vote" do
       it "does nothing to post and does not create vote" do
