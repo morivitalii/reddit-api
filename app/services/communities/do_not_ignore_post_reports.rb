@@ -1,4 +1,4 @@
-class Communities::Posts::Reports::DoNotIgnoreService
+class Communities::DoNotIgnorePostReports
   attr_reader :post
 
   def initialize(post)
