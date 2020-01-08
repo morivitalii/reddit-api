@@ -7,6 +7,16 @@ class Communities::Posts::Comments::ApproveService
   end
 
   def call
-    comment.approve!(user)
+    ActiveRecord::Base.transaction do
+      comment.update!(
+        approved_by: user,
+        removed_by: nil,
+        removed_reason: nil,
+        approved_at: Time.current,
+        removed_at: nil
+      )
+
+      comment.reports.destroy_all
+    end
   end
 end

@@ -15,16 +15,11 @@ class Comment < ApplicationRecord
 
   after_save :upsert_in_topic
   before_create :approve_by_author, if: :author_has_permissions_to_approve?
-  before_update :undo_remove, if: :approving?
   before_update :undo_approve, if: -> { editing? || removing? }
   before_update :destroy_reports, if: -> { approving? || removing? }
 
   validates :text, presence: true, length: {maximum: 10_000}
   validates :removed_reason, allow_blank: true, length: {maximum: 5_000}
-
-  def approve!(user)
-    update!(approved_by: user, approved_at: Time.current)
-  end
 
   def edit(user)
     assign_attributes(edited_by: user, edited_at: Time.current)
@@ -62,10 +57,6 @@ class Comment < ApplicationRecord
 
   def editing?
     edited_at.present? && edited_at_changed?
-  end
-
-  def undo_remove
-    assign_attributes(removed_by: nil, removed_at: nil, removed_reason: nil)
   end
 
   def removing?

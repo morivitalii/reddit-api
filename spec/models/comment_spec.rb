@@ -79,17 +79,6 @@ RSpec.describe Comment do
     end
   end
 
-  context "when it is approving" do
-    it "destroys reports" do
-      comment = create(:comment_with_reports, reports_count: 2)
-      allow(comment).to receive(:approving?).and_return(true)
-
-      comment.save!
-
-      expect(comment.reports).to be_blank
-    end
-  end
-
   context "when it is removing" do
     it "destroys reports" do
       comment = create(:comment_with_reports, reports_count: 2)
@@ -98,18 +87,6 @@ RSpec.describe Comment do
       comment.save!
 
       expect(comment.reports).to be_blank
-    end
-  end
-
-  describe ".approve!" do
-    it "approves comment" do
-      comment = create(:comment)
-      approved_by = create(:user)
-
-      comment.approve!(approved_by)
-
-      expect(comment.approved_by).to eq(approved_by)
-      expect(comment.approved_at).to be_present
     end
   end
 
