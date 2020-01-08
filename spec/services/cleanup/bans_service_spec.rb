@@ -1,18 +1,15 @@
 require "rails_helper"
 
-RSpec.describe Cleanup::BansService do
+RSpec.describe Cleanup::StaleBans do
   describe ".call" do
     it "deletes stale bans" do
       create_pair(:ban)
       create_pair(:stale_ban)
+      service = described_class.new
 
-      service = build_cleanup_bans_service
+      service.call
 
-      expect { service.call }.to change { Ban.count }.by(-2)
+      expect(Ban.count).to eq(2)
     end
-  end
-
-  def build_cleanup_bans_service
-    described_class.new
   end
 end
