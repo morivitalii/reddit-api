@@ -32,7 +32,7 @@ module App
     # Fuck those useless queries. Database will throw error if shit happens. That's fine
     config.active_record.belongs_to_required_by_default = false
     config.active_job.queue_adapter = :inline
-    config.action_mailer.deliver_later_queue_name = "low_priority"
+    config.action_mailer.deliver_later_queue_name = "default"
     config.i18n.available_locales = :ru
     config.i18n.default_locale = :ru
     config.filter_parameters += [:username, :email, :password]
