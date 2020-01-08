@@ -1,6 +1,5 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/8eda76ca4d3e41ccd830/maintainability)](https://codeclimate.com/github/readmaru/readmaru/maintainability)
 
-## What is readmaru?
 Simple reddit-like application.
 
 ### Prerequisites
@@ -13,6 +12,6 @@ Simple reddit-like application.
 ### Installation
 
 * Make sure all the prerequisites are installed.
-* Clone repository, ie. https://github.com/dev1vitaly/readmaru
+* Clone repository
 * Run bin/setup
 * Run rails s to start the application and head to http://localhost:3000/
