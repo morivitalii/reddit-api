@@ -1,4 +1,4 @@
-class Communities::Posts::Votes::CreateDownVoteService
+class Communities::CreatePostDownVote
   attr_accessor :post, :user
 
   def initialize(post, user)
