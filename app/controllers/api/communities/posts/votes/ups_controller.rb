@@ -4,7 +4,7 @@ class Api::Communities::Posts::Votes::UpsController < ApplicationController
   before_action -> { authorize(Api::Communities::Posts::Votes::UpsPolicy, @post) }
 
   def create
-    vote = Communities::Posts::Votes::CreateUpVoteService.new(@post, current_user).call
+    vote = Communities::CreatePostUpVote.new(@post, current_user).call
 
     # TODO remove two following lines after transition to frontend framework
     @post.reload
