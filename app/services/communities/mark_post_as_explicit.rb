@@ -1,4 +1,4 @@
-class Communities::Posts::MarkAsExplicitService
+class Communities::MarkPostAsExplicit
   attr_reader :post
 
   def initialize(post)

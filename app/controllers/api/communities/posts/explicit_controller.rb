@@ -4,7 +4,7 @@ class Api::Communities::Posts::ExplicitController < ApplicationController
   before_action -> { authorize(Api::Communities::Posts::ExplicitPolicy, @post) }
 
   def create
-    Communities::Posts::MarkAsExplicitService.new(@post).call
+    Communities::MarkPostAsExplicit.new(@post).call
 
     render json: {explicit: post.explicit, explicit_link: post.explicit_link}
   end
