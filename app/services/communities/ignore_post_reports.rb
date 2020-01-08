@@ -6,6 +6,9 @@ class Communities::IgnorePostReports
   end
 
   def call
-    post.update!(ignore_reports: true)
+    ActiveRecord::Base.transaction do
+      post.update!(ignore_reports: true)
+      post.reports.destroy_all
+    end
   end
 end
