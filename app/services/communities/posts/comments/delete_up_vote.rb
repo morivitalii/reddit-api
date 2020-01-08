@@ -1,4 +1,4 @@
-class Communities::Posts::Comments::Votes::DeleteUpVoteService
+class Communities::Posts::Comments::DeleteUpVote
   attr_accessor :comment, :user
 
   def initialize(comment, user)
