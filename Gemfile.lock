@@ -96,7 +96,7 @@ GEM
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
-    down (4.8.1)
+    down (5.0.1)
       addressable (~> 2.5)
     draper (3.1.0)
       actionpack (>= 5.0)
@@ -242,9 +242,9 @@ GEM
       ffi (~> 1.9)
     shoulda-matchers (4.2.0)
       activesupport (>= 4.2.0)
-    shrine (2.19.3)
+    shrine (3.2.0)
       content_disposition (~> 1.0)
-      down (~> 4.1)
+      down (~> 5.0)
     simplecov (0.17.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -314,7 +314,7 @@ DEPENDENCIES
   recaptcha (~> 5)
   rspec-rails
   shoulda-matchers
-  shrine (~> 2)
+  shrine (~> 3)
   simplecov
   spring
   spring-watcher-listen
