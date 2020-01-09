@@ -43,21 +43,6 @@ class Api::Communities::PostsController < ApplicationController
     @post = @community.posts.includes(:community, :created_by, :edited_by, :approved_by, :removed_by).find(params[:id])
   end
 
-  def sort_attribute
-    sort_options = %w[hot new top controversy]
-    sort_value = sort_options.include?(params[:sort]) ? params[:sort] : "hot"
-
-    "#{sort_value}_score"
-  end
-
-  def date_value
-    date_options = %w[day week month]
-    date_value = date_options.include?(params[:date]) ? params[:date] : nil
-
-    # Time.now.advance does not accept string keys. wat?
-    date_value.present? ? Time.now.advance("#{date_value}s".to_sym => -1) : nil
-  end
-
   def create_params
     attributes = Api::Communities::PostsPolicy.new(pundit_user).permitted_attributes_for_create
 
