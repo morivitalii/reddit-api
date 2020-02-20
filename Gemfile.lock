@@ -87,7 +87,7 @@ GEM
     builder (3.2.4)
     byebug (11.0.1)
     chronic (0.10.2)
-    concurrent-ruby (1.1.5)
+    concurrent-ruby (1.1.6)
     content_disposition (1.0.0)
     crass (1.0.6)
     diff-lcs (1.3)
