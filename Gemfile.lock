@@ -85,7 +85,7 @@ GEM
       msgpack (~> 1.0)
     browser (3.0.3)
     builder (3.2.4)
-    byebug (11.0.1)
+    byebug (11.1.1)
     chronic (0.10.2)
     concurrent-ruby (1.1.6)
     content_disposition (1.0.0)
