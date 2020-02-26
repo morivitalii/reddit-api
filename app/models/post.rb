@@ -1,5 +1,4 @@
 class Post < ApplicationRecord
-  include Paginatable
   include PostFileUploader::Attachment.new(:file)
 
   belongs_to :community

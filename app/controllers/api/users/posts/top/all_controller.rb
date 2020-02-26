@@ -5,7 +5,8 @@ class Api::Users::Posts::Top::AllController < ApplicationController
   def index
     query = PostsQuery.new(@user.posts).not_removed
     query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
-    posts = query.paginate(
+    posts = paginate(
+      query,
       attributes: [:top_score, :id],
       order: :desc,
       limit: 25,

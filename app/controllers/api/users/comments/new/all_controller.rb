@@ -5,7 +5,8 @@ class Api::Users::Comments::New::AllController < ApplicationController
   def index
     query = CommentsQuery.new(@user.comments).not_removed
     query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
-    comments = query.paginate(
+    comments = paginate(
+      query,
       attributes: [:new_score, :id],
       order: :desc,
       limit: 25,

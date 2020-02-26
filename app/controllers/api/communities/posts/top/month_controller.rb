@@ -6,7 +6,8 @@ class Api::Communities::Posts::Top::MonthController < ApplicationController
     query = PostsQuery.new(@community.posts).not_removed
     query = PostsQuery.new(query).for_the_last_month
     query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
-    posts = query.paginate(
+    posts = paginate(
+      query,
       attributes: [:top_score, :id],
       order: :desc,
       limit: 25,

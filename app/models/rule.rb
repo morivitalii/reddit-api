@@ -1,6 +1,4 @@
 class Rule < ApplicationRecord
-  include Paginatable
-
   LIMIT = 15
 
   belongs_to :community

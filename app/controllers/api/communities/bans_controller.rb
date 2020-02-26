@@ -5,7 +5,9 @@ class Api::Communities::BansController < ApplicationController
   before_action -> { authorize(Api::Communities::BansPolicy, @ban) }, only: [:edit, :update, :destroy]
 
   def index
-    @bans, @pagination = query.paginate(
+    query = BansQuery.new(@community.bans).search_by_username(search_param).includes(:user)
+    bans = paginate(
+      query,
       attributes: [:id],
       order: :desc,
       limit: 25,
@@ -54,10 +56,6 @@ class Api::Communities::BansController < ApplicationController
   end
 
   private
-
-  def query
-    BansQuery.new(@community.bans).search_by_username(search_param).includes(:user)
-  end
 
   def set_community
     @community = CommunitiesQuery.new.with_url(params[:community_id]).take!

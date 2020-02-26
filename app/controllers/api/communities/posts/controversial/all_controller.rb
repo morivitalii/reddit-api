@@ -5,7 +5,8 @@ class Api::Communities::Posts::Controversial::AllController < ApplicationControl
   def index
     query = PostsQuery.new(@community.posts).not_removed
     query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
-    posts = query.paginate(
+    posts = paginate(
+      query,
       attributes: [:controversy_score, :id],
       order: :desc,
       limit: 25,

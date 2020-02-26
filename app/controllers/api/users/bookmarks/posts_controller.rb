@@ -4,7 +4,8 @@ class Api::Users::Bookmarks::PostsController < ApplicationController
 
   def index
     posts_ids_query = BookmarksQuery.new(@user.bookmarks).for_posts
-    posts_ids_query = posts_ids_query.paginate(
+    posts_ids_query = paginate(
+      posts_ids_query,
       attributes: [:id],
       order: :desc,
       limit: 25,

@@ -1,6 +1,4 @@
 class Vote < ApplicationRecord
-  include Paginatable
-
   belongs_to :votable, polymorphic: true
   belongs_to :user
 

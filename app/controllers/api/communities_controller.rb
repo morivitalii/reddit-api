@@ -4,7 +4,9 @@ class Api::CommunitiesController < ApplicationController
   before_action -> { authorize(Api::CommunitiesPolicy, @community) }, only: [:show, :update]
 
   def index
-    communities = Community.paginate(
+    query = Community.all
+    communities = paginate(
+      query,
       attributes: [:url],
       order: :asc,
       limit: 25,

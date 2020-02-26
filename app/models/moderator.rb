@@ -1,6 +1,4 @@
 class Moderator < ApplicationRecord
-  include Paginatable
-
   belongs_to :community
   belongs_to :user
 

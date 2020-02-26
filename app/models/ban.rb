@@ -1,6 +1,4 @@
 class Ban < ApplicationRecord
-  include Paginatable
-
   belongs_to :community
   belongs_to :user
 

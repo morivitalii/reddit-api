@@ -3,8 +3,6 @@ require "rails_helper"
 RSpec.describe Comment do
   subject { described_class }
 
-  it_behaves_like "paginatable"
-
   describe ".update_scores!" do
     it "updates comment scores" do
       comment = create(:comment)

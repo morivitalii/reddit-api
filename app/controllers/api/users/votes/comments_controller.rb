@@ -4,7 +4,8 @@ class Api::Users::Votes::CommentsController < ApplicationController
 
   def index
     comments_ids_query = VotesQuery.new(@user.votes).for_comments
-    comments_ids_query = comments_ids_query.paginate(
+    comments_ids_query = paginate(
+      comments_ids_query,
       attributes: [:id],
       order: :desc,
       limit: 25,

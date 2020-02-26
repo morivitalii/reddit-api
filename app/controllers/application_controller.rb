@@ -5,6 +5,7 @@ class ApplicationController < ActionController::API
   include Authentication
   include Pundit
   include Authorization
+  include Pagination
   include RateLimiting
 
   after_action :verify_authorized

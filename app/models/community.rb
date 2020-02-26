@@ -1,6 +1,4 @@
 class Community < ApplicationRecord
-  include Paginatable
-
   has_many :follows, dependent: :destroy
   has_many :moderators, dependent: :destroy
   has_many :bans, dependent: :destroy

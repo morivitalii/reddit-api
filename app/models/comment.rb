@@ -1,6 +1,4 @@
 class Comment < ApplicationRecord
-  include Paginatable
-
   belongs_to :community
   belongs_to :post, counter_cache: :comments_count
   belongs_to :comment, class_name: "Comment", foreign_key: "comment_id", counter_cache: :comments_count, optional: true

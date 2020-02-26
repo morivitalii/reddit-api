@@ -3,7 +3,9 @@ class Api::Communities::ModQueues::Reports::PostsController < ApplicationControl
   before_action -> { authorize(Api::Communities::ModQueues::Reports::PostsPolicy) }
 
   def index
-    @posts, @pagination = query.paginate(
+    query = PostsQuery.new(@community.posts).reported.includes(:community, :user)
+    posts = paginate(
+      query,
       attributes: [:id],
       order: :desc,
       limit: 25,
@@ -12,10 +14,6 @@ class Api::Communities::ModQueues::Reports::PostsController < ApplicationControl
   end
 
   private
-
-  def query
-    PostsQuery.new(@community.posts).reported.includes(:community, :user)
-  end
 
   def set_community
     @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
