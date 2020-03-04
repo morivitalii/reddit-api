@@ -13,25 +13,35 @@ RSpec.describe Api::Communities::FollowController do
     end
 
     context "as signed in user", context: :as_signed_in_user do
-      context "with present follow" do
-        it "returns forbidden header" do
-          community = create(:community_with_user_follower, user: user)
+      it "returns follow object" do
+        community = create(:community)
 
-          post "/api/communities/#{community.to_param}/follow.json"
+        post "/api/communities/#{community.to_param}/follow.json"
 
-          expect(response).to have_http_status(403)
-        end
+        expect(response).to have_http_status(200)
+        expect(response).to match_json_schema("controllers/api/communities/follow_controller/create/200")
       end
+    end
 
-      context "with absent follow" do
-        it "returns follow" do
-          community = create(:community)
+    context "as moderator user", context: :as_moderator_user do
+      it "returns follow object" do
+        community = user_context.community
 
-          post "/api/communities/#{community.to_param}/follow.json"
+        post "/api/communities/#{community.to_param}/follow.json"
 
-          expect(response).to have_http_status(200)
-          expect(response).to match_json_schema("controllers/api/communities/follow_controller/create/200")
-        end
+        expect(response).to have_http_status(200)
+        expect(response).to match_json_schema("controllers/api/communities/follow_controller/create/200")
+      end
+    end
+
+    context "as banned user", context: :as_banned_user do
+      it "returns follow object" do
+        community = user_context.community
+
+        post "/api/communities/#{community.to_param}/follow.json"
+
+        expect(response).to have_http_status(200)
+        expect(response).to match_json_schema("controllers/api/communities/follow_controller/create/200")
       end
     end
   end
@@ -48,24 +58,32 @@ RSpec.describe Api::Communities::FollowController do
     end
 
     context "as signed in user", context: :as_signed_in_user do
-      context "with absent follow" do
-        it "returns forbidden header" do
-          community = create(:community)
+      it "returns no content header" do
+        community = create(:community_with_user_follower, user: user)
 
-          delete "/api/communities/#{community.to_param}/follow.json"
+        delete "/api/communities/#{community.to_param}/follow.json"
 
-          expect(response).to have_http_status(403)
-        end
+        expect(response).to have_http_status(204)
       end
+    end
 
-      context "with present follow" do
-        it "returns no content header" do
-          community = create(:community_with_user_follower, user: user)
+    context "as moderator user", context: :as_moderator_user do
+      it "returns no content header" do
+        community = create(:community_with_user_follower, user: user_context.user)
 
-          delete "/api/communities/#{community.to_param}/follow.json"
+        delete "/api/communities/#{community.to_param}/follow.json"
 
-          expect(response).to have_http_status(204)
-        end
+        expect(response).to have_http_status(204)
+      end
+    end
+
+    context "as banned user", context: :as_banned_user do
+      it "returns no content header" do
+        community = create(:community_with_user_follower, user: user_context.user)
+
+        delete "/api/communities/#{community.to_param}/follow.json"
+
+        expect(response).to have_http_status(204)
       end
     end
   end
