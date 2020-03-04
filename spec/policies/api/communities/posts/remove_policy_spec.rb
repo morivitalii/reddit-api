@@ -7,7 +7,7 @@ RSpec.describe Api::Communities::Posts::RemovePolicy do
     let(:post) { create(:post) }
 
     permissions :edit?, :update?, :update_reason? do
-      it { is_expected.to_not permit(user, post) }
+      it { is_expected.to_not permit(context, post) }
     end
   end
 

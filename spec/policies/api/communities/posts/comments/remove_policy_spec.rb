@@ -7,7 +7,7 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
     let(:comment) { create(:comment) }
 
     permissions :edit?, :update?, :update_reason? do
-      it { is_expected.to_not permit(user, comment) }
+      it { is_expected.to_not permit(context, comment) }
     end
   end
 

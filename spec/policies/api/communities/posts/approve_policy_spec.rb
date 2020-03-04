@@ -7,7 +7,7 @@ RSpec.describe Api::Communities::Posts::ApprovePolicy do
     let(:post) { create(:post) }
 
     permissions :update? do
-      it { is_expected.to_not permit(user, post) }
+      it { is_expected.to_not permit(context, post) }
     end
   end
 

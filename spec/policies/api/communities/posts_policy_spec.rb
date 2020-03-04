@@ -7,15 +7,15 @@ RSpec.describe Api::Communities::PostsPolicy do
     let(:post) { create(:post) }
 
     permissions :show? do
-      it { is_expected.to permit(user, post) }
+      it { is_expected.to permit(context, post) }
     end
 
     permissions :create? do
-      it { is_expected.to_not permit(user) }
+      it { is_expected.to_not permit(context) }
     end
 
     permissions :update? do
-      it { is_expected.to_not permit(user, post) }
+      it { is_expected.to_not permit(context, post) }
     end
   end
 

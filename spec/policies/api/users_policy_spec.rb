@@ -5,11 +5,11 @@ RSpec.describe Api::UsersPolicy do
 
   context "for signed out user", context: :as_signed_out_user do
     permissions :show? do
-      it { is_expected.to permit(user) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :update? do
-      it { is_expected.to_not permit(user) }
+      it { is_expected.to_not permit(context) }
     end
   end
 

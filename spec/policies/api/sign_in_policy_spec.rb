@@ -5,7 +5,7 @@ RSpec.describe Api::SignInPolicy do
 
   context "for signed out user", context: :as_signed_out_user do
     permissions :create?, :unauthenticated? do
-      it { is_expected.to permit(user) }
+      it { is_expected.to permit(context) }
     end
   end
 

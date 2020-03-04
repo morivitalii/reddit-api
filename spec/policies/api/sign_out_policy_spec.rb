@@ -5,7 +5,7 @@ RSpec.describe Api::SignOutPolicy do
 
   context "for signed out user", context: :as_signed_out_user do
     permissions :destroy? do
-      it { is_expected.to_not permit(user) }
+      it { is_expected.to_not permit(context) }
     end
   end
 

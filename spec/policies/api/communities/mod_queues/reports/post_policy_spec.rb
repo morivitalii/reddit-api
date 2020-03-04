@@ -5,7 +5,7 @@ RSpec.describe Api::Communities::ModQueues::Reports::PostsPolicy do
 
   context "for signed out user", context: :as_signed_out_user do
     permissions :index? do
-      it { is_expected.to_not permit(user) }
+      it { is_expected.to_not permit(context) }
     end
   end
 

@@ -5,7 +5,7 @@ RSpec.describe Api::Communities::Posts::Controversial::MonthPolicy do
 
   context "for signed out user", context: :as_signed_out_user do
     permissions :index? do
-      it { is_expected.to permit(user) }
+      it { is_expected.to permit(context) }
     end
   end
 

@@ -7,7 +7,7 @@ RSpec.describe Api::Communities::Posts::Comments::ApprovePolicy do
     let(:comment) { create(:comment) }
 
     permissions :update? do
-      it { is_expected.to_not permit(user, comment) }
+      it { is_expected.to_not permit(context, comment) }
     end
   end
 

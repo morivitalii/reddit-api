@@ -4,10 +4,10 @@ RSpec.describe Api::Users::Votes::Ups::CommentsPolicy do
   subject { described_class }
 
   context "for signed out user", context: :as_signed_out_user do
-    let(:another_user) { create(:user) }
+    let(:user) { create(:user) }
 
     permissions :index? do
-      it { is_expected.to_not permit(user, another_user) }
+      it { is_expected.to_not permit(context, user) }
     end
   end
 
