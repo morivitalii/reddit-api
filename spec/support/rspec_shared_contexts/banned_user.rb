@@ -1,9 +1,9 @@
 RSpec.shared_context "as banned user" do
   before(:each, type: :request) do
-    login_as(user_context.user)
+    login_as(context.user)
   end
 
-  let(:user_context) do
+  let(:context) do
     user = create(:user)
     community = create(:community_with_banned_user, user: user)
 

@@ -54,7 +54,7 @@ RSpec.describe ApplicationPolicy do
 
     context "for banned", context: :as_banned_user do
       permissions :skip_rate_limiting? do
-        it { is_expected.to_not permit(user_context) }
+        it { is_expected.to_not permit(context) }
       end
     end
   end
