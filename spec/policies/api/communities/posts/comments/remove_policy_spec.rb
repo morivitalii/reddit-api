@@ -15,7 +15,7 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
     let(:comment) { create(:comment) }
 
     permissions :edit?, :update?, :update_reason? do
-      it { is_expected.to_not permit(user, comment) }
+      it { is_expected.to_not permit(context, comment) }
     end
   end
 
@@ -28,14 +28,14 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
   end
 
   context "for author", context: :as_signed_in_user do
-    let(:comment) { create(:comment, created_by: user) }
+    let(:comment) { create(:comment, created_by: context.user) }
 
     permissions :edit?, :update? do
-      it { is_expected.to permit(user, comment) }
+      it { is_expected.to permit(context, comment) }
     end
 
     permissions :update_reason? do
-      it { is_expected.to_not permit(user, comment) }
+      it { is_expected.to_not permit(context, comment) }
     end
   end
 
@@ -51,8 +51,8 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
 
     context "for author", context: :as_signed_in_user do
       it "does not contain attributes" do
-        comment = create(:comment, created_by: user)
-        policy = described_class.new(user, comment)
+        comment = create(:comment, created_by: context.user)
+        policy = described_class.new(context.user, comment)
 
         expect(policy.permitted_attributes_for_update).to be_blank
       end

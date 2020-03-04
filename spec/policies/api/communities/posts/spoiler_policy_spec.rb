@@ -11,7 +11,7 @@ RSpec.describe Api::Communities::Posts::SpoilerPolicy do
 
   context "for signed in user", context: :as_signed_in_user do
     permissions :create?, :destroy? do
-      it { is_expected.to_not permit(user) }
+      it { is_expected.to_not permit(context) }
     end
   end
 

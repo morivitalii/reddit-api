@@ -50,7 +50,7 @@ RSpec.describe Api::Communities::PostsController do
     context "with valid params" do
       it "updates post and returns post object" do
         community = create(:community)
-        post = create(:text_post, community: community, created_by: user)
+        post = create(:text_post, community: community, created_by: context.user)
 
         put "/api/communities/#{community.to_param}/posts/#{post.to_param}.json", params: {
           text: "Text",
@@ -64,7 +64,7 @@ RSpec.describe Api::Communities::PostsController do
     context "with invalid params" do
       it "returns error messages" do
         community = create(:community)
-        post = create(:text_post, community: community, created_by: user)
+        post = create(:text_post, community: community, created_by: context.user)
 
         put "/api/communities/#{community.to_param}/posts/#{post.to_param}.json", params: {
           text: "",

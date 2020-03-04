@@ -59,7 +59,7 @@ RSpec.describe Api::Communities::FollowController do
 
     context "as signed in user", context: :as_signed_in_user do
       it "returns no content header" do
-        community = create(:community_with_user_follower, user: user)
+        community = create(:community_with_user_follower, user: context.user)
 
         delete "/api/communities/#{community.to_param}/follow.json"
 

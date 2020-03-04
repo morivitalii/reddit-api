@@ -11,7 +11,7 @@ RSpec.describe Api::ForgotPasswordPolicy do
 
   context "for signed in user", context: :as_signed_in_user do
     permissions :create? do
-      it { is_expected.to permit(user) }
+      it { is_expected.to permit(context) }
     end
   end
 

@@ -19,15 +19,15 @@ RSpec.describe Api::Communities::RulesPolicy do
 
   context "for signed in user", context: :as_signed_in_user do
     permissions :index? do
-      it { is_expected.to permit(user) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :new?, :create? do
-      it { is_expected.to_not permit(user) }
+      it { is_expected.to_not permit(context) }
     end
 
     permissions :edit?, :update?, :destroy? do
-      it { is_expected.to_not permit(user) }
+      it { is_expected.to_not permit(context) }
     end
   end
 

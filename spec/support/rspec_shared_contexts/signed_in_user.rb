@@ -1,10 +1,12 @@
 RSpec.shared_context "as signed in user" do
   before(:each, type: :request) do
-    login_as(user)
+    login_as(context.user)
   end
 
-  let(:user) do
-    create(:user)
+  let(:context) do
+    user = create(:user)
+
+    Context.new(user, nil)
   end
 end
 

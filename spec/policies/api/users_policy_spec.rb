@@ -15,7 +15,7 @@ RSpec.describe Api::UsersPolicy do
 
   context "for signed in user", context: :as_signed_in_user do
     permissions :show?, :update? do
-      it { is_expected.to permit(user) }
+      it { is_expected.to permit(context) }
     end
   end
 

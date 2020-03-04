@@ -27,15 +27,15 @@ RSpec.describe Api::CommunitiesPolicy do
     let(:community) { create(:community) }
 
     permissions :index?, :create? do
-      it { is_expected.to permit(user) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :show? do
-      it { is_expected.to permit(user) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :update? do
-      it { is_expected.to_not permit(user) }
+      it { is_expected.to_not permit(context) }
     end
   end
 

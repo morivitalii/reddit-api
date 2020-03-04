@@ -23,15 +23,15 @@ RSpec.describe Api::Communities::PostsPolicy do
     let(:post) { create(:post) }
 
     permissions :create? do
-      it { is_expected.to permit(user) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :show? do
-      it { is_expected.to permit(user, post) }
+      it { is_expected.to permit(context, post) }
     end
 
     permissions :update? do
-      it { is_expected.to_not permit(user, post) }
+      it { is_expected.to_not permit(context, post) }
     end
   end
 
@@ -52,29 +52,29 @@ RSpec.describe Api::Communities::PostsPolicy do
   end
 
   context "for author", context: :as_signed_in_user do
-    let(:post) { create(:post, created_by: user) }
+    let(:post) { create(:post, created_by: context.user) }
 
     permissions :create? do
-      it { is_expected.to permit(user) }
+      it { is_expected.to permit(context.user) }
     end
 
     permissions :show? do
-      it { is_expected.to permit(user, post) }
+      it { is_expected.to permit(context.user, post) }
     end
 
     context "text post" do
-      let(:post) { create(:text_post, created_by: user) }
+      let(:post) { create(:text_post, created_by: context.user) }
 
       permissions :update? do
-        it { is_expected.to permit(user, post) }
+        it { is_expected.to permit(context.user, post) }
       end
     end
 
     context "image post" do
-      let(:post) { create(:image_post, created_by: user) }
+      let(:post) { create(:image_post, created_by: context.user) }
 
       permissions :update? do
-        it { is_expected.to_not permit(user, post) }
+        it { is_expected.to_not permit(context.user, post) }
       end
     end
   end
@@ -90,8 +90,8 @@ RSpec.describe Api::Communities::PostsPolicy do
   describe ".permitted_attributes_for_update" do
     context "for author", context: :as_signed_in_user do
       it "contains :text attribute" do
-        post = create(:post, created_by: user)
-        policy = described_class.new(user, post)
+        post = create(:post, created_by: context.user)
+        policy = described_class.new(context.user, post)
 
         expect(policy.permitted_attributes_for_update).to contain_exactly(:text)
       end

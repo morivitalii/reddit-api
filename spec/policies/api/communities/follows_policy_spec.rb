@@ -11,30 +11,30 @@ RSpec.describe Api::Communities::FollowsPolicy do
 
   context "for signed in user", context: :as_signed_in_user do
     permissions :create? do
-      it { is_expected.to permit(user) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :destroy? do
-      it { is_expected.to_not permit(user) }
+      it { is_expected.to_not permit(context) }
     end
   end
 
   context "for follower", context: :as_signed_in_user do
-    let(:follow) { create(:follow, user: user) }
+    let(:follow) { create(:follow, user: context.user) }
 
     permissions :create? do
       it do
-        context = Context.new(user, follow.community)
+        new_context = Context.new(context.user, follow.community)
 
-        is_expected.to_not permit(context)
+        is_expected.to_not permit(new_context)
       end
     end
 
     permissions :destroy? do
       it do
-        context = Context.new(user, follow.community)
+        new_context = Context.new(context.user, follow.community)
 
-        is_expected.to permit(context)
+        is_expected.to permit(new_context)
       end
     end
   end
