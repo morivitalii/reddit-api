@@ -36,4 +36,8 @@ class Api::Users::Votes::Ups::PostsController < ApplicationController
       query.where(votable_id: params[:after]).take
     end
   end
+
+  def pundit_user
+    Context.new(current_user, nil)
+  end
 end

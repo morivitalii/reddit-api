@@ -1,9 +1,9 @@
 class ApplicationPolicy
   attr_reader :user, :community, :record
 
-  def initialize(pundit_user, record = nil)
-    @user = pundit_user.is_a?(Context) ? pundit_user.user : pundit_user
-    @community = pundit_user.is_a?(Context) ? pundit_user.community : nil
+  def initialize(context, record = nil)
+    @user = context.user
+    @community = context.community
     @record = record
   end
 

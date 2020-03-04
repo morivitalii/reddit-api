@@ -20,4 +20,8 @@ class Api::ChangePasswordController < ApplicationController
 
     params.permit(attributes)
   end
+
+  def pundit_user
+    Context.new(current_user, nil)
+  end
 end

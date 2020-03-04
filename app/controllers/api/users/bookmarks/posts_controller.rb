@@ -34,4 +34,8 @@ class Api::Users::Bookmarks::PostsController < ApplicationController
       query.where(bookmarkable_id: params[:after]).take
     end
   end
+
+  def pundit_user
+    Context.new(current_user, nil)
+  end
 end

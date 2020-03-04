@@ -17,7 +17,7 @@ RSpec.describe Api::ForgotPasswordPolicy do
 
   describe ".permitted_attributes_for_create" do
     it "contains attributes" do
-      policy = described_class.new(nil)
+      policy = described_class.new(Context.new(nil, nil))
 
       expect(policy.permitted_attributes_for_create).to contain_exactly(:email)
     end

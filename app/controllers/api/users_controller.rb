@@ -28,4 +28,8 @@ class Api::UsersController < ApplicationController
 
     params.permit(attributes).merge(user: current_user)
   end
+
+  def pundit_user
+    Context.new(current_user, nil)
+  end
 end

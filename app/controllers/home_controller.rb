@@ -11,4 +11,10 @@ class HomeController < ActionController::Base
   def index
     request.variant = Browser.new(request.user_agent).device.mobile? ? :mobile : :desktop
   end
+
+  private
+
+  def pundit_user
+    Context.new(current_user, nil)
+  end
 end

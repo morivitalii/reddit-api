@@ -17,7 +17,7 @@ RSpec.describe Api::ChangePasswordPolicy do
 
   describe ".permitted_attributes_for_update" do
     it "contains attributes" do
-      policy = described_class.new(nil)
+      policy = described_class.new(Context.new(nil, nil))
 
       expect(policy.permitted_attributes_for_update).to contain_exactly(:token, :password)
     end

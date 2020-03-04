@@ -17,5 +17,9 @@ module Authorization
     def authorize(policy_class, record = nil)
       super(record, policy_class: policy_class)
     end
+
+    def pundit_user
+      raise StandardError.new("pundit_user method is not defined")
+    end
   end
 end

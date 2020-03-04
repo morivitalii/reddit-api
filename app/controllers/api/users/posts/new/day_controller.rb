@@ -22,4 +22,8 @@ class Api::Users::Posts::New::DayController < ApplicationController
   def set_user
     @user = UsersQuery.new.with_username(params[:user_id]).take!
   end
+
+  def pundit_user
+    Context.new(current_user, nil)
+  end
 end

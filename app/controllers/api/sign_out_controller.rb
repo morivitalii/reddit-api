@@ -6,4 +6,10 @@ class Api::SignOutController < ApplicationController
 
     head :no_content
   end
+
+  private
+
+  def pundit_user
+    Context.new(current_user, nil)
+  end
 end
