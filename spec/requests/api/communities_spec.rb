@@ -46,7 +46,7 @@ RSpec.describe Api::CommunitiesController do
   describe ".update", context: :as_moderator_user do
     context "with valid params" do
       it "updates community and returns community object" do
-        community = user_context.community
+        community = context.community
 
         put "/api/communities/#{community.to_param}.json", params: {title: "New title", description: "New description"}
 
@@ -57,7 +57,7 @@ RSpec.describe Api::CommunitiesController do
 
     context "with invalid params" do
       it "returns error messages" do
-        community = user_context.community
+        community = context.community
 
         put "/api/communities/#{community.to_param}.json", params: {title: "", description: ""}
 

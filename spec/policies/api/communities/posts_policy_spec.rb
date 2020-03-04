@@ -36,18 +36,18 @@ RSpec.describe Api::Communities::PostsPolicy do
   end
 
   context "for moderator", context: :as_moderator_user do
-    let(:post) { create(:post, community: user_context.community) }
+    let(:post) { create(:post, community: context.community) }
 
     permissions :create? do
-      it { is_expected.to permit(user_context) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :show? do
-      it { is_expected.to permit(user_context, post) }
+      it { is_expected.to permit(context, post) }
     end
 
     permissions :update? do
-      it { is_expected.to_not permit(user_context, post) }
+      it { is_expected.to_not permit(context, post) }
     end
   end
 

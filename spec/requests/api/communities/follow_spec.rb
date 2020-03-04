@@ -25,7 +25,7 @@ RSpec.describe Api::Communities::FollowController do
 
     context "as moderator user", context: :as_moderator_user do
       it "returns follow object" do
-        community = user_context.community
+        community = context.community
 
         post "/api/communities/#{community.to_param}/follow.json"
 
@@ -69,7 +69,7 @@ RSpec.describe Api::Communities::FollowController do
 
     context "as moderator user", context: :as_moderator_user do
       it "returns no content header" do
-        community = create(:community_with_user_follower, user: user_context.user)
+        community = create(:community_with_user_follower, user: context.user)
 
         delete "/api/communities/#{community.to_param}/follow.json"
 

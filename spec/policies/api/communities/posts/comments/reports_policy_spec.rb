@@ -25,11 +25,11 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
 
   context "for moderator", context: :as_moderator_user do
     permissions :index? do
-      it { is_expected.to permit(user_context) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :new?, :create? do
-      it { is_expected.to permit(user_context) }
+      it { is_expected.to permit(context) }
     end
   end
 

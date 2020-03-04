@@ -20,10 +20,10 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
   end
 
   context "for moderator", context: :as_moderator_user do
-    let(:comment) { create(:comment, community: user_context.community) }
+    let(:comment) { create(:comment, community: context.community) }
 
     permissions :edit?, :update?, :update_reason? do
-      it { is_expected.to permit(user_context, comment) }
+      it { is_expected.to permit(context, comment) }
     end
   end
 
@@ -42,8 +42,8 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
   describe ".permitted_attributes_for_update" do
     context "for moderator", context: :as_moderator_user do
       it "contains attributes" do
-        comment = create(:comment, community: user_context.community)
-        policy = described_class.new(user_context, comment)
+        comment = create(:comment, community: context.community)
+        policy = described_class.new(context, comment)
 
         expect(policy.permitted_attributes_for_update).to contain_exactly(:reason)
       end

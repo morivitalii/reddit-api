@@ -20,10 +20,10 @@ RSpec.describe Api::Communities::Posts::Comments::ApprovePolicy do
   end
 
   context "for moderator", context: :as_moderator_user do
-    let(:comment) { create(:comment, community: user_context.community) }
+    let(:comment) { create(:comment, community: context.community) }
 
     permissions :update? do
-      it { is_expected.to permit(user_context, comment) }
+      it { is_expected.to permit(context, comment) }
     end
   end
 end

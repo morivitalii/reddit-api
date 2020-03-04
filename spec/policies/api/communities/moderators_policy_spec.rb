@@ -33,11 +33,11 @@ RSpec.describe Api::Communities::ModeratorsPolicy do
 
   context "for moderator", context: :as_moderator_user do
     permissions :index?, :new?, :create? do
-      it { is_expected.to permit(user_context) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :destroy? do
-      it { is_expected.to permit(user_context) }
+      it { is_expected.to permit(context) }
     end
   end
 

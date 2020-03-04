@@ -41,11 +41,11 @@ RSpec.describe Api::CommunitiesPolicy do
 
   context "for moderator", context: :as_moderator_user do
     permissions :index?, :create? do
-      it { is_expected.to permit(user_context) }
+      it { is_expected.to permit(context) }
     end
 
     permissions :show?, :update? do
-      it { is_expected.to permit(user_context, user_context.community) }
+      it { is_expected.to permit(context, context.community) }
     end
   end
 

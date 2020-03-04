@@ -17,7 +17,7 @@ RSpec.describe Api::Communities::Posts::Reports::IgnorePolicy do
 
   context "for moderator", context: :as_moderator_user do
     permissions :create?, :destroy? do
-      it { is_expected.to permit(user_context) }
+      it { is_expected.to permit(context) }
     end
   end
 end
