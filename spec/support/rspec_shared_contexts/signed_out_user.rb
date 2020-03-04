@@ -1,5 +1,5 @@
 RSpec.shared_context "as signed out user" do
-  before do
+  before(:each, type: :request) do
     logout
   end
 

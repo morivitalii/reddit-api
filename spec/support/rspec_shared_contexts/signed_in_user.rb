@@ -1,5 +1,5 @@
 RSpec.shared_context "as signed in user" do
-  before do
+  before(:each, type: :request) do
     login_as(user)
   end
 
