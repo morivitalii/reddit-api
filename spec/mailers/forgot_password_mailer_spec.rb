@@ -4,8 +4,8 @@ RSpec.describe ForgotPasswordMailer do
   it "renders the headers" do
     mail = build_forgot_password_mailer
     expect(mail.subject).to eq(I18n.t("forgot_password_mailer.subject"))
-    expect(mail.to).to eq(["email@email.com"])
-    expect(mail.from).to eq(["no-reply@readma.ru"])
+    expect(mail.to).to eq(["email@example.com"])
+    expect(mail.from).to eq(["no-reply@example.com"])
   end
 
   it "renders the body" do
