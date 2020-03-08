@@ -69,9 +69,9 @@ RSpec.describe Api::Communities::FollowController do
 
     context "as moderator user", context: :as_moderator_user do
       it "returns no content header" do
-        community = create(:community_with_user_follower, user: context.user)
+        create(:follow, community: context.community, user: context.user)
 
-        delete "/api/communities/#{community.to_param}/follow.json"
+        delete "/api/communities/#{context.community.to_param}/follow.json"
 
         expect(response).to have_http_status(204)
       end
@@ -79,9 +79,9 @@ RSpec.describe Api::Communities::FollowController do
 
     context "as banned user", context: :as_banned_user do
       it "returns no content header" do
-        community = create(:community_with_user_follower, user: context.user)
+        create(:follow, community: context.community, user: context.user)
 
-        delete "/api/communities/#{community.to_param}/follow.json"
+        delete "/api/communities/#{context.community.to_param}/follow.json"
 
         expect(response).to have_http_status(204)
       end
