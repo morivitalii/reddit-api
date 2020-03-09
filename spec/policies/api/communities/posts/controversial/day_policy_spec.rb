@@ -15,9 +15,21 @@ RSpec.describe Api::Communities::Posts::Controversial::DayPolicy do
     end
   end
 
+  context "as moderator user", context: :as_moderator_user do
+    permissions :index? do
+      it { is_expected.to permit(context) }
+    end
+  end
+
   context "as muted user", context: :as_muted_user do
     permissions :index? do
       it { is_expected.to permit(context) }
+    end
+  end
+
+  context "as banned user", context: :as_banned_user do
+    permissions :index? do
+      it { is_expected.to_not permit(context) }
     end
   end
 end
