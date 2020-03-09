@@ -1,12 +1,12 @@
 class Api::Communities::Posts::Comments::RemovePolicy < ApplicationPolicy
   def edit?
-    author? && !muted? || moderator?
+    author? && !muted? || moderator? && !banned?
   end
 
   alias update? edit?
 
   def update_reason?
-    moderator?
+    moderator? && !banned?
   end
 
   def permitted_attributes_for_update
