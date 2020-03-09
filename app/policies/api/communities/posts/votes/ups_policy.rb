@@ -1,9 +1,9 @@
 class Api::Communities::Posts::Votes::UpsPolicy < ApplicationPolicy
   def create?
-    user? && !muted?
+    user? && !muted? && !banned?
   end
 
   def destroy?
-    user? && !muted?
+    user? && !muted? && !banned?
   end
 end
