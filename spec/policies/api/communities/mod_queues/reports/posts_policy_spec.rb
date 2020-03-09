@@ -26,4 +26,10 @@ RSpec.describe Api::Communities::ModQueues::Reports::PostsPolicy do
       it { is_expected.to_not permit(context) }
     end
   end
+
+  context "as banned user", context: :as_banned_user do
+    permissions :index? do
+      it { is_expected.to_not permit(context) }
+    end
+  end
 end
