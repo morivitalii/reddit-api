@@ -1,5 +1,5 @@
 class Api::Communities::ModQueues::New::PostsPolicy < ApplicationPolicy
   def index?
-    moderator?
+    moderator? && !banned?
   end
 end
