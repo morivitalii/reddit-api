@@ -1,5 +1,5 @@
 class Api::Communities::Posts::New::WeekPolicy < ApplicationPolicy
   def index?
-    true
+    !banned?
   end
 end
