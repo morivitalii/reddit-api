@@ -1,10 +1,10 @@
 class Api::Communities::Posts::Comments::ReportsPolicy < ApplicationPolicy
   def index?
-    moderator?
+    moderator? && !banned?
   end
 
   def create?
-    user? && !muted?
+    user? && !muted? && !banned?
   end
 
   alias new? create?
