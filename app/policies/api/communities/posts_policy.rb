@@ -4,11 +4,11 @@ class Api::Communities::PostsPolicy < ApplicationPolicy
   end
 
   def create?
-    user?
+    user? && !muted?
   end
 
   def update?
-    author? && record.text?
+    author? && !muted? && record.text?
   end
 
   def permitted_attributes_for_create

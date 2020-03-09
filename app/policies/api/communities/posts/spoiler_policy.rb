@@ -3,5 +3,7 @@ class Api::Communities::Posts::SpoilerPolicy < ApplicationPolicy
     moderator?
   end
 
-  alias destroy? create?
+  def destroy?
+    moderator?
+  end
 end

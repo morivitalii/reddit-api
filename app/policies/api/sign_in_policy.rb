@@ -3,5 +3,7 @@ class Api::SignInPolicy < ApplicationPolicy
     visitor?
   end
 
-  alias unauthenticated? create?
+  def unauthenticated?
+    visitor?
+  end
 end

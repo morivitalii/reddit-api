@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Api::Users::Votes::Ups::CommentsPolicy do
   subject { described_class }
 
-  context "for signed out user", context: :as_signed_out_user do
+  context "as signed out user", context: :as_signed_out_user do
     let(:user) { create(:user) }
 
     permissions :index? do
@@ -11,7 +11,7 @@ RSpec.describe Api::Users::Votes::Ups::CommentsPolicy do
     end
   end
 
-  context "for signed in user", context: :as_signed_in_user do
+  context "as signed in user", context: :as_signed_in_user do
     context "another user" do
       let(:user) { create(:user) }
 

@@ -25,6 +25,10 @@ class ApplicationPolicy
     user? && user.moderators.any? { |moderator| moderator.community_id == community.id }
   end
 
+  def muted?
+    user? && community.present? && user.mutes.any? { |mute| mute.community_id == community.id }
+  end
+
   def banned?
     user? && community.present? && user.bans.any? { |ban| ban.community_id == community.id }
   end

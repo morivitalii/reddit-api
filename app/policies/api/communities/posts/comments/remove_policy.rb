@@ -1,6 +1,6 @@
 class Api::Communities::Posts::Comments::RemovePolicy < ApplicationPolicy
   def edit?
-    author? || moderator?
+    author? && !muted? || moderator?
   end
 
   alias update? edit?

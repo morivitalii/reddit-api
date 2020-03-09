@@ -2,6 +2,7 @@ class Community < ApplicationRecord
   has_many :follows, dependent: :destroy
   has_many :moderators, dependent: :destroy
   has_many :bans, dependent: :destroy
+  has_many :mutes, dependent: :destroy
   has_many :comments, dependent: :restrict_with_error
   has_many :posts, dependent: :restrict_with_error
   has_many :rules, dependent: :destroy

@@ -243,6 +243,42 @@ ALTER SEQUENCE public.moderators_id_seq OWNED BY public.moderators.id;
 
 
 --
+-- Name: mutes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.mutes (
+    id bigint NOT NULL,
+    community_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    reason character varying,
+    permanent boolean DEFAULT false NOT NULL,
+    days integer,
+    end_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: mutes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.mutes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: mutes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.mutes_id_seq OWNED BY public.mutes.id;
+
+
+--
 -- Name: posts; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -549,6 +585,13 @@ ALTER TABLE ONLY public.moderators ALTER COLUMN id SET DEFAULT nextval('public.m
 
 
 --
+-- Name: mutes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mutes ALTER COLUMN id SET DEFAULT nextval('public.mutes_id_seq'::regclass);
+
+
+--
 -- Name: posts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -651,6 +694,14 @@ ALTER TABLE ONLY public.follows
 
 ALTER TABLE ONLY public.moderators
     ADD CONSTRAINT moderators_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: mutes mutes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mutes
+    ADD CONSTRAINT mutes_pkey PRIMARY KEY (id);
 
 
 --
@@ -869,6 +920,27 @@ CREATE INDEX index_moderators_on_user_id ON public.moderators USING btree (user_
 --
 
 CREATE UNIQUE INDEX index_moderators_uniqueness ON public.moderators USING btree (community_id, user_id);
+
+
+--
+-- Name: index_mutes_on_community_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_mutes_on_community_id ON public.mutes USING btree (community_id);
+
+
+--
+-- Name: index_mutes_on_community_id_and_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_mutes_on_community_id_and_user_id ON public.mutes USING btree (community_id, user_id);
+
+
+--
+-- Name: index_mutes_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_mutes_on_user_id ON public.mutes USING btree (user_id);
 
 
 --
@@ -1160,11 +1232,27 @@ ALTER TABLE ONLY public.comments
 
 
 --
+-- Name: mutes fk_rails_68f0ae7448; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mutes
+    ADD CONSTRAINT fk_rails_68f0ae7448 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: posts fk_rails_78a7444b29; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.posts
     ADD CONSTRAINT fk_rails_78a7444b29 FOREIGN KEY (approved_by_id) REFERENCES public.users(id);
+
+
+--
+-- Name: mutes fk_rails_8b6bfa148b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mutes
+    ADD CONSTRAINT fk_rails_8b6bfa148b FOREIGN KEY (community_id) REFERENCES public.communities(id);
 
 
 --
@@ -1361,6 +1449,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200106104836'),
 ('20200106105154'),
 ('20200106105306'),
-('20200106105406');
+('20200106105406'),
+('20200308143756');
 
 

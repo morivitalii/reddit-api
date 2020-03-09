@@ -61,5 +61,15 @@ FactoryBot.define do
         create(:ban, community: community, user: evaluator.user)
       end
     end
+
+    factory :community_with_muted_user do
+      transient do
+        user { create(:user) }
+      end
+
+      after(:create) do |community, evaluator|
+        create(:mute, community: community, user: evaluator.user)
+      end
+    end
   end
 end

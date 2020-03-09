@@ -4,7 +4,7 @@ class Api::Communities::Posts::Comments::ReportsPolicy < ApplicationPolicy
   end
 
   def create?
-    user?
+    user? && !muted?
   end
 
   alias new? create?

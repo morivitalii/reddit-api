@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Api::UsersPolicy do
   subject { described_class }
 
-  context "for signed out user", context: :as_signed_out_user do
+  context "as signed out user", context: :as_signed_out_user do
     permissions :show? do
       it { is_expected.to permit(context) }
     end
@@ -13,7 +13,7 @@ RSpec.describe Api::UsersPolicy do
     end
   end
 
-  context "for signed in user", context: :as_signed_in_user do
+  context "as signed in user", context: :as_signed_in_user do
     permissions :show?, :update? do
       it { is_expected.to permit(context) }
     end

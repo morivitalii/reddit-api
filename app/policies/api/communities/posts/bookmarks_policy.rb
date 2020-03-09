@@ -3,5 +3,7 @@ class Api::Communities::Posts::BookmarksPolicy < ApplicationPolicy
     user?
   end
 
-  alias destroy? create?
+  def destroy?
+    user?
+  end
 end
