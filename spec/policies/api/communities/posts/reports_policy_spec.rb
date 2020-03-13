@@ -43,6 +43,16 @@ RSpec.describe Api::Communities::Posts::ReportsPolicy do
     end
   end
 
+  context "as banned user", context: :as_banned_user do
+    permissions :index? do
+      it { is_expected.to_not permit(context) }
+    end
+
+    permissions :new?, :create? do
+      it { is_expected.to_not permit(context) }
+    end
+  end
+
   describe ".permitted_attributes_for_create" do
     it "contains attributes" do
       policy = described_class.new(Context.new(nil, nil))
