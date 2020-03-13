@@ -34,4 +34,12 @@ RSpec.describe Api::Communities::Posts::ApprovePolicy do
       it { is_expected.to_not permit(context, post) }
     end
   end
+
+  context "as banned user", context: :as_banned_user do
+    let(:post) { create(:post, community: context.community) }
+
+    permissions :update? do
+      it { is_expected.to_not permit(context, post) }
+    end
+  end
 end
