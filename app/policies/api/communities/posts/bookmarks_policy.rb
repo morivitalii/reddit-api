@@ -1,9 +1,9 @@
 class Api::Communities::Posts::BookmarksPolicy < ApplicationPolicy
   def create?
-    user?
+    user? && !banned?
   end
 
   def destroy?
-    user?
+    user? && !banned?
   end
 end
