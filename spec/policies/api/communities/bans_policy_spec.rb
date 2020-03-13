@@ -4,6 +4,8 @@ RSpec.describe Api::Communities::BansPolicy do
   subject { described_class }
 
   context "as signed out user", context: :as_signed_out_user do
+    let(:ban) { create(:ban) }
+
     permissions :index? do
       it { is_expected.to permit(context) }
     end
@@ -13,11 +15,13 @@ RSpec.describe Api::Communities::BansPolicy do
     end
 
     permissions :edit?, :update?, :destroy? do
-      it { is_expected.to_not permit(context) }
+      it { is_expected.to_not permit(context, ban) }
     end
   end
 
   context "as signed in user", context: :as_signed_in_user do
+    let(:ban) { create(:ban) }
+
     permissions :index? do
       it { is_expected.to permit(context) }
     end
@@ -27,21 +31,25 @@ RSpec.describe Api::Communities::BansPolicy do
     end
 
     permissions :edit?, :update?, :destroy? do
-      it { is_expected.to_not permit(context) }
+      it { is_expected.to_not permit(context, ban) }
     end
   end
 
   context "as moderator user", context: :as_moderator_user do
+    let(:ban) { create(:ban, community: context.community) }
+
     permissions :index?, :new?, :create? do
       it { is_expected.to permit(context) }
     end
 
     permissions :edit?, :update?, :destroy? do
-      it { is_expected.to permit(context) }
+      it { is_expected.to permit(context, ban) }
     end
   end
 
   context "as muted user", context: :as_muted_user do
+    let(:ban) { create(:ban, community: context.community) }
+
     permissions :index? do
       it { is_expected.to permit(context) }
     end
@@ -51,7 +59,19 @@ RSpec.describe Api::Communities::BansPolicy do
     end
 
     permissions :edit?, :update?, :destroy? do
+      it { is_expected.to_not permit(context, ban) }
+    end
+  end
+
+  context "as banned user", context: :as_banned_user do
+    let(:ban) { create(:ban, community: context.community) }
+
+    permissions :index?, :new?, :create? do
       it { is_expected.to_not permit(context) }
+    end
+
+    permissions :edit?, :update?, :destroy? do
+      it { is_expected.to_not permit(context, ban) }
     end
   end
 

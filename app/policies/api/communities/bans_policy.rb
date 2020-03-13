@@ -1,22 +1,22 @@
 class Api::Communities::BansPolicy < ApplicationPolicy
   def index?
-    true
+    !banned?
   end
 
   def create?
-    moderator?
+    moderator? && !banned?
   end
 
   alias new? create?
 
   def update?
-    moderator?
+    moderator? && !banned?
   end
 
   alias edit? update?
 
   def destroy?
-    moderator?
+    moderator? && !banned?
   end
 
   def permitted_attributes_for_create
