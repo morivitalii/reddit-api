@@ -26,4 +26,10 @@ RSpec.describe Api::Communities::Posts::ExplicitPolicy do
       it { is_expected.to_not permit(context) }
     end
   end
+
+  context "as banned user", context: :as_banned_user do
+    permissions :create?, :destroy? do
+      it { is_expected.to_not permit(context) }
+    end
+  end
 end
