@@ -35,6 +35,14 @@ RSpec.describe Api::Communities::Posts::RemovePolicy do
     end
   end
 
+  context "as banned user", context: :as_banned_user do
+    let(:post) { create(:post, community: context.community) }
+
+    permissions :edit?, :update?, :update_reason? do
+      it { is_expected.to_not permit(context, post) }
+    end
+  end
+
   context "as author user", context: :as_signed_in_user do
     let(:post) { create(:post, created_by: context.user) }
 
