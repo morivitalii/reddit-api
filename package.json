@@ -10,7 +10,7 @@
     "react-dom": "^16.13.0"
   },
   "devDependencies": {
-    "standard": "^14.3.1",
+    "standard": "^14.3.2",
     "stylelint": "^13.2.0",
     "stylelint-config-standard": "^20.0.0",
     "webpack-dev-server": "^3.10.3"
