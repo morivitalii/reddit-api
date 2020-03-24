@@ -7,7 +7,7 @@ gem "bootsnap", "~> 1", require: false
 gem "rails", "~> 6.0"
 gem "rails-i18n", "~> 6"
 gem "pg", ">= 0.18", "< 2.0"
-gem "webpacker", "~> 4"
+gem "webpacker", "~> 5"
 gem "bcrypt", "~> 3"
 gem "mini_magick", "~> 4"
 gem "oj", "~> 3"
