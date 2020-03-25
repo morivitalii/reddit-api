@@ -98,7 +98,7 @@ GEM
       railties (>= 3.2, < 6.1)
     down (4.8.1)
       addressable (~> 2.5)
-    draper (4.0.0)
+    draper (4.0.1)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
       activemodel-serializers-xml (>= 1.0)
