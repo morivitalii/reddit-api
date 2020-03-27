@@ -4,7 +4,7 @@ class Api::CommunitiesPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    !banned?
   end
 
   def create?
@@ -12,7 +12,7 @@ class Api::CommunitiesPolicy < ApplicationPolicy
   end
 
   def update?
-    moderator?
+    user? && (admin? || moderator?)
   end
 
   def permitted_attributes_for_create

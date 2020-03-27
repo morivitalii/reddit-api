@@ -31,6 +31,12 @@ RSpec.describe ApplicationPolicy do
       end
     end
 
+    context "as admin user", context: :as_admin_user do
+      permissions :skip_rate_limiting? do
+        it { is_expected.to permit(context) }
+      end
+    end
+
     context "as moderator user", context: :as_moderator_user do
       permissions :skip_rate_limiting? do
         it { is_expected.to permit(context) }

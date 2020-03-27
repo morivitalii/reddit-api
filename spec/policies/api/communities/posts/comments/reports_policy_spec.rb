@@ -4,52 +4,54 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
   subject { described_class }
 
   context "as signed out user", context: :as_signed_out_user do
-    permissions :index? do
-      it { is_expected.to_not permit(context) }
-    end
+    let(:comment) { create(:comment) }
 
-    permissions :new?, :create? do
-      it { is_expected.to_not permit(context) }
+    permissions :index?, :create? do
+      it { is_expected.to_not permit(context, comment) }
     end
   end
 
   context "as signed in user", context: :as_signed_in_user do
+    let(:comment) { create(:comment) }
+
     permissions :index? do
-      it { is_expected.to_not permit(context) }
+      it { is_expected.to_not permit(context, comment) }
     end
 
-    permissions :new?, :create? do
-      it { is_expected.to permit(context) }
+    permissions :create? do
+      it { is_expected.to permit(context, comment) }
+    end
+  end
+
+  context "as admin user", context: :as_admin_user do
+    let(:comment) { create(:comment) }
+
+    permissions :index?, :create? do
+      it { is_expected.to permit(context, comment) }
     end
   end
 
   context "as moderator user", context: :as_moderator_user do
-    permissions :index? do
-      it { is_expected.to permit(context) }
-    end
+    let(:comment) { create(:comment, community: context.community) }
 
-    permissions :new?, :create? do
-      it { is_expected.to permit(context) }
+    permissions :index?, :create? do
+      it { is_expected.to permit(context, comment) }
     end
   end
 
   context "as muted user", context: :as_muted_user do
-    permissions :index? do
-      it { is_expected.to_not permit(context) }
-    end
+    let(:comment) { create(:comment, community: context.community) }
 
-    permissions :new?, :create? do
-      it { is_expected.to_not permit(context) }
+    permissions :index?, :create? do
+      it { is_expected.to_not permit(context, comment) }
     end
   end
 
   context "as banned user", context: :as_banned_user do
-    permissions :index? do
-      it { is_expected.to_not permit(context) }
-    end
-
-    permissions :new?, :create? do
-      it { is_expected.to_not permit(context) }
+    let(:comment) { create(:comment, community: context.community) }
+    
+    permissions :index?, :create? do
+      it { is_expected.to_not permit(context, comment) }
     end
   end
 

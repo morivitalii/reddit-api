@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_secure_password
   has_secure_token :forgot_password_token
 
+  has_one :admin
   has_many :follows, dependent: :destroy
   has_many :moderators, dependent: :destroy
   has_many :bans, dependent: :destroy

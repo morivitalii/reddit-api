@@ -6,7 +6,7 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
   context "as signed out user", context: :as_signed_out_user do
     let(:comment) { create(:comment) }
 
-    permissions :edit?, :update?, :update_reason? do
+    permissions :update?, :update_reason? do
       it { is_expected.to_not permit(context, comment) }
     end
   end
@@ -14,15 +14,23 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
   context "as signed in user", context: :as_signed_in_user do
     let(:comment) { create(:comment) }
 
-    permissions :edit?, :update?, :update_reason? do
+    permissions :update?, :update_reason? do
       it { is_expected.to_not permit(context, comment) }
+    end
+  end
+
+  context "as admin user", context: :as_admin_user do
+    let(:comment) { create(:comment) }
+
+    permissions :update?, :update_reason? do
+      it { is_expected.to permit(context, comment) }
     end
   end
 
   context "as moderator user", context: :as_moderator_user do
     let(:comment) { create(:comment, community: context.community) }
 
-    permissions :edit?, :update?, :update_reason? do
+    permissions :update?, :update_reason? do
       it { is_expected.to permit(context, comment) }
     end
   end
@@ -30,7 +38,7 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
   context "as muted user", context: :as_muted_user do
     let(:comment) { create(:comment, community: context.community) }
 
-    permissions :edit?, :update?, :update_reason? do
+    permissions :update?, :update_reason? do
       it { is_expected.to_not permit(context, comment) }
     end
   end
@@ -38,7 +46,7 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
   context "as banned user", context: :as_banned_user do
     let(:comment) { create(:comment, community: context.community) }
 
-    permissions :edit?, :update?, :update_reason? do
+    permissions :update?, :update_reason? do
       it { is_expected.to_not permit(context, comment) }
     end
   end
@@ -46,7 +54,7 @@ RSpec.describe Api::Communities::Posts::Comments::RemovePolicy do
   context "as author user", context: :as_signed_in_user do
     let(:comment) { create(:comment, created_by: context.user) }
 
-    permissions :edit?, :update? do
+    permissions :update? do
       it { is_expected.to permit(context, comment) }
     end
 

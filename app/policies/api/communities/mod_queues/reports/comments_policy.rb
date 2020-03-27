@@ -1,5 +1,5 @@
 class Api::Communities::ModQueues::Reports::CommentsPolicy < ApplicationPolicy
   def index?
-    moderator? && !banned?
+    user? && (admin? || moderator?)
   end
 end

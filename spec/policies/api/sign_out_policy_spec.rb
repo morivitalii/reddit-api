@@ -14,4 +14,10 @@ RSpec.describe Api::SignOutPolicy do
       it { is_expected.to permit(context) }
     end
   end
+
+  context "as admin user", context: :as_admin_user do
+    permissions :destroy? do
+      it { is_expected.to permit(context) }
+    end
+  end
 end

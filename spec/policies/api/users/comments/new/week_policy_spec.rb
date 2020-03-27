@@ -12,18 +12,24 @@ RSpec.describe Api::Users::Comments::New::WeekPolicy do
   end
 
   context "as signed in user", context: :as_signed_in_user do
-    context "another user" do
-      let(:user) { create(:user) }
+    let(:user) { create(:user) }
 
-      permissions :index? do
-        it { is_expected.to permit(context, user) }
-      end
+    permissions :index? do
+      it { is_expected.to permit(context, user) }
     end
+  end
 
-    context "account owner" do
-      permissions :index? do
-        it { is_expected.to permit(context, context.user) }
-      end
+  context "as admin user", context: :as_admin_user do
+    let(:user) { create(:user) }
+
+    permissions :index? do
+      it { is_expected.to permit(context, user) }
+    end
+  end
+
+  context "as account owner", context: :as_signed_in_user do
+    permissions :index? do
+      it { is_expected.to permit(context, context.user) }
     end
   end
 end

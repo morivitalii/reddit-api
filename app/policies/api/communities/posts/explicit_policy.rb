@@ -1,9 +1,9 @@
 class Api::Communities::Posts::ExplicitPolicy < ApplicationPolicy
   def create?
-    moderator? && !banned?
+    user? && (admin? || moderator?)
   end
 
   def destroy?
-    moderator? && !banned?
+    user? && (admin? || moderator?)
   end
 end

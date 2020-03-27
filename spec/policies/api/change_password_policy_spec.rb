@@ -15,6 +15,12 @@ RSpec.describe Api::ChangePasswordPolicy do
     end
   end
 
+  context "as admin user", context: :as_admin_user do
+    permissions :update? do
+      it { is_expected.to permit(context) }
+    end
+  end
+
   describe ".permitted_attributes_for_update" do
     it "contains attributes" do
       policy = described_class.new(Context.new(nil, nil))

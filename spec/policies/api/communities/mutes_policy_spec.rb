@@ -6,11 +6,7 @@ RSpec.describe Api::Communities::MutesPolicy do
   context "as signed out user", context: :as_signed_out_user do
     let(:mute) { create(:mute) }
 
-    permissions :index? do
-      it { is_expected.to permit(context) }
-    end
-
-    permissions :create? do
+    permissions :index?, :create? do
       it { is_expected.to_not permit(context) }
     end
 
@@ -22,16 +18,24 @@ RSpec.describe Api::Communities::MutesPolicy do
   context "as signed in user", context: :as_signed_in_user do
     let(:mute) { create(:mute) }
 
-    permissions :index? do
-      it { is_expected.to permit(context) }
-    end
-
-    permissions :create? do
+    permissions :index?, :create? do
       it { is_expected.to_not permit(context) }
     end
 
     permissions :update?, :destroy? do
       it { is_expected.to_not permit(context, mute) }
+    end
+  end
+
+  context "as admin user", context: :as_admin_user do
+    let(:mute) { create(:mute) }
+
+    permissions :index?, :create? do
+      it { is_expected.to permit(context) }
+    end
+
+    permissions :update?, :destroy? do
+      it { is_expected.to permit(context, mute) }
     end
   end
 
@@ -50,11 +54,7 @@ RSpec.describe Api::Communities::MutesPolicy do
   context "as muted user", context: :as_muted_user do
     let(:mute) { create(:mute, community: context.community) }
 
-    permissions :index? do
-      it { is_expected.to permit(context) }
-    end
-
-    permissions :create? do
+    permissions :index?, :create? do
       it { is_expected.to_not permit(context) }
     end
 

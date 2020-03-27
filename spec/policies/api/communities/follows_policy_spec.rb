@@ -19,6 +19,16 @@ RSpec.describe Api::Communities::FollowsPolicy do
     end
   end
 
+  context "as admin user", context: :as_admin_user do
+    permissions :create? do
+      it { is_expected.to permit(context) }
+    end
+
+    permissions :destroy? do
+      it { is_expected.to_not permit(context) }
+    end
+  end
+
   context "as moderator user", context: :as_moderator_user do
     permissions :create? do
       it { is_expected.to permit(context) }

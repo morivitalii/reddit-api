@@ -39,6 +39,18 @@ RSpec.describe Api::CommunitiesPolicy do
     end
   end
 
+  context "as admin user", context: :as_admin_user do
+    let(:community) { create(:community) }
+
+    permissions :index?, :create? do
+      it { is_expected.to permit(context) }
+    end
+
+    permissions :show?, :update? do
+      it { is_expected.to permit(context, community) }
+    end
+  end
+
   context "as moderator user", context: :as_moderator_user do
     permissions :index?, :create? do
       it { is_expected.to permit(context) }
@@ -59,6 +71,16 @@ RSpec.describe Api::CommunitiesPolicy do
     end
 
     permissions :update? do
+      it { is_expected.to_not permit(context, context.community) }
+    end
+  end
+
+  context "as banned user", context: :as_banned_user do
+    permissions :index?, :create? do
+      it { is_expected.to permit(context) }
+    end
+
+    permissions :show?, :update? do
       it { is_expected.to_not permit(context, context.community) }
     end
   end

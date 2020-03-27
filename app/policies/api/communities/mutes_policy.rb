@@ -1,18 +1,18 @@
 class Api::Communities::MutesPolicy < ApplicationPolicy
   def index?
-    !banned?
+    user? && (admin? || moderator?)
   end
 
   def create?
-    moderator?
+    user? && (admin? || moderator?)
   end
 
   def update?
-    moderator?
+    user? && (admin? || moderator?)
   end
 
   def destroy?
-    moderator?
+    user? && (admin? || moderator?)
   end
 
   def permitted_attributes_for_create

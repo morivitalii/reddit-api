@@ -4,54 +4,86 @@ RSpec.describe Api::Communities::ModeratorsPolicy do
   subject { described_class }
 
   context "as signed out user", context: :as_signed_out_user do
+    let(:moderator) { create(:moderator) }
+
     permissions :index? do
       it { is_expected.to permit(context) }
     end
 
-    permissions :new?, :create? do
+    permissions :create? do
       it { is_expected.to_not permit(context) }
     end
 
     permissions :destroy? do
-      it { is_expected.to_not permit(context) }
+      it { is_expected.to_not permit(context, moderator) }
     end
   end
 
   context "as signed in user", context: :as_signed_in_user do
+    let(:moderator) { create(:moderator) }
+
     permissions :index? do
       it { is_expected.to permit(context) }
     end
 
-    permissions :new?, :create? do
+    permissions :create? do
       it { is_expected.to_not permit(context) }
     end
 
     permissions :destroy? do
-      it { is_expected.to_not permit(context) }
+      it { is_expected.to_not permit(context, moderator) }
+    end
+  end
+
+  context "as admin user", context: :as_admin_user do
+    let(:moderator) { create(:moderator) }
+
+    permissions :index?, :create? do
+      it { is_expected.to permit(context) }
+    end
+
+    permissions :destroy? do
+      it { is_expected.to permit(context, moderator) }
     end
   end
 
   context "as moderator user", context: :as_moderator_user do
-    permissions :index?, :new?, :create? do
+    let(:moderator) { create(:moderator, community: context.community) }
+
+    permissions :index?, :create? do
       it { is_expected.to permit(context) }
     end
 
     permissions :destroy? do
-      it { is_expected.to permit(context) }
+      it { is_expected.to permit(context, moderator) }
     end
   end
 
   context "as muted user", context: :as_muted_user do
+    let(:moderator) { create(:moderator, community: context.community) }
+
     permissions :index? do
       it { is_expected.to permit(context) }
     end
 
-    permissions :new?, :create? do
+    permissions :create? do
       it { is_expected.to_not permit(context) }
     end
 
     permissions :destroy? do
+      it { is_expected.to_not permit(context, moderator) }
+    end
+  end
+
+  context "as banned user", context: :as_banned_user do
+    let(:moderator) { create(:moderator, community: context.community) }
+
+    permissions :index?, :create? do
       it { is_expected.to_not permit(context) }
+    end
+
+    permissions :destroy? do
+      it { is_expected.to_not permit(context, moderator) }
     end
   end
 

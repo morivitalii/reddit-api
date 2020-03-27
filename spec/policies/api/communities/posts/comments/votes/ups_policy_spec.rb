@@ -19,6 +19,14 @@ RSpec.describe Api::Communities::Posts::Comments::Votes::UpsPolicy do
     end
   end
 
+  context "as admin user", context: :as_admin_user do
+    let(:comment) { create(:comment) }
+
+    permissions :create?, :destroy? do
+      it { is_expected.to permit(context, comment) }
+    end
+  end
+
   context "as moderator user", context: :as_moderator_user do
     let(:comment) { create(:comment, community: context.community) }
 

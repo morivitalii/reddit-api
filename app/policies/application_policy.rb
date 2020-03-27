@@ -8,17 +8,21 @@ class ApplicationPolicy
   end
 
   def skip_rate_limiting?
-    moderator?
+    admin? || moderator?
   end
 
   private
+
+  def visitor?
+    !user?
+  end
 
   def user?
     user.present?
   end
 
-  def visitor?
-    !user?
+  def admin?
+    user? && user.admin.present?
   end
 
   def moderator?

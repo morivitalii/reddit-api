@@ -19,6 +19,14 @@ RSpec.describe Api::Communities::Posts::Reports::IgnorePolicy do
     end
   end
 
+  context "as admin user", context: :as_admin_user do
+    let(:post) { create(:post) }
+
+    permissions :create?, :destroy? do
+      it { is_expected.to permit(context, post) }
+    end
+  end
+
   context "as moderator user", context: :as_moderator_user do
     let(:post) { create(:post, community: context.community) }
 

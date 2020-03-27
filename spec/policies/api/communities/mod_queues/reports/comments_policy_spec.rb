@@ -15,6 +15,12 @@ RSpec.describe Api::Communities::ModQueues::Reports::CommentsPolicy do
     end
   end
 
+  context "as admin user", context: :as_admin_user do
+    permissions :index? do
+      it { is_expected.to permit(context) }
+    end
+  end
+
   context "as moderator user", context: :as_moderator_user do
     permissions :index? do
       it { is_expected.to permit(context) }

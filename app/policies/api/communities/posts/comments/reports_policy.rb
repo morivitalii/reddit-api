@@ -1,13 +1,11 @@
 class Api::Communities::Posts::Comments::ReportsPolicy < ApplicationPolicy
   def index?
-    moderator? && !banned?
+    user? && (admin? || moderator?)
   end
 
   def create?
-    user? && !muted? && !banned?
+    user? && (admin? || (!muted? && !banned?))
   end
-
-  alias new? create?
 
   def permitted_attributes_for_create
     [:text]

@@ -1,5 +1,5 @@
 class Api::Communities::Posts::Comments::ApprovePolicy < ApplicationPolicy
   def update?
-    moderator? && !banned?
+    user? && (admin? || moderator?)
   end
 end
