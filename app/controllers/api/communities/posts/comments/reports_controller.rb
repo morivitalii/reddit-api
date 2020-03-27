@@ -10,13 +10,6 @@ class Api::Communities::Posts::Comments::ReportsController < ApplicationControll
     render partial: "index"
   end
 
-  def new
-    @form = Communities::Posts::Comments::CreateReport.new
-    @rules = @community.rules.all
-
-    render partial: "new"
-  end
-
   def create
     @form = Communities::Posts::Comments::CreateReport.new(create_params)
 

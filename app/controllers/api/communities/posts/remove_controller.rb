@@ -3,12 +3,6 @@ class Api::Communities::Posts::RemoveController < ApplicationController
   before_action :set_post
   before_action -> { authorize(Api::Communities::Posts::RemovePolicy, @post) }
 
-  def edit
-    @form = Communities::RemovePost.new(reason: @post.removed_reason)
-
-    render partial: "edit"
-  end
-
   def update
     @form = Communities::RemovePost.new(update_params)
 

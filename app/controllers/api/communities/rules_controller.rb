@@ -1,8 +1,8 @@
 class Api::Communities::RulesController < ApplicationController
   before_action :set_community
-  before_action :set_rule, only: [:edit, :update, :destroy]
-  before_action -> { authorize(Api::Communities::RulesPolicy) }, only: [:index, :new, :create]
-  before_action -> { authorize(Api::Communities::RulesPolicy, @rule) }, only: [:edit, :update, :destroy]
+  before_action :set_rule, only: [:update, :destroy]
+  before_action -> { authorize(Api::Communities::RulesPolicy) }, only: [:index, :create]
+  before_action -> { authorize(Api::Communities::RulesPolicy, @rule) }, only: [:update, :destroy]
 
   def index
     query = @community.rules
@@ -13,20 +13,6 @@ class Api::Communities::RulesController < ApplicationController
       limit: 25,
       after: params[:after]
     )
-  end
-
-  def new
-    @form = Communities::CreateRule.new
-
-    render partial: "new"
-  end
-
-  def edit
-    attributes = @rule.slice(:title, :description)
-
-    @form = Communities::UpdateRule.new(attributes)
-
-    render partial: "edit"
   end
 
   def create

@@ -4,12 +4,6 @@ class Api::Communities::Posts::Comments::RemoveController < ApplicationControlle
   before_action :set_comment
   before_action -> { authorize(Api::Communities::Posts::Comments::RemovePolicy, @comment) }
 
-  def edit
-    @form = Communities::Posts::RemoveComment.new(reason: @comment.removed_reason)
-
-    render partial: "edit"
-  end
-
   def update
     @form = Communities::Posts::RemoveComment.new(update_params)
 

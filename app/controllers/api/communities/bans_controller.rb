@@ -1,8 +1,8 @@
 class Api::Communities::BansController < ApplicationController
   before_action :set_community
-  before_action :set_ban, only: [:edit, :update, :destroy]
-  before_action -> { authorize(Api::Communities::BansPolicy) }, only: [:index, :new, :create]
-  before_action -> { authorize(Api::Communities::BansPolicy, @ban) }, only: [:edit, :update, :destroy]
+  before_action :set_ban, only: [:update, :destroy]
+  before_action -> { authorize(Api::Communities::BansPolicy) }, only: [:index, :create]
+  before_action -> { authorize(Api::Communities::BansPolicy, @ban) }, only: [:update, :destroy]
 
   def index
     query = BansQuery.new(@community.bans).search_by_username(search_param).includes(:user)
@@ -13,20 +13,6 @@ class Api::Communities::BansController < ApplicationController
       limit: 25,
       after: params[:after]
     )
-  end
-
-  def new
-    @form = Communities::CreateBan.new
-
-    render partial: "new"
-  end
-
-  def edit
-    attributes = @ban.slice(:reason, :days, :permanent)
-
-    @form = Communities::UpdateBan.new(attributes)
-
-    render partial: "edit"
   end
 
   def create

@@ -1,7 +1,7 @@
 class Api::Communities::ModeratorsController < ApplicationController
   before_action :set_community
   before_action :set_moderator, only: [:destroy]
-  before_action -> { authorize(Api::Communities::ModeratorsPolicy) }, only: [:index, :new, :create]
+  before_action -> { authorize(Api::Communities::ModeratorsPolicy) }, only: [:index, :create]
   before_action -> { authorize(Api::Communities::ModeratorsPolicy, @moderator) }, only: [:destroy]
 
   def index
@@ -13,12 +13,6 @@ class Api::Communities::ModeratorsController < ApplicationController
       limit: 25,
       after: params[:after]
     )
-  end
-
-  def new
-    @form = Communities::CreateModerator.new
-
-    render partial: "new"
   end
 
   def create
