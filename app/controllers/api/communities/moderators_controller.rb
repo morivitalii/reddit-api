@@ -5,7 +5,7 @@ class Api::Communities::ModeratorsController < ApplicationController
   before_action -> { authorize(Api::Communities::ModeratorsPolicy, @moderator) }, only: [:destroy]
 
   def index
-    query = ModeratorsQuery.new(@community.moderators).search_by_username(search_param).includes(:user)
+    query = @community.moderators.includes(:user)
     moderators = paginate(
       query,
       attributes: [:id],
@@ -39,11 +39,6 @@ class Api::Communities::ModeratorsController < ApplicationController
 
   def set_moderator
     @moderator = @community.moderators.find(params[:id])
-  end
-
-  helper_method :search_param
-  def search_param
-    params.dig(:search_moderator_form, :username)
   end
 
   def create_params
