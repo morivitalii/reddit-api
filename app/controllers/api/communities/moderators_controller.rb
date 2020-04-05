@@ -11,7 +11,7 @@ class Api::Communities::ModeratorsController < ApplicationController
       attributes: [:id],
       order: :desc,
       limit: 25,
-      after: params[:after]
+      after: params[:after].present? ? Moderator.where(id: params[:after]).take : nil
     )
   end
 

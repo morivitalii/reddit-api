@@ -10,7 +10,7 @@ class Api::Users::Comments::New::AllController < ApplicationController
       attributes: [:new_score, :id],
       order: :desc,
       limit: 25,
-      after: params[:after]
+      after: params[:after].present? ? Comment.where(id: params[:after]).take : nil
     )
 
     render json: CommentSerializer.serialize(comments)

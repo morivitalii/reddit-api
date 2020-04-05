@@ -11,7 +11,7 @@ class Api::Users::Comments::Top::DayController < ApplicationController
       attributes: [:top_score, :id],
       order: :desc,
       limit: 25,
-      after: params[:after]
+      after: params[:after].present? ? Comment.where(id: params[:after]).take : nil
     )
 
     render json: CommentSerializer.serialize(comments)

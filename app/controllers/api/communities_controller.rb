@@ -10,7 +10,7 @@ class Api::CommunitiesController < ApplicationController
       attributes: [:url],
       order: :asc,
       limit: 25,
-      after: params[:after]
+      after: params[:after].present? ? Community.where(id: params[:after]).take : nil
     )
 
     render json: CommunitySerializer.serialize(communities)

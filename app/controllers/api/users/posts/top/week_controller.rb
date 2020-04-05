@@ -11,7 +11,7 @@ class Api::Users::Posts::Top::WeekController < ApplicationController
       attributes: [:top_score, :id],
       order: :desc,
       limit: 25,
-      after: params[:after]
+      after: params[:after].present? ? Post.where(id: params[:after]).take : nil
     )
 
     render json: PostSerializer.serialize(posts)

@@ -11,7 +11,7 @@ class Api::Communities::MutesController < ApplicationController
       attributes: [:id],
       order: :desc,
       limit: 25,
-      after: params[:after]
+      after: params[:after].present? ? Mute.where(id: params[:after]).take : nil
     )
 
     render json: MuteSerializer.serialize(mutes)

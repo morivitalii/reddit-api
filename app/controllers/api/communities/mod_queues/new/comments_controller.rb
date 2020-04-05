@@ -9,7 +9,7 @@ class Api::Communities::ModQueues::New::CommentsController < ApplicationControll
       attributes: [:id],
       order: :desc,
       limit: 25,
-      after: params[:after]
+      after: params[:after].present? ? Comment.where(id: params[:after]).take : nil
     )
   end
 
