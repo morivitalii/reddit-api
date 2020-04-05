@@ -15,26 +15,6 @@ RSpec.describe MutesQuery do
     end
   end
 
-  describe ".search_by_username" do
-    it "returns relation if user username is blank" do
-      query = subject.new
-
-      result = query.search_by_username("")
-
-      expect(result).to eq(query.relation)
-    end
-
-    it "calls .with_username if user username is present" do
-      username = "username"
-      query = subject.new
-      allow(query).to receive(:with_username)
-
-      query.search_by_username(username)
-
-      expect(query).to have_received(:with_username).with(username)
-    end
-  end
-
   describe ".stale" do
     it "returns stale mutes" do
       stale_mutes = create_pair(:mute, :stale)
