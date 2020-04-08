@@ -1,8 +1,5 @@
 {
   "type": "object",
-  "required": [
-    "user"
-  ],
   "properties": {
     "user": {
       "type": "array",

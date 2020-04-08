@@ -1,12 +1,12 @@
 class Communities::CreateMute
   include ActiveModel::Model
 
-  attr_accessor :community, :username, :reason, :days, :permanent
+  attr_accessor :community, :user_id, :reason, :days, :permanent
   attr_reader :mute
 
   def call
     @mute = community.mutes.create!(
-      user: user,
+      user_id: user_id,
       reason: reason,
       days: days,
       permanent: permanent
@@ -15,11 +15,5 @@ class Communities::CreateMute
     errors.merge!(invalid.record.errors)
 
     false
-  end
-
-  private
-
-  def user
-    @_user ||= UsersQuery.new.with_username(username).take
   end
 end

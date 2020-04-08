@@ -8,13 +8,14 @@ RSpec.describe Communities::CreateMute do
 
       service = described_class.new(
         community: community,
-        username:  user.username,
+        user_id: user.id,
         permanent: true
       )
 
       service.call
 
-      expect(Mute.count).to eq(1)
+      community_mutes_count = community.mutes.where(user: user).count
+      expect(community_mutes_count).to eq(1)
     end
   end
 end

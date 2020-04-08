@@ -17,24 +17,10 @@
       "type": "integer"
     },
     "community": {
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "$ref": "file:/serializers/community_serializer.json#"
-        }
-      ]
+      "$ref": "file:/serializers/community_serializer.json#"
     },
     "user": {
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "$ref": "file:/serializers/user_serializer.json#"
-        }
-      ]
+      "$ref": "file:/serializers/user_serializer.json#"
     },
     "reason" : {
       "oneOf": [

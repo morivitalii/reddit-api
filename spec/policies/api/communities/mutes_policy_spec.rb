@@ -79,7 +79,7 @@ RSpec.describe Api::Communities::MutesPolicy do
     it "contains attributes" do
       policy = described_class.new(Context.new(nil, nil))
 
-      expect(policy.permitted_attributes_for_create).to contain_exactly(:username, :reason, :days, :permanent)
+      expect(policy.permitted_attributes_for_create).to contain_exactly(:user_id, :reason, :days, :permanent)
     end
   end
 
