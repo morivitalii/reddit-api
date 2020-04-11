@@ -1,5 +1,5 @@
 ActiveRecord::Base.transaction do
-  user = User.create!(username: "readmaru", password: "password")
-  community = Community.create!(url: "all", title: "Readmaru")
-  community.moderators.create!(user: user)
+  user = User.create!(username: "admin", password: "password")
+  Admin.create!(user: user)
+  Community.create!(url: "all", title: "Readmaru")
 end

@@ -24,7 +24,7 @@ const Hello = props => (
 )
 
 Hello.defaultProps = {
-  name: 'desktop readmaru'
+  name: 'desktop'
 }
 
 Hello.propTypes = {
