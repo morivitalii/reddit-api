@@ -16,7 +16,7 @@ class Api::Communities::BansPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_create
-    [:username, :reason, :days, :permanent]
+    [:user_id, :reason, :days, :permanent]
   end
 
   def permitted_attributes_for_update

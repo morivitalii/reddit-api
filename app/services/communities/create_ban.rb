@@ -1,12 +1,12 @@
 class Communities::CreateBan
   include ActiveModel::Model
 
-  attr_accessor :community, :username, :reason, :days, :permanent
+  attr_accessor :community, :user_id, :reason, :days, :permanent
   attr_reader :ban
 
   def call
     @ban = community.bans.create!(
-      user: user,
+      user_id: user_id,
       reason: reason,
       days: days,
       permanent: permanent
@@ -15,11 +15,5 @@ class Communities::CreateBan
     errors.merge!(invalid.record.errors)
 
     false
-  end
-
-  private
-
-  def user
-    @_user ||= UsersQuery.new.with_username(username).take
   end
 end

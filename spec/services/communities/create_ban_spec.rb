@@ -8,7 +8,7 @@ RSpec.describe Communities::CreateBan do
 
       service = described_class.new(
         community: community,
-        username: user.username,
+        user_id: user.id,
         permanent: true
       )
 
