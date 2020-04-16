@@ -1,0 +1,7 @@
+{
+  "allOf": [
+    {
+      "$ref": "file:/serializers/exile_serializer.json#"
+    }
+  ]
+}

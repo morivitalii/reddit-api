@@ -1,10 +1,10 @@
 class Api::Communities::FollowsPolicy < ApplicationPolicy
   def create?
-    user? && !follower?
+    user? && !exiled? && !follower?
   end
 
   def destroy?
-    user? && follower?
+    user? && !exiled? && follower?
   end
 
   private

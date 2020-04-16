@@ -11,7 +11,7 @@ RSpec.describe Api::Communities::MutesController, context: :as_moderator_user do
 
       expect(response).to have_http_status(200)
       expect(response).to have_sorted_json_collection(second_mute, first_mute)
-      expect(response).to match_json_schema("/controllers/api/communities/mutes_controller/index/200")
+      expect(response).to match_json_schema("controllers/api/communities/mutes_controller/index/200")
     end
 
     it "returns paginated mutes" do

@@ -1,5 +1,5 @@
 class Api::Users::Comments::Top::WeekPolicy < ApplicationPolicy
   def index?
-    true
+    !exiled?
   end
 end

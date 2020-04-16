@@ -20,4 +20,10 @@ RSpec.describe Api::SignInPolicy do
       it { is_expected.to_not permit(context) }
     end
   end
+
+  context "as exiled user", context: :as_exiled_user do
+    permissions :create?, :unauthenticated? do
+      it { is_expected.to_not permit(context) }
+    end
+  end
 end

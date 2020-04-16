@@ -1,6 +1,6 @@
 class Api::ForgotPasswordPolicy < ApplicationPolicy
   def create?
-    true
+    !exiled?
   end
 
   def permitted_attributes_for_create

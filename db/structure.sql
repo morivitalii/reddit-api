@@ -210,6 +210,37 @@ ALTER SEQUENCE public.communities_id_seq OWNED BY public.communities.id;
 
 
 --
+-- Name: exiles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.exiles (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: exiles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.exiles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: exiles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.exiles_id_seq OWNED BY public.exiles.id;
+
+
+--
 -- Name: follows; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -609,6 +640,13 @@ ALTER TABLE ONLY public.communities ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: exiles id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exiles ALTER COLUMN id SET DEFAULT nextval('public.exiles_id_seq'::regclass);
+
+
+--
 -- Name: follows id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -724,6 +762,14 @@ ALTER TABLE ONLY public.comments
 
 ALTER TABLE ONLY public.communities
     ADD CONSTRAINT communities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: exiles exiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exiles
+    ADD CONSTRAINT exiles_pkey PRIMARY KEY (id);
 
 
 --
@@ -938,6 +984,13 @@ CREATE INDEX index_comments_on_top_score ON public.comments USING btree (top_sco
 --
 
 CREATE UNIQUE INDEX index_communities_on_lower_url ON public.communities USING btree (lower((url)::text));
+
+
+--
+-- Name: index_exiles_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_exiles_on_user_id ON public.exiles USING btree (user_id);
 
 
 --
@@ -1301,6 +1354,14 @@ ALTER TABLE ONLY public.mutes
 
 
 --
+-- Name: exiles fk_rails_6ae9abf537; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.exiles
+    ADD CONSTRAINT fk_rails_6ae9abf537 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: posts fk_rails_78a7444b29; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1512,6 +1573,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200106105306'),
 ('20200106105406'),
 ('20200308143756'),
-('20200325220423');
+('20200325220423'),
+('20200330133958');
 
 

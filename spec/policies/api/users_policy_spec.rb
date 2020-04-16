@@ -25,6 +25,12 @@ RSpec.describe Api::UsersPolicy do
     end
   end
 
+  context "as exiled user", context: :as_exiled_user do
+    permissions :show?, :update? do
+      it { is_expected.to_not permit(context) }
+    end
+  end
+
   describe ".permitted_attributes_for_update" do
     it "contains attributes" do
       policy = described_class.new(Context.new(nil, nil))

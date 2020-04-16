@@ -1,5 +1,5 @@
 class Api::Communities::Posts::Controversial::MonthPolicy < ApplicationPolicy
   def index?
-    !banned?
+    !exiled? && !banned?
   end
 end

@@ -1,9 +1,9 @@
 class Api::Communities::Posts::Votes::UpsPolicy < ApplicationPolicy
   def create?
-    user? && (admin? || (!muted? && !banned?))
+    user? && (admin? || (!exiled? && !muted? && !banned?))
   end
 
   def destroy?
-    user? && (admin? || (!muted? && !banned?))
+    user? && (admin? || (!exiled? && !muted? && !banned?))
   end
 end

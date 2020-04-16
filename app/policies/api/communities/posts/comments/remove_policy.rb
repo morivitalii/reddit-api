@@ -1,10 +1,10 @@
 class Api::Communities::Posts::Comments::RemovePolicy < ApplicationPolicy
   def update?
-    user? && (admin? || moderator? || (author? && !muted?))
+    admin? || (!exiled? && (moderator? || (author? && !muted?)))
   end
 
   def update_reason?
-    user? && (admin? || moderator?)
+    admin? || (!exiled? && moderator?)
   end
 
   def permitted_attributes_for_update

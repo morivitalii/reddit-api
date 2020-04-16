@@ -1,14 +1,14 @@
 class Api::Communities::PostsPolicy < ApplicationPolicy
   def show?
-    !banned?
+    !exiled? && !banned?
   end
 
   def create?
-    user? && !muted? && !banned?
+    user? && !exiled? && !muted? && !banned?
   end
 
   def update?
-    author? && !muted? && !banned? && record.text?
+    record.text? && author? && !exiled? && !muted? && !banned?
   end
 
   def permitted_attributes_for_create

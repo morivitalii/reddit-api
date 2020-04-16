@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     resource :forgot_password, only: [:create], controller: :forgot_password
     resource :change_password, only: [:update], controller: :change_password
     resource :sign_out, only: [:destroy], controller: :sign_out
+    resources :exiles, only: [:index, :show, :create, :destroy]
+
     resource :users, only: [:update]
 
     resources :users, only: [:show] do

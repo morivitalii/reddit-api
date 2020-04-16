@@ -51,6 +51,22 @@ RSpec.describe Api::Communities::PostsPolicy do
     end
   end
 
+  context "as exiled user", context: :as_exiled_user do
+    let(:post) { create(:post) }
+
+    permissions :create? do
+      it { is_expected.to_not permit(context) }
+    end
+
+    permissions :show? do
+      it { is_expected.to_not permit(context, post) }
+    end
+
+    permissions :update? do
+      it { is_expected.to_not permit(context, post) }
+    end
+  end
+
   context "as moderator user", context: :as_moderator_user do
     let(:post) { create(:post, community: context.community) }
 

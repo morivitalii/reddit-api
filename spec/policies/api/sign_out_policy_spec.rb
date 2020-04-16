@@ -20,4 +20,10 @@ RSpec.describe Api::SignOutPolicy do
       it { is_expected.to permit(context) }
     end
   end
+
+  context "as exiled user", context: :as_exiled_user do
+    permissions :destroy? do
+      it { is_expected.to permit(context) }
+    end
+  end
 end

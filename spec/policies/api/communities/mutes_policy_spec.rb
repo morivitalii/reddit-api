@@ -39,6 +39,18 @@ RSpec.describe Api::Communities::MutesPolicy do
     end
   end
 
+  context "as exiled user", context: :as_exiled_user do
+    let(:mute) { create(:mute) }
+
+    permissions :index?, :create? do
+      it { is_expected.to_not permit(context) }
+    end
+
+    permissions :update?, :destroy? do
+      it { is_expected.to_not permit(context, mute) }
+    end
+  end
+
   context "as moderator user", context: :as_moderator_user do
     let(:mute) { create(:mute, community: context.community) }
 

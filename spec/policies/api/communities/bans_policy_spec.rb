@@ -39,6 +39,18 @@ RSpec.describe Api::Communities::BansPolicy do
     end
   end
 
+  context "as exiled user", context: :as_exiled_user do
+    let(:ban) { create(:ban) }
+
+    permissions :index?, :create? do
+      it { is_expected.to_not permit(context) }
+    end
+
+    permissions :update?, :destroy? do
+      it { is_expected.to_not permit(context, ban) }
+    end
+  end
+
   context "as moderator user", context: :as_moderator_user do
     let(:ban) { create(:ban, community: context.community) }
 

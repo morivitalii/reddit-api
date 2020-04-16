@@ -1,5 +1,5 @@
 class Api::Users::Posts::Top::DayPolicy < ApplicationPolicy
   def index?
-    true
+    !exiled?
   end
 end

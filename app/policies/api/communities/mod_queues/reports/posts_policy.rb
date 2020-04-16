@@ -1,5 +1,5 @@
 class Api::Communities::ModQueues::Reports::PostsPolicy < ApplicationPolicy
   def index?
-    user? && (admin? || moderator?)
+    admin? || (!exiled? && moderator?)
   end
 end

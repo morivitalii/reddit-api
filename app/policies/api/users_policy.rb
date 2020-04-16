@@ -1,10 +1,10 @@
 class Api::UsersPolicy < ApplicationPolicy
   def show?
-    true
+    !exiled?
   end
 
   def update?
-    user?
+    user? && !exiled?
   end
 
   def permitted_attributes_for_update

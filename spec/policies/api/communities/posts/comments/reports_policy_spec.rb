@@ -31,6 +31,14 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
     end
   end
 
+  context "as exiled user", context: :as_exiled_user do
+    let(:comment) { create(:comment) }
+
+    permissions :index?, :create? do
+      it { is_expected.to_not permit(context, comment) }
+    end
+  end
+
   context "as moderator user", context: :as_moderator_user do
     let(:comment) { create(:comment, community: context.community) }
 

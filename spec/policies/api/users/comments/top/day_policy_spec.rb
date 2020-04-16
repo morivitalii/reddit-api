@@ -27,6 +27,14 @@ RSpec.describe Api::Users::Comments::Top::DayPolicy do
     end
   end
 
+  context "as exiled user", context: :as_exiled_user do
+    let(:user) { create(:user) }
+
+    permissions :index? do
+      it { is_expected.to_not permit(context, user) }
+    end
+  end
+
   context "as account owner", context: :as_signed_in_user do
     permissions :index? do
       it { is_expected.to permit(context, context.user) }

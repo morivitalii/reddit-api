@@ -1,18 +1,18 @@
 class Api::CommunitiesPolicy < ApplicationPolicy
   def index?
-    true
+    !exiled?
   end
 
   def show?
-    !banned?
+    !exiled? && !banned?
   end
 
   def create?
-    user?
+    user? && !exiled?
   end
 
   def update?
-    user? && (admin? || moderator?)
+    admin? || (!exiled? && moderator?)
   end
 
   def permitted_attributes_for_create

@@ -1,0 +1,33 @@
+{
+  "id": "file:/serializers/exile_serializer.json#",
+  "type": "object",
+  "required": [
+    "id",
+    "user",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "user": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "file:/serializers/user_serializer.json#"
+        }
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

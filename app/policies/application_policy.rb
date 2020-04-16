@@ -25,6 +25,10 @@ class ApplicationPolicy
     user? && user.admin.present?
   end
 
+  def exiled?
+    user? && user.exile.present?
+  end
+
   def moderator?
     user? && user.moderators.any? { |moderator| moderator.community_id == community.id }
   end

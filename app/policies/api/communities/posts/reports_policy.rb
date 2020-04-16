@@ -1,10 +1,10 @@
 class Api::Communities::Posts::ReportsPolicy < ApplicationPolicy
   def index?
-    user? && (admin? || moderator?)
+    admin? || (!exiled? && moderator?)
   end
 
   def create?
-    user? && (admin? || !muted? && !banned?)
+    user? && (admin? || !exiled? && !muted? && !banned?)
   end
 
   def permitted_attributes_for_create

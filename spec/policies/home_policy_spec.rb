@@ -20,4 +20,10 @@ RSpec.describe HomePolicy do
       it { is_expected.to permit(context) }
     end
   end
+
+  context "as exiled user", context: :as_exiled_user do
+    permissions :index? do
+      it { is_expected.to permit(context) }
+    end
+  end
 end

@@ -37,6 +37,12 @@ RSpec.describe ApplicationPolicy do
       end
     end
 
+    context "as exiled user", context: :as_exiled_user do
+      permissions :skip_rate_limiting? do
+        it { is_expected.to_not permit(context) }
+      end
+    end
+
     context "as moderator user", context: :as_moderator_user do
       permissions :skip_rate_limiting? do
         it { is_expected.to permit(context) }

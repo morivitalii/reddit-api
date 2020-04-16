@@ -47,6 +47,18 @@ RSpec.describe Api::Communities::RulesPolicy do
     end
   end
 
+  context "as exiled user", context: :as_exiled_user do
+    let(:rule) { create(:rule) }
+
+    permissions :index?, :create? do
+      it { is_expected.to_not permit(context) }
+    end
+
+    permissions :update?, :destroy? do
+      it { is_expected.to_not permit(context, rule) }
+    end
+  end
+
   context "as moderator user", context: :as_moderator_user do
     let(:rule) { create(:rule, community: context.community) }
 
