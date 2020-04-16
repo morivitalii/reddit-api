@@ -12,6 +12,6 @@ class Api::Communities::ModeratorsPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_create
-    [:username]
+    [:user_id]
   end
 end
