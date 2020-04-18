@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Api::Communities::Posts::Controversial::MonthController, context: :as_signed_out_user do
   describe ".index" do
-    it "returns posts objects" do
+    it "returns paginated monthly posts sorted by controversy score" do
       community = create(:community)
       _unrelated_post = create(:created_last_month_post, community: community)
       first_post = create(:created_this_month_post, community: community, controversy_score: 3)

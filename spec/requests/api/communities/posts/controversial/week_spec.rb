@@ -1,15 +1,19 @@
 require "rails_helper"
 
-RSpec.describe Api::Communities::Posts::Controversial::WeekController do
-  describe ".index", context: :as_signed_in_user do
-    it "returns posts objects" do
+RSpec.describe Api::Communities::Posts::Controversial::WeekController, context: :as_signed_out_user do
+  describe ".index" do
+    it "returns paginated weekly posts sorted by controversy score" do
       community = create(:community)
-      create_list(:post, 2, community: community)
+      _unrelated_post = create(:created_last_week_post, community: community)
+      first_post = create(:created_this_week_post, community: community, controversy_score: 3)
+      second_post = create(:created_this_week_post, community: community, controversy_score: 2)
+      third_post = create(:created_this_week_post, community: community, controversy_score: 1)
 
-      get "/api/communities/#{community.to_param}/posts/controversial/week.json"
+      get "/api/communities/#{community.to_param}/posts/controversial/week.json?after=#{first_post.to_param}"
 
       expect(response).to have_http_status(200)
-      expect(response).to match_json_schema("controllers/api/communities/posts/controversial/week_controller/index/200")
+      expect(response).to match_json_schema("controllers/api/communities/posts/controversial/day_controller/index/200")
+      expect(response).to have_sorted_json_collection(second_post, third_post)
     end
   end
 end
