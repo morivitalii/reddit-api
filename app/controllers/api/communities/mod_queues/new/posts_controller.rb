@@ -3,7 +3,7 @@ class Api::Communities::ModQueues::New::PostsController < ApplicationController
   before_action -> { authorize(Api::Communities::ModQueues::New::PostsPolicy) }
 
   def index
-    query = PostsQuery.new(@community.posts).not_moderated.includes(:user, :community)
+    query = PostsQuery.new(@community.posts).not_moderated.includes(:created_by, :community)
     posts = paginate(
       query,
       attributes: [:id],
@@ -11,13 +11,11 @@ class Api::Communities::ModQueues::New::PostsController < ApplicationController
       limit: 25,
       after: params[:after].present? ? Post.where(id: params[:after]).take : nil
     )
+
+    render json: PostSerializer.serialize(posts)
   end
 
   private
-
-  def query
-
-  end
 
   def set_community
     @community = CommunitiesQuery.new.with_url(params[:community_id]).take!
