@@ -27,7 +27,7 @@ RSpec.describe CommentsQuery do
 
   describe ".reported" do
     it "returns comments that have reports" do
-      comments_with_reports = create_pair(:comment_with_reports, reports_count: 1)
+      comments_with_reports = create_pair(:comment_with_reports, reports_count: 2)
       create_pair(:comment)
 
       result = subject.new.reported

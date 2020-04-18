@@ -3,7 +3,7 @@ class Api::Communities::ModQueues::Reports::CommentsController < ApplicationCont
   before_action -> { authorize(Api::Communities::ModQueues::Reports::CommentsPolicy) }
 
   def index
-    query = CommentsQuery.new(@community.comments).reported.includes(:user, :post, :community)
+    query = CommentsQuery.new(@community.comments).reported.includes(:created_by, :post, :community)
     comments = paginate(
       query,
       attributes: [:id],
@@ -11,6 +11,8 @@ class Api::Communities::ModQueues::Reports::CommentsController < ApplicationCont
       limit: 25,
       after: params[:after].present? ? Comment.where(id: params[:after]).take : nil
     )
+
+    render json: CommentSerializer.serialize(comments)
   end
 
   private
