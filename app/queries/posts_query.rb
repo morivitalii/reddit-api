@@ -8,7 +8,7 @@ class PostsQuery < ApplicationQuery
   end
 
   def reported
-    relation.joins(:reports)
+    relation.joins(:reports).distinct
   end
 
   def for_the_last_day

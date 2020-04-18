@@ -27,7 +27,7 @@ RSpec.describe PostsQuery do
 
   describe ".reported" do
     it "returns posts that have reports" do
-      posts_with_reports = create_pair(:post_with_reports, reports_count: 1)
+      posts_with_reports = create_pair(:post_with_reports, reports_count: 2)
       create_pair(:post)
 
       result = subject.new.reported
