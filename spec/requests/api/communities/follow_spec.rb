@@ -1,90 +1,24 @@
 require "rails_helper"
 
-RSpec.describe Api::Communities::FollowController do
+RSpec.describe Api::Communities::FollowController, context: :as_signed_in_user do
   describe ".create" do
-    context "as signed out user", context: :as_signed_out_user do
-      it "returns unauthorized header" do
-        community = create(:community)
+    it "returns follow object" do
+      community = create(:community)
 
-        post "/api/communities/#{community.to_param}/follow.json"
+      post "/api/communities/#{community.to_param}/follow.json"
 
-        expect(response).to have_http_status(401)
-      end
-    end
-
-    context "as signed in user", context: :as_signed_in_user do
-      it "returns follow object" do
-        community = create(:community)
-
-        post "/api/communities/#{community.to_param}/follow.json"
-
-        expect(response).to have_http_status(200)
-        expect(response).to match_json_schema("controllers/api/communities/follow_controller/create/200")
-      end
-    end
-
-    context "as moderator user", context: :as_moderator_user do
-      it "returns follow object" do
-        community = context.community
-
-        post "/api/communities/#{community.to_param}/follow.json"
-
-        expect(response).to have_http_status(200)
-        expect(response).to match_json_schema("controllers/api/communities/follow_controller/create/200")
-      end
-    end
-
-    context "as banned user", context: :as_banned_user do
-      it "returns follow object" do
-        community = context.community
-
-        post "/api/communities/#{community.to_param}/follow.json"
-
-        expect(response).to have_http_status(200)
-        expect(response).to match_json_schema("controllers/api/communities/follow_controller/create/200")
-      end
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities/follow_controller/create/200")
     end
   end
 
   describe ".destroy" do
-    context "as signed out user", context: :as_signed_out_user do
-      it "returns unauthorized header" do
-        community = create(:community)
+    it "returns no content header" do
+      community = create(:community_with_user_follower, user: context.user)
 
-        delete "/api/communities/#{community.to_param}/follow.json"
+      delete "/api/communities/#{community.to_param}/follow.json"
 
-        expect(response).to have_http_status(401)
-      end
-    end
-
-    context "as signed in user", context: :as_signed_in_user do
-      it "returns no content header" do
-        community = create(:community_with_user_follower, user: context.user)
-
-        delete "/api/communities/#{community.to_param}/follow.json"
-
-        expect(response).to have_http_status(204)
-      end
-    end
-
-    context "as moderator user", context: :as_moderator_user do
-      it "returns no content header" do
-        create(:follow, community: context.community, user: context.user)
-
-        delete "/api/communities/#{context.community.to_param}/follow.json"
-
-        expect(response).to have_http_status(204)
-      end
-    end
-
-    context "as banned user", context: :as_banned_user do
-      it "returns no content header" do
-        create(:follow, community: context.community, user: context.user)
-
-        delete "/api/communities/#{context.community.to_param}/follow.json"
-
-        expect(response).to have_http_status(204)
-      end
+      expect(response).to have_http_status(204)
     end
   end
 end

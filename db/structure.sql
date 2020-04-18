@@ -246,10 +246,11 @@ ALTER SEQUENCE public.exiles_id_seq OWNED BY public.exiles.id;
 
 CREATE TABLE public.follows (
     id bigint NOT NULL,
-    community_id bigint NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    followable_type character varying NOT NULL,
+    followable_id bigint NOT NULL
 );
 
 
@@ -1001,10 +1002,10 @@ CREATE INDEX index_follows_on_user_id ON public.follows USING btree (user_id);
 
 
 --
--- Name: index_follows_uniqueness; Type: INDEX; Schema: public; Owner: -
+-- Name: index_follows_on_user_id_and_followable_type_and_followable_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_follows_uniqueness ON public.follows USING btree (community_id, user_id);
+CREATE UNIQUE INDEX index_follows_on_user_id_and_followable_type_and_followable_id ON public.follows USING btree (user_id, followable_type, followable_id);
 
 
 --
@@ -1386,14 +1387,6 @@ ALTER TABLE ONLY public.comments
 
 
 --
--- Name: follows fk_rails_b61b5b4590; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.follows
-    ADD CONSTRAINT fk_rails_b61b5b4590 FOREIGN KEY (community_id) REFERENCES public.communities(id);
-
-
---
 -- Name: moderators fk_rails_be7d88c486; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1574,6 +1567,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200106105406'),
 ('20200308143756'),
 ('20200325220423'),
-('20200330133958');
+('20200330133958'),
+('20200418102057'),
+('20200418102156'),
+('20200418102351');
 
 

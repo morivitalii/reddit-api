@@ -1,5 +1,5 @@
 class Community < ApplicationRecord
-  has_many :follows, dependent: :destroy
+  has_many :follows, as: :followable, dependent: :destroy
   has_many :moderators, dependent: :destroy
   has_many :bans, dependent: :destroy
   has_many :mutes, dependent: :destroy

@@ -2,8 +2,8 @@ class FollowSerializer < ApplicationSerializer
   def attributes
     {
       id: model.id,
-      community: community,
       user: user,
+      followable: followable,
       created_at: model.created_at,
       updated_at: model.updated_at
     }
@@ -11,8 +11,14 @@ class FollowSerializer < ApplicationSerializer
 
   private
 
-  def community
-    model.association(:community).loaded? && model.community.present? ? CommunitySerializer.serialize(model.community) : nil
+  def followable
+    if model.association(:followable).loaded? && model.followable.present?
+      if model.followable.is_a?(Community)
+        CommunitySerializer.serialize(model.followable)
+      end
+    else
+      nil
+    end
   end
 
   def user

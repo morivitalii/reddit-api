@@ -60,11 +60,11 @@ RSpec.describe Api::Communities::FollowsPolicy do
   end
 
   context "for follower", context: :as_signed_in_user do
-    let(:follow) { create(:follow, user: context.user) }
+    let(:follow) { create(:community_follow, user: context.user) }
 
     permissions :create? do
       it do
-        new_context = Context.new(context.user, follow.community)
+        new_context = Context.new(context.user, follow.followable)
 
         is_expected.to_not permit(new_context)
       end
@@ -72,7 +72,7 @@ RSpec.describe Api::Communities::FollowsPolicy do
 
     permissions :destroy? do
       it do
-        new_context = Context.new(context.user, follow.community)
+        new_context = Context.new(context.user, follow.followable)
 
         is_expected.to permit(new_context)
       end

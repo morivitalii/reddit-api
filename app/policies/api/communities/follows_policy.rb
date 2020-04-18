@@ -10,6 +10,6 @@ class Api::Communities::FollowsPolicy < ApplicationPolicy
   private
 
   def follower?
-    user.follows.any? { |follow| follow.community_id == community.id }
+    user.follows.any? { |follow| follow.followable_id == community.id }
   end
 end

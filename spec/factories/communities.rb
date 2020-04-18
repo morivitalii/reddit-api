@@ -28,7 +28,7 @@ FactoryBot.define do
       end
 
       after(:create) do |community, evaluator|
-        create_list(:follow, evaluator.followers_count, community: community, user: evaluator.user)
+        create_list(:community_follow, evaluator.followers_count, followable: community, user: evaluator.user)
       end
     end
 
@@ -48,7 +48,7 @@ FactoryBot.define do
       end
 
       after(:create) do |community, evaluator|
-        create(:follow, community: community, user: evaluator.user)
+        create(:community_follow, followable: community, user: evaluator.user)
       end
     end
 
