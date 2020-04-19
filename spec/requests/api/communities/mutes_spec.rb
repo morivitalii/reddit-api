@@ -2,19 +2,7 @@ require "rails_helper"
 
 RSpec.describe Api::Communities::MutesController, context: :as_moderator_user do
   describe ".index" do
-    it "returns mutes sorted by desc" do
-      community = context.community
-      first_mute = create(:mute, community: community)
-      second_mute = create(:mute, community: community)
-
-      get "/api/communities/#{community.to_param}/mutes.json"
-
-      expect(response).to have_http_status(200)
-      expect(response).to have_sorted_json_collection(second_mute, first_mute)
-      expect(response).to match_json_schema("controllers/api/communities/mutes_controller/index/200")
-    end
-
-    it "returns paginated mutes" do
+    it "returns paginated mutes sorted by desc" do
       community = context.community
       first_mute = create(:mute, community: community)
       second_mute = create(:mute, community: community)
@@ -23,8 +11,8 @@ RSpec.describe Api::Communities::MutesController, context: :as_moderator_user do
       get "/api/communities/#{community.to_param}/mutes.json?after=#{third_mute.to_param}"
 
       expect(response).to have_http_status(200)
-      expect(response).to match_json_schema("controllers/api/communities/mutes_controller/index/200")
       expect(response).to have_sorted_json_collection(second_mute, first_mute)
+      expect(response).to match_json_schema("controllers/api/communities/mutes_controller/index/200")
     end
   end
 
@@ -33,8 +21,12 @@ RSpec.describe Api::Communities::MutesController, context: :as_moderator_user do
       it "creates mute" do
         community = context.community
         user = create(:user)
+        params = {
+          user_id: user.id,
+          permanent: true
+        }
 
-        post "/api/communities/#{community.to_param}/mutes.json", params: {user_id: user.id, permanent: true}
+        post "/api/communities/#{community.to_param}/mutes.json", params: params
 
         expect(response).to have_http_status(200)
         expect(response).to match_json_schema("controllers/api/communities/mutes_controller/create/200")
@@ -44,8 +36,11 @@ RSpec.describe Api::Communities::MutesController, context: :as_moderator_user do
     context "with invalid params" do
       it "return errors" do
         community = context.community
+        params = {
+          user_id: "",
+        }
 
-        post "/api/communities/#{community.to_param}/mutes.json", params: {user_id: ""}
+        post "/api/communities/#{community.to_param}/mutes.json", params: params
 
         expect(response).to have_http_status(422)
         expect(response).to match_json_schema("controllers/api/communities/mutes_controller/create/422")
@@ -58,8 +53,11 @@ RSpec.describe Api::Communities::MutesController, context: :as_moderator_user do
       it "updates mute" do
         community = context.community
         mute = create(:mute, community: community)
+        params = {
+          permanent: true
+        }
 
-        put "/api/communities/#{community.to_param}/mutes/#{mute.to_param}.json", params: {permanent: true}
+        put "/api/communities/#{community.to_param}/mutes/#{mute.to_param}.json", params: params
 
         expect(response).to have_http_status(200)
         expect(response).to match_json_schema("controllers/api/communities/mutes_controller/update/200")
