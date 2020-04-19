@@ -54,6 +54,30 @@ FactoryBot.define do
       ignore_reports { false }
     end
 
+    trait :created_yesterday do
+      created_at { 1.day.ago }
+    end
+
+    trait :created_today do
+      created_at { Time.current }
+    end
+
+    trait :created_last_week do
+      created_at { 1.week.ago }
+    end
+
+    trait :created_this_week do
+      created_at { 6.days.ago }
+    end
+
+    trait :created_last_month do
+      created_at { 1.month.ago }
+    end
+
+    trait :created_this_month do
+      created_at { 27.days.ago }
+    end
+
     factory :comment_with_reports do
       transient do
         reports_count { 2 }
@@ -128,5 +152,11 @@ FactoryBot.define do
     factory :approved_comment, traits: [:approved]
     factory :not_edited_comment, traits: [:not_edited]
     factory :edited_comment, traits: [:edited]
+    factory :created_yesterday_comment, traits: [:created_yesterday]
+    factory :created_today_comment, traits: [:created_today]
+    factory :created_last_week_comment, traits: [:created_last_week]
+    factory :created_this_week_comment, traits: [:created_this_week]
+    factory :created_last_month_comment, traits: [:created_last_month]
+    factory :created_this_month_comment, traits: [:created_this_month]
   end
 end
