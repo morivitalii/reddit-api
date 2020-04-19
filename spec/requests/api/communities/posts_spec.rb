@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe Api::Communities::PostsController do
-  describe ".show", context: :as_signed_in_user do
+RSpec.describe Api::Communities::PostsController, context: :as_signed_in_user do
+  describe ".show" do
     it "returns post object" do
       community = create(:community)
       post = create(:post, community: community)
@@ -13,17 +13,18 @@ RSpec.describe Api::Communities::PostsController do
     end
   end
 
-  describe ".create", context: :as_signed_in_user do
+  describe ".create" do
     context "with valid params" do
       it "creates post and returns post object" do
         community = create(:community)
-
-        post "/api/communities/#{community.to_param}/posts.json", params: {
+        params = {
           title: "Title",
           text: "Text",
-          explicit: true,
-          spoiler: true,
+          spoiler: false,
+          explicit: false
         }
+
+        post "/api/communities/#{community.to_param}/posts.json", params: params
 
         expect(response).to have_http_status(200)
         expect(response).to match_json_schema("controllers/api/communities/posts_controller/create/200")
@@ -33,12 +34,14 @@ RSpec.describe Api::Communities::PostsController do
     context "with invalid params" do
       it "returns error messages" do
         community = create(:community)
-
-        post "/api/communities/#{community.to_param}/posts.json", params: {
+        params = {
           title: "",
           text: "",
-          file: "",
+          spoiler: false,
+          explicit: false
         }
+
+        post "/api/communities/#{community.to_param}/posts.json", params: params
 
         expect(response).to have_http_status(422)
         expect(response).to match_json_schema("controllers/api/communities/posts_controller/create/422")
@@ -46,15 +49,16 @@ RSpec.describe Api::Communities::PostsController do
     end
   end
 
-  describe ".update", context: :as_signed_in_user do
+  describe ".update" do
     context "with valid params" do
       it "updates post and returns post object" do
         community = create(:community)
         post = create(:text_post, community: community, created_by: context.user)
-
-        put "/api/communities/#{community.to_param}/posts/#{post.to_param}.json", params: {
-          text: "Text",
+        params = {
+          text: "Text"
         }
+
+        put "/api/communities/#{community.to_param}/posts/#{post.to_param}.json", params: params
 
         expect(response).to have_http_status(200)
         expect(response).to match_json_schema("controllers/api/communities/posts_controller/update/200")
@@ -65,10 +69,11 @@ RSpec.describe Api::Communities::PostsController do
       it "returns error messages" do
         community = create(:community)
         post = create(:text_post, community: community, created_by: context.user)
-
-        put "/api/communities/#{community.to_param}/posts/#{post.to_param}.json", params: {
-          text: "",
+        params = {
+          text: ""
         }
+
+        put "/api/communities/#{community.to_param}/posts/#{post.to_param}.json", params: params
 
         expect(response).to have_http_status(422)
         expect(response).to match_json_schema("controllers/api/communities/posts_controller/update/422")
