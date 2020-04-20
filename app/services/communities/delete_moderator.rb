@@ -1,9 +1,7 @@
 class Communities::DeleteModerator
-  attr_reader :moderator
+  include ActiveModel::Model
 
-  def initialize(moderator)
-    @moderator = moderator
-  end
+  attr_accessor :moderator
 
   def call
     moderator.destroy!

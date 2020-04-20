@@ -26,7 +26,7 @@ class Api::Communities::ModeratorsController < ApplicationController
   end
 
   def destroy
-    Communities::DeleteModerator.new(@moderator).call
+    Communities::DeleteModerator.new(moderator: @moderator).call
 
     head :no_content
   end
