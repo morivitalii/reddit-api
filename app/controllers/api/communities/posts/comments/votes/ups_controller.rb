@@ -15,7 +15,7 @@ class Api::Communities::Posts::Comments::Votes::UpsController < ApplicationContr
   end
 
   def destroy
-    Communities::Posts::Comments::DeleteUpVote.new(@comment, current_user).call
+    Communities::Posts::Comments::DeleteUpVote.new(comment: @comment, user: current_user).call
 
     # TODO remove following line after transition to frontend framework
     @comment.reload
