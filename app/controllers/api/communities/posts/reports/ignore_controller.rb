@@ -10,7 +10,7 @@ class Api::Communities::Posts::Reports::IgnoreController < ApplicationController
   end
 
   def destroy
-    Communities::DoNotIgnorePostReports.new(@post).call
+    Communities::DoNotIgnorePostReports.new(post: @post).call
 
     render json: {ignore_reports_link: post.ignore_reports_link}
   end
