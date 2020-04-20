@@ -6,7 +6,7 @@ RSpec.describe Communities::Posts::Comments::CreateUpVote do
       it "does nothing to comment and does not create vote" do
         user = create(:user)
         comment = create(:comment_with_up_vote, voted_by: user)
-        service = described_class.new(comment, user)
+        service = described_class.new(comment: comment, user: user)
 
         expect(service.comment).to_not receive(:update_scores!)
 
@@ -23,7 +23,7 @@ RSpec.describe Communities::Posts::Comments::CreateUpVote do
       it "deletes down vote, creates up vote, decrement comment down votes count, increments comment up votes count and updates comment scores" do
         user = create(:user)
         comment = create(:comment_with_down_vote, voted_by: user)
-        service = described_class.new(comment, user)
+        service = described_class.new(comment: comment, user: user)
 
         expect(service.comment).to receive(:update_scores!)
 
@@ -40,7 +40,7 @@ RSpec.describe Communities::Posts::Comments::CreateUpVote do
       it "creates up vote, increments comment up votes count and updates comment scores" do
         user = create(:user)
         comment = create(:comment)
-        service = described_class.new(comment, user)
+        service = described_class.new(comment: comment, user: user)
 
         expect(service.comment).to receive(:update_scores!)
 
