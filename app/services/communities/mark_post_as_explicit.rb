@@ -1,9 +1,7 @@
 class Communities::MarkPostAsExplicit
-  attr_reader :post
+  include ActiveModel::Model
 
-  def initialize(post)
-    @post = post
-  end
+  attr_accessor :post
 
   def call
     post.update!(explicit: true)
