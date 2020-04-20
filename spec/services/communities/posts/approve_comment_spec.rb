@@ -5,7 +5,7 @@ RSpec.describe Communities::Posts::ApproveComment do
     it "approves comment" do
       comment = create(:comment_with_reports, :removed)
       user = create(:user)
-      service = described_class.new(comment, user)
+      service = described_class.new(comment: comment, user: user)
 
       service.call
 
