@@ -1,10 +1,7 @@
 class Communities::CreateFollow
-  attr_reader :community, :user
+  include ActiveModel::Model
 
-  def initialize(community, user)
-    @community = community
-    @user = user
-  end
+  attr_accessor :community, :user
 
   def call
     follow.present? ? follow : community.follows.create!(user: user)

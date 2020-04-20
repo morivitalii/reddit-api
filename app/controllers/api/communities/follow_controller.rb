@@ -3,7 +3,7 @@ class Api::Communities::FollowController < ApplicationController
   before_action -> { authorize(Api::Communities::FollowsPolicy) }
 
   def create
-    follow = Communities::CreateFollow.new(@community, current_user).call
+    follow = Communities::CreateFollow.new(community: @community, user: current_user).call
 
     render json: FollowSerializer.serialize(follow)
   end
