@@ -36,7 +36,7 @@ class Api::Communities::BansController < ApplicationController
   end
 
   def destroy
-    Communities::DeleteBan.new(@ban).call
+    Communities::DeleteBan.new(ban: @ban).call
 
     head :no_content
   end

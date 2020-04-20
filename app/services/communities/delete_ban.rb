@@ -1,9 +1,7 @@
 class Communities::DeleteBan
-  attr_reader :ban
+  include ActiveModel::Model
 
-  def initialize(ban)
-    @ban = ban
-  end
+  attr_accessor :ban
 
   def call
     ban.destroy!
