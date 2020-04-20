@@ -31,7 +31,7 @@ class Api::AdminsController < ApplicationController
   end
 
   def destroy
-    DeleteAdmin.new(@admin).call
+    DeleteAdmin.new(admin: @admin).call
 
     head :no_content
   end

@@ -1,9 +1,7 @@
 class DeleteAdmin
-  attr_reader :admin
+  include ActiveModel::Model
 
-  def initialize(admin)
-    @admin = admin
-  end
+  attr_accessor :admin
 
   def call
     admin.destroy!
