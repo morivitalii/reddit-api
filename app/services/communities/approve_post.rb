@@ -1,10 +1,7 @@
 class Communities::ApprovePost
-  attr_reader :post, :user
+  include ActiveModel::Model
 
-  def initialize(post, user)
-    @post = post
-    @user = user
-  end
+  attr_accessor :post, :user
 
   def call
     ActiveRecord::Base.transaction do

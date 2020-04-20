@@ -4,7 +4,7 @@ class Api::Communities::Posts::ApproveController < ApplicationController
   before_action -> { authorize(Api::Communities::Posts::ApprovePolicy, @post) }
 
   def update
-    Communities::ApprovePost.new(@post, current_user).call
+    Communities::ApprovePost.new(post: @post, user: current_user).call
 
     render json: {approve_link: post.approve_link, remove_link: post.remove_link}
   end
