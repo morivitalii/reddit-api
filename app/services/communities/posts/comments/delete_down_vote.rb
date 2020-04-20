@@ -1,10 +1,7 @@
 class Communities::Posts::Comments::DeleteDownVote
-  attr_accessor :comment, :user
+  include ActiveModel::Model
 
-  def initialize(comment, user)
-    @comment = comment
-    @user = user
-  end
+  attr_accessor :comment, :user
 
   def call
     return false if vote.blank?
