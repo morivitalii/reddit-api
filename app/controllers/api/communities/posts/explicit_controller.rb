@@ -10,7 +10,7 @@ class Api::Communities::Posts::ExplicitController < ApplicationController
   end
 
   def destroy
-    Communities::MarkPostAsNotExplicit.new(@post).call
+    Communities::MarkPostAsNotExplicit.new(post: @post).call
 
     render json: {explicit: post.explicit, explicit_link: post.explicit_link}
   end

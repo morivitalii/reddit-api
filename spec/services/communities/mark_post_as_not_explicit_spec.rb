@@ -4,7 +4,7 @@ RSpec.describe Communities::MarkPostAsNotExplicit do
   describe ".call" do
     it "marks post as not explicit" do
       post = create(:explicit_post)
-      service = described_class.new(post)
+      service = described_class.new(post: post)
 
       service.call
 
