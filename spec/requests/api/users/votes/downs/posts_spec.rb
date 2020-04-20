@@ -1,14 +1,18 @@
 require "rails_helper"
 
-RSpec.describe Api::Users::Votes::Downs::PostsController do
-  describe ".index", context: :as_signed_in_user do
-    it "returns posts objects" do
-      create_list(:post_with_down_vote, 2, voted_by: context.user)
+RSpec.describe Api::Users::Votes::Downs::PostsController, context: :as_signed_in_user do
+  describe ".index" do
+    it "returns paginated down voted posts sorted by desc" do
+      user = context.user
+      first_post = create(:post_with_down_vote, voted_by: user)
+      second_post = create(:post_with_down_vote, voted_by: user)
+      third_post = create(:post_with_down_vote, voted_by: user)
 
-      get "/api/users/#{context.user.to_param}/votes/downs/posts.json"
+      get "/api/users/#{user.to_param}/votes/downs/posts.json?after=#{third_post.to_param}"
 
       expect(response).to have_http_status(200)
       expect(response).to match_json_schema("controllers/api/users/votes/downs/posts_controller/index/200")
+      expect(response).to have_sorted_json_collection(second_post, first_post)
     end
   end
 end
