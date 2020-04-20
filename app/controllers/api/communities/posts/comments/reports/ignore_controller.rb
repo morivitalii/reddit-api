@@ -5,23 +5,15 @@ class Api::Communities::Posts::Comments::Reports::IgnoreController < Application
   before_action -> { authorize(Api::Communities::Posts::Comments::Reports::IgnorePolicy, @comment) }
 
   def create
-    service = Communities::Posts::IgnoreCommentReports.new(comment: @comment)
+    Communities::Posts::IgnoreCommentReports.new(comment: @comment).call
 
-    if service.call
-      head :no_content
-    else
-      render json: service.errors, status: :unprocessable_entity
-    end
+    head :no_content
   end
 
   def destroy
-    service = Communities::Posts::DoNotIgnoreCommentReports.new(comment: @comment)
+    Communities::Posts::DoNotIgnoreCommentReports.new(comment: @comment)
 
-    if service.call
-      head :no_content
-    else
-      render json: service.errors, status: :unprocessable_entity
-    end
+    head :no_content
   end
 
   private

@@ -1,9 +1,7 @@
 class Communities::Posts::IgnoreCommentReports
-  attr_reader :comment
+  include ActiveModel::Model
 
-  def initialize(comment)
-    @comment = comment
-  end
+  attr_accessor :comment
 
   def call
     ActiveRecord::Base.transaction do
