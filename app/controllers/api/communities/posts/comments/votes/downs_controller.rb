@@ -5,7 +5,7 @@ class Api::Communities::Posts::Comments::Votes::DownsController < ApplicationCon
   before_action -> { authorize(Api::Communities::Posts::Comments::Votes::DownsPolicy, @comment) }
 
   def create
-    vote = Communities::Posts::Comments::CreateDownVote.new(@comment, current_user).call
+    vote = Communities::Posts::Comments::CreateDownVote.new(comment: @comment, user: current_user).call
 
     # TODO remove two following lines after transition to frontend framework
     @comment.reload
