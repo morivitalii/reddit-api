@@ -38,7 +38,7 @@ class Api::Communities::MutesController < ApplicationController
   end
 
   def destroy
-    Communities::DeleteMute.new(@mute).call
+    Communities::DeleteMute.new(mute: @mute).call
 
     head :no_content
   end

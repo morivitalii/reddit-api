@@ -1,9 +1,7 @@
 class Communities::DeleteMute
-  attr_reader :mute
+  include ActiveModel::Model
 
-  def initialize(mute)
-    @mute = mute
-  end
+  attr_accessor :mute
 
   def call
     mute.destroy!

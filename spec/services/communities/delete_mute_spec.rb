@@ -4,7 +4,7 @@ RSpec.describe Communities::DeleteMute do
   describe ".call" do
     it "deletes mute" do
       mute = create(:mute)
-      service = described_class.new(mute)
+      service = described_class.new(mute: mute)
 
       service.call
 
