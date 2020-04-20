@@ -4,8 +4,7 @@ RSpec.describe DeleteExile do
   describe ".call" do
     it "deletes exile" do
       exile = create(:exile)
-
-      service = described_class.new(exile)
+      service = described_class.new(exile: exile)
 
       service.call
 

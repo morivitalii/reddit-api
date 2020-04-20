@@ -31,7 +31,7 @@ class Api::ExilesController < ApplicationController
   end
 
   def destroy
-    DeleteExile.new(@exile).call
+    DeleteExile.new(exile: @exile).call
 
     head :no_content
   end

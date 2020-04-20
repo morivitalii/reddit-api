@@ -1,9 +1,7 @@
 class DeleteExile
-  attr_reader :exile
+  include ActiveModel::Model
 
-  def initialize(exile)
-    @exile = exile
-  end
+  attr_accessor :exile
 
   def call
     exile.destroy!
