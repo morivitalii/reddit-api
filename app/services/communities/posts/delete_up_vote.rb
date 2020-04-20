@@ -1,10 +1,7 @@
 class Communities::Posts::DeleteUpVote
-  attr_accessor :post, :user
+  include ActiveModel::Model
 
-  def initialize(post, user)
-    @post = post
-    @user = user
-  end
+  attr_accessor :post, :user
 
   def call
     return false if vote.blank?
