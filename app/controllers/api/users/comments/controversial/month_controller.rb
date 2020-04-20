@@ -5,7 +5,7 @@ class Api::Users::Comments::Controversial::MonthController < ApplicationControll
   def index
     query = CommentsQuery.new(@user.comments).not_removed
     query = CommentsQuery.new(query).for_the_last_month
-    query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
+    query = query.includes(:community, :created_by, :edited_by, :approved_by, post: [:created_by, :community])
     comments = paginate(
       query,
       attributes: [:controversy_score, :id],

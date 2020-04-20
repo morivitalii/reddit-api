@@ -16,7 +16,7 @@ class Api::Users::Votes::Downs::CommentsController < ApplicationController
     comments_ids = comments_ids_query.map(&:votable_id)
 
     comments_query = Comment.where(id: comments_ids)
-    comments_query = comments_query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by, post: [:created_by], comment: [:created_by])
+    comments_query = comments_query.includes(:community, :created_by, :edited_by, :approved_by, post: [:created_by, :community])
     comments = comments_query.sort_by { |comment| comments_ids.index(comment.id) }
 
     render json: CommentSerializer.serialize(comments)

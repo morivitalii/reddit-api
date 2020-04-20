@@ -3,7 +3,7 @@ class Api::Communities::ModQueues::New::CommentsController < ApplicationControll
   before_action -> { authorize(Api::Communities::ModQueues::New::CommentsPolicy) }
 
   def index
-    query = CommentsQuery.new(@community.comments).not_moderated.includes(:created_by, :post, :community)
+    query = CommentsQuery.new(@community.comments).not_moderated.includes(:created_by, :community, post: [:created_by, :community])
     comments = paginate(
       query,
       attributes: [:id],

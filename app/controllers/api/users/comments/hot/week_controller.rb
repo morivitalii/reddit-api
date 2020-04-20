@@ -5,7 +5,7 @@ class Api::Users::Comments::Hot::WeekController < ApplicationController
   def index
     query = CommentsQuery.new(@user.comments).not_removed
     query = CommentsQuery.new(query).for_the_last_week
-    query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
+    query = query.includes(:community, :created_by, :edited_by, :approved_by, post: [:created_by, :community])
     comments = paginate(
       query,
       attributes: [:hot_score, :id],

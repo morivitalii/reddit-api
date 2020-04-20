@@ -15,7 +15,7 @@ class Api::Users::Bookmarks::PostsController < ApplicationController
     posts_ids = posts_ids_query.map(&:bookmarkable_id)
 
     posts_query = Post.where(id: posts_ids)
-    posts_query = posts_query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
+    posts_query = posts_query.includes(:community, :created_by, :edited_by, :approved_by)
     posts = posts_query.sort_by { |post| posts_ids.index(post.id) }
 
     render json: PostSerializer.serialize(posts)

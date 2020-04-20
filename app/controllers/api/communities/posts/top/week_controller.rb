@@ -5,7 +5,7 @@ class Api::Communities::Posts::Top::WeekController < ApplicationController
   def index
     query = PostsQuery.new(@community.posts).not_removed
     query = PostsQuery.new(query).for_the_last_week
-    query = query.includes(:community, :created_by, :edited_by, :approved_by, :removed_by)
+    query = query.includes(:community, :created_by, :edited_by, :approved_by)
     posts = paginate(
       query,
       attributes: [:top_score, :id],
