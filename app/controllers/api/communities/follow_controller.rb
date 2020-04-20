@@ -9,7 +9,7 @@ class Api::Communities::FollowController < ApplicationController
   end
 
   def destroy
-    Communities::DeleteFollow.new(@community, current_user).call
+    Communities::DeleteFollow.new(community: @community, user: current_user).call
 
     head :no_content
   end

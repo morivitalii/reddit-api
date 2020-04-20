@@ -6,7 +6,7 @@ RSpec.describe Communities::DeleteFollow do
       community = create(:community)
       user = create(:user)
       _follow = create(:community_follow, followable: community, user: user)
-      service = described_class.new(community, user)
+      service = described_class.new(community: community, user: user)
 
       service.call
 

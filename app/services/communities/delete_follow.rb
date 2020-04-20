@@ -1,10 +1,7 @@
 class Communities::DeleteFollow
-  attr_reader :community, :user
+  include ActiveModel::Model
 
-  def initialize(community, user)
-    @community = community
-    @user = user
-  end
+  attr_accessor :community, :user
 
   def call
     community.follows.where(user: user).destroy_all
