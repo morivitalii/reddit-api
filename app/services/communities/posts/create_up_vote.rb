@@ -1,10 +1,7 @@
 class Communities::Posts::CreateUpVote
-  attr_accessor :post, :user
+  include ActiveModel::Model
 
-  def initialize(post, user)
-    @post = post
-    @user = user
-  end
+  attr_accessor :post, :user
 
   def call
     return previous_vote if user_have_same_opinion?
