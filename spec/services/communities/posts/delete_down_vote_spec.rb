@@ -6,7 +6,7 @@ RSpec.describe Communities::Posts::DeleteDownVote do
       it "does nothing to post" do
         user = create(:user)
         post = create(:post)
-        service = described_class.new(post, user)
+        service = described_class.new(post: post, user: user)
 
         expect(service.post).to_not receive(:update_scores!)
 
@@ -22,7 +22,7 @@ RSpec.describe Communities::Posts::DeleteDownVote do
       it "does nothing to post and does not delete up vote" do
         user = create(:user)
         post = create(:post_with_up_vote, voted_by: user)
-        service = described_class.new(post, user)
+        service = described_class.new(post: post, user: user)
 
         expect(service.post).to_not receive(:update_scores!)
 
@@ -38,7 +38,7 @@ RSpec.describe Communities::Posts::DeleteDownVote do
       it "deletes down vote, decrements post down votes count and updates post scores" do
         user = create(:user)
         post = create(:post_with_down_vote, voted_by: user)
-        service = described_class.new(post, user)
+        service = described_class.new(post: post, user: user)
 
         expect(service.post).to receive(:update_scores!)
 
