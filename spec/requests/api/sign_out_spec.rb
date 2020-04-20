@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe Api::SignOutController do
-  describe ".destroy", context: :as_signed_in_user do
+RSpec.describe Api::SignOutController, context: :as_signed_in_user do
+  describe ".destroy" do
     it "signs out user" do
       delete "/api/sign_out.json"
 
