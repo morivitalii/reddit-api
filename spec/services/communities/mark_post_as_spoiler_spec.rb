@@ -4,7 +4,7 @@ RSpec.describe Communities::MarkPostAsSpoiler do
   describe ".call" do
     it "marks post as spoiler" do
       post = create(:not_spoiler_post)
-      service = described_class.new(post)
+      service = described_class.new(post: post)
 
       service.call
 

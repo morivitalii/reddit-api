@@ -4,7 +4,7 @@ class Api::Communities::Posts::SpoilerController < ApplicationController
   before_action -> { authorize(Api::Communities::Posts::SpoilerPolicy, @post) }
 
   def create
-    Communities::MarkPostAsSpoiler.new(@post).call
+    Communities::MarkPostAsSpoiler.new(post: @post).call
 
     render json: {spoiler: post.spoiler, spoiler_link: post.spoiler_link}
   end
