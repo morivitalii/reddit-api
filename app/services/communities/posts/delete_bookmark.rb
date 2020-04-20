@@ -1,10 +1,7 @@
 class Communities::Posts::DeleteBookmark
-  attr_reader :post, :user
+  include ActiveModel::Model
 
-  def initialize(post, user)
-    @post = post
-    @user = user
-  end
+  attr_accessor :post, :user
 
   def call
     post.bookmarks.where(user: user).destroy_all
