@@ -10,7 +10,7 @@ class Api::Communities::Posts::SpoilerController < ApplicationController
   end
 
   def destroy
-    Communities::MarkPostAsNotSpoiler.new(@post).call
+    Communities::MarkPostAsNotSpoiler.new(post: @post).call
 
     render json: {spoiler: post.spoiler, spoiler_link: post.spoiler_link}
   end
