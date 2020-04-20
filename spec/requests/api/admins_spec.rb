@@ -31,7 +31,7 @@ RSpec.describe Api::AdminsController do
       it "creates admin" do
         user = create(:user)
 
-        post "/api/admins.json", params: { user_id: user.id }
+        post "/api/admins.json", params: {user_id: user.id}
 
         expect(response).to have_http_status(200)
         expect(response).to match_json_schema("controllers/api/admins_controller/create/200")
@@ -40,7 +40,7 @@ RSpec.describe Api::AdminsController do
 
     context "with invalid params" do
       it "returns errors" do
-        post "/api/admins.json", params: { user_id: "" }
+        post "/api/admins.json", params: {user_id: ""}
 
         expect(response).to have_http_status(422)
         expect(response).to match_json_schema("controllers/api/admins_controller/create/422")

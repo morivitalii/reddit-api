@@ -57,7 +57,7 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
 
   context "as banned user", context: :as_banned_user do
     let(:comment) { create(:comment, community: context.community) }
-    
+
     permissions :index?, :create? do
       it { is_expected.to_not permit(context, comment) }
     end

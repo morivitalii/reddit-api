@@ -10,7 +10,7 @@ class PostFileUploader < Shrine
   plugin :validation_helpers, default_messages: {
     max_size: ->(maximum) { I18n.t("activerecord.errors.models.post.attributes.file.size", size: Plugins::ValidationHelpers::PRETTY_FILESIZE.call(maximum)) },
     mime_type_inclusion: ->(mime_types) { I18n.t("activerecord.errors.models.post.attributes.file.mime_type", formats: mime_types.to_sentence) },
-    extension_inclusion: ->(extensions) { I18n.t("activerecord.errors.models.post.attributes.file.extension", formats: extensions.to_sentence) },
+    extension_inclusion: ->(extensions) { I18n.t("activerecord.errors.models.post.attributes.file.extension", formats: extensions.to_sentence) }
   }
 
   Attacher.validate do

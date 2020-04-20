@@ -37,7 +37,7 @@ RSpec.describe Api::Communities::MutesController, context: :as_moderator_user do
       it "return errors" do
         community = context.community
         params = {
-          user_id: "",
+          user_id: ""
         }
 
         post "/api/communities/#{community.to_param}/mutes.json", params: params

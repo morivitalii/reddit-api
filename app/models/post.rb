@@ -34,7 +34,7 @@ class Post < ApplicationRecord
       new_score: ScoreCalculator.new_score(created_at),
       hot_score: ScoreCalculator.hot_score(up_votes_count, down_votes_count, created_at),
       top_score: ScoreCalculator.top_score(up_votes_count, down_votes_count),
-      controversy_score: ScoreCalculator.controversy_score(up_votes_count, down_votes_count),
+      controversy_score: ScoreCalculator.controversy_score(up_votes_count, down_votes_count)
     )
   end
 

@@ -22,7 +22,7 @@ class Comment < ApplicationRecord
       hot_score: ScoreCalculator.hot_score(up_votes_count, down_votes_count, created_at),
       best_score: ScoreCalculator.best_score(up_votes_count, down_votes_count),
       top_score: ScoreCalculator.top_score(up_votes_count, down_votes_count),
-      controversy_score: ScoreCalculator.controversy_score(up_votes_count, down_votes_count),
+      controversy_score: ScoreCalculator.controversy_score(up_votes_count, down_votes_count)
     )
   end
 
@@ -38,7 +38,7 @@ class Comment < ApplicationRecord
       hot_score: hot_score,
       best_score: best_score,
       top_score: top_score,
-      controversy_score: controversy_score,
+      controversy_score: controversy_score
     }.to_json
 
     query = "UPDATE topics

@@ -31,7 +31,7 @@ RSpec.describe Api::ExilesController, context: :as_admin_user do
       it "creates exile" do
         user = create(:user)
 
-        post "/api/exiles.json", params: { user_id: user.id }
+        post "/api/exiles.json", params: {user_id: user.id}
 
         expect(response).to have_http_status(200)
         expect(response).to match_json_schema("controllers/api/exiles_controller/create/200")
@@ -40,7 +40,7 @@ RSpec.describe Api::ExilesController, context: :as_admin_user do
 
     context "with invalid params" do
       it "returns errors" do
-        post "/api/exiles.json", params: { user_id: "" }
+        post "/api/exiles.json", params: {user_id: ""}
 
         expect(response).to have_http_status(422)
         expect(response).to match_json_schema("controllers/api/exiles_controller/create/422")

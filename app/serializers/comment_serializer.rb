@@ -25,7 +25,7 @@ class CommentSerializer < ApplicationSerializer
       approved_at: model.approved_at,
       removed_at: model.removed_at,
       created_at: model.created_at,
-      updated_at: model.updated_at,
+      updated_at: model.updated_at
     }
   end
 

@@ -16,8 +16,6 @@ class FollowSerializer < ApplicationSerializer
       if model.followable.is_a?(Community)
         CommunitySerializer.serialize(model.followable)
       end
-    else
-      nil
     end
   end
 

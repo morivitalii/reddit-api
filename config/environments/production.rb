@@ -27,7 +27,7 @@ Rails.application.configure do
     domain: ENV.fetch("SMTP_DOMAIN"),
     port: ENV.fetch("SMTP_PORT"),
     authentication: "login",
-    enable_starttls_auto: true,
+    enable_starttls_auto: true
   }
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?

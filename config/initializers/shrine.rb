@@ -8,12 +8,12 @@ if Rails.env.production?
     secret_access_key: ENV.fetch("S3_SECRET_ACCESS_KEY"),
     region: ENV.fetch("S3_REGION"),
     bucket: ENV.fetch("S3_BUCKET"),
-    endpoint: ENV.fetch("S3_ENDPOINT"),
+    endpoint: ENV.fetch("S3_ENDPOINT")
   }
 
   Shrine.storages = {
     cache: Shrine::Storage::FileSystem.new("public", prefix: "uploads/cache"),
-    store: Shrine::Storage::S3.new(public: true, **s3_options),
+    store: Shrine::Storage::S3.new(public: true, **s3_options)
   }
 
   Shrine.plugin :default_url_options, store: {host: ENV.fetch("CDN_HOST")}
@@ -21,6 +21,6 @@ if Rails.env.production?
 else
   Shrine.storages = {
     cache: Shrine::Storage::FileSystem.new("public", prefix: "uploads/cache"),
-    store: Shrine::Storage::FileSystem.new("public", prefix: "uploads"),
+    store: Shrine::Storage::FileSystem.new("public", prefix: "uploads")
   }
 end
