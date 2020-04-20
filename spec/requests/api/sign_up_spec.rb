@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe Api::SignUpController do
-  describe ".create", context: :as_signed_out_user do
+RSpec.describe Api::SignUpController, context: :as_signed_out_user do
+  describe ".create" do
     context "with valid params" do
       it "creates, signs in user and returns user object" do
         post "/api/sign_up.json", params: {username: "username", email: "email@example.com", password: "password"}
