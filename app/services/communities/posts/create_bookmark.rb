@@ -1,10 +1,7 @@
 class Communities::Posts::CreateBookmark
-  attr_reader :post, :user
+  include ActiveModel::Model
 
-  def initialize(post, user)
-    @post = post
-    @user = user
-  end
+  attr_accessor :post, :user
 
   def call
     post.bookmarks.find_or_create_by!(user: user)
