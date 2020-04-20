@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Api::Communities::FollowController, context: :as_signed_in_user do
   describe ".create" do
-    it "returns follow object" do
+    it "returns follow" do
       community = create(:community)
 
       post "/api/communities/#{community.to_param}/follow.json"

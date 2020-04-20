@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Api::Communities::PostsController, context: :as_signed_in_user do
   describe ".show" do
-    it "returns post object" do
+    it "returns post" do
       community = create(:community)
       post = create(:post, community: community)
 
@@ -15,7 +15,7 @@ RSpec.describe Api::Communities::PostsController, context: :as_signed_in_user do
 
   describe ".create" do
     context "with valid params" do
-      it "creates post and returns post object" do
+      it "creates post and returns post" do
         community = create(:community)
         params = {
           title: "Title",
@@ -51,7 +51,7 @@ RSpec.describe Api::Communities::PostsController, context: :as_signed_in_user do
 
   describe ".update" do
     context "with valid params" do
-      it "updates post and returns post object" do
+      it "updates post and returns post" do
         community = create(:community)
         post = create(:text_post, community: community, created_by: context.user)
         params = {
