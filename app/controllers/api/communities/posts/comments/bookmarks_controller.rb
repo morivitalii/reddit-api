@@ -5,7 +5,7 @@ class Api::Communities::Posts::Comments::BookmarksController < ApplicationContro
   before_action -> { authorize(Api::Communities::Posts::Comments::BookmarksPolicy, @comment) }
 
   def create
-    @comment.bookmark = Communities::Posts::Comments::CreateBookmark.new(@comment, current_user).call
+    @comment.bookmark = Communities::Posts::Comments::CreateBookmark.new(comment: @comment, user: current_user).call
 
     render json: {bookmark_link: comment.bookmark_link}
   end

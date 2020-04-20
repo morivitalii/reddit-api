@@ -5,11 +5,11 @@ RSpec.describe Communities::Posts::Comments::CreateBookmark do
     it "creates comment bookmark" do
       user = create(:user)
       comment = create(:comment)
-      service = described_class.new(comment, user)
+      service = described_class.new(comment: comment, user: user)
 
       service.call
 
-      expect(service.comment.bookmarks.count).to eq(1)
+      expect(comment.bookmarks.count).to eq(1)
     end
   end
 end
