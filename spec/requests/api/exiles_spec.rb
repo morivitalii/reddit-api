@@ -2,18 +2,7 @@ require "rails_helper"
 
 RSpec.describe Api::ExilesController, context: :as_admin_user do
   describe ".index" do
-    it "returns exiles sorted by desc" do
-      first_exile = create(:exile)
-      second_exile = create(:exile)
-
-      get "/api/exiles.json"
-
-      expect(response).to have_http_status(200)
-      expect(response).to match_json_schema("controllers/api/exiles_controller/index/200")
-      expect(response).to have_sorted_json_collection(second_exile, first_exile)
-    end
-
-    it "returns paginated exiles" do
+    it "returns paginated exiles sorted by desc" do
       first_exile = create(:exile)
       second_exile = create(:exile)
       third_exile = create(:exile)
