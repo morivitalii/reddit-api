@@ -4,7 +4,7 @@ RSpec.describe Communities::DeleteRule do
   describe ".call" do
     it "deletes rule" do
       rule = create(:rule)
-      service = described_class.new(rule)
+      service = described_class.new(rule: rule)
 
       service.call
 

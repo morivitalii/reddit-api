@@ -1,9 +1,7 @@
 class Communities::DeleteRule
-  attr_reader :rule
+  include ActiveModel::Model
 
-  def initialize(rule)
-    @rule = rule
-  end
+  attr_accessor :rule
 
   def call
     rule.destroy!
