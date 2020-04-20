@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe Api::ForgotPasswordController do
-  describe ".create", context: :as_signed_out_user do
+RSpec.describe Api::ForgotPasswordController, context: :as_signed_out_user do
+  describe ".create" do
     it "sends forgot password email" do
       user = create(:user)
 
