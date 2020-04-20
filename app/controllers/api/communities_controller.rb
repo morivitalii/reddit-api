@@ -8,9 +8,9 @@ class Api::CommunitiesController < ApplicationController
     communities = paginate(
       query,
       attributes: [:url],
-      order: :asc,
+      order: :desc,
       limit: 25,
-      after: params[:after].present? ? Community.where(id: params[:after]).take : nil
+      after: params[:after].present? ? CommunitiesQuery.new.with_url(params[:after]).take : nil
     )
 
     render json: CommunitySerializer.serialize(communities)

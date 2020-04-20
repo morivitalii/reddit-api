@@ -1,18 +1,21 @@
 require "rails_helper"
 
 RSpec.describe Api::CommunitiesController do
-  describe ".index", context: :as_signed_in_user do
-    it "returns posts objects" do
-      create_list(:community, 2)
+  describe ".index", context: :as_signed_out_user do
+    it "returns paginated communities sorted by desc" do
+      first_community = create(:community)
+      second_community = create(:community)
+      third_community = create(:community)
 
-      get "/api/communities.json"
+      get "/api/communities.json?after=#{third_community.to_param}"
 
       expect(response).to have_http_status(200)
       expect(response).to match_json_schema("controllers/api/communities_controller/index/200")
+      expect(response).to have_sorted_json_collection(second_community, first_community)
     end
   end
 
-  describe ".show", context: :as_signed_in_user do
+  describe ".show", context: :as_signed_out_user do
     it "returns community object" do
       community = create(:community)
 
@@ -23,7 +26,7 @@ RSpec.describe Api::CommunitiesController do
     end
   end
 
-  describe ".create", context: :as_signed_in_user do
+  describe ".create", context: :as_moderator_user do
     context "with valid params" do
       it "creates community and returns community object" do
         post "/api/communities.json", params: {url: "Url", title: "Title", description: "Description"}
