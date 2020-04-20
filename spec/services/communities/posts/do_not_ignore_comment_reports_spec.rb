@@ -4,7 +4,7 @@ RSpec.describe Communities::Posts::DoNotIgnoreCommentReports do
   describe ".call" do
     it "makes comment do not ignore reports" do
       comment = create(:ignore_reports_comment)
-      service = described_class.new(comment)
+      service = described_class.new(comment: comment)
 
       service.call
 

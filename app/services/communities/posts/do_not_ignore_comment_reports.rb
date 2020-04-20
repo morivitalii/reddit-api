@@ -1,9 +1,7 @@
 class Communities::Posts::DoNotIgnoreCommentReports
-  attr_reader :comment
+  include ActiveModel::Model
 
-  def initialize(comment)
-    @comment = comment
-  end
+  attr_accessor :comment
 
   def call
     comment.update!(ignore_reports: false)
