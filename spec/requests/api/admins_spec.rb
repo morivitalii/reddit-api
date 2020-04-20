@@ -2,18 +2,7 @@ require "rails_helper"
 
 RSpec.describe Api::AdminsController do
   describe ".index", context: :as_signed_out_user do
-    it "returns admins sorted by desc" do
-      first_admin = create(:admin)
-      second_admin = create(:admin)
-
-      get "/api/admins.json"
-
-      expect(response).to have_http_status(200)
-      expect(response).to match_json_schema("controllers/api/admins_controller/index/200")
-      expect(response).to have_sorted_json_collection(second_admin, first_admin)
-    end
-
-    it "returns paginated admins" do
+    it "returns paginated admins sorted by desc" do
       first_admin = create(:admin)
       second_admin = create(:admin)
       third_admin = create(:admin)
