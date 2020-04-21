@@ -7,7 +7,7 @@ class Api::Communities::Posts::Comments::ApproveController < ApplicationControll
   def update
     Communities::Posts::ApproveComment.new(comment: @comment, user: current_user).call
 
-    render json: {approve_link: comment.approve_link, remove_link: comment.remove_link}
+    head :no_content
   end
 
   private
