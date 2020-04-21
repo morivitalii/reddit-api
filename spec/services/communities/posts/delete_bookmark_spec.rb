@@ -5,7 +5,7 @@ RSpec.describe Communities::Posts::DeleteBookmark do
     it "deletes post bookmark" do
       user = create(:user)
       post = create(:post_with_bookmark, bookmarked_by: user)
-      service = described_class.new(post, user)
+      service = described_class.new(post: post, user: user)
 
       service.call
 
