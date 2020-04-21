@@ -99,9 +99,9 @@ Rails.application.routes.draw do
     resources :communities, only: [:index, :show, :create, :update] do
       scope module: :communities do
         resource :follow, only: [:create, :destroy], controller: :follow
-        resources :moderators, only: [:index, :new, :create, :destroy]
-        resources :rules, only: [:index, :new, :create, :edit, :update, :destroy]
-        resources :bans, only: [:index, :new, :create, :edit, :update, :destroy]
+        resources :moderators, only: [:index, :create, :destroy]
+        resources :rules, only: [:index, :create, :update, :destroy]
+        resources :bans, only: [:index, :create, :update, :destroy]
         resources :mutes, only: [:index, :create, :update, :destroy]
 
         namespace :posts do
@@ -149,11 +149,11 @@ Rails.application.routes.draw do
         resources :posts, only: [:show, :create, :update] do
           scope module: :posts do
             resource :approve, only: [:update], controller: :approve
-            resource :remove, only: [:edit, :update], controller: :remove
+            resource :remove, only: [:update], controller: :remove
             resource :explicit, only: [:create, :destroy], controller: :explicit
             resource :spoiler, only: [:create, :destroy], controller: :spoiler
             resource :bookmarks, only: [:create, :destroy]
-            resources :reports, only: [:index, :new, :create]
+            resources :reports, only: [:index, :create]
 
             namespace :reports do
               resource :ignore, only: [:create, :destroy], controller: :ignore
@@ -164,12 +164,12 @@ Rails.application.routes.draw do
               resource :downs, only: [:create, :destroy]
             end
 
-            resources :comments, only: [:show, :create, :edit, :update] do
+            resources :comments, only: [:show, :create, :update] do
               scope module: :comments do
                 resource :approve, only: [:update], controller: :approve
-                resource :remove, only: [:edit, :update], controller: :remove
+                resource :remove, only: [:update], controller: :remove
                 resource :bookmarks, only: [:create, :destroy]
-                resources :reports, only: [:index, :new, :create]
+                resources :reports, only: [:index, :create]
 
                 namespace :reports do
                   resource :ignore, only: [:create, :destroy], controller: :ignore
