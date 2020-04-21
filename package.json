@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "standard": "^14.3.3",
-    "stylelint": "^13.3.2",
+    "stylelint": "^13.3.3",
     "stylelint-config-standard": "^20.0.0",
     "webpack-dev-server": "^3.10.3"
   }
