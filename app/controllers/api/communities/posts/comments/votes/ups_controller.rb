@@ -5,22 +5,15 @@ class Api::Communities::Posts::Comments::Votes::UpsController < ApplicationContr
   before_action -> { authorize(Api::Communities::Posts::Comments::Votes::UpsPolicy, @comment) }
 
   def create
-    vote = Communities::Posts::Comments::CreateUpVote.new(comment: @comment, user: current_user).call
+    Communities::Posts::Comments::CreateUpVote.new(comment: @comment, user: current_user).call
 
-    # TODO remove two following lines after transition to frontend framework
-    @comment.reload
-    @comment.vote = vote
-
-    render json: {score: comment.score, up_vote_link: comment.up_vote_link, down_vote_link: comment.down_vote_link}
+    head :no_content
   end
 
   def destroy
     Communities::Posts::Comments::DeleteUpVote.new(comment: @comment, user: current_user).call
 
-    # TODO remove following line after transition to frontend framework
-    @comment.reload
-
-    render json: {score: comment.score, up_vote_link: comment.up_vote_link, down_vote_link: comment.down_vote_link}
+    head :no_content
   end
 
   private
