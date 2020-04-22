@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "required": [
+    "text"
+  ],
+  "properties": {
+    "reason": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -29,7 +29,9 @@ class Api::Communities::Posts::ReportsController < ApplicationController
     @post = @community.posts.find(params[:post_id])
   end
 
+  # TODO remove
   def query
+    # TODO remove class + spec
     ReportsQuery.new(@post.reports).recent(25).includes(:user)
   end
 

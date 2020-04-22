@@ -1,0 +1,62 @@
+{
+  "id": "file:/serializers/report_serializer.json#",
+  "type": "object",
+  "required": [
+    "id",
+    "user",
+    "community",
+    "reportable",
+    "text",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "user": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "file:/serializers/user_serializer.json#"
+        }
+      ]
+    },
+    "community": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "file:/serializers/community_serializer.json#"
+        }
+      ]
+    },
+    "reportable": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "file:/serializers/post_serializer.json#"
+        },
+        {
+          "$ref": "file:/serializers/comment_serializer.json#"
+        }
+      ]
+    },
+    "text": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
