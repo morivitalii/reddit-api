@@ -8,7 +8,8 @@ RSpec.describe Api::Communities::Posts::Reports::IgnoreController, context: :as_
 
       post "/api/communities/#{community.to_param}/posts/#{post.to_param}/reports/ignore.json"
 
-      expect(response).to have_http_status(204)
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities/posts/reports/ignore_controller/create/200")
     end
   end
 
@@ -19,7 +20,8 @@ RSpec.describe Api::Communities::Posts::Reports::IgnoreController, context: :as_
 
       post "/api/communities/#{community.to_param}/posts/#{post.to_param}/reports/ignore.json"
 
-      expect(response).to have_http_status(204)
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities/posts/reports/ignore_controller/create/200")
     end
   end
 end

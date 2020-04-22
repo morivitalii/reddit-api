@@ -6,13 +6,13 @@ class Api::Communities::Posts::Reports::IgnoreController < ApplicationController
   def create
     Communities::IgnorePostReports.new(post: @post).call
 
-    head :no_content
+    render json: PostSerializer.serialize(@post)
   end
 
   def destroy
     Communities::DoNotIgnorePostReports.new(post: @post).call
 
-    head :no_content
+    render json: PostSerializer.serialize(@post)
   end
 
   private
