@@ -7,13 +7,13 @@ class Api::Communities::Posts::Comments::Votes::DownsController < ApplicationCon
   def create
     Communities::Posts::Comments::CreateDownVote.new(comment: @comment, user: current_user).call
 
-    head :no_content
+    render json: CommentSerializer.serialize(@comment)
   end
 
   def destroy
     Communities::Posts::Comments::DeleteDownVote.new(comment: @comment, user: current_user).call
 
-    head :no_content
+    render json: CommentSerializer.serialize(@comment)
   end
 
   private

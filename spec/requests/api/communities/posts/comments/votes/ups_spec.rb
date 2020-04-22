@@ -9,7 +9,8 @@ RSpec.describe Api::Communities::Posts::Comments::Votes::UpsController, context:
 
       post "/api/communities/#{community.to_param}/posts/#{post.to_param}/comments/#{comment.to_param}/votes/ups.json"
 
-      expect(response).to have_http_status(204)
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities/posts/comments/votes/ups_controller/create/200")
     end
   end
 
@@ -21,7 +22,8 @@ RSpec.describe Api::Communities::Posts::Comments::Votes::UpsController, context:
 
       delete "/api/communities/#{community.to_param}/posts/#{post.to_param}/comments/#{comment.to_param}/votes/ups.json"
 
-      expect(response).to have_http_status(204)
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities/posts/comments/votes/ups_controller/destroy/200")
     end
   end
 end

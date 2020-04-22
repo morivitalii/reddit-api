@@ -7,13 +7,13 @@ class Api::Communities::Posts::Comments::Votes::UpsController < ApplicationContr
   def create
     Communities::Posts::Comments::CreateUpVote.new(comment: @comment, user: current_user).call
 
-    head :no_content
+    render json: CommentSerializer.serialize(@comment)
   end
 
   def destroy
     Communities::Posts::Comments::DeleteUpVote.new(comment: @comment, user: current_user).call
 
-    head :no_content
+    render json: CommentSerializer.serialize(@comment)
   end
 
   private

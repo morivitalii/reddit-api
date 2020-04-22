@@ -1,0 +1,5 @@
+{
+  "allOf": [
+    { "$ref": "file:/serializers/post_serializer.json#" }
+  ]
+}
