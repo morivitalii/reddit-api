@@ -7,13 +7,13 @@ class Api::Communities::Posts::Comments::Reports::IgnoreController < Application
   def create
     Communities::Posts::IgnoreCommentReports.new(comment: @comment).call
 
-    head :no_content
+    render json: CommentSerializer.serialize(@comment)
   end
 
   def destroy
     Communities::Posts::DoNotIgnoreCommentReports.new(comment: @comment)
 
-    head :no_content
+    render json: CommentSerializer.serialize(@comment)
   end
 
   private
