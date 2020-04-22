@@ -9,7 +9,8 @@ RSpec.describe Api::Communities::Posts::Comments::ApproveController, context: :a
 
       put "/api/communities/#{community.to_param}/posts/#{post.to_param}/comments/#{comment.to_param}/approve.json"
 
-      expect(response).to have_http_status(204)
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities/posts/comments/approve_controller/update/200")
     end
   end
 end

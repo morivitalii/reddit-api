@@ -7,7 +7,7 @@ class Api::Communities::Posts::Comments::ApproveController < ApplicationControll
   def update
     Communities::Posts::ApproveComment.new(comment: @comment, user: current_user).call
 
-    head :no_content
+    render json: CommentSerializer.serialize(@comment)
   end
 
   private
