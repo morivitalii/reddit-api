@@ -6,7 +6,7 @@ class Api::Communities::Posts::ApproveController < ApplicationController
   def update
     Communities::ApprovePost.new(post: @post, user: current_user).call
 
-    render json: {approve_link: post.approve_link, remove_link: post.remove_link}
+    render json: PostSerializer.serialize(@post)
   end
 
   private
