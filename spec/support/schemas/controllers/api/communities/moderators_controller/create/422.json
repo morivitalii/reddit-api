@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "user": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

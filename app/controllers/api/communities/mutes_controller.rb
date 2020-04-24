@@ -5,7 +5,7 @@ class Api::Communities::MutesController < ApplicationController
   before_action -> { authorize(Api::Communities::MutesPolicy, @mute) }, only: [:update, :destroy]
 
   def index
-    query = @community.mutes.includes(:user)
+    query = @community.mutes.includes(:user, :community)
     mutes = paginate(
       query,
       attributes: [:id],

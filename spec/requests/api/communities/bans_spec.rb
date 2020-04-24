@@ -82,7 +82,7 @@ RSpec.describe Api::Communities::BansController, context: :as_moderator_user do
       community = context.community
       ban = create(:ban, community: community)
 
-      delete "/api/communities/#{context.community.to_param}/bans/#{ban.to_param}.json"
+      delete "/api/communities/#{community.to_param}/bans/#{ban.to_param}.json"
 
       expect(response).to have_http_status(204)
     end

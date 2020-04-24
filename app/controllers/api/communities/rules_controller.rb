@@ -5,7 +5,7 @@ class Api::Communities::RulesController < ApplicationController
   before_action -> { authorize(Api::Communities::RulesPolicy, @rule) }, only: [:update, :destroy]
 
   def index
-    query = @community.rules
+    query = @community.rules.include(:community)
     rules = paginate(
       query,
       attributes: [:id],

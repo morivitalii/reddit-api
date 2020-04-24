@@ -5,7 +5,7 @@ class Api::Communities::ModeratorsController < ApplicationController
   before_action -> { authorize(Api::Communities::ModeratorsPolicy, @moderator) }, only: [:destroy]
 
   def index
-    query = @community.moderators.includes(:user)
+    query = @community.moderators.includes(:user, :community)
     moderators = paginate(
       query,
       attributes: [:id],
@@ -13,15 +13,17 @@ class Api::Communities::ModeratorsController < ApplicationController
       limit: 25,
       after: params[:after].present? ? Moderator.where(id: params[:after]).take : nil
     )
+
+    render json: ModeratorSerializer.serialize(moderators)
   end
 
   def create
-    @form = Communities::CreateModerator.new(create_params)
+    service = Communities::CreateModerator.new(create_params)
 
-    if @form.call
-      head :no_content, location: community_moderators_path(@community)
+    if service.call
+      render json: ModeratorSerializer.serialize(service.moderator)
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
@@ -43,7 +45,7 @@ class Api::Communities::ModeratorsController < ApplicationController
 
   def create_params
     attributes = Api::Communities::ModeratorsPolicy.new(pundit_user).permitted_attributes_for_create
-    params.require(:communities_create_moderator_form).permit(attributes).merge(community: @community)
+    params.permit(attributes).merge(community: @community)
   end
 
   def pundit_user

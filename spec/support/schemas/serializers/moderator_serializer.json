@@ -1,0 +1,55 @@
+{
+  "id": "file:/serializers/moderator_serializer.json#",
+  "type": "object",
+  "required": [
+    "id",
+    "community",
+    "user",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "community": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "file:/serializers/community_serializer.json#"
+        }
+      ]
+    },
+    "user": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "file:/serializers/user_serializer.json#"
+        }
+      ]
+    },
+    "end_at": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
