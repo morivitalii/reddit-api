@@ -4,12 +4,12 @@ class Api::Communities::Posts::RemoveController < ApplicationController
   before_action -> { authorize(Api::Communities::Posts::RemovePolicy, @post) }
 
   def update
-    @form = Communities::RemovePost.new(update_params)
+    service = Communities::RemovePost.new(update_params)
 
-    if @form.call
-      render json: {approve_link: post.approve_link, remove_link: post.remove_link}
+    if service.call
+      render json: PostSerializer.serialize(service.post)
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
@@ -25,7 +25,7 @@ class Api::Communities::Posts::RemoveController < ApplicationController
 
   def update_params
     attributes = Api::Communities::Posts::RemovePolicy.new(pundit_user, @post).permitted_attributes_for_update
-    params.require(:communities_posts_remove_form).permit(attributes).merge(post: @post, user: current_user)
+    params.permit(attributes).merge(post: @post, user: current_user)
   end
 
   def pundit_user
