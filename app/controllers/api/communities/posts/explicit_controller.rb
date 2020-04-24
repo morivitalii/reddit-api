@@ -6,13 +6,13 @@ class Api::Communities::Posts::ExplicitController < ApplicationController
   def create
     Communities::MarkPostAsExplicit.new(post: @post).call
 
-    render json: {explicit: post.explicit, explicit_link: post.explicit_link}
+    render json: PostSerializer.serialize(@post)
   end
 
   def destroy
     Communities::MarkPostAsNotExplicit.new(post: @post).call
 
-    render json: {explicit: post.explicit, explicit_link: post.explicit_link}
+    render json: PostSerializer.serialize(@post)
   end
 
   private
