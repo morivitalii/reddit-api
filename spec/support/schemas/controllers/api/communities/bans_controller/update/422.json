@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "reason": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "days": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "permanent": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

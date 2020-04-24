@@ -13,25 +13,27 @@ class Api::Communities::BansController < ApplicationController
       limit: 25,
       after: params[:after].present? ? Ban.where(id: params[:after]).take : nil
     )
+
+    render json: BanSerializer.serialize(bans)
   end
 
   def create
-    @form = Communities::CreateBan.new(create_params)
+    service = Communities::CreateBan.new(create_params)
 
-    if @form.call
-      head :no_content, location: community_bans_path(@community)
+    if service.call
+      render json: BanSerializer.serialize(service.ban)
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    @form = Communities::UpdateBan.new(update_params)
+    service = Communities::UpdateBan.new(update_params)
 
-    if @form.call
-      render partial: "ban"
+    if service.call
+      render json: BanSerializer.serialize(service.ban)
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
@@ -53,12 +55,12 @@ class Api::Communities::BansController < ApplicationController
 
   def create_params
     attributes = Api::Communities::BansPolicy.new(pundit_user).permitted_attributes_for_create
-    params.require(:communities_create_ban_form).permit(attributes).merge(community: @community)
+    params.permit(attributes).merge(community: @community)
   end
 
   def update_params
     attributes = Api::Communities::BansPolicy.new(pundit_user, @ban).permitted_attributes_for_update
-    params.require(:communities_update_ban_form).permit(attributes).merge(ban: @ban)
+    params.permit(attributes).merge(ban: @ban)
   end
 
   def pundit_user
