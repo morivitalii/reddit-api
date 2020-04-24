@@ -4,18 +4,25 @@ class Api::Communities::Posts::ReportsController < ApplicationController
   before_action -> { authorize(Api::Communities::Posts::ReportsPolicy, @post) }
 
   def index
-    @reports = query.all
+    query = @post.reports.includes(:user, :community, reportable: [:community])
+    reports = paginate(
+      query,
+      attributes: [:id],
+      order: :desc,
+      limit: 25,
+      after: params[:after].present? ? Report.where(id: params[:after]).take : nil
+    )
 
-    render partial: "index"
+    render json: ReportSerializer.serialize(reports)
   end
 
   def create
-    @form = Communities::Posts::CreateReport.new(create_params)
+    service = Communities::Posts::CreateReport.new(create_params)
 
-    if @form.call
-      render json: t(".success")
+    if service.call
+      render json: ReportSerializer.serialize(service.report)
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
@@ -29,15 +36,9 @@ class Api::Communities::Posts::ReportsController < ApplicationController
     @post = @community.posts.find(params[:post_id])
   end
 
-  # TODO remove
-  def query
-    # TODO remove class + spec
-    ReportsQuery.new(@post.reports).recent(25).includes(:user)
-  end
-
   def create_params
     attributes = Api::Communities::Posts::ReportsPolicy.new(pundit_user, @post).permitted_attributes_for_create
-    params.require(:communities_posts_create_report_form).permit(attributes).merge(post: @post, user: current_user)
+    params.permit(attributes).merge(post: @post, user: current_user)
   end
 
   def pundit_user
