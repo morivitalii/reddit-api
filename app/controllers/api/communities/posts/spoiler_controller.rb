@@ -6,13 +6,13 @@ class Api::Communities::Posts::SpoilerController < ApplicationController
   def create
     Communities::MarkPostAsSpoiler.new(post: @post).call
 
-    render json: {spoiler: post.spoiler, spoiler_link: post.spoiler_link}
+    render json: PostSerializer.serialize(@post)
   end
 
   def destroy
     Communities::MarkPostAsNotSpoiler.new(post: @post).call
 
-    render json: {spoiler: post.spoiler, spoiler_link: post.spoiler_link}
+    render json: PostSerializer.serialize(@post)
   end
 
   private
