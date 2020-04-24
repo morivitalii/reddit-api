@@ -4,15 +4,15 @@ class Api::Communities::Posts::BookmarksController < ApplicationController
   before_action -> { authorize(Api::Communities::Posts::BookmarksPolicy, @post) }
 
   def create
-    @post.bookmark = Communities::Posts::CreateBookmark.new(post: @post, user: current_user).call
+    Communities::Posts::CreateBookmark.new(post: @post, user: current_user).call
 
-    render json: {bookmark_link: post.bookmark_link}
+    head :no_content
   end
 
   def destroy
     Communities::Posts::DeleteBookmark.new(post: @post, user: current_user).call
 
-    render json: {bookmark_link: post.bookmark_link}
+    head :no_content
   end
 
   private
