@@ -5,33 +5,35 @@ class Api::Communities::RulesController < ApplicationController
   before_action -> { authorize(Api::Communities::RulesPolicy, @rule) }, only: [:update, :destroy]
 
   def index
-    query = @community.rules.include(:community)
+    query = @community.rules.includes(:community)
     rules = paginate(
       query,
       attributes: [:id],
-      order: :desc,
+      order: :asc,
       limit: 25,
       after: params[:after].present? ? Rule.where(id: params[:after]).take : nil
     )
+
+    render json: RuleSerializer.serialize(rules)
   end
 
   def create
-    @form = Communities::CreateRule.new(create_params)
+    service = Communities::CreateRule.new(create_params)
 
-    if @form.save
-      head :no_content, location: community_rules_path(@community)
+    if service.call
+      render json: RuleSerializer.serialize(service.rule)
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    @form = Communities::UpdateRule.new(update_params)
+    service = Communities::UpdateRule.new(update_params)
 
-    if @form.call
-      render partial: "rule", object: @form.rule
+    if service.call
+      render json: RuleSerializer.serialize(service.rule)
     else
-      render json: @form.errors, status: :unprocessable_entity
+      render json: service.errors, status: :unprocessable_entity
     end
   end
 
@@ -53,12 +55,12 @@ class Api::Communities::RulesController < ApplicationController
 
   def create_params
     attributes = Api::Communities::RulesPolicy.new(pundit_user).permitted_attributes
-    params.require(:communities_create_rule_form).permit(attributes).merge(community: @community)
+    params.permit(attributes).merge(community: @community)
   end
 
   def update_params
     attributes = Api::Communities::RulesPolicy.new(pundit_user, @rule).permitted_attributes
-    params.require(:communities_update_rule_form).permit(attributes).merge(rule: @rule)
+    params.permit(attributes).merge(rule: @rule)
   end
 
   def pundit_user

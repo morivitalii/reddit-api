@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "description": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
