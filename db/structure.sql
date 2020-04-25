@@ -506,6 +506,38 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tags (
+    id bigint NOT NULL,
+    community_id bigint NOT NULL,
+    text character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
+
+
+--
 -- Name: topics; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -697,6 +729,13 @@ ALTER TABLE ONLY public.rules ALTER COLUMN id SET DEFAULT nextval('public.rules_
 
 
 --
+-- Name: tags id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id_seq'::regclass);
+
+
+--
 -- Name: topics id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -835,6 +874,14 @@ ALTER TABLE ONLY public.rules
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
 
 
 --
@@ -1170,6 +1217,20 @@ CREATE INDEX index_rules_on_community_id ON public.rules USING btree (community_
 
 
 --
+-- Name: index_tags_on_community_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tags_on_community_id ON public.tags USING btree (community_id);
+
+
+--
+-- Name: index_tags_on_community_id_and_text; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_tags_on_community_id_and_text ON public.tags USING btree (community_id, text);
+
+
+--
 -- Name: index_topics_uniqueness; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1379,6 +1440,14 @@ ALTER TABLE ONLY public.mutes
 
 
 --
+-- Name: tags fk_rails_9d91798020; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT fk_rails_9d91798020 FOREIGN KEY (community_id) REFERENCES public.communities(id);
+
+
+--
 -- Name: comments fk_rails_a231e25c25; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1570,6 +1639,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200330133958'),
 ('20200418102057'),
 ('20200418102156'),
-('20200418102351');
+('20200418102351'),
+('20200425105535');
 
 

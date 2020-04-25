@@ -7,6 +7,7 @@ class Community < ApplicationRecord
   has_many :posts, dependent: :restrict_with_error
   has_many :rules, dependent: :destroy
   has_many :reports, dependent: :destroy
+  has_many :tags, dependent: :destroy
 
   validates :url, presence: true,
                   format: {with: /\A[a-z0-9_-]{2,30}\z/i},

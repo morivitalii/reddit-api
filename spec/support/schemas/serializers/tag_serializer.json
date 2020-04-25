@@ -1,0 +1,37 @@
+{
+  "id": "file:/serializers/tag_serializer.json#",
+  "type": "object",
+  "required": [
+    "id",
+    "community",
+    "text",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "community": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "file:/serializers/community_serializer.json#"
+        }
+      ]
+    },
+    "text": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
