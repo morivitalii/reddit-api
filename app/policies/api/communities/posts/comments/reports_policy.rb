@@ -11,6 +11,10 @@ class Api::Communities::Posts::Comments::ReportsPolicy < ApplicationPolicy
     user? && (admin? || (!exiled? && !muted? && !banned?))
   end
 
+  def destroy?
+    admin? || (!exiled? && moderator?)
+  end
+
   def permitted_attributes_for_create
     [:text]
   end

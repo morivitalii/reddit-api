@@ -65,4 +65,17 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsController, context: :a
       end
     end
   end
+
+  describe ".destroy" do
+    it "deletes report" do
+      community = context.community
+      post = create(:post, community: community)
+      comment = create(:comment, post: post)
+      report = create(:report, reportable: comment)
+
+      delete "/api/communities/#{community.to_param}/posts/#{post.to_param}/comments/#{comment.to_param}/reports/#{report.to_param}.json"
+
+      expect(response).to have_http_status(204)
+    end
+  end
 end

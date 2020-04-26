@@ -11,7 +11,7 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
       it { is_expected.to_not permit(context, comment) }
     end
 
-    permissions :show? do
+    permissions :show?, :destroy? do
       it { is_expected.to_not permit(context, report) }
     end
   end
@@ -28,7 +28,7 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
       it { is_expected.to permit(context, comment) }
     end
 
-    permissions :show? do
+    permissions :show?, :destroy? do
       it { is_expected.to_not permit(context, report) }
     end
   end
@@ -41,7 +41,7 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
       it { is_expected.to permit(context, comment) }
     end
 
-    permissions :show? do
+    permissions :show?, :destroy? do
       it { is_expected.to permit(context, report) }
     end
   end
@@ -54,7 +54,7 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
       it { is_expected.to_not permit(context, comment) }
     end
 
-    permissions :show? do
+    permissions :show?, :destroy? do
       it { is_expected.to_not permit(context, report) }
     end
   end
@@ -67,7 +67,7 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
       it { is_expected.to permit(context, comment) }
     end
 
-    permissions :show? do
+    permissions :show?, :destroy? do
       it { is_expected.to permit(context, report) }
     end
   end
@@ -80,7 +80,7 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
       it { is_expected.to_not permit(context, comment) }
     end
 
-    permissions :show? do
+    permissions :show?, :destroy? do
       it { is_expected.to_not permit(context, report) }
     end
   end
@@ -93,7 +93,7 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
       it { is_expected.to_not permit(context, comment) }
     end
 
-    permissions :show? do
+    permissions :show?, :destroy? do
       it { is_expected.to_not permit(context, report) }
     end
   end

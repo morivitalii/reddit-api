@@ -2,9 +2,9 @@ class Api::Communities::Posts::Comments::ReportsController < ApplicationControll
   before_action :set_community
   before_action :set_post
   before_action :set_comment
-  before_action :set_report, only: [:show]
+  before_action :set_report, only: [:show, :destroy]
   before_action -> { authorize(Api::Communities::Posts::Comments::ReportsPolicy, @comment) }, only: [:index, :create]
-  before_action -> { authorize(Api::Communities::Posts::Comments::ReportsPolicy, @report) }, only: [:show]
+  before_action -> { authorize(Api::Communities::Posts::Comments::ReportsPolicy, @report) }, only: [:show, :destroy]
 
   def index
     query = @comment.reports.includes(:user, :community, reportable: [post: :community])
@@ -31,6 +31,12 @@ class Api::Communities::Posts::Comments::ReportsController < ApplicationControll
     else
       render json: service.errors, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    Communities::Posts::Comments::DeleteReport.new(report: @report).call
+
+    head :no_content
   end
 
   private

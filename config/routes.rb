@@ -171,11 +171,12 @@ Rails.application.routes.draw do
                 resource :approve, only: [:update], controller: :approve
                 resource :remove, only: [:update], controller: :remove
                 resource :bookmarks, only: [:create, :destroy]
-                resources :reports, only: [:index, :show, :create]
 
                 namespace :reports do
                   resource :ignore, only: [:create, :destroy], controller: :ignore
                 end
+
+                resources :reports, only: [:index, :show, :create, :destroy]
 
                 namespace :votes do
                   resource :ups, only: [:create, :destroy]
