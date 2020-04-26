@@ -5,14 +5,20 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
 
   context "as signed out user", context: :as_signed_out_user do
     let(:comment) { create(:comment) }
+    let(:report) { create(:report, reportable: comment) }
 
     permissions :index?, :create? do
       it { is_expected.to_not permit(context, comment) }
+    end
+
+    permissions :show? do
+      it { is_expected.to_not permit(context, report) }
     end
   end
 
   context "as signed in user", context: :as_signed_in_user do
     let(:comment) { create(:comment) }
+    let(:report) { create(:report, reportable: comment) }
 
     permissions :index? do
       it { is_expected.to_not permit(context, comment) }
@@ -21,45 +27,74 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsPolicy do
     permissions :create? do
       it { is_expected.to permit(context, comment) }
     end
+
+    permissions :show? do
+      it { is_expected.to_not permit(context, report) }
+    end
   end
 
   context "as admin user", context: :as_admin_user do
     let(:comment) { create(:comment) }
+    let(:report) { create(:report, reportable: comment) }
 
     permissions :index?, :create? do
       it { is_expected.to permit(context, comment) }
+    end
+
+    permissions :show? do
+      it { is_expected.to permit(context, report) }
     end
   end
 
   context "as exiled user", context: :as_exiled_user do
     let(:comment) { create(:comment) }
+    let(:report) { create(:report, reportable: comment) }
 
     permissions :index?, :create? do
       it { is_expected.to_not permit(context, comment) }
+    end
+
+    permissions :show? do
+      it { is_expected.to_not permit(context, report) }
     end
   end
 
   context "as moderator user", context: :as_moderator_user do
     let(:comment) { create(:comment, community: context.community) }
+    let(:report) { create(:report, reportable: comment) }
 
     permissions :index?, :create? do
       it { is_expected.to permit(context, comment) }
+    end
+
+    permissions :show? do
+      it { is_expected.to permit(context, report) }
     end
   end
 
   context "as muted user", context: :as_muted_user do
     let(:comment) { create(:comment, community: context.community) }
+    let(:report) { create(:report, reportable: comment) }
 
     permissions :index?, :create? do
       it { is_expected.to_not permit(context, comment) }
+    end
+
+    permissions :show? do
+      it { is_expected.to_not permit(context, report) }
     end
   end
 
   context "as banned user", context: :as_banned_user do
     let(:comment) { create(:comment, community: context.community) }
+    let(:report) { create(:report, reportable: comment) }
 
     permissions :index?, :create? do
       it { is_expected.to_not permit(context, comment) }
+    end
+
+    permissions :show? do
+      it { is_expected.to_not permit(context, report) }
     end
   end
 

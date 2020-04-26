@@ -18,6 +18,20 @@ RSpec.describe Api::Communities::Posts::Comments::ReportsController, context: :a
     end
   end
 
+  describe ".show" do
+    it "returns report" do
+      community = context.community
+      post = create(:post, community: community)
+      comment = create(:comment, post: post)
+      report = create(:report, reportable: comment)
+
+      get "/api/communities/#{community.to_param}/posts/#{post.to_param}/comments/#{comment.to_param}/reports/#{report.to_param}.json"
+
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities/posts/comments/reports_controller/show/200")
+    end
+  end
+
   describe ".create" do
     context "with valid params" do
       it "creates report" do

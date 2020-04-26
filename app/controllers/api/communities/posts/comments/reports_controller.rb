@@ -2,7 +2,9 @@ class Api::Communities::Posts::Comments::ReportsController < ApplicationControll
   before_action :set_community
   before_action :set_post
   before_action :set_comment
-  before_action -> { authorize(Api::Communities::Posts::Comments::ReportsPolicy, @comment) }
+  before_action :set_report, only: [:show]
+  before_action -> { authorize(Api::Communities::Posts::Comments::ReportsPolicy, @comment) }, only: [:index, :create]
+  before_action -> { authorize(Api::Communities::Posts::Comments::ReportsPolicy, @report) }, only: [:show]
 
   def index
     query = @comment.reports.includes(:user, :community, reportable: [post: :community])
@@ -15,6 +17,10 @@ class Api::Communities::Posts::Comments::ReportsController < ApplicationControll
     )
 
     render json: ReportSerializer.serialize(reports)
+  end
+
+  def show
+    render json: ReportSerializer.serialize(@report)
   end
 
   def create
@@ -39,6 +45,10 @@ class Api::Communities::Posts::Comments::ReportsController < ApplicationControll
 
   def set_comment
     @comment = @post.comments.find(params[:comment_id])
+  end
+
+  def set_report
+    @report = @comment.reports.find(params[:id])
   end
 
   def create_params

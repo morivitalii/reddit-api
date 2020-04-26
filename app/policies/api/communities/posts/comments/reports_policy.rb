@@ -3,6 +3,10 @@ class Api::Communities::Posts::Comments::ReportsPolicy < ApplicationPolicy
     admin? || (!exiled? && moderator?)
   end
 
+  def show?
+    admin? || (!exiled? && moderator?)
+  end
+
   def create?
     user? && (admin? || (!exiled? && !muted? && !banned?))
   end

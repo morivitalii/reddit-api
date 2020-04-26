@@ -171,7 +171,7 @@ Rails.application.routes.draw do
                 resource :approve, only: [:update], controller: :approve
                 resource :remove, only: [:update], controller: :remove
                 resource :bookmarks, only: [:create, :destroy]
-                resources :reports, only: [:index, :create]
+                resources :reports, only: [:index, :show, :create]
 
                 namespace :reports do
                   resource :ignore, only: [:create, :destroy], controller: :ignore
