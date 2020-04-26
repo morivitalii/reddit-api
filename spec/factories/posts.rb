@@ -81,6 +81,10 @@ FactoryBot.define do
       ignore_reports { false }
     end
 
+    trait :without_tag do
+      tag { "" }
+    end
+
     trait :created_yesterday do
       created_at { 1.day.ago }
     end
@@ -181,6 +185,7 @@ FactoryBot.define do
     factory :approved_post, traits: [:approved]
     factory :not_edited_post, traits: [:not_edited]
     factory :edited_post, traits: [:edited]
+    factory :without_tag_post, traits: [:without_tag]
     factory :text_post, traits: [:text]
     factory :image_post, traits: [:image]
     factory :created_yesterday_post, traits: [:created_yesterday]

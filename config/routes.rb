@@ -153,6 +153,7 @@ Rails.application.routes.draw do
             resource :remove, only: [:update], controller: :remove
             resource :explicit, only: [:create, :destroy], controller: :explicit
             resource :spoiler, only: [:create, :destroy], controller: :spoiler
+            resource :tag, only: [:update], controller: :tag
             resource :bookmarks, only: [:create, :destroy]
             resources :reports, only: [:index, :create]
 
