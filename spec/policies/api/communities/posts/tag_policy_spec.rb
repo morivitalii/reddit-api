@@ -58,4 +58,12 @@ RSpec.describe Api::Communities::Posts::TagPolicy do
       it { is_expected.to_not permit(context, post) }
     end
   end
+
+  describe ".permitted_attributes_for_update" do
+    it "contains attributes" do
+      policy = described_class.new(Context.new(nil, nil))
+
+      expect(policy.permitted_attributes_for_update).to contain_exactly(:tag)
+    end
+  end
 end
