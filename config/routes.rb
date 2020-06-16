@@ -102,7 +102,7 @@ Rails.application.routes.draw do
         resources :moderators, only: [:index, :create, :destroy]
         resources :rules, only: [:index, :create, :update, :destroy]
         resources :tags, only: [:index, :show, :create, :update, :destroy]
-        resources :bans, only: [:index, :create, :update, :destroy]
+        resources :bans, only: [:index, :show, :create, :update, :destroy]
         resources :mutes, only: [:index, :create, :update, :destroy]
 
         namespace :posts do
