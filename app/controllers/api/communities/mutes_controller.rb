@@ -1,8 +1,8 @@
 class Api::Communities::MutesController < ApplicationController
   before_action :set_community
-  before_action :set_mute, only: [:update, :destroy]
+  before_action :set_mute, only: [:show, :update, :destroy]
   before_action -> { authorize(Api::Communities::MutesPolicy) }, only: [:index, :create]
-  before_action -> { authorize(Api::Communities::MutesPolicy, @mute) }, only: [:update, :destroy]
+  before_action -> { authorize(Api::Communities::MutesPolicy, @mute) }, only: [:show, :update, :destroy]
 
   def index
     query = @community.mutes.includes(:user, :community)
@@ -15,6 +15,10 @@ class Api::Communities::MutesController < ApplicationController
     )
 
     render json: MuteSerializer.serialize(mutes)
+  end
+
+  def show
+    render json: MuteSerializer.serialize(@mute)
   end
 
   def create
@@ -50,7 +54,7 @@ class Api::Communities::MutesController < ApplicationController
   end
 
   def set_mute
-    @mute = @community.mutes.find(params[:id])
+    @mute = @community.mutes.includes(:user).find(params[:id])
   end
 
   def create_params

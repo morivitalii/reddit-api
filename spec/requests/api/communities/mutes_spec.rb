@@ -16,6 +16,18 @@ RSpec.describe Api::Communities::MutesController, context: :as_moderator_user do
     end
   end
 
+  describe ".show" do
+    it "returns mute" do
+      community = context.community
+      mute = create(:mute, community: community)
+
+      get "/api/communities/#{community.to_param}/mutes/#{mute.to_param}.json"
+
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities/mutes_controller/show/200")
+    end
+  end
+
   describe ".create" do
     context "with valid params" do
       it "creates mute" do

@@ -1,0 +1,5 @@
+{
+  "allOf": [
+    { "$ref": "file:/serializers/mute_serializer.json#" }
+  ]
+}
