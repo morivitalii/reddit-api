@@ -1,8 +1,8 @@
 class Api::Communities::ModeratorsController < ApplicationController
   before_action :set_community
-  before_action :set_moderator, only: [:destroy]
+  before_action :set_moderator, only: [:show, :destroy]
   before_action -> { authorize(Api::Communities::ModeratorsPolicy) }, only: [:index, :create]
-  before_action -> { authorize(Api::Communities::ModeratorsPolicy, @moderator) }, only: [:destroy]
+  before_action -> { authorize(Api::Communities::ModeratorsPolicy, @moderator) }, only: [:show, :destroy]
 
   def index
     query = @community.moderators.includes(:user, :community)
@@ -15,6 +15,10 @@ class Api::Communities::ModeratorsController < ApplicationController
     )
 
     render json: ModeratorSerializer.serialize(moderators)
+  end
+
+  def show
+    render json: ModeratorSerializer.serialize(@moderator)
   end
 
   def create
@@ -40,7 +44,7 @@ class Api::Communities::ModeratorsController < ApplicationController
   end
 
   def set_moderator
-    @moderator = @community.moderators.find(params[:id])
+    @moderator = @community.moderators.includes(:user).find(params[:id])
   end
 
   def create_params

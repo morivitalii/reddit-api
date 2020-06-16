@@ -16,6 +16,18 @@ RSpec.describe Api::Communities::ModeratorsController, context: :as_admin_user d
     end
   end
 
+  describe ".show" do
+    it "returns moderator" do
+      community = create(:community)
+      moderator = create(:moderator, community: community)
+
+      get "/api/communities/#{community.to_param}/moderators/#{moderator.to_param}.json"
+
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities/moderators_controller/show/200")
+    end
+  end
+
   describe ".create" do
     context "with valid params" do
       it "creates moderator" do

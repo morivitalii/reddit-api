@@ -14,6 +14,10 @@ RSpec.describe Api::Communities::ModeratorsPolicy do
       it { is_expected.to_not permit(context) }
     end
 
+    permissions :show? do
+      it { is_expected.to permit(context, moderator) }
+    end
+
     permissions :destroy? do
       it { is_expected.to_not permit(context, moderator) }
     end
@@ -30,6 +34,10 @@ RSpec.describe Api::Communities::ModeratorsPolicy do
       it { is_expected.to_not permit(context) }
     end
 
+    permissions :show? do
+      it { is_expected.to permit(context, moderator) }
+    end
+
     permissions :destroy? do
       it { is_expected.to_not permit(context, moderator) }
     end
@@ -42,7 +50,7 @@ RSpec.describe Api::Communities::ModeratorsPolicy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :destroy? do
+    permissions :show?, :destroy? do
       it { is_expected.to permit(context, moderator) }
     end
   end
@@ -54,7 +62,7 @@ RSpec.describe Api::Communities::ModeratorsPolicy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :destroy? do
+    permissions :show?, :destroy? do
       it { is_expected.to_not permit(context, moderator) }
     end
   end
@@ -66,7 +74,7 @@ RSpec.describe Api::Communities::ModeratorsPolicy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :destroy? do
+    permissions :show?, :destroy? do
       it { is_expected.to permit(context, moderator) }
     end
   end
@@ -82,6 +90,10 @@ RSpec.describe Api::Communities::ModeratorsPolicy do
       it { is_expected.to_not permit(context) }
     end
 
+    permissions :show? do
+      it { is_expected.to permit(context, moderator) }
+    end
+
     permissions :destroy? do
       it { is_expected.to_not permit(context, moderator) }
     end
@@ -94,7 +106,7 @@ RSpec.describe Api::Communities::ModeratorsPolicy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :destroy? do
+    permissions :show?, :destroy? do
       it { is_expected.to_not permit(context, moderator) }
     end
   end

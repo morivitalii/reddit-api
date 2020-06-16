@@ -3,6 +3,10 @@ class Api::Communities::ModeratorsPolicy < ApplicationPolicy
     !exiled? && !banned?
   end
 
+  def show?
+    !exiled? && !banned?
+  end
+
   def create?
     admin? || moderator?
   end

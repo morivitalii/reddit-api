@@ -32,17 +32,6 @@
         }
       ]
     },
-    "end_at": {
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "type": "string",
-          "format": "date-time"
-        }
-      ]
-    },
     "created_at": {
       "type": "string",
       "format": "date-time"
