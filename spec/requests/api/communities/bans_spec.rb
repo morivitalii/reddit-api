@@ -16,6 +16,18 @@ RSpec.describe Api::Communities::BansController, context: :as_moderator_user do
     end
   end
 
+  describe ".show" do
+    it "returns ban" do
+      community = context.community
+      ban = create(:ban, community: community)
+
+      get "/api/communities/#{community.to_param}/bans/#{ban.to_param}.json"
+
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities/bans_controller/show/200")
+    end
+  end
+
   describe ".create" do
     context "with valid params" do
       it "creates ban" do

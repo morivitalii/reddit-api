@@ -1,8 +1,8 @@
 class Api::Communities::BansController < ApplicationController
   before_action :set_community
-  before_action :set_ban, only: [:update, :destroy]
+  before_action :set_ban, only: [:show, :update, :destroy]
   before_action -> { authorize(Api::Communities::BansPolicy) }, only: [:index, :create]
-  before_action -> { authorize(Api::Communities::BansPolicy, @ban) }, only: [:update, :destroy]
+  before_action -> { authorize(Api::Communities::BansPolicy, @ban) }, only: [:show, :update, :destroy]
 
   def index
     query = @community.bans.includes(:user, :community)
@@ -15,6 +15,10 @@ class Api::Communities::BansController < ApplicationController
     )
 
     render json: BanSerializer.serialize(bans)
+  end
+
+  def show
+    render json: BanSerializer.serialize(@ban)
   end
 
   def create
@@ -50,7 +54,7 @@ class Api::Communities::BansController < ApplicationController
   end
 
   def set_ban
-    @ban = @community.bans.find(params[:id])
+    @ban = @community.bans.includes(:user).find(params[:id])
   end
 
   def create_params

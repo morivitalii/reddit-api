@@ -10,7 +10,7 @@ RSpec.describe Api::Communities::BansPolicy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :update?, :destroy? do
+    permissions :show?, :update?, :destroy? do
       it { is_expected.to_not permit(context, ban) }
     end
   end
@@ -22,7 +22,7 @@ RSpec.describe Api::Communities::BansPolicy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :update?, :destroy? do
+    permissions :show?, :update?, :destroy? do
       it { is_expected.to_not permit(context, ban) }
     end
   end
@@ -34,7 +34,7 @@ RSpec.describe Api::Communities::BansPolicy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :update?, :destroy? do
+    permissions :show?, :update?, :destroy? do
       it { is_expected.to permit(context, ban) }
     end
   end
@@ -46,7 +46,7 @@ RSpec.describe Api::Communities::BansPolicy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :update?, :destroy? do
+    permissions :show?, :update?, :destroy? do
       it { is_expected.to_not permit(context, ban) }
     end
   end
@@ -58,7 +58,7 @@ RSpec.describe Api::Communities::BansPolicy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :update?, :destroy? do
+    permissions :show?, :update?, :destroy? do
       it { is_expected.to permit(context, ban) }
     end
   end
@@ -70,7 +70,7 @@ RSpec.describe Api::Communities::BansPolicy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :update?, :destroy? do
+    permissions :show?, :update?, :destroy? do
       it { is_expected.to_not permit(context, ban) }
     end
   end
@@ -82,7 +82,7 @@ RSpec.describe Api::Communities::BansPolicy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :update?, :destroy? do
+    permissions :show?, :update?, :destroy? do
       it { is_expected.to_not permit(context, ban) }
     end
   end
