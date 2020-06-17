@@ -1,8 +1,8 @@
 class Api::Communities::RulesController < ApplicationController
   before_action :set_community
-  before_action :set_rule, only: [:update, :destroy]
+  before_action :set_rule, only: [:show, :update, :destroy]
   before_action -> { authorize(Api::Communities::RulesPolicy) }, only: [:index, :create]
-  before_action -> { authorize(Api::Communities::RulesPolicy, @rule) }, only: [:update, :destroy]
+  before_action -> { authorize(Api::Communities::RulesPolicy, @rule) }, only: [:show, :update, :destroy]
 
   def index
     query = @community.rules.includes(:community)
@@ -25,6 +25,10 @@ class Api::Communities::RulesController < ApplicationController
     else
       render json: service.errors, status: :unprocessable_entity
     end
+  end
+
+  def show
+    render json: RuleSerializer.serialize(@rule)
   end
 
   def update
