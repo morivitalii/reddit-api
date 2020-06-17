@@ -100,7 +100,7 @@ Rails.application.routes.draw do
       scope module: :communities do
         resource :follow, only: [:create, :destroy], controller: :follow
         resources :moderators, only: [:index, :show, :create, :destroy]
-        resources :rules, only: [:index, :create, :update, :destroy]
+        resources :rules, only: [:index, :show, :create, :update, :destroy]
         resources :tags, only: [:index, :show, :create, :update, :destroy]
         resources :bans, only: [:index, :show, :create, :update, :destroy]
         resources :mutes, only: [:index, :show, :create, :update, :destroy]

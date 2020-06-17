@@ -14,6 +14,10 @@ RSpec.describe Api::Communities::RulesPolicy do
       it { is_expected.to_not permit(context) }
     end
 
+    permissions :show? do
+      it { is_expected.to permit(context, rule) }
+    end
+
     permissions :update?, :destroy? do
       it { is_expected.to_not permit(context, rule) }
     end
@@ -30,6 +34,10 @@ RSpec.describe Api::Communities::RulesPolicy do
       it { is_expected.to_not permit(context) }
     end
 
+    permissions :show? do
+      it { is_expected.to permit(context, rule) }
+    end
+
     permissions :update?, :destroy? do
       it { is_expected.to_not permit(context, rule) }
     end
@@ -42,7 +50,7 @@ RSpec.describe Api::Communities::RulesPolicy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :update?, :destroy? do
+    permissions :show?, :update?, :destroy? do
       it { is_expected.to permit(context, rule) }
     end
   end
@@ -54,7 +62,7 @@ RSpec.describe Api::Communities::RulesPolicy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :update?, :destroy? do
+    permissions :show?, :update?, :destroy? do
       it { is_expected.to_not permit(context, rule) }
     end
   end
@@ -66,7 +74,7 @@ RSpec.describe Api::Communities::RulesPolicy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :update?, :destroy? do
+    permissions :show?, :update?, :destroy? do
       it { is_expected.to permit(context, rule) }
     end
   end
@@ -82,6 +90,10 @@ RSpec.describe Api::Communities::RulesPolicy do
       it { is_expected.to_not permit(context) }
     end
 
+    permissions :show? do
+      it { is_expected.to permit(context, rule) }
+    end
+
     permissions :update?, :destroy? do
       it { is_expected.to_not permit(context, rule) }
     end
@@ -94,7 +106,7 @@ RSpec.describe Api::Communities::RulesPolicy do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :update?, :destroy? do
+    permissions :show?, :update?, :destroy? do
       it { is_expected.to_not permit(context, rule) }
     end
   end

@@ -16,6 +16,18 @@ RSpec.describe Api::Communities::RulesController, context: :as_moderator_user do
     end
   end
 
+  describe ".show" do
+    it "returns rule" do
+      community = context.community
+      rule = create(:rule, community: community)
+
+      get "/api/communities/#{community.to_param}/rules/#{rule.to_param}.json"
+
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities/rules_controller/show/200")
+    end
+  end
+
   describe ".create" do
     context "with valid params" do
       it "creates rule" do
