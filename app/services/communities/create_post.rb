@@ -1,7 +1,7 @@
 class Communities::CreatePost
   include ActiveModel::Model
 
-  attr_accessor :community, :created_by, :title, :text, :file, :explicit, :spoiler
+  attr_accessor :community, :created_by, :title, :text, :explicit, :spoiler
   attr_reader :post
 
   def call
@@ -10,7 +10,6 @@ class Communities::CreatePost
         created_by: created_by,
         title: title,
         text: text,
-        file: file,
         explicit: explicit,
         spoiler: spoiler
       )

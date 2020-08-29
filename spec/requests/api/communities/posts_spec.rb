@@ -53,7 +53,7 @@ RSpec.describe Api::Communities::PostsController, context: :as_signed_in_user do
     context "with valid params" do
       it "updates post and returns post" do
         community = create(:community)
-        post = create(:text_post, community: community, created_by: context.user)
+        post = create(:post, community: community, created_by: context.user)
         params = {
           text: "Text"
         }
@@ -68,7 +68,7 @@ RSpec.describe Api::Communities::PostsController, context: :as_signed_in_user do
     context "with invalid params" do
       it "returns error messages" do
         community = create(:community)
-        post = create(:text_post, community: community, created_by: context.user)
+        post = create(:post, community: community, created_by: context.user)
         params = {
           text: ""
         }

@@ -8,19 +8,8 @@ RSpec.describe Post do
 
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_length_of(:removed_reason).is_at_most(5_000) }
-
-    context "text post" do
-      subject { build(:text_post) }
-
-      it { is_expected.to validate_length_of(:text).is_at_most(10_000) }
-      # it { is_expected.to validate_absence_of(:file) }
-    end
-
-    context "image post" do
-      subject { build(:image_post) }
-
-      it { is_expected.to validate_absence_of(:text) }
-    end
+    it { is_expected.to validate_presence_of(:text) }
+    it { is_expected.to validate_length_of(:text).is_at_most(10_000) }
   end
 
   describe ".update_scores!" do

@@ -10,7 +10,6 @@ class PostSerializer < ApplicationSerializer
       title: model.title,
       tag: model.tag,
       text: model.text,
-      file: file,
       removed_reason: model.removed_reason,
       explicit: model.explicit,
       spoiler: model.spoiler,
@@ -50,29 +49,5 @@ class PostSerializer < ApplicationSerializer
 
   def removed_by
     model.association(:removed_by).loaded? && model.removed_by.present? ? UserSerializer.serialize(model.removed_by) : nil
-  end
-
-  def file
-    return nil if model.file.blank?
-
-    {
-      desktop: file_attributes(:desktop),
-      mobile: file_attributes(:mobile)
-    }
-  end
-
-  def file_attributes(version)
-    file_data = model.file[version].data
-    file_metadata = file_data["metadata"]
-
-    {
-      id: file_data.dig("id"),
-      url: model.file_url(version),
-      filename: file_metadata.dig("filename"),
-      size: file_metadata.dig("size"),
-      mime_type: file_metadata.dig("mime_type"),
-      width: file_metadata.dig("width"),
-      height: file_metadata.dig("height")
-    }
   end
 end

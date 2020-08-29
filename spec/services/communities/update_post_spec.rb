@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Communities::UpdatePost do
   describe ".call" do
     it "updates post" do
-      post = create(:approved_post, :text)
+      post = create(:approved_post)
       user = create(:user)
       service = described_class.new(post: post, edited_by: user, text: "Text")
 

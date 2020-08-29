@@ -118,24 +118,8 @@ RSpec.describe Api::Communities::PostsPolicy do
       it { is_expected.to permit(context) }
     end
 
-    permissions :show? do
+    permissions :show?, :update? do
       it { is_expected.to permit(context, post) }
-    end
-
-    context "text post" do
-      let(:post) { create(:text_post, created_by: context.user) }
-
-      permissions :update? do
-        it { is_expected.to permit(context, post) }
-      end
-    end
-
-    context "image post" do
-      let(:post) { create(:image_post, created_by: context.user) }
-
-      permissions :update? do
-        it { is_expected.to_not permit(context, post) }
-      end
     end
   end
 
@@ -143,18 +127,15 @@ RSpec.describe Api::Communities::PostsPolicy do
     it "contains attributes" do
       policy = described_class.new(Context.new(nil, nil))
 
-      expect(policy.permitted_attributes_for_create).to contain_exactly(:title, :text, :file, :explicit, :spoiler)
+      expect(policy.permitted_attributes_for_create).to contain_exactly(:title, :text, :explicit, :spoiler)
     end
   end
 
   describe ".permitted_attributes_for_update" do
-    context "as author user", context: :as_signed_in_user do
-      it "contains :text attribute" do
-        post = create(:post, created_by: context.user)
-        policy = described_class.new(context, post)
+    it "contains attributes" do
+      policy = described_class.new(Context.new(nil, nil))
 
-        expect(policy.permitted_attributes_for_update).to contain_exactly(:text)
-      end
+      expect(policy.permitted_attributes_for_update).to contain_exactly(:text)
     end
   end
 end

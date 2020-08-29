@@ -25,12 +25,6 @@ ru:
                 few: "можно создать не больше %{count} правил"
                 many: "можно создать не больше %{count} правил"
                 other: "можно создать не больше %{count} правила"
-        post:
-          attributes:
-            file:
-              mime_type: "допустимые форматы файла %{formats}"
-              extension: "допустимые форматы файла %{formats}"
-              size: "максимальный вес файла %{size}"
   activemodel:
     errors:
       models:
