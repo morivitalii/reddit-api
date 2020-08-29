@@ -1,6 +1,4 @@
 class Post < ApplicationRecord
-  include PostFileUploader::Attachment.new(:file)
-
   belongs_to :community
   belongs_to :created_by, class_name: "User", foreign_key: "created_by_id"
   belongs_to :edited_by, class_name: "User", foreign_key: "edited_by_id", optional: true
@@ -14,20 +12,7 @@ class Post < ApplicationRecord
 
   validates :title, presence: true, length: {maximum: 350}
   validates :removed_reason, allow_blank: true, length: {maximum: 5_000}
-
-  with_options if: ->(r) { r.text.present? } do
-    validates :text, length: {maximum: 10_000}
-    validates :file, absence: true
-  end
-
-  with_options if: ->(r) { r.file.present? } do
-    validates :text, absence: true
-  end
-
-  with_options if: ->(r) { r.text.blank? && r.file.blank? } do
-    validates :file, presence: true
-    validates :text, presence: true
-  end
+  validates :text, presence: true, length: {maximum: 10_000}
 
   def update_scores!
     update!(

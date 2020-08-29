@@ -8,17 +8,15 @@ class Api::Communities::PostsPolicy < ApplicationPolicy
   end
 
   def update?
-    record.text? && author? && !exiled? && !muted? && !banned?
+    author? && !exiled? && !muted? && !banned?
   end
 
   def permitted_attributes_for_create
-    [:title, :text, :file, :explicit, :spoiler]
+    [:title, :text, :explicit, :spoiler]
   end
 
   def permitted_attributes_for_update
-    attributes = []
-    attributes.push(:text) if update?
-    attributes
+    [:text]
   end
 
   private

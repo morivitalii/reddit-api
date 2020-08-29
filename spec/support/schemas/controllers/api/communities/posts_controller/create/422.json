@@ -2,8 +2,7 @@
   "type": "object",
   "required": [
     "title",
-    "text",
-    "file"
+    "text"
   ],
   "properties": {
     "title": {
@@ -13,12 +12,6 @@
       }
     },
     "text": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "file": {
       "type": "array",
       "items": {
         "type": "string"

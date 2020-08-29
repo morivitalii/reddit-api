@@ -354,7 +354,6 @@ CREATE TABLE public.posts (
     title character varying NOT NULL,
     tag character varying,
     text text,
-    file_data character varying,
     explicit boolean DEFAULT false NOT NULL,
     spoiler boolean DEFAULT false NOT NULL,
     ignore_reports boolean DEFAULT false NOT NULL,
@@ -1642,6 +1641,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200418102057'),
 ('20200418102156'),
 ('20200418102351'),
-('20200425105535');
+('20200425105535'),
+('20200829150131');
 
 

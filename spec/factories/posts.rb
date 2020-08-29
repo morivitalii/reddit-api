@@ -5,17 +5,7 @@ FactoryBot.define do
     association :created_by, factory: :user
     association :community
     title { "Title" }
-    text
-
-    trait :text do
-      text { "Text" }
-      file { nil }
-    end
-
-    trait :image do
-      text { nil }
-      file { fixture_file_upload(Rails.root.join("spec/fixtures/files/post_image.jpg")) }
-    end
+    text { "Text" }
 
     trait :moderated do
       approved_at { Time.current }
@@ -186,8 +176,6 @@ FactoryBot.define do
     factory :not_edited_post, traits: [:not_edited]
     factory :edited_post, traits: [:edited]
     factory :without_tag_post, traits: [:without_tag]
-    factory :text_post, traits: [:text]
-    factory :image_post, traits: [:image]
     factory :created_yesterday_post, traits: [:created_yesterday]
     factory :created_today_post, traits: [:created_today]
     factory :created_last_week_post, traits: [:created_last_week]
