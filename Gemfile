@@ -15,8 +15,6 @@ gem "warden", "~> 1"
 gem "browser", "~> 4"
 gem "aws-sdk-s3", "~> 1"
 gem "image_processing", "~> 1"
-gem "image_optim", "~> 0"
-gem "image_optim_pack"
 gem "recaptcha", "~> 5"
 gem "whenever", "~> 1", require: false
 gem "pundit", "~> 2"
