@@ -9,18 +9,22 @@
   ],
   "properties": {
     "id": {
-      "type": "integer"
+      "type": "integer",
+      "description": "User ID"
     },
     "username": {
-      "type": "string"
+      "type": "string",
+      "description": "Username"
     },
     "created_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "User created date"
     },
     "updated_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "User updated date"
     }
   }
 }
