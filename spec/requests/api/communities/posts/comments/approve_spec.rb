@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Api::Communities::Posts::Comments::ApproveController, context: :as_moderator_user do
   describe ".update" do
