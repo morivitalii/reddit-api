@@ -9,9 +9,11 @@
   ],
   "properties": {
     "id": {
-      "type": "integer"
+      "type": "integer",
+      "description": "Administrator ID"
     },
     "user": {
+      "description": "Administrator user object",
       "oneOf": [
         {
           "type": "null"
@@ -23,11 +25,13 @@
     },
     "created_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Administrator created date"
     },
     "updated_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Administrator updated date"
     }
   }
 }
