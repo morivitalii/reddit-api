@@ -11,9 +11,11 @@
   ],
   "properties": {
     "id": {
-      "type": "integer"
+      "type": "integer",
+      "description": "Rule ID"
     },
     "community": {
+      "description": "Rule community object",
       "oneOf": [
         {
           "type": "null"
@@ -24,18 +26,22 @@
       ]
     },
     "title": {
-      "type": "string"
+      "type": "string",
+      "description": "Rule title"
     },
     "description": {
-      "type": "string"
+      "type": "string",
+      "description": "Rule description"
     },
     "created_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Rule created date"
     },
     "updated_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Rule updated date"
     }
   }
 }
