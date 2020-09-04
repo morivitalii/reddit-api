@@ -10,9 +10,11 @@
   ],
   "properties": {
     "id": {
-      "type": "integer"
+      "type": "integer",
+      "description": "Tag ID"
     },
     "community": {
+      "description": "Tag community object",
       "oneOf": [
         {
           "type": "null"
@@ -23,15 +25,18 @@
       ]
     },
     "text": {
-      "type": "string"
+      "type": "string",
+      "description": "Tag"
     },
     "created_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Tag created date"
     },
     "updated_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Tag updated date"
     }
   }
 }
