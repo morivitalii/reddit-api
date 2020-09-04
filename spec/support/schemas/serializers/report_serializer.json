@@ -12,9 +12,11 @@
   ],
   "properties": {
     "id": {
-      "type": "integer"
+      "type": "integer",
+      "description": "Report ID"
     },
     "user": {
+      "description": "User who created report",
       "oneOf": [
         {
           "type": "null"
@@ -25,6 +27,7 @@
       ]
     },
     "community": {
+      "description": "Community which report belongs to",
       "oneOf": [
         {
           "type": "null"
@@ -35,6 +38,7 @@
       ]
     },
     "reportable": {
+      "description": "Reportable object. Can be post or comment",
       "oneOf": [
         {
           "type": "null"
@@ -48,15 +52,18 @@
       ]
     },
     "text": {
-      "type": "string"
+      "type": "string",
+      "description": "Report text"
     },
     "created_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Report created date"
     },
     "updated_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Report updated date"
     }
   }
 }
