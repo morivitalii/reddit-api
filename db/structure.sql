@@ -62,14 +62,17 @@ CREATE TABLE public.ar_internal_metadata (
 
 CREATE TABLE public.bans (
     id bigint NOT NULL,
-    community_id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    reason character varying,
-    permanent boolean DEFAULT false NOT NULL,
-    days integer,
-    end_at timestamp without time zone,
+    end_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    created_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    source_type character varying NOT NULL,
+    source_id bigint NOT NULL,
+    target_type character varying NOT NULL,
+    target_id bigint NOT NULL,
+    created_by_type character varying NOT NULL,
+    created_by_id bigint NOT NULL,
+    updated_by_type character varying NOT NULL,
+    updated_by_id bigint NOT NULL
 );
 
 
@@ -917,20 +920,6 @@ CREATE UNIQUE INDEX index_admins_on_user_id ON public.admins USING btree (user_i
 
 
 --
--- Name: index_bans_on_community_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_bans_on_community_id ON public.bans USING btree (community_id);
-
-
---
--- Name: index_bans_on_community_id_and_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_bans_on_community_id_and_user_id ON public.bans USING btree (community_id, user_id);
-
-
---
 -- Name: index_bans_on_end_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -938,10 +927,24 @@ CREATE INDEX index_bans_on_end_at ON public.bans USING btree (end_at);
 
 
 --
--- Name: index_bans_on_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_bans_on_source_type_and_source_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_bans_on_user_id ON public.bans USING btree (user_id);
+CREATE INDEX index_bans_on_source_type_and_source_id ON public.bans USING btree (source_type, source_id);
+
+
+--
+-- Name: index_bans_on_target_type_and_target_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_bans_on_target_type_and_target_id ON public.bans USING btree (target_type, target_id);
+
+
+--
+-- Name: index_bans_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_bans_uniqueness ON public.bans USING btree (source_type, source_id, target_type, target_id);
 
 
 --
@@ -1289,14 +1292,6 @@ ALTER TABLE ONLY public.comments
 
 
 --
--- Name: bans fk_rails_070022cd76; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.bans
-    ADD CONSTRAINT fk_rails_070022cd76 FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
 -- Name: posts fk_rails_082ae69979; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1481,14 +1476,6 @@ ALTER TABLE ONLY public.reports
 
 
 --
--- Name: bans fk_rails_c7c525ef40; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.bans
-    ADD CONSTRAINT fk_rails_c7c525ef40 FOREIGN KEY (community_id) REFERENCES public.communities(id);
-
-
---
 -- Name: votes fk_rails_c9b3bef597; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1642,6 +1629,18 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200418102156'),
 ('20200418102351'),
 ('20200425105535'),
-('20200829150131');
+('20200829150131'),
+('20200906152330'),
+('20200906152336'),
+('20200906152349'),
+('20200906152407'),
+('20200906152418'),
+('20200906152428'),
+('20200906152501'),
+('20200906152508'),
+('20200906152529'),
+('20200906152537'),
+('20200906170014'),
+('20200906174209');
 
 

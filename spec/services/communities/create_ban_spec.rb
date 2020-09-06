@@ -4,12 +4,14 @@ RSpec.describe Communities::CreateBan do
   describe ".call" do
     it "creates ban" do
       community = create(:community)
-      user = create(:user)
+      target = create(:user)
+      created_by = create(:user)
 
       service = described_class.new(
         community: community,
-        user_id: user.id,
-        permanent: true
+        created_by: created_by,
+        user_id: target.id,
+        end_at: Time.current.tomorrow
       )
 
       service.call

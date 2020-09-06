@@ -20,10 +20,10 @@ class Api::Communities::BansPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_create
-    [:user_id, :reason, :days, :permanent]
+    [:user_id, :end_at]
   end
 
   def permitted_attributes_for_update
-    [:reason, :days, :permanent]
+    [:end_at]
   end
 end
