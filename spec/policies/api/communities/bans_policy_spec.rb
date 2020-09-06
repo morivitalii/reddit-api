@@ -52,7 +52,7 @@ RSpec.describe Api::Communities::BansPolicy do
   end
 
   context "as moderator user", context: :as_moderator_user do
-    let(:ban) { create(:ban, community: context.community) }
+    let(:ban) { create(:ban, source: context.community) }
 
     permissions :index?, :create? do
       it { is_expected.to permit(context) }
@@ -64,7 +64,7 @@ RSpec.describe Api::Communities::BansPolicy do
   end
 
   context "as muted user", context: :as_muted_user do
-    let(:ban) { create(:ban, community: context.community) }
+    let(:ban) { create(:ban, source: context.community) }
 
     permissions :index?, :create? do
       it { is_expected.to_not permit(context) }
@@ -76,7 +76,7 @@ RSpec.describe Api::Communities::BansPolicy do
   end
 
   context "as banned user", context: :as_banned_user do
-    let(:ban) { create(:ban, community: context.community) }
+    let(:ban) { create(:ban, source: context.community) }
 
     permissions :index?, :create? do
       it { is_expected.to_not permit(context) }
@@ -91,7 +91,7 @@ RSpec.describe Api::Communities::BansPolicy do
     it "contains attributes" do
       policy = described_class.new(Context.new(nil, nil))
 
-      expect(policy.permitted_attributes_for_create).to contain_exactly(:user_id, :reason, :days, :permanent)
+      expect(policy.permitted_attributes_for_create).to contain_exactly(:user_id, :end_at)
     end
   end
 
@@ -99,7 +99,7 @@ RSpec.describe Api::Communities::BansPolicy do
     it "contains attributes" do
       policy = described_class.new(Context.new(nil, nil))
 
-      expect(policy.permitted_attributes_for_update).to contain_exactly(:reason, :days, :permanent)
+      expect(policy.permitted_attributes_for_update).to contain_exactly(:end_at)
     end
   end
 end

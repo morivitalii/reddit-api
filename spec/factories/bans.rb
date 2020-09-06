@@ -1,27 +1,15 @@
 FactoryBot.define do
   factory :ban do
-    community
-    user
-    temporary
-
-    trait :temporary do
-      days { 1 }
-      permanent { false }
-    end
-
-    trait :permanent do
-      days { nil }
-      permanent { true }
-    end
+    association :source, factory: :community
+    association :target, factory: :user
+    association :created_by, factory: :user
+    association :updated_by, factory: :user
+    end_at { Time.current.tomorrow }
 
     trait :stale do
-      days { 1 }
-      permanent { false }
-      created_at { 1.week.ago }
+      end_at { Time.current.yesterday }
     end
 
-    factory :temporary_ban, traits: [:temporary]
-    factory :permanent_ban, traits: [:permanent]
     factory :stale_ban, traits: [:stale]
   end
 end

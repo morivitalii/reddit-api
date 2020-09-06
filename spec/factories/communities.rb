@@ -58,7 +58,7 @@ FactoryBot.define do
       end
 
       after(:create) do |community, evaluator|
-        create(:ban, community: community, user: evaluator.user)
+        create(:ban, source: community, target: evaluator.user)
       end
     end
 
