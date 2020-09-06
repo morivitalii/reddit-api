@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_one :exile, dependent: :destroy
   has_many :follows, dependent: :destroy
   has_many :moderators, dependent: :destroy
-  has_many :bans, as: :target, foreign_key: :target_id, foreign_type: :target_type, dependent: :destroy
+  has_many :bans, as: :target, dependent: :destroy
   has_many :mutes, dependent: :destroy
   has_many :posts, foreign_key: "created_by_id", dependent: :restrict_with_error
   has_many :comments, foreign_key: "created_by_id", dependent: :restrict_with_error
