@@ -3,20 +3,21 @@
   "type": "object",
   "required": [
     "id",
-    "community",
-    "user",
-    "reason",
-    "permanent",
-    "days",
+    "source",
+    "target",
+    "created_by",
+    "updated_by",
     "end_at",
     "created_at",
     "updated_at"
   ],
   "properties": {
     "id": {
-      "type": "integer"
+      "type": "integer",
+      "description": "Mute ID"
     },
-    "community": {
+    "source": {
+      "description": "Object where target was muted. Can be community",
       "oneOf": [
         {
           "type": "null"
@@ -26,7 +27,8 @@
         }
       ]
     },
-    "user": {
+    "target": {
+      "description": "Object muted in source. Can be user",
       "oneOf": [
         {
           "type": "null"
@@ -36,30 +38,30 @@
         }
       ]
     },
-    "reason" : {
+    "created_by": {
+      "description": "Object who created mute. Can be user",
       "oneOf": [
         {
           "type": "null"
         },
         {
-          "type": "string"
+          "$ref": "file:/serializers/user_serializer.json#"
         }
       ]
     },
-    "permanent": {
-      "type": "boolean"
-    },
-    "days": {
+    "updated_by": {
+      "description": "Object who updated mute. Can be user",
       "oneOf": [
         {
           "type": "null"
         },
         {
-          "type": "integer"
+          "$ref": "file:/serializers/user_serializer.json#"
         }
       ]
     },
     "end_at": {
+      "description": "Mute end date",
       "oneOf": [
         {
           "type": "null"
@@ -72,11 +74,13 @@
     },
     "created_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Mute created date"
     },
     "updated_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Mute updated date"
     }
   }
 }

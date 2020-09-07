@@ -1,19 +1,7 @@
 {
   "type": "object",
   "properties": {
-    "reason": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "days": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "permanent": {
+    "end_at": {
       "type": "array",
       "items": {
         "type": "string"

@@ -5,7 +5,7 @@ class Api::Communities::MutesController < ApplicationController
   before_action -> { authorize(Api::Communities::MutesPolicy, @mute) }, only: [:show, :update, :destroy]
 
   def index
-    query = @community.mutes.includes(:user, :community)
+    query = @community.mutes.includes(:source, :target, :created_by, :updated_by)
     mutes = paginate(
       query,
       attributes: [:id],
@@ -54,17 +54,17 @@ class Api::Communities::MutesController < ApplicationController
   end
 
   def set_mute
-    @mute = @community.mutes.includes(:user).find(params[:id])
+    @mute = @community.mutes.includes(:source, :target, :created_by, :updated_by).find(params[:id])
   end
 
   def create_params
     attributes = Api::Communities::MutesPolicy.new(pundit_user).permitted_attributes_for_create
-    params.permit(attributes).merge(community: @community)
+    params.permit(attributes).merge(community: @community, created_by: current_user)
   end
 
   def update_params
     attributes = Api::Communities::MutesPolicy.new(pundit_user, @mute).permitted_attributes_for_update
-    params.permit(attributes).merge(mute: @mute)
+    params.permit(attributes).merge(mute: @mute, updated_by: current_user)
   end
 
   def pundit_user

@@ -1,20 +1,13 @@
 class Mute < ApplicationRecord
-  belongs_to :community
-  belongs_to :user
+  belongs_to :source, polymorphic: true
+  belongs_to :target, polymorphic: true
+  belongs_to :created_by, polymorphic: true
+  belongs_to :updated_by, polymorphic: true
 
-  before_save :set_end_at
-
-  validates :user, presence: true, uniqueness: {scope: :community_id}
-  validates :reason, allow_blank: true, length: {maximum: 500}
-  validates :days, absence: true, if: ->(r) { r.permanent }
-  validates :days, presence: true,
-                   numericality: {only_integer: true, greater_than: 0, less_than_or_equal_to: 365},
-                   unless: ->(r) { r.permanent }
-
-  private
-
-  def set_end_at
-    self.created_at ||= Time.current
-    self.end_at = permanent? ? nil : created_at + days.days
-  end
+  validates :source, presence: true
+  validates :source_id, presence: true, uniqueness: {scope: [:source_type, :target_type, :target_id]}
+  validates :target, presence: true
+  validates :created_by, presence: true
+  validates :updated_by, presence: true
+  validates :end_at, presence: true
 end

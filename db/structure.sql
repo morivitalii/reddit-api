@@ -316,14 +316,17 @@ ALTER SEQUENCE public.moderators_id_seq OWNED BY public.moderators.id;
 
 CREATE TABLE public.mutes (
     id bigint NOT NULL,
-    community_id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    reason character varying,
-    permanent boolean DEFAULT false NOT NULL,
-    days integer,
-    end_at timestamp without time zone,
+    end_at timestamp without time zone NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    created_by_type character varying NOT NULL,
+    created_by_id bigint NOT NULL,
+    updated_by_type character varying NOT NULL,
+    updated_by_id bigint NOT NULL,
+    source_type character varying NOT NULL,
+    source_id bigint NOT NULL,
+    target_type character varying NOT NULL,
+    target_id bigint NOT NULL
 );
 
 
@@ -1081,24 +1084,31 @@ CREATE UNIQUE INDEX index_moderators_uniqueness ON public.moderators USING btree
 
 
 --
--- Name: index_mutes_on_community_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_mutes_on_end_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_mutes_on_community_id ON public.mutes USING btree (community_id);
-
-
---
--- Name: index_mutes_on_community_id_and_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_mutes_on_community_id_and_user_id ON public.mutes USING btree (community_id, user_id);
+CREATE INDEX index_mutes_on_end_at ON public.mutes USING btree (end_at);
 
 
 --
--- Name: index_mutes_on_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_mutes_on_source_type_and_source_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_mutes_on_user_id ON public.mutes USING btree (user_id);
+CREATE INDEX index_mutes_on_source_type_and_source_id ON public.mutes USING btree (source_type, source_id);
+
+
+--
+-- Name: index_mutes_on_target_type_and_target_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_mutes_on_target_type_and_target_id ON public.mutes USING btree (target_type, target_id);
+
+
+--
+-- Name: index_mutes_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_mutes_uniqueness ON public.mutes USING btree (source_type, source_id, target_type, target_id);
 
 
 --
@@ -1404,14 +1414,6 @@ ALTER TABLE ONLY public.comments
 
 
 --
--- Name: mutes fk_rails_68f0ae7448; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.mutes
-    ADD CONSTRAINT fk_rails_68f0ae7448 FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
 -- Name: exiles fk_rails_6ae9abf537; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1425,14 +1427,6 @@ ALTER TABLE ONLY public.exiles
 
 ALTER TABLE ONLY public.posts
     ADD CONSTRAINT fk_rails_78a7444b29 FOREIGN KEY (approved_by_id) REFERENCES public.users(id);
-
-
---
--- Name: mutes fk_rails_8b6bfa148b; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.mutes
-    ADD CONSTRAINT fk_rails_8b6bfa148b FOREIGN KEY (community_id) REFERENCES public.communities(id);
 
 
 --
@@ -1641,6 +1635,19 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200906152529'),
 ('20200906152537'),
 ('20200906170014'),
-('20200906174209');
+('20200906174209'),
+('20200906233425'),
+('20200906233431'),
+('20200906233438'),
+('20200906233456'),
+('20200906233505'),
+('20200906233527'),
+('20200906233534'),
+('20200906233621'),
+('20200906233633'),
+('20200906233641'),
+('20200906233908'),
+('20200906233923'),
+('20200906233942');
 
 
