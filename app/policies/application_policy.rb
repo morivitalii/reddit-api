@@ -34,7 +34,7 @@ class ApplicationPolicy
   end
 
   def muted?
-    user? && community.present? && user.mutes.any? { |mute| mute.community_id == community.id }
+    user? && community.present? && user.mutes.any? { |mute| mute.source_id == community.id }
   end
 
   def banned?

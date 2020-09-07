@@ -4,18 +4,19 @@ RSpec.describe Communities::CreateMute do
   describe ".call" do
     it "creates mute" do
       community = create(:community)
-      user = create(:user)
+      target = create(:user)
+      created_by = create(:user)
 
       service = described_class.new(
         community: community,
-        user_id: user.id,
-        permanent: true
+        created_by: created_by,
+        user_id: target.id,
+        end_at: Time.current.tomorrow
       )
 
       service.call
 
-      community_mutes_count = community.mutes.where(user: user).count
-      expect(community_mutes_count).to eq(1)
+      expect(Mute.count).to eq(1)
     end
   end
 end
