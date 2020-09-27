@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       scope module: :users do
         namespace :communities do
           resources :bans, only: [:index]
+          resources :follows, only: [:index]
         end
 
         namespace :posts do
