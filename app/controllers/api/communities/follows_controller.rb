@@ -1,6 +1,19 @@
-class Api::Communities::FollowController < ApplicationController
+class Api::Communities::FollowsController < ApplicationController
   before_action :set_community
   before_action -> { authorize(Api::Communities::FollowsPolicy) }
+
+  def index
+    query = @community.follows.includes(:user, :followable)
+    follows = paginate(
+      query,
+      attributes: [:id],
+      order: :desc,
+      limit: 25,
+      after: params[:after].present? ? Follow.where(id: params[:after]).take : nil
+    )
+
+    render json: FollowSerializer.new(follows)
+  end
 
   def create
     follow = Communities::CreateFollow.new(community: @community, user: current_user).call
