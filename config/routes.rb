@@ -17,6 +17,7 @@ Rails.application.routes.draw do
         namespace :communities do
           resources :bans, only: [:index]
           resources :follows, only: [:index]
+          resources :moderators, only: [:index]
         end
 
         namespace :posts do
