@@ -38,6 +38,18 @@ RSpec.describe CommunitiesQuery do
     end
   end
 
+  describe ".with_user_muted" do
+    it "returns communities where user is muted" do
+      user = create(:user)
+      communities_where_user_muted = create_pair(:community_with_users_mutes, user: user, mutes_count: 1)
+      create_pair(:community_with_users_mutes, mutes_count: 1)
+
+      result = subject.new.with_user_muted(user)
+
+      expect(result).to match_array(communities_where_user_muted)
+    end
+  end
+
   describe ".with_user_banned" do
     it "returns communities where user is banned" do
       user = create(:user)
