@@ -14,6 +14,10 @@ Rails.application.routes.draw do
 
     resources :users, only: [:show] do
       scope module: :users do
+        namespace :communities do
+          resources :bans, only: [:index]
+        end
+
         namespace :posts do
           namespace :hot do
             resources :day, only: [:index]
