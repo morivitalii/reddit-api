@@ -1,10 +1,14 @@
 class Api::Communities::FollowsPolicy < ApplicationPolicy
+  def index?
+    !exiled? && !banned?
+  end
+
   def create?
-    user? && !exiled? && !follower?
+    user? && !exiled? && !banned? && !follower?
   end
 
   def destroy?
-    user? && !exiled? && follower?
+    user? && !exiled? && !banned? && follower?
   end
 
   private

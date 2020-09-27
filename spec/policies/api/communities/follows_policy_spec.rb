@@ -4,13 +4,17 @@ RSpec.describe Api::Communities::FollowsPolicy do
   subject { described_class }
 
   context "as signed out user", context: :as_signed_out_user do
+    permissions :index? do
+      it { is_expected.to permit(context) }
+    end
+
     permissions :create?, :destroy? do
       it { is_expected.to_not permit(context) }
     end
   end
 
   context "as signed in user", context: :as_signed_in_user do
-    permissions :create? do
+    permissions :index?, :create? do
       it { is_expected.to permit(context) }
     end
 
@@ -20,7 +24,7 @@ RSpec.describe Api::Communities::FollowsPolicy do
   end
 
   context "as admin user", context: :as_admin_user do
-    permissions :create? do
+    permissions :index?, :create? do
       it { is_expected.to permit(context) }
     end
 
@@ -30,17 +34,17 @@ RSpec.describe Api::Communities::FollowsPolicy do
   end
 
   context "as exiled user", context: :as_exiled_user do
-    permissions :create? do
+    permissions :index?, :create?, :destroy? do
       it { is_expected.to_not permit(context) }
     end
 
-    permissions :destroy? do
+    permissions  do
       it { is_expected.to_not permit(context) }
     end
   end
 
   context "as moderator user", context: :as_moderator_user do
-    permissions :create? do
+    permissions :index?, :create? do
       it { is_expected.to permit(context) }
     end
 
@@ -50,11 +54,17 @@ RSpec.describe Api::Communities::FollowsPolicy do
   end
 
   context "as muted user", context: :as_muted_user do
-    permissions :create? do
+    permissions :index?, :create? do
       it { is_expected.to permit(context) }
     end
 
     permissions :destroy? do
+      it { is_expected.to_not permit(context) }
+    end
+  end
+
+  context "as banned user", context: :as_banned_user do
+    permissions :index?, :create?, :destroy? do
       it { is_expected.to_not permit(context) }
     end
   end
