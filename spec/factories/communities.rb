@@ -32,6 +32,17 @@ FactoryBot.define do
       end
     end
 
+    factory :community_with_users_bans do
+      transient do
+        bans_count { 2 }
+        user { create(:user) }
+      end
+
+      after(:create) do |community, evaluator|
+        create_list(:user_in_community_ban, evaluator.bans_count, source: community, target: evaluator.user)
+      end
+    end
+
     factory :community_with_user_moderator do
       transient do
         user { create(:user) }
