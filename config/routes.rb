@@ -18,6 +18,7 @@ Rails.application.routes.draw do
           resources :bans, only: [:index]
           resources :follows, only: [:index]
           resources :moderators, only: [:index]
+          resources :mutes, only: [:index]
         end
 
         namespace :posts do

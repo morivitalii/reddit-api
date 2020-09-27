@@ -11,6 +11,10 @@ class CommunitiesQuery < ApplicationQuery
     relation.joins(:follows).where(follows: {user: user})
   end
 
+  def with_user_muted(user)
+    relation.joins(:mutes).where(mutes: {target: user})
+  end
+
   def with_user_banned(user)
     relation.joins(:bans).where(bans: {target: user})
   end
