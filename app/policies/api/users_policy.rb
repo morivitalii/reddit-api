@@ -1,4 +1,8 @@
 class Api::UsersPolicy < ApplicationPolicy
+  def index?
+    !exiled?
+  end
+
   def show?
     !exiled?
   end

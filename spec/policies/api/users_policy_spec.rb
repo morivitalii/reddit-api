@@ -4,8 +4,14 @@ RSpec.describe Api::UsersPolicy do
   subject { described_class }
 
   context "as signed out user", context: :as_signed_out_user do
-    permissions :show? do
+    let(:user) { create(:user) }
+
+    permissions :index? do
       it { is_expected.to permit(context) }
+    end
+
+    permissions :show? do
+      it { is_expected.to permit(context, user) }
     end
 
     permissions :update? do
@@ -14,19 +20,49 @@ RSpec.describe Api::UsersPolicy do
   end
 
   context "as signed in user", context: :as_signed_in_user do
-    permissions :show?, :update? do
+    let(:user) { create(:user) }
+
+    permissions :index? do
+      it { is_expected.to permit(context) }
+    end
+
+    permissions :show? do
+      it { is_expected.to permit(context, user) }
+    end
+
+    permissions :update? do
       it { is_expected.to permit(context) }
     end
   end
 
   context "as admin user", context: :as_admin_user do
-    permissions :show?, :update? do
+    let(:user) { create(:user) }
+
+    permissions :index? do
+      it { is_expected.to permit(context) }
+    end
+
+    permissions :show? do
+      it { is_expected.to permit(context, user) }
+    end
+
+    permissions :update? do
       it { is_expected.to permit(context) }
     end
   end
 
   context "as exiled user", context: :as_exiled_user do
-    permissions :show?, :update? do
+    let(:user) { create(:user) }
+
+    permissions :index? do
+      it { is_expected.to_not permit(context) }
+    end
+
+    permissions :show? do
+      it { is_expected.to_not permit(context, user) }
+    end
+
+    permissions :update? do
       it { is_expected.to_not permit(context) }
     end
   end

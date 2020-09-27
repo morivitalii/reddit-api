@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
     resource :users, only: [:update]
 
-    resources :users, only: [:show] do
+    resources :users, only: [:index, :show] do
       scope module: :users do
         namespace :communities do
           resources :bans, only: [:index]

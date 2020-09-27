@@ -1,7 +1,21 @@
 class Api::UsersController < ApplicationController
   before_action :set_user, only: [:show]
+  before_action -> { authorize(Api::UsersPolicy) }, only: [:index]
   before_action -> { authorize(Api::UsersPolicy, @user) }, only: [:show]
   before_action -> { authorize(Api::UsersPolicy) }, only: [:update]
+
+  def index
+    query = User
+    users = paginate(
+      query,
+      attributes: [:username],
+      order: :desc,
+      limit: 25,
+      after: params[:after].present? ? UsersQuery.new.with_username(params[:after]).take! : nil
+    )
+
+    render json: UserSerializer.serialize(users)
+  end
 
   def show
     render json: UserSerializer.serialize(@user)
