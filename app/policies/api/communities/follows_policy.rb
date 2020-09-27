@@ -3,6 +3,10 @@ class Api::Communities::FollowsPolicy < ApplicationPolicy
     !exiled? && !banned?
   end
 
+  def show?
+    !exiled? && !banned?
+  end
+
   def create?
     user? && !exiled? && !banned? && !follower?
   end

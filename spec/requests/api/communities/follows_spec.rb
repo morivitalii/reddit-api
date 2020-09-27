@@ -4,7 +4,6 @@ RSpec.describe Api::Communities::FollowsController, context: :as_signed_in_user 
   describe ".index" do
     it "returns paginated follows sorted by desc" do
       community = create(:community)
-      # TODO need refactoring after factories refactoring
       first_follow = create(:follow, followable: community)
       second_follow = create(:follow, followable: community)
       third_follow = create(:follow, followable: community)
@@ -14,6 +13,18 @@ RSpec.describe Api::Communities::FollowsController, context: :as_signed_in_user 
       expect(response).to have_http_status(200)
       expect(response).to have_sorted_json_collection(second_follow, first_follow)
       expect(response).to match_json_schema("controllers/api/communities/follows_controller/index/200")
+    end
+  end
+
+  describe ".show" do
+    it "returns follow" do
+      community = create(:community)
+      follow = create(:follow, followable: community)
+
+      get "/api/communities/#{community.to_param}/follows/#{follow.to_param}.json"
+
+      expect(response).to have_http_status(200)
+      expect(response).to match_json_schema("controllers/api/communities/follows_controller/show/200")
     end
   end
 
