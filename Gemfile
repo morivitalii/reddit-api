@@ -18,7 +18,6 @@ gem "image_processing", "~> 1"
 gem "recaptcha", "~> 5"
 gem "whenever", "~> 1", require: false
 gem "pundit", "~> 2"
-gem "draper", "~> 4"
 
 group :development, :test do
   gem "puma"
