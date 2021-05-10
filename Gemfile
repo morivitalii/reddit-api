@@ -4,7 +4,7 @@ ruby "2.7.1"
 
 gem "dotenv-rails", groups: [:development, :test]
 gem "bootsnap", "~> 1", require: false
-gem "rails", "~> 6.0"
+gem "rails", "~> 6.1"
 gem "rails-i18n", "~> 6"
 gem "pg", ">= 0.18", "< 2.0"
 gem "webpacker", "~> 5"
