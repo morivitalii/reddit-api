@@ -6,8 +6,8 @@
   },
   "devDependencies": {
     "standard": "^16.0.3",
-    "stylelint": "^13.13.1",
-    "stylelint-config-standard": "^22.0.0",
+    "stylelint": "^14.4.0",
+    "stylelint-config-standard": "^25.0.0",
     "webpack-dev-server": "^3.11.2"
   }
 }
